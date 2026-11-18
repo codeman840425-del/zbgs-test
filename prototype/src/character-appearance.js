@@ -11,6 +11,7 @@ import {nativePaletteContract} from './native-palette-catalog.js';
 import {createNativeEyebrowPalette} from './native-eyebrow-palette.js';
 import { loadNativeHairAttachment } from './native-hair-attachment.js';
 import {nativeSkinToneContract} from './native-skin-tone-contract.js';
+import {nativeLipColorContract} from './native-lip-color-contract.js';
 import {createNativeSkinTone} from './native-skin-tone.js';
 
 export const HAIR_COLORS = { original: null, black: '#343139', brown: '#805039', blonde: '#dab77a' };
@@ -23,7 +24,8 @@ const materialsOf = mesh => Array.isArray(mesh.material) ? mesh.material : [mesh
 export function createCharacterAppearance({ vrm, avatarSha256, validateHairChange, preserveHairInBaseMode = false, bodyTextureCoverage }) {
   const facialPalette = createFacialPalette({vrm, avatarSha256});
   const skinContract = nativeSkinToneContract(avatarSha256);
-  const nativeSkin = skinContract ? createNativeSkinTone({vrm, contract:skinContract, coverage:bodyTextureCoverage}) : null;
+  const lipContract = nativeLipColorContract(avatarSha256);
+  const nativeSkin = skinContract ? createNativeSkinTone({vrm, contract:skinContract, coverage:bodyTextureCoverage, lipContract}) : null;
   const nativeEyebrow = nativePaletteContract(avatarSha256)?.eyebrow
     ? createNativeEyebrowPalette({vrm,avatarSha256,contract:{...nativePaletteContract(avatarSha256).eyebrow,bodySha256:avatarSha256,sourceManifestSha256:nativePaletteContract(avatarSha256).eyebrow.sourceManifestSha256,colors:{eyebrowColor:nativePaletteContract(avatarSha256).colors.eyebrowColor}}})
     : null;
@@ -48,7 +50,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
     color: m.color?.clone(), shade: m.shadeColorFactor?.clone(), map: m.map, shadeMap: m.shadeMultiplyTexture,
   }]));
   const grayTextures = new Map();
-  let hairStyle = 'original', hairColor = 'original', skinTone = 'original';
+  let hairStyle = 'original', hairColor = 'original', skinTone = 'original', nativeLipColor = 'original';
   let replacement = null, generation = 0, revision = 0, disposed = false, loading = false, error = null;
   const replacements = new Map(), replacementPromises = new Map();
   const pendingUpdates = new Set();
@@ -229,10 +231,12 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
     const desiredStyle = input.reset ? 'original' : input.hairStyle ?? hairStyle;
     const desiredColor = input.reset ? 'original' : input.hairColor ?? hairColor;
     const desiredSkin = input.reset ? 'original' : input.skinTone ?? skinTone;
+    const desiredNativeLip = input.reset ? 'original' : input.lipColor ?? nativeLipColor;
     const desiredEyebrow = input.reset ? 'original' : input.eyebrowColor ?? nativeEyebrow?.getState().eyebrowColor ?? 'original';
     if (!Object.hasOwn(HAIR_COLORS,desiredColor) || !Object.hasOwn(skinContract?.colors ?? SKIN_TONES,desiredSkin))
       return { applied: false, reason: '未知颜色预设' };
-    if ((input.eyeColor !== undefined && !(input.eyeColor in EYE_COLORS)) || (input.lipColor !== undefined && !(input.lipColor in LIP_COLORS)))
+    if ((input.eyeColor !== undefined && !Object.hasOwn(EYE_COLORS,input.eyeColor)) ||
+        (input.lipColor !== undefined && !Object.hasOwn(lipContract?.colors ?? LIP_COLORS,input.lipColor)))
       return {applied:false,reason:'未知瞳色或唇色'};
     try { assertAppearanceColorSelection(avatarSha256,input.reset ? {} : {...input,hairColor:desiredColor,skinTone:desiredSkin,eyebrowColor:desiredEyebrow}); }
     catch(e) { return {applied:false,reason:e.message}; }
@@ -278,21 +282,21 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
       if(disposed||revision!==requestRevision){applyStyleIntent();return{applied:false,cancelled:true};}
       // Mask decoding and texture creation happen before any selected material
       // or visible hair changes. Cached variants never rewrite a live texture.
-      paletteUpdate=await facialPalette.prepareUpdate(input,{trackIntent});
+      paletteUpdate=await facialPalette.prepareUpdate(lipContract?{...input,lipColor:'original'}:input,{trackIntent});
       if(!paletteUpdate.commit){loading=false;return paletteUpdate;}
       eyebrowUpdate=nativeEyebrow?await nativeEyebrow.prepareUpdate({eyebrowColor:desiredEyebrow},{trackIntent}):null;
       if(eyebrowUpdate&&!eyebrowUpdate.commit){paletteUpdate.dispose();loading=false;return eyebrowUpdate;}
-      if(!disposed&&revision===requestRevision&&nativeSkin)skinUpdate=await nativeSkin.prepareUpdate(desiredSkin);
+      if(!disposed&&revision===requestRevision&&nativeSkin)skinUpdate=await nativeSkin.prepareUpdate(desiredSkin,lipContract?desiredNativeLip:'original');
       if(disposed||revision!==requestRevision||skinUpdate?.cancelled){paletteUpdate.dispose();eyebrowUpdate?.dispose();skinUpdate?.dispose?.();applyStyleIntent();return{applied:false,cancelled:true};}
       if(desiredColor!=='original'){
         for(const material of hair){const base=originals.get(material);neutralTexture(base.map);neutralTexture(base.shadeMap);}
         for(const value of replacements.values())for(const base of value.materialBase.values()){neutralTexture(base.map);neutralTexture(base.shadeMap);}
       }
-      const previous={hairStyle,hairColor,skinTone,replacement,materials:new Map()};
+      const previous={hairStyle,hairColor,skinTone,nativeLipColor,replacement,materials:new Map()};
       const remember=material=>{if(!previous.materials.has(material))previous.materials.set(material,{map:material.map,shadeMap:material.shadeMultiplyTexture,color:material.color?.clone(),shade:material.shadeColorFactor?.clone()});};
       for(const material of [...originals.keys()])remember(material);
       for(const value of replacements.values())for(const material of value.materialBase.keys())remember(material);
-      const restoreAppearance=()=>{for(const [material,state] of previous.materials){material.map=state.map;if('shadeMultiplyTexture' in material)material.shadeMultiplyTexture=state.shadeMap;if(state.color&&material.color)material.color.copy(state.color);if(state.shade&&material.shadeColorFactor)material.shadeColorFactor.copy(state.shade);material.needsUpdate=true;}hairStyle=previous.hairStyle;hairColor=previous.hairColor;skinTone=previous.skinTone;replacement=previous.replacement;applyHairVisibility();};
+      const restoreAppearance=()=>{for(const [material,state] of previous.materials){material.map=state.map;if('shadeMultiplyTexture' in material)material.shadeMultiplyTexture=state.shadeMap;if(state.color&&material.color)material.color.copy(state.color);if(state.shade&&material.shadeColorFactor)material.shadeColorFactor.copy(state.shade);material.needsUpdate=true;}hairStyle=previous.hairStyle;hairColor=previous.hairColor;skinTone=previous.skinTone;nativeLipColor=previous.nativeLipColor;replacement=previous.replacement;applyHairVisibility();};
       let live=true,committed=false,rolledBack=false,cleaned=false;
       const update={
         isCurrent:()=>live&&!disposed&&revision===requestRevision&&paletteUpdate.isCurrent()&&(!eyebrowUpdate||eyebrowUpdate.isCurrent())&&(!skinUpdate||skinUpdate.isCurrent()),
@@ -308,7 +312,9 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
           try {
             eyebrowUpdate?.commit(); paletteUpdate.commit(); skinUpdate?.commit();
             if(changeStyle){hairStyle=desiredStyle;replacement=replacements.get(desiredStyle)||null;}
-            hairColor=desiredColor;skinTone=desiredSkin;applyColors();applyHairVisibility();
+            hairColor=desiredColor;skinTone=desiredSkin;
+            if(lipContract)nativeLipColor=desiredNativeLip;
+            applyColors();applyHairVisibility();
             loading=false;live=false;committed=true;pendingUpdates.delete(update);return{applied:true};
           } catch(error) {
             try { skinUpdate?.rollback(); }
@@ -358,6 +364,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
       styleOptions: [{id:'original',label:'原发型'}, ...(canHideHair ? [{id:'none',label:'无发（保留眉睫毛）'}] : []), ...admittedStyles.map(({id,label}) => ({id,label}))],
       skinMaterialCount: skin.size, hairMaterialCount: hair.size, neutralTextureCount: grayTextures.size,
       ...(nativeSkin ? {nativeSkinTone:nativeSkin.getState()} : {}),
+      ...(lipContract ? {lipColor:nativeLipColor} : {}),
       hairFit: replacement ? { ...replacement.hairFit } : null, replacementSHA256: replacement?.sha256 ?? null,
       hairDynamics:replacement?.dynamics?.getState()??null }),
     dispose() {

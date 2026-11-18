@@ -92,7 +92,7 @@ test('native face and body maps compose with the existing coverage owner and rol
   assert.equal(face.map, faceSource);
   assert.equal(eyeline.map, eyelineSource);
   assert.equal(body.map, originalCovered);
-  assert.equal(closed, 7);
+  assert.equal(closed, 5);
   assert.equal(skin.getState().textureCount, 0);
 
   const stageSkin = await skin.prepareUpdate(toneId);
@@ -130,5 +130,5 @@ test('native face and body maps compose with the existing coverage owner and rol
   assert.equal(body.map, originalCovered);
   skin.dispose(); owner.dispose();
   assert.equal(body.map, bodySource);
-  assert.equal(closed, 12);
+  assert.equal(closed, 10);
 });

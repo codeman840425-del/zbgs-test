@@ -4,7 +4,8 @@ import {validateSurfaceSelection} from './surface-layer-compositor.js';
 
 export function createNativeFacialPalette(options) {
   const part=createNativePalettePart({...options,field:'eyeColor',validateInput(input,color) {
-    assertAppearanceColorSelection(options.avatarSha256,{eyeColor:color,lipColor:input.reset?'original':input.lipColor??'original'});
+    assertAppearanceColorSelection(options.avatarSha256,{eyeColor:color});
+    if(!input.reset&&(input.lipColor??'original')!=='original')throw Error('原生唇妆须通过角色外观事务应用');
     if(validateSurfaceSelection(input.reset?[]:input.surfaceLayers??[]).length)throw Error('当前基模没有皮肤层适配');
   }});
   return {...part,getState() {

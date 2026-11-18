@@ -13,6 +13,7 @@ import surfaceManifest from '../public/assets/m2-surface-layer-v1/manifest.json'
 import {appearanceColorPresets} from './appearance-color-policy.js';
 import {nativePaletteContract} from './native-palette-catalog.js';
 import {NATIVE_SKIN_TONE_SCHEMA,NATIVE_SKIN_TONE_RULES,nativeSkinToneContract} from './native-skin-tone-contract.js';
+import {NATIVE_LIP_COLOR_SCHEMA,NATIVE_LIP_COLOR_RULES,nativeLipColorContract} from './native-lip-color-contract.js';
 
 const preparationChecks=['resource bytes and digest','source geometry and expressions','skin weights and rest binds','actual head attachment and registered fit'];
 const surfacePreparationChecks=['surface manifest and overlay bytes and digests','surface source pixels, material and UV identity','surface dimensions and actual texture composition'];
@@ -62,6 +63,13 @@ export function queryAppearanceCandidates(controller){
   if(skin)appearance.skinTone.recipe={
     schema:NATIVE_SKIN_TONE_SCHEMA,rulesVersion:NATIVE_SKIN_TONE_RULES,skinToneManifestSha256:skin.sha256,
   };
+  const lip=nativeLipColorContract(base.sha256);
+  for(const choice of appearance.lipColor.choices){
+    const style=lip?.variants[choice.value];
+    if(style)Object.assign(choice,{label:style.label,supportedSkinTones:[...style.tones],recipe:{
+      schema:NATIVE_LIP_COLOR_SCHEMA,rulesVersion:NATIVE_LIP_COLOR_RULES,lipColorManifestSha256:style.sha256,
+    }});
+  }
   appearance.eyebrowColor={default:'original',unit:'preset',choices:Object.entries(nativePaletteContract(base.sha256)?.colors?.eyebrowColor??{original:null})
     .map(([value,color])=>({value,color}))};
   const nativeRecipe=Boolean(nativePaletteContract(base.sha256)?.colors?.eyebrowColor);
@@ -72,10 +80,11 @@ export function queryAppearanceCandidates(controller){
     equipment:{index:0,role:sets.find(set=>set.index===0).role,manifestUrl:actor.config.manifestUrl,resources:actor.getEquipmentRecipe(0)}};
   return structuredClone({schema:'workbench-appearance-candidates-v1',base,defaultRecipe,appearance,
     geometry:queryFacialGeometry(base.sha256),equipment:{defaultIndex:0,sets},surface:querySurfaceCandidates(base),accessories:queryAccessoryCandidates(base.sha256),
-    limitations:{scope:'same loaded base; versioned recipe including admitted native v9 colors, registered surface/accessory metadata and configured equipment sets',
+    limitations:{scope:'same loaded base; versioned appearance, registered surface/accessory metadata and configured equipment sets',
       geometryFit:'Only registered resources are listed. Geometry choices do not certify new attachment or garment fits.',
       surfaceFit:'Surface choices require the exact registered body SHA. Preparation still verifies the published resources and current face pixels.',
-      colorCoupling:nativeRecipe?'Native eyebrow colors are independent; unsupported hair colors remain closed':'hairColor also tints authored eyebrows; separate eyebrow colors are unavailable on this body',
+      colorCoupling:lip?'Native lip color uses the exact authored face texture for the selected skin tone':
+        nativeRecipe?'Native eyebrow colors are independent; unsupported hair colors remain closed':'hairColor also tints authored eyebrows; separate eyebrow colors are unavailable on this body',
       requiresPreparation:preparationChecks}});
 }
 
@@ -84,12 +93,14 @@ export function queryAppearanceCandidates(controller){
 export function admitAppearanceCandidate(controller,record){
   const nativeVersion=record?.schema===NATIVE_SCHEMA;
   const skinVersion=record?.schema===NATIVE_SKIN_TONE_SCHEMA;
-  const accessoryVersion=record?.schema===ACCESSORY_SCHEMA||((nativeVersion||skinVersion)&&Object.hasOwn(record,'accessories'));
-  const surfaceVersion=record?.schema===SURFACE_SCHEMA||(!skinVersion&&(accessoryVersion||nativeVersion)&&Object.hasOwn(record,'surface'));
+  const lipVersion=record?.schema===NATIVE_LIP_COLOR_SCHEMA;
+  const accessoryVersion=record?.schema===ACCESSORY_SCHEMA||((nativeVersion||skinVersion||lipVersion)&&Object.hasOwn(record,'accessories'));
+  const surfaceVersion=record?.schema===SURFACE_SCHEMA||(!skinVersion&&!lipVersion&&(accessoryVersion||nativeVersion)&&Object.hasOwn(record,'surface'));
   const requiresPreparation=[...preparationChecks,...(surfaceVersion?surfacePreparationChecks:[])];
   try{
     const fields={...recordFields,'':[...recordFields[''],...(surfaceVersion?['surface']:[]),...(accessoryVersion?['accessories']:[]),
-      ...(skinVersion?['skinToneManifestSha256']:[])],...(surfaceVersion?{surface:['manifestSha256','layers']}:{}),...(accessoryVersion?{accessories:['ears','hat']}:{})};
+      ...(skinVersion||lipVersion?['skinToneManifestSha256']:[]),...(lipVersion?['lipColorManifestSha256']:[])],
+      ...(surfaceVersion?{surface:['manifestSha256','layers']}:{}),...(accessoryVersion?{accessories:['ears','hat']}:{})};
     for(const [path,allowed] of Object.entries(fields)){
       const object=path?record?.[path]:record;
       const unknown=Object.keys(object??{}).find(key=>!allowed.includes(key));

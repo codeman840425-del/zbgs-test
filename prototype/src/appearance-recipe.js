@@ -10,6 +10,7 @@ import {validateSurfaceSelection} from './surface-layer-compositor.js';
 import {assertAppearanceColorSelection} from './appearance-color-policy.js';
 import {nativePaletteContract} from './native-palette-catalog.js';
 import {NATIVE_SKIN_TONE_SCHEMA,NATIVE_SKIN_TONE_RULES,nativeSkinToneContract} from './native-skin-tone-contract.js';
+import {NATIVE_LIP_COLOR_SCHEMA,NATIVE_LIP_COLOR_RULES,nativeLipColorContract} from './native-lip-color-contract.js';
 import {validateLiveAccessories,assertPreparedLiveAccessory} from './live-accessory-record.js';
 import {validateGarmentMaterials,assertPreparedGarmentMaterial,garmentMaterialIntent} from './garment-material-record.js';
 
@@ -32,10 +33,12 @@ export function captureAppearanceRecipe(controller){
  const accessories=a.rigidAccessories&&a.headwear?captureAccessories(a):null;
  const nativeVersion=Boolean(nativePaletteContract(a.profile.sha256)?.eyebrow);
  const skin=s.skinTone!=='original'?nativeSkinToneContract(a.profile.sha256):null;
+ const lip=nativeLipColorContract(a.profile.sha256)?.variants[s.lipColor];
  const paletteVersion=(s.eyeColor==='original'?restoredOriginalIrisVersions.get(a):undefined)??facialPaletteContract(a.profile.sha256).version;
- return{schema:skin?NATIVE_SKIN_TONE_SCHEMA:nativeVersion?NATIVE_SCHEMA:accessories?ACCESSORY_SCHEMA:hasSurface?SURFACE_SCHEMA:SCHEMA,
-  rulesVersion:skin?NATIVE_SKIN_TONE_RULES:nativeVersion?NATIVE_RULES:accessories?ACCESSORY_RULES:hasSurface?SURFACE_RULES:RULES,paletteVersion,
+ return{schema:lip?NATIVE_LIP_COLOR_SCHEMA:skin?NATIVE_SKIN_TONE_SCHEMA:nativeVersion?NATIVE_SCHEMA:accessories?ACCESSORY_SCHEMA:hasSurface?SURFACE_SCHEMA:SCHEMA,
+  rulesVersion:lip?NATIVE_LIP_COLOR_RULES:skin?NATIVE_SKIN_TONE_RULES:nativeVersion?NATIVE_RULES:accessories?ACCESSORY_RULES:hasSurface?SURFACE_RULES:RULES,paletteVersion,
   ...(skin?{skinToneManifestSha256:skin.sha256}:{}),
+  ...(lip?{lipColorManifestSha256:lip.sha256}:{}),
   ...(accessories?{accessories}:{}),
   ...(hasSurface?{surface:{manifestSha256:s.surfaceManifestSha256,layers:structuredClone(s.surfaceLayers)}}:{}),
   base:{bodyType:a.profile.bodyType,sha256:a.profile.sha256},
@@ -61,9 +64,10 @@ export function validateAppearanceRecipe(controller,record){
  const surfaceVersion=record?.schema===SURFACE_SCHEMA&&record.rulesVersion===SURFACE_RULES;
  const nativeVersion=record?.schema===NATIVE_SCHEMA&&record.rulesVersion===NATIVE_RULES;
  const skinVersion=record?.schema===NATIVE_SKIN_TONE_SCHEMA&&record.rulesVersion===NATIVE_SKIN_TONE_RULES;
+ const lipVersion=record?.schema===NATIVE_LIP_COLOR_SCHEMA&&record.rulesVersion===NATIVE_LIP_COLOR_RULES;
  const hasSurface=surfaceVersion||((accessoryVersion||nativeVersion)&&Object.hasOwn(record,'surface'));
- const hasAccessories=accessoryVersion||((nativeVersion||skinVersion)&&Object.hasOwn(record,'accessories'));
- if((!oldFit&&!surfaceVersion&&!accessoryVersion&&!nativeVersion&&!skinVersion&&(record?.schema!==SCHEMA||record.rulesVersion!==RULES))||(!compatiblePaletteVersions(a.profile.sha256).includes(record.paletteVersion)))
+ const hasAccessories=accessoryVersion||((nativeVersion||skinVersion||lipVersion)&&Object.hasOwn(record,'accessories'));
+ if((!oldFit&&!surfaceVersion&&!accessoryVersion&&!nativeVersion&&!skinVersion&&!lipVersion&&(record?.schema!==SCHEMA||record.rulesVersion!==RULES))||(!compatiblePaletteVersions(a.profile.sha256).includes(record.paletteVersion)))
   throw appearanceAdmissionError('schema','incompatible-version','外观配方版本不兼容，已保留当前外观');
  if(!surfaceVersion&&!accessoryVersion&&!nativeVersion&&Object.hasOwn(record,'surface'))throw appearanceAdmissionError('surface','incompatible-version','旧版配方不能携带新版皮肤层');
  if(nativeVersion&&(!Object.hasOwn(record.appearance??{},'eyebrowColor')||typeof record.appearance.eyebrowColor!=='string'))throw appearanceAdmissionError('appearance.eyebrowColor','missing-value','新版配方缺少眉色');
@@ -88,15 +92,24 @@ export function validateAppearanceRecipe(controller,record){
   throw appearanceAdmissionError('base','incompatible-body',`此配方属于${({female:'女性原版',male:'男性原版','m1a-jaw-v1':'女性下颌样件','m1a-waisthip-v1':'女性腰胯样件','m2-male-jaw-v1':'男性下颌样件'})[record.base?.bodyType]||'未知基模'}，请先选择对应人物；若已选中，说明素材版本不一致。当前人物未改变`);
  if(!a.appearance.getState().availableStyles.includes(record.appearance?.hairStyle))throw appearanceAdmissionError('appearance.hairStyle','unsupported-resource','配方发型未适配当前身体');
  const skin=nativeSkinToneContract(a.profile.sha256);
- if(skinVersion&&(!skin||record.appearance.skinTone==='original'||record.skinToneManifestSha256!==skin.sha256||
-     a.config.bodyTextureCoverage?.sha256!==skin.coverage.manifestSha256))
+ const lip=nativeLipColorContract(a.profile.sha256);
+ const nativeSkinSelected=skin&&record.appearance.skinTone!=='original';
+ if((skinVersion&&!nativeSkinSelected)||((skinVersion||lipVersion)&&nativeSkinSelected&&
+    (record.skinToneManifestSha256!==skin.sha256||a.config.bodyTextureCoverage?.sha256!==skin.coverage.manifestSha256)))
   throw appearanceAdmissionError('skinToneManifestSha256','incompatible-resource','原生肤色与当前身体或遮罩版本不匹配');
- if(!skinVersion&&(Object.hasOwn(record,'skinToneManifestSha256')||(skin&&record.appearance.skinTone!=='original')))
+ if((!skinVersion&&!lipVersion&&nativeSkinSelected)||(!nativeSkinSelected&&Object.hasOwn(record,'skinToneManifestSha256')))
   throw appearanceAdmissionError('skinToneManifestSha256','incompatible-version','原生肤色须保存明确的资源版本');
- for(const [key,choices] of [['hairColor',HAIR_COLORS],['skinTone',skin?.colors??SKIN_TONES],['eyeColor',EYE_COLORS],['lipColor',LIP_COLORS]])
+ const lipStyle=lip?.variants[record.appearance.lipColor];
+ if(lipVersion&&(!lipStyle||record.lipColorManifestSha256!==lipStyle.sha256||lipStyle.skinManifestSha256!==skin?.sha256||
+    !lipStyle.tones.includes(record.appearance.skinTone)))
+  throw appearanceAdmissionError('lipColorManifestSha256','incompatible-resource','原生唇妆与当前身体、款式或肤色不匹配');
+ if(!lipVersion&&(Object.hasOwn(record,'lipColorManifestSha256')||lipStyle))
+  throw appearanceAdmissionError('lipColorManifestSha256','incompatible-version','原生唇妆须保存明确的资源版本');
+ for(const [key,choices] of [['hairColor',HAIR_COLORS],['skinTone',skin?.colors??SKIN_TONES],['eyeColor',EYE_COLORS],['lipColor',lip?.colors??LIP_COLORS]])
   if(!Object.hasOwn(choices,record.appearance[key]))throw appearanceAdmissionError('appearance.'+key,'unsupported-value','未知配色：'+key);
  assertAppearanceColorSelection(a.profile.sha256,record.appearance);
- assertPaletteRecipeVersion(a.profile.sha256,record.paletteVersion,skinVersion?{...record.appearance,skinTone:'original'}:record.appearance);
+ assertPaletteRecipeVersion(a.profile.sha256,record.paletteVersion,{...record.appearance,
+   ...(nativeSkinSelected?{skinTone:'original'}:{}), ...(lipVersion?{lipColor:'original'}:{})});
  resolveFacialGeometrySelection(a.profile.sha256,{
   mouthWidth:record.geometry?.mouthWidth,recipeSha256:record.geometry?.recipeSha256,
   browSample:legacy?'none':record.geometry?.browSample,browRecipeSha256:legacy?null:record.geometry?.browRecipeSha256,
@@ -129,7 +142,7 @@ export async function applyAppearanceRecipe(controller,record,{liveAccessories,e
  let appearanceRevision=actor.appearance.getState().revision;
  const outfitRevision=controller.outfitRevision||0;
  const accessoryVersion=record.schema===ACCESSORY_SCHEMA||
-  ([NATIVE_SCHEMA,NATIVE_SKIN_TONE_SCHEMA].includes(record.schema)&&Object.hasOwn(record,'accessories'));
+  ([NATIVE_SCHEMA,NATIVE_SKIN_TONE_SCHEMA,NATIVE_LIP_COLOR_SCHEMA].includes(record.schema)&&Object.hasOwn(record,'accessories'));
  const accessoryDomains=[actor.rigidAccessories,actor.headwear].filter(Boolean);
  const accessoryRevisions=new Map(accessoryDomains.map(domain=>[domain,domain.getState().revision]));
  const updates=[],attemptedCommits=[],cleanupErrors=[];

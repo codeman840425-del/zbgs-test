@@ -1,6 +1,7 @@
 import {isNativeProductionBody} from './native-production-catalog.js';
 import {nativePaletteContract} from './native-palette-catalog.js';
 import {nativeSkinToneContract} from './native-skin-tone-contract.js';
+import {nativeLipColorContract} from './native-lip-color-contract.js';
 // Native sources expose only their separately registered baked colors. Existing
 // source families retain their prior color presets and resource preparation.
 const originalOnly = Object.freeze({hairColor:false,skinTone:false,eyeColor:false,lipColor:false});
@@ -12,26 +13,31 @@ const sourcePolicies = Object.freeze({
 });
 const labels = {hairColor:'发色',skinTone:'肤色',eyeColor:'瞳色',lipColor:'唇色',eyebrowColor:'眉色'};
 
+function registeredColors(avatarSha256) {
+  const skin = nativeSkinToneContract(avatarSha256), lip = nativeLipColorContract(avatarSha256);
+  return {...nativePaletteContract(avatarSha256)?.colors,
+    ...(skin ? {skinTone:skin.colors} : {}), ...(lip ? {lipColor:lip.colors} : {})};
+}
+
 export function appearanceColorSupport(avatarSha256) {
   const support={hairColor:true,skinTone:true,eyeColor:true,lipColor:true,...(sourcePolicies[avatarSha256] ?? (isNativeProductionBody(avatarSha256) ? originalOnly : {}))};
-  for(const [field,values] of Object.entries(nativePaletteContract(avatarSha256)?.colors??{}))
+  for(const [field,values] of Object.entries(registeredColors(avatarSha256)))
     support[field]=Object.keys(values).some(value=>value!=='original');
-  if(nativeSkinToneContract(avatarSha256))support.skinTone=true;
   return support;
 }
 
 export function appearanceColorPresets(avatarSha256,field,presets) {
-  const native=field==='skinTone'?nativeSkinToneContract(avatarSha256)?.colors:nativePaletteContract(avatarSha256)?.colors[field];
+  const native=registeredColors(avatarSha256)[field];
   if(native)return {...native};
   return appearanceColorSupport(avatarSha256)[field]?{...presets}:{original:null};
 }
 
 export function assertAppearanceColorSelection(avatarSha256, selection) {
   const support = appearanceColorSupport(avatarSha256);
-  const nativeColors=nativePaletteContract(avatarSha256)?.colors;
+  const nativeColors=registeredColors(avatarSha256);
   for (const field of Object.keys(labels)) {
     if (selection[field] == null || selection[field] === 'original') continue;
-    const registered=field==='skinTone'?nativeSkinToneContract(avatarSha256)?.colors:nativeColors?.[field];
+    const registered=nativeColors[field];
     if(registered?Object.hasOwn(registered,selection[field]):support[field])continue;
     const reason=registered?'仅支持已登记的原生配色':'仅支持原色';
     const error = new Error(`当前基模的${labels[field]}尚未适配，${reason}；当前外观未改变`);

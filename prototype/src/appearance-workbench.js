@@ -5,6 +5,7 @@ import {HAIRSTYLES} from './hairstyle-catalog.js';
 import {FOUNDATION_PROFILES} from './foundation-profiles.js';
 import {REPRESENTATIVE_PRESETS} from './representative-batch.js';
 import {appearanceColorPresets} from './appearance-color-policy.js';
+import {nativeLipColorContract} from './native-lip-color-contract.js';
 import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
 import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
 import {CHARACTER_RECORD_MAX_BYTES,isSafeCharacterRecordId} from './character-record.js';
@@ -354,6 +355,13 @@ export function bindAppearanceWorkbench({ controller }) {
   nativeSkinReview.hidden = true;
   nativeSkinReview.append(' · ', nativeSkinLink);
   nativeReviews.append(nativeSkinReview);
+  const lipReview = document.createElement('span');
+  const lipLink = nativeSkinLink.cloneNode(false);
+  lipLink.href = '/reviews/native-lip-color/';
+  lipLink.textContent = '原肤与暖肤的唇妆对照';
+  lipReview.hidden = true;
+  lipReview.append(' · ', lipLink);
+  nativeReviews.append(lipReview);
   previewInfo.append(nativeReviews);
   inspectionPage.prepend(previewInfo);
   const nativePreview=document.createElement('p');
@@ -470,6 +478,7 @@ export function bindAppearanceWorkbench({ controller }) {
   function sync() {
     const actual = state();
     nativeSkinReview.hidden = !actual.nativeSkinTone;
+    lipReview.hidden = !nativeLipColorContract(actor().profile.sha256);
     const actualBody = actor().profile.bodyType;
     const group = groupFor(actualBody);
     if (!group) {
@@ -504,10 +513,12 @@ export function bindAppearanceWorkbench({ controller }) {
     }));
     style.value = actual.hairStyle;
     const previewSupport=actor().config?.previewAppearanceSupport;
+    const lipVariants=nativeLipColorContract(actor().profile.sha256)?.variants;
     for(const [select,field,presets] of colorFields){
       const choices=appearanceColorPresets(actor().profile.sha256,field,presets);
       select.replaceChildren(...Object.keys(choices).map(value=>{
-        const option=document.createElement('option');option.value=value;option.textContent=colorLabels[value]||value;return option;
+        const nativeLip=field==='lipColor'?lipVariants?.[value]:null;
+        const option=document.createElement('option');option.value=value;option.textContent=nativeLip?.label??colorLabels[value]??value;return option;
       }));
       select.value=actual[field]||'original';
       select.disabled=previewSupport?.[field]===false||Object.keys(choices).length<2||typeof actual[field]!=='string';
@@ -516,7 +527,7 @@ export function bindAppearanceWorkbench({ controller }) {
     colorNote.textContent = [
       actual.nativeSkinTone&&!skin.disabled ? '原生暖肤色同时应用于脸和身体，可切换基础与穿衣模式检查。' : '',
       eye.disabled ? '此人物瞳色暂不可用。' : previewSupport ? '原生虹膜配色样件；眼白与独立高光保留。' : '瞳色调整虹膜，保留瞳孔与高光。',
-      lip.disabled ? '此人物唇色暂不可用。' : '唇色可独立选择。',
+      lip.disabled ? '此人物唇色暂不可用。' : lipVariants ? '原生唇妆可在原肤与暖肤之间切换。' : '唇色可独立选择。',
     ].join('');
     note.textContent = actual.bodyMode==='base' ? (actual.effectiveHairStyle==='none'?'基础人体当前无发；返回穿衣模式后恢复所选发型。':'此候选的基础模式保留当前发型与皮肤材质，用于检查卸衣后的真实身体。') : previewSupport ? (options.some(option=>!['original','none'].includes(option.id))?'原生发型为技术候选，可切回原发型对照；配色仅开放此人物已接入的选项。':'原生接入候选：目前检查原外观与独立换装。发型替换及配色尚待此基模验证。') : unavailable.length ? '标注“待适配”的发型已有素材，但尚未验证当前脸型或身体；可用项可直接选择。' : '当前列出的发型可用于此样件；无发保留眉毛与睫毛。';
     const geometry=actor().facialGeometry?.getState();

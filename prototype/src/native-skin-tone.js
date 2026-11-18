@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {validateNativeSkinToneManifest} from './native-skin-tone-contract.js';
+import {validateNativeLipColorManifest} from './native-lip-color-contract.js';
 
 const check = (ok, message) => { if (!ok) throw Error(`原生肤色：${message}`); };
 const decodeOptions = {premultiplyAlpha:'none', colorSpaceConversion:'none', imageOrientation:'none'};
@@ -50,14 +51,16 @@ function discoverHeadMaterials(vrm, part) {
   });
 }
 
-export function createNativeSkinTone({vrm, contract, coverage}) {
+export function createNativeSkinTone({vrm, contract, coverage, lipContract}) {
   check(coverage, '缺少原生身体遮罩');
   const baseURL = new URL(contract.url, globalThis.location?.href ?? 'http://localhost/');
-  let committedMaps = null, ready = null, preparing = null, disposed = false, revision = 0;
+  const original = {face:null, eyeline:null, body:null};
+  let current = original, disposed = false, revision = 0;
+  const regions = new Map(), cache = new Map(), loaded = new Set();
   const cleanupErrors = [];
 
-  async function read(descriptor) {
-    const url = new URL(descriptor.url, baseURL);
+  async function read(descriptor, parent = baseURL) {
+    const url = new URL(descriptor.url, parent);
     check(url.origin === baseURL.origin, '贴图资源来源不匹配');
     const response = await fetch(url.href);
     check(response.ok, `资源加载失败 (${response.status})`);
@@ -69,6 +72,17 @@ export function createNativeSkinTone({vrm, contract, coverage}) {
     return bytes;
   }
 
+  function cached(key, create) {
+    if (!cache.has(key)) {
+      const pending = Promise.resolve().then(create).catch(error => {
+        cache.delete(key);
+        throw error;
+      });
+      cache.set(key, pending);
+    }
+    return cache.get(key);
+  }
+
   function cleanup(value) {
     for (const texture of value.textures) {
       try { texture.dispose(); } catch (error) { cleanupErrors.push(String(error)); }
@@ -78,12 +92,11 @@ export function createNativeSkinTone({vrm, contract, coverage}) {
     }
   }
 
-  async function load(toneId) {
+  async function loadTextures(assets, prepare) {
     const value = {textures:new Set(), images:new Set()};
-    async function decode(descriptor) {
-      const image = await createImageBitmap(new Blob([await read(descriptor)], {type:'image/png'}), decodeOptions);
+    async function decode({descriptor, parent}) {
+      const image = await createImageBitmap(new Blob([await read(descriptor, parent)], {type:'image/png'}), decodeOptions);
       value.images.add(image);
-      check(!disposed, '人物已卸载');
       return image;
     }
     function clones(originals, image) {
@@ -97,108 +110,143 @@ export function createNativeSkinTone({vrm, contract, coverage}) {
       return textures;
     }
     try {
-      const json = JSON.parse(new TextDecoder().decode(await read(contract)));
-      const {face, eyeline, body} = validateNativeSkinToneManifest(json, contract, toneId);
-      const faces = discoverHeadMaterials(vrm, face), eyelines = discoverHeadMaterials(vrm, eyeline);
-      const bodySources = coverage.skinToneSources(body, contract.coverage.manifestSha256);
-      const faceSources = new Set(faces.flatMap(({map, shadeMap}) => [map, shadeMap]));
-      const eyelineSources = new Set(eyelines.flatMap(({map, shadeMap}) => [map, shadeMap]));
-      const decodedImages = await Promise.allSettled([face.authored, eyeline.authored, body.authored, body.coveredAuthored].map(decode));
-      const [faceImage, eyelineImage, bodyImage, coveredImage] = decodedImages.map(decoded => {
+      const decodedImages = await Promise.allSettled(assets.map(decode));
+      check(!disposed, '人物已卸载');
+      const images = decodedImages.map(decoded => {
         if (decoded.status === 'rejected') throw decoded.reason;
         return decoded.value;
       });
-      for (const [originals, image, part] of [
-        [faceSources, faceImage, face], [eyelineSources, eyelineImage, eyeline],
-        [bodySources.keys(), bodyImage, body], [bodySources.values(), coveredImage, body],
-      ]) {
-        for (const original of new Set([...originals].map(texture => texture.image))) assertAlpha(original, image, part);
-      }
-      value.faces = [...faces, ...eyelines];
-      value.faceMaps = new Map([...clones(faceSources, faceImage), ...clones(eyelineSources, eyelineImage)]);
-      value.bodyMaps = {
-        base:clones(bodySources.keys(), bodyImage),
-        covered:clones(bodySources.keys(), coveredImage),
-      };
-      ready = value;
-      return value;
+      const result = prepare(images, clones);
+      loaded.add(value);
+      return result;
     } catch (error) { cleanup(value); throw error; }
   }
 
-  const correctFaceMaps = value => value.faces.every(({material, map, shadeMap}) =>
-    material.map === (committedMaps ? committedMaps.get(map) : map) &&
-    material.shadeMultiplyTexture === (committedMaps ? committedMaps.get(shadeMap) : shadeMap));
-  function putFaceMaps(material, record, maps) {
-    material.map = maps ? maps.get(record.map) : record.map;
-    material.shadeMultiplyTexture = maps ? maps.get(record.shadeMap) : record.shadeMap;
+  function headSources(role, part) {
+    if (!regions.has(role)) regions.set(role, {part, records:discoverHeadMaterials(vrm, part)});
+    const {part:originalPart, records} = regions.get(role);
+    check(['materialName', 'width', 'height', 'alphaMode', 'alphaCutoff'].every(field => part[field] === originalPart[field]),
+      '面部贴图不共用同一材质');
+    return new Set(records.flatMap(({map, shadeMap}) => [map, shadeMap]));
+  }
+
+  function validateAlpha(part, sources, image) {
+    for (const source of new Set([...sources].map(texture => texture.image))) assertAlpha(source, image, part);
+  }
+
+  function faceMaps(part, descriptor, parent) {
+    return cached('face:' + descriptor.sha256, () => loadTextures([{descriptor, parent}], ([image], clones) => {
+      const sources = headSources('face', part);
+      validateAlpha(part, sources, image);
+      return clones(sources, image);
+    }));
+  }
+
+  function warmTextures({eyeline, body}) {
+    return cached('warm-eyeline-and-body', () => loadTextures(
+      [eyeline.authored, body.authored, body.coveredAuthored].map(descriptor => ({descriptor})),
+      ([eyelineImage, bodyImage, coveredImage], clones) => {
+        const eyelineSources = headSources('eyeline', eyeline);
+        const bodySources = coverage.skinToneSources(body, contract.coverage.manifestSha256);
+        validateAlpha(eyeline, eyelineSources, eyelineImage);
+        validateAlpha(body, bodySources.keys(), bodyImage);
+        validateAlpha(body, bodySources.values(), coveredImage);
+        return {
+          eyeline:clones(eyelineSources, eyelineImage),
+          body:{base:clones(bodySources.keys(), bodyImage), covered:clones(bodySources.keys(), coveredImage)},
+        };
+      }));
+  }
+
+  const currentMap = (map, selected) => selected ? selected.get(map) : map;
+  function actualHeadMatchesCurrent() {
+    return [...regions].every(([role, {records}]) => records.every(({material, map, shadeMap}) =>
+      material.map === currentMap(map, current[role]) &&
+      material.shadeMultiplyTexture === currentMap(shadeMap, current[role])));
+  }
+  function putHeadMaps(material, record, maps) {
+    material.map = currentMap(record.map, maps);
+    material.shadeMultiplyTexture = currentMap(record.shadeMap, maps);
     material.needsUpdate = true;
   }
-  function restoreFace(value, maps) {
-    for (const record of value.faces) {
-      putFaceMaps(record.material, record, maps);
+  function setHead(changes, target, restoring = false) {
+    for (const {record, role} of changes) {
+      putHeadMaps(record.material, record, target[role]);
+      if (!restoring) {
+        record.material.update(0);
+        continue;
+      }
       try { record.material.update(0); } catch (error) { cleanupErrors.push(String(error)); }
     }
   }
+  const headChanges = (before, next) => [...regions].flatMap(([role, {records}]) =>
+    before[role] === next[role] ? [] : records.map(record => ({role, record})));
 
-  async function prepareUpdate(toneId) {
+  async function prepareUpdate(toneId, lipId = 'original') {
+    if (disposed) return {cancelled:true};
     const ticket = ++revision;
-    if (toneId !== 'original' && !ready) {
-      preparing ??= load(toneId).finally(() => { preparing = null; });
-      await preparing;
+    const loadManifest = async descriptor => JSON.parse(new TextDecoder().decode(await read(descriptor)));
+    const warm = toneId === 'original' ? null : validateNativeSkinToneManifest(
+      await cached('skin-manifest', () => loadManifest(contract)), contract, toneId);
+    let facePart = warm?.face, selectedFace = warm?.face.authored, parent;
+    if (lipId !== 'original') {
+      const style = lipContract?.variants[lipId];
+      check(style, '未登记原生唇妆');
+      const lip = validateNativeLipColorManifest(await cached('lip-manifest:' + style.sha256, () => loadManifest(style)),
+        style, toneId, lipId, warm);
+      facePart = lip.face; selectedFace = lip.selected.authored; parent = new URL(style.url, baseURL);
     }
     if (disposed || ticket !== revision) return {cancelled:true};
-    const value = ready;
-    if (!value) return {isCurrent:() => !disposed && revision === ticket, commit(){}, rollback(){}, dispose(){}};
-    const isOriginal = toneId === 'original';
-    const nextMaps = isOriginal ? null : value.faceMaps;
-    check(correctFaceMaps(value), '面部肤色材质已在外部改变');
-    for (const record of value.faces) {
+    const environment = warm ? await warmTextures(warm) : original;
+    if (disposed || ticket !== revision) return {cancelled:true};
+    const next = {face:selectedFace ? await faceMaps(facePart, selectedFace, parent) : null,
+      eyeline:environment.eyeline, body:environment.body};
+    if (disposed || ticket !== revision) return {cancelled:true};
+    const before = current, changes = headChanges(before, next);
+    check(actualHeadMatchesCurrent(), '面部材质已在外部改变');
+    for (const {record, role} of changes) {
       const material = record.material.clone();
-      try { putFaceMaps(material, record, nextMaps); material.update(0); }
+      try { putHeadMaps(material, record, next[role]); material.update(0); }
       finally { material.dispose(); }
     }
-    const body = coverage.prepareSkinTone(isOriginal ? null : value.bodyMaps);
-    let live = true, committed = false, previousMaps;
+    const body = before.body === next.body ? null : coverage.prepareSkinTone(next.body);
+    let live = true, committed = false;
     const update = {
-      isCurrent:() => live && !disposed && ticket === revision && correctFaceMaps(value) && body.isCurrent(),
+      isCurrent:() => live && !disposed && ticket === revision && actualHeadMatchesCurrent() && (!body || body.isCurrent()),
       commit() {
-        check(update.isCurrent(), '肤色准备已过期');
-        previousMaps = committedMaps;
+        check(update.isCurrent(), '原生脸部或肤色准备已过期');
         try {
-          for (const record of value.faces) {
-            putFaceMaps(record.material, record, nextMaps);
-            record.material.update(0);
-          }
-          body.commit();
-          committedMaps = nextMaps;
+          setHead(changes, next);
+          body?.commit();
+          current = next;
           committed = true; live = false;
-        } catch (error) { restoreFace(value, previousMaps); throw error; }
+        } catch (error) { setHead(changes, before, true); throw error; }
       },
       rollback() {
         if (!committed || disposed || ticket !== revision) return;
-        try { body.rollback(); }
-        finally { restoreFace(value, previousMaps); committedMaps = previousMaps; committed = false; }
+        try { body?.rollback(); }
+        finally { setHead(changes, before, true); current = before; committed = false; }
       },
-      dispose() { live = false; body.dispose(); },
+      dispose() { live = false; body?.dispose(); },
     };
     return update;
   }
 
   return {
     prepareUpdate,
-    getState:() => ({textureCount:ready?.textures.size ?? 0, cleanupErrors:[...cleanupErrors]}),
+    getState:() => ({textureCount:[...loaded].reduce((sum, value) => sum + value.textures.size, 0), cleanupErrors:[...cleanupErrors]}),
     dispose() {
       if (disposed) return;
       disposed = true; revision++;
-      if (!ready) return;
-      if (committedMaps) {
+      if (current.body) {
         let update;
         try { update = coverage.prepareSkinTone(null); update.commit(); }
         catch (error) { cleanupErrors.push(String(error)); }
         finally { update?.dispose(); }
-        restoreFace(ready, null);
       }
-      cleanup(ready); ready = null; committedMaps = null;
+      setHead(headChanges(current, original), original, true);
+      for (const value of loaded) cleanup(value);
+      loaded.clear(); cache.clear(); regions.clear(); current = original;
     },
   };
 }

@@ -83,17 +83,32 @@ def exact_target(body, manifest, outputs, source_fit):
 
 
 def build(inputs):
-    require(inputs["schema"] == "native-facecontour-lip-inputs-v1", "Unknown lip inputs")
+    schema = inputs["schema"]
+    require(schema in ("native-facecontour-lip-inputs-v1", "native-facecontour-lip-inputs-v2"), "Unknown lip inputs")
     pair = json.loads(pinned(inputs["authorPair"]))
     require(pair["schema"] == "native-facecontour-lip-pair-verification-v1", "Unknown native lip pair")
     outputs, files, fit = author_images(pair)
     registry = json.loads(pinned(inputs["skinRegistry"]))
     require(registry["schema"] == "native-skin-tone-registry-v1", "Unexpected linked skin registry")
-    targets = {t["bodyType"]: t for t in json.loads(skin.TARGETS.read_bytes())["targets"]}
+    if schema == "native-facecontour-lip-inputs-v1":
+        batch = json.loads(skin.TARGETS.read_bytes())["targets"]
+    else:
+        batch = inputs["targets"]
+    require(isinstance(batch, list) and batch, "A target batch must contain at least one body")
+    targets = {t["bodyType"]: t for t in batch}
+    require(len(targets) == len(batch) == len({t["bodySha256"] for t in batch}),
+            "Repeated body or body digest in target batch")
+    rows = {r["bodyType"]: r for r in registry["entries"]}
+    require(len(rows) == len(registry["entries"]) and targets.keys() <= rows.keys(),
+            "Missing or ambiguous registered skin fit for a requested body")
+    if schema == "native-facecontour-lip-inputs-v1":
+        require(targets.keys() == rows.keys() and len(rows) == 2, "Expected historical FaceContour pair")
     entries, reports = [], []
     for row in registry["entries"]:
         key = row["bodyType"]
-        require(key in targets and targets[key]["bodySha256"] == row["bodySha256"], "Wrong or duplicate FaceContour target")
+        if key not in targets:
+            continue
+        require(targets[key]["bodySha256"] == row["bodySha256"], "Wrong FaceContour target digest")
         target = targets.pop(key)
         body_ref = reference("prototype/public/assets/" + key + "/body.vrm", row["bodySha256"])
         body = model(body_ref)
@@ -115,7 +130,7 @@ def build(inputs):
                         "lipId": LIP, "color": COLOR, "manifestSha256": sha(data)})
         reports.append({"body": body_ref, "native": src["native"], "provenance": target["provenance"],
                         "skinManifest": skin_ref, "matchedToneSources": {t: v["sourceSha256"] for t, v in outputs.items()}})
-    require(not targets and len(entries) == 2, "Expected both current FaceContour records")
+    require(not targets, "One or more requested FaceContour fits were omitted")
     files["registry.json"] = json_bytes({"schema": REGISTRY, "entries": sorted(entries, key=lambda e: e["bodyType"])})
     return files, {"schema": "native-facecontour-lip-target-fit-v1", "inputs": inputs, "targets": reports,
                    "fit": fit, "tones": outputs, "runtimeAdmission": False, "visualAcceptance": False}
@@ -147,10 +162,17 @@ def main():
     operation = parser.add_mutually_exclusive_group(required=True)
     for name in ("stage", "publish", "check"):
         operation.add_argument("--" + name, action="store_true")
+    operation.add_argument("--prepare-to", type=Path, help="Write a selected batch to a separate staging directory")
+    parser.add_argument("--inputs", type=Path, default=INPUTS)
     args = parser.parse_args()
-    files, report = build(json.loads(INPUTS.read_bytes()))
+    if args.inputs != INPUTS and not args.prepare_to:
+        parser.error("Custom inputs require --prepare-to")
+    files, report = build(json.loads(args.inputs.read_bytes()))
     report_files = {"report.json": json_bytes(report)}
-    if args.stage:
+    if args.prepare_to:
+        skin.stage_new(args.prepare_to, {**{"runtime/" + k: v for k, v in files.items()},
+                                        "readback/report.json": report_files["report.json"]})
+    elif args.stage:
         skin.stage_new(SOURCE_DIR / "runtime", files)
         skin.stage_new(SOURCE_DIR / "readback", report_files)
     else:

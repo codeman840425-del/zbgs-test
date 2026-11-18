@@ -33,6 +33,20 @@ class NativeFaceContourLipTest(unittest.TestCase):
                 self.assertEqual(raw["url"], "/assets/" + lip.PACKAGE + "/" + name)
                 self.assertEqual(lip.sha(self.files[name]), raw["sha256"])
 
+    def test_explicit_body_selection_prepares_only_requested_fit(self):
+        request = json.loads((lip.SOURCE_DIR / "target-batch.json").read_bytes())
+        both, _ = lip.build(request)
+        self.assertEqual(both, self.files)
+        request["targets"] = request["targets"][:1]
+        subset, _ = lip.build(request)
+        rows = json.loads(subset["registry.json"])["entries"]
+        self.assertEqual([r["bodyType"] for r in rows], [request["targets"][0]["bodyType"]])
+        self.assertEqual({p for p in subset if p.endswith(".png")}, {p for p in both if p.endswith(".png")})
+        request["targets"][0]["bodyType"] = "native-male-7586-v1"
+        request["targets"][0]["bodySha256"] = "7586d3bc0921f88e86b38f7cf2f6651e4be76c47bbe0dfad45020f9001806d81"
+        with self.assertRaisesRegex(ValueError, "registered skin fit"):
+            lip.build(request)
+
     def test_cross_tone_fallback_rejected(self):
         tones = dict(self.report["tones"])
         tones["original"], tones[lip.WARM] = tones[lip.WARM], tones["original"]

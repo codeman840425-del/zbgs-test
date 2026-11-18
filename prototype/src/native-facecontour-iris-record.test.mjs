@@ -16,6 +16,7 @@ const {prepareRecordedCharacter}=await import('./character-record-consumer.js');
 const {queryAppearanceCandidates,admitAppearanceCandidate}=await import('./appearance-candidates.js');
 const {facialPaletteContract}=await import('./facial-palette-contract.js');
 const {NATIVE_SKIN_TONE_SCHEMA,nativeSkinToneContract}=await import('./native-skin-tone-contract.js');
+const {NATIVE_LIP_COLOR_SCHEMA,nativeLipColorContract}=await import('./native-lip-color-contract.js');
 const {restoreRuntimeCharacterRecord}=await import('./character-runtime-record.js');
 const {canonicalJson,sha256Hex}=await import('./character-record.js');
 const {foundationProfile}=await import('./foundation-profiles.js');
@@ -66,6 +67,7 @@ async function installImageTransport(t,iris,extras=[]){
 for(const name of ['contour-roundness-a','contour-cheek-b']){
   const originalRecord=JSON.parse(await readFile(new URL('../../evidence/m2-native-hair-record-v1/'+name+'.json',import.meta.url)));
   const tone=nativeSkinToneContract(originalRecord.appearanceRecipe.base.sha256);
+  const lip=nativeLipColorContract(originalRecord.appearanceRecipe.base.sha256)?.variants['native-lip-101-v1'];
   test(name+' restores historical records and prepares only its pinned green iris',async t=>{
     const record=structuredClone(originalRecord);
     const contract=facialPaletteContract(record.appearanceRecipe.base.sha256);
@@ -82,9 +84,10 @@ for(const name of ['contour-roundness-a','contour-cheek-b']){
     assert.equal(current.recordSha256,record.integrity.recordSha256);
     const query=queryAppearanceCandidates(current.controller);
     assert.deepEqual(query.appearance.eyeColor.choices.map(row=>row.value),['original','green']);
-    for(const field of ['eyebrowColor','hairColor','lipColor'])
+    for(const field of ['eyebrowColor','hairColor'])
       assert.deepEqual(query.appearance[field].choices.map(row=>row.value),['original']);
     assert.deepEqual(query.appearance.skinTone.choices.map(row=>row.value),tone?['original','native-warm-v1']:['original']);
+    assert.deepEqual(query.appearance.lipColor.choices.map(row=>row.value),lip?['original',lip.lipId]:['original']);
     const changed=await current.avatar.appearance.set({eyeColor:'green'});
     assert.equal(changed.applied,true,changed.reason);
     const green=await current.capture();
@@ -116,11 +119,15 @@ for(const name of ['contour-roundness-a','contour-cheek-b']){
     assert.deepEqual(scene.children,[current.avatar.root]);
   });
 
-  test(name+' applies the four exact native skin maps and restores canonical records', {skip:!tone}, async t=>{
+  test(name+' applies exact skin and lip variants and restores canonical records', {skip:!tone||!lip}, async t=>{
     const record=structuredClone(originalRecord), base=record.appearanceRecipe.base;
     const toneBytes=await readFile(publicFile(tone.url));
     assert.equal(digest(toneBytes),tone.sha256);
     const {face,eyeline,body}=JSON.parse(toneBytes), config=foundationProfile(base.bodyType);
+    const lipBytes=await readFile(publicFile(lip.url));
+    assert.equal(digest(lipBytes),lip.sha256);
+    const {tones}=JSON.parse(lipBytes);
+    const originalLip=tones.original.authored,warmLip=tones['native-warm-v1'].authored;
     const paletteURL=facialPaletteContract(base.sha256).url;
     const {iris}=JSON.parse(await readFile(publicFile(paletteURL)));
     const {covered}=JSON.parse(await readFile(publicFile(config.bodyTextureCoverage.url)));
@@ -135,13 +142,20 @@ for(const name of ['contour-roundness-a','contour-cheek-b']){
       const view=doc.bufferViews[doc.images[doc.textures[main].source].bufferView], start=28+jsonSize+(view.byteOffset??0);
       return{bytes:vrmBytes.subarray(start,start+view.byteLength),sha256:part.sourceSha256};
     });
-    const images=await installImageTransport(t,iris,[...assets,...originals,
+    const images=await installImageTransport(t,iris,[...assets,...originals,originalLip,warmLip,
       {...covered,url:relativeAsset(covered.url,config.bodyTextureCoverage.url)}]);
     const scene=new THREE.Scene(),renderer={compileAsync(){throw Error('Unexpected GPU compilation');}};
     const current=await prepareRecordedCharacter(record,{scene,renderer});
     t.after(()=>current.dispose());
     const attached=current.avatar;
     current.attach();
+    const requests=[], fetch=globalThis.fetch;
+    let failAsset=null;
+    t.mock.method(globalThis,'fetch',async (input,...options)=>{
+      const path=new URL(typeof input==='string'?input:input.href??input.url,'http://geometry.local/').pathname;
+      requests.push(path);
+      return path===failAsset?new Response(null,{status:503}):fetch(input,...options);
+    });
 
     function materialMaps(avatar) {
       const result=new Map();
@@ -151,8 +165,8 @@ for(const name of ['contour-roundness-a','contour-cheek-b']){
       });
       return result;
     }
-    function assertMaps(avatar,coveredBody) {
-      const inspection=new Map([[face.materialName,face.authored.sha256],[eyeline.materialName,eyeline.authored.sha256],
+    function assertMaps(avatar,coveredBody,faceSha=face.authored.sha256) {
+      const inspection=new Map([[face.materialName,faceSha],[eyeline.materialName,eyeline.authored.sha256],
         [body.materialName,coveredBody?body.coveredAuthored.sha256:body.authored.sha256]]);
       for(const [material,maps] of materialMaps(avatar)){
         const pin=inspection.get(material.name.replace(/ \(Outline\)$/,''));
@@ -160,8 +174,55 @@ for(const name of ['contour-roundness-a','contour-cheek-b']){
       }
     }
     const before=materialMaps(attached);
+    const originalLipChosen=await attached.appearance.set({lipColor:lip.lipId});
+    assert.equal(originalLipChosen.applied,true,originalLipChosen.reason);
+    assert.deepEqual(requests,[lip.url,originalLip.url]);
+    for(const [material,maps] of materialMaps(attached)){
+      if(material.name.replace(/ \(Outline\)$/,'')===face.materialName)
+        for(const texture of maps)assert.equal(texture.image.pixels,images.get(originalLip.sha256));
+      else assert.deepEqual(maps,before.get(material),material.name);
+    }
+    const lipOnly=await current.capture();
+    assert.equal(lipOnly.appearanceRecipe.schema,NATIVE_LIP_COLOR_SCHEMA);
+    assert.equal(lipOnly.appearanceRecipe.lipColorManifestSha256,lip.sha256);
+    assert.equal(lipOnly.appearanceRecipe.skinToneManifestSha256,undefined);
+    const oldFiles=await fileSet(record),lipFiles=await fileSet(lipOnly);
+    assert.deepEqual([...lipFiles].filter(file=>!oldFiles.has(file)).sort(),[lip.url,originalLip.url].sort());
+    const coldLipOnly=await prepareRecordedCharacter(lipOnly,{scene,renderer});
+    t.after(()=>coldLipOnly.dispose());
+    assert.deepEqual((await coldLipOnly.capture()).appearanceRecipe,lipOnly.appearanceRecipe);
+
+    const beforeFailure=materialMaps(attached);
+    failAsset=warmLip.url;
+    const failed=await attached.appearance.set({skinTone:'native-warm-v1'});
+    assert.equal(failed.applied,false);
+    assert.match(failed.reason,/503/);
+    assert.deepEqual(materialMaps(attached),beforeFailure);
+    assert.equal(attached.appearance.getState().skinTone,'original');
+    assert.equal(attached.appearance.getState().lipColor,lip.lipId);
+    assert(!requests.includes(face.authored.url));
+    failAsset=null;
     const chosen=await attached.appearance.set({skinTone:'native-warm-v1'});
     assert.equal(chosen.applied,true,chosen.reason);
+    assert.equal(attached.appearance.getState().lipColor,lip.lipId);
+    assertMaps(attached,true,warmLip.sha256);
+    assert(!requests.includes(face.authored.url));
+    attached.setDebugBody(true);
+    assertMaps(attached,false,warmLip.sha256);
+    attached.setDebugBody(false);
+    assertMaps(attached,true,warmLip.sha256);
+    const warmWithLip=await current.capture(),warmLipFiles=await fileSet(warmWithLip);
+    assert.equal(warmWithLip.appearanceRecipe.skinToneManifestSha256,tone.sha256);
+    assert.equal(warmWithLip.appearanceRecipe.lipColorManifestSha256,lip.sha256);
+    assert.deepEqual([...warmLipFiles].filter(file=>!oldFiles.has(file)).sort(),
+      [tone.url,...assets.slice(1).map(asset=>asset.url),lip.url,warmLip.url].sort());
+    const coldWarmWithLip=await prepareRecordedCharacter(warmWithLip,{scene,renderer});
+    t.after(()=>coldWarmWithLip.dispose());
+    assertMaps(coldWarmWithLip.avatar,true,warmLip.sha256);
+    assert.deepEqual((await coldWarmWithLip.capture()).appearanceRecipe,warmWithLip.appearanceRecipe);
+
+    const noLip=await attached.appearance.set({lipColor:'original'});
+    assert.equal(noLip.applied,true,noLip.reason);
     assertMaps(attached,true);
     for(const [material,maps] of before)
       if(![face.materialName,eyeline.materialName,body.materialName].includes(material.name.replace(/ \(Outline\)$/,'')))
@@ -180,7 +241,7 @@ for(const name of ['contour-roundness-a','contour-cheek-b']){
     assert(native.resourceIdentities.some(r=>r.id==='appearance/skinToneManifestSha256'&&r.sha256===tone.sha256));
     for(const field of ['identity','liveAccessories','nativeHairCenter','equipmentMaterials'])
       assert.deepEqual(native[field],record[field]);
-    const oldFiles=await fileSet(record),newFiles=await fileSet(native);
+    const newFiles=await fileSet(native);
     assert.deepEqual([...oldFiles].filter(file=>!newFiles.has(file)),[]);
     assert.deepEqual([...newFiles].filter(file=>!oldFiles.has(file)).sort(),
       [tone.url,...assets.map(asset=>asset.url),paletteURL,iris.source.url,iris.colors.green.url].sort());
@@ -189,6 +250,28 @@ for(const name of ['contour-roundness-a','contour-cheek-b']){
     assertMaps(restored.avatar,true);
     assert.equal(restored.avatar.appearance.getState().eyeColor,'green');
     assert.deepEqual((await restored.capture()).appearanceRecipe,native.appearanceRecipe);
+    const oldWarm=JSON.parse(await readFile(new URL('../../evidence/m2-native-skin-game-handoff-v1/native-'+name+'-v1/record.json',import.meta.url)));
+    assert.equal(native.integrity.recipeSha256,oldWarm.integrity.recipeSha256);
+    const runtimeLipState=materialMaps(attached);
+    const applyLipWhileWarm=await attached.appearance.set({lipColor:lip.lipId});
+    assert.equal(applyLipWhileWarm.applied,true,applyLipWhileWarm.reason);
+    assertMaps(attached,true,warmLip.sha256);
+    for(const [material,maps] of runtimeLipState)
+      if(material.name.replace(/ \(Outline\)$/,'')!==face.materialName)
+        assert.deepEqual(materialMaps(attached).get(material),maps,material.name);
+    const greenWarmLip=await current.capture();
+    assert.equal(admitAppearanceCandidate(current.controller,{...greenWarmLip.appearanceRecipe, lipColorManifestSha256:'a'.repeat(64)}).accepted,false);
+    const checkpoint=materialMaps(attached);
+    const prepareOutfit=current.controller.prepareOutfit;
+    current.controller.prepareOutfit=async (...args)=>{
+      const update=await prepareOutfit.apply(current.controller,args);
+      return {...update,commit(){update.commit();throw Error('injected later outfit fault');}};
+    };
+    await assert.rejects(restoreRuntimeCharacterRecord(current.controller,record),/injected later outfit fault/);
+    current.controller.prepareOutfit=prepareOutfit;
+    assert.deepEqual(materialMaps(attached),checkpoint);
+    assert.equal(attached.appearance.getState().skinTone,'native-warm-v1');
+    assert.equal(attached.appearance.getState().lipColor,lip.lipId);
 
     const stale=structuredClone(native.appearanceRecipe);
     stale.skinToneManifestSha256='a'.repeat(64);
