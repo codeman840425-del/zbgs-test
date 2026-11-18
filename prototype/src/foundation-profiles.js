@@ -189,7 +189,10 @@ export function foundationProfile(bodyType = "female") {
     result.additionalBodyCoverage=[...(result.additionalBodyCoverage??[]),{role:'fitTop',descriptor:layer.bodyCoverage}];
     result.extraOutfits=[...(result.extraOutfits??[]),layer.outfit];
   }
-  const initialLook = result.defaultOutfit ?? { index: 0, role: "pants", label: result.pantsLabel };
+  const initialLook = {
+    ...(result.defaultOutfit ?? { index: 0, role: "pants" }),
+    label: result.defaultOutfit?.label ?? result.pantsLabel ?? "基础服装",
+  };
   if (initialLook.index !== 0) throw Error(`Initial outfit must use index 0 for ${bodyType}`);
   result.outfits = [
     initialLook,

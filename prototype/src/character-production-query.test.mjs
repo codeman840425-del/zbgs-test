@@ -180,6 +180,9 @@ test('exposes the configured style matrix per exact body while keeping candidate
 
 test('exposes native parameter packages as exact candidate variants without inheriting admission', async () => {
   for (const entry of productionCatalog.entries) {
+    const config = foundationProfile(entry.bodyType);
+    assert.equal(typeof config.outfits[0].label, 'string');
+    assert.notEqual(config.outfits[0].label, 'undefined');
     const query = queryCharacterProduction((await fixture(entry.bodyType)).controller);
     assert.deepEqual(query.styleVariants.map(style => style.styleId), ['uniform-top-v1', 'lower-shorts-v1']);
     for (const style of query.styleVariants) {
