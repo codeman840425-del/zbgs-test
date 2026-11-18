@@ -47,3 +47,7 @@ node "$work/source/scripts/company-platform/test-portable-training-handoff.mjs" 
 ```powershell
 node evidence/company-named-training-handoff-v1/browser/qa-named-training.cjs $work e5a77d978335 "$trial/named" "$trial/browser" --record
 ```
+
+## ENV-007 外部独立复验
+
+外测方使用旧版同一盆栽操作复现错误，再在 v2 检验改名移交、旧档显式恢复及同公司两套净空规则。宽窄边界分别拒绝和接受，活动区及入口的真实侵入均能定位。 融合测试登记为独立复验通过。外部报告 SHA256 为 `6f3b7229e6e848e173ff80fc1a9b5d52f7909167b6f9c133cadce8ba1473f376`。[融合测试原报告](../../../gamemake-test/native-studio-round/environment/portable-training-review/PORTABLE-TRAINING.md)

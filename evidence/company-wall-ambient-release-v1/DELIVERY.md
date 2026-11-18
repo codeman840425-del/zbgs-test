@@ -38,3 +38,7 @@ Pop-Location
 ```
 
 浏览器证据来自 Chromium 的 SwiftShader 软件渲染。角色、推流和目标电脑帧率另行验收。[制作、配方和原件许可](../../assets-source/company-wall-ambient-v1/README.md)
+
+## ENV-008 外部独立复验
+
+外测方核对了两房四款的 40 次实际受光观察、8 次冷恢复和原工位补光开关。独立发布的第五款经过派生包实载与关窗重开。 融合测试登记为独立复验通过。外部报告 SHA256 为 `9e7ac9e5b05ede276cdae5218e486db377c0126b20735f8d199524319707517e`。[融合测试原报告](../../../gamemake-test/native-studio-round/environment/wall-ambient-review/WALL-AMBIENT.md)
