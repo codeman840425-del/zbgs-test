@@ -1,0 +1,29 @@
+公司场景与设施平台｜边几与生活小物交付 v1
+
+固定版本
+- sourceCommit: 5c92a65fb166c89dc0a7b6167f190aff679899bb
+- build: 96210ac9f301
+- fixedTree: F:/gamemake-company-side-table-life-fixed-v1
+- delivery: F:/gamemake-company-side-table-life-delivery-v1
+
+覆盖内容
+- 边几四款真实几何外观：圆台面柱架、柜体边几、套几、低茶几。
+- 台面生活小物四款真实模型：杯子、饮水瓶、纸巾盒、笔筒与笔记本。
+- 支持承载面、局部调整、父子移动/旋转/复制、外观替换、第二布局、保存恢复和失败保旧。
+
+可重复验证
+1. 在 delivery/source/prototype 执行 npm ci。
+2. 执行 node scripts/build-company-id.mjs 和 npx vite build --config vite.company.config.js。
+3. 用 package-company 提供的 test-side-table-life-items-data.mjs、test-side-table-geometry.mjs、test-side-table-life-items-geometry.mjs 和 qa-side-table-actual.mjs 重跑 CPU 检查。
+4. 用 qa-side-table-preview.cjs 与 qa-side-table-life-items-preview.cjs 重跑浏览器检查。
+5. 用 record-side-table-preview.cjs 与 record-side-table-life-items-preview.cjs 生成正常 1x 录像。交付包无 Git 仓库时录像报告会标记 packaged-source。
+
+验收证据
+- 固定/独立浏览器报告和截图在本目录 browser-*。
+- 固定/独立 CPU 报告在本目录 cpu-*。
+- 固定/独立正常 1x 录像和报告在本目录 record-*。
+- 独立 npm ci/build 后 viewer 与重建 dist-company 均为 443 个运行文件，SHA256 全部一致。
+
+边界
+- 证据使用 CPU 集成与 Chromium SwiftShader。未据此宣称普通电脑性能。
+- 本包不包含真实角色坐下、占用、导航执行或 C3 联调。角色接口沿设施的父级、接触面和布局数据提供。

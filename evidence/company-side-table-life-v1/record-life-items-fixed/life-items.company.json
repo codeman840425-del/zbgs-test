@@ -1,0 +1,145 @@
+{
+  "schema": "company-save",
+  "version": 1,
+  "document": {
+    "schema": "company-layout",
+    "version": 1,
+    "id": "side-table-life-items-demo",
+    "name": "台面日用品 · 四款对照",
+    "revision": 5,
+    "scale": "single-room",
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "nodes": [
+      {
+        "id": "side-table-life-items-demo/floor-1",
+        "kind": "floor",
+        "parentId": "side-table-life-items-demo",
+        "name": "一层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "side-table-life-items-demo/room-1",
+        "kind": "room",
+        "parentId": "side-table-life-items-demo/floor-1",
+        "name": "直播间",
+        "purpose": "streaming",
+        "bounds": {
+          "width": 7,
+          "depth": 5.25
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "life-items/table",
+        "kind": "facility",
+        "parentId": "side-table-life-items-demo/room-1",
+        "resource": {
+          "id": "side-table-round",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.7,
+            0,
+            -0.4
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "state": {}
+      },
+      {
+        "id": "life-items/primary",
+        "kind": "facility",
+        "parentId": "life-items/table",
+        "resource": {
+          "id": "side-table-life-pen-notebook",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.04,
+            0.5,
+            0.01
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "top"
+        }
+      },
+      {
+        "id": "life-items/copy-table",
+        "kind": "facility",
+        "parentId": "side-table-life-items-demo/room-1",
+        "resource": {
+          "id": "side-table-round",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -1.1,
+            0,
+            0.7
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "name": "life-items/copy-table"
+      },
+      {
+        "id": "life-items/copy-table/extra-1",
+        "kind": "facility",
+        "parentId": "life-items/copy-table",
+        "resource": {
+          "id": "side-table-life-pen-notebook",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.04,
+            0.5,
+            0.01
+          ],
+          "yaw": 0
+        },
+        "state": {},
+        "attachment": {
+          "surfaceId": "top"
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "resources": [
+      {
+        "id": "side-table-life-pen-notebook",
+        "version": 1,
+        "sha256": "4e1c38ff63e4a99ff9838a7ba7b2b13b6b8fe94dd81c9cd4dfe5752bbe7f9677"
+      },
+      {
+        "id": "side-table-round",
+        "version": 1,
+        "sha256": "82b25561a1afe5ae0037b6fad45f6f920e8b4fe169054213408560be6733ee6a"
+      }
+    ],
+    "templates": []
+  }
+}
