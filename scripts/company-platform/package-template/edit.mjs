@@ -2,10 +2,19 @@ import fs from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
+import {resolveTrainingConstraint} from './source/scripts/company-platform/package-template/training-room.mjs';
 
 const root=path.dirname(fileURLToPath(import.meta.url));
 try{
-  const [command,input,operations,output]=process.argv.slice(2),manifest=JSON.parse(await fs.readFile(path.join(root,'transfer-manifest.json'),'utf8'));
+  const args=process.argv.slice(2);
+  const roomOption=args.indexOf('--room');
+  let selectedRoom;
+  if(roomOption>=0){
+    if(roomOption!==args.length-2||!/^(@default|[a-z][a-z0-9-]{0,62})$/.test(args.at(-1)))throw Error('Append --room KEY using a packaged room key or @default');
+    selectedRoom=args.splice(roomOption)[1];
+  }
+  const [command,input,operations,output]=args,manifest=JSON.parse(await fs.readFile(path.join(root,'transfer-manifest.json'),'utf8'));
+  if(args.length!==(command==='apply'?4:2))throw Error('Use validate INPUT or apply INPUT OPS NEW_RESULT_DIRECTORY, optionally followed by --room KEY');
   for(const name of [manifest.runtimeInputs?.catalog,manifest.runtimeInputs?.templates])if(typeof name!=='string'||!name.startsWith('src/company/')||!name.endsWith('.json')||name.includes('\\')||name.split('/').some(part=>!part||part==='.'||part==='..'))throw Error('Unsafe runtime catalog path in package manifest');
   const catalog=JSON.parse(await fs.readFile(path.join(root,'source/prototype',manifest.runtimeInputs.catalog),'utf8'));
   const templates=JSON.parse(await fs.readFile(path.join(root,'source/prototype',manifest.runtimeInputs.templates),'utf8'));
@@ -13,6 +22,7 @@ try{
   const persistence=await load('persistence.js'),documentTools=await load('document.js');
   const bytes=await fs.readFile(input,'utf8'),raw=JSON.parse(bytes);
   let document=raw.schema==='company-save'?await persistence.decodeCompanySave(bytes,catalog,templates):documentTools.restoreCompany(bytes,catalog,templates);
+  const constraint=await resolveTrainingConstraint(root,manifest,input,document,bytes,selectedRoom);
   const space=await load('space.js'),placement=await load('placement.js');
   space.inspectCompanyConnections(document,catalog,templates);placement.inspectCompanyPlacement(document,catalog,templates);
   if(command==='apply'){
@@ -27,8 +37,7 @@ try{
     const {preflightDesktopAreas}=await import('./source/scripts/company-platform/preflight-library-assets.mjs');
     await preflightDesktopAreas(path.join(root,'source'),derived);
   }
-  const constraint=manifest.savedCompany?.trainingClearance;
-  if(document.id===manifest.savedCompany?.id && constraint){
+  if(constraint){
     const {checkTrainingClearance}=await import('./source/scripts/company-platform/check-training-clearance.mjs');
     await checkTrainingClearance(document,constraint,{catalog,templates});
   }
@@ -40,7 +49,7 @@ try{
       await fs.writeFile(path.join(stage,'layout.json'),documentTools.serializeCompany(document,catalog,templates),{flag:'wx'});
       const saved=await persistence.encodeCompanySave(document,catalog,templates);
       await fs.writeFile(path.join(stage,'save.json'),saved,{flag:'wx'});
-      if(constraint && document.id===manifest.savedCompany.id){
+      if(constraint){
         const handoff={schema:'training-room-edit@1', companyId:document.id, saveSha256:createHash('sha256').update(saved).digest('hex'), trainingClearance:constraint};
         await fs.writeFile(path.join(stage,'training-edit.json'),JSON.stringify(handoff,null,2)+'\n',{flag:'wx'});
       }

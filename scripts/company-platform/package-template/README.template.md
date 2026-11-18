@@ -100,6 +100,10 @@ node scripts/company-platform/batch.mjs scripts/company-platform/batch-inputs/wh
 
 ## 脱离原项目继续编辑
 
+多房交付中，用房间自己的存档编辑。比如 `node edit.mjs apply data/rooms/rental-training-room/save.json OPS.json new-training-room`。活动区和门口净空沿这间房原配方复核。编辑成功后，`new-training-room` 里的布局、存档和 `training-edit.json` 可以一起交给下一位制作者，再次编辑或打包。被拒绝的修改会给出物件及受阻区域。
+
+同一公司 ID 的两个方案可以有不同的留空要求。直接从包内房间路径编辑会选中该房间。单独复制出的存档若不能区分来源，命令会提示在末尾加 `--room 房间名`；`--room @default` 选择包的默认公司。保留已编辑结果的整份目录可以延续其净空回执。脱离配方、交付包和回执的孤立 JSON 只包含游戏布局。
+
 ```text
 node edit.mjs validate data/save.json
 node edit.mjs apply data/save.json OPS.json NEW_RESULT_DIRECTORY

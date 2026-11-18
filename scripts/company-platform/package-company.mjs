@@ -421,7 +421,19 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   const seatContactReports = [];
   async function includeScene(input,prefix){
     let inputBytes,inputFiles=[],trainingClearance;
-    if((await fs.lstat(input)).isDirectory()){
+    let inputIsDirectory=(await fs.lstat(input)).isDirectory();
+    const folder=inputIsDirectory?input:path.dirname(input);
+    const dataRoot=path.basename(path.dirname(folder))==='rooms'?path.dirname(path.dirname(folder)):folder;
+    let previousPackage;
+    if(path.basename(dataRoot)==='data' && (inputIsDirectory || ['save.json','layout.json'].includes(path.basename(input)))){
+      const root=path.dirname(dataRoot);
+      try{
+        const prior=decode(await read(root,'transfer-manifest.json'),'transfer-manifest.json');
+        if(prior.schema==='company-transfer' && prior.version===1)previousPackage={root,manifest:prior};
+      }catch(error){if(error.code!=='ENOENT')throw error;}
+    }
+    if(previousPackage && inputIsDirectory){input=await noLinks(path.join(input,'save.json'));inputIsDirectory=false;}
+    if(inputIsDirectory){
       inputBytes=await read(input,'save.json');
       const names=await fs.readdir(input);
       if(names.includes('training-edit.json')){
@@ -432,7 +444,6 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
           fail('training-edit-mismatch','training-edit.json','Edited save differs from the recorded company or digest');
         trainingClearance=edited.trainingClearance;
         inputFiles.push({name:'layout.json',bytes:await read(input,'layout.json')});
-        add(prefix+'/training-edit.json',receipt,'edited-training-contract');
       }else{
         for(const name of ['save.json','layout.json','input.json','report.json']){
           const bytes=await read(input,name);inputFiles.push({name,bytes});add(`${prefix}/batch-result/${name}`,bytes,'original-batch-result');
@@ -452,10 +463,27 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     }else if(raw.schema==='company-layout'){
       saved=JSON.parse(await persistence.encodeCompanySave(raw,catalog,templates));document=await persistence.decodeCompanySave(JSON.stringify(saved),catalog,templates);
     }else fail('unsupported-package-save','save-or-layout','Expected company-save or company-layout');
+    if(!inputIsDirectory){
+      const {resolveTrainingConstraint,editedTrainingConstraint}=await import('./package-template/training-room.mjs');
+      if(previousPackage){
+        const {root,manifest}=previousPackage;
+        const name=path.relative(root,input).split(path.sep).join('/');
+        const pin=manifest.files.find(file=>file.path===name);
+        if(!pin || pin.sha256!==hash(inputBytes) || pin.bytes!==inputBytes.length)
+          fail('training-handoff-file-mismatch',name,'The saved input differs from its original package manifest.');
+        trainingClearance=await resolveTrainingConstraint(root,manifest,input,document,inputBytes);
+      }else{
+        trainingClearance=await editedTrainingConstraint(input,document);
+      }
+    }
     if(inputFiles.length){const layout=decode(inputFiles.find(file=>file.name==='layout.json').bytes,'batch-result/layout.json');if(JSON.stringify(canonical(layout))!==JSON.stringify(canonical(document)))fail('batch-layout-save-mismatch','layout.json','Saved document differs from the batch layout');}
     if(trainingClearance!==undefined){
       const {checkTrainingClearance}=await import(pathToFileURL(path.join(source,'scripts/company-platform/check-training-clearance.mjs')).href);
       await checkTrainingClearance(document,trainingClearance,{catalog,templates});
+      if(!files.has(prefix+'/batch-result/input.json')){
+        const receipt={schema:'training-room-edit@1',companyId:document.id,saveSha256:hash(json(saved)),trainingClearance};
+        add(prefix+'/training-edit.json',json(receipt),'edited-training-contract');
+      }
     }
     if (hasDesktopReservations) {
       const {deriveCompany}=await import(pathToFileURL(path.join(prototype,'src/company/document.js')).href);
@@ -489,6 +517,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   add('data/library-catalog.json',catalogBytes,'complete-catalog');
   add('data/templates.json',templateBytes,'complete-templates');
   const supplemental=new Set(extraFiles);
+  const namedTrainingTest='scripts/company-platform/test-named-training-handoff.mjs';
+  try{
+    await noLinks(path.join(source,namedTrainingTest));
+    supplemental.add(namedTrainingTest);
+  }catch(error){if(error.code!=='ENOENT')throw error;}
   if (catalog.resources.some(resource => resource.productionBranch === 'background-fabric')) {
     supplemental.add('docs/research/COMPANY-BACKDROP-FABRIC-PRODUCTION.md');
     supplemental.add('scripts/company-platform/test-backdrop-fabric-assets.mjs');
