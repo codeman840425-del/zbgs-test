@@ -1,9 +1,12 @@
 import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
+import {mkdtemp, readFile, rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import path from 'node:path';
 import test from 'node:test';
 import {canonicalJson, createCharacterRecord, updateCharacterRecord, validateCharacterRecord} from './character-record.js';
 import {deriveCharacterResourceIdentities} from './character-runtime-record.js';
 import {createNativeHairCenterPin} from './native-hair-center-record.js';
+import {putCharacterRecord,updateStoredCharacterRecord} from '../../scripts/character-record-store.mjs';
 
 const fixtures = [
   ['contour-roundness-a','7cb5c311bb864bad0c6b650814b579e979e42bdc9f6e6e49d8684259d3a0e51f'],
@@ -60,4 +63,22 @@ test('re-signed stale, incomplete or wrong-body pins and missing dependencies re
   bad.nativeHairCenter.id += '-tampered';
   await assert.rejects(validateCharacterRecord(bad,{validationCallback:pending}),/record hash/);
   assert.equal(canonicalJson(fitted),before);
+});
+
+test('persistent CAS keeps the pinned on-disk record byte-for-byte after a missing dependency or stale fit edit', async t => {
+  const dir = await mkdtemp(path.join(tmpdir(),'native-hair-record-'));
+  t.after(() => rm(dir,{recursive:true,force:true}));
+  const old = await load(fixtures[0][0]);
+  const base = old.appearanceRecipe.base;
+  const pin = createNativeHairCenterPin(base.bodyType,base.sha256);
+  await putCharacterRecord(dir,old,{validateResources:pending});
+  const fitted = await update(old,{nativeHairCenter:pin,resourceIdentities:resources(old,pin)});
+  const {file} = await putCharacterRecord(dir,fitted,{expectedRevision:old.revision,validateResources:pending});
+  const persisted = await readFile(file);
+  for(const patch of [{nativeHairCenter:{...pin,id:'stale'}},{resourceIdentities:old.resourceIdentities}]) {
+    await assert.rejects(updateStoredCharacterRecord(dir,old.identity.id,patch,{
+      expectedRevision:fitted.revision, validateResources:pending, now:fitted.updatedAt,
+    }),/Native hair center/);
+    assert.deepEqual(await readFile(file),persisted);
+  }
 });

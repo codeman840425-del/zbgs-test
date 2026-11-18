@@ -23,6 +23,15 @@ if __name__ == '__main__':
             # Review recordings stay outside the game build and its download budget.
             name = urlsplit(path).path
             review = '/reviews/native-hair-motion/'
+            if config['evidence'] == 'evidence/m2-native-hair-record-v1':
+                current_files = {
+                    review: 'index.html',
+                    review + 'room.webm': 'room/room-produced-1x.webm',
+                    review + 'roundness.json': 'contour-roundness-a.json',
+                    review + 'cheek.json': 'contour-cheek-b.json',
+                }
+                if name in current_files:
+                    return str(ROOT / config['evidence'] / current_files[name])
             files = {
                 review: 'index.html',
                 review + 'before-trial.mp4': 'before-trial.mp4',

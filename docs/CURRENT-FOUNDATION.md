@@ -1,9 +1,9 @@
 # 当前角色基础工程恢复点
 
 ## 固定入口与备份
-- F:/gamemake / feat/m1-foundation-room。4196 当前构建 `30b8750e69c3`，源码 `5b979355`。固定交付与回退 70bad 的路径见 delivery/appearance-workbench.json。4174 历史证据，4195 封存 M1。
+- F:/gamemake / feat/m1-foundation-room。4196 固定构建 `00418d6b699b`，源码 `7dd5038b`，可回退 `30b8750e69c3`。固定交付见 delivery/appearance-workbench.json。4174 历史证据，4195 封存 M1。
 
-当前共同适配包已将女性两份原生记录的发束试验接入“检查”。观看 `http://127.0.0.1:4196/reviews/native-hair-motion/`。复现、正常速影片、采样、关闭重开与未通过范围见 evidence/m2-native-hair-fit-preview-v1。造型输入误放行已修正，见 PIPE-04。后续应将通过验收的动态适配版本纳入外观记录并验证缺件/错版本保旧，继续表面与资源预算的游戏运行验证。当前未扩大准入。
+两份女性 FaceContour 技术候选已用同一制作接口选择并保存后发动态版本，一份升级旧记录，一份直接新建。观看 http://127.0.0.1:4196/reviews/native-hair-motion/ 。当前记录、错版本保旧、关闭重开和正常速影片见 evidence/m2-native-hair-record-v1。后续沿两份记录推进表面及贴图在实际游戏光照下的复核，并与资源预算证据关联。人工自然度及普通电脑未测，当前未扩大准入。
 - 固定4196所属D02发布增量de2928b319917953cc8304029b85820a1778b766保留；最新生产主包代码与源/证据提交65310018381d1d40d26ba1f93a296153ea8c7b7e已推送，git ls-remote逐字核实。后续恢复说明独立提交，不冒称4196已换构建。公司副总工dirty文件不stage，不用git add -A。
 
 ## 刚完成D02限定主包
