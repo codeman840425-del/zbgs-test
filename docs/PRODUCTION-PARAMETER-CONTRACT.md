@@ -1,5 +1,7 @@
 # 参数驱动角色生产契约
 
+同一装备槽可以包含多个材质图元。制作端用 `primitiveGroups` 列出原节点、网格和蒙皮下的有序成员，每个成员有图元索引、材质索引和完整材质名。运行 `python -B scripts/production/extract_native_group.py 配方.json --output output/批次/部件包` 可得到独立 GLB、装备清单和提取记录。命令检查两端的绘制索引、蒙皮流和绑定矩阵，重跑复用字节一致的整包。作者组归属和皮肤遮罩需要同体去组回读；诊断包只占用工程内的私有输出，游戏签发继续走原有准入流程。[两片上衣配方](../evidence/m2-garment-group-input-v1/native-two-piece-selection.json) · [源与游戏对照](../evidence/m2-garment-group-input-v1/README.md)
+
 原生 VRM 的三件装备提取器在写入前核验上衣、下装和鞋各自的节点、网格、蒙皮、图元及材质。配方的可选 `garmentSelection` 可以分别为三个槽指定这五个索引；原生导出 SHA 与同体皮肤、遮挡检查仍适用。现有两个脸型样件以显式索引重建，各 12 个文件与原包相同。遇到多上衣图元、连体衣或额外衣层时，错误会指向身体和具体源部件；这类源需要独立的部件分组和覆盖数据。[原样件复算](../evidence/m2-body-intake-v1/three-slot-selection.json)
 
 本文件定义“同一套参数可以重复生产并批量进入游戏”的工程接缝。它是流程契约，不是能力清单；当前能力事实仍只看 `docs/CAPABILITIES.md`。

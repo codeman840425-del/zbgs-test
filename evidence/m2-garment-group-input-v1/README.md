@@ -23,3 +23,16 @@ python -B scripts/production/variant_batch.py "$base/matrix.json" "$base/request
 原生 VRM 1 的独立提取使用同一所有者节点与蒙皮，传入 `primitiveGroups`，在每一槽中显式列出原图元、材质索引和材质全名。样件 13 的两张候选衣面各 4,072 面，两次提取输出一致。小游戏包中的男制服和这个原生候选是两份不同的测试输入。旧原生单片包可用其原制作者脚本的 `--check` 复核；两份历史样件的原导出字节相同。[原生提取回读与拒绝用例](native-group-streams.json)
 
 从工程根运行 `python -B scripts/production/native_garment_removal_surfaces.py evidence/m2-garment-group-input-v1/native-removal-control.json` 即可复算旧女性单片控制组。工具保留每个三角形的顶点位置、UV、绕序和出现次数，允许原生导出在移除一件衣服时重排其余图元或顶点。样件 13 无同体去组对照，换用控制组的去衣件会被拒绝。其原画和模型限内部使用，本次备份只含代码与测量值。[原生控制组和错体结果](native-removal-result.json)
+
+工程内私有原生样件到位后，下面的命令实际生成了一件 3,161,964 字节的双材质上衣。再次执行返回 `reused-identical`。指定 F 盘根目录的实验输出时，命令在读取配方前就拒绝，没有创建试验目录。
+
+```powershell
+python -B scripts/production/extract_native_group.py evidence/m2-garment-group-input-v1/native-two-piece-selection.json --output output/native-group-extractor-13/cli-package
+```
+
+制作侧的去组请求可从原 .vroid、VRM、冷开组回读、导出来源和原配方重建。当前以样件 13 在项目内复建得到请求 SHA `1050fef1bf2bc5fad5195091d43e59156d3b5a94f6d4700312f1f3d0f708411f`，唯一 Tops 组和 36 个冷开组均有原始记录。命令只准备输入。本机通常启动 VRoid 会把日志、用户设置和部分临时数据写入 Windows 用户目录，本轮保留私有准备状态。[原生重放工具](../../scripts/production/native_top_group_replay.py) · [启动行为记录](../../assets-source/vroid-bridge-study-v1/ENVIRONMENT.md)
+
+```powershell
+$sample = 'F:/gamemake-test/native-studio-round/characters/studio-13-nami-yu'
+python -B scripts/production/native_top_group_replay.py --prepare --batch-output output/native-group-13/prepare-repeat-v2 --editable "$sample/studio-13-nami-yu.vroid" --baseline "$sample/studio-13-nami-yu.vrm" --cold-readback "$sample/native-readback.json" --provenance "$sample/provenance.json" --recipe "$sample/recipe.json"
+```

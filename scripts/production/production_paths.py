@@ -27,7 +27,7 @@ def main_checkout(script_file):
     return Path(os.fsdecode(first[9:])).resolve()
 
 
-def project_output(path, script_file):
+def resolve_output_path(path):
     destination = Path(path)
     if os.name == "nt":
         parts = destination.parts[1:] if destination.anchor else destination.parts
@@ -35,8 +35,12 @@ def project_output(path, script_file):
                            for part in parts if part != "..")
         if destination.drive.startswith(("\\\\?\\", "\\\\.\\")) or invalid_name:
             raise ValueError("Unsupported Windows output path")
+    return destination.resolve()
+
+
+def project_output(path, script_file):
+    output = resolve_output_path(path)
     checkout = main_checkout(script_file)
-    output = destination.resolve()
     if output == checkout or not output.is_relative_to(checkout):
         raise ValueError("Output must be inside the production tool main checkout")
     return output
