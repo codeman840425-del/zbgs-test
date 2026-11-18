@@ -1,0 +1,20 @@
+公司场景 C1 静态设施集合发布
+
+固定源码：F:/gamemake-company-static-fixed-v1
+固定提交：8abb7c995d99ec87f9c031e24a28e537ec3d43c1
+构建：96210ac9f301
+独立交付：F:/gamemake-company-static-delivery-v1
+
+分支：桌子、键盘、桌面麦克风、绿植、挂画；每个分支四款结构不同的模型，共 20 件真实 GLB。源参数与通用构造生成器可重复导出，GLTF 导入回读检查真实网格、功能规格、安装/承载包络和确定性哈希。
+
+可重复验证：
+  npm ci
+  node scripts/build-company-id.mjs
+  npx vite build --config vite.company.config.js
+  node scripts/company-platform/build-static-collection.mjs --check
+  node scripts/company-platform/qa-four-preview.cjs prototype/dist-company 96210ac9f301 OUT --software desk,keyboard,desk-microphone,plant,wall-art
+  node scripts/company-platform/record-static-collection-preview.cjs prototype/dist-company 96210ac9f301 OUT
+
+结果：五个细分分支各四款外观替换通过；实际安装/承载功能数据保持，保存/关闭重开通过，坏资源拒绝并保留原场景/存档；固定与独立浏览器均通过；独立 npm ci+build 后运行文件 443/443 字节一致；正常速度 1×录像已归档。
+
+限制：软件渲染不代表普通电脑性能。本包验证静态设施生产、显示、安装和保存，不包含角色使用、导航、占用或 C3 联调。
