@@ -99,3 +99,5 @@
 2026-11-18 admission cycle v8a：用动态、预算分层、表面静态证据重跑完整准入周期。gate 与 deterministic record planner 均正常运行，两个候选均明确 rejected/runtime admission pending，未生成任何运行时角色请求。
 
 2026-11-18 头部附件证据接缝：native_batch_gate.py/admission_cycle.py 已统一附加眼镜 candidate-only 与麦克风 cpu-candidate-only 报告，均按身体 SHA 校验，站/坐加载状态、握持和口型资源身份可回溯，verified=false 且不会清除 headAttachments/handAndMicrophone。v11 报告和25项测试已完成。最新房间回归证据 m2-native-room-current-v3 在构建 c5ce1f7126ab 两体均 technical-pass-visual-candidate，页面错误为0。
+
+2026-11-18 复工后准入身份加固：候选表面、眼镜和麦克风证据除身体 SHA 外，现要求 bodyType 与批次 profile 精确一致。v12 闸门报告生成，25 项回归通过，两个候选仍未准入。
