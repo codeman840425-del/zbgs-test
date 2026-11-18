@@ -3,7 +3,9 @@
 ## 固定入口与备份
 - F:/gamemake / feat/m1-foundation-room。4196 当前固定构建 `0d1ccbf3ff61`，源码 `e6062a06`，可回退 `ba8a7b36d01b`。固定发布见 delivery/appearance-workbench.json。4174 历史证据，4195 封存 M1。
 
-原生两份 FaceContour 记录现可在外观里使用作者绿虹膜，同一批次生成两份精确适配。证据 evidence/m2-native-batch-iris-room-v2，4196 检查区保留肤色／白衣光照和后发动态对照。下一主包为头身联动肤色：先用 VRoid 2.16 Bridge 在源副本读 FaceSkin、BodySkin、Eyelid、NoseLighting 四组的 MainColor、ShadowColor、HighlightColor，再写一个 MainColor 核实联动；待冷开、完整身体／穿衣导出同时验证，仍需保护眼白、牙齿与口内。两份目标源已有相同 12 个字段的离线依据，不能从这点推断完成肤色制作。普通电脑未测，整身准入仍为空。
+本轮已生成固定暖肤候选 `436562eeac4a`（独立源码 `4f43b6aa`），交付指针为下次启动准备好。最后读取实际运行的 4196 时仍为上列绿虹膜版，自动审批拒绝重启命令。当前可直接用 evidence/m2-native-skin-room-v1/index.html 查看暖肤对照。已有旧绿瞳、暖肤各两份完整角色在独立包关闭重开，本次预算与适用范围见 CAPABILITIES。下一项从已核实的 Overlay/Lip 唇妆原生输入验证口内保护与暖肤叠加，制作中沿用既有主菜单/冷开/导出方法。
+
+上一轮记录：原生两份 FaceContour 记录现可在外观里使用作者绿虹膜，同一批次生成两份精确适配。证据 evidence/m2-native-batch-iris-room-v2，4196 检查区保留肤色／白衣光照和后发动态对照。下一主包为头身联动肤色：先用 VRoid 2.16 Bridge 在源副本读 FaceSkin、BodySkin、Eyelid、NoseLighting 四组的 MainColor、ShadowColor、HighlightColor，再写一个 MainColor 核实联动；待冷开、完整身体／穿衣导出同时验证，仍需保护眼白、牙齿与口内。两份目标源已有相同 12 个字段的离线依据，不能从这点推断完成肤色制作。普通电脑未测，整身准入仍为空。
 - 固定4196所属D02发布增量de2928b319917953cc8304029b85820a1778b766保留；最新生产主包代码与源/证据提交65310018381d1d40d26ba1f93a296153ea8c7b7e已推送，git ls-remote逐字核实。后续恢复说明独立提交，不冒称4196已换构建。公司副总工dirty文件不stage，不用git add -A。
 
 ## 刚完成D02限定主包

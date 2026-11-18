@@ -1,0 +1,2008 @@
+{
+  "budgetFileSha256": "b5f792da80d061aa8dfac1045e2f69e699207dd5d4a05b5ea9959ef532dc9d63",
+  "budgetVersion": "m2-technical-v1",
+  "closureUnionFileCount": 43,
+  "closureUnionSourceBytes": 59115765,
+  "inputSha256": "a45db2ab73858d33bdfa6e0da1b25538abc26250dfde9dc38a926d9de9942990",
+  "limitations": [
+    "RGBA8 estimates use standalone model texture objects and full mip chains except for the reviewed linear-only native cover and skin tone maps.",
+    "Record estimates start from a fresh actor. An actor reset to original after using a native skin tone retains the selected tone cache until disposal. Compare its authored-tone record for that upper bound.",
+    "Native cover and palette additions allow up to four source texture clones per actor and field, derived from two materials and two maps. Source-only palette references contribute no texture objects.",
+    "All parsed model mesh definitions contribute to the estimate. Hidden source geometry, animation, renderer allocations, prior looks and in-flight preparation need runtime measurement.",
+    "Paired ear placements share their one parsed model and source textures by the rigid accessory implementation. Their placed triangles count both instances.",
+    "Transfer closure bytes count each path once. Actor texture estimates sum the per-record values.",
+    "Procedural legacy palette and surface texturing, compressed buffers and unrecognized standalone resources need another budget model.",
+    "Hair sidecar collider totals cover authored body colliders. Runtime room proxies allocate separate collider objects per joint.",
+    "Native hair retains the existing embedded authored joint metric. Its fit separately declares the expected active manager joint count."
+  ],
+  "ordinaryPCPerformance": "unmeasured",
+  "readOnly": true,
+  "records": [
+    {
+      "actions": [
+        "idle",
+        "walk",
+        "jog",
+        "talk",
+        "sitTalk",
+        "sitEnter",
+        "sitExit",
+        "sitIdle",
+        "turn",
+        "greeting",
+        "ual1-dance-reference",
+        "dance-technical-once-v1"
+      ],
+      "avatarSha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+      "bodyType": "native-contour-roundness-a-v1",
+      "closureSourceBytes": 36687193,
+      "earSelection": "none",
+      "equipmentIds": [
+        "native-contour-roundness-a-top-v1",
+        "native-contour-roundness-a-shorts-v1",
+        "native-contour-roundness-a-shoes-v1"
+      ],
+      "files": [
+        {
+          "bytes": 2824,
+          "path": "assets/m1c/accessories.json",
+          "provenance": [],
+          "reasons": [
+            "Live accessory catalog"
+          ],
+          "sha256": "d8380d1a105bff48e1cf8ed9ec92efaac54318e767a6df5836d587152e11c2b1"
+        },
+        {
+          "bytes": 3865,
+          "path": "assets/m1c/grips/manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Microphone grip catalog"
+          ],
+          "sha256": "60138b90616429478bfc3c6f226c02c7198599d8aa8eff182d486b46d41ed65f"
+        },
+        {
+          "bytes": 54484,
+          "path": "assets/m1c/studio-glasses-v1.glb",
+          "provenance": [
+            {
+              "license": "CC0-1.0",
+              "sourceBlend": "assets-source/m1c-accessories/studio-glasses-v1.blend",
+              "sourcePath": "prototype/public/assets/m1c/accessories.json"
+            }
+          ],
+          "reasons": [
+            "Selected live prop: studio-glasses-v1"
+          ],
+          "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52"
+        },
+        {
+          "bytes": 106372,
+          "path": "assets/m1c/studio-microphone-v1.glb",
+          "provenance": [
+            {
+              "license": "CC0-1.0",
+              "sourceBlend": "assets-source/m1c-accessories/studio-microphone-v1.blend",
+              "sourcePath": "prototype/public/assets/m1c/accessories.json"
+            }
+          ],
+          "reasons": [
+            "Selected live prop: studio-microphone-v1"
+          ],
+          "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+        },
+        {
+          "bytes": 9195,
+          "path": "assets/motion/m1c/dance-imports.json",
+          "provenance": [],
+          "reasons": [
+            "Startup dance catalog"
+          ],
+          "sha256": "600f7ab75fce550f71d9be5f9240e83f6b58945d67804555feddfe1acf2d67da"
+        },
+        {
+          "bytes": 739436,
+          "path": "assets/motion/m1c/dance-source-reference.glb",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "ual1-dance-reference",
+              "origin": "Unmodified Quaternius Dance_Loop reference",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup dance ual1-dance-reference"
+          ],
+          "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744"
+        },
+        {
+          "bytes": 2984076,
+          "path": "assets/motion/m1c/dance-technical-v1.glb",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "dance-technical-once-v1",
+              "origin": "Original technical choreography, UAL1 idle reference/rig; not professional dance or mocap",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup dance dance-technical-once-v1"
+          ],
+          "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e"
+        },
+        {
+          "bytes": 1566668,
+          "path": "assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            },
+            {
+              "sourcePath": "prototype/public/assets/motion/m1c/greeting/gesture-import.json"
+            }
+          ],
+          "reasons": [
+            "On-demand greeting"
+          ],
+          "sha256": "eec4ef8ab2fb073f7674cc6e839cbad7aea6931e4b19e8e70c0ee46c5fda2d06"
+        },
+        {
+          "bytes": 965540,
+          "path": "assets/motion/m1c/jog-ordinary-derived-v1.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup jog model"
+          ],
+          "sha256": "6ec251d7611f22c6bf918d3401fcf438a8f2bc7b72f2826047dea8beef15c9e5"
+        },
+        {
+          "bytes": 1503,
+          "path": "assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup jog profile"
+          ],
+          "sha256": "2df4d6b86227b6bce60a5ea7ba97a982d974448044a46b903e413bd243e75ec0"
+        },
+        {
+          "bytes": 7618436,
+          "path": "assets/motion/UAL1_Standard.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup shared motion library"
+          ],
+          "sha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997"
+        },
+        {
+          "bytes": 7964,
+          "path": "assets/native-accessory-batch-v1/native-contour-roundness-a-v1/glasses.json",
+          "provenance": [
+            {
+              "license": "CC0-1.0",
+              "sourceBlend": "assets-source/m1c-accessories/studio-glasses-v1.blend",
+              "sourcePath": "prototype/public/assets/m1c/accessories.json"
+            }
+          ],
+          "reasons": [
+            "Selected glasses temple fit"
+          ],
+          "sha256": "3f51bbac68e41110cd7955b8437ccdea62882a5128cc396a3e4b8e5332ccc3f9"
+        },
+        {
+          "bytes": 3071,
+          "path": "assets/native-accessory-batch-v1/native-contour-roundness-a-v1/grip.json",
+          "provenance": [
+            {
+              "license": "CC0-1.0",
+              "sourceBlend": "assets-source/m1c-accessories/studio-microphone-v1.blend",
+              "sourcePath": "prototype/public/assets/m1c/accessories.json"
+            }
+          ],
+          "reasons": [
+            "Selected microphone body grip"
+          ],
+          "sha256": "1e7ef79ef965b3594e2795955783f32d0881ed8a6c421eba361e05286f91c0fc"
+        },
+        {
+          "bytes": 17127080,
+          "path": "assets/native-contour-roundness-a-v1/body.vrm",
+          "provenance": [
+            {
+              "source": "VRoid native FaceContour recipe; exact embedded garments and complete-skin donor",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native female parameter batch",
+                  "thumbnailImage": 21,
+                  "version": "facecontour-batch-v1"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/src/foundation-profiles.js"
+            }
+          ],
+          "reasons": [
+            "Exact foundation body"
+          ],
+          "sha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547"
+        },
+        {
+          "bytes": 252556,
+          "path": "assets/native-contour-roundness-a-v1/equipment.json",
+          "provenance": [],
+          "reasons": [
+            "Body equipment catalog"
+          ],
+          "sha256": "9458a0f7a211e2a83939ae9d792ded70d9867ed2af9fde7eefc0ce82425bb940"
+        },
+        {
+          "bytes": 1945,
+          "path": "assets/native-contour-roundness-a-v1/manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Startup native body texture coverage manifest"
+          ],
+          "sha256": "e2b23e84213dd64fa87a8cf1c568120e392de5ae934710c25a2a8709589baead"
+        },
+        {
+          "bytes": 682856,
+          "path": "assets/native-contour-roundness-a-v1/native-contour-roundness-a-shoes-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "native-contour-roundness-a-shoes-v1",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native female parameter batch",
+                  "thumbnailImage": 21,
+                  "version": "facecontour-batch-v1"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/public/assets/native-contour-roundness-a-v1/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: native-contour-roundness-a-shoes-v1"
+          ],
+          "sha256": "ebcf0243bd3491c8e907a5244f81e57ba6ec4ca3e8dcd8d2caa9cd9e660c9239"
+        },
+        {
+          "bytes": 721904,
+          "path": "assets/native-contour-roundness-a-v1/native-contour-roundness-a-shorts-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "native-contour-roundness-a-shorts-v1",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native female parameter batch",
+                  "thumbnailImage": 21,
+                  "version": "facecontour-batch-v1"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/public/assets/native-contour-roundness-a-v1/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: native-contour-roundness-a-shorts-v1"
+          ],
+          "sha256": "79faedf307880d277dac6fa108d23a5773b7bc71ab789210019a25223fd93771"
+        },
+        {
+          "bytes": 778120,
+          "path": "assets/native-contour-roundness-a-v1/native-contour-roundness-a-top-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "native-contour-roundness-a-top-v1",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native female parameter batch",
+                  "thumbnailImage": 21,
+                  "version": "facecontour-batch-v1"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/public/assets/native-contour-roundness-a-v1/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: native-contour-roundness-a-top-v1"
+          ],
+          "sha256": "c92d2c2f5d75a48f792364eb49adb975b5a269446e21a980b307de52f8dc05fd"
+        },
+        {
+          "bytes": 859933,
+          "path": "assets/native-contour-roundness-a-v1/native-tops-body.png",
+          "provenance": [
+            {
+              "source": {
+                "nativeMasked": {
+                  "path": "assets-source/native-parameter-batch-v2/contour-roundness-a/candidate.vrm",
+                  "sha256": "a5aa0d4ffff9137f787d17565d738ece580bba085cac1fee2aa88b8e4dcc7cf2"
+                },
+                "originalMask": {
+                  "path": "assets-source/native-vroid-body-texture-fit-v1/native-tops-body.png",
+                  "sha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c"
+                }
+              },
+              "sourcePath": "prototype/public/assets/native-contour-roundness-a-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Startup native body coverage PNG"
+          ],
+          "sha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c"
+        },
+        {
+          "bytes": 1016,
+          "path": "assets/native-facecontour-iris-palette-v1/native-contour-roundness-a-v1/manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Selected native palette catalog: eyeColor"
+          ],
+          "sha256": "5757aaeddcf705288ba342328cbc3d68904447b5a6fb39933d9ee2cf6eda3ccf"
+        },
+        {
+          "bytes": 102611,
+          "path": "assets/native-iris-palette-v1/iris-green.png",
+          "provenance": [
+            {
+              "sourceManifestSha256": "714c0448c4aa4bade52a13c68115ea384b652c5710f44e4345cb48900465b9b8",
+              "sourcePath": "prototype/public/assets/native-facecontour-iris-palette-v1/native-contour-roundness-a-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected native palette color PNG: eyeColor"
+          ],
+          "sha256": "9ae7830f3840c8bcc17047fe974eabf9090140c84b275a182ef75b6192076c2d"
+        },
+        {
+          "bytes": 103091,
+          "path": "assets/native-iris-palette-v1/source-iris.png",
+          "provenance": [
+            {
+              "sourceManifestSha256": "714c0448c4aa4bade52a13c68115ea384b652c5710f44e4345cb48900465b9b8",
+              "sourcePath": "prototype/public/assets/native-facecontour-iris-palette-v1/native-contour-roundness-a-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected native palette source PNG: eyeColor"
+          ],
+          "sha256": "9bdd32f2f6032e78dff1918bfc8e1cc9e631f9813de4c6c821d14e54bea3f510"
+        },
+        {
+          "bytes": 901645,
+          "path": "assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/body-covered.png",
+          "provenance": [
+            {
+              "coverageManifestSha256": "e2b23e84213dd64fa87a8cf1c568120e392de5ae934710c25a2a8709589baead",
+              "sourcePath": "prototype/public/assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected native skin tone PNG: covered body"
+          ],
+          "sha256": "480ebe7c6837899afea28b9326c07655163ca6de00a175928d8ce2701fee2304"
+        },
+        {
+          "bytes": 843169,
+          "path": "assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/body.png",
+          "provenance": [
+            {
+              "coverageManifestSha256": "e2b23e84213dd64fa87a8cf1c568120e392de5ae934710c25a2a8709589baead",
+              "sourcePath": "prototype/public/assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected native skin tone PNG: body"
+          ],
+          "sha256": "f5bb65596a6e09258edc41e7c342ba5b208a155f9d5d54727952b9f63022afcb"
+        },
+        {
+          "bytes": 29995,
+          "path": "assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/eyeline.png",
+          "provenance": [
+            {
+              "coverageManifestSha256": "e2b23e84213dd64fa87a8cf1c568120e392de5ae934710c25a2a8709589baead",
+              "sourcePath": "prototype/public/assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected native skin tone PNG: eyeline"
+          ],
+          "sha256": "836b757703cdda8345272bb4ed33665bad899b763cd24bfe03a4a192041f05ed"
+        },
+        {
+          "bytes": 215840,
+          "path": "assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/face.png",
+          "provenance": [
+            {
+              "coverageManifestSha256": "e2b23e84213dd64fa87a8cf1c568120e392de5ae934710c25a2a8709589baead",
+              "sourcePath": "prototype/public/assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected native skin tone PNG: face"
+          ],
+          "sha256": "9d9c52ff0ded86af24101634dbe9844a414f7cac9a96507c89e27949dd2e3c9c"
+        },
+        {
+          "bytes": 1998,
+          "path": "assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Selected native skin tone manifest"
+          ],
+          "sha256": "e322927f076cc7881e36cd819b6a7ffb69c6ba2ae244cd5573f7f5817661637f"
+        }
+      ],
+      "hairColor": "original",
+      "id": "batch-contour-roundness-a",
+      "materialRecipes": [],
+      "models": [
+        {
+          "assetExcesses": [],
+          "class": "accessory",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 54484,
+              "images": 0,
+              "jointSlots": 0,
+              "materials": 2,
+              "maxImageDimension": 0,
+              "maxInfluences": 0,
+              "maxJointsPerSkin": 0,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 2208,
+              "primitiveVertices": 1305,
+              "primitives": 7,
+              "rgba8MipBytes": 0,
+              "skins": 0,
+              "springJoints": 0,
+              "textures": 0,
+              "triangles": 2208,
+              "uniquePositionVertices": 1305
+            }
+          },
+          "id": "studio-glasses-v1",
+          "path": "assets/m1c/studio-glasses-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 9,
+              "limit": 8,
+              "metric": "primitives"
+            }
+          ],
+          "class": "accessory",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 106372,
+              "images": 0,
+              "jointSlots": 0,
+              "materials": 3,
+              "maxImageDimension": 0,
+              "maxInfluences": 0,
+              "maxJointsPerSkin": 0,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 4644,
+              "primitiveVertices": 2822,
+              "primitives": 9,
+              "rgba8MipBytes": 0,
+              "skins": 0,
+              "springJoints": 0,
+              "textures": 0,
+              "triangles": 4644,
+              "uniquePositionVertices": 2822
+            }
+          },
+          "id": "studio-microphone-v1",
+          "path": "assets/m1c/studio-microphone-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 38661,
+              "limit": 30000,
+              "metric": "uniquePositionVertices"
+            },
+            {
+              "actual": 108256,
+              "limit": 80000,
+              "metric": "primitiveVertices"
+            },
+            {
+              "actual": 54950,
+              "limit": 40000,
+              "metric": "triangles"
+            },
+            {
+              "actual": 54950,
+              "limit": 40000,
+              "metric": "nodeTriangles"
+            },
+            {
+              "actual": 390,
+              "limit": 256,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "maxJointsPerSkin"
+            },
+            {
+              "actual": 126179680,
+              "limit": 100663296,
+              "metric": "rgba8MipBytes"
+            },
+            {
+              "actual": 102,
+              "limit": 32,
+              "metric": "springJoints"
+            },
+            {
+              "actual": 28,
+              "limit": 16,
+              "metric": "colliders"
+            }
+          ],
+          "class": "body",
+          "cost": {
+            "metrics": {
+              "colliders": 28,
+              "externalImageBytes": 0,
+              "fileBytes": 17127080,
+              "images": 24,
+              "jointSlots": 390,
+              "materials": 14,
+              "maxImageDimension": 2048,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 130,
+              "morphAccessorBytes": 6441912,
+              "morphTargetsPerPrimitive": 57,
+              "nodeTriangles": 54950,
+              "primitiveVertices": 108256,
+              "primitives": 14,
+              "rgba8MipBytes": 126179680,
+              "skins": 3,
+              "springJoints": 102,
+              "textures": 24,
+              "triangles": 54950,
+              "uniquePositionVertices": 38661
+            }
+          },
+          "id": "body",
+          "path": "assets/native-contour-roundness-a-v1/body.vrm",
+          "placements": 1,
+          "selected": true,
+          "sha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 682856,
+              "images": 4,
+              "jointSlots": 130,
+              "materials": 1,
+              "maxImageDimension": 512,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 130,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 712,
+              "primitiveVertices": 9158,
+              "primitives": 1,
+              "rgba8MipBytes": 1399120,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 4,
+              "triangles": 712,
+              "uniquePositionVertices": 9158
+            }
+          },
+          "id": "native-contour-roundness-a-shoes-v1",
+          "path": "assets/native-contour-roundness-a-v1/native-contour-roundness-a-shoes-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "ebcf0243bd3491c8e907a5244f81e57ba6ec4ca3e8dcd8d2caa9cd9e660c9239"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 721904,
+              "images": 4,
+              "jointSlots": 130,
+              "materials": 1,
+              "maxImageDimension": 1024,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 130,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 1624,
+              "primitiveVertices": 9158,
+              "primitives": 1,
+              "rgba8MipBytes": 5593424,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 4,
+              "triangles": 1624,
+              "uniquePositionVertices": 9158
+            }
+          },
+          "id": "native-contour-roundness-a-shorts-v1",
+          "path": "assets/native-contour-roundness-a-v1/native-contour-roundness-a-shorts-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "79faedf307880d277dac6fa108d23a5773b7bc71ab789210019a25223fd93771"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 778120,
+              "images": 4,
+              "jointSlots": 130,
+              "materials": 1,
+              "maxImageDimension": 2048,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 130,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 1296,
+              "primitiveVertices": 9158,
+              "primitives": 1,
+              "rgba8MipBytes": 11185832,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 4,
+              "triangles": 1296,
+              "uniquePositionVertices": 9158
+            }
+          },
+          "id": "native-contour-roundness-a-top-v1",
+          "path": "assets/native-contour-roundness-a-v1/native-contour-roundness-a-top-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "c92d2c2f5d75a48f792364eb49adb975b5a269446e21a980b307de52f8dc05fd"
+        }
+      ],
+      "nativeSkinToneCache": {
+        "accounting": "Texture upper bounds are included in actor totals. Decoded ImageBitmap RGBA8 equivalents are separate.",
+        "decodedImageBitmaps": 4,
+        "imageBitmapRgba8Bytes": 38797312,
+        "lifetime": "All four fields remain allocated after switching outfit or resetting to original until actor disposal.",
+        "rgba8LowerBoundBytes": 38797312,
+        "rgba8UpperBoundBytes": 155189248,
+        "textureObjectLowerBound": 4,
+        "textureObjectUpperBound": 16
+      },
+      "outfitIndex": 0,
+      "recordSha256": "1c41b442acedec84c5cdf2ca1cc87ef98cf192020558d68a7cfaaae105a922ff",
+      "revision": 4,
+      "selectedCost": {
+        "aggregateExcesses": [
+          {
+            "actual": 377840984,
+            "limit": 268435456,
+            "metric": "rgba8MipBytes"
+          }
+        ],
+        "scope": "selected-look",
+        "totals": {
+          "colliders": 28,
+          "externalImageBytes": 0,
+          "fileBytes": 22527100,
+          "images": 36,
+          "jointSlots": 780,
+          "materials": 22,
+          "mergedExternalImageBytes": 3056284,
+          "morphAccessorBytes": 6441912,
+          "nodeTriangles": 65434,
+          "placedNodeTriangles": 65434,
+          "primitiveVertices": 139857,
+          "primitives": 33,
+          "rgba8MipBytes": 377840984,
+          "skins": 6,
+          "springJoints": 102,
+          "standaloneEncodedImageBytes": 3056284,
+          "textureObjects": 60,
+          "textures": 36,
+          "triangles": 65434,
+          "uniquePositionVertices": 70262
+        }
+      },
+      "standaloneImages": [
+        {
+          "addedRgba8EstimateBytes": 67108864,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 16777216,
+          "encodedBytes": 859933,
+          "height": 2048,
+          "path": "assets/native-contour-roundness-a-v1/native-tops-body.png",
+          "sha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c",
+          "usage": "native-body-coverage",
+          "width": 2048
+        },
+        {
+          "addedRgba8EstimateBytes": 11184816,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 2097152,
+          "encodedBytes": 102611,
+          "height": 512,
+          "path": "assets/native-iris-palette-v1/iris-green.png",
+          "sha256": "9ae7830f3840c8bcc17047fe974eabf9090140c84b275a182ef75b6192076c2d",
+          "usage": "native-palette-color",
+          "width": 1024
+        },
+        {
+          "addedRgba8EstimateBytes": 0,
+          "addedTextureObjectUpperBound": 0,
+          "decodedRgba8Bytes": 2097152,
+          "encodedBytes": 103091,
+          "height": 512,
+          "path": "assets/native-iris-palette-v1/source-iris.png",
+          "sha256": "9bdd32f2f6032e78dff1918bfc8e1cc9e631f9813de4c6c821d14e54bea3f510",
+          "usage": "native-palette-reference",
+          "width": 1024
+        },
+        {
+          "addedRgba8EstimateBytes": 67108864,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 16777216,
+          "encodedBytes": 901645,
+          "height": 2048,
+          "nativeSkinBindings": [
+            {
+              "field": "covered body",
+              "imageBitmapRgba8Bytes": 16777216,
+              "rgba8LowerBoundBytes": 16777216,
+              "rgba8UpperBoundBytes": 67108864,
+              "textureObjectLowerBound": 1,
+              "textureObjectUpperBound": 4,
+              "usage": "native-skin-body-covered"
+            }
+          ],
+          "path": "assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/body-covered.png",
+          "sha256": "480ebe7c6837899afea28b9326c07655163ca6de00a175928d8ce2701fee2304",
+          "usage": "native-skin-body-covered",
+          "width": 2048
+        },
+        {
+          "addedRgba8EstimateBytes": 67108864,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 16777216,
+          "encodedBytes": 843169,
+          "height": 2048,
+          "nativeSkinBindings": [
+            {
+              "field": "body",
+              "imageBitmapRgba8Bytes": 16777216,
+              "rgba8LowerBoundBytes": 16777216,
+              "rgba8UpperBoundBytes": 67108864,
+              "textureObjectLowerBound": 1,
+              "textureObjectUpperBound": 4,
+              "usage": "native-skin-body-base"
+            }
+          ],
+          "path": "assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/body.png",
+          "sha256": "f5bb65596a6e09258edc41e7c342ba5b208a155f9d5d54727952b9f63022afcb",
+          "usage": "native-skin-body-base",
+          "width": 2048
+        },
+        {
+          "addedRgba8EstimateBytes": 4194304,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 1048576,
+          "encodedBytes": 29995,
+          "height": 256,
+          "nativeSkinBindings": [
+            {
+              "field": "eyeline",
+              "imageBitmapRgba8Bytes": 1048576,
+              "rgba8LowerBoundBytes": 1048576,
+              "rgba8UpperBoundBytes": 4194304,
+              "textureObjectLowerBound": 1,
+              "textureObjectUpperBound": 4,
+              "usage": "native-skin-eyeline"
+            }
+          ],
+          "path": "assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/eyeline.png",
+          "sha256": "836b757703cdda8345272bb4ed33665bad899b763cd24bfe03a4a192041f05ed",
+          "usage": "native-skin-eyeline",
+          "width": 1024
+        },
+        {
+          "addedRgba8EstimateBytes": 16777216,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 4194304,
+          "encodedBytes": 215840,
+          "height": 1024,
+          "nativeSkinBindings": [
+            {
+              "field": "face",
+              "imageBitmapRgba8Bytes": 4194304,
+              "rgba8LowerBoundBytes": 4194304,
+              "rgba8UpperBoundBytes": 16777216,
+              "textureObjectLowerBound": 1,
+              "textureObjectUpperBound": 4,
+              "usage": "native-skin-face"
+            }
+          ],
+          "path": "assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/face.png",
+          "sha256": "9d9c52ff0ded86af24101634dbe9844a414f7cac9a96507c89e27949dd2e3c9c",
+          "usage": "native-skin-face",
+          "width": 1024
+        }
+      ],
+      "startupAndSelectedCost": {
+        "aggregateExcesses": [
+          {
+            "actual": 377840984,
+            "limit": 268435456,
+            "metric": "rgba8MipBytes"
+          }
+        ],
+        "scope": "startup-and-selected-models",
+        "totals": {
+          "colliders": 28,
+          "externalImageBytes": 0,
+          "fileBytes": 22527100,
+          "images": 36,
+          "jointSlots": 780,
+          "materials": 22,
+          "mergedExternalImageBytes": 3056284,
+          "morphAccessorBytes": 6441912,
+          "nodeTriangles": 65434,
+          "placedNodeTriangles": 65434,
+          "primitiveVertices": 139857,
+          "primitives": 33,
+          "rgba8MipBytes": 377840984,
+          "skins": 6,
+          "springJoints": 102,
+          "standaloneEncodedImageBytes": 3056284,
+          "textureObjects": 60,
+          "textures": 36,
+          "triangles": 65434,
+          "uniquePositionVertices": 70262
+        }
+      },
+      "status": "over-budget",
+      "unsupportedActions": [
+        "rokoko-5359146-30s-v1",
+        "rokoko-5359146-30s-arm-local-v1",
+        "native-rokoko-5359146-30s-v2"
+      ]
+    },
+    {
+      "actions": [
+        "idle",
+        "walk",
+        "jog",
+        "talk",
+        "sitTalk",
+        "sitEnter",
+        "sitExit",
+        "sitIdle",
+        "turn",
+        "greeting",
+        "ual1-dance-reference",
+        "dance-technical-once-v1"
+      ],
+      "avatarSha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+      "bodyType": "native-contour-cheek-b-v1",
+      "closureSourceBytes": 36686673,
+      "earSelection": "none",
+      "equipmentIds": [
+        "native-contour-cheek-b-top-v1",
+        "native-contour-cheek-b-shorts-v1",
+        "native-contour-cheek-b-shoes-v1"
+      ],
+      "files": [
+        {
+          "bytes": 2824,
+          "path": "assets/m1c/accessories.json",
+          "provenance": [],
+          "reasons": [
+            "Live accessory catalog"
+          ],
+          "sha256": "d8380d1a105bff48e1cf8ed9ec92efaac54318e767a6df5836d587152e11c2b1"
+        },
+        {
+          "bytes": 3865,
+          "path": "assets/m1c/grips/manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Microphone grip catalog"
+          ],
+          "sha256": "60138b90616429478bfc3c6f226c02c7198599d8aa8eff182d486b46d41ed65f"
+        },
+        {
+          "bytes": 54484,
+          "path": "assets/m1c/studio-glasses-v1.glb",
+          "provenance": [
+            {
+              "license": "CC0-1.0",
+              "sourceBlend": "assets-source/m1c-accessories/studio-glasses-v1.blend",
+              "sourcePath": "prototype/public/assets/m1c/accessories.json"
+            }
+          ],
+          "reasons": [
+            "Selected live prop: studio-glasses-v1"
+          ],
+          "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52"
+        },
+        {
+          "bytes": 106372,
+          "path": "assets/m1c/studio-microphone-v1.glb",
+          "provenance": [
+            {
+              "license": "CC0-1.0",
+              "sourceBlend": "assets-source/m1c-accessories/studio-microphone-v1.blend",
+              "sourcePath": "prototype/public/assets/m1c/accessories.json"
+            }
+          ],
+          "reasons": [
+            "Selected live prop: studio-microphone-v1"
+          ],
+          "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+        },
+        {
+          "bytes": 9195,
+          "path": "assets/motion/m1c/dance-imports.json",
+          "provenance": [],
+          "reasons": [
+            "Startup dance catalog"
+          ],
+          "sha256": "600f7ab75fce550f71d9be5f9240e83f6b58945d67804555feddfe1acf2d67da"
+        },
+        {
+          "bytes": 739436,
+          "path": "assets/motion/m1c/dance-source-reference.glb",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "ual1-dance-reference",
+              "origin": "Unmodified Quaternius Dance_Loop reference",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup dance ual1-dance-reference"
+          ],
+          "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744"
+        },
+        {
+          "bytes": 2984076,
+          "path": "assets/motion/m1c/dance-technical-v1.glb",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "dance-technical-once-v1",
+              "origin": "Original technical choreography, UAL1 idle reference/rig; not professional dance or mocap",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup dance dance-technical-once-v1"
+          ],
+          "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e"
+        },
+        {
+          "bytes": 1566668,
+          "path": "assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            },
+            {
+              "sourcePath": "prototype/public/assets/motion/m1c/greeting/gesture-import.json"
+            }
+          ],
+          "reasons": [
+            "On-demand greeting"
+          ],
+          "sha256": "eec4ef8ab2fb073f7674cc6e839cbad7aea6931e4b19e8e70c0ee46c5fda2d06"
+        },
+        {
+          "bytes": 965540,
+          "path": "assets/motion/m1c/jog-ordinary-derived-v1.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup jog model"
+          ],
+          "sha256": "6ec251d7611f22c6bf918d3401fcf438a8f2bc7b72f2826047dea8beef15c9e5"
+        },
+        {
+          "bytes": 1503,
+          "path": "assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup jog profile"
+          ],
+          "sha256": "2df4d6b86227b6bce60a5ea7ba97a982d974448044a46b903e413bd243e75ec0"
+        },
+        {
+          "bytes": 7618436,
+          "path": "assets/motion/UAL1_Standard.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup shared motion library"
+          ],
+          "sha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997"
+        },
+        {
+          "bytes": 7956,
+          "path": "assets/native-accessory-batch-v1/native-contour-cheek-b-v1/glasses.json",
+          "provenance": [
+            {
+              "license": "CC0-1.0",
+              "sourceBlend": "assets-source/m1c-accessories/studio-glasses-v1.blend",
+              "sourcePath": "prototype/public/assets/m1c/accessories.json"
+            }
+          ],
+          "reasons": [
+            "Selected glasses temple fit"
+          ],
+          "sha256": "5a2a2658c456a2aa25c33811d62dc4fa71cd433e6c1369235415d0bca7fb3bd9"
+        },
+        {
+          "bytes": 3067,
+          "path": "assets/native-accessory-batch-v1/native-contour-cheek-b-v1/grip.json",
+          "provenance": [
+            {
+              "license": "CC0-1.0",
+              "sourceBlend": "assets-source/m1c-accessories/studio-microphone-v1.blend",
+              "sourcePath": "prototype/public/assets/m1c/accessories.json"
+            }
+          ],
+          "reasons": [
+            "Selected microphone body grip"
+          ],
+          "sha256": "5cf4ec85989d8a3761976c7ba8db324526dc9d8ebebc3bf0217e7a7e1184cc2b"
+        },
+        {
+          "bytes": 17126644,
+          "path": "assets/native-contour-cheek-b-v1/body.vrm",
+          "provenance": [
+            {
+              "source": "VRoid native FaceContour recipe; exact embedded garments and complete-skin donor",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native female parameter batch",
+                  "thumbnailImage": 21,
+                  "version": "facecontour-batch-v1"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/src/foundation-profiles.js"
+            }
+          ],
+          "reasons": [
+            "Exact foundation body"
+          ],
+          "sha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb"
+        },
+        {
+          "bytes": 252528,
+          "path": "assets/native-contour-cheek-b-v1/equipment.json",
+          "provenance": [],
+          "reasons": [
+            "Body equipment catalog"
+          ],
+          "sha256": "42a1b8b0f8f91458391c96e4857e22c21ba8ffdcf44a5f1ebefcaf2140c9b323"
+        },
+        {
+          "bytes": 1925,
+          "path": "assets/native-contour-cheek-b-v1/manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Startup native body texture coverage manifest"
+          ],
+          "sha256": "0a3e0c719d36ee8088047d79c91afceea94cb9479ac3b30097a24dfda6c60046"
+        },
+        {
+          "bytes": 682856,
+          "path": "assets/native-contour-cheek-b-v1/native-contour-cheek-b-shoes-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "native-contour-cheek-b-shoes-v1",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native female parameter batch",
+                  "thumbnailImage": 21,
+                  "version": "facecontour-batch-v1"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/public/assets/native-contour-cheek-b-v1/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: native-contour-cheek-b-shoes-v1"
+          ],
+          "sha256": "c72bb61dcc46124bf2fde56f91d8196c25ab2c96b6036a9d110b5bca58a5d9dd"
+        },
+        {
+          "bytes": 721904,
+          "path": "assets/native-contour-cheek-b-v1/native-contour-cheek-b-shorts-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "native-contour-cheek-b-shorts-v1",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native female parameter batch",
+                  "thumbnailImage": 21,
+                  "version": "facecontour-batch-v1"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/public/assets/native-contour-cheek-b-v1/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: native-contour-cheek-b-shorts-v1"
+          ],
+          "sha256": "f297bc6e7713fc52e8b844ce4caa3b5d9e7fcdf093ec17735803c4e058c49d1b"
+        },
+        {
+          "bytes": 778120,
+          "path": "assets/native-contour-cheek-b-v1/native-contour-cheek-b-top-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "native-contour-cheek-b-top-v1",
+              "sourceLicense": {
+                "sourceVRMMeta": {
+                  "allowAntisocialOrHateUsage": false,
+                  "allowExcessivelySexualUsage": false,
+                  "allowExcessivelyViolentUsage": false,
+                  "allowPoliticalOrReligiousUsage": false,
+                  "allowRedistribution": false,
+                  "authors": [
+                    "gamemake technical study"
+                  ],
+                  "avatarPermission": "onlyAuthor",
+                  "commercialUsage": "personalNonProfit",
+                  "creditNotation": "required",
+                  "licenseUrl": "https://vrm.dev/licenses/1.0/",
+                  "modification": "prohibited",
+                  "name": "Native female parameter batch",
+                  "thumbnailImage": 21,
+                  "version": "facecontour-batch-v1"
+                },
+                "status": "internal-study-only"
+              },
+              "sourcePath": "prototype/public/assets/native-contour-cheek-b-v1/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Startup outfit: native-contour-cheek-b-top-v1"
+          ],
+          "sha256": "f1c6d0730ed804b876a75db2ed9b3d3bca1b3459ec38d4dd88816b034c3e9840"
+        },
+        {
+          "bytes": 859933,
+          "path": "assets/native-contour-cheek-b-v1/native-tops-body.png",
+          "provenance": [
+            {
+              "source": {
+                "nativeMasked": {
+                  "path": "assets-source/native-parameter-batch-v2/contour-cheek-b/candidate.vrm",
+                  "sha256": "2f6082fd631043a6fe71acb96ea342560c97004871425bce58eb15ff0457ddb8"
+                },
+                "originalMask": {
+                  "path": "assets-source/native-vroid-body-texture-fit-v1/native-tops-body.png",
+                  "sha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c"
+                }
+              },
+              "sourcePath": "prototype/public/assets/native-contour-cheek-b-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Startup native body coverage PNG"
+          ],
+          "sha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c"
+        },
+        {
+          "bytes": 1012,
+          "path": "assets/native-facecontour-iris-palette-v1/native-contour-cheek-b-v1/manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Selected native palette catalog: eyeColor"
+          ],
+          "sha256": "ca1d454511d83d7b9df18edda89ea673d98b82e709215d9bcfd355af1bab8572"
+        },
+        {
+          "bytes": 102611,
+          "path": "assets/native-iris-palette-v1/iris-green.png",
+          "provenance": [
+            {
+              "sourceManifestSha256": "714c0448c4aa4bade52a13c68115ea384b652c5710f44e4345cb48900465b9b8",
+              "sourcePath": "prototype/public/assets/native-facecontour-iris-palette-v1/native-contour-cheek-b-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected native palette color PNG: eyeColor"
+          ],
+          "sha256": "9ae7830f3840c8bcc17047fe974eabf9090140c84b275a182ef75b6192076c2d"
+        },
+        {
+          "bytes": 103091,
+          "path": "assets/native-iris-palette-v1/source-iris.png",
+          "provenance": [
+            {
+              "sourceManifestSha256": "714c0448c4aa4bade52a13c68115ea384b652c5710f44e4345cb48900465b9b8",
+              "sourcePath": "prototype/public/assets/native-facecontour-iris-palette-v1/native-contour-cheek-b-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected native palette source PNG: eyeColor"
+          ],
+          "sha256": "9bdd32f2f6032e78dff1918bfc8e1cc9e631f9813de4c6c821d14e54bea3f510"
+        },
+        {
+          "bytes": 901645,
+          "path": "assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/body-covered.png",
+          "provenance": [
+            {
+              "coverageManifestSha256": "0a3e0c719d36ee8088047d79c91afceea94cb9479ac3b30097a24dfda6c60046",
+              "sourcePath": "prototype/public/assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected native skin tone PNG: covered body"
+          ],
+          "sha256": "480ebe7c6837899afea28b9326c07655163ca6de00a175928d8ce2701fee2304"
+        },
+        {
+          "bytes": 843169,
+          "path": "assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/body.png",
+          "provenance": [
+            {
+              "coverageManifestSha256": "0a3e0c719d36ee8088047d79c91afceea94cb9479ac3b30097a24dfda6c60046",
+              "sourcePath": "prototype/public/assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected native skin tone PNG: body"
+          ],
+          "sha256": "f5bb65596a6e09258edc41e7c342ba5b208a155f9d5d54727952b9f63022afcb"
+        },
+        {
+          "bytes": 29995,
+          "path": "assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/eyeline.png",
+          "provenance": [
+            {
+              "coverageManifestSha256": "0a3e0c719d36ee8088047d79c91afceea94cb9479ac3b30097a24dfda6c60046",
+              "sourcePath": "prototype/public/assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected native skin tone PNG: eyeline"
+          ],
+          "sha256": "836b757703cdda8345272bb4ed33665bad899b763cd24bfe03a4a192041f05ed"
+        },
+        {
+          "bytes": 215840,
+          "path": "assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/face.png",
+          "provenance": [
+            {
+              "coverageManifestSha256": "0a3e0c719d36ee8088047d79c91afceea94cb9479ac3b30097a24dfda6c60046",
+              "sourcePath": "prototype/public/assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected native skin tone PNG: face"
+          ],
+          "sha256": "9d9c52ff0ded86af24101634dbe9844a414f7cac9a96507c89e27949dd2e3c9c"
+        },
+        {
+          "bytes": 1978,
+          "path": "assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Selected native skin tone manifest"
+          ],
+          "sha256": "6ba4c3d97513b2f5a38eefbd979c7d160ed782e6d3610d74b6753c1ea772708c"
+        }
+      ],
+      "hairColor": "original",
+      "id": "batch-native-contour-cheek-b-v1-2fd63f7b90b2",
+      "materialRecipes": [],
+      "models": [
+        {
+          "assetExcesses": [],
+          "class": "accessory",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 54484,
+              "images": 0,
+              "jointSlots": 0,
+              "materials": 2,
+              "maxImageDimension": 0,
+              "maxInfluences": 0,
+              "maxJointsPerSkin": 0,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 2208,
+              "primitiveVertices": 1305,
+              "primitives": 7,
+              "rgba8MipBytes": 0,
+              "skins": 0,
+              "springJoints": 0,
+              "textures": 0,
+              "triangles": 2208,
+              "uniquePositionVertices": 1305
+            }
+          },
+          "id": "studio-glasses-v1",
+          "path": "assets/m1c/studio-glasses-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 9,
+              "limit": 8,
+              "metric": "primitives"
+            }
+          ],
+          "class": "accessory",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 106372,
+              "images": 0,
+              "jointSlots": 0,
+              "materials": 3,
+              "maxImageDimension": 0,
+              "maxInfluences": 0,
+              "maxJointsPerSkin": 0,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 4644,
+              "primitiveVertices": 2822,
+              "primitives": 9,
+              "rgba8MipBytes": 0,
+              "skins": 0,
+              "springJoints": 0,
+              "textures": 0,
+              "triangles": 4644,
+              "uniquePositionVertices": 2822
+            }
+          },
+          "id": "studio-microphone-v1",
+          "path": "assets/m1c/studio-microphone-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "4c236a9b58ae2736fdd5a69ed040db1d9434935b0b7548e3c75452a4aad4964c"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 38661,
+              "limit": 30000,
+              "metric": "uniquePositionVertices"
+            },
+            {
+              "actual": 108256,
+              "limit": 80000,
+              "metric": "primitiveVertices"
+            },
+            {
+              "actual": 54950,
+              "limit": 40000,
+              "metric": "triangles"
+            },
+            {
+              "actual": 54950,
+              "limit": 40000,
+              "metric": "nodeTriangles"
+            },
+            {
+              "actual": 390,
+              "limit": 256,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "maxJointsPerSkin"
+            },
+            {
+              "actual": 126179680,
+              "limit": 100663296,
+              "metric": "rgba8MipBytes"
+            },
+            {
+              "actual": 102,
+              "limit": 32,
+              "metric": "springJoints"
+            },
+            {
+              "actual": 28,
+              "limit": 16,
+              "metric": "colliders"
+            }
+          ],
+          "class": "body",
+          "cost": {
+            "metrics": {
+              "colliders": 28,
+              "externalImageBytes": 0,
+              "fileBytes": 17126644,
+              "images": 24,
+              "jointSlots": 390,
+              "materials": 14,
+              "maxImageDimension": 2048,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 130,
+              "morphAccessorBytes": 6441912,
+              "morphTargetsPerPrimitive": 57,
+              "nodeTriangles": 54950,
+              "primitiveVertices": 108256,
+              "primitives": 14,
+              "rgba8MipBytes": 126179680,
+              "skins": 3,
+              "springJoints": 102,
+              "textures": 24,
+              "triangles": 54950,
+              "uniquePositionVertices": 38661
+            }
+          },
+          "id": "body",
+          "path": "assets/native-contour-cheek-b-v1/body.vrm",
+          "placements": 1,
+          "selected": true,
+          "sha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 682856,
+              "images": 4,
+              "jointSlots": 130,
+              "materials": 1,
+              "maxImageDimension": 512,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 130,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 712,
+              "primitiveVertices": 9158,
+              "primitives": 1,
+              "rgba8MipBytes": 1399120,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 4,
+              "triangles": 712,
+              "uniquePositionVertices": 9158
+            }
+          },
+          "id": "native-contour-cheek-b-shoes-v1",
+          "path": "assets/native-contour-cheek-b-v1/native-contour-cheek-b-shoes-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "c72bb61dcc46124bf2fde56f91d8196c25ab2c96b6036a9d110b5bca58a5d9dd"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 721904,
+              "images": 4,
+              "jointSlots": 130,
+              "materials": 1,
+              "maxImageDimension": 1024,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 130,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 1624,
+              "primitiveVertices": 9158,
+              "primitives": 1,
+              "rgba8MipBytes": 5593424,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 4,
+              "triangles": 1624,
+              "uniquePositionVertices": 9158
+            }
+          },
+          "id": "native-contour-cheek-b-shorts-v1",
+          "path": "assets/native-contour-cheek-b-v1/native-contour-cheek-b-shorts-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "f297bc6e7713fc52e8b844ce4caa3b5d9e7fcdf093ec17735803c4e058c49d1b"
+        },
+        {
+          "assetExcesses": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 778120,
+              "images": 4,
+              "jointSlots": 130,
+              "materials": 1,
+              "maxImageDimension": 2048,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 130,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 1296,
+              "primitiveVertices": 9158,
+              "primitives": 1,
+              "rgba8MipBytes": 11185832,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 4,
+              "triangles": 1296,
+              "uniquePositionVertices": 9158
+            }
+          },
+          "id": "native-contour-cheek-b-top-v1",
+          "path": "assets/native-contour-cheek-b-v1/native-contour-cheek-b-top-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "f1c6d0730ed804b876a75db2ed9b3d3bca1b3459ec38d4dd88816b034c3e9840"
+        }
+      ],
+      "nativeSkinToneCache": {
+        "accounting": "Texture upper bounds are included in actor totals. Decoded ImageBitmap RGBA8 equivalents are separate.",
+        "decodedImageBitmaps": 4,
+        "imageBitmapRgba8Bytes": 38797312,
+        "lifetime": "All four fields remain allocated after switching outfit or resetting to original until actor disposal.",
+        "rgba8LowerBoundBytes": 38797312,
+        "rgba8UpperBoundBytes": 155189248,
+        "textureObjectLowerBound": 4,
+        "textureObjectUpperBound": 16
+      },
+      "outfitIndex": 0,
+      "recordSha256": "5331660de2e990fe7fce9dbd1b964d86a1f43a86f791afac75afeaffe13f8c9f",
+      "revision": 3,
+      "selectedCost": {
+        "aggregateExcesses": [
+          {
+            "actual": 377840984,
+            "limit": 268435456,
+            "metric": "rgba8MipBytes"
+          }
+        ],
+        "scope": "selected-look",
+        "totals": {
+          "colliders": 28,
+          "externalImageBytes": 0,
+          "fileBytes": 22526664,
+          "images": 36,
+          "jointSlots": 780,
+          "materials": 22,
+          "mergedExternalImageBytes": 3056284,
+          "morphAccessorBytes": 6441912,
+          "nodeTriangles": 65434,
+          "placedNodeTriangles": 65434,
+          "primitiveVertices": 139857,
+          "primitives": 33,
+          "rgba8MipBytes": 377840984,
+          "skins": 6,
+          "springJoints": 102,
+          "standaloneEncodedImageBytes": 3056284,
+          "textureObjects": 60,
+          "textures": 36,
+          "triangles": 65434,
+          "uniquePositionVertices": 70262
+        }
+      },
+      "standaloneImages": [
+        {
+          "addedRgba8EstimateBytes": 67108864,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 16777216,
+          "encodedBytes": 859933,
+          "height": 2048,
+          "path": "assets/native-contour-cheek-b-v1/native-tops-body.png",
+          "sha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c",
+          "usage": "native-body-coverage",
+          "width": 2048
+        },
+        {
+          "addedRgba8EstimateBytes": 11184816,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 2097152,
+          "encodedBytes": 102611,
+          "height": 512,
+          "path": "assets/native-iris-palette-v1/iris-green.png",
+          "sha256": "9ae7830f3840c8bcc17047fe974eabf9090140c84b275a182ef75b6192076c2d",
+          "usage": "native-palette-color",
+          "width": 1024
+        },
+        {
+          "addedRgba8EstimateBytes": 0,
+          "addedTextureObjectUpperBound": 0,
+          "decodedRgba8Bytes": 2097152,
+          "encodedBytes": 103091,
+          "height": 512,
+          "path": "assets/native-iris-palette-v1/source-iris.png",
+          "sha256": "9bdd32f2f6032e78dff1918bfc8e1cc9e631f9813de4c6c821d14e54bea3f510",
+          "usage": "native-palette-reference",
+          "width": 1024
+        },
+        {
+          "addedRgba8EstimateBytes": 67108864,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 16777216,
+          "encodedBytes": 901645,
+          "height": 2048,
+          "nativeSkinBindings": [
+            {
+              "field": "covered body",
+              "imageBitmapRgba8Bytes": 16777216,
+              "rgba8LowerBoundBytes": 16777216,
+              "rgba8UpperBoundBytes": 67108864,
+              "textureObjectLowerBound": 1,
+              "textureObjectUpperBound": 4,
+              "usage": "native-skin-body-covered"
+            }
+          ],
+          "path": "assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/body-covered.png",
+          "sha256": "480ebe7c6837899afea28b9326c07655163ca6de00a175928d8ce2701fee2304",
+          "usage": "native-skin-body-covered",
+          "width": 2048
+        },
+        {
+          "addedRgba8EstimateBytes": 67108864,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 16777216,
+          "encodedBytes": 843169,
+          "height": 2048,
+          "nativeSkinBindings": [
+            {
+              "field": "body",
+              "imageBitmapRgba8Bytes": 16777216,
+              "rgba8LowerBoundBytes": 16777216,
+              "rgba8UpperBoundBytes": 67108864,
+              "textureObjectLowerBound": 1,
+              "textureObjectUpperBound": 4,
+              "usage": "native-skin-body-base"
+            }
+          ],
+          "path": "assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/body.png",
+          "sha256": "f5bb65596a6e09258edc41e7c342ba5b208a155f9d5d54727952b9f63022afcb",
+          "usage": "native-skin-body-base",
+          "width": 2048
+        },
+        {
+          "addedRgba8EstimateBytes": 4194304,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 1048576,
+          "encodedBytes": 29995,
+          "height": 256,
+          "nativeSkinBindings": [
+            {
+              "field": "eyeline",
+              "imageBitmapRgba8Bytes": 1048576,
+              "rgba8LowerBoundBytes": 1048576,
+              "rgba8UpperBoundBytes": 4194304,
+              "textureObjectLowerBound": 1,
+              "textureObjectUpperBound": 4,
+              "usage": "native-skin-eyeline"
+            }
+          ],
+          "path": "assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/eyeline.png",
+          "sha256": "836b757703cdda8345272bb4ed33665bad899b763cd24bfe03a4a192041f05ed",
+          "usage": "native-skin-eyeline",
+          "width": 1024
+        },
+        {
+          "addedRgba8EstimateBytes": 16777216,
+          "addedTextureObjectUpperBound": 4,
+          "decodedRgba8Bytes": 4194304,
+          "encodedBytes": 215840,
+          "height": 1024,
+          "nativeSkinBindings": [
+            {
+              "field": "face",
+              "imageBitmapRgba8Bytes": 4194304,
+              "rgba8LowerBoundBytes": 4194304,
+              "rgba8UpperBoundBytes": 16777216,
+              "textureObjectLowerBound": 1,
+              "textureObjectUpperBound": 4,
+              "usage": "native-skin-face"
+            }
+          ],
+          "path": "assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/face.png",
+          "sha256": "9d9c52ff0ded86af24101634dbe9844a414f7cac9a96507c89e27949dd2e3c9c",
+          "usage": "native-skin-face",
+          "width": 1024
+        }
+      ],
+      "startupAndSelectedCost": {
+        "aggregateExcesses": [
+          {
+            "actual": 377840984,
+            "limit": 268435456,
+            "metric": "rgba8MipBytes"
+          }
+        ],
+        "scope": "startup-and-selected-models",
+        "totals": {
+          "colliders": 28,
+          "externalImageBytes": 0,
+          "fileBytes": 22526664,
+          "images": 36,
+          "jointSlots": 780,
+          "materials": 22,
+          "mergedExternalImageBytes": 3056284,
+          "morphAccessorBytes": 6441912,
+          "nodeTriangles": 65434,
+          "placedNodeTriangles": 65434,
+          "primitiveVertices": 139857,
+          "primitives": 33,
+          "rgba8MipBytes": 377840984,
+          "skins": 6,
+          "springJoints": 102,
+          "standaloneEncodedImageBytes": 3056284,
+          "textureObjects": 60,
+          "textures": 36,
+          "triangles": 65434,
+          "uniquePositionVertices": 70262
+        }
+      },
+      "status": "over-budget",
+      "unsupportedActions": [
+        "rokoko-5359146-30s-v1",
+        "rokoko-5359146-30s-arm-local-v1",
+        "native-rokoko-5359146-30s-v2"
+      ]
+    }
+  ],
+  "schema": "zbgs-character-record-budget-result-v1",
+  "sourceCommit": "4f43b6aa72442e7f52ee81bfec9b90b694bdfb98",
+  "status": "over-budget",
+  "sumAcrossSelectedActors": {
+    "placedNodeTriangles": 130868,
+    "rgba8MipBytes": 755681968,
+    "textureObjects": 120
+  },
+  "temporaryAggregateLimits": {
+    "fileBytes": 67108864,
+    "ordinaryPCPerformance": "unmeasured",
+    "rgba8MipBytes": 268435456,
+    "status": "temporary-unmeasured",
+    "textureObjects": 96
+  },
+  "textureEstimateScope": {
+    "included": [
+      "image textures declared by measured models",
+      "supported derived image textures"
+    ],
+    "metrics": [
+      "textureObjects",
+      "rgba8MipBytes"
+    ],
+    "unmodeledRendererAllocations": [
+      "bone data textures",
+      "morph data array textures",
+      "renderer-specific texture, source and sampler allocation"
+    ]
+  }
+}

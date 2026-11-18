@@ -26,6 +26,18 @@ REVIEWED_RUNTIME_SOURCE = {
     'hair-spring.js': '9d145d284afda2ed5b33352535018cfe0d79a75ef278ea5b7c795c50711e6cdf',
     'native-hair-attachment.js': 'a19e5a230a808c6fc9967614bfd0886d49265dfff7159b8c7bc886775b725f3d',
 }
+REVIEWED_SKIN_RUNTIME = {
+    'character-appearance.js': 'a35cb965bf37fc28f32027ebef9e839c093f9076861ad0d4669be9d1cbcdaef0',
+    'body-texture-coverage.js': '1d1858feadabe84289df7649c6070061e1b4771386c15e42adb50aaa02408764',
+    'native-skin-tone.js': '33d04cb0a09815a8c24e94dd66aa7811c985863740076b6ba265909253cd7ff1',
+}
+SKIN_IMAGE_PREFIX = 'Selected native skin tone PNG: '
+SKIN_IMAGE_USAGES = {
+    'face': 'native-skin-face',
+    'eyeline': 'native-skin-eyeline',
+    'body': 'native-skin-body-base',
+    'covered body': 'native-skin-body-covered',
+}
 IMAGE_FORMATS = {'.png': 'PNG', '.jpeg': 'JPEG', '.jpg': 'JPEG'}
 AGGREGATE_METRICS = ('fileBytes', 'rgba8MipBytes', 'textureObjects')
 
@@ -76,7 +88,7 @@ def model_roles(reasons, ear_selection):
 
 def require_reviewed_source(source, filename):
     relative = 'prototype/src/' + filename
-    require(sha(local(source, relative).read_bytes()) == REVIEWED_RUNTIME_SOURCE[filename],
+    require(sha(local(source, relative).read_bytes()) in (REVIEWED_RUNTIME_SOURCE[filename], REVIEWED_SKIN_RUNTIME.get(filename)),
             'Unsupported runtime resource implementation: '+relative)
 
 
@@ -120,7 +132,24 @@ def image_cost(source, public, row, enc_format):
         width, height = image.size
         image.verify()
     reason = row['reasons']
-    if 'Startup native body coverage PNG' in reason:
+    fields = [label[len(SKIN_IMAGE_PREFIX):] for label in reason if label.startswith(SKIN_IMAGE_PREFIX)]
+    skin_bindings = []
+    if fields:
+        require(enc_format == 'PNG' and len(fields) == len(reason) and len(fields) == len(set(fields)) and
+                all(field in SKIN_IMAGE_USAGES for field in fields), 'Unsupported native skin tone image roles')
+        for filename, expected in REVIEWED_SKIN_RUNTIME.items():
+            require(sha(local(source, 'prototype/src/' + filename).read_bytes()) == expected,
+                    'Unsupported native skin tone resource implementation: ' + filename)
+        # Each field decodes its own bitmap and clones its distinct source textures.
+        # Main and outline each expose base and shade maps. Both Body states are cached.
+        per_object = width * height * 4
+        skin_bindings = [{'field': field, 'usage': SKIN_IMAGE_USAGES[field],
+                          'textureObjectLowerBound': 1, 'textureObjectUpperBound': 4,
+                          'rgba8LowerBoundBytes': per_object, 'rgba8UpperBoundBytes': 4 * per_object,
+                          'imageBitmapRgba8Bytes': per_object} for field in fields]
+        usage = skin_bindings[0]['usage'] if len(fields) == 1 else 'native-skin-shared-file'
+        object_limit = 4 * len(fields)
+    elif 'Startup native body coverage PNG' in reason:
         require_reviewed_source(source, 'body-texture-coverage.js')
         usage, object_limit, per_object = 'native-body-coverage', 4, width * height * 4
     elif any(label.startswith('Selected native palette color PNG: ') for label in reason):
@@ -134,7 +163,22 @@ def image_cost(source, public, row, enc_format):
         raise ValueError('Unsupported standalone image budget mapping: '+row['path'])
     return {'path':row['path'], 'sha256':row['sha256'], 'encodedBytes':len(data), 'width':width, 'height':height,
             'decodedRgba8Bytes':width * height * 4, 'usage':usage, 'addedTextureObjectUpperBound':object_limit,
-            'addedRgba8EstimateBytes':object_limit * per_object}
+            'addedRgba8EstimateBytes':object_limit * per_object,
+            **({'nativeSkinBindings':skin_bindings} if skin_bindings else {})}
+
+
+def skin_cache(images):
+    bindings = [binding for image in images for binding in image.get('nativeSkinBindings', [])]
+    if not bindings:
+        return None
+    require(sorted(binding['field'] for binding in bindings) == sorted(SKIN_IMAGE_USAGES),
+            'Native skin tone budget requires all four distinct fields')
+    return {'decodedImageBitmaps':len(bindings),
+            **{key:sum(binding[key] for binding in bindings) for key in
+               ('textureObjectLowerBound', 'textureObjectUpperBound', 'rgba8LowerBoundBytes',
+                'rgba8UpperBoundBytes', 'imageBitmapRgba8Bytes')},
+            'lifetime':'All four fields remain allocated after switching outfit or resetting to original until actor disposal.',
+            'accounting':'Texture upper bounds are included in actor totals. Decoded ImageBitmap RGBA8 equivalents are separate.'}
 
 
 def material_cost(source, public, directory, models):
@@ -217,11 +261,15 @@ def measure_record(source, record, config):
             sorted(row['id'] for row in selected if row['class'] == 'garment') == sorted(record['equipmentIds']),
             'Collected models do not cover the complete body and selected outfit')
     materials = material_cost(source, public, record['files'], selected)
+    skin = skin_cache(images)
+    require(bool(skin) == any('Selected native skin tone manifest' in row['reasons'] for row in record['files']),
+            'Native skin tone manifest and budgeted bindings disagree')
     visible = totals_for(selected, images, final=True)
     resident = totals_for(models, images, final=False)
     status = 'over-budget' if visible['aggregateExcesses'] or resident['aggregateExcesses'] or any(
         model['assetExcesses'] for model in models) else 'within-static-limits'
     return {**record, 'status':status, 'models':models, 'standaloneImages':images, 'materialRecipes':materials,
+            **({'nativeSkinToneCache':skin} if skin else {}),
             'selectedCost':visible, 'startupAndSelectedCost':resident,
             'closureSourceBytes':sum(row['bytes'] for row in record['files'])}
 
@@ -254,7 +302,8 @@ def measure(input_file, source, version):
         'closureUnionSourceBytes':sum(size for _, size in shared_files.values()),
         'sumAcrossSelectedActors':{name:sum(row['selectedCost']['totals'][name] for row in records) for name in totals},
         'limitations':[
-            'RGBA8 estimates use standalone model texture objects and full mip chains except for the reviewed linear-only native cover.',
+            'RGBA8 estimates use standalone model texture objects and full mip chains except for the reviewed linear-only native cover and skin tone maps.',
+            'Record estimates start from a fresh actor. An actor reset to original after using a native skin tone retains the selected tone cache until disposal. Compare its authored-tone record for that upper bound.',
             'Native cover and palette additions allow up to four source texture clones per actor and field, derived from two materials and two maps. Source-only palette references contribute no texture objects.',
             'All parsed model mesh definitions contribute to the estimate. Hidden source geometry, animation, renderer allocations, prior looks and in-flight preparation need runtime measurement.',
             'Paired ear placements share their one parsed model and source textures by the rigid accessory implementation. Their placed triangles count both instances.',

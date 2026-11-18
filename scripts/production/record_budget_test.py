@@ -5,7 +5,7 @@ import sys
 import tempfile
 import unittest
 
-from record_budget import ROOT, measure, model_roles
+from record_budget import ROOT, SKIN_IMAGE_PREFIX, image_cost, measure, model_roles, skin_cache
 
 
 class RecordBudgetTests(unittest.TestCase):
@@ -73,6 +73,46 @@ class RecordBudgetTests(unittest.TestCase):
         reasons = ['Selected ears model']
         self.assertEqual(model_roles(reasons, 'pair'), [('accessory', 'ears', 2)])
         self.assertEqual(model_roles(reasons, 'right'), [('accessory', 'ears', 1)])
+
+    def test_native_skin_keeps_four_linear_images_per_actor(self):
+        public = ROOT / 'prototype/public'
+        package = public / 'assets/native-skin-tone-package-v1'
+        entries = json.loads((package / 'registry.json').read_bytes())['entries']
+        self.assertEqual({row['bodyType'] for row in entries},
+                         {'native-contour-roundness-a-v1', 'native-contour-cheek-b-v1'})
+        for entry in entries:
+            manifest = json.loads((package / entry['bodyType'] / 'manifest.json').read_bytes())
+            images = []
+            for field, descriptor in [('face', manifest['face']['authored']),
+                                      ('eyeline', manifest['eyeline']['authored']),
+                                      ('body', manifest['body']['authored']),
+                                      ('covered body', manifest['body']['coveredAuthored'])]:
+                path = descriptor['url'].lstrip('/')
+                row = {'path':path, 'sha256':descriptor['sha256'], 'bytes':(public/path).stat().st_size,
+                       'reasons':[SKIN_IMAGE_PREFIX + field]}
+                image = image_cost(ROOT, public, row, 'PNG')
+                binding, = image['nativeSkinBindings']
+                self.assertEqual(binding['field'], field)
+                self.assertEqual(image['addedRgba8EstimateBytes'], 4 * image['width'] * image['height'] * 4)
+                images.append(image)
+            cache = skin_cache(images)
+            self.assertEqual((cache['textureObjectLowerBound'], cache['textureObjectUpperBound']), (4, 16))
+            self.assertEqual(cache['decodedImageBitmaps'], 4)
+            self.assertEqual(cache['rgba8LowerBoundBytes'], 37 * 1024**2)
+            self.assertEqual(cache['rgba8UpperBoundBytes'], 148 * 1024**2)
+            self.assertEqual(cache['imageBitmapRgba8Bytes'], 37 * 1024**2)
+            self.assertEqual(sum(image['encodedBytes'] for image in images), 1990649)
+            with self.assertRaisesRegex(ValueError, 'four distinct fields'):
+                skin_cache([*images[:-1], images[0]])
+            with self.assertRaisesRegex(ValueError, 'Unsupported native skin tone image roles'):
+                image_cost(ROOT, public, {**row, 'reasons':[SKIN_IMAGE_PREFIX + 'unknown']}, 'PNG')
+            with tempfile.TemporaryDirectory() as workspace:
+                modified_root = pathlib.Path(workspace)
+                implementation = modified_root / 'prototype/src/character-appearance.js'
+                implementation.parent.mkdir(parents=True)
+                implementation.write_bytes(b'unreviewed runtime')
+                with self.assertRaisesRegex(ValueError, 'Unsupported native skin tone resource implementation'):
+                    image_cost(modified_root, public, row, 'PNG')
 
     def test_reviewed_hair_color_and_sidecar_regression_records(self):
         review = subprocess.run(['node', 'evidence/m2-record-budget-review-v1/review.mjs'], cwd=ROOT, check=True,

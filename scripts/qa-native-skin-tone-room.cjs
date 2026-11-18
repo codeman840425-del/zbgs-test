@@ -20,7 +20,7 @@ async function state(page, mode) {
   }
   assert.ok(value.coverage.alphaPixels.alphaSha256);
   return {maps,alpha:value.coverage.alphaPixels.alphaSha256,visible:value.coverage.visibleEquipment,
-    allocation:value.textureEstimate,renderer:value.rendererReadback};
+    allocation:value.textureEstimate,renderer:value.renderer};
 }
 
 function compareModes(before, after) {

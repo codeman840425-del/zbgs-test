@@ -46,6 +46,13 @@ if __name__ == '__main__':
                 media = ('original.png', 'green.png', 'green.json', 'green-speech-1x.webm')
                 if file == 'index.html' or any(file == body + '/' + asset for body in bodies for asset in media):
                     return str(ROOT / 'evidence/m2-native-batch-iris-room-v2' / file)
+            skin = '/reviews/native-skin-tone/'
+            if config.get('nativeSkinToneReview') and name.startswith(skin):
+                file = name[len(skin):] or 'index.html'
+                bodies = ('native-contour-roundness-a-v1', 'native-contour-cheek-b-v1')
+                media = ('original-dressed.png', 'warm-dressed.png', 'warm-speech-1x.webm', 'warm.json')
+                if file == 'index.html' or any(file == body + '/' + asset for body in bodies for asset in media):
+                    return str(ROOT / 'evidence/m2-native-skin-room-v1' / file)
             files = {
                 review: 'index.html',
                 review + 'before-trial.mp4': 'before-trial.mp4',
