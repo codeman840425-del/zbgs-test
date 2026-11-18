@@ -87,9 +87,34 @@ await check('Actual resource SHA and legacy complete definitions remain consiste
   if(synthetic)return{skipped:'Synthetic metadata only; production SHA and legacy snapshot checked after registration'};
   const legacy=JSON.parse(await fs.readFile('evidence/company-wall-shelf-data-v1/legacy-resources-before.json','utf8'));
   assert.equal(legacy.length,157);
-  for(const old of legacy)assert.deepEqual(catalog.resources.find(r=>r.id===old.id&&r.version===old.version),old);
+  const refreshedProvenance=[];
+  const stableResource=resource=>{
+    const copy=clone(resource);
+    if(copy.provenance){
+      delete copy.provenance.sourceParametersSha256;
+      delete copy.provenance.generatorSha256;
+    }
+    return copy;
+  };
+  for(const old of legacy){
+    const current=catalog.resources.find(r=>r.id===old.id&&r.version===old.version);
+    assert(current,`Missing legacy resource ${old.id}@${old.version}`);
+    // Shared construction producers may refresh source hashes; all functional
+    // identity, geometry, mounting and asset fields must remain unchanged.
+    assert.deepEqual(stableResource(current),stableResource(old));
+    const oldProv=old.provenance||{},newProv=current.provenance||{};
+    for(const key of ['sourceParametersSha256','generatorSha256']){
+      if(oldProv[key]!==newProv[key]){
+        assert(newProv[key],`${current.id}: missing refreshed ${key}`);
+        const source=key==='sourceParametersSha256'?newProv.sourceParameters:newProv.generator;
+        const bytes=await fs.readFile(source);
+        assert.equal(hash(bytes),newProv[key],`${current.id}: stale ${key}`);
+        refreshedProvenance.push({id:current.id,key,from:oldProv[key],to:newProv[key],source});
+      }
+    }
+  }
   const files=[];for(const r of shelves){const p=`prototype/public${r.asset.url}`,b=await fs.readFile(p);assert.equal(hash(b),r.asset.sha256);assert.equal(b.length,r.asset.bytes);files.push({path:p,sha256:hash(b)});}
-  return{unchangedLegacyResources:legacy.length,files};
+  return{unchangedLegacyResources:legacy.length,refreshedProvenance,files};
 });
 const sourceHashes={};
 for(const file of ['prototype/src/company/wall-shelf-data.js','prototype/src/company/wall-shelf-samples.js','prototype/src/company/support-data.js',

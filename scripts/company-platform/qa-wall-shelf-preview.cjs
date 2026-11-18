@@ -13,6 +13,7 @@ async function open(){
   await page.evaluate(()=>company.pausePreview());
 }
 async function draw(){await page.evaluate(()=>{company.drawHostFrame();if(company.renderer.getContext().isContextLost())throw Error('WebGL context lost');});}
+async function show(index){await page.evaluate(index=>company.showAppearanceSample('wall-shelf',index),index);await page.waitForFunction(index=>company.session.document.nodes.find(n=>n.id==='wall-shelf/primary')?.resource.id===company.appearanceCandidates('wall-shelf')[index].id,index);}
 async function shot(name){await draw();await page.screenshot({path:path.join(out,name+'.png')});}
 async function check(name,fn){const result=await fn();report.checks.push({name,passed:true,result});await fs.writeFile(path.join(out,'progress.json'),JSON.stringify(report,null,2)+'\n');console.log(name);}
 async function inspect(){return page.evaluate(()=>{
@@ -46,8 +47,7 @@ async function reject(ops){return page.evaluate(async ops=>{const c=company,doc=
   await fs.mkdir(out);made=true;report.harnessSha256=hash(await fs.readFile(__filename));server=await serve(dist,build,{manifest:'company-build-info.json',entry:'company.html'});await open();
   await check('Four actual wall-shelf appearances with supported objects each survive browser shutdown and restart',async()=>{
     const rows=[];for(let index=0;index<4;index++){
-      await page.locator('#sample-branch').selectOption('wall-shelf');await page.locator('#sample-look').selectOption(String(index));await page.locator('#sample-show').click();
-      await page.waitForFunction(index=>company.session.document.nodes.find(n=>n.id==='wall-shelf/primary')?.resource.id===company.appearanceCandidates('wall-shelf')[index].id&&!document.getElementById('sample-show').disabled,index);
+      await show(index);
       await draw();const before=await inspect();contacts(before);assert.equal(before.entries.length,5);assert(before.entries.every(n=>n.visible));await shot('look-'+(index+1));await page.evaluate(()=>company.save());
       await Promise.all(pending);await context.close();context=null;await open();await draw();const after=await inspect();assert.deepEqual(after.document,before.document);contacts(after);rows.push(before);
     }assert.equal(new Set(rows.map(r=>r.entries.find(i=>i.role==='wall-shelf').asset.sha256)).size,4);return rows;
@@ -80,7 +80,7 @@ async function reject(ops){return page.evaluate(async ops=>{const c=company,doc=
     const r=await reject([{type:'replace-resource',id:'wall-shelf/primary',resource:{id:'wall-shelf-back-panel',version:1}}]);assert(r.code&&r.documentPreserved&&r.savePreserved&&r.rootPreserved);rows.push(r);await page.unroute('**'+url);return rows;
   });
   await check('Second layout and repeated swaps retain placement, support layers and stable resource counts',async()=>{
-    await page.locator('#layout').selectOption('wallShelfAlternate');await page.waitForFunction(()=>company.session.document.id==='wall-shelf-alternate'&&!document.getElementById('layout').disabled);
+    await page.evaluate(()=>company.load(company.layouts.wallShelfAlternate));await page.waitForFunction(()=>company.session.document.id==='wall-shelf-alternate');
     const before=await inspect(),parent=before.document.nodes.find(n=>n.id==='wall-shelf/primary'),children=before.document.nodes.filter(n=>n.parentId===parent.id),cycles=[];
     for(let cycle=0;cycle<2;cycle++)for(let index=0;index<4;index++){
       await page.evaluate(index=>company.showAppearanceSample('wall-shelf',index),index);await draw();const state=await inspect();contacts(state);assert.equal(state.document.id,before.document.id);
