@@ -463,6 +463,10 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     supplemental.add('scripts/company-platform/test-baseboard-data.mjs');
     supplemental.add('scripts/company-platform/qa-baseboard-rooms.cjs');
   }
+  if (catalog.resources.some(resource => resource.id === 'vanity-chair-side-entry' && resource.version === 2)) {
+    supplemental.add('scripts/company-platform/build-vanity-seat-contact-rooms.mjs');
+    supplemental.add('scripts/company-platform/qa-vanity-seat-contact-rooms.cjs');
+  }
   if (hasSeatChecker) {
     supplemental.add(seatCheckerPath);
     supplemental.add('scripts/company-platform/qa-seat-contact-rooms.cjs');
