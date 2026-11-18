@@ -136,4 +136,4 @@
 
 `native_batch_gate.py` 和 `native_admission_cycle.py` 新增 `--runtime-budget-trace`，按 body/record/build 身份附加该诊断证据并保持 `runtimeAdmission=false`。`evidence/m2-native-admission-cycle-v21/summary.json` 最新结果仍为 `blocked`，两个候选各保留 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture` 四项待办。
 
-2026-11-18 原生参数候选接入统一变体下游：矩阵现在同时登记旧 M1 男女样件和两个真实 FaceContour 原生参数包。新行携带精确 body SHA、参数配方 SHA、装备/coverage 闭包与候选状态，批次请求新增四条原生 bodyType 项。矩阵文件闭包校验通过，批量规划 `evidence/m2-native-variant-batch-v2/plan.json` 为 `readiness-gated`、0 accepted，避免将“已生成资源”误当成“可运行角色”。4196 尚未因这次数据增量重建，固定预览仍指向上一份确认构建。
+2026-11-18 原生参数候选接入统一变体下游：矩阵现在同时登记旧 M1 男女样件和两个真实 FaceContour 原生参数包。新行携带精确 body SHA、参数配方 SHA、装备/coverage 闭包与候选状态，批次请求新增四条原生 bodyType 项。矩阵文件闭包校验通过，批量规划 `evidence/m2-native-variant-batch-v2/plan.json` 为 `readiness-gated`、0 accepted，避免将“已生成资源”误当成“可运行角色”。4196 已随这次数据增量重建为 `2d5165c31b27`，固定入口改为 `/?body=native-contour-roundness-a-v1&workbench=appearance&view=inspect-face-front`，仍只用于人类候选预览。
