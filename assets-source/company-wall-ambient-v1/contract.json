@@ -1,0 +1,36 @@
+{
+  "schema": "company-wall-ambient-contract",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "ambient-led-and-neon",
+  "productionBranch": "ambient-led-and-neon",
+  "mount": "wall",
+  "parent": "room.wall",
+  "mounting": { "origin": "center", "width": 0.62, "height": 0.35, "depth": 0.04 },
+  "coordinates": { "units": "metres", "up": "+Y", "forward": "+Z" },
+  "footprint": { "center": [0, 0], "halfSize": [0.31, 0.02], "blocking": false },
+  "usePoints": [],
+  "stateDefaults": { "on": true, "intensity": 4, "colorHue": 30 },
+  "stateSchema": {
+    "on": { "type": "boolean" },
+    "intensity": { "type": "number", "min": 0, "max": 8 },
+    "colorHue": { "type": "number", "min": 0, "max": 359 }
+  },
+  "stateSemantics": {
+    "on": "wall-ambient-enabled-v1",
+    "intensity": "wall-ambient-candela-v1",
+    "colorHue": "wall-ambient-color-hue-degrees-v1"
+  },
+  "display": {
+    "diffuser": { "nodes": ["ambient-diffuser"], "stateField": "on", "offColor": "#e2e0da", "onIntensity": 1.5 }
+  },
+  "light": {
+    "kind": "spot",
+    "color": "#e19447",
+    "position": [0, 0, 0.04],
+    "target": [0, -0.56, 0.70],
+    "distance": 1.6,
+    "angle": 0.60,
+    "penumbra": 0.60
+  }
+}

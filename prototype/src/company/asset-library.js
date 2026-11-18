@@ -13,6 +13,7 @@ import {validateSupportGeometry} from './support-geometry.js';
 import {validateMovingResource} from './moving-parts.js';
 import {validateMovingPartGeometry,validateExteriorDoorLeafGeometry} from './moving-part-geometry.js';
 import {validateSlidingPartGeometry} from './sliding-part-geometry.js';
+import {validateWallAmbientResource,validateWallAmbientGeometry} from './wall-ambient.js';
 import {validateDeskLampResource,validateDeskLampGeometry} from './desk-lamp.js';
 import {validateClockResource} from './clock-display.js';
 import {validateClockGeometry} from './clock-geometry.js';
@@ -47,6 +48,7 @@ function describe(resource) {
   if (!resource || typeof resource.id !== 'string' || !identityPattern.test(resource.id) ||
       !Number.isSafeInteger(resource.version) || resource.version < 1)
     throw error('invalid-asset-resource', path, 'Expected stable resource id and positive version');
+  validateWallAmbientResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateDeskLampResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateWindowResource(resource,(code,location,message)=>{throw error(code,location,message);});
   validateWindowCoverResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
@@ -201,6 +203,7 @@ function validateResource(pack, description) {
   }
   validateCableRouteGeometry(pack.scene, description.resource, (code,path,message)=>{throw error(code,path,message);});
   if(description.resource.cablePorts)validateCablePortGeometry(pack.scene, description.resource, (code,path,message)=>{throw error(code,path,message);});
+  validateWallAmbientGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
   validateDeskLampGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
   validateClockGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateInformationGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });

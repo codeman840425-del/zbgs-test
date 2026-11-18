@@ -1,3 +1,4 @@
+import {WALL_AMBIENT_ROLE,applyWallAmbientLight} from './wall-ambient.js';
 import {poseDeskLamp} from './desk-lamp.js';
 import {adaptCableGeometry,validateCableVisualPlacement} from './cable-render.js';
 import {validateCeilingVisualPlacement,ceilingVisibleForRegion} from './ceiling-placement.js';
@@ -297,8 +298,10 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           const light=new THREE.SpotLight(def.color,entry.state.on?entry.state.intensity:0,def.distance,def.angle,def.penumbra,2);
           if(entry.resource.mountRole==='desk-lamp') poseDeskLamp(parts,root,light,entry.state.angle);
           else {light.position.fromArray(def.position);light.target.position.fromArray(def.target);}
+          const wallAmbient=entry.resource.mountRole===WALL_AMBIENT_ROLE;
+          if(wallAmbient) applyWallAmbientLight(parts,entry.resource,entry.state,light);
           light.castShadow=false;
-          root.add(light,light.target);lights.push({id:entry.id,roomId:entry.roomId,light,desired:entry.state.on?entry.state.intensity:0});
+          root.add(light,light.target);lights.push({id:entry.id,roomId:entry.roomId,light,wallAmbient,desired:entry.state.on?entry.state.intensity:0});
         }
       }
       root.updateMatrixWorld(true);
@@ -315,7 +318,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         const proxy=structureMesh(footprint.halfSize[0]*2,.45,footprint.halfSize[1]*2,'#789587');
         proxy.position.set(footprint.center[0],.225,footprint.center[1]);proxy.name=`Simplified:${facility.id}`;proxy.visible=false;facility.root.add(proxy);facility.proxy=proxy;
       }
-      lights.sort((a,b)=>a.id.localeCompare(b.id));
+      lights.sort((a,b)=>Number(a.wallAmbient)-Number(b.wallAmbient)||a.id.localeCompare(b.id));
       const wallGroups=groupWallSegments(architecture.visibilityWalls);
       for(const wall of walls)wall.userData.wallGroup=wallGroups.get(wall.userData.physicalBoundary)||wall.userData.physicalBoundary;
       for(const facility of facilities.values())if(facility.wallBinding?.wallId)facility.wallBinding.wallGroup=wallGroups.get(facility.wallBinding.wallId)||facility.wallBinding.wallId;

@@ -38,6 +38,10 @@ export function describeFacilityFunction(resource) {
     mirrorSurface:normalized(resource.mirrorSurface??null),
     ...(['makeup-mirror','makeup-mirror-wall'].includes(resource.mountRole)?{light:normalized(resource.light??null)}:{}),
     informationSurface:normalized(resource.informationSurface??null), informationContent:normalized(resource.informationContent??null),
+    ...(resource.mountRole==='ambient-led-and-neon' && resource.light ? {wallAmbientOptics:normalized({
+      kind:resource.light.kind,color:resource.light.color,distance:resource.light.distance,angle:resource.light.angle,
+      penumbra:resource.light.penumbra,direction:resource.light.target?.map((v,i)=>Number((v-resource.light.position?.[i]).toFixed(9))),
+    })} : {}),
     ...(resource.mountRole==='desk-lamp' && resource.light ? {deskLampOptics:normalized({
       kind:resource.light.kind, color:resource.light.color, distance:resource.light.distance,
       angle:resource.light.angle, penumbra:resource.light.penumbra, axis:resource.light.aim?.axis,

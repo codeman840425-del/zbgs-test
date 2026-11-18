@@ -529,6 +529,13 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     supplemental.add('scripts/company-platform/test-backdrop-rooms.mjs');
     supplemental.add('scripts/company-platform/qa-backdrop-rooms.cjs');
   }
+  if (catalog.resources.some(resource => resource.productionBranch === 'ambient-led-and-neon')) {
+    supplemental.add('docs/research/COMPANY-WALL-AMBIENT-PRODUCTION.md');
+    supplemental.add('scripts/company-platform/test-wall-ambient-assets.mjs');
+    supplemental.add('scripts/company-platform/test-wall-ambient-runtime.mjs');
+    supplemental.add('scripts/company-platform/test-wall-ambient-rooms.mjs');
+    supplemental.add('scripts/company-platform/qa-wall-ambient-rooms.cjs');
+  }
   if (catalog.resources.some(resource => resource.productionBranch === 'phone-static')) {
     supplemental.add('docs/research/COMPANY-PHONE-STATIC-PRODUCTION.md');
     supplemental.add('scripts/company-platform/test-phone-static-assets.mjs');
@@ -572,6 +579,19 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(!files.has(`viewer${asset.url}`))fail('missing-runtime-asset',name,'Viewer is missing a catalog GLB');
     assetDependencies.push({id:resource.id,version:resource.version,path:name,bytes:bytes.length,sha256:hash(bytes)});
     const entry=resource.provenance;
+    if (resource.productionBranch === 'ambient-led-and-neon') {
+      for (const [field, dependency] of Object.entries(entry.dependencies)) {
+        const target = dependency.path;
+        relative(target);
+        if (!(target.startsWith('assets-source/company-') || target === 'scripts/company-platform/test-wall-ambient-assets.mjs'))
+          fail('unsafe-production-source', target, 'Expected an artwork source, license or geometry check');
+        const bytes = await read(source,target);
+        if (hash(bytes) !== dependency.sha256)
+          fail('production-source-hash-mismatch',target,'The referenced wall light production dependency has changed');
+        supplemental.add(target);
+        provenance.push({resourceId:resource.id,version:resource.version,field,path:target,sha256:dependency.sha256});
+      }
+    }
     for(const [field,pin]of [['sourceParameters','sourceParametersSha256'],['generator','generatorSha256'],['functionalContractSource','functionalContractSourceSha256'],['sourceImage','sourceImageSha256'],['sourceArtifactPath','sourceArtifactSha256']]){
       if((field==='functionalContractSource'||field==='sourceImage'||field==='sourceArtifactPath')&&!entry?.[field]&&!entry?.[pin])continue;
       const target=entry?.[field];relative(target);

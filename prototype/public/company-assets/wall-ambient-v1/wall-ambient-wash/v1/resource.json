@@ -1,0 +1,135 @@
+{
+  "id": "wall-ambient-wash",
+  "version": 1,
+  "displayName": "墙挂氛围灯 · 浅罩壁洗灯",
+  "category": "dynamic",
+  "mountRole": "ambient-led-and-neon",
+  "productionBranch": "ambient-led-and-neon",
+  "mount": "wall",
+  "parent": "room.wall",
+  "mounting": {
+    "origin": "center",
+    "width": 0.62,
+    "height": 0.35,
+    "depth": 0.04
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.31,
+      0.02
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": true,
+    "intensity": 4,
+    "colorHue": 30
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    },
+    "intensity": {
+      "type": "number",
+      "min": 0,
+      "max": 8
+    },
+    "colorHue": {
+      "type": "number",
+      "min": 0,
+      "max": 359
+    }
+  },
+  "stateSemantics": {
+    "on": "wall-ambient-enabled-v1",
+    "intensity": "wall-ambient-candela-v1",
+    "colorHue": "wall-ambient-color-hue-degrees-v1"
+  },
+  "display": {
+    "diffuser": {
+      "nodes": [
+        "ambient-diffuser"
+      ],
+      "stateField": "on",
+      "offColor": "#e2e0da",
+      "onIntensity": 1.5
+    }
+  },
+  "light": {
+    "kind": "spot",
+    "color": "#e19447",
+    "position": [
+      -0.00309,
+      0.02657,
+      0.04
+    ],
+    "target": [
+      -0.00309,
+      -0.53343,
+      0.7
+    ],
+    "distance": 1.6,
+    "angle": 0.6,
+    "penumbra": 0.6
+  },
+  "materialSlots": {
+    "hardware": [
+      "stock-wall-plate"
+    ],
+    "diffuser": [
+      "ambient-diffuser"
+    ]
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/wall-ambient-v1/wall-ambient-wash/v1/model.glb",
+    "sha256": "030877501fc104e9ced20c0a973f5862b22a1ac183453e1df24b57fb1e318678",
+    "bytes": 6656
+  },
+  "provenance": {
+    "license": "CC0-1.0 source with project-authored fixture adaptation and finishes.",
+    "sourceDesign": "stock-sconce",
+    "sourceParameters": "assets-source/company-wall-ambient-v1/parameters.json",
+    "sourceParametersSha256": "e9bb34a90f11ff24e8d0382bfbb649a91ee75e7b11fec2a11222e8350d2c694b",
+    "generator": "scripts/company-platform/build-wall-ambient.mjs",
+    "generatorSha256": "25981ab5e239d096f26029a39b695d50f535e92ca7e7f7b05fdffe2062d1af4f",
+    "functionalContractSource": "assets-source/company-wall-ambient-v1/contract.json",
+    "functionalContractSourceSha256": "79f3dd452c0ae8baf3e5a53b57af75382cb7215c0503c7bf523ccb7908b0436d",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "environmentBranch": "ambient-led-and-neon",
+    "sourceArtifactPath": "assets-source/company-wall-ambient-v1/original/furniture-kit/lampWall.glb",
+    "sourceArtifactSha256": "a9679ecd3be05731846f22ade97c37069598ca7a06dd9319f50230e63a1ea83c",
+    "sourceAuthor": "Kenney",
+    "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+    "sourceLicense": "CC0-1.0",
+    "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+    "sourceEntry": "Models/GLTF format/lampWall.glb",
+    "dependencies": {
+      "geometryValidation": {
+        "path": "scripts/company-platform/test-wall-ambient-assets.mjs",
+        "sha256": "cbfc126182d06d00a1492429fcbf8e39bdafd73cde2b23c8cbbec296130ce715"
+      },
+      "license": {
+        "path": "assets-source/company-wall-ambient-v1/original/furniture-kit/LICENSE.txt",
+        "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+      }
+    },
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader readback",
+      "pngjs 7.0.0"
+    ]
+  }
+}

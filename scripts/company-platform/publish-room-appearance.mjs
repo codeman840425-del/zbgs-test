@@ -24,9 +24,10 @@ const families = {
   'company-mouse-pad-collection': 'mouse-pad',
   'company-phone-static-collection': 'phone-static',
   'company-backdrop-fabric-collection': 'backdrop-fabric',
+  'company-wall-ambient-collection': 'wall-ambient',
 };
-const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs'};
-const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric'};
+const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs', 'wall-ambient':'build-wall-ambient.mjs'};
+const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric', 'wall-ambient':'ambient-led-and-neon'};
 
 function belongsToFamily(resource,family) {
   return family === 'baseboard'
@@ -132,6 +133,7 @@ async function publish(recipePath,check) {
   for (const tool of pinnedTools) {
     if (hash(await regularFile(tool.path)) !== tool.sha256) fail('appearance-tool-pin-mismatch',tool.path);
   }
+  const artwork = new Map();
   for (const design of input.designs) {
     if (!/^[a-z][a-z0-9-]{0,70}$/.test(design.id) || /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/.test(design.id) ||
         !Number.isSafeInteger(design.version) || design.version < 1)
@@ -143,7 +145,19 @@ async function publish(recipePath,check) {
       const source = family === 'desk-lamp' ? input.archive :
         family === 'static-textile' ? input.archives?.[member?.archive] : member;
       productionSource(source?.path);
-      await regularFile(source.path);
+      const bytes = await regularFile(source.path);
+      if (family === 'wall-ambient') {
+        productionSource(source.licensePath);
+        const license = await regularFile(source.licensePath);
+        if (hash(bytes) !== source.sha256 || hash(license) !== source.licenseSha256)
+          fail('appearance-source-pin-mismatch',source.path);
+        if (source.editable) {
+          productionSource(source.editable.path);
+          if (hash(await regularFile(source.editable.path)) !== source.editable.sha256)
+            fail('appearance-source-pin-mismatch',source.editable.path);
+        }
+        artwork.set(design.id+'@'+design.version,source);
+      }
     }
   }
   // The original producers pin their parameter path. A byte snapshot beside
@@ -184,7 +198,19 @@ async function publish(recipePath,check) {
       const resource = parse(sidecar);
       assert.equal(resource.id,entry.id); assert.equal(resource.version,entry.version);
       assert.equal(resource.provenance.sourceParameters,pinned); assert.equal(resource.provenance.sourceParametersSha256,digest);
-      assert.deepEqual(resource.provenance.dependencies,reference.provenance.dependencies);
+      let expectedDependencies = reference.provenance.dependencies;
+      if (family === 'wall-ambient') {
+        const source = artwork.get(key);
+        if (!source) fail('invalid-appearance-source','Missing original artwork for '+key);
+        assert.equal(resource.provenance.sourceArtifactPath,source.path);
+        assert.equal(resource.provenance.sourceArtifactSha256,source.sha256);
+        assert.equal(resource.provenance.sourceAuthor,source.author);
+        assert.equal(resource.provenance.sourceLicense,source.license);
+        expectedDependencies = {...expectedDependencies,license:{path:source.licensePath,sha256:source.licenseSha256}};
+        delete expectedDependencies.editableContour;
+        if (source.editable) expectedDependencies.editableContour = source.editable;
+      }
+      assert.deepEqual(resource.provenance.dependencies,expectedDependencies);
       validateFunction(reference,resource,family);
       assert.equal(resource.asset.url,entry.modelPath.slice('prototype/public'.length));
       assert.equal(resource.asset.sha256,hash(model)); assert.equal(resource.asset.bytes,model.length);

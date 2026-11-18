@@ -312,3 +312,9 @@ scripts/company-platform/test-phone-static-assets.mjs -text whitespace=cr-at-eol
 assets-source/company-backdrop-fabric-v1/** -text whitespace=cr-at-eol
 scripts/company-platform/build-backdrop-fabric.mjs -text whitespace=cr-at-eol
 scripts/company-platform/test-backdrop-fabric-assets.mjs -text whitespace=cr-at-eol
+
+# Keep upstream licenses, artwork pins and the wall-light recipe reproducible across checkouts.
+assets-source/company-wall-ambient-v1/** -text whitespace=cr-at-eol
+assets-source/company-wall-ambient-v1/original/** -text -diff
+scripts/company-platform/build-wall-ambient.mjs -text whitespace=cr-at-eol
+scripts/company-platform/test-wall-ambient-assets.mjs -text whitespace=cr-at-eol

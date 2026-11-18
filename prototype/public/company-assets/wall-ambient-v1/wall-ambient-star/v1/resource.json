@@ -1,0 +1,138 @@
+{
+  "id": "wall-ambient-star",
+  "version": 1,
+  "displayName": "墙挂氛围灯 · 空心星形霓虹",
+  "category": "dynamic",
+  "mountRole": "ambient-led-and-neon",
+  "productionBranch": "ambient-led-and-neon",
+  "mount": "wall",
+  "parent": "room.wall",
+  "mounting": {
+    "origin": "center",
+    "width": 0.62,
+    "height": 0.35,
+    "depth": 0.04
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.31,
+      0.02
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": true,
+    "intensity": 4,
+    "colorHue": 30
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    },
+    "intensity": {
+      "type": "number",
+      "min": 0,
+      "max": 8
+    },
+    "colorHue": {
+      "type": "number",
+      "min": 0,
+      "max": 359
+    }
+  },
+  "stateSemantics": {
+    "on": "wall-ambient-enabled-v1",
+    "intensity": "wall-ambient-candela-v1",
+    "colorHue": "wall-ambient-color-hue-degrees-v1"
+  },
+  "display": {
+    "diffuser": {
+      "nodes": [
+        "ambient-diffuser"
+      ],
+      "stateField": "on",
+      "offColor": "#e2e0da",
+      "onIntensity": 1.5
+    }
+  },
+  "light": {
+    "kind": "spot",
+    "color": "#e19447",
+    "position": [
+      0.06476,
+      0.06997,
+      0.04
+    ],
+    "target": [
+      0.06476,
+      -0.49003,
+      0.7
+    ],
+    "distance": 1.6,
+    "angle": 0.6,
+    "penumbra": 0.6
+  },
+  "materialSlots": {
+    "hardware": [
+      "tube-supports"
+    ],
+    "housing": [
+      "tube-feed-housing"
+    ],
+    "diffuser": [
+      "ambient-diffuser"
+    ]
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/wall-ambient-v1/wall-ambient-star/v1/model.glb",
+    "sha256": "ca247dccca30259accdca3e6487a26eae61a659b3ea1dce91309232a512957c1",
+    "bytes": 158388
+  },
+  "provenance": {
+    "license": "CC0-1.0 source with project-authored fixture adaptation and finishes.",
+    "sourceDesign": "outline-tube",
+    "sourceParameters": "assets-source/company-wall-ambient-v1/parameters.json",
+    "sourceParametersSha256": "e9bb34a90f11ff24e8d0382bfbb649a91ee75e7b11fec2a11222e8350d2c694b",
+    "generator": "scripts/company-platform/build-wall-ambient.mjs",
+    "generatorSha256": "25981ab5e239d096f26029a39b695d50f535e92ca7e7f7b05fdffe2062d1af4f",
+    "functionalContractSource": "assets-source/company-wall-ambient-v1/contract.json",
+    "functionalContractSourceSha256": "79f3dd452c0ae8baf3e5a53b57af75382cb7215c0503c7bf523ccb7908b0436d",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "environmentBranch": "ambient-led-and-neon",
+    "sourceArtifactPath": "assets-source/company-wall-ambient-v1/original/game-icons/star.png",
+    "sourceArtifactSha256": "9eb0a7f2367bfe14ac950db43e546ef9614d9bcc49c4a4059c6279bb3e2b638d",
+    "sourceAuthor": "Kenney",
+    "sourceUrl": "https://opengameart.org/content/game-icons",
+    "sourceLicense": "CC0-1.0",
+    "sourceArchiveSha256": "7a86d8d58e0b851e22004b3c70bf90b003632bbf9ac633424daa3bb17d9e7e4e",
+    "sourceEntry": "PNG/Black/2x/star.png",
+    "dependencies": {
+      "geometryValidation": {
+        "path": "scripts/company-platform/test-wall-ambient-assets.mjs",
+        "sha256": "cbfc126182d06d00a1492429fcbf8e39bdafd73cde2b23c8cbbec296130ce715"
+      },
+      "license": {
+        "path": "assets-source/company-wall-ambient-v1/original/game-icons/LICENSE.txt",
+        "sha256": "68a86b3a620be3366d6dc28a4a8ffb8d5de12e0b86b5199c86e51fc617e29a49"
+      }
+    },
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader readback",
+      "pngjs 7.0.0"
+    ]
+  }
+}
