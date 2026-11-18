@@ -22,9 +22,9 @@ node serve.mjs
 
 ## 使用制作工具
 
-在交付包根目录执行一次 `npm ci --prefix source/prototype`，再运行布局批处理、素材生产或 `edit.mjs`。制作端使用 `source/prototype/package-lock.json` 固定的依赖。只打开上面的预览时，运行 `node serve.mjs` 即可。
+在工作副本根目录执行一次 `npm ci --prefix source/prototype`，再运行布局批处理、素材生产或 `edit.mjs`。制作端使用 `source/prototype/package-lock.json` 固定的依赖。只打开上面的预览时，运行 `node serve.mjs` 即可。
 
-落地分隔有两份可直接修改的输入。单间把直播桌与会客沙发分开，出租屋在工作间设置通透屏风。在交付包根目录可运行以下命令。
+落地分隔有两份可直接修改的输入。单间把直播桌与会客沙发分开，出租屋在工作间设置通透屏风。在工作副本根目录可运行以下命令。
 
 ```text
 node source/scripts/company-platform/batch.mjs source/scripts/company-platform/batch-inputs/screen-partition-rooms.json my-screen-rooms
@@ -35,7 +35,7 @@ node edit.mjs validate my-screen-rooms/screen-partition-rental/save.json
 
 ## 把自己的台灯或屏风加入正式房间
 
-从包内 `source` 目录运行。复制下列示例配方到自己的 `assets-source/company-名称/`，保留所选的新设计，在 `designs` 里写入资源 ID、版本及部件参数。也可直接用示例验证全过程。
+从工作副本的 `source` 目录运行。复制下列示例配方到自己的 `assets-source/company-名称/`，保留所选的新设计，在 `designs` 里写入资源 ID、版本及部件参数。也可直接用示例验证全过程。
 
 ```text
 node scripts/company-platform/publish-room-appearance.mjs --publish assets-source/company-desk-lamp-v1/examples/a-frame-reading-v1.json
@@ -76,7 +76,7 @@ node scripts/company-platform/batch.mjs scripts/company-platform/batch-inputs/wh
 1. 在 `assets-source/company-sourced-ornaments-v1` 复制一份现有 JSON 配方，填写新摆件的 ID、显示名称、版本及源文件。输入可为本地 GLB 或带 GLB 条目的 ZIP。把新来源文件放入 `assets-source/company-*` 目录，按配方记录来源、使用条件及 SHA-256。书组与小盆栽引用包内 Kenney Furniture Kit 的两个不同条目，便于对照。外部模型的原始坐标系、单位、摆放角度和统一缩放由配方表达。支持范围及原模型的限制见本系列 README。
 2. 运行 `node scripts/company-platform/publish-tabletop-ornaments.mjs --publish 配方一.json 配方二.json`。一次可传一份或多份，新版会同时导出、登记并校验；失败可按给出的原因修订输入后重试。原版本有不同字节时请建立新版本。用 `--check` 替换 `--publish` 可从来源重做并核对现有发布。此入口会自行更新集合与运行目录。
 3. 从 `source/prototype` 运行 `node scripts/build-company-id.mjs`，再运行 `npx vite build --config vite.company.config.js`。通过宿主的 `replace-resource` 操作可在桌上原位换款。若开始时桌上是杯子，它属于另一功能规格，可参照 `scripts/company-platform/batch-inputs/lounge-ornaments.json` 显式移除原物、安装摆件。每个新实例需要房间内唯一的 ID、真实父设施、承载面 `attachment.surfaceId` 和局部位置。
-4. 回到包根目录，执行 `node edit.mjs apply 输入存档 操作数组.json 新结果目录`，再执行 `node edit.mjs validate 新结果目录/save.json`。执行 `node source/scripts/company-platform/package-company.mjs source/prototype/dist-company 新构建ID 新结果目录/save.json 新交付目录 --source source` 可交给下一位制作者；进入新交付目录后执行 `node serve.mjs` 即可观看并验证保存重开。
+4. 回到工作副本根目录，执行 `node edit.mjs apply 输入存档 操作数组.json 新结果目录`，再执行 `node edit.mjs validate 新结果目录/save.json`。执行 `node source/scripts/company-platform/package-company.mjs source/prototype/dist-company 新构建ID 新结果目录/save.json 新交付目录 --source source` 可交给下一位制作者；进入新交付目录后执行 `node serve.mjs` 即可观看并验证保存重开。
 
 ## 制作新版圆几并布置休息区
 
@@ -85,8 +85,8 @@ node scripts/company-platform/batch.mjs scripts/company-platform/batch-inputs/wh
 1. `assets-source/company-sourced-side-table-v1` 保存 Poly Haven 原模、许可、贴图与适配配方。将 `recipe.json` 和 `registration.json` 复制成新文件。新配方可调整 `fit.tabletopDiameterMetres`。新登记文件填写独立的整数版本、可辨识的名称，并将 `sourceParameters` 指向新配方的源目录相对路径。此入口支持这份原模型的尺寸系列。
 2. 以 `node scripts/company-platform/adapt-sourced-side-table.mjs --recipe 新配方路径 --output 模型路径` 导出。模型路径遵循 `prototype/public/company-assets/sourced-side-table-v1/<id>/v<版本>/model.glb`。同一命令加 `--check` 可验证精确复产。原宿主功能保持底部居中、50 厘米桌高和 30 × 22 厘米的摆放面。
 3. 运行 `node scripts/company-platform/describe-sourced-table.mjs 新登记文件 --write`。将输出的相对 `resource.json` 路径追加到该系列 `collection.json` 的 `resources` 数组。运行 `node scripts/company-platform/build-library.mjs` 和同一命令加 `--check`。包内其他已登记版本须保留。
-4. 两种布局的制作输入位于 `scripts/company-platform/batch-inputs/lounge-rooms.json`。执行 `node scripts/company-platform/test-lounge-rooms.mjs 新批次输出目录` 可重做初始两间房。要在其中一间换款，创建操作数组，例如 `[{"type":"replace-resource","id":"concept-lounge-studio/ground/lounge/cup-table","resource":{"id":"side-table-carved-round","version":2}}]`。回到包根目录执行 `node edit.mjs apply 输入房间的save.json 操作文件.json 新结果目录`，然后执行 `node edit.mjs validate 新结果目录/save.json`。
-5. 从 `source/prototype` 执行 `node scripts/build-company-id.mjs` 与 `npx vite build --config vite.company.config.js`。从包根目录执行 `node source/scripts/company-platform/package-company.mjs source/prototype/dist-company 新构建ID 新结果目录/save.json 新交付目录 --source source`。如需在同一个预览里提供另一个已验证批次房间，追加 `--room 房间名 批次房间目录`。接收方可直接在新交付目录执行 `node serve.mjs`。
+4. 两种布局的制作输入位于 `scripts/company-platform/batch-inputs/lounge-rooms.json`。执行 `node scripts/company-platform/test-lounge-rooms.mjs 新批次输出目录` 可重做初始两间房。要在其中一间换款，创建操作数组，例如 `[{"type":"replace-resource","id":"concept-lounge-studio/ground/lounge/cup-table","resource":{"id":"side-table-carved-round","version":2}}]`。回到工作副本根目录执行 `node edit.mjs apply 输入房间的save.json 操作文件.json 新结果目录`，然后执行 `node edit.mjs validate 新结果目录/save.json`。
+5. 从 `source/prototype` 执行 `node scripts/build-company-id.mjs` 与 `npx vite build --config vite.company.config.js`。从工作副本根目录执行 `node source/scripts/company-platform/package-company.mjs source/prototype/dist-company 新构建ID 新结果目录/save.json 新交付目录 --source source`。如需在同一个预览里提供另一个已验证批次房间，追加 `--room 房间名 批次房间目录`。接收方可直接在新交付目录执行 `node serve.mjs`。
 
 ## 脱离原项目继续编辑
 
@@ -99,7 +99,7 @@ OPS.json使用现有prepareCompanyChange操作。新目录包含完整layout.jso
 
 ## 批量生成不同外观的工位
 
-在交付目录执行下面的命令，会生成四份具有独立公司身份的成品。每份包含可继续编辑的布局、带依赖版本的存档和验证报告。
+在工作副本根目录执行下面的命令，会生成四份具有独立公司身份的成品。每份包含可继续编辑的布局、带依赖版本的存档和验证报告。
 
 ```text
 node source/scripts/company-platform/batch.mjs source/scripts/company-platform/batch-inputs/workstation-looks.json NEW_BATCH_DIRECTORY
@@ -121,7 +121,7 @@ node source/scripts/company-platform/batch.mjs source/scripts/company-platform/b
 }
 ```
 
-在 `source/prototype` 安装锁定依赖 `npm ci`。回到交付包根目录执行：
+在 `source/prototype` 安装锁定依赖 `npm ci`。回到工作副本根目录执行：
 
 ```text
 node source/scripts/company-platform/import-wall-print.mjs art-input/print.json
@@ -157,7 +157,7 @@ node source/scripts/company-platform/package-company.mjs source/prototype/dist-c
 
 ## 训练房配方
 
-在 `source/prototype` 执行 `npm ci` 后，从交付包根目录运行：
+在 `source/prototype` 执行 `npm ci` 后，从工作副本根目录运行：
 
 ```text
 node source/scripts/company-platform/batch.mjs source/scripts/company-platform/batch-inputs/dance-training-rooms.json NEW_TRAINING_OUTPUT

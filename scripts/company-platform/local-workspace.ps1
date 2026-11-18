@@ -21,7 +21,19 @@ if ($Check) {
     if ($strays.Count) {
         throw ("公司项目文件散落在盘符根目录：" + ($strays.FullName -join ', '))
     }
-    Write-Output "公司根目录检查通过：$project"
+    # A manual move can hide a folder from the drive listing while Git still uses its old path.
+    $worktreeList = @(git -C $project worktree list --porcelain)
+    if ($LASTEXITCODE -ne 0) { throw '无法读取 Git 工作树登记。' }
+    foreach ($line in $worktreeList) {
+        if (-not $line.StartsWith('worktree ')) { continue }
+        $registered = [IO.Path]::GetFullPath($line.Substring(9))
+        if ($registered -ne $project -and
+            [IO.Path]::GetDirectoryName($registered) -eq $driveRoot -and
+            [IO.Path]::GetFileName($registered) -like 'gamemake-company-*') {
+            throw "Git 仍登记了盘符根目录下的公司工作树：$registered"
+        }
+    }
+    Write-Output "公司根目录和 Git 工作树路径检查通过：$project"
     return
 }
 
