@@ -70,7 +70,7 @@ await check('Saved resource versions bind the full ceiling contract and fail on 
 });
 await check('Registered model bytes match descriptors and previous resources remain byte-identical',async()=>{
   if(synthetic)return{skipped:'Synthetic data preflight is not production/GLB evidence'};
-  const previous=JSON.parse((await import('node:child_process')).execFileSync('git',['show','c0a573e2:prototype/src/company/library-catalog.json'],{encoding:'utf8'}));
+  const previous=JSON.parse((await import('node:child_process')).execFileSync('git',['show','931c6045:prototype/src/company/library-catalog.json'],{encoding:'utf8'}));
   for(const r of previous.resources)assert.deepEqual(catalog.resources.find(n=>n.id===r.id&&n.version===r.version),r);
   const actual=[];for(const r of resources){const bytes=await fs.readFile('prototype/public'+r.asset.url),sha=createHash('sha256').update(bytes).digest('hex');assert.equal(bytes.length,r.asset.bytes);assert.equal(sha,r.asset.sha256);actual.push({id:r.id,sha256:sha,bytes:bytes.length});}
   assert.equal(new Set(actual.map(r=>r.sha256)).size,4);return{unchanged:previous.resources.length,actual};
