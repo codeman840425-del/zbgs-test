@@ -80,6 +80,7 @@
 候选 fit 随后通过诊断参数 `glassesFit=candidate` 接入真实 Three.js/VRM 运行链。固定构建 `1cccc47bd39e` 的两体站立→坐稳回归均保持眼镜加载且页面无错误，证据 `evidence/m2-native-batch-runtime-seam-v1/native-glasses-runtime-candidate-v1/report.json`。该入口明确保持 candidate-only，不改变正式准入状态。
 
 ## 2026-11-18 角色与公司平台同步边界
+- 已核对副工固定交付 `F:/gamemake-company-station-looks-delivery-v2`，公司源码 `788bf28f24ad5501e66660d165959046be4531b6`、构建 `76854ce901e1`。在独立包用 `node edit.mjs validate` 分别校验默认存档和批处理结果存档，两份均返回 `ok: true`。默认布局的椅子实例为 `studio-set-2/ground/live/station-1/chair`，可供 C3 锁版时选用。公司侧报告另含双工位与双屏样件、四套工位外观及 469 个文件重建验证。当前跨平台尚待实测男女接近同椅、占用冲突、离位释放、受光和重载；公司包的独立测试与角色联调分别计证。
 - 已阅读副总工的公司平台启动说明及 C3 接缝记录。公司侧当前继续独立推进 C1/C2 设施资源、布局、保存恢复和生活小物生产包，最近工作包为边几与生活小物。该侧的灰盒房间、椅子使用点、请求终态和 seat lease 可复用，但现有主场景仍有写死房间/障碍、贪心路径和椅子布局预检缺口，必须继续标记为部分完成。
 - 角色侧与公司侧的稳定交接字段确定为 `facilityId`、`usePointId`、`floorId`、`roomId`、`layoutRevision`、坐标空间及世界变换。角色控制器、动作时钟和 seat lease 只保留一份，C3 联调不得复制人物控制逻辑。角色记录消费精确 `bodyType`、资源 SHA 与 fit 版本，设施记录消费精确使用点与布局版本。
 - 联合最小包安排为一份固定布局、一把椅子和男女各一个角色，验证接近、预约/占用、坐稳、取消、起身离位释放、双实例隔离、保存恢复和资源版本一致性。公司布局样件的可观看通过不等于通用设施系统完成，角色候选的 `runtime-admitted` 为空也不得被联调绕过。
