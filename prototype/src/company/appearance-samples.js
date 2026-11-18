@@ -43,7 +43,7 @@ export const appearanceBranches=[
  ['sliding-drawer-cabinet','单抽屉收纳柜'],
  ['storage-shelf','多层开放架'],['tabletop-ornament','台面陈列摆件'],
  ['desk','桌子'],['chair','单人座椅'],['sofa','双人沙发'],['monitor','屏幕'],['fill-light','补光系统'],
- ['camera-device','摄像设备'],['background-display','直播背景'],['headphones-and-stand','耳机与耳机架'],['audio-control','音频控制设备'],['desktop-computer','桌面电脑'],
+ ['camera-device','摄像设备'],['background-display','直播背景'],['headphones-and-stand','耳机与耳机架'],['audio-control','音频控制设备'],['desktop-computer','桌面电脑'],['laptop-computer','笔记本电脑'],
  ['keyboard','键盘'],['desk-microphone','桌面麦克风'],['plant','绿植'],['wall-art','挂画'],
  ['floor-panel','地板模块'],['wall-panel','墙面模块'],['door-frame','开放门框'],['window-panel','窗饰模块'],['rug','地毯'],['stream-station','组合直播工位'],
 ];
@@ -54,7 +54,8 @@ const names={'chair-cantilever':'悬臂滑橇椅','chair-pedestal':'中心底盘
  'monitor-aurora':'圆角环框屏幕','monitor-ribbon':'双柱宽框屏幕','monitor-pillar':'立柱支撑屏幕','monitor-slate':'V形支架屏幕',
  'fill-light-orbit':'圆筒柔光系统','fill-light-wing':'双翼反光系统','fill-light-column':'立柱柔光系统','fill-light-panel':'悬臂面板补光',
  'headphones-arc':'弧形头戴耳机','headphones-cushion':'软垫头戴耳机','headphones-dock':'桌面耳机架','headphones-in-ear':'入耳耳机收纳盒',
- 'desktop-tower':'标准塔式主机','desktop-compact':'紧凑塔式主机','desktop-all-in-one':'一体式电脑','desktop-workstation':'工作站主机'};
+ 'desktop-tower':'标准塔式主机','desktop-compact':'紧凑塔式主机','desktop-all-in-one':'一体式电脑','desktop-workstation':'工作站主机',
+ 'slim-laptop':'轻薄本','dual-screen-laptop':'双屏本','rugged-laptop':'加固型笔记本','tablet-laptop':'平板式笔记本'};
 // Catalog history stays available to saved documents; new authoring choices use one latest version per resource ID.
 export function latestAppearanceVersions(resources){
  const latest=new Map();for(const resource of resources)if(!latest.has(resource.id)||latest.get(resource.id).version<resource.version)latest.set(resource.id,resource);
@@ -115,12 +116,12 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
  else {
    const transforms={sofa:[[-2.8,0,1.7],0],chair:[[-2.8,0,1.7],0],'fill-light':[[-2.8,0,1.7],0],plant:[[3.4,0,1.8],0],'wall-art':[[0,1.4,-3.4],0],
      'wall-panel':[[-2,0,-3.4],0],'window-panel':[[2,1.4,-3.4],0],'door-frame':[[0,0,3.4],Math.PI],
-     'floor-panel':[[2,0,-1.5],0],rug:[[0,0,1.8],0], 'camera-device':[[.52,.84,-.02],0], 'desktop-computer':[[-.48,.84,.02],0], 'background-display':[[0,0,-2.6],0], 'headphones-and-stand':[[.72,.84,.05],0], 'audio-control':[[0,.84,.08],0]};
+     'floor-panel':[[2,0,-1.5],0],rug:[[0,0,1.8],0], 'camera-device':[[.52,.84,-.02],0], 'desktop-computer':[[-.48,.84,.02],0], 'laptop-computer':[[.34,.84,.08],0], 'background-display':[[0,0,-2.6],0], 'headphones-and-stand':[[.72,.84,.05],0], 'audio-control':[[0,.84,.08],0]};
    const [position,yaw]=transforms[branch];target='sample/object';
-   const deskMounted=['camera-device','desktop-computer','headphones-and-stand','audio-control'].includes(branch);
+   const deskMounted=['camera-device','desktop-computer','laptop-computer','headphones-and-stand','audio-control'].includes(branch);
    const parentId=deskMounted?`${station}/desk`:room.id;
    const cameraPosition=position;
-   const attachedId=deskMounted?`${station}/${branch==='camera-device'?'camera':branch==='headphones-and-stand'?'headphones':branch==='audio-control'?'audio-control':'desktop-computer'}`:target;
+   const attachedId=deskMounted?`${station}/${branch==='camera-device'?'camera':branch==='headphones-and-stand'?'headphones':branch==='audio-control'?'audio-control':branch==='desktop-computer'?'desktop-computer':'laptop-computer'}`:target;
    ops.push({type:'add-facility',id:attachedId,parentId,resource:{id:selected.id,version:selected.version},transform:{position:cameraPosition,yaw}});
    if(deskMounted)target=attachedId;
  }

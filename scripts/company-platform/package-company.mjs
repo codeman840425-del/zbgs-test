@@ -125,6 +125,13 @@ const extraFiles=[
   'assets-source/company-desktop-computer-v1/README.md',
   'assets-source/company-desktop-computer-v1/parameters.json',
   'assets-source/company-desktop-computer-v1/contracts/desktop-computer.json',
+  'scripts/company-platform/build-laptop-computer-collection.mjs',
+  'scripts/company-platform/register-laptop-computer.mjs',
+  'scripts/company-platform/qa-laptop-computer.mjs',
+  'scripts/company-platform/qa-laptop-computer.cjs',
+  'assets-source/company-laptop-computer-v1/README.md',
+  'assets-source/company-laptop-computer-v1/parameters.json',
+  'assets-source/company-laptop-computer-v1/contracts/laptop-computer.json',
   'prototype/scripts/build-id.mjs',
 ];
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');

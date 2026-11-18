@@ -33,7 +33,7 @@ const box = (p,n,s,m,pos,rot=[0,0,0]) => mesh(p,n,new THREE.BoxGeometry(...s),m,
 const rounded = (p,n,s,m,pos,r=0.008,rot=[0,0,0]) => mesh(p,n,new RoundedBoxGeometry(...s,4,r),m,pos,rot);
 function rootGroup(id) { const g=new THREE.Group(); g.name=id; g.userData={units:'metres',up:'+Y',forward:'+Z',branch:'laptop-computer',mount:'desk-surface',origin:'desk contact plane'}; return g; }
 function addPorts(g,m) {
-  box(g,'power-port-back',[0.08,0.004,0.006],m,[0,0.014,-0.187]);
+  box(g,'power-port-back',[0.08,0.04,0.006],m,[0,0.02,-0.187]);
   box(g,'usb-frame-left',[0.004,0.012,0.002],m,[-0.022,0.014,-0.188]);
   box(g,'usb-frame-right',[0.004,0.012,0.002],m,[0.022,0.014,-0.188]);
   box(g,'usb-frame-top',[0.04,0.003,0.002],m,[0,0.021,-0.188]);
