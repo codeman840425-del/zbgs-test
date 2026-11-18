@@ -43,3 +43,9 @@
 
 3. 在项目内隔离操作器中保留包内相对路径和真实回读报告，用 `native_admission_cycle.py --batch <import-batch.json> --runtime-report <report.json> --gate-output <新gate.json> --records-output <新计划目录> --summary <新cycle.json>` 复验。正式发行前用 `review-game-runtime.mjs <固定dist> <独立复建dist> <干净源码检出> <新评审文件>` 复算并审查源码及运行时依赖；候选评审入正式索引后，再用 `game-record-cli.mjs inventory --dist <固定dist> --source-root <精确源码> --records <原记录数组> --out <新inventory.json>`，并以相同输入、同份 `--inventory` 运行 `export` 到新目录。对应许可、静态超限及普通机/观感证据见上。
 4. 公司正式联动使用同一固定角色记录和上面的环境清单。实际接缝就位后，按 `yun-env11-r01` 的使用点复测，记录角色收到请求、持有实际座面、入座接触、起身真实离位和释放。另保留未知或失效使用点的拒绝证据。当前回执记录到三个入口均未暴露行为方法的位置。
+
+### 私有快照复建输入补核
+
+`source.bundle` 实算 SHA-256 `95e7cf9c0a32a3d4e09520883729e1c0c9061dd65f2712455b0b43a8cc9d4363d`。`git bundle list-heads` 只列 `88873dfc54be8fe2a3fe4bc401409c871e4649e4 HEAD`，与快照清单、现存干净检出和 `proposed-review.json` 的源码提交一致，`git bundle verify` 成功。分别检查 636 个输入文件哈希并重算整体源码摘要，得到 `102344d95ee237d4137c4ecbe5f414bc5c87b149600573f38a6828964c479e70`。评审文件 SHA-256 `7466cbcbd55c6a5b456c5789c720758758bc7a19be45a1c74c423b856c30b0dc`，11 项长度及 SHA 在两个已有 dist 均匹配。两目录完整比较为 524 个同路径、同 SHA 文件。此处复核已有构建，没有启动新构建。[快照清单](/F:/gamemake-test/native-studio-round/registration/yun-fixed-102344d95ee2/source-inventory.json) · [评审候选](/F:/gamemake-test/native-studio-round/registration/yun-fixed-102344d95ee2/proposed-review.json)
+
+下一次从项目内隔离的私有检出读取该 bundle 的固定 HEAD，带齐 636 个固定输入及额外实际 Vite 导入 `assets-source/variant-matrix-v1/representative-batch-request.json`（SHA-256 `9e57daf9c8aa38d1ffbeabec33a906a5e12445b44ef83936b0b43a8cc9d4363d`），使用快照 `prototype/package-lock.json` 执行 `npm ci`、`npm run build`，对照原 `fixed-dist` 和评审候选。消费复验继续使用原 `yun.record.json`，其 SHA 已与清单及实际单记录核对。私有快照携带两项登记体 `native-studio-01-yun-lan-v1`、`native-studio-round-both-v1`；装备来源均标为 `internal-study-only`，源许可字段均为 `onlyAuthor`、`personalNonProfit`、`allowRedistribution=false`、`modification=prohibited`。快照、固定 dist 及此两项输入应沿存档条款在私有制作和测试范围使用。此次未复制外部素材或改正式索引。

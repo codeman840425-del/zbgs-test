@@ -2,6 +2,8 @@
 
 **同批制服与个人外观。** 制作工具 `e8dc4eb2` 按每具身体询问固定游戏的实际选项。女体 `female` 用短发、金发色、暖肤、棕瞳与珊瑚唇，男体 `source-male-ab9a-release-v1` 保留其支持的原生外观；两人分别解析同款 1K 制服的精确版型。角色独立签名和关闭恢复均通过。新旧各两条记录在构建 `5859bd00da8b` 的独立游戏包检查通过；已验衣物不会自动放行新的个人外观。新包 48 文件、60,301,447 B，仅用于内部技术验证。普通电脑性能、公开分发条件及更多身体的发型版型仍有缺口。[制作输入](../assets-source/variant-matrix-v1/uniform-personal-appearance-request.json) · [独立复算](../evidence/m2-uniform-agent-handoff-v1/clean-repeat.json) · [资源来源](../evidence/m2-uniform-agent-handoff-v1/input-rights.md)
 
+**原生批次接收范围。** 融合测试构建 `89bb64fabca4` 的七条不同签名角色记录各有两次单人冷开证据，14 次都恢复了对应身体与三件装备。其余十三人的原生服装结构超出当前三件打包规则，均缺本人的去衣供体证据。其中十二人有多个上衣图元，五人有显式连体衣材质名，分组和遮挡归属仍需制作端证实。七人样件的授权仅覆盖内部试验。主工程交付单和技术准入分别核定。[逐人复核和未支持结构](../evidence/m2-body-intake-v1/seven-receiver-observations.md)
+
 **批次汇总与新身体接收。** 新 gate 的 `aggregateOutcome` 按所有必需阶段及待适配项区分整批通过、部分通过与阻塞，旧消费者仍按精确准入集合工作。云岚在融合测试固定构建 `102344d95ee2` 的两个独立 Chrome 中均加载了同一签名记录、身体及三件装备，各推进 121 帧。其正式发行构建仍未审定，原素材使用字段、五项预算超限及真实设施请求缺口已分开记录。当前正式消费者尚不能用角色行为接口坐入该环境的真实座位。[批次合同回归](../evidence/m2-native-batch-aggregate-v1/README.md) · [云岚核查](../evidence/m2-body-intake-v1/yun-receiver-followup.md)
 
 **显式座位请求。** 旧工作台收到沙发左座 ID 后在演示椅上报告完成。固定检出 `efb1c3aa`（构建 `992da68517e1`）的实际浏览器现在拒绝该未知 ID，保留原有有效座位任务，重试和 requestId 冲突保留原语义。公司侧真实左右座位的角色控制、接触、退出和开档恢复仍待接入正式消费者。旧新报告分别见[误占演示椅](../evidence/character-seat-consumer-v1/browser-original/report.json)和[修复后租约与任务](../evidence/character-seat-consumer-v1/browser-repaired/report.json)。
