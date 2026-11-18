@@ -1,0 +1,22 @@
+{
+  "scope": "Read-only recheck of first-level F: directories potentially confused with this producer; no whole-volume attribution.",
+  "project": "F:/gamemake",
+  "previousWorktreeLocationsPresent": 0,
+  "relocatedGitWorktreesRegistered": 37,
+  "unexpectedRoleWorktrees": [],
+  "independentProjects": [
+    "F:/gamemake-company-platform-c1",
+    "F:/gamemake-test"
+  ],
+  "otherCandidates": {
+    "F:/site-baseline-1fec": "Its .git points at an A-stock WSL checkout; the old Windows registration is unverified.",
+    "F:/output": "The two present QDI4403 files refer to a-stock-assistant-v2.",
+    "F:/tmp": "Mixed directory; no verified role-project artifact found in the first-level check."
+  },
+  "changesToOtherProjects": false,
+  "reproduce": [
+    "git worktree list --porcelain",
+    "python -B scripts/character-worktree.py audit"
+  ],
+  "pathGuardEvidence": "production-output-audit-v2.json"
+}

@@ -1,0 +1,68 @@
+{
+  "schema": "native-garment-removal-surfaces-v1",
+  "inputs": {
+    "source": {
+      "path": "assets-source/vroid-bridge-study-v1/generated/female-native-round-waist-216.vrm",
+      "sha256": "78912a7a48e114107ccf16ecd7896edff2fe2664bbc25fb4f8a807fca68c01b3",
+      "bytes": 16315696
+    },
+    "reference": {
+      "path": "assets-source/native-vroid-body-audit-v1/skin-mask-recovery/generated/female-tops-removed.vrm",
+      "sha256": "188d6e2b423d5baeae11e5dffbed88b8508edaed08eda6d8177cf07ee330bcec",
+      "bytes": 15964208
+    }
+  },
+  "matchingSurfaces": 13,
+  "matchingTriangles": 53654,
+  "removed": [
+    {
+      "owner": "Body",
+      "materialName": "N00_004_01_Tops_01_CLOTH (Instance)",
+      "selector": {
+        "node": 131,
+        "mesh": 1,
+        "skin": 1,
+        "primitive": 3,
+        "material": 11
+      },
+      "triangles": 1296,
+      "surfaceSha256": "28b1de8581cc81bd198d172f1641604c1d64f4ac3ec54f1ac7d899342f471393"
+    }
+  ],
+  "scope": "Mesh-local indexed POSITION and TEXCOORD_0 with winding and multiplicity. Native group lineage, material response, skinning and body-mask ownership require separate evidence.",
+  "runtimeAdmission": false,
+  "mismatchedDonorControl": {
+    "sourceSha256": "254fedea6b91273df2f1d6f06670b954f3a77a3aa0d14dc4b679aeda475ee83a",
+    "diagnosticSourcePrimitives": [
+      {
+        "owner": "Body",
+        "materialName": "N00_007_01_Tops_01_CLOTH_01 (Instance)",
+        "selector": {
+          "node": 112,
+          "mesh": 1,
+          "skin": 1,
+          "primitive": 3,
+          "material": 11
+        },
+        "triangles": 4072,
+        "surfaceSha256": "ff7ce2a1c394a1da215048d2d57f5a84e0965983d5500fdf95b88899cab401da"
+      },
+      {
+        "owner": "Body",
+        "materialName": "N00_007_01_Tops_01_CLOTH_02 (Instance)",
+        "selector": {
+          "node": 112,
+          "mesh": 1,
+          "skin": 1,
+          "primitive": 4,
+          "material": 12
+        },
+        "triangles": 4072,
+        "surfaceSha256": "3ba4a0fbe23d9f30efc6310c6297910fc7d59b929d253cb86c3bf28365400cc4"
+      }
+    ],
+    "referenceSha256": "188d6e2b423d5baeae11e5dffbed88b8508edaed08eda6d8177cf07ee330bcec",
+    "rejection": "Unexpected new surfaces: [('Body', 'N00_000_00_HairBack_00_HAIR (Instance)'), ('Body', 'N00_001_01_Bottoms_01_CLOTH (Instance)'), ('Body', 'N00_004_01_Shoes_01_CLOTH (Instance)')]",
+    "groupOwnershipVerified": false
+  }
+}

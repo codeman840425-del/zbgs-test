@@ -15,3 +15,11 @@ python -B scripts/production/variant_batch.py "$base/matrix.json" "$base/request
 ```
 
 该用例证明项目明确分组的装备可按单槽消费。原始旧 β 没有可回读的 `.vroid` 作者组。原生新体还需要作者组与原生去衣差分共同证明每一片归属，并用同体完整供体核对索引、皮肤 UV、权重和遮罩变化。若需覆盖，应记录该件独占的覆盖、换装复原和实际动作。当前样件不需要 Body 遮罩，本次没有生成资产、执行 D02 签名或启动 GPU。
+
+## 接续结果
+
+原款上衣与领带已在固定游戏完成首次加载、两片同帧绘制、换回原装和关闭恢复。[游戏录像与记录](../m2-garment-group-game-v1/README.md)
+
+原生 VRM 1 的独立提取使用同一所有者节点与蒙皮，传入 `primitiveGroups`，在每一槽中显式列出原图元、材质索引和材质全名。样件 13 的两张候选衣面各 4,072 面，两次提取输出一致。小游戏包中的男制服和这个原生候选是两份不同的测试输入。旧原生单片包可用其原制作者脚本的 `--check` 复核；两份历史样件的原导出字节相同。[原生提取回读与拒绝用例](native-group-streams.json)
+
+从工程根运行 `python -B scripts/production/native_garment_removal_surfaces.py evidence/m2-garment-group-input-v1/native-removal-control.json` 即可复算旧女性单片控制组。工具保留每个三角形的顶点位置、UV、绕序和出现次数，允许原生导出在移除一件衣服时重排其余图元或顶点。样件 13 无同体去组对照，换用控制组的去衣件会被拒绝。其原画和模型限内部使用，本次备份只含代码与测量值。[原生控制组和错体结果](native-removal-result.json)

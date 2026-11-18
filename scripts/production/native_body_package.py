@@ -172,18 +172,34 @@ def garment_selection(doc, consumer, item):
     return body_owner, node, selections, names
 
 
-def bindings_and_buffers(body, garment, item):
-    source_mesh = garment.doc["extras"]["sourceMesh"]
+def bindings_and_buffers(body, garment, item, *, expected_primitives=None):
+    origin = garment.doc["extras"]
+    verify(origin["sourceSha256"] == item["compatibleAvatarSha256"], "Extracted source and binding body identities differ")
+    source_mesh = origin["sourceMesh"]
     node, = [n for n in body.doc["nodes"] if n.get("mesh") == source_mesh]
-    source_primitive = body.doc["meshes"][source_mesh]["primitives"][garment.doc["extras"]["sourcePrimitive"]]
     source_skin = body.doc["skins"][node["skin"]]
     own_skin, = garment.doc["skins"]
-    own_primitive, = garment.doc["meshes"][0]["primitives"]
+    own_mesh, = garment.doc["meshes"]
+    if "sourcePrimitives" in origin:
+        source_ids = origin["sourcePrimitives"]
+        verify("sourcePrimitive" not in origin and expected_primitives is not None and source_ids == expected_primitives,
+               "Grouped extract requires the exact ordered input selections")
+    else:
+        source_ids = [origin["sourcePrimitive"]]
+        verify(expected_primitives is None or source_ids == expected_primitives, "Extracted source selection differs")
+    source_parts = body.doc["meshes"][source_mesh]["primitives"]
+    verify(bool(source_ids) and all(type(i) is int and 0 <= i < len(source_parts) for i in source_ids)
+           and len(set(source_ids)) == len(source_ids), "Invalid or repeated source primitive")
+    verify(len(source_ids) == len(own_mesh["primitives"]), "Extracted primitive count differs")
     verify(source_skin["joints"] == own_skin["joints"], "Extracted bone order differs")
-    verify(set(own_primitive["attributes"]) == set(source_primitive["attributes"]), "Extracted attribute set differs")
-    for attr, index in source_primitive["attributes"].items():
-        verify(skin.same(body.acc(index), garment.acc(own_primitive["attributes"][attr])), "Extracted " + attr + " differs")
-    verify(skin.same(body.acc(source_primitive["indices"]), garment.acc(own_primitive["indices"])), "Extracted indices differ")
+    for i, part in zip(source_ids, own_mesh["primitives"], strict=True):
+        original = source_parts[i]
+        verify(set(part["attributes"]) == set(original["attributes"]), "Extracted attribute set differs")
+        for attr, index in original["attributes"].items():
+            verify(skin.same(body.acc(index), garment.acc(part["attributes"][attr])), f"Extracted primitive {i} {attr} differs")
+        verify(skin.same(body.acc(original["indices"]), garment.acc(part["indices"])), f"Extracted primitive {i} indices differ")
+        verify(body.doc["materials"][original["material"]]["name"] == garment.doc["materials"][part["material"]]["name"],
+               f"Extracted primitive {i} material differs")
     ibm = body.acc(source_skin["inverseBindMatrices"])
     verify(skin.same(ibm, garment.acc(own_skin["inverseBindMatrices"])), "Extracted IBM differ")
     verify(len(item["bindings"]) == len(ibm), "Incomplete binding manifest")
