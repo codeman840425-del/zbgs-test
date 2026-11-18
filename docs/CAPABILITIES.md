@@ -509,3 +509,5 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 2026-11-17 资源预算分层与压缩旁车复核：`scripts/production/budget_classification_report.py` 将现有记录成本拆成传输、解码/Canvas、GPU 和普通电脑四层，实际报告 `evidence/m2-native-batch-runtime-seam-v1/budget-classification-v1.json` 标记为 `blocked`。传输闭包字节已测量；RGBA8+mip 与纹理对象只是静态估算；GPU 驻留、释放生命周期和普通电脑帧耗时仍未测。两份新 FaceContour 身体、三件同源装备和麦克风均逐资源超出现有静态预算，眼镜仅通过静态契约。
 
 同日 KTX2 旁车复核 `evidence/m2-native-batch-adaptation-v1/native-batch-ktx-budget.json`：已有 KTX2 pilot 绑定旧 801 男女模型，不能按文件名或材质名复用到两份新身体；本轮没有改写 VRM，也没有把 KTX2 文件大小当作 GPU 或普通电脑通过。后续若做发布派生，只能按 `sourceExportSha256`、原图 SHA、材质/UV/采样器、alpha 和解码器版本建立显式旁车，并保留 PNG/Canvas 回退。
+
+2026-11-17 新 FaceContour 头部附件共用适配候选：固定构建 `bda6fd250bb8` 在同一游戏运行链对 `native-contour-roundness-a-v1` 与 `native-contour-cheek-b-v1` 各采集站/坐两姿势的未适配眼镜几何；`scripts/production/native_accessory_batch.py` 复用现有四环镜腿求解器生成两份 `cpu-candidate-only` fit。身份、捕获和生成结果均可重跑，但仍未注册到运行时准入，未替代正常速度视觉与头发/脸部接触检查；闸门的 `headAttachments` 继续阻塞。

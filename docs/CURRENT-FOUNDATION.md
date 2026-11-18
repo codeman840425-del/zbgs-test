@@ -50,3 +50,5 @@
 新增 `native_batch_gate.py` 的诊断输入会附带源侧适配审查和 runtime/head 预算审查，但不会把候选证据误标为通过。`evidence/m2-native-production-gate-v5/report.json` 当前两项仍各剩 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`；两体预算均为 `over-budget`，普通电脑未测，`acceptedForRuntime=[]`。这证明批量链路的共性制作、导入、登记和记录生成已经可复用，当前卡点是每个身体的受影响 fit 证据与素材预算策略，不是继续修改单个脸型。
 `native_record_batch.py --readiness-report` 已接入同一 production gate：正式模式只生成 `acceptedForRuntime` 的精确 bodyType 请求；当前 v5 两体均被明确拒绝并保留 `runtime admission pending`，诊断模式仍可生成技术候选请求。这样不会把可回读的技术样件误当成可发布游戏角色。
 当前资源预算包已完成分层记录：`budget-classification-v1.json` 将传输闭包列为已测，将解码/Canvas列为静态估算，将GPU与普通电脑列为未测；两项 FaceContour 候选仍为 blocked。KTX2 只保留旧801 pilot 的独立旁车结论，新身体尚未生成压缩派生物。下一步继续共用适配器和发布闸门，不再投入单模型外观精修；只有逐身体适配证据、资源预算策略和目标设备实测满足条件，才允许 `acceptedForRuntime` 非空。
+
+2026-11-17 头部附件共用适配已进入候选阶段：新两体的未适配眼镜站/坐捕获和四环 fit 候选保存在 `evidence/m2-native-batch-runtime-seam-v1/native-glasses-capture-candidate-v1` 与 `native-glasses-candidate-v1`。这证明同一适配器可按精确 body SHA 生成候选，不代表眼镜已通过；下一步是固定构建中的正常速度近景/动作检查，再决定是否进入 source registry 和闸门。
