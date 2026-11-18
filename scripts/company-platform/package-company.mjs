@@ -55,6 +55,7 @@ const extraFiles=[
   'scripts/company-platform/test-wall-shelf-geometry.mjs',
   'scripts/company-platform/qa-wall-shelf-preview.cjs',
   'scripts/company-platform/record-wall-shelf-preview.cjs',
+  'scripts/company-platform/qa-wall-shelf-handoff.cjs',
   'docs/COMPANY-WALL-SHELF-CONTRACT-v1.txt',
   'docs/research/COMPANY-WALL-SHELF-PREFLIGHT-2026-11-17.txt',
   'scripts/company-platform/build-side-table-life-items-examples.mjs',
