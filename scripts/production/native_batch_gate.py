@@ -590,6 +590,45 @@ def microphone_candidate_index(path: Path, root: Path = ROOT) -> dict[str, dict[
     return result
 
 
+def room_candidate_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
+    """Attach current-build room playback candidates without runtime admission."""
+    path = path.resolve()
+    require(path.exists() and path.is_relative_to(root),
+            "Room candidate report must be inside repository")
+    reports = [path] if path.is_file() else sorted(path.glob("*/report.json"))
+    require(reports, "Room candidate directory has no reports")
+    result: dict[str, dict[str, Any]] = {}
+    for path in reports:
+        report = read_json(path)
+        require(report.get("status") == "technical-pass-visual-candidate",
+                "Room report must remain a visual candidate")
+        input_path = path.parent / "input-record.json"
+        require(input_path.is_file(), "Room candidate input record is missing")
+        record = read_json(input_path)
+        base = record.get("appearanceRecipe", {}).get("base", {})
+        body_type = base.get("bodyType")
+        body_sha = base.get("sha256")
+        require(isinstance(body_type, str) and body_type and SHA.fullmatch(str(body_sha or "")),
+                "Room candidate body identity is incomplete")
+        require(report.get("recordSha256") == record.get("integrity", {}).get("recordSha256"),
+                "Room candidate record identity differs from input")
+        require(not report.get("errors") and len(report.get("tasks", [])) >= 4,
+                "Room candidate playback is incomplete")
+        require(body_sha not in result, "Duplicate room candidate body")
+        result[body_sha] = {
+            "report": pin(path),
+            "inputRecord": pin(input_path),
+            "bodyType": body_type,
+            "bodySha256": body_sha,
+            "recordSha256": report.get("recordSha256"),
+            "build": report.get("build"),
+            "tasks": len(report.get("tasks", [])),
+            "status": report.get("status"),
+            "clears": [],
+        }
+    return result
+
+
 def evaluate(batch_path: Path, root: Path = ROOT,
              runtime_report: Path | None = None,
              adapter_report: Path | None = None,
@@ -602,7 +641,8 @@ def evaluate(batch_path: Path, root: Path = ROOT,
              budget_classification: Path | None = None,
              surface_admission: Path | None = None,
              glasses_candidate: Path | None = None,
-             microphone_candidate: Path | None = None) -> dict[str, Any]:
+             microphone_candidate: Path | None = None,
+             room_candidate: Path | None = None) -> dict[str, Any]:
     root = root.resolve()
     batch_path = batch_path.resolve()
     require(batch_path.is_file() and batch_path.is_relative_to(root), "Batch must be inside repository")
@@ -622,6 +662,7 @@ def evaluate(batch_path: Path, root: Path = ROOT,
     surface_by_body = surface_admission_index(surface_admission, root) if surface_admission else {}
     glasses_candidate_by_body = glasses_candidate_index(glasses_candidate, root) if glasses_candidate else {}
     microphone_candidate_by_body = microphone_candidate_index(microphone_candidate, root) if microphone_candidate else {}
+    room_by_body = room_candidate_index(room_candidate, root) if room_candidate else {}
     combined_adapter = dict(adapter_by_body)
     for evidence_map in (glasses_by_body, budget_by_body):
         for body_sha, evidence in evidence_map.items():
@@ -664,6 +705,11 @@ def evaluate(batch_path: Path, root: Path = ROOT,
             require(evidence.get("bodyType") == row["bodyType"],
                     f"Microphone candidate body type differs: {row['bodyType']}")
             row["microphoneCandidateEvidence"] = evidence
+        if body_sha in room_by_body:
+            evidence = room_by_body[body_sha]
+            require(evidence.get("bodyType") == row["bodyType"],
+                    f"Room candidate body type differs: {row['bodyType']}")
+            row["roomCandidateEvidence"] = evidence
     for row in rows:
         if row["bodyType"] in microphone_by_body:
             row["accessoryEvidence"] = {"microphone": microphone_by_body[row["bodyType"]]}
@@ -716,6 +762,7 @@ def main() -> int:
     parser.add_argument("--surface-admission", type=Path)
     parser.add_argument("--glasses-candidate", type=Path)
     parser.add_argument("--microphone-candidate", type=Path)
+    parser.add_argument("--room-candidate", type=Path)
     args = parser.parse_args()
     try:
         report = evaluate(args.batch, runtime_report=args.runtime_report, adapter_report=args.adapter_report,
@@ -725,7 +772,8 @@ def main() -> int:
                           budget_classification=args.budget_classification,
                           surface_admission=args.surface_admission,
                           glasses_candidate=args.glasses_candidate,
-                          microphone_candidate=args.microphone_candidate)
+                          microphone_candidate=args.microphone_candidate,
+                          room_candidate=args.room_candidate)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
         print(json.dumps(report, ensure_ascii=False))

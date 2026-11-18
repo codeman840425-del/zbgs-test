@@ -7,7 +7,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from native_batch_gate import (CHECK_TO_ADAPTER, GateError, budget_classification_index,
                                dynamic_trace_index, evaluate, glasses_candidate_index,
-                               microphone_candidate_index, surface_admission_index)
+                               microphone_candidate_index, room_candidate_index,
+                               surface_admission_index)
 
 
 class NativeBatchGateTests(unittest.TestCase):
@@ -64,6 +65,14 @@ class NativeBatchGateTests(unittest.TestCase):
             self.assertEqual(row['status'], 'cpu-candidate-only')
             self.assertFalse(row['verified'])
             self.assertEqual(row['clears'], [])
+
+    def test_room_candidate_binds_record_and_body_identity(self):
+        indexed = room_candidate_index(Path('evidence/m2-native-room-current-v3/roundness-a/report.json'))
+        self.assertEqual(len(indexed), 1)
+        row = next(iter(indexed.values()))
+        self.assertEqual(row['status'], 'technical-pass-visual-candidate')
+        self.assertEqual(row['tasks'], 4)
+        self.assertEqual(row['clears'], [])
     def test_adapter_tasks_are_explicit_and_no_runtime_auto_accept(self):
         report = evaluate(Path('assets-source/native-parameter-game-packages-v1/import-batch.json'))
         self.assertEqual(report['schema'], 'native-production-readiness-v1')
