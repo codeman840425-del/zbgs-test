@@ -1,6 +1,6 @@
 # 角色系统能力清单（唯一当前状态依据）
 
-**染发后的整条角色记录预算待补。** 对交付单中的男女签名运行 `record_budget.py measure`，女体金发记录返回退出码 2 和 `unsupported-hair-color-budget`。身体静态纹理已有测量；染发及染眉派生画布与纹理还缺按缓存键去重的成本模型。游戏加载、关闭恢复已验证。[固定签名实算](../evidence/m2-uniform-agent-handoff-v1/signed-record-budget.json)
+**批量制作可核算短发配色的完整记录。** 对同一份男女制服签名，预算命令可自动识别已核的女体、短发和调色实现。游戏构建 `5859bd00da8b` 两轮 Chrome 实测与静态核算一致。女性金发、眉毛、棕瞳、珊瑚唇合计 8 张独立画布，像素合计 22 MiB。只切换暖肤时沿用这些纹理。恢复原色再换回时复用原对象；两名同款人物各自持有一套，逐名销毁后渲染器回到基线。代码另持有的面部像素数组按尺寸估算为 24 MiB。女、男两具身体各自超过当前 96 MiB 静态阈值。显存字节和普通机性能未测。不同角色 ID 可复用同一材质规则，其他基模、发型和表面图层仍需各自核准。[逐部件交叉检查](../evidence/m2-signed-hair-cache-budget-v1/matched.json) · [实际浏览器复测](../evidence/m2-signed-hair-cache-budget-v1/runtime/README.md) · [旧工具的真实拒绝结果](../evidence/m2-uniform-agent-handoff-v1/signed-record-budget.json)
 
 **同批制服与个人外观。** 制作工具 `e8dc4eb2` 按每具身体询问固定游戏的实际选项。女体 `female` 用短发、金发色、暖肤、棕瞳与珊瑚唇，男体 `source-male-ab9a-release-v1` 保留其支持的原生外观；两人分别解析同款 1K 制服的精确版型。角色独立签名和关闭恢复均通过。新旧各两条记录在构建 `5859bd00da8b` 的独立游戏包检查通过；已验衣物不会自动放行新的个人外观。新包 48 文件、60,301,447 B，仅用于内部技术验证。普通电脑性能、公开分发条件及更多身体的发型版型仍有缺口。[制作输入](../assets-source/variant-matrix-v1/uniform-personal-appearance-request.json) · [独立复算](../evidence/m2-uniform-agent-handoff-v1/clean-repeat.json) · [资源来源](../evidence/m2-uniform-agent-handoff-v1/input-rights.md)
 

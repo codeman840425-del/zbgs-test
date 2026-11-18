@@ -2,7 +2,9 @@
 
 ## 固定入口与备份
 
-游戏制作 Agent 当前使用交付单中的制作工具 `27ebb18f`。该版本已给九个美术、装备和诊断命令补上工程内写入检查，同一目标的虹膜发布锁由不同工作树共享。37 个迁移目录已重验，旧路径残留为 0。[输出范围实测](../evidence/character-worktree-relocation-v1/production-output-audit-v2.json) · [固定工具复算](../evidence/m2-uniform-agent-handoff-v1/guarded-operator.json)。游戏仍用 `80fb16b7 / 5859bd00da8b`。一份制服配方支持按角色指定已登记的发型和配色。两条新签记录已在独立游戏包首次加载、关闭重开并恢复；旧版两条短袜记录也已在此游戏版本独立冷开重验。干净检出重复生成的身份、外观与资源相同，按固定签名重新导出的 48 个文件逐字节一致。整套发行准入与普通机性能仍待验证。七个外部技术样件的独立冷开和十三人的服装结构已核；下个制作环节需要同体去衣供体及可验证的衣层分组。[当前交付单](../delivery/character-production-handoff.json) · [固定实物回读](../evidence/m2-uniform-agent-handoff-v1/verified-handoff.json) · [双人游戏录像](../evidence/m2-uniform-agent-handoff-v1/game/produced-pair-1x.webm)
+游戏制作 Agent 取 [固定交付单](../delivery/character-production-handoff.json)。当前制作工具为 `54e8a24c`，游戏为 `80fb16b7 / 5859bd00da8b`。两条已签制服记录已在干净工具检出复核。交付单绑定静态预算、签名和 48 个游戏文件。两体均超静态预算，普通机未测。短发女体的发、眉、虹膜、唇共 8 张派生画布，固定游戏的两轮 Chrome 检查确认了切换复用与逐人释放。已登记的配色可以按同一材质规则重复核算。[独立交付回读](../evidence/m2-signed-hair-cache-budget-v1/verified-handoff.json) · [逐部件比对](../evidence/m2-signed-hair-cache-budget-v1/matched.json) · [当前双人 1× 录像](../evidence/m2-uniform-agent-handoff-v1/game/produced-pair-1x.webm)
+
+接续多图元服装投料。先用已有 CC0 男制服上衣和领带的显式同槽配方做对照；其余外部样本需要本体去衣供体与原生分组证据。保留七人的既有独立冷开结果及十三人未支持边界。上一制作工具 `27ebb18f` 已给九个制作和诊断命令补上工程内写入检查，37 个迁移目录旧路径残留为 0。[多图元源配方](../evidence/m2-raw-male-equipment-v1/outfit.json) · [外部样本范围](../evidence/m2-body-intake-v1/seven-receiver-observations.md) · [输出范围实测](../evidence/character-worktree-relocation-v1/production-output-audit-v2.json) · [上一份交付单](../delivery/history/character-production-handoff-27ebb18f.json)
 
 最新衔接。角色侧已只读复核云岚的同源供体、双冷开和实际装备，同时保留正式发行守卫与设施接线缺口。新批次汇总可供外部 agent 读取，准入仍按逐项精确身体。男女正式制服的 45 张身体图已逐张复算；无损 PNG 重编码可减少传输载荷，但无法消除纹理预算超限。不要把元数据缩略图的静态上界写成 GPU 实际分配。下一步优先把可复用的身体输入与现有接收包做固定审定，先用已具分发许可的输入验证；云岚源授权范围见接收记录。[批次字段](../evidence/m2-native-batch-aggregate-v1/README.md) · [真实新身体与正式运行边界](../evidence/m2-body-intake-v1/yun-receiver-followup.md) · [逐图依据](../evidence/m2-uniform-body-texture-intake-v1/README.md)
 
