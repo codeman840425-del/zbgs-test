@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import path from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
-import {resolveTrainingConstraint} from './source/scripts/company-platform/package-template/training-room.mjs';
+import {bindTrainingDocument,resolveTrainingBinding} from './source/scripts/company-platform/package-template/training-room.mjs';
 
 const root=path.dirname(fileURLToPath(import.meta.url));
 try{
@@ -22,7 +22,9 @@ try{
   const persistence=await load('persistence.js'),documentTools=await load('document.js');
   const bytes=await fs.readFile(input,'utf8'),raw=JSON.parse(bytes);
   let document=raw.schema==='company-save'?await persistence.decodeCompanySave(bytes,catalog,templates):documentTools.restoreCompany(bytes,catalog,templates);
-  const constraint=await resolveTrainingConstraint(root,manifest,input,document,bytes,selectedRoom);
+  const context={catalog,templates};
+  const binding=await resolveTrainingBinding(root,manifest,input,document,bytes,selectedRoom,context);
+  bindTrainingDocument(document,binding,input,context);
   const space=await load('space.js'),placement=await load('placement.js');
   space.inspectCompanyConnections(document,catalog,templates);placement.inspectCompanyPlacement(document,catalog,templates);
   if(command==='apply'){
@@ -32,6 +34,7 @@ try{
     placement.inspectCompanyMotionSweep(previous,document,catalog,templates);
     space.inspectCompanyConnections(document,catalog,templates);placement.inspectCompanyPlacement(document,catalog,templates);
   }else if(command!=='validate')throw Error('Use validate INPUT_SAVE or apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY');
+  const constraint=bindTrainingDocument(document,binding,input,context);
   const derived=documentTools.deriveCompany(document,catalog,templates);
   if(derived.facilities.some(f=>f.resource.mounting?.reserveDesktopArea===true)){
     const {preflightDesktopAreas}=await import('./source/scripts/company-platform/preflight-library-assets.mjs');

@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {fileURLToPath,pathToFileURL} from 'node:url';
+import {bindTrainingDocument,bindingFromSource,editedTrainingBinding,resolveTrainingBinding} from './package-template/training-room.mjs';
 
 const defaultSource=fileURLToPath(new URL('../../',import.meta.url));
 const fixedInputs=['company.html','vite.company.config.js','scripts/build-company-id.mjs','package.json','package-lock.json'];
@@ -426,8 +427,9 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     fail('seat-contact-check-unavailable', seatCheckerPath, 'The requested fixed source has no seat geometry checker');
   if (seatContacts) await noLinks(seatCheckerFile);
   const seatContactReports = [];
+  const trainingContext = {catalog,templates};
   async function includeScene(input,prefix){
-    let inputBytes,inputFiles=[],trainingClearance;
+    let inputBytes,inputFiles=[],trainingSource,binding;
     let inputIsDirectory=(await fs.lstat(input)).isDirectory();
     const folder=inputIsDirectory?input:path.dirname(input);
     const dataRoot=path.basename(path.dirname(folder))==='rooms'?path.dirname(path.dirname(folder)):folder;
@@ -449,7 +451,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
         if(edited.schema!=='training-room-edit@1'||edited.saveSha256!==hash(inputBytes)||!edited.trainingClearance||
             edited.companyId!==decode(inputBytes,'save.json').document?.id)
           fail('training-edit-mismatch','training-edit.json','Edited save differs from the recorded company or digest');
-        trainingClearance=edited.trainingClearance;
+        trainingSource={kind:'training-edit',bytes:receipt};
         inputFiles.push({name:'layout.json',bytes:await read(input,'layout.json')});
       }else{
         for(const name of ['save.json','layout.json','input.json','report.json']){
@@ -461,7 +463,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
           const bytes=original(name),expected=report.files?.[name];
           if(expected?.sha256!==hash(bytes)||expected.bytes!==bytes.length)fail('batch-result-hash-mismatch',name,'Original batch result bytes differ from its report');
         }
-        trainingClearance=decode(original('input.json'),'batch-result/input.json').trainingClearance;
+        trainingSource={kind:'batch-input',bytes:original('input.json')};
       }
     }else{inputBytes=await fs.readFile(input);add(prefix+'/original-input.json',inputBytes,'original-save-or-layout');}
     const raw=decode(inputBytes,'save-or-layout');let saved,document;
@@ -471,19 +473,21 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       saved=JSON.parse(await persistence.encodeCompanySave(raw,catalog,templates));document=await persistence.decodeCompanySave(JSON.stringify(saved),catalog,templates);
     }else fail('unsupported-package-save','save-or-layout','Expected company-save or company-layout');
     if(!inputIsDirectory){
-      const {resolveTrainingConstraint,editedTrainingConstraint}=await import('./package-template/training-room.mjs');
       if(previousPackage){
         const {root,manifest}=previousPackage;
         const name=path.relative(root,input).split(path.sep).join('/');
         const pin=manifest.files.find(file=>file.path===name);
         if(!pin || pin.sha256!==hash(inputBytes) || pin.bytes!==inputBytes.length)
           fail('training-handoff-file-mismatch',name,'The saved input differs from its original package manifest.');
-        trainingClearance=await resolveTrainingConstraint(root,manifest,input,document,inputBytes);
+        binding=await resolveTrainingBinding(root,manifest,input,document,inputBytes,undefined,trainingContext);
       }else{
-        trainingClearance=await editedTrainingConstraint(input,document);
+        binding=await editedTrainingBinding(input,document);
       }
     }
     if(inputFiles.length){const layout=decode(inputFiles.find(file=>file.name==='layout.json').bytes,'batch-result/layout.json');if(JSON.stringify(canonical(layout))!==JSON.stringify(canonical(document)))fail('batch-layout-save-mismatch','layout.json','Saved document differs from the batch layout');}
+    if(trainingSource)binding=bindingFromSource(document,trainingSource.kind,trainingSource.bytes,trainingContext);
+    const trainingClearance=bindTrainingDocument(document,binding,input,trainingContext);
+    saved.document=document;
     if(trainingClearance!==undefined){
       const {checkTrainingClearance}=await import(pathToFileURL(path.join(source,'scripts/company-platform/check-training-clearance.mjs')).href);
       await checkTrainingClearance(document,trainingClearance,{catalog,templates});
@@ -529,6 +533,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     await noLinks(path.join(source,namedTrainingTest));
     supplemental.add(namedTrainingTest);
   }catch(error){if(error.code!=='ENOENT')throw error;}
+  const portableTrainingTest = 'scripts/company-platform/test-portable-training-handoff.mjs';
+  try {
+    await noLinks(path.join(source,portableTrainingTest));
+    supplemental.add(portableTrainingTest);
+  } catch (error) { if (error.code !== 'ENOENT') throw error; }
   if (catalog.resources.some(resource => resource.productionBranch === 'background-fabric')) {
     supplemental.add('docs/research/COMPANY-BACKDROP-FABRIC-PRODUCTION.md');
     supplemental.add('scripts/company-platform/test-backdrop-fabric-assets.mjs');

@@ -11,10 +11,12 @@ import {inspectCompanyPlacement,inspectCompanyMotionSweep} from '../../prototype
 import {resolveWorkstationLook,workstationLookOperations} from '../../prototype/src/company/workstation-looks.js';
 import {encodeCompanySave} from '../../prototype/src/company/persistence.js';
 import {preflightDesktopAreas} from './preflight-library-assets.mjs';
+import {bindTrainingDocument,bindingFromSource} from './package-template/training-room.mjs';
 
 const workspace=new URL('../../',import.meta.url);
 const sourceFiles=[
   'scripts/company-platform/batch.mjs','scripts/company-platform/check-training-clearance.mjs',
+  'scripts/company-platform/package-template/training-room.mjs',
   'prototype/src/company/space.js',
   'prototype/src/company/scale-profile.js','prototype/src/company/scale-v2.js',
   'prototype/src/company/document.js','prototype/src/company/placement.js',
@@ -120,10 +122,13 @@ async function prepare(item,sourceHashes){
   }
   const connections=inspectCompanyConnections(document,catalog,templates);
   const placement=inspectCompanyPlacement(document,catalog,templates);
+  const context={catalog,templates};
+  const binding=bindingFromSource(document,'batch-input',jsonBytes(item),context);
+  const constraint=bindTrainingDocument(document,binding,item.key,context);
   let trainingClearance;
-  if(Object.hasOwn(item,'trainingClearance')){
+  if(constraint){
     const {checkTrainingClearance}=await import('./check-training-clearance.mjs');
-    trainingClearance=await checkTrainingClearance(document,item.trainingClearance,{catalog,templates});
+    trainingClearance=await checkTrainingClearance(document,constraint,{catalog,templates});
   }
   const assetDependencies=[];
   const derived=deriveCompany(document,catalog,templates);

@@ -102,7 +102,9 @@ node scripts/company-platform/batch.mjs scripts/company-platform/batch-inputs/wh
 
 多房交付中，用房间自己的存档编辑。比如 `node edit.mjs apply data/rooms/rental-training-room/save.json OPS.json new-training-room`。活动区和门口净空沿这间房原配方复核。编辑成功后，`new-training-room` 里的布局、存档和 `training-edit.json` 可以一起交给下一位制作者，再次编辑或打包。被拒绝的修改会给出物件及受阻区域。
 
-同一公司 ID 的两个方案可以有不同的留空要求。直接从包内房间路径编辑会选中该房间。单独复制出的存档若不能区分来源，命令会提示在末尾加 `--room 房间名`；`--room @default` 选择包的默认公司。保留已编辑结果的整份目录可以延续其净空回执。脱离配方、交付包和回执的孤立 JSON 只包含游戏布局。
+新版训练室在 `save.json` 与 `layout.json` 的布局内保存来源声明、SHA256、所属公司和房间。可以只取其中一个文件，改名后继续编辑和封包。舞蹈活动区与入口均按对应房间的原规则检查；普通教室沿用其生产输入声明的用途。
+
+旧版训练室若缺少这些字段，请保留原件，使用带有原房间配方的新工具包。从工作副本执行 `node edit.mjs apply 旧存档.json 操作.json 新目录 --room 原房间名`。文件直接取自包内房间时可以自动识别。公司 ID 相同的两个方案可能有不同的净空规则，选择须与原来源相符。找不到旧存档的来源时，先找回原批次结果或对应移交包。声明的哈希用于检验内容一致性，正式移交另核发布方给出的包清单哈希。
 
 ```text
 node edit.mjs validate data/save.json
