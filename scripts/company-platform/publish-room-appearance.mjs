@@ -23,14 +23,16 @@ const families = {
   'company-baseboard-collection': 'baseboard',
   'company-mouse-pad-collection': 'mouse-pad',
   'company-phone-static-collection': 'phone-static',
+  'company-backdrop-fabric-collection': 'backdrop-fabric',
 };
-const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs'};
+const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs'};
+const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric'};
 
 function belongsToFamily(resource,family) {
   return family === 'baseboard'
     ? resource?.kind === 'surface-finish' && resource.provenance?.environmentBranch === 'baseboard-and-edge' &&
       isDeepStrictEqual(resource.finish?.allowedSurfaces,['baseboard'])
-    : resource?.productionBranch === (family === 'mouse-pad' ? 'mouse-and-pad' : family);
+    : resource?.productionBranch === (productionBranches[family] ?? family);
 }
 
 function validateFunction(reference,resource,family) {

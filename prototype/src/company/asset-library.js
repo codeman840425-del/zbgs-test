@@ -5,6 +5,7 @@ import {screenMaterials} from './screen-state.js';
 import {validateWindowGeometry} from './window-geometry.js';
 import {validateWindowResource} from './window-data.js';
 import {validateWindowCoverResource,validateWindowCoverGeometry} from './window-cover-data.js';
+import {validateBackdropResource,validateBackdropGeometry} from './backdrop-roll.js';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {CompanyError} from './document.js';
 import {validateSupportResource} from './support-data.js';
@@ -49,6 +50,7 @@ function describe(resource) {
   validateDeskLampResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateWindowResource(resource,(code,location,message)=>{throw error(code,location,message);});
   validateWindowCoverResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
+  validateBackdropResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateSupportResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
   validateMovingResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
   validateClockResource(resource, (code, location, message) => { throw error(code, location, message); }, path);
@@ -178,6 +180,8 @@ async function releaseFailedParser(parser, json, pack) {
   release(owned);
 }
 
+// A loaded GLB pack is immutable; instances receive private meshes.
+const checkedBackdropPacks = new WeakSet();
 function validateResource(pack, description) {
   pack.scene.updateMatrixWorld(true);
   if (description.resource.display?.screen !== undefined) {
@@ -191,6 +195,10 @@ function validateResource(pack, description) {
   }
   validateWindowGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
   validateWindowCoverGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
+  if (description.resource.backdropRoll && !checkedBackdropPacks.has(pack)) {
+    validateBackdropGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
+    checkedBackdropPacks.add(pack);
+  }
   validateCableRouteGeometry(pack.scene, description.resource, (code,path,message)=>{throw error(code,path,message);});
   if(description.resource.cablePorts)validateCablePortGeometry(pack.scene, description.resource, (code,path,message)=>{throw error(code,path,message);});
   validateDeskLampGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});

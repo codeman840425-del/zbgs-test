@@ -1,0 +1,119 @@
+{
+  "id": "backdrop-fabric-blue",
+  "version": 1,
+  "displayName": "直播蓝幕 · 圆轴与斜翼脚",
+  "category": "dynamic",
+  "mountRole": "background-fabric",
+  "productionBranch": "background-fabric",
+  "mount": "floor-surface",
+  "parent": "room.floor",
+  "mounting": {
+    "origin": "bottom",
+    "width": 2.1,
+    "height": 1.93,
+    "depth": 0.3
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      1.05,
+      0.15
+    ],
+    "blocking": true
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "deployment": 1
+  },
+  "stateSchema": {
+    "deployment": {
+      "type": "number",
+      "min": 0,
+      "max": 1
+    }
+  },
+  "stateSemantics": {
+    "deployment": "backdrop-deployment-fraction"
+  },
+  "backdropRoll": {
+    "slotY": 0.11,
+    "travel": 1.78
+  },
+  "materialSlots": {
+    "foot": [
+      "foot-left",
+      "foot-right"
+    ],
+    "fittings": [
+      "riser-left",
+      "riser-right",
+      "roller-endcaps",
+      "roller-mouth",
+      "mast-socket"
+    ],
+    "case": [
+      "roller-case"
+    ],
+    "pole": [
+      "roller-drum",
+      "lift-mast"
+    ],
+    "cloth": [
+      "fabric-sheet"
+    ],
+    "rail": [
+      "lift-rail"
+    ]
+  },
+  "provenance": {
+    "license": "Project-authored cloth, artwork and installation geometry; reuses the project-authored fiber pattern.",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "environmentBranch": "background-fabric",
+    "sourceParameters": "assets-source/company-backdrop-fabric-v1/parameters.json",
+    "sourceParametersSha256": "a325168a7bde8d6dd59857ff7526dbae66ccbaefb593b6bec9e7c0da77dafd94",
+    "functionalContractSource": "assets-source/company-backdrop-fabric-v1/contract.json",
+    "functionalContractSourceSha256": "cf4d9eb3dc22e0cd5beb10abe13138747fd027e63e217955cb0e83c6f7cc2adf",
+    "generator": "scripts/company-platform/build-backdrop-fabric.mjs",
+    "generatorSha256": "68a2695cd6d9830db633b43282b52de5cd8bd00275f4fdbdf819676212d59d31",
+    "dependencies": {
+      "geometryValidation": {
+        "path": "scripts/company-platform/test-backdrop-fabric-assets.mjs",
+        "sha256": "390445b2e8be509914cc236d8a5e836d12834501d2bddea8dabe4133bba93b07"
+      },
+      "weaveSource": {
+        "path": "prototype/public/company-assets/ceiling-finishes-v1/ceiling-woven/v1/texture.png",
+        "sha256": "4df80dcb3c727f2d6995d79016aa42e473d730a760981febddfa103256d9e598"
+      }
+    },
+    "texture": {
+      "original": {
+        "path": "prototype/public/company-assets/ceiling-finishes-v1/ceiling-woven/v1/texture.png",
+        "sha256": "4df80dcb3c727f2d6995d79016aa42e473d730a760981febddfa103256d9e598",
+        "license": "Project-authored procedural surface sample. No external art assets."
+      },
+      "embeddedSha256": "91e7d82d2b4609f22bfc2444f6e40ec17907e216eb1b6133742f9435e4087e90",
+      "embeddedBytes": 26600
+    },
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader readback",
+      "pngjs 7.0.0"
+    ]
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/backdrop-fabric-v1/backdrop-fabric-blue/v1/model.glb",
+    "sha256": "a3623d99100bf738b73e47a409d9b7c834c7af015426f94ac5e2b5dfe4e84730",
+    "bytes": 387032
+  }
+}

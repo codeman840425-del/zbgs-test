@@ -3,6 +3,7 @@ import {deriveExteriorEntrances,floorPortalSides} from './exterior-entrance-data
 import {validateWindowResource,deriveWindowOpenings} from './window-data.js';
 import {deriveCableConnections} from './cable-data.js';
 import {validateBaseboardProfile} from './baseboard-profile.js';
+import {validateBackdropResource} from './backdrop-roll.js';
 import {companyScaleProfile,validateScaleProfile} from './scale-profile.js';
 // Company authoring data. Actor tasks and seat leases remain in the character platform.
 import {validateCeilingAttachments} from './ceiling-acoustic-data.js';
@@ -175,7 +176,7 @@ export function deriveCompany(document, catalog, templates) {
     fail('catalog-version-mismatch', 'document.catalog', 'Load the pinned resource catalog');
   if (!Array.isArray(document.nodes)) fail('invalid-nodes', 'document.nodes', 'Expected an array');
   const { resources, combinations } = catalogMaps(catalog, templates);
-  for (const resource of resources.values()) { validateDeskLampResource(resource,fail); validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); validateWindowCoverResource(resource,fail); }
+  for (const resource of resources.values()) { validateDeskLampResource(resource,fail); validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); validateWindowCoverResource(resource,fail); validateBackdropResource(resource,fail); }
   const nodes = new Map(), worlds = new Map(), localTransforms = new Map(), floorIds = new Map(), roomIds = new Map();
   for (const node of document.nodes) {
     checkId(node.id, 'nodes.id');

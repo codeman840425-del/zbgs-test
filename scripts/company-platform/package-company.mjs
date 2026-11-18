@@ -484,6 +484,13 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   add('data/library-catalog.json',catalogBytes,'complete-catalog');
   add('data/templates.json',templateBytes,'complete-templates');
   const supplemental=new Set(extraFiles);
+  if (catalog.resources.some(resource => resource.productionBranch === 'background-fabric')) {
+    supplemental.add('docs/research/COMPANY-BACKDROP-FABRIC-PRODUCTION.md');
+    supplemental.add('scripts/company-platform/test-backdrop-fabric-assets.mjs');
+    supplemental.add('scripts/company-platform/test-backdrop-roll.mjs');
+    supplemental.add('scripts/company-platform/test-backdrop-rooms.mjs');
+    supplemental.add('scripts/company-platform/qa-backdrop-rooms.cjs');
+  }
   if (catalog.resources.some(resource => resource.productionBranch === 'phone-static')) {
     supplemental.add('docs/research/COMPANY-PHONE-STATIC-PRODUCTION.md');
     supplemental.add('scripts/company-platform/test-phone-static-assets.mjs');
