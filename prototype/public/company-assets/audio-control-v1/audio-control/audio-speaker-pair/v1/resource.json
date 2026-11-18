@@ -1,0 +1,158 @@
+{
+  "id": "audio-speaker-pair",
+  "displayName": "桌面监听音箱",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "audio-control",
+  "productionBranch": "audio-control",
+  "mount": "desk-surface",
+  "mounting": {
+    "width": 0.42,
+    "height": 0.08,
+    "depth": 0.24,
+    "origin": "bottom"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Desk contact centre; controls face +Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.21,
+      0.12
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": true
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "on": "audio-control-power"
+  },
+  "materialSlots": {
+    "body": [
+      "audio-body"
+    ],
+    "accent": [
+      "audio-accent"
+    ],
+    "display": [
+      "display-surface"
+    ]
+  },
+  "cablePorts": [
+    {
+      "id": "usb",
+      "connector": "usb-c-visual-v1",
+      "position": [
+        0,
+        0.014,
+        -0.116
+      ],
+      "direction": [
+        0,
+        0,
+        -1
+      ]
+    }
+  ],
+  "cablePortNodes": {
+    "usb": {
+      "frame": [
+        "usb-frame-left",
+        "usb-frame-right",
+        "usb-frame-top",
+        "usb-frame-bottom"
+      ],
+      "backing": "usb-port-back"
+    }
+  },
+  "provenance": {
+    "license": "Project-authored procedural geometry",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "RoundedBoxGeometry",
+      "CylinderGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-audio-control-v1/parameters.json",
+    "sourceParametersSha256": "5a60f481ea9e24ad1f680085eaf718c484a7a6ee0d0d6887718b660536b249b4",
+    "functionalContractSource": "assets-source/company-audio-control-v1/contracts/audio-control.json",
+    "functionalContractSourceSha256": "b1eae6b7b7bde58a10958d2fcd3775f22b2d7d42f59594e7bc01c4786811e450",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranch": "audio-control",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "generator": "scripts/company-platform/build-audio-control-collection.mjs",
+    "generatorSha256": "6061f267bccd949e986043361c075278632cac9a10b9b536c3c8ab068bff82e1",
+    "designId": "audio-speaker-pair",
+    "method": "paired compact monitor speakers"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/audio-control-v1/audio-control/audio-speaker-pair/v1/model.glb",
+    "sha256": "1f3355afd5ed92d06d783d6300f57912afcfb15fc3247ce2feb3db0620f273d2",
+    "bytes": 214772
+  },
+  "checks": {
+    "meshCount": 13,
+    "triangles": 2180,
+    "nodeNames": [
+      "speaker--014",
+      "speaker-cone--014",
+      "speaker-014",
+      "speaker-cone-014",
+      "audio-body",
+      "display-surface",
+      "audio-accent",
+      "status-led",
+      "usb-port-back",
+      "usb-frame-left",
+      "usb-frame-right",
+      "usb-frame-top",
+      "usb-frame-bottom"
+    ],
+    "bounds": {
+      "min": [
+        -0.1999999986588955,
+        4.470348362317633e-10,
+        -0.11600000005215406
+      ],
+      "max": [
+        0.1999999986588955,
+        0.07999999910593034,
+        0.09800000005215408
+      ]
+    },
+    "geometrySha256": "5519e296e67a95ed1188f30cc768214ee4f2d520dfbc9ea9f4eee16582c763ac",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true
+  },
+  "display": {
+    "status": {
+      "stateField": "on",
+      "nodes": [
+        "status-led",
+        "display-surface"
+      ],
+      "onColor": "#c9e4ca",
+      "offColor": "#20252b",
+      "emissive": "#c9e4ca",
+      "onIntensity": 1.2
+    }
+  }
+}

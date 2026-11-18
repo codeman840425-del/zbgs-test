@@ -1,0 +1,156 @@
+{
+  "id": "audio-interface",
+  "displayName": "桌面声卡",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "audio-control",
+  "productionBranch": "audio-control",
+  "mount": "desk-surface",
+  "mounting": {
+    "width": 0.42,
+    "height": 0.08,
+    "depth": 0.24,
+    "origin": "bottom"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Desk contact centre; controls face +Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.21,
+      0.12
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": true
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "on": "audio-control-power"
+  },
+  "materialSlots": {
+    "body": [
+      "audio-body"
+    ],
+    "accent": [
+      "audio-accent"
+    ],
+    "display": [
+      "display-surface"
+    ]
+  },
+  "cablePorts": [
+    {
+      "id": "usb",
+      "connector": "usb-c-visual-v1",
+      "position": [
+        0,
+        0.014,
+        -0.116
+      ],
+      "direction": [
+        0,
+        0,
+        -1
+      ]
+    }
+  ],
+  "cablePortNodes": {
+    "usb": {
+      "frame": [
+        "usb-frame-left",
+        "usb-frame-right",
+        "usb-frame-top",
+        "usb-frame-bottom"
+      ],
+      "backing": "usb-port-back"
+    }
+  },
+  "provenance": {
+    "license": "Project-authored procedural geometry",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "RoundedBoxGeometry",
+      "CylinderGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-audio-control-v1/parameters.json",
+    "sourceParametersSha256": "5a60f481ea9e24ad1f680085eaf718c484a7a6ee0d0d6887718b660536b249b4",
+    "functionalContractSource": "assets-source/company-audio-control-v1/contracts/audio-control.json",
+    "functionalContractSourceSha256": "b1eae6b7b7bde58a10958d2fcd3775f22b2d7d42f59594e7bc01c4786811e450",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranch": "audio-control",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "generator": "scripts/company-platform/build-audio-control-collection.mjs",
+    "generatorSha256": "6061f267bccd949e986043361c075278632cac9a10b9b536c3c8ab068bff82e1",
+    "designId": "audio-interface",
+    "method": "flat audio interface with display"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/audio-control-v1/audio-control/audio-interface/v1/model.glb",
+    "sha256": "2e0940f412a33a5edf44bfe5717bfd8c53f2279d5f16a9a5442d3c8f71b3b35c",
+    "bytes": 118720
+  },
+  "checks": {
+    "meshCount": 11,
+    "triangles": 1196,
+    "nodeNames": [
+      "audio-body",
+      "display-surface",
+      "dial--012",
+      "dial-012",
+      "audio-accent",
+      "status-led",
+      "usb-port-back",
+      "usb-frame-left",
+      "usb-frame-right",
+      "usb-frame-top",
+      "usb-frame-bottom"
+    ],
+    "bounds": {
+      "min": [
+        -0.18000000715255737,
+        6.705522526129215e-10,
+        -0.11600000005215406
+      ],
+      "max": [
+        0.18000000715255737,
+        0.0780000001899898,
+        0.10000000149011612
+      ]
+    },
+    "geometrySha256": "d5fbdd7139051d5cf38cd44195fde3d704ae3b524e19ca3fa00e1b873d771bdf",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true
+  },
+  "display": {
+    "status": {
+      "stateField": "on",
+      "nodes": [
+        "status-led",
+        "display-surface"
+      ],
+      "onColor": "#8bd3dd",
+      "offColor": "#20252b",
+      "emissive": "#8bd3dd",
+      "onIntensity": 1.2
+    }
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "id": "audio-mixer",
+  "displayName": "紧凑混音台",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "audio-control",
+  "productionBranch": "audio-control",
+  "mount": "desk-surface",
+  "mounting": {
+    "width": 0.42,
+    "height": 0.08,
+    "depth": 0.24,
+    "origin": "bottom"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Desk contact centre; controls face +Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.21,
+      0.12
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": true
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "on": "audio-control-power"
+  },
+  "materialSlots": {
+    "body": [
+      "audio-body"
+    ],
+    "accent": [
+      "audio-accent"
+    ],
+    "display": [
+      "display-surface"
+    ]
+  },
+  "cablePorts": [
+    {
+      "id": "usb",
+      "connector": "usb-c-visual-v1",
+      "position": [
+        0,
+        0.014,
+        -0.116
+      ],
+      "direction": [
+        0,
+        0,
+        -1
+      ]
+    }
+  ],
+  "cablePortNodes": {
+    "usb": {
+      "frame": [
+        "usb-frame-left",
+        "usb-frame-right",
+        "usb-frame-top",
+        "usb-frame-bottom"
+      ],
+      "backing": "usb-port-back"
+    }
+  },
+  "provenance": {
+    "license": "Project-authored procedural geometry",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "RoundedBoxGeometry",
+      "CylinderGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-audio-control-v1/parameters.json",
+    "sourceParametersSha256": "5a60f481ea9e24ad1f680085eaf718c484a7a6ee0d0d6887718b660536b249b4",
+    "functionalContractSource": "assets-source/company-audio-control-v1/contracts/audio-control.json",
+    "functionalContractSourceSha256": "b1eae6b7b7bde58a10958d2fcd3775f22b2d7d42f59594e7bc01c4786811e450",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranch": "audio-control",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "generator": "scripts/company-platform/build-audio-control-collection.mjs",
+    "generatorSha256": "6061f267bccd949e986043361c075278632cac9a10b9b536c3c8ab068bff82e1",
+    "designId": "audio-mixer",
+    "method": "angled mixer with knobs"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/audio-control-v1/audio-control/audio-mixer/v1/model.glb",
+    "sha256": "54f2681d2e6946a77fcce7d2de746b89fc0419c69b2458433fc8d6cd543edee9",
+    "bytes": 127856
+  },
+  "checks": {
+    "meshCount": 13,
+    "triangles": 1324,
+    "nodeNames": [
+      "audio-body",
+      "knob--014",
+      "knob--005",
+      "knob-005",
+      "knob-014",
+      "display-surface",
+      "audio-accent",
+      "status-led",
+      "usb-port-back",
+      "usb-frame-left",
+      "usb-frame-right",
+      "usb-frame-top",
+      "usb-frame-bottom"
+    ],
+    "bounds": {
+      "min": [
+        -0.20999999344348907,
+        -8.940696724635266e-10,
+        -0.11999999731779099
+      ],
+      "max": [
+        0.20999999344348907,
+        0.0780000001899898,
+        0.11999999731779099
+      ]
+    },
+    "geometrySha256": "8a5e5c7b56abf90b10e6cf47fc3113d86eb9ce338a60d1d88794c6fc7ca5c6b3",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true
+  },
+  "display": {
+    "status": {
+      "stateField": "on",
+      "nodes": [
+        "status-led",
+        "display-surface"
+      ],
+      "onColor": "#e6b65e",
+      "offColor": "#20252b",
+      "emissive": "#e6b65e",
+      "onIntensity": 1.2
+    }
+  }
+}

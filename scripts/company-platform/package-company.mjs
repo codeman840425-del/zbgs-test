@@ -112,6 +112,12 @@ const extraFiles=[
   'scripts/company-platform/register-headphones.mjs',
   'scripts/company-platform/test-headphones-data.mjs',
   'scripts/company-platform/qa-headphones.cjs',
+  'docs/research/COMPANY-HEADPHONES-CONTRACT-v1.txt',
+  'scripts/company-platform/build-audio-control-collection.mjs',
+  'scripts/company-platform/register-audio-control.mjs',
+  'scripts/company-platform/test-audio-control-data.mjs',
+  'scripts/company-platform/qa-audio-control.cjs',
+  'docs/research/COMPANY-AUDIO-CONTROL-CONTRACT-v1.txt',
   'prototype/scripts/build-id.mjs',
 ];
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
