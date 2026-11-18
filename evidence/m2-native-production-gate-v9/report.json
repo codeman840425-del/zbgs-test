@@ -1,0 +1,1061 @@
+{
+  "schema": "native-production-readiness-v1",
+  "batch": {
+    "path": "assets-source/native-parameter-game-packages-v1/import-batch.json",
+    "sha256": "5d84424b0fc229a14990580ba164e6770650ef25d7d47209da4a8d926529baf7",
+    "bytes": 452
+  },
+  "items": [
+    {
+      "id": "contour-roundness-a",
+      "package": "native-contour-roundness-a-v1",
+      "bodyType": "native-contour-roundness-a-v1",
+      "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+      "recipeSha256": "1933b5f3cd5e3bdd8302dec8c89f24b4f91e31d2310876ec3ce359f4d13a0c7c",
+      "recipeValues": {
+        "Level2FaceContour_ChinRoundness": 0.78,
+        "Level2FaceContour_ChinFullCheeked": 0.3
+      },
+      "lanes": {
+        "authoring": "verified",
+        "coldReadback": "verified",
+        "export": "verified",
+        "dependencyDelta": "verified",
+        "bodyPackage": "verified",
+        "coverage": "verified",
+        "runtimeCatalog": "unverified",
+        "record": "unverified",
+        "restore": "unverified"
+      },
+      "reusableChecks": [
+        "feetAndFloor",
+        "garmentsAndCoverage",
+        "seatContact"
+      ],
+      "adapterTasks": [
+        {
+          "check": "dynamicMotion",
+          "task": "recheck-hair-and-dynamic-simulation",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_HairBack_00_HAIR (Instance)"
+          ],
+          "evidence": {
+            "report": {
+              "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/provenance.json",
+              "sha256": "7c94290453078406d7b140117df6a06c0e6104b01d152c00128fefee0e74c2e6",
+              "bytes": 5856
+            },
+            "role": "dependency-follow-up"
+          }
+        },
+        {
+          "check": "facialExpressions",
+          "task": "verify-face-expression-admission",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)"
+          ],
+          "evidence": {
+            "report": {
+              "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/provenance.json",
+              "sha256": "7c94290453078406d7b140117df6a06c0e6104b01d152c00128fefee0e74c2e6",
+              "bytes": 5856
+            },
+            "role": "dependency-follow-up"
+          }
+        },
+        {
+          "check": "handAndMicrophone",
+          "task": "rebuild-hand-grip-fit",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)"
+          ],
+          "evidence": {
+            "report": {
+              "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/provenance.json",
+              "sha256": "7c94290453078406d7b140117df6a06c0e6104b01d152c00128fefee0e74c2e6",
+              "bytes": 5856
+            },
+            "role": "dependency-follow-up"
+          }
+        },
+        {
+          "check": "headAttachments",
+          "task": "rebuild-head-attachment-fit",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)",
+            "N00_000_00_HairBack_00_HAIR (Instance)"
+          ],
+          "evidence": {
+            "report": {
+              "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/provenance.json",
+              "sha256": "7c94290453078406d7b140117df6a06c0e6104b01d152c00128fefee0e74c2e6",
+              "bytes": 5856
+            },
+            "role": "dependency-follow-up"
+          }
+        },
+        {
+          "check": "runtimeRecordAndBudget",
+          "task": "rerun-runtime-record-and-budget-check",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)",
+            "N00_000_00_Body_00_SKIN (Instance)",
+            "N00_000_00_HairBack_00_HAIR (Instance)",
+            "Export byte identity changed"
+          ],
+          "evidence": {
+            "report": {
+              "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/provenance.json",
+              "sha256": "7c94290453078406d7b140117df6a06c0e6104b01d152c00128fefee0e74c2e6",
+              "bytes": 5856
+            },
+            "role": "dependency-follow-up"
+          }
+        },
+        {
+          "check": "surfaceAndTexture",
+          "task": "rebuild-surface-palette-and-texture-admission",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)",
+            "N00_000_00_Body_00_SKIN (Instance)",
+            "N00_000_00_HairBack_00_HAIR (Instance)"
+          ],
+          "evidence": {
+            "report": {
+              "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/provenance.json",
+              "sha256": "7c94290453078406d7b140117df6a06c0e6104b01d152c00128fefee0e74c2e6",
+              "bytes": 5856
+            },
+            "role": "dependency-follow-up"
+          }
+        }
+      ],
+      "adapterEvidence": null,
+      "resolvedChecks": {},
+      "runtimeEvidence": null,
+      "blockers": [
+        "runtime admission is not granted by an offline package",
+        "visual acceptance is not granted by a source screenshot or CPU check",
+        "pending adapter checks require exact evidence before fit reuse: dynamicMotion, facialExpressions, handAndMicrophone, headAttachments, runtimeRecordAndBudget, surfaceAndTexture"
+      ],
+      "source": {
+        "spec": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/import-spec.json",
+          "sha256": "a1c87d22981ac1b32945c060a5466bb4a1eece64f44947d32c7023b99a13fc27",
+          "bytes": 1801
+        },
+        "body": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/body.vrm",
+          "sha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+          "bytes": 17127080
+        },
+        "provenance": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/provenance.json",
+          "sha256": "7c94290453078406d7b140117df6a06c0e6104b01d152c00128fefee0e74c2e6",
+          "bytes": 5856
+        },
+        "profile": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/profile-candidate.json",
+          "sha256": "d81e8d83d486f5e8674dc772f844c2e8b4a55ec40a1282cfc4272309b71327d6",
+          "bytes": 1571
+        },
+        "recipe": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/recipe.json",
+          "sha256": "1933b5f3cd5e3bdd8302dec8c89f24b4f91e31d2310876ec3ce359f4d13a0c7c",
+          "bytes": 143
+        }
+      },
+      "candidateAdaptationEvidence": {
+        "report": {
+          "path": "evidence/m2-native-batch-adaptation-v1/adaptation-admissions.json",
+          "sha256": "a0806956cfdad46d6f2704a2bd0aceb149b39ffbb14b91fc9aed7adb7feaa636",
+          "bytes": 6501
+        },
+        "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+        "candidateId": "contour-roundness-a",
+        "dynamicMotion": {
+          "status": "shared-structure-requires-motion-recheck",
+          "springExtension": "VRMC_springBone",
+          "springCount": 27,
+          "colliderCount": 28,
+          "exactAgainstBaseline": {
+            "nodes": true,
+            "skins": true,
+            "humanoid": true,
+            "expressions": true,
+            "springBone": true
+          },
+          "reuse": "Reuse spring/normalized-motion configuration only after this candidate's head attachments, hair and expression motion are checked",
+          "reasons": [
+            "N00_000_00_HairBack_00_HAIR (Instance)"
+          ]
+        },
+        "surfaceAndTexture": {
+          "status": "body-pixel-contract-admitted-face-surface-recheck",
+          "bodyConsumer": {
+            "mesh": 1,
+            "primitive": 0,
+            "material": "N00_000_00_Body_00_SKIN (Instance)",
+            "texture": 11,
+            "image": 11,
+            "baseTextureInfo": {
+              "index": 11,
+              "texCoord": 0,
+              "extensions": {
+                "KHR_texture_transform": {
+                  "offset": [
+                    0,
+                    0
+                  ],
+                  "scale": [
+                    1,
+                    1
+                  ]
+                }
+              }
+            },
+            "shadeTextureInfo": {
+              "extensions": {
+                "KHR_texture_transform": {
+                  "offset": [
+                    0,
+                    0
+                  ],
+                  "scale": [
+                    1,
+                    1
+                  ]
+                }
+              },
+              "index": 11
+            }
+          },
+          "basePngSha256": "5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a",
+          "coveredPngSha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c",
+          "dimensions": [
+            2048,
+            2048
+          ],
+          "rgbExact": true,
+          "baseOpaque": true,
+          "changedAlphaPixels": 608383,
+          "materialsAndImages": {
+            "materialCount": 14,
+            "imageCount": 24,
+            "bodyImageIndex": 11
+          },
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)",
+            "N00_000_00_Body_00_SKIN (Instance)",
+            "N00_000_00_HairBack_00_HAIR (Instance)",
+            "Material graph or a consumed image changed"
+          ]
+        },
+        "scope": "source-side structure and texture contract; no runtime or visual admission"
+      },
+      "runtimeHeadAuditEvidence": {
+        "report": {
+          "path": "evidence/m2-native-batch-runtime-seam-v1/runtime-record-budget-head-attachment-audit.json",
+          "sha256": "937fab35201c7815abee3b682f92adee033b9f16293624e24010df582549783a",
+          "bytes": 3097
+        },
+        "recordPath": "output/native-parameter-records-v1/contour-roundness-a.json",
+        "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+        "budget": {
+          "command": "python -B scripts/production/record_budget.py measure evidence/m2-native-batch-runtime-seam-v1/native-records-budget-input.json --source-root . --budget-version m2-technical-v1",
+          "reportPath": "evidence/m2-native-batch-runtime-seam-v1/native-records-budget.json",
+          "reportSha256": "d9c331d1164f3872d0444a22d8a2c63b56de95241874ad4d4d42c3dae1df9b6b",
+          "budgetFileSha256": "b5f792da80d061aa8dfac1045e2f69e699207dd5d4a05b5ea9959ef532dc9d63",
+          "status": "over-budget",
+          "selectedLookPerBody": {
+            "fileBytes": 20330749,
+            "rgba8MipBytes": 211466920,
+            "textureObjects": 40
+          },
+          "sharedExcesses": [
+            "body model exceeds uniquePositionVertices, primitiveVertices, triangles, nodeTriangles, jointSlots, maxJointsPerSkin, rgba8MipBytes, springJoints and colliders limits",
+            "each garment model exceeds jointSlots and maxJointsPerSkin limits",
+            "studio-microphone-v1 exceeds primitive limit"
+          ],
+          "ordinaryPCPerformance": "unmeasured",
+          "unsupportedActions": [
+            "rokoko-5359146-30s-v1",
+            "rokoko-5359146-30s-arm-local-v1",
+            "native-rokoko-5359146-30s-v2"
+          ]
+        },
+        "headAttachments": {
+          "status": "exact-resource-contracts-present-visual-contact-pending",
+          "glasses": {
+            "bodySha256": [
+              "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+              "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb"
+            ],
+            "fitStatus": "fitted-candidate",
+            "verified": false,
+            "fitRuntime": "glasses-temple-fit.js exact body/accessory/profile SHA and source mesh checks"
+          },
+          "microphone": {
+            "mouthAnchors": "measured separately per final body with 32-point FaceMouth seam and AA displacement",
+            "handDependencies": "1,093 referenced hand triangles and POSITION/JOINTS/WEIGHTS/IBM/rest comparison equal to reference",
+            "fitStatus": "cpu-candidate-only"
+          },
+          "hair": "embedded source hair only. No external hairstyle fit is selected",
+          "requiredPerBodyEvidence": [
+            "browser 1x glasses stand/sit contact and head/hair clearance",
+            "browser 1x microphone grip, mouth direction, speaking and sit contact",
+            "record close/reopen identity and exact fit SHA readback"
+          ],
+          "automaticContractCoverage": [
+            "body and accessory SHA binding",
+            "grip and temple profile byte SHA/length",
+            "mouth anchor source SHA",
+            "record resourceIdentities and fit metadata"
+          ]
+        },
+        "scope": "runtime record/budget and head attachment audit; no visual or ordinary-PC pass"
+      },
+      "dynamicRuntimeTrace": {
+        "report": {
+          "path": "evidence/m2-native-dynamic-runtime-trace-v3a/summary.json",
+          "sha256": "e683b291b2b87a4bd59d3ac2967a21b4a7522b3fa4561bcdfe68a9edd1baa76a",
+          "bytes": 1191
+        },
+        "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+        "recordSha256": "a7e68600e569dd1a17e5c0b7cec7be51bca91f1fc99bd7c57630a5e0181eed33",
+        "traceReport": {
+          "path": "evidence/m2-native-dynamic-runtime-trace-v3a/contour-roundness-a/report.json",
+          "sha256": "4ad110dbc62668fdee93700a35757ffdc23542beb7380e40e827afcd6c5ca254",
+          "bytes": 902950
+        },
+        "builds": [
+          "c5ce1f7126ab"
+        ],
+        "samples": 226,
+        "status": "technical-pass-diagnostic-only",
+        "scope": "Two exact native FaceContour records sampled with dynamics on/off during walk, sit, stand and exit. This is diagnostic evidence and does not clear dynamicMotion, visual, budget or ordinary-PC admission.",
+        "clears": []
+      },
+      "budgetClassification": {
+        "report": {
+          "path": "evidence/m2-native-batch-runtime-seam-v1/budget-classification-v1.json",
+          "sha256": "c27b1740c76e68625899ff314f96b3fdaa8b4166dd2630a41bc8ac8b7952199f",
+          "bytes": 10101
+        },
+        "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+        "transport": {
+          "status": "measured",
+          "closureSourceBytes": 34487828,
+          "selectedFileBytes": 20330749,
+          "standaloneEncodedImageBytes": 859933
+        },
+        "decodeCanvas": {
+          "status": "static-estimate",
+          "rgba8MipBytes": 211466920,
+          "textureObjects": 40,
+          "bodyExcesses": [
+            {
+              "actual": 38661,
+              "limit": 30000,
+              "metric": "uniquePositionVertices"
+            },
+            {
+              "actual": 108256,
+              "limit": 80000,
+              "metric": "primitiveVertices"
+            },
+            {
+              "actual": 54950,
+              "limit": 40000,
+              "metric": "triangles"
+            },
+            {
+              "actual": 54950,
+              "limit": 40000,
+              "metric": "nodeTriangles"
+            },
+            {
+              "actual": 390,
+              "limit": 256,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "maxJointsPerSkin"
+            },
+            {
+              "actual": 126179680,
+              "limit": 100663296,
+              "metric": "rgba8MipBytes"
+            },
+            {
+              "actual": 102,
+              "limit": 32,
+              "metric": "springJoints"
+            },
+            {
+              "actual": 28,
+              "limit": 16,
+              "metric": "colliders"
+            }
+          ],
+          "garmentExcesses": {
+            "native-contour-roundness-a-shoes-v1": [
+              {
+                "actual": 130,
+                "limit": 128,
+                "metric": "jointSlots"
+              },
+              {
+                "actual": 130,
+                "limit": 96,
+                "metric": "maxJointsPerSkin"
+              }
+            ],
+            "native-contour-roundness-a-shorts-v1": [
+              {
+                "actual": 130,
+                "limit": 128,
+                "metric": "jointSlots"
+              },
+              {
+                "actual": 130,
+                "limit": 96,
+                "metric": "maxJointsPerSkin"
+              }
+            ],
+            "native-contour-roundness-a-top-v1": [
+              {
+                "actual": 130,
+                "limit": 128,
+                "metric": "jointSlots"
+              },
+              {
+                "actual": 130,
+                "limit": 96,
+                "metric": "maxJointsPerSkin"
+              }
+            ]
+          },
+          "accessoryExcesses": {
+            "studio-glasses-v1": [],
+            "studio-microphone-v1": [
+              {
+                "actual": 9,
+                "limit": 8,
+                "metric": "primitives"
+              }
+            ]
+          },
+          "canvasDerivedHairCost": "unsupported unless the selected hair color model is explicitly budgeted"
+        },
+        "gpu": {
+          "status": "unmeasured",
+          "observedGpuBytes": null,
+          "observedTextureLifetime": false,
+          "reason": "RGBA8 mip totals and KTX CPU transcode bytes are estimates, not GPU residency"
+        },
+        "ordinaryPC": {
+          "status": "unmeasured"
+        },
+        "resourceGates": {
+          "body": "failed",
+          "garments": {
+            "native-contour-roundness-a-shoes-v1": "failed",
+            "native-contour-roundness-a-shorts-v1": "failed",
+            "native-contour-roundness-a-top-v1": "failed"
+          },
+          "accessories": {
+            "studio-glasses-v1": "passed-static",
+            "studio-microphone-v1": "failed"
+          }
+        },
+        "scope": "four-layer static/runtime budget classification; no admission"
+      },
+      "surfaceAdmissionEvidence": {
+        "report": {
+          "path": "evidence/m2-native-surface-texture-admission-v1/REPORT.json",
+          "sha256": "c6739dd7ffa00cfe62f53de293172db35d186fe77dc157ed4f870fb9eadd2cc6",
+          "bytes": 2345
+        },
+        "bodyType": "native-contour-roundness-a-v1",
+        "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+        "static": {
+          "status": "passed",
+          "bodyShaExact": true,
+          "imageMaterialUvAlphaExact": true,
+          "coverageManifestExact": true
+        },
+        "runtime": {
+          "status": "blocked",
+          "reason": "No browser/WebGL runtime admission evidence is attached to this native batch package",
+          "sourceRecordRuntimeAccepted": false
+        },
+        "visual": {
+          "status": "blocked",
+          "reason": "No human visual acceptance evidence is attached to this native batch package",
+          "sourceRecordVisualAccepted": false
+        },
+        "scope": "native parameter batch surface/texture identity only",
+        "clears": []
+      },
+      "glassesCandidateEvidence": {
+        "report": {
+          "path": "evidence/m2-native-batch-runtime-seam-v1/native-glasses-runtime-candidate-v1/report.json",
+          "sha256": "34d51bffc661719dc2449cdd3417fc8a743ed90038f289d01e228510264692c0",
+          "bytes": 113497
+        },
+        "body": "native-contour-roundness-a-v1",
+        "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+        "standApplied": true,
+        "sitApplied": null,
+        "fitStatus": "fitted-candidate",
+        "verified": false,
+        "clears": []
+      }
+    },
+    {
+      "id": "contour-cheek-b",
+      "package": "native-contour-cheek-b-v1",
+      "bodyType": "native-contour-cheek-b-v1",
+      "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+      "recipeSha256": "2fd63f7b90b22fd181b21c528d2682726457ea85569912adc736ff07917dce25",
+      "recipeValues": {
+        "Level2FaceContour_ChinRoundness": 0.6,
+        "Level2FaceContour_ChinFullCheeked": 0.48
+      },
+      "lanes": {
+        "authoring": "verified",
+        "coldReadback": "verified",
+        "export": "verified",
+        "dependencyDelta": "verified",
+        "bodyPackage": "verified",
+        "coverage": "verified",
+        "runtimeCatalog": "unverified",
+        "record": "unverified",
+        "restore": "unverified"
+      },
+      "reusableChecks": [
+        "feetAndFloor",
+        "garmentsAndCoverage",
+        "seatContact"
+      ],
+      "adapterTasks": [
+        {
+          "check": "dynamicMotion",
+          "task": "recheck-hair-and-dynamic-simulation",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_HairBack_00_HAIR (Instance)"
+          ],
+          "evidence": {
+            "report": {
+              "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/provenance.json",
+              "sha256": "98dcc6fbe1554b05b50f520fe01e51bad4376d3416535debcb17c1d0e238d087",
+              "bytes": 5844
+            },
+            "role": "dependency-follow-up"
+          }
+        },
+        {
+          "check": "facialExpressions",
+          "task": "verify-face-expression-admission",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)"
+          ],
+          "evidence": {
+            "report": {
+              "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/provenance.json",
+              "sha256": "98dcc6fbe1554b05b50f520fe01e51bad4376d3416535debcb17c1d0e238d087",
+              "bytes": 5844
+            },
+            "role": "dependency-follow-up"
+          }
+        },
+        {
+          "check": "handAndMicrophone",
+          "task": "rebuild-hand-grip-fit",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)"
+          ],
+          "evidence": {
+            "report": {
+              "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/provenance.json",
+              "sha256": "98dcc6fbe1554b05b50f520fe01e51bad4376d3416535debcb17c1d0e238d087",
+              "bytes": 5844
+            },
+            "role": "dependency-follow-up"
+          }
+        },
+        {
+          "check": "headAttachments",
+          "task": "rebuild-head-attachment-fit",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)",
+            "N00_000_00_HairBack_00_HAIR (Instance)"
+          ],
+          "evidence": {
+            "report": {
+              "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/provenance.json",
+              "sha256": "98dcc6fbe1554b05b50f520fe01e51bad4376d3416535debcb17c1d0e238d087",
+              "bytes": 5844
+            },
+            "role": "dependency-follow-up"
+          }
+        },
+        {
+          "check": "runtimeRecordAndBudget",
+          "task": "rerun-runtime-record-and-budget-check",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)",
+            "N00_000_00_Body_00_SKIN (Instance)",
+            "N00_000_00_HairBack_00_HAIR (Instance)",
+            "Export byte identity changed"
+          ],
+          "evidence": {
+            "report": {
+              "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/provenance.json",
+              "sha256": "98dcc6fbe1554b05b50f520fe01e51bad4376d3416535debcb17c1d0e238d087",
+              "bytes": 5844
+            },
+            "role": "dependency-follow-up"
+          }
+        },
+        {
+          "check": "surfaceAndTexture",
+          "task": "rebuild-surface-palette-and-texture-admission",
+          "status": "needs-recheck",
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)",
+            "N00_000_00_Body_00_SKIN (Instance)",
+            "N00_000_00_HairBack_00_HAIR (Instance)"
+          ],
+          "evidence": {
+            "report": {
+              "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/provenance.json",
+              "sha256": "98dcc6fbe1554b05b50f520fe01e51bad4376d3416535debcb17c1d0e238d087",
+              "bytes": 5844
+            },
+            "role": "dependency-follow-up"
+          }
+        }
+      ],
+      "adapterEvidence": null,
+      "resolvedChecks": {},
+      "runtimeEvidence": null,
+      "blockers": [
+        "runtime admission is not granted by an offline package",
+        "visual acceptance is not granted by a source screenshot or CPU check",
+        "pending adapter checks require exact evidence before fit reuse: dynamicMotion, facialExpressions, handAndMicrophone, headAttachments, runtimeRecordAndBudget, surfaceAndTexture"
+      ],
+      "source": {
+        "spec": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/import-spec.json",
+          "sha256": "cdf015a76fc83d48cdbdb50813ff15e6e810bbc8054a170c1370824cf8851933",
+          "bytes": 1741
+        },
+        "body": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/body.vrm",
+          "sha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+          "bytes": 17126644
+        },
+        "provenance": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/provenance.json",
+          "sha256": "98dcc6fbe1554b05b50f520fe01e51bad4376d3416535debcb17c1d0e238d087",
+          "bytes": 5844
+        },
+        "profile": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/profile-candidate.json",
+          "sha256": "e6c93e3834dc6d7aa6ee9904102d5b4f13a2fb21c154e273db59925b7cbfc5f0",
+          "bytes": 1542
+        },
+        "recipe": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/recipe.json",
+          "sha256": "2fd63f7b90b22fd181b21c528d2682726457ea85569912adc736ff07917dce25",
+          "bytes": 139
+        }
+      },
+      "candidateAdaptationEvidence": {
+        "report": {
+          "path": "evidence/m2-native-batch-adaptation-v1/adaptation-admissions.json",
+          "sha256": "a0806956cfdad46d6f2704a2bd0aceb149b39ffbb14b91fc9aed7adb7feaa636",
+          "bytes": 6501
+        },
+        "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+        "candidateId": "contour-cheek-b",
+        "dynamicMotion": {
+          "status": "shared-structure-requires-motion-recheck",
+          "springExtension": "VRMC_springBone",
+          "springCount": 27,
+          "colliderCount": 28,
+          "exactAgainstBaseline": {
+            "nodes": true,
+            "skins": true,
+            "humanoid": true,
+            "expressions": true,
+            "springBone": true
+          },
+          "reuse": "Reuse spring/normalized-motion configuration only after this candidate's head attachments, hair and expression motion are checked",
+          "reasons": [
+            "N00_000_00_HairBack_00_HAIR (Instance)"
+          ]
+        },
+        "surfaceAndTexture": {
+          "status": "body-pixel-contract-admitted-face-surface-recheck",
+          "bodyConsumer": {
+            "mesh": 1,
+            "primitive": 0,
+            "material": "N00_000_00_Body_00_SKIN (Instance)",
+            "texture": 11,
+            "image": 11,
+            "baseTextureInfo": {
+              "index": 11,
+              "texCoord": 0,
+              "extensions": {
+                "KHR_texture_transform": {
+                  "offset": [
+                    0,
+                    0
+                  ],
+                  "scale": [
+                    1,
+                    1
+                  ]
+                }
+              }
+            },
+            "shadeTextureInfo": {
+              "extensions": {
+                "KHR_texture_transform": {
+                  "offset": [
+                    0,
+                    0
+                  ],
+                  "scale": [
+                    1,
+                    1
+                  ]
+                }
+              },
+              "index": 11
+            }
+          },
+          "basePngSha256": "5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a",
+          "coveredPngSha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c",
+          "dimensions": [
+            2048,
+            2048
+          ],
+          "rgbExact": true,
+          "baseOpaque": true,
+          "changedAlphaPixels": 608383,
+          "materialsAndImages": {
+            "materialCount": 14,
+            "imageCount": 24,
+            "bodyImageIndex": 11
+          },
+          "reasons": [
+            "N00_000_00_FaceMouth_00_FACE (Instance)",
+            "N00_000_00_Face_00_SKIN (Instance)",
+            "N00_000_00_Body_00_SKIN (Instance)",
+            "N00_000_00_HairBack_00_HAIR (Instance)",
+            "Material graph or a consumed image changed"
+          ]
+        },
+        "scope": "source-side structure and texture contract; no runtime or visual admission"
+      },
+      "runtimeHeadAuditEvidence": {
+        "report": {
+          "path": "evidence/m2-native-batch-runtime-seam-v1/runtime-record-budget-head-attachment-audit.json",
+          "sha256": "937fab35201c7815abee3b682f92adee033b9f16293624e24010df582549783a",
+          "bytes": 3097
+        },
+        "recordPath": "output/native-parameter-records-v1/contour-cheek-b.json",
+        "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+        "budget": {
+          "command": "python -B scripts/production/record_budget.py measure evidence/m2-native-batch-runtime-seam-v1/native-records-budget-input.json --source-root . --budget-version m2-technical-v1",
+          "reportPath": "evidence/m2-native-batch-runtime-seam-v1/native-records-budget.json",
+          "reportSha256": "d9c331d1164f3872d0444a22d8a2c63b56de95241874ad4d4d42c3dae1df9b6b",
+          "budgetFileSha256": "b5f792da80d061aa8dfac1045e2f69e699207dd5d4a05b5ea9959ef532dc9d63",
+          "status": "over-budget",
+          "selectedLookPerBody": {
+            "fileBytes": 20330749,
+            "rgba8MipBytes": 211466920,
+            "textureObjects": 40
+          },
+          "sharedExcesses": [
+            "body model exceeds uniquePositionVertices, primitiveVertices, triangles, nodeTriangles, jointSlots, maxJointsPerSkin, rgba8MipBytes, springJoints and colliders limits",
+            "each garment model exceeds jointSlots and maxJointsPerSkin limits",
+            "studio-microphone-v1 exceeds primitive limit"
+          ],
+          "ordinaryPCPerformance": "unmeasured",
+          "unsupportedActions": [
+            "rokoko-5359146-30s-v1",
+            "rokoko-5359146-30s-arm-local-v1",
+            "native-rokoko-5359146-30s-v2"
+          ]
+        },
+        "headAttachments": {
+          "status": "exact-resource-contracts-present-visual-contact-pending",
+          "glasses": {
+            "bodySha256": [
+              "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+              "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb"
+            ],
+            "fitStatus": "fitted-candidate",
+            "verified": false,
+            "fitRuntime": "glasses-temple-fit.js exact body/accessory/profile SHA and source mesh checks"
+          },
+          "microphone": {
+            "mouthAnchors": "measured separately per final body with 32-point FaceMouth seam and AA displacement",
+            "handDependencies": "1,093 referenced hand triangles and POSITION/JOINTS/WEIGHTS/IBM/rest comparison equal to reference",
+            "fitStatus": "cpu-candidate-only"
+          },
+          "hair": "embedded source hair only. No external hairstyle fit is selected",
+          "requiredPerBodyEvidence": [
+            "browser 1x glasses stand/sit contact and head/hair clearance",
+            "browser 1x microphone grip, mouth direction, speaking and sit contact",
+            "record close/reopen identity and exact fit SHA readback"
+          ],
+          "automaticContractCoverage": [
+            "body and accessory SHA binding",
+            "grip and temple profile byte SHA/length",
+            "mouth anchor source SHA",
+            "record resourceIdentities and fit metadata"
+          ]
+        },
+        "scope": "runtime record/budget and head attachment audit; no visual or ordinary-PC pass"
+      },
+      "dynamicRuntimeTrace": {
+        "report": {
+          "path": "evidence/m2-native-dynamic-runtime-trace-v3a/summary.json",
+          "sha256": "e683b291b2b87a4bd59d3ac2967a21b4a7522b3fa4561bcdfe68a9edd1baa76a",
+          "bytes": 1191
+        },
+        "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+        "recordSha256": "b1c8e0cbac2d249954eceb69b94ddc906401d78ac64f810b98d5e9e6df1e6e9a",
+        "traceReport": {
+          "path": "evidence/m2-native-dynamic-runtime-trace-v3a/contour-cheek-b/report.json",
+          "sha256": "5e5a8fd907030029c7ea73b4e7e98b300b5ff70679b0e1de3cd581dc47ddebae",
+          "bytes": 925267
+        },
+        "builds": [
+          "c5ce1f7126ab"
+        ],
+        "samples": 232,
+        "status": "technical-pass-diagnostic-only",
+        "scope": "Two exact native FaceContour records sampled with dynamics on/off during walk, sit, stand and exit. This is diagnostic evidence and does not clear dynamicMotion, visual, budget or ordinary-PC admission.",
+        "clears": []
+      },
+      "budgetClassification": {
+        "report": {
+          "path": "evidence/m2-native-batch-runtime-seam-v1/budget-classification-v1.json",
+          "sha256": "c27b1740c76e68625899ff314f96b3fdaa8b4166dd2630a41bc8ac8b7952199f",
+          "bytes": 10101
+        },
+        "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+        "transport": {
+          "status": "measured",
+          "closureSourceBytes": 34487332,
+          "selectedFileBytes": 20330313,
+          "standaloneEncodedImageBytes": 859933
+        },
+        "decodeCanvas": {
+          "status": "static-estimate",
+          "rgba8MipBytes": 211466920,
+          "textureObjects": 40,
+          "bodyExcesses": [
+            {
+              "actual": 38661,
+              "limit": 30000,
+              "metric": "uniquePositionVertices"
+            },
+            {
+              "actual": 108256,
+              "limit": 80000,
+              "metric": "primitiveVertices"
+            },
+            {
+              "actual": 54950,
+              "limit": 40000,
+              "metric": "triangles"
+            },
+            {
+              "actual": 54950,
+              "limit": 40000,
+              "metric": "nodeTriangles"
+            },
+            {
+              "actual": 390,
+              "limit": 256,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "maxJointsPerSkin"
+            },
+            {
+              "actual": 126179680,
+              "limit": 100663296,
+              "metric": "rgba8MipBytes"
+            },
+            {
+              "actual": 102,
+              "limit": 32,
+              "metric": "springJoints"
+            },
+            {
+              "actual": 28,
+              "limit": 16,
+              "metric": "colliders"
+            }
+          ],
+          "garmentExcesses": {
+            "native-contour-cheek-b-shoes-v1": [
+              {
+                "actual": 130,
+                "limit": 128,
+                "metric": "jointSlots"
+              },
+              {
+                "actual": 130,
+                "limit": 96,
+                "metric": "maxJointsPerSkin"
+              }
+            ],
+            "native-contour-cheek-b-shorts-v1": [
+              {
+                "actual": 130,
+                "limit": 128,
+                "metric": "jointSlots"
+              },
+              {
+                "actual": 130,
+                "limit": 96,
+                "metric": "maxJointsPerSkin"
+              }
+            ],
+            "native-contour-cheek-b-top-v1": [
+              {
+                "actual": 130,
+                "limit": 128,
+                "metric": "jointSlots"
+              },
+              {
+                "actual": 130,
+                "limit": 96,
+                "metric": "maxJointsPerSkin"
+              }
+            ]
+          },
+          "accessoryExcesses": {
+            "studio-glasses-v1": [],
+            "studio-microphone-v1": [
+              {
+                "actual": 9,
+                "limit": 8,
+                "metric": "primitives"
+              }
+            ]
+          },
+          "canvasDerivedHairCost": "unsupported unless the selected hair color model is explicitly budgeted"
+        },
+        "gpu": {
+          "status": "unmeasured",
+          "observedGpuBytes": null,
+          "observedTextureLifetime": false,
+          "reason": "RGBA8 mip totals and KTX CPU transcode bytes are estimates, not GPU residency"
+        },
+        "ordinaryPC": {
+          "status": "unmeasured"
+        },
+        "resourceGates": {
+          "body": "failed",
+          "garments": {
+            "native-contour-cheek-b-shoes-v1": "failed",
+            "native-contour-cheek-b-shorts-v1": "failed",
+            "native-contour-cheek-b-top-v1": "failed"
+          },
+          "accessories": {
+            "studio-glasses-v1": "passed-static",
+            "studio-microphone-v1": "failed"
+          }
+        },
+        "scope": "four-layer static/runtime budget classification; no admission"
+      },
+      "surfaceAdmissionEvidence": {
+        "report": {
+          "path": "evidence/m2-native-surface-texture-admission-v1/REPORT.json",
+          "sha256": "c6739dd7ffa00cfe62f53de293172db35d186fe77dc157ed4f870fb9eadd2cc6",
+          "bytes": 2345
+        },
+        "bodyType": "native-contour-cheek-b-v1",
+        "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+        "static": {
+          "status": "passed",
+          "bodyShaExact": true,
+          "imageMaterialUvAlphaExact": true,
+          "coverageManifestExact": true
+        },
+        "runtime": {
+          "status": "blocked",
+          "reason": "No browser/WebGL runtime admission evidence is attached to this native batch package",
+          "sourceRecordRuntimeAccepted": false
+        },
+        "visual": {
+          "status": "blocked",
+          "reason": "No human visual acceptance evidence is attached to this native batch package",
+          "sourceRecordVisualAccepted": false
+        },
+        "scope": "native parameter batch surface/texture identity only",
+        "clears": []
+      },
+      "glassesCandidateEvidence": {
+        "report": {
+          "path": "evidence/m2-native-batch-runtime-seam-v1/native-glasses-runtime-candidate-v1/report.json",
+          "sha256": "34d51bffc661719dc2449cdd3417fc8a743ed90038f289d01e228510264692c0",
+          "bytes": 113497
+        },
+        "body": "native-contour-cheek-b-v1",
+        "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+        "standApplied": true,
+        "sitApplied": null,
+        "fitStatus": "fitted-candidate",
+        "verified": false,
+        "clears": []
+      }
+    }
+  ],
+  "acceptedForRuntime": [],
+  "status": "adapter-work-required",
+  "summary": {
+    "items": 2,
+    "reusableCheckCount": 6,
+    "adapterTaskCount": 12,
+    "runtimeReadyCount": 0,
+    "reason": "The gate separates repeatable production from per-body fit and runtime admission."
+  }
+}
