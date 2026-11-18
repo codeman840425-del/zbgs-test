@@ -307,7 +307,6 @@ async function run() {
     await check('One normal-speed recording of the four looks in the room', async () => {
       await closeBrowser();
       await openBrowser({ recording: true });
-      const video = page.video();
       await select('layout', 'base');
       await selectStation(wideStation);
       await captureLook(wideStation, '00-original.png');
@@ -319,12 +318,14 @@ async function run() {
         screenshots.push(await captureLook(wideStation, look + '.png'));
         await page.waitForTimeout(1250);
       }
+      const capturedVideo = await page.video().path();
       await closeBrowser();
       const file = path.join('video', 'workstation-looks-normal.webm');
-      await video.saveAs(path.join(out, file));
-      await video.delete();
+      await fs.rename(capturedVideo, path.join(out, file));
+      const { size } = await fs.stat(path.join(out, file));
+      assert(size > 0, 'Playwright recording has no bytes');
       report.video.file = file;
-      return { file, screenshots };
+      return { file, bytes: size, screenshots };
     });
   }
   assert.deepEqual(report.browserErrors, []);
