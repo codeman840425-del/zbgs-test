@@ -1,5 +1,22 @@
 # 轻量生产流程入口
 
+## 游戏接收方复算当前交付
+
+`delivery/character-production-handoff.json` 分别固定生产工具和游戏运行时。旧游戏源码附带的制作工具可能早于批量请求协议。复算机从交付单读取两个提交，分别检出；工具检出需要自己的 `prototype/node_modules`，游戏检出按锁文件构建。下面的 `$operatorRoot`、`$runtimeRoot` 分别是这两份检出的绝对路径，`$runRoot` 是主工程内新建且未使用的输出目录。完整普通检出可直接运行。稀疏检出需同时取协议引用的源配方、矩阵、已签角色记录和发布资源。
+
+```powershell
+$rtAssets = Join-Path $runtimeRoot 'assets-source/variant-matrix-v1'
+$dist = Join-Path $runtimeRoot 'prototype/dist'
+$records = Join-Path $operatorRoot 'evidence/m2-native-short-socks-room-v1/records.json'
+Set-Location -LiteralPath $operatorRoot
+python -B scripts/production/variant_batch.py "$rtAssets/representative-matrix.json" "$rtAssets/native-crew-shorts-request.json" --root $runtimeRoot --diagnostic --output "$runRoot/plan"
+node scripts/character-production-cli.cjs --dist $dist --request "$runRoot/plan/diagnostic-requests/create-001.batch.json" --out "$runRoot/fresh.json" --evidence "$runRoot/browser"
+node scripts/runtime-package/game-record-cli.mjs inventory --dist $dist --source-root $runtimeRoot --records $records --out "$runRoot/inventory.json"
+node scripts/runtime-package/game-record-cli.mjs export --dist $dist --source-root $runtimeRoot --records $records --inventory "$runRoot/inventory.json" --out "$runRoot/game"
+```
+
+诊断样件重新创建时，身份、最终外观、装备和资源引用一致；创建、更新时间和对应记录摘要随本次操作产生。用交付单中的两份已签记录导出才能逐字节比较固定双人包。接收方实际执行结果在 `evidence/m2-native-short-socks-room-v1/receiver.json`。运行游戏从输出目录的 `record-consumer.html?records=/records/manifest.json` 进入。
+
 当前能力状态只看 `docs/CAPABILITIES.md`。下面先说明旧 `flow.py` 的只读索引；文末的 `character-production-cli.cjs` 是实际执行制作/回读的独立入口，两者不能混为一谈。
 
 从仓库根目录执行，Python 标准库即可运行入口：
