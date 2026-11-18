@@ -1,0 +1,150 @@
+{
+  "status": "passed",
+  "independentSource": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\mouse-pad-receiver-v1",
+  "derivedPackage": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\mouse-pad-receiver-v1\\derived-final",
+  "initial": {
+    "sourceCommitProvided": "62bc73ef27349f5b1e1d92affad798442af76629",
+    "manifest": "2abf675aa08a9242ae162cf3788c12392f9ff454d2ac60d2ec2350af1a6fcfdd",
+    "files": 1804,
+    "installation": "npm ci --prefix source/prototype --offline --no-audit --no-fund from empty node_modules; 35 packages installed",
+    "viewerRebuiltFiles": 527,
+    "treeSha256": "4447d6122b46598da78d6d90410bacb0b696b81832167e845880cf2575010900"
+  },
+  "revised": {
+    "sourceCommitProvided": "9b46d74ea5c3bcb08da1d22df4a0a33f68123695",
+    "manifest": "d7e1fde3bf8c642ffc5bb09512858ab248ff51515fcff5f73adc1ce5dc208d00",
+    "files": 1805,
+    "changedPaths": [
+      "data/batch-result/report.json",
+      "data/rooms/mouse-pad-home/batch-result/report.json",
+      "data/rooms/mouse-pad-rental/batch-result/report.json",
+      "edit.mjs",
+      "README.md",
+      "source/docs/research/COMPANY-MOUSE-PAD-PRODUCTION.md",
+      "source/scripts/company-platform/batch.mjs",
+      "source/scripts/company-platform/package-company.mjs",
+      "source/scripts/company-platform/package-template/edit.mjs",
+      "source/scripts/company-platform/package-template/README.template.md",
+      "source/scripts/company-platform/preflight-library-assets.mjs",
+      "source/scripts/company-platform/test-mouse-pad-offline.mjs",
+      "source/prototype/src/company/library-catalog.json",
+      "source/scripts/company-platform/library-inputs.json"
+    ],
+    "originalBuild": "e7c6ce2ec11d",
+    "sourceDigest": "e7c6ce2ec11d0108ccf597dfd33ae8b54e731d5c6bcf6b08c05f6530d1f34fa3",
+    "viewerRebuiltFiles": 527,
+    "viewerTreeSha256": "4447d6122b46598da78d6d90410bacb0b696b81832167e845880cf2575010900",
+    "freshDependencyInstallRepeated": false,
+    "workspace": "same working copy, verified all declared input bytes after incremental refresh"
+  },
+  "batchChecks": {
+    "pristine-home": {
+      "treeSha256": "e15ee53fe60b00b69013408e3d0335264734944922cba1258c10ba47b03d3c52",
+      "count": 4
+    },
+    "pristine-rental": {
+      "treeSha256": "1a5e57d4769dbbcb54818ef89e1f51d69843d05dff7be3e0a7f872073b79e063",
+      "count": 4
+    },
+    "revised-home": {
+      "treeSha256": "e8a97378bb547e16569406b0466e93b6caaa1232a512f4e889cfad416ee146e1",
+      "count": 4
+    },
+    "revised-rental": {
+      "treeSha256": "20df539c171c772a494d195b28ab1c1fe7156940ad43feb82f8929760eac8e2f",
+      "count": 4
+    }
+  },
+  "edit": {
+    "cases": 9,
+    "errors": [
+      {
+        "command": "validate",
+        "code": "desktop-area-occupied",
+        "path": "mouse-pad-home/ground/live/station-1/mouse"
+      },
+      {
+        "command": "apply",
+        "code": "desktop-area-occupied",
+        "path": "mouse-pad-home/ground/live/station-1/mouse"
+      },
+      {
+        "command": "validate",
+        "code": "invalid-desktop-envelope",
+        "path": "rotated-desk-mouse"
+      },
+      {
+        "command": "apply",
+        "code": "invalid-desktop-envelope",
+        "path": "rotated-desk-mouse"
+      }
+    ],
+    "badOutputCreated": false,
+    "sourceSavesRetained": true
+  },
+  "offline": {
+    "invalidItem": {
+      "key": "mouse-pad-rental",
+      "status": "failed",
+      "code": "desktop-area-occupied",
+      "path": "mouse-pad-rental/ground/live/station-1/mouse",
+      "message": "desktop-area-occupied at mouse-pad-rental/ground/live/station-1/mouse: Reserved desktop area overlaps mouse-pad-rental/ground/live/station-1/keyboard"
+    },
+    "invalidNamedRoom": {
+      "code": "desktop-area-occupied",
+      "id": "mouse-pad-rental/ground/live/station-1/mouse",
+      "createdPackage": false
+    },
+    "validRetry": "created"
+  },
+  "final": {
+    "build": "5b226c1b5a72",
+    "sourceDigest": "5b226c1b5a729f69b727eb1fdd1b8ec13a35d668ef291b5489eac277d5242240",
+    "manifest": "ddf1ac8998f0b3a9484e54055770de72a3c8c48a87308473f22ff2df2f1f086c",
+    "verifiedFiles": 1807,
+    "runtimeFiles": 529,
+    "addedResource": "mouse-pad-compact-mat@2",
+    "previousResourcesPreserved": 251,
+    "glb": {
+      "format": "glb",
+      "url": "/company-assets/mouse-pad-v1/mouse-pad-compact-mat/v2/model.glb",
+      "sha256": "177c542ba60c231aa5409587245c115a31ac7048270d90cd793f4513e7c20c79",
+      "bytes": 47048
+    },
+    "geometrySha256": "06abff1f980653c45fb187b642d7e56fae4df55496fdc4b57c66bc2dc98fcdce",
+    "oldResource": {
+      "id": "mouse-pad-office",
+      "version": 1
+    },
+    "homeDelta": {
+      "instance": "mouse-pad-home/ground/live/station-1/mouse",
+      "fields": [
+        "resource.id",
+        "resource.version"
+      ]
+    },
+    "rentalUnchangedFiles": [
+      "save.json",
+      "layout.json",
+      "seat-contacts.json",
+      "batch-result/input.json",
+      "batch-result/layout.json",
+      "batch-result/save.json"
+    ],
+    "rentalReportOnlyUpdatedField": "sourceHashes.prototype/src/company/library-catalog.json",
+    "rentalCatalogHashes": [
+      "18f12b2280d06069b91a6879a4ecf823a11630aa9d7c66545cd3cf1782a26111",
+      "0b137181a8f04ff416ea5a97efc86dba77c3d4aec05b47ba7a26dd96a6fd0023"
+    ]
+  },
+  "browser": {
+    "build": "5b226c1b5a72",
+    "count": 5,
+    "realMeshes": 13,
+    "connectedMetres": 0.24900000000000003,
+    "restoredMetres": 0.22400000000000003,
+    "restartedWithoutDelivery": true,
+    "savedSha256": "025083c81ccd688672970a5a93b1c84c5ab0e9fe41e79737e627cf907fffa27c",
+    "errors": []
+  }
+}

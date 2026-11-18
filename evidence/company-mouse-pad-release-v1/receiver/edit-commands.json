@@ -1,0 +1,87 @@
+{
+  "status": "passed",
+  "baseSaveSha256": "507b9a599c9270723c1385fe030f85dd936385cd1effb3cfc293ec7c13ca6c50",
+  "preserved": true,
+  "checks": [
+    {
+      "args": [
+        "validate",
+        "data/save.json"
+      ],
+      "status": 0,
+      "output": "{\n  \"ok\": true,\n  \"id\": \"mouse-pad-home\",\n  \"revision\": 2,\n  \"floors\": [\n    \"mouse-pad-home/ground\"\n  ]\n}"
+    },
+    {
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\mouse-pad-receiver\\revised-edit-v2\\overlapping-layout.json"
+      ],
+      "status": 1,
+      "output": "{\n  \"ok\": false,\n  \"code\": \"desktop-area-occupied\",\n  \"path\": \"mouse-pad-home/ground/live/station-1/mouse\",\n  \"message\": \"desktop-area-occupied at mouse-pad-home/ground/live/station-1/mouse: Reserved desktop area overlaps mouse-pad-home/ground/live/station-1/keyboard\"\n}"
+    },
+    {
+      "args": [
+        "apply",
+        "data/save.json",
+        "F:\\gamemake-company-platform-c1\\output\\mouse-pad-receiver\\revised-edit-v2\\overlap-ops.json",
+        "F:\\gamemake-company-platform-c1\\output\\mouse-pad-receiver\\revised-edit-v2\\must-not-exist"
+      ],
+      "status": 1,
+      "output": "{\n  \"ok\": false,\n  \"code\": \"desktop-area-occupied\",\n  \"path\": \"mouse-pad-home/ground/live/station-1/mouse\",\n  \"message\": \"desktop-area-occupied at mouse-pad-home/ground/live/station-1/mouse: Reserved desktop area overlaps mouse-pad-home/ground/live/station-1/keyboard\"\n}"
+    },
+    {
+      "args": [
+        "apply",
+        "data/save.json",
+        "F:\\gamemake-company-platform-c1\\output\\mouse-pad-receiver\\revised-edit-v2\\disconnect-ops.json",
+        "F:\\gamemake-company-platform-c1\\output\\mouse-pad-receiver\\revised-edit-v2\\isolated-disconnect"
+      ],
+      "status": 0,
+      "output": "{\n  \"ok\": true,\n  \"id\": \"mouse-pad-home\",\n  \"revision\": 3,\n  \"floors\": [\n    \"mouse-pad-home/ground\"\n  ],\n  \"output\": \"F:\\\\gamemake-company-platform-c1\\\\output\\\\mouse-pad-receiver\\\\revised-edit-v2\\\\isolated-disconnect\"\n}"
+    },
+    {
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\mouse-pad-receiver\\revised-edit-v2\\isolated-disconnect\\save.json"
+      ],
+      "status": 0,
+      "output": "{\n  \"ok\": true,\n  \"id\": \"mouse-pad-home\",\n  \"revision\": 3,\n  \"floors\": [\n    \"mouse-pad-home/ground\"\n  ]\n}"
+    },
+    {
+      "args": [
+        "apply",
+        "data/rooms/mouse-pad-rental/save.json",
+        "F:\\gamemake-company-platform-c1\\output\\mouse-pad-receiver\\revised-edit-v2\\rotated-table-ops.json",
+        "F:\\gamemake-company-platform-c1\\output\\mouse-pad-receiver\\revised-edit-v2\\valid-rotated"
+      ],
+      "status": 0,
+      "output": "{\n  \"ok\": true,\n  \"id\": \"mouse-pad-rental\",\n  \"revision\": 3,\n  \"floors\": [\n    \"mouse-pad-rental/ground\"\n  ],\n  \"output\": \"F:\\\\gamemake-company-platform-c1\\\\output\\\\mouse-pad-receiver\\\\revised-edit-v2\\\\valid-rotated\"\n}"
+    },
+    {
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\mouse-pad-receiver\\revised-edit-v2\\valid-rotated\\save.json"
+      ],
+      "status": 0,
+      "output": "{\n  \"ok\": true,\n  \"id\": \"mouse-pad-rental\",\n  \"revision\": 3,\n  \"floors\": [\n    \"mouse-pad-rental/ground\"\n  ]\n}"
+    },
+    {
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\mouse-pad-receiver\\revised-edit-v2\\edge-layout.json"
+      ],
+      "status": 1,
+      "output": "{\n  \"ok\": false,\n  \"code\": \"invalid-desktop-envelope\",\n  \"path\": \"rotated-desk-mouse\",\n  \"message\": \"invalid-desktop-envelope at rotated-desk-mouse: The complete mounting envelope must sit on and inside the parent desktop\"\n}"
+    },
+    {
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\mouse-pad-receiver\\revised-edit-v2\\valid-rotated\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\mouse-pad-receiver\\revised-edit-v2\\edge-ops.json",
+        "F:\\gamemake-company-platform-c1\\output\\mouse-pad-receiver\\revised-edit-v2\\edge-must-not-exist"
+      ],
+      "status": 1,
+      "output": "{\n  \"ok\": false,\n  \"code\": \"invalid-desktop-envelope\",\n  \"path\": \"rotated-desk-mouse\",\n  \"message\": \"invalid-desktop-envelope at rotated-desk-mouse: The complete mounting envelope must sit on and inside the parent desktop\"\n}"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+import assert from 'node:assert/strict';
+import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+const [trialArg,outArg]=process.argv.slice(2);
+const trial=path.resolve(trialArg),out=path.resolve(outArg);
+await fs.mkdir(out);
+const raw=await fs.readFile(path.join(trial,'data/save.json')),saved=JSON.parse(raw),doc=structuredClone(saved.document);
+const mouse=doc.nodes.find(n=>n.id.endsWith('/mouse')),keyboard=doc.nodes.find(n=>n.id.endsWith('/keyboard')),wire=doc.nodes.find(n=>n.id.endsWith('/mouse-cable'));
+assert(mouse&&keyboard&&wire&&mouse.parentId===keyboard.parentId);
+keyboard.transform=structuredClone(mouse.transform);
+const files={bad:path.join(out,'overlapping-layout.json'),ops:path.join(out,'overlap-ops.json'),good:path.join(out,'disconnect-ops.json')};
+for(const [key,payload] of Object.entries({bad:doc,ops:[{type:'move',id:keyboard.id,transform:keyboard.transform}],
+  good:[{type:'set-state',id:wire.id,state:{connected:false}}]}))await fs.writeFile(files[key],JSON.stringify(payload,null,2)+'\n');
+const rows=[];
+function run(args,expected){
+  const {status,stdout,stderr,error}=spawnSync(process.execPath,['edit.mjs',...args],{cwd:trial,encoding:'utf8'});
+  if(error)throw error;
+  const output=(stdout+stderr).trim();assert.equal(status,expected?1:0,output);
+  if(expected)assert(output.includes(expected),output);
+  rows.push({args,status,output});
+}
+const failed=path.join(out,'must-not-exist'),successful=path.join(out,'isolated-disconnect');
+run(['validate','data/save.json']);run(['validate',files.bad],'desktop-area-occupied');
+run(['apply','data/save.json',files.ops,failed],'desktop-area-occupied');
+assert.equal(await fs.stat(failed).catch(e=>e.code==='ENOENT'?null:Promise.reject(e)),null);
+run(['apply','data/save.json',files.good,successful]);run(['validate',path.join(successful,'save.json')]);
+const edited=JSON.parse(await fs.readFile(path.join(successful,'save.json')));
+assert.equal(edited.document.nodes.find(n=>n.id===wire.id).state.connected,false);
+assert((await fs.readFile(path.join(trial,'data/save.json'))).equals(raw));
+const rentalPath='data/rooms/mouse-pad-rental/save.json',rental=await fs.readFile(path.join(trial,rentalPath));
+const rentalNodes=JSON.parse(rental).document.nodes,table=rentalNodes.find(n=>n.id.endsWith('/work/desk'));
+const floor=rentalNodes.find(n=>n.kind==='floor');
+const rotatedOps=path.join(out,'rotated-table-ops.json'),rotated=path.join(out,'valid-rotated');
+// Turn the furnished floor, keeping the adjacent chair and its approach aligned with the desk.
+const moved={type:'move',id:floor.id,transform:{...floor.transform,yaw:Math.PI/2}};
+const probe={type:'add-facility',id:'rotated-desk-mouse',parentId:table.id,resource:{id:'mouse-pad-office',version:1},transform:{position:[.65,.84,0],yaw:Math.PI/2}};
+await fs.writeFile(rotatedOps,JSON.stringify([moved,probe]));
+run(['apply',rentalPath,rotatedOps,rotated]);
+const rotatedFile=path.join(rotated,'save.json'),rotatedBytes=await fs.readFile(rotatedFile),edgeDoc=JSON.parse(rotatedBytes).document;
+run(['validate',rotatedFile]);
+const outside={position:[.95,.84,0],yaw:Math.PI/2};
+edgeDoc.nodes.find(n=>n.id===probe.id).transform=outside;
+const edgeLayout=path.join(out,'edge-layout.json'),edgeOps=path.join(out,'edge-ops.json'),edgeFailed=path.join(out,'edge-must-not-exist');
+await fs.writeFile(edgeLayout,JSON.stringify(edgeDoc));
+await fs.writeFile(edgeOps,JSON.stringify([{type:'move',id:probe.id,transform:outside}]));
+run(['validate',edgeLayout],'invalid-desktop-envelope');run(['apply',rotatedFile,edgeOps,edgeFailed],'invalid-desktop-envelope');
+assert.equal(await fs.stat(edgeFailed).catch(e=>e.code==='ENOENT'?null:Promise.reject(e)),null);
+assert((await fs.readFile(rotatedFile)).equals(rotatedBytes));
+assert((await fs.readFile(path.join(trial,rentalPath))).equals(rental));
+await fs.writeFile(path.join(out,'report.json'),JSON.stringify({status:'passed',baseSaveSha256:createHash('sha256').update(raw).digest('hex'),preserved:true,checks:rows},null,2)+'\n');
+console.log(rows.length+' edit CLI checks passed; overlap and rotated overhang rejected on validate and apply');
