@@ -1,6 +1,15 @@
+import json
+import tempfile
 import unittest
+from pathlib import Path
 
-from look_spec import SCHEMA, plan, validate
+from look_spec import SCHEMA, plan, validate, write_plan
+from variant_matrix import SCHEMA as MATRIX_SCHEMA
+
+
+ROOT = Path(__file__).resolve().parents[2]
+MATRIX_PATH = ROOT / "assets-source/variant-matrix-v1/representative-matrix.json"
+STRUCTURED_SPEC_PATH = ROOT / "evidence/m2-look-intake-v2/native-roundness-a-structured.json"
 
 
 def spec(**changes):
@@ -23,6 +32,45 @@ def spec(**changes):
     return value
 
 
+def structured_spec(**changes):
+    return spec(sourceMode="structured-asset", sourceAsset={
+        "assetId": "male-blazer-v1",
+        "bodySha256": "c" * 64,
+        "recipeSha256": "a" * 64,
+        "manifestSha256": "b" * 64,
+    }, **changes)
+
+
+def variant(**changes):
+    value = {
+        "bodyType": "male",
+        "bodySha256": "c" * 64,
+        "recipeSha256": "a" * 64,
+        "resourceManifest": "/assets/m1b/equipment.json#uniform-top",
+        "resourceManifestSha256": "b" * 64,
+        "fitManifest": "/assets/m1b/equipment.json#uniform-top.fitId",
+        "coverageManifest": "/assets/m1b/coverage.json",
+        "coverageManifestSha256": "d" * 64,
+        "variantVersion": "v1",
+        "status": "candidate",
+    }
+    value.update(changes)
+    return value
+
+
+def style_matrix(**styles):
+    return {
+        "schema": MATRIX_SCHEMA,
+        "styles": [{"styleId": style, "variants": [row]} for style, row in styles.items()],
+    }
+
+
+def with_shorts():
+    value = structured_spec()
+    value["equipment"].append({"role": "bottom", "styleId": "lower-shorts-v1", "variantVersion": "v2"})
+    return value
+
+
 class LookSpecTests(unittest.TestCase):
     def test_normalizes_concept_reference(self):
         result = validate(spec())
@@ -34,13 +82,13 @@ class LookSpecTests(unittest.TestCase):
         value = spec(sourceMode="structured-asset")
         with self.assertRaisesRegex(ValueError, "sourceAsset"):
             validate(value)
-        value["sourceAsset"] = {
-            "assetId": "male-blazer-v1",
-            "bodySha256": "c" * 64,
-            "recipeSha256": "a" * 64,
-            "manifestSha256": "b" * 64,
-        }
-        self.assertEqual(validate(value)["sourceMode"], "structured-asset")
+        self.assertEqual(validate(structured_spec())["sourceMode"], "structured-asset")
+        for key in ("bodySha256", "recipeSha256", "manifestSha256"):
+            with self.subTest(key=key):
+                value = structured_spec()
+                value["sourceAsset"][key] = int("1" * 64)
+                with self.assertRaisesRegex(ValueError, f"sourceAsset.{key}"):
+                    validate(value)
 
     def test_duplicate_slots_are_rejected(self):
         value = spec(attachments=[
@@ -51,41 +99,108 @@ class LookSpecTests(unittest.TestCase):
             validate(value)
 
     def test_missing_exact_matrix_row_is_rejected(self):
-        result = plan({"styles": []}, spec())
+        matrix = style_matrix(**{"uniform-top-v1": variant(bodyType="female")})
+        result = plan(matrix, spec())
         self.assertEqual(result["status"], "rejected")
-        self.assertTrue(result["blockers"][0].startswith("missing-exact-variant:"))
+        self.assertIn("missing-exact-variant:uniform-top-v1/male/v1", result["blockers"])
 
     def test_candidate_row_stays_candidate(self):
-        matrix = {"styles": [{"styleId": "uniform-top-v1", "variants": [{
-            "bodyType": "male", "variantVersion": "v1", "status": "candidate",
-            "admissionBlockers": ["headAttachments"],
-        }]}]}
+        matrix = style_matrix(**{"uniform-top-v1": variant(admissionBlockers=["headAttachments"])})
         result = plan(matrix, spec())
         self.assertEqual(result["status"], "candidate")
         self.assertIn("variant-not-admitted:uniform-top-v1/male/v1", result["blockers"])
+        self.assertEqual(result["resolvedEquipment"][0]["admissionBlockers"], ["headAttachments"])
 
-    def test_admitted_row_can_be_runtime_ready(self):
-        matrix = {"styles": [{"styleId": "uniform-top-v1", "variants": [{
-            "bodyType": "male", "bodySha256": "c" * 64, "variantVersion": "v1", "status": "runtime-admitted",
-        }]}]}
-        value = spec(sourceMode="structured-asset", sourceAsset={
-            "assetId": "male-blazer-v1", "bodySha256": "c" * 64,
-            "recipeSha256": "a" * 64, "manifestSha256": "b" * 64,
+    def test_admitted_equipment_leaves_full_look_unverified(self):
+        matrix = style_matrix(**{
+            "uniform-top-v1": variant(status="runtime-admitted", admissionEvidence="verified-equipment.json"),
         })
-        result = plan(matrix, value)
-        self.assertEqual(result["status"], "runtime-ready")
+        for value in (spec(), structured_spec()):
+            with self.subTest(mode=value["sourceMode"]):
+                result = plan(matrix, value)
+                self.assertEqual(result["status"], "candidate")
+                self.assertEqual(result["resolvedEquipment"][0]["status"], "runtime-admitted")
+                self.assertCountEqual(result["blockers"], [
+                    "appearance-unverified:face/male-face-default-v1/v1",
+                    "appearance-unverified:hair/male-wavy-v1/v1",
+                    "attachment-unverified:neck/staff-card-v1/v1",
+                    "color-unverified:hair/brown",
+                    "color-unverified:iris/brown",
+                    "color-unverified:lip/natural",
+                    "color-unverified:skin/skin-original",
+                ] + (["concept-reference-pending-production"] if value["sourceMode"] == "concept-reference" else []))
 
-    def test_structured_body_identity_mismatch_is_rejected(self):
-        matrix = {"styles": [{"styleId": "uniform-top-v1", "variants": [{
-            "bodyType": "male", "bodySha256": "d" * 64, "variantVersion": "v1", "status": "runtime-admitted",
-        }]}]}
-        value = spec(sourceMode="structured-asset", sourceAsset={
-            "assetId": "male-blazer-v1", "bodySha256": "c" * 64,
-            "recipeSha256": "a" * 64, "manifestSha256": "b" * 64,
-        })
-        result = plan(matrix, value)
+    def test_matrix_validator_rejects_unsubstantiated_admission(self):
+        matrix = style_matrix(**{"uniform-top-v1": variant(status="runtime-admitted")})
+        with self.assertRaisesRegex(ValueError, "requires admissionEvidence"):
+            plan(matrix, structured_spec())
+
+    def test_rejected_equipment_rejects_the_full_look(self):
+        matrix = style_matrix(**{"uniform-top-v1": variant(status="rejected")})
+        result = plan(matrix, spec())
         self.assertEqual(result["status"], "rejected")
-        self.assertIn("body-identity-mismatch:uniform-top-v1/male/v1", result["blockers"])
+        self.assertIn("variant-rejected:uniform-top-v1/male/v1", result["blockers"])
+
+    def test_any_mismatched_equipment_pin_rejects_the_full_look(self):
+        for row_key, reason in (
+            ("bodySha256", "body"),
+            ("recipeSha256", "recipe"),
+            ("resourceManifestSha256", "resource-manifest"),
+        ):
+            with self.subTest(pin=row_key):
+                shorts = variant(variantVersion="v2", resourceManifest="/assets/m1b/equipment.json#shorts")
+                shorts[row_key] = "d" * 64
+                matrix = style_matrix(**{"uniform-top-v1": variant(), "lower-shorts-v1": shorts})
+                result = plan(matrix, with_shorts())
+                self.assertEqual(result["status"], "rejected")
+                self.assertEqual([row["role"] for row in result["resolvedEquipment"]], ["top"])
+                self.assertIn(f"{reason}-identity-mismatch:lower-shorts-v1/male/v2", result["blockers"])
+
+    def test_structured_source_requires_a_matrix_recipe(self):
+        matrix = style_matrix(**{"uniform-top-v1": variant()})
+        del matrix["styles"][0]["variants"][0]["recipeSha256"]
+        result = plan(matrix, structured_spec())
+        self.assertEqual(result["status"], "rejected")
+        self.assertIn("recipe-identity-mismatch:uniform-top-v1/male/v1", result["blockers"])
+
+    def test_multiple_resource_manifests_need_separate_pins(self):
+        matrix = style_matrix(**{
+            "uniform-top-v1": variant(),
+            "lower-shorts-v1": variant(variantVersion="v2", resourceManifest="/assets/shorts/equipment.json#shorts"),
+        })
+        result = plan(matrix, with_shorts())
+        self.assertEqual(result["status"], "rejected")
+        self.assertIn("multiple-resource-manifests:structured-asset-v1", result["blockers"])
+
+    def test_shared_resource_manifest_can_pin_multiple_fragments(self):
+        matrix = style_matrix(**{
+            "uniform-top-v1": variant(),
+            "lower-shorts-v1": variant(variantVersion="v2", resourceManifest="assets/m1b/equipment.json#shorts"),
+        })
+        result = plan(matrix, with_shorts())
+        self.assertEqual(result["status"], "candidate")
+        self.assertEqual([row["role"] for row in result["resolvedEquipment"]], ["top", "bottom"])
+
+    def test_stored_concept_and_structured_inputs_remain_candidates(self):
+        concept_path = ROOT / "evidence/m2-look-intake-v1/male-blazer-look.json"
+        with tempfile.TemporaryDirectory() as directory:
+            concept = write_plan(MATRIX_PATH, concept_path, Path(directory) / "concept.json")
+            structured = write_plan(MATRIX_PATH, STRUCTURED_SPEC_PATH, Path(directory) / "structured.json")
+        self.assertEqual(concept["status"], "candidate")
+        self.assertIn("concept-reference-pending-production", concept["blockers"])
+        self.assertEqual(structured["status"], "candidate")
+        self.assertEqual(structured["resolvedEquipment"][0]["admissionBlockers"], [
+            "dynamicMotion", "headAttachments", "runtimeRecordAndBudget", "surfaceAndTexture",
+        ])
+
+    def test_file_validation_rejects_a_forged_matrix_manifest_pin(self):
+        matrix = json.loads(MATRIX_PATH.read_text(encoding="utf-8"))
+        value = json.loads(STRUCTURED_SPEC_PATH.read_text(encoding="utf-8"))
+        row = next(row for row in matrix["styles"][0]["variants"] if row["bodyType"] == value["bodyType"])
+        row["resourceManifestSha256"] = value["sourceAsset"]["manifestSha256"] = "d" * 64
+        with self.assertRaisesRegex(ValueError, "resourceManifest SHA does not match"):
+            plan(matrix, value, root=ROOT)
+
 
 
 if __name__ == "__main__":

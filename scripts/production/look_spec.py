@@ -13,12 +13,15 @@ import json
 import re
 from pathlib import Path
 
+from variant_matrix import _resolve_reference, validate_matrix, validate_matrix_files
+
 
 SCHEMA = "zbgs-avatar-look-spec-v1"
 ID = re.compile(r"^[a-z][a-z0-9-]{1,95}$")
 SHA = re.compile(r"^[a-f0-9]{64}$")
 MODES = {"concept-reference", "structured-asset"}
 COLOR_KEYS = {"skin", "hair", "iris", "lip"}
+REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
 def check(condition: bool, message: str) -> None:
@@ -40,7 +43,8 @@ def validate(spec: dict) -> dict:
     check(spec.get("schema") == SCHEMA, "Invalid look spec schema")
     look_id = identifier(spec.get("lookId"), "lookId")
     mode = spec.get("sourceMode")
-    check(mode in MODES, "sourceMode must be concept-reference or structured-asset")
+    check(isinstance(mode, str) and mode in MODES,
+          "sourceMode must be concept-reference or structured-asset")
     body_type = identifier(spec.get("bodyType"), "bodyType")
     body_version = version(spec.get("bodyVariantVersion"), "bodyVariantVersion")
 
@@ -54,7 +58,8 @@ def validate(spec: dict) -> dict:
         source = spec.get("sourceAsset")
         check(isinstance(source, dict), "Structured assets require sourceAsset")
         for key in ("bodySha256", "recipeSha256", "manifestSha256"):
-            check(SHA.fullmatch(str(source.get(key) or "")), f"Invalid sourceAsset.{key}")
+            pin = source.get(key)
+            check(isinstance(pin, str) and SHA.fullmatch(pin), f"Invalid sourceAsset.{key}")
         identifier(source.get("assetId"), "sourceAsset.assetId")
 
     appearance = spec.get("appearance")
@@ -124,72 +129,103 @@ def validate(spec: dict) -> dict:
     }
 
 
-def matrix_key(style_id: str, body_type: str, variant: str) -> tuple[str, str, str]:
-    return style_id, body_type, variant
-
-
-def plan(matrix: dict, spec: dict) -> dict:
+def plan(matrix: dict, spec: dict, *, root: Path | None = None) -> dict:
     normalized = validate(spec)
+    check(isinstance(matrix, dict), "Style variant matrix must be an object")
+    errors = validate_matrix(matrix) if root is None else validate_matrix_files(matrix, root)
+    check(not errors, "; ".join(errors))
     rows = {
-        matrix_key(style["styleId"], row["bodyType"], row["variantVersion"]): row
-        for style in matrix.get("styles", [])
-        for row in style.get("variants", [])
+        (style["styleId"], row["bodyType"], row["variantVersion"]): row
+        for style in matrix["styles"]
+        for row in style["variants"]
     }
-    resolved = []
-    blockers: list[str] = []
+    source = normalized["sourceAsset"]
+    body_type = normalized["bodyType"]
+    resolved: list[dict] = []
+    rejections: list[str] = []
+    manifest_files: set[Path] = set()
+
+    # The equipment matrix has no admission rows for these look domains.
+    appearance = normalized["appearance"]
+    blockers = [
+        f"appearance-unverified:{domain}/{appearance[domain]['styleId']}/{appearance[domain]['variantVersion']}"
+        for domain in ("face", "hair")
+    ]
+    blockers.extend(f"color-unverified:{domain}/{value}" for domain, value in appearance["colors"].items())
+    blockers.extend(
+        f"attachment-unverified:{item['slot']}/{item['styleId']}/{item['variantVersion']}"
+        for item in normalized["attachments"]
+    )
+    if normalized["sourceMode"] == "concept-reference":
+        blockers.append("concept-reference-pending-production")
+
     for item in normalized["equipment"]:
-        row = rows.get(matrix_key(item["styleId"], normalized["bodyType"], item["variantVersion"]))
+        key = (item["styleId"], body_type, item["variantVersion"])
+        label = "/".join(key)
+        row = rows.get(key)
         if row is None:
-            blockers.append(f"missing-exact-variant:{item['styleId']}/{normalized['bodyType']}/{item['variantVersion']}")
+            rejections.append(f"missing-exact-variant:{label}")
             continue
-        source = normalized.get("sourceAsset")
-        if source and row.get("bodySha256") != source.get("bodySha256"):
-            blockers.append(f"body-identity-mismatch:{item['styleId']}/{normalized['bodyType']}/{item['variantVersion']}")
-            continue
+        if source is not None:
+            manifest_files.add(_resolve_reference(root or REPO_ROOT, row["resourceManifest"]))
+            identity_errors = [
+                f"{identity}-identity-mismatch:{label}"
+                for identity, source_key, row_key in (
+                    ("body", "bodySha256", "bodySha256"),
+                    ("recipe", "recipeSha256", "recipeSha256"),
+                    ("resource-manifest", "manifestSha256", "resourceManifestSha256"),
+                )
+                if source[source_key] != row.get(row_key)
+            ]
+            if identity_errors:
+                rejections.extend(identity_errors)
+                continue
         resolved.append({
-            "role": item["role"],
-            "styleId": item["styleId"],
-            "variantVersion": item["variantVersion"],
-            "status": row.get("status"),
+            **item,
+            "status": row["status"],
             "admissionBlockers": list(row.get("admissionBlockers") or []),
         })
-        if row.get("status") != "runtime-admitted":
-            blockers.append(f"variant-not-admitted:{item['styleId']}/{normalized['bodyType']}/{item['variantVersion']}")
-    status = "runtime-ready" if not blockers and resolved else "candidate"
-    if not resolved or any(item.startswith("missing-exact-variant:") for item in blockers):
-        status = "rejected"
+        if row["status"] == "rejected":
+            rejections.append(f"variant-rejected:{label}")
+        elif row["status"] != "runtime-admitted":
+            blockers.append(f"variant-not-admitted:{label}")
+
+    # V1 pins one complete equipment manifest. Different fragments in the
+    # same file use the same pin. Separate files require a new input contract.
+    if len(manifest_files) > 1:
+        rejections.append("multiple-resource-manifests:structured-asset-v1")
+
     return {
         "schema": "zbgs-avatar-look-plan-v1",
         "lookId": normalized["lookId"],
-        "status": status,
-        "bodyType": normalized["bodyType"],
+        "status": "rejected" if rejections else "candidate",
+        "bodyType": body_type,
         "bodyVariantVersion": normalized["bodyVariantVersion"],
         "sourceMode": normalized["sourceMode"],
         "resolvedEquipment": resolved,
-        "blockers": sorted(set(blockers)),
+        "blockers": sorted(set(rejections + blockers)),
         "normalizedSpec": normalized,
     }
 
 
-def read_json(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def write_plan(matrix_path: Path, spec_path: Path, output: Path) -> dict:
+def write_plan(matrix_path: Path, spec_path: Path, output: Path, *, root: Path = REPO_ROOT) -> dict:
     check(not output.exists(), "Output already exists")
-    result = plan(read_json(matrix_path), read_json(spec_path))
+    matrix_bytes = matrix_path.read_bytes()
+    spec_bytes = spec_path.read_bytes()
+    result = plan(json.loads(matrix_bytes.decode("utf-8")), json.loads(spec_bytes.decode("utf-8")), root=root)
     result["source"] = {
         "matrix": {
             "path": matrix_path.as_posix(),
-            "sha256": hashlib.sha256(matrix_path.read_bytes()).hexdigest(),
+            "sha256": hashlib.sha256(matrix_bytes).hexdigest(),
         },
         "spec": {
             "path": spec_path.as_posix(),
-            "sha256": hashlib.sha256(spec_path.read_bytes()).hexdigest(),
+            "sha256": hashlib.sha256(spec_bytes).hexdigest(),
         },
     }
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    with output.open("x", encoding="utf-8") as handle:
+        handle.write(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
     return result
 
 
@@ -198,9 +234,11 @@ def main() -> int:
     parser.add_argument("matrix", type=Path)
     parser.add_argument("spec", type=Path)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--root", type=Path, default=REPO_ROOT, help="Repository root for matrix file checks")
     args = parser.parse_args()
     try:
-        print(json.dumps(write_plan(args.matrix.resolve(), args.spec.resolve(), args.output.resolve()), ensure_ascii=False))
+        result = write_plan(args.matrix.resolve(), args.spec.resolve(), args.output.resolve(), root=args.root.resolve())
+        print(json.dumps(result, ensure_ascii=False))
         return 0
     except (OSError, ValueError, KeyError, TypeError) as error:
         print(error)
