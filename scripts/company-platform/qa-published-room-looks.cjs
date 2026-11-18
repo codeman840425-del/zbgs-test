@@ -80,7 +80,8 @@ async function inspect(on,manifest,stage) {
       return {instance:id,ref:node.resource,asset:resource.asset,state:node.state,
         meshes:meshes.map(m=>m.userData.name||m.name),changedPixels,
         ...(diffuser?{emission:[diffuser.material].flat()[0].emissiveIntensity}:{}),
-        ...(obstacle?{blocking:obstacle.object===object&&obstacle.footprint?.blocking,halfSize:obstacle.footprint?.halfSize}:{}),
+        ...(obstacle?{blocking:obstacle.object===object&&obstacle.footprint?.blocking,halfSize:obstacle.footprint?.halfSize,
+          worldCenter:[obstacle.x,obstacle.z],worldHalfSize:[obstacle.hw,obstacle.hd]}:{}),
       };
     });
   },{room,lamp,screen});
@@ -99,6 +100,8 @@ async function inspect(on,manifest,stage) {
   assert.equal(light.state.on,on); assert.equal(light.emission>0,on);
   assert.equal(panel.meshes.filter(n=>/^acoustic-tile-\d+-\d+$/.test(n)).length,15);
   assert.equal(panel.blocking,true); assert.deepEqual(panel.halfSize,[.9,.04]);
+  // In this room the quarter-turn puts the thin dimension along world X.
+  assert(Math.abs(panel.worldHalfSize[0]-.26)<1e-6 && Math.abs(panel.worldHalfSize[1]-1.12)<1e-6);
   assert.equal(await page.evaluate(()=>company.renderStatus().lastRenderError),null);
   const image=stage+'.png'; await page.screenshot({path:path.join(out,image)});
   report.frames.push(image);report.loads.push({stage,objects:observed});

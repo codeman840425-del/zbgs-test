@@ -1,0 +1,240 @@
+{
+  "command": "node scripts/company-platform/test-screen-partition-placement.mjs",
+  "variants": [
+    {
+      "id": "screen-partition-timber@1",
+      "glbSha256": "9d22d4ce40c7558c6f376be8bce879f7f8fa3058f5c4348298c32b14395fc507",
+      "min": [
+        3.96,
+        0,
+        -3.9
+      ],
+      "max": [
+        4.04,
+        2,
+        -2.1
+      ],
+      "meshRayHits": 25,
+      "probes": 25
+    },
+    {
+      "id": "screen-partition-fabric@1",
+      "glbSha256": "4ead312291ef52e294434c991a94aded7f641395ec647be5169c56d2c3514718",
+      "min": [
+        3.96,
+        0,
+        -3.9
+      ],
+      "max": [
+        4.04,
+        2,
+        -2.1
+      ],
+      "meshRayHits": 25,
+      "probes": 25
+    },
+    {
+      "id": "screen-partition-acoustic@1",
+      "glbSha256": "2fc95cdf5ed83c4a5b3733c94664dc35c4c876945a7d1dd80246eb593e6f651e",
+      "min": [
+        3.96,
+        0,
+        -3.9
+      ],
+      "max": [
+        4.04,
+        2,
+        -2.1
+      ],
+      "meshRayHits": 25,
+      "probes": 25
+    },
+    {
+      "id": "screen-partition-glass@1",
+      "glbSha256": "40ad1957c530d6da2ac2d924a7529be883a9e86a76e53f1bb19b87393d304f01",
+      "min": [
+        3.96,
+        0,
+        -3.9
+      ],
+      "max": [
+        4.04,
+        2,
+        -2.1
+      ],
+      "meshRayHits": 25,
+      "probes": 25
+    }
+  ],
+  "editing": {
+    "directCrossings": {
+      "beforeRotation": {
+        "alongRoomZ": "blocked",
+        "alongRoomX": "free"
+      },
+      "afterQuarterTurn": {
+        "alongRoomZ": "free",
+        "alongRoomX": "blocked"
+      },
+      "afterMove": {
+        "oldAlongRoomX": "free",
+        "newAlongRoomX": "blocked"
+      },
+      "segmentLength": 1.1,
+      "endPoints": "outside the navigation obstacle"
+    },
+    "rotatedGlass": {
+      "min": [
+        3.1,
+        0,
+        -3.04
+      ],
+      "max": [
+        4.9,
+        2,
+        -2.96
+      ],
+      "meshRayHits": 25,
+      "probes": 25
+    },
+    "movedGlass": {
+      "min": [
+        3.45,
+        0,
+        -4.84
+      ],
+      "max": [
+        5.25,
+        2,
+        -4.76
+      ],
+      "meshRayHits": 25,
+      "probes": 25
+    },
+    "crossRoomCopy": {
+      "min": [
+        3.75,
+        0,
+        -10.54
+      ],
+      "max": [
+        5.55,
+        2,
+        -10.46
+      ],
+      "meshRayHits": 25,
+      "probes": 25
+    },
+    "overlaidFloors": {
+      "lower": "working-screen",
+      "upper": "upper-screen",
+      "sameWorldBounds": true,
+      "distinctFloorObstacles": true
+    },
+    "clearPortals": [
+      {
+        "id": "room-door",
+        "region": "screen-placement/room-1",
+        "side": "from"
+      },
+      {
+        "id": "street-door",
+        "region": "screen-placement/room-1",
+        "side": "exterior"
+      },
+      {
+        "id": "room-door",
+        "region": "neighbour",
+        "side": "to"
+      }
+    ],
+    "save": {
+      "revision": 9,
+      "sha256": "a5bd79e2cef5d5483f342df4babd2ae89aa3fa3566bc42c163fd651d61b02a2d"
+    },
+    "preExistingRoom": {
+      "id": "company-demo",
+      "sha256": "7a30e57bc9b2d62216fff41f17fa8c583d8daea36d42368d9ed01a5bd9a3e4f3"
+    },
+    "aisle": {
+      "width": 4,
+      "panels": 2,
+      "seam": 0.04,
+      "endGaps": 0.18,
+      "thinAxisDepth": 0.08,
+      "open": "seat reachable",
+      "closed": "disconnected-use-space",
+      "relocated": "seat reachable"
+    }
+  },
+  "rejection": [
+    {
+      "label": "exterior entrance",
+      "code": "blocked-portal",
+      "path": "street-door",
+      "details": {
+        "regionId": "screen-placement/room-1",
+        "side": "exterior",
+        "obstacleId": "working-screen"
+      }
+    },
+    {
+      "label": "interior doorway",
+      "code": "blocked-portal",
+      "path": "room-door",
+      "details": {
+        "regionId": "screen-placement/room-1",
+        "side": "from",
+        "obstacleId": "working-screen"
+      }
+    },
+    {
+      "label": "seat approach",
+      "code": "blocked-use-space",
+      "path": "work-chair#seat.approach",
+      "details": {
+        "obstacleId": "working-screen"
+      }
+    },
+    {
+      "label": "seat exit only",
+      "code": "blocked-use-space",
+      "path": "work-chair#seat.exit",
+      "details": {
+        "obstacleId": "working-screen"
+      }
+    },
+    {
+      "label": "screen over room wall",
+      "code": "invalid-floor-fit",
+      "path": "working-screen",
+      "details": {}
+    },
+    {
+      "label": "screen off floor",
+      "code": "unsupported-height",
+      "path": "working-screen",
+      "details": {}
+    },
+    {
+      "label": "copy overlapping original",
+      "code": "overlapping-facilities",
+      "path": "working-screen",
+      "details": {
+        "otherId": "invalid-copy"
+      }
+    },
+    {
+      "label": "saved resource digest mismatch",
+      "code": "dependency-content-mismatch"
+    },
+    {
+      "label": "turn real screen across the only aisle",
+      "code": "disconnected-use-space",
+      "path": "aisle-seat#seat.approach",
+      "details": {}
+    }
+  ],
+  "scope": "CPU authoring, actual loaded GLBs, continuous static placement and rendered navigation provider.",
+  "status": "passed"
+}
