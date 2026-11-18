@@ -56,7 +56,7 @@ class VariantBatchTests(unittest.TestCase):
         self.assertEqual(request, {
             "schema": "character-production-request-v1", "operation": "create", "bodyType": "female-base-v1",
             "identity": {"id": "host-a", "name": "Test Host", "gender": "male"},
-            "edits": [{"domain": "outfit", "index": 7}],
+            "edits": [{"domain":"outfit", "selection":{"bodySha256":"a"*64, "role":"configured", "equipment":[MEMBER]}}],
         })
         self.assertEqual(result["items"][0]["selection"]["styleId"], "uniform-top-v1")
 
@@ -85,7 +85,7 @@ class VariantBatchTests(unittest.TestCase):
         self.assertEqual((result["acceptedCount"], result["candidateCount"], result["rejectedCount"]), (0, 1, 0))
         self.assertEqual(result["mode"], "technical-candidate")
         self.assertIsNone(result["items"][0]["selection"]["admissionEvidence"])
-        self.assertEqual(result["items"][0]["request"]["edits"], [{"domain": "outfit", "index": 7}])
+        self.assertEqual(result["items"][0]["request"]["edits"][0]["selection"]["equipment"], [MEMBER])
         result = self.plan(matrix("rejected"), self.request(), diagnostic=True)
         self.assertEqual((result["acceptedCount"], result["candidateCount"], result["rejectedCount"]), (0, 0, 1))
 
@@ -111,6 +111,18 @@ class VariantBatchTests(unittest.TestCase):
         outfits = query["female-base-v1"]["outfits"]
         outfits.append({**outfits[0], "index": 9})
         self.assertIn("No unique configured outfit", self.plan(matrix(),self.request(),queries=query)["items"][0]["reason"])
+
+    def test_shared_recipe_resolves_resources_once_per_body_and_survives_index_reordering(self):
+        request = self.request()
+        item = request["items"][0]
+        request["sharedLook"] = {"styleId":item["styleId"], "variantVersion":"v1", "outfitRole":"configured"}
+        request["items"] = [{"identity":item["identity"], "bodyType":item["bodyType"]}]
+        planned = self.plan(matrix(),request)["items"][0]["request"]
+        query = self.query()
+        query[item["bodyType"]]["outfits"][0]["index"] = 31
+        self.assertEqual(self.plan(matrix(),request,queries=query)["items"][0]["request"],planned)
+        request["items"].append({"identity":item["identity"],"bodyType":item["bodyType"],"outfit":{"role":"other"}})
+        self.assertEqual(self.plan(matrix(),request)["rejectedCount"],1)
 
     def test_admitted_top_does_not_grant_admission_to_candidate_socks(self):
         data = matrix()

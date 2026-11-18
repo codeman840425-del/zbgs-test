@@ -5,6 +5,7 @@ import {readFile} from 'node:fs/promises';
 import test from 'node:test';
 import {queryAppearanceCandidates} from './appearance-candidates.js';
 import {queryCharacterProduction} from './character-production-query.js';
+import {resolveProductionOutfitIndex} from './character-production.js';
 import {FOUNDATION_PROFILES, foundationProfile} from './foundation-profiles.js';
 import {MICROPHONE_PRESENTATION_FITS} from './microphone-presentation-fits.js';
 import {outfitSelection} from './outfit-selection.js';
@@ -46,6 +47,41 @@ async function pinnedBytes({url, bytes, sha256:expected}) {
   assert.equal(sha256(actual), expected, url);
   return actual;
 }
+
+test('stable D02 outfits resolve the entire registered set at its current index', async () => {
+  const {controller} = await fixture('female');
+  const query = queryAppearanceCandidates(controller);
+  const look = query.equipment.sets.find(set => set.role === 'skirt');
+  const equipment = Object.values(look.resources).map(({id,slot,sha256}) => ({id,slot,sha256})).reverse();
+  const selection = {bodySha256:query.base.sha256,role:look.role,equipment};
+  const operation = {domain:'outfit',selection};
+  assert.equal(resolveProductionOutfitIndex(query,{domain:'outfit',index:look.index}), look.index);
+  assert.equal(resolveProductionOutfitIndex(query,operation), look.index);
+
+  const other = query.equipment.sets.find(set => set.index !== look.index);
+  const priorIndex = look.index;
+  [look.index, other.index] = [other.index, look.index];
+  query.equipment.sets.reverse();
+  assert.equal(resolveProductionOutfitIndex(query,operation), look.index);
+  assert.notEqual(look.index, priorIndex);
+  assert.equal(resolveProductionOutfitIndex(query,{domain:'outfit',index:priorIndex}), other.index);
+
+  const rejected = (edit, field) => assert.throws(() => resolveProductionOutfitIndex(query, edit),
+    error => error.code === 'production-input' && error.field === field);
+  const rejectSelection = (changes, field = 'outfit.selection') => rejected({...operation,selection:{...selection,...changes}},field);
+  rejected({...operation,index:priorIndex},'edit.index');
+  rejected({domain:'outfit',index:'0'},'outfit.index');
+  rejectSelection({bodySha256:foundationProfile('male').sha256},'outfit.selection.bodySha256');
+  rejectSelection({role:other.role});
+  rejectSelection({equipment:equipment.slice(1)});
+  rejectSelection({equipment:[{...equipment[0],sha256:'0'.repeat(64)},...equipment.slice(1)]});
+  rejectSelection({equipment:[{...equipment[0],slot:'unregistered-slot'},...equipment.slice(1)]});
+  rejectSelection({equipment:[...equipment,{...equipment[0],id:'extra-garment'}]});
+  rejectSelection({equipment:[...equipment.slice(0,-1),equipment[0]]},'outfit.selection.equipment.'+(equipment.length-1)+'.id');
+  rejectSelection({equipment:[{}]},'outfit.selection.equipment.0.id');
+  query.equipment.sets.push({...look,index:99});
+  assert.throws(() => resolveProductionOutfitIndex(query,operation), /ambiguous/);
+});
 
 test('returns detached JSON and preserves the existing appearance contract', async () => {
   const {controller, state, catalog} = await fixture('male');
@@ -169,8 +205,15 @@ test('does not inherit accessory fits or material recipes across different body 
 test('exposes the configured style matrix per exact body while keeping candidates out of runtime admission', async () => {
   const female = queryCharacterProduction((await fixture('female')).controller);
   const male = queryCharacterProduction((await fixture('male')).controller);
-  assert.deepEqual(female.styleVariants.map(style => style.styleId), ['uniform-top-v1', 'lower-shorts-v1']);
-  assert.deepEqual(male.styleVariants.map(style => style.styleId), ['uniform-top-v1', 'lower-shorts-v1']);
+  const expected = ['uniform-top-v1', 'lower-shorts-v1', 'plain-crew-socks-v1'];
+  assert.deepEqual(female.styleVariants.map(style => style.styleId), expected);
+  assert.deepEqual(male.styleVariants.map(style => style.styleId), expected);
+  for (const [body, query] of [['female',female],['male',male]]) {
+    const [row] = query.styleVariants.find(style => style.styleId === 'plain-crew-socks-v1').variants;
+    assert.equal(row.bodySha256, foundationProfile(body).sha256);
+    assert.equal(row.resourceManifest, foundationProfile(body).manifestUrl + '#' + body + '-plain-crew-socks-v1');
+    assert.equal(row.coverageManifest, row.fitManifest + '#bodyCoverageMasks');
+  }
   for (const style of [...female.styleVariants, ...male.styleVariants]) {
     assert.equal(style.variants.length, 1);
     assert.equal(style.variants[0].status, 'candidate');

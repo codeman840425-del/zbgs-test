@@ -14,6 +14,44 @@ function keys(value,allowed,field){
 }
 function applied(result){if(!result?.applied)throw Object.assign(new Error(result?.reason||'Resource preparation did not apply'),{code:result?.cancelled?'production-cancelled':'production-preparation'});}
 
+// Resolve against the current candidate's admitted sets. The caller passes the
+// resulting index directly to the same transaction as an original index edit.
+export function resolveProductionOutfitIndex(query, operation) {
+ const sets = query.equipment.sets;
+ if (!Object.hasOwn(operation, 'selection')) {
+  keys(operation, ['domain','index'], 'edit');
+  if (!sets.some(set => set.index === operation.index)) fail('Outfit is not registered for this body','outfit.index');
+  return operation.index;
+ }
+ keys(operation, ['domain','selection'], 'edit');
+ const selection = operation.selection;
+ const field = 'outfit.selection';
+ keys(selection, ['bodySha256','role','equipment'], field);
+ if (selection.bodySha256 !== query.base.sha256) fail('Outfit selection requires its exact body',field+'.bodySha256');
+ if (typeof selection.role !== 'string' || !selection.role.length) fail('Expected an outfit role',field+'.role');
+ if (!Array.isArray(selection.equipment) || !selection.equipment.length) fail('Expected a complete equipment set',field+'.equipment');
+ const requested = new Map();
+ for (const [i,item] of selection.equipment.entries()) {
+  const itemField = field+'.equipment.'+i;
+  keys(item, ['id','slot','sha256'], itemField);
+  for (const key of ['id','slot','sha256']) {
+   if (typeof item[key] !== 'string' || !item[key].length) fail('Expected equipment '+key,itemField+'.'+key);
+  }
+  if (requested.has(item.id)) fail('Duplicate equipment ID',itemField+'.id');
+  requested.set(item.id,item);
+ }
+ const matches = sets.filter(set => {
+  if (set.role !== selection.role) return false;
+  const resources = Object.values(set.resources);
+  return resources.length === requested.size && resources.every(({id,slot,sha256}) => {
+   const item = requested.get(id);
+   return item && item.slot === slot && item.sha256 === sha256;
+  });
+ });
+ if (matches.length !== 1) fail(matches.length ? 'Outfit selection is ambiguous' : 'No registered outfit matches the role and exact equipment set', field);
+ return matches[0].index;
+}
+
 // A spring fit is selected at VRM parse time. Prepare the requested revision
 // off-scene and retain the original envelope for the final capture/CAS.
 async function prepareHairEdit(record, pin){
@@ -58,9 +96,8 @@ async function edit(controller,operation){
   applied(await actor.facialGeometry.set(operation.values));break;
  }
  case 'outfit': {
-  keys(operation,['domain','index'],'edit');
-  if(!query.equipment.sets.some(item=>item.index===operation.index))fail('Outfit is not registered for this body','outfit.index');
-  const update=await controller.prepareOutfit(operation.index);
+  const index=resolveProductionOutfitIndex(query,operation);
+  const update=await controller.prepareOutfit(index);
   try{if(!update.isCurrent())throw new Error('Outfit preparation cancelled');update.commit();}finally{update.dispose();}break;
  }
  case 'material': {
