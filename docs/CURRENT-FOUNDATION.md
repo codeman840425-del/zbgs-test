@@ -143,3 +143,5 @@
 2026-11-18 变体准入保护补强：`variant_matrix.py` 现在拒绝带 `reject-static-over-budget` 或未清空 `admissionBlockers` 的 runtime-admitted 行，并保留逐项候选诊断。12 项变体回归通过；该规则防止批量资源在预算/适配未完成时被标签误升为运行资源。
 
 2026-11-18 批量拒绝原因细化：`variant_batch.py` 对候选行仍保持 readiness-gated，但现在把已登记的静态预算超限和四类 blocker 写进每条拒绝原因。`evidence/m2-native-variant-batch-v4/plan.json` 八条均独立拒绝、0 accepted，失败不会跨体型 fallback。
+
+2026-11-18 工作台候选显示修复：原生参数包的 `defaultOutfit` 源数据没有携带展示标签，导致 4196 场景角标出现 `undefined`。`foundationProfile()` 现在对默认装备做通用标签归一化，保留已提供标签并为缺失数据使用明确的基础服装标签；查询回归增加原生候选断言。新构建 `51219f06f488`，源码提交 `66d3d2a6e009`。该修复只解决显示和数据健壮性，不改变候选仍待准入、预算超限和随机生成尚未开始的结论。
