@@ -6,6 +6,16 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit, parse_qsl, urlencode
 
 ROOT = Path(__file__).resolve().parents[1]
+SHARED_LOOK_PREFIX = '/reviews/shared-looks/'
+SHARED_LOOK_FILES = {
+    SHARED_LOOK_PREFIX: 'index.html',
+    **{SHARED_LOOK_PREFIX + file: file for file in (
+        'index.html',
+        'game/produced-pair-1x.webm',
+        'room-pants-socks-female/room-produced-1x.webm',
+        'room-pants-socks-male/room-produced-1x.webm',
+    )},
+}
 
 if __name__ == '__main__':
     config = json.loads((ROOT / 'delivery/appearance-workbench.json').read_text(encoding='utf-8'))
@@ -19,9 +29,19 @@ if __name__ == '__main__':
         raise ValueError('Build identity mismatch; rebuild the recorded source first')
 
     class Handler(SimpleHTTPRequestHandler):
+        def send_head(self):
+            name = urlsplit(self.path).path
+            if name == SHARED_LOOK_PREFIX.rstrip('/') or name.startswith(SHARED_LOOK_PREFIX):
+                if not config.get('sharedLookReview') or name not in SHARED_LOOK_FILES:
+                    self.send_error(404)
+                    return None
+            return super().send_head()
+
         def translate_path(self, path):
             # Review recordings stay outside the game build and its download budget.
             name = urlsplit(path).path
+            if name in SHARED_LOOK_FILES and config.get('sharedLookReview'):
+                return str(ROOT / 'evidence/m2-shared-look-batch-v2' / SHARED_LOOK_FILES[name])
             review = '/reviews/native-hair-motion/'
             if config['evidence'] == 'evidence/m2-native-hair-record-v1' or config.get('nativeHairRecordReview'):
                 current_files = {

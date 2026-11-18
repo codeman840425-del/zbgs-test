@@ -334,6 +334,7 @@ export function bindAppearanceWorkbench({ controller }) {
   }
   const nativeReviews = document.createElement('p');
   for (const [href,label] of [
+    ['/reviews/shared-looks/', '男女裤装与中筒袜 · 1 倍速回放'],
     ['/reviews/native-hair-motion/', '入座时的发尾动态对照'],
     ['/reviews/native-surfaces/', '房间光照下的脸部与服装'],
     ['/reviews/native-iris-batch/', '虹膜换色与角色恢复'],
