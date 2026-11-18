@@ -1,0 +1,170 @@
+{
+  "id": "desktop-tower",
+  "displayName": "标准塔式主机",
+  "version": 1,
+  "category": "static",
+  "mountRole": "desktop-computer",
+  "productionBranch": "desktop-computer",
+  "mount": "desk-surface",
+  "parent": "desk.desktop",
+  "mounting": {
+    "width": 0.22,
+    "height": 0.45,
+    "depth": 0.45,
+    "origin": "desk contact plane centred under the asset"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Desk contact plane centred under the asset",
+    "front": "+Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.11,
+      0.225
+    ],
+    "contactPlaneY": 0,
+    "blocking": true
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": false
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "on": "desktop-computer-power-state"
+  },
+  "materialSlots": {
+    "body": [
+      "computer-body"
+    ],
+    "accent": [
+      "computer-accent"
+    ],
+    "detail": [
+      "computer-detail"
+    ],
+    "screen": [
+      "screen-surface"
+    ],
+    "status": [
+      "power-status"
+    ]
+  },
+  "powerStatusEndpoint": {
+    "id": "power-status",
+    "node": "power-status",
+    "stateField": "on",
+    "position": [
+      0,
+      0.12,
+      0.226
+    ],
+    "direction": [
+      0,
+      0,
+      1
+    ],
+    "visible": true
+  },
+  "cablePorts": [
+    {
+      "id": "power",
+      "connector": "power-visual-v1",
+      "position": [
+        0,
+        0.12,
+        -0.226
+      ],
+      "direction": [
+        0,
+        0,
+        -1
+      ]
+    }
+  ],
+  "provenance": {
+    "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "RoundedBoxGeometry",
+      "CylinderGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-desktop-computer-v1/parameters.json",
+    "sourceParametersSha256": "f3f99537f1ab52a431098e24fc7727006c14d1d96e1e21b882bd656381e4ece2",
+    "functionalContractSource": "assets-source/company-desktop-computer-v1/contracts/desktop-computer.json",
+    "functionalContractSourceSha256": "ea1a669ffa5f5c0d822e526cbd328b0298f6fae44cf8c4dba3972c1738aadee5",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranch": "desktop-computer",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "generator": "scripts/company-platform/build-desktop-computer-collection.mjs",
+    "generatorSha256": "fe03f184ad3f5a6e671ca78639d41b6e0d6fd3cf444eb45975eb65254a13dcc2",
+    "designId": "desktop-tower",
+    "method": "Tall rectangular tower with a recessed front bay, horizontal vent slats and a front power button."
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/desktop-computer-v1/desktop-computer/desktop-tower/v1/model.glb",
+    "sha256": "6118ae36109027c45764eb967b4401ce6de34141f325c8432cf109342c31d557",
+    "bytes": 113540
+  },
+  "checks": {
+    "meshCount": 11,
+    "triangles": 1092,
+    "nodeNames": [
+      "computer-body",
+      "front-bay",
+      "vent-0075",
+      "vent-0095",
+      "vent-0115",
+      "power-button",
+      "computer-accent",
+      "computer-detail",
+      "screen-surface",
+      "power-status",
+      "power-port-back"
+    ],
+    "bounds": {
+      "min": [
+        -0.09000000357627869,
+        2.384185793236071e-9,
+        -0.2140000001899898
+      ],
+      "max": [
+        0.09000000357627869,
+        0.3799999976158142,
+        0.20100000002607704
+      ]
+    },
+    "geometrySha256": "b3d60a50211b7388b38eb4610a81f8964fc1512dbbca45c69ca37aa236f3aadc",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true,
+    "cpuOnly": true
+  },
+  "display": {
+    "status": {
+      "stateField": "on",
+      "nodes": [
+        "power-status"
+      ],
+      "onColor": "#76d8c5",
+      "offColor": "#20252b",
+      "emissive": "#76d8c5",
+      "onIntensity": 1.2
+    }
+  }
+}

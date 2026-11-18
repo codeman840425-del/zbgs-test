@@ -1,0 +1,168 @@
+{
+  "id": "all-in-one",
+  "displayName": "一体式电脑",
+  "version": 1,
+  "category": "static",
+  "mountRole": "desktop-computer",
+  "productionBranch": "desktop-computer",
+  "mount": "desk-surface",
+  "parent": "desk.desktop",
+  "mounting": {
+    "width": 0.22,
+    "height": 0.45,
+    "depth": 0.45,
+    "origin": "desk contact plane centred under the asset"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Desk contact plane centred under the asset",
+    "front": "+Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.11,
+      0.225
+    ],
+    "contactPlaneY": 0,
+    "blocking": true
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": false
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "on": "desktop-computer-power-state"
+  },
+  "materialSlots": {
+    "body": [
+      "computer-body"
+    ],
+    "accent": [
+      "computer-accent"
+    ],
+    "detail": [
+      "computer-detail"
+    ],
+    "screen": [
+      "screen-surface"
+    ],
+    "status": [
+      "power-status"
+    ]
+  },
+  "powerStatusEndpoint": {
+    "id": "power-status",
+    "node": "power-status",
+    "stateField": "on",
+    "position": [
+      0,
+      0.12,
+      0.226
+    ],
+    "direction": [
+      0,
+      0,
+      1
+    ],
+    "visible": true
+  },
+  "cablePorts": [
+    {
+      "id": "power",
+      "connector": "power-visual-v1",
+      "position": [
+        0,
+        0.12,
+        -0.226
+      ],
+      "direction": [
+        0,
+        0,
+        -1
+      ]
+    }
+  ],
+  "provenance": {
+    "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "RoundedBoxGeometry",
+      "CylinderGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-desktop-computer-v1/parameters.json",
+    "sourceParametersSha256": "f3f99537f1ab52a431098e24fc7727006c14d1d96e1e21b882bd656381e4ece2",
+    "functionalContractSource": "assets-source/company-desktop-computer-v1/contracts/desktop-computer.json",
+    "functionalContractSourceSha256": "ea1a669ffa5f5c0d822e526cbd328b0298f6fae44cf8c4dba3972c1738aadee5",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranch": "desktop-computer",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "generator": "scripts/company-platform/build-desktop-computer-collection.mjs",
+    "generatorSha256": "fe03f184ad3f5a6e671ca78639d41b6e0d6fd3cf444eb45975eb65254a13dcc2",
+    "designId": "all-in-one",
+    "method": "Slim display slab on a cantilever stand, wide glass screen and front status indicator."
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/desktop-computer-v1/desktop-computer/all-in-one/v1/model.glb",
+    "sha256": "41a626eda75390a6fe3c6dfa8b8ff47672632a0d6bf5929a401b37b3d2f06056",
+    "bytes": 202192
+  },
+  "checks": {
+    "meshCount": 9,
+    "triangles": 2028,
+    "nodeNames": [
+      "computer-body",
+      "screen-bezel",
+      "screen-surface",
+      "stand-neck",
+      "stand-base",
+      "computer-accent",
+      "computer-detail",
+      "power-status",
+      "power-port-back"
+    ],
+    "bounds": {
+      "min": [
+        -0.10000000149011612,
+        -1.862645142292063e-10,
+        -0.2140000001899898
+      ],
+      "max": [
+        0.10000000149011612,
+        0.4099999982118607,
+        0.10999999940395355
+      ]
+    },
+    "geometrySha256": "4a543ce2cee387be51078bcb790c369f28edc9f79454293b7d1a0deabf4b6deb",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true,
+    "cpuOnly": true
+  },
+  "display": {
+    "status": {
+      "stateField": "on",
+      "nodes": [
+        "power-status"
+      ],
+      "onColor": "#7bc8ff",
+      "offColor": "#20252b",
+      "emissive": "#7bc8ff",
+      "onIntensity": 1.2
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "id": "desktop-computer",
+  "version": 1,
+  "category": "static",
+  "mountRole": "desktop-computer",
+  "productionBranch": "desktop-computer",
+  "mount": "desk-surface",
+  "parent": "desk.desktop",
+  "mounting": {
+    "width": 0.22,
+    "height": 0.45,
+    "depth": 0.45,
+    "origin": "desk contact plane centred under the asset"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Desk contact plane centred under the asset",
+    "front": "+Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [0, 0],
+    "halfSize": [0.11, 0.225],
+    "contactPlaneY": 0,
+    "blocking": true
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": false
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "on": "desktop-computer-power-state"
+  },
+  "materialSlots": {
+    "body": ["computer-body"],
+    "accent": ["computer-accent"],
+    "detail": ["computer-detail"],
+    "screen": ["screen-surface"],
+    "status": ["power-status"]
+  },
+  "powerStatusEndpoint": {
+    "id": "power-status",
+    "node": "power-status",
+    "stateField": "on",
+    "position": [0, 0.12, 0.226],
+    "direction": [0, 0, 1],
+    "visible": true
+  },
+  "cablePorts": [
+    {
+      "id": "power",
+      "connector": "power-visual-v1",
+      "position": [0, 0.12, -0.226],
+      "direction": [0, 0, -1]
+    }
+  ],
+  "requiredIndependentMechanisms": [
+    "desk-surface contact and fixed envelope",
+    "four real computer geometries",
+    "visible power/status endpoint",
+    "deterministic GLB export and GLTFLoader readback"
+  ],
+  "limitations": [
+    "Static display asset. No real computer behavior, operating-system UI or thermal simulation.",
+    "Cable endpoint is a visual contract only and does not create cable routing.",
+    "Environment branch currently records the historical desktop-computer parent as room.floor. This package intentionally uses the requested desk.desktop mount contract and requires parent integration to reconcile that branch entry."
+  ]
+}
