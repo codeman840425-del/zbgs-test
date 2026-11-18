@@ -112,6 +112,7 @@ const extraFiles=[
   'scripts/company-platform/test-style-recipe.mjs',
   'scripts/company-platform/build-style-recipe-examples.mjs',
   'scripts/company-platform/qa-style-recipe-preview.mjs',
+  'scripts/company-platform/record-style-recipe-preview.mjs',
   'docs/COMPANY-STYLE-RECIPE-CONTRACT-v1.txt',
   'scripts/company-platform/build-concept-acoustic-panel.mjs',
   'scripts/company-platform/qa-concept-acoustic-panel-preview.mjs',
