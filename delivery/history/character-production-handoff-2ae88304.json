@@ -1,0 +1,62 @@
+{
+  "schema": "character-production-handoff-v1",
+  "operator": {
+    "commit": "2ae8830430a6ce901c7e114c0523c6d49777f9d5",
+    "planner": "scripts/production/variant_batch.py",
+    "create": "scripts/character-production-cli.cjs",
+    "createSchema": "character-production-batch-create-v1",
+    "package": "scripts/runtime-package/game-record-cli.mjs"
+  },
+  "runtime": {
+    "sourceCommit": "cfca0dd13af69418dc063d6715c43523184195f9",
+    "sourceDigest": "fe2e58489bbb6c6bf10f4d48e2d2242f14897637333de925bcdc1a16dd8eb7c0",
+    "buildId": "fe2e58489bbb",
+    "entry": "record-consumer.html",
+    "entryUrl": "record-consumer.html?records=/records/manifest.json"
+  },
+  "inputs": {
+    "variantMatrix": {
+      "path": "assets-source/variant-matrix-v1/representative-matrix.json",
+      "sha256": "81ef09c1e3f55a82f44263c5825b954852499e5b7a78f782b21da296cb317d1a",
+      "bytes": 14022
+    },
+    "candidateRequest": {
+      "path": "assets-source/variant-matrix-v1/native-crew-shorts-request.json",
+      "sha256": "44fde2d836b79ff40a1e73e56cc2a86cf19a55a28183c599bb22fd6147fb9a1b",
+      "bytes": 378
+    },
+    "signedRecords": {
+      "path": "evidence/m2-native-short-socks-room-v1/records.json",
+      "sha256": "eeb4df1a8fc6ec1de7bac7c394f5028afb90d96e2b491e48a12b832b249e4ebe",
+      "bytes": 174336
+    }
+  },
+  "fixedGamePackage": {
+    "files": 38,
+    "inventory": {
+      "path": "evidence/m2-native-short-socks-room-v1/inventory.json",
+      "sha256": "a8278dabdf7a2e7c58b2011f6d6d3425b5a096cfb71666fcc004c2fac1eaa9f9",
+      "bytes": 212015
+    }
+  },
+  "receiverEvidence": {
+    "path": "evidence/character-worktree-relocation-v1/operator-receiver.json",
+    "sha256": "bff44dcc5c907acd75a5ec28e3b33707d9d8320d39e0f11daeb6dbfddf95f5bb",
+    "bytes": 3260
+  },
+  "freshBuildEvidence": {
+    "path": "evidence/m2-native-short-socks-room-v1/rebuild.json",
+    "sha256": "ad7f792fe4e4fc3cf3dcf616d2f5547579cb96e403389837cbc1ee8f3aebc8cd",
+    "bytes": 598
+  },
+  "status": "diagnostic-candidate",
+  "limits": [
+    "技术样件；全套准入仍为空。",
+    "房间单椅与独立双角色消费已经分别运行；双设施交互待联调。",
+    "4196 是人类观看入口。游戏接收 records/manifest.json 和固定运行包。"
+  ],
+  "previousHandoff": {
+    "path": "delivery/history/character-production-handoff-25ff9b2e.json",
+    "sha256": "e5592605c4b1a7a455cc64bf479683848d4e213b98e0fef69e8666369f231367"
+  }
+}

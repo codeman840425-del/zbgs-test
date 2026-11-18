@@ -16,17 +16,23 @@ python -B scripts/production/native_body_intake.py evidence/m2-body-intake-v1/pu
 `delivery/character-production-handoff.json` 分别固定生产工具和游戏运行时。旧游戏源码附带的制作工具可能早于批量请求协议。复算机从交付单读取两个提交，分别检出；工具检出需要自己的 `prototype/node_modules`，游戏检出按锁文件构建。下面的 `$operatorRoot`、`$runtimeRoot` 分别是这两份检出的绝对路径，`$runRoot` 是主工程内新建且未使用的输出目录。完整普通检出可直接运行。稀疏检出需同时取协议引用的源配方、矩阵、已签角色记录和发布资源。
 
 ```powershell
-$rtAssets = Join-Path $runtimeRoot 'assets-source/variant-matrix-v1'
+$deliveryRoot = (Resolve-Path .).Path
+$handoff = Get-Content "$deliveryRoot/delivery/character-production-handoff.json" -Raw -Encoding utf8 | ConvertFrom-Json
+$matrix = Join-Path $deliveryRoot $handoff.inputs.variantMatrix.path
+$request = Join-Path $deliveryRoot $handoff.inputs.candidateRequest.path
 $dist = Join-Path $runtimeRoot 'prototype/dist'
-$records = Join-Path $operatorRoot 'evidence/m2-native-short-socks-room-v1/records.json'
+$records = Join-Path $deliveryRoot $handoff.inputs.signedRecords.path
 Set-Location -LiteralPath $operatorRoot
-python -B scripts/production/variant_batch.py "$rtAssets/representative-matrix.json" "$rtAssets/native-crew-shorts-request.json" --root $runtimeRoot --diagnostic --output "$runRoot/plan"
+python -B scripts/production/variant_batch.py $matrix $request --input-root $deliveryRoot --root $runtimeRoot --diagnostic --output "$runRoot/plan"
 node scripts/character-production-cli.cjs --dist $dist --request "$runRoot/plan/diagnostic-requests/create-001.batch.json" --out "$runRoot/fresh.json" --evidence "$runRoot/browser"
 node scripts/runtime-package/game-record-cli.mjs inventory --dist $dist --source-root $runtimeRoot --records $records --out "$runRoot/inventory.json"
 node scripts/runtime-package/game-record-cli.mjs export --dist $dist --source-root $runtimeRoot --records $records --inventory "$runRoot/inventory.json" --out "$runRoot/game"
+node scripts/runtime-package/verify-character-handoff.mjs --handoff-root $deliveryRoot --operator-root $operatorRoot --runtime-root $runtimeRoot --dist $dist --package "$runRoot/game"
 ```
 
-诊断样件重新创建时，身份、最终外观、装备和资源引用一致；创建、更新时间和对应记录摘要随本次操作产生。用交付单中的两份已签记录导出才能逐字节比较固定双人包。当前接收方已用制作工具 `2ae88304` 和游戏 `cfca0dd1` 在两份独立检出完成复算。原交付可从交付单的 previousHandoff 查回。运行游戏从输出目录的 `record-consumer.html?records=/records/manifest.json` 进入。[固定制作方与游戏接收方实测](../evidence/character-worktree-relocation-v1/operator-receiver.json)
+从包含交付单的检出根目录执行上例。当前制作工具为 `e8dc4eb2`，游戏为 `80fb16b7 / 5859bd00da8b`。两份检出的 `prototype` 均按锁文件安装依赖。稀疏游戏检出另取 `scripts` 和 `assets-source/garment-basecolor-release-v1` 以运行真实查询和读取衣物生产配方。分别使用工程内的临时、证据和交付目录。
+
+同款批次的每个 `items[]` 可在 `bodyType`、`identity` 旁提供 `appearance`。字段和值由固定游戏查询该身体，沿用现有注册的发型及配色。显式原色按该身体的缺省值还原。制作新记录会产生新的时间和签名；复算固定包时使用交付单中的已签记录。游戏团队通过 HTTP 提供导出目录，并从 `record-consumer.html?records=/records/manifest.json` 加载。历史短袜交付可通过 `previousHandoff` 找到。[男女批次输入](../assets-source/variant-matrix-v1/uniform-personal-appearance-request.json) · [接收核验](../evidence/m2-uniform-agent-handoff-v1/verified-handoff.json)
 
 当前能力状态只看 `docs/CAPABILITIES.md`。下面先说明旧 `flow.py` 的只读索引；文末的 `character-production-cli.cjs` 是实际执行制作/回读的独立入口，两者不能混为一谈。
 

@@ -1,0 +1,87 @@
+{
+  "schema": "character-production-batch-create-v1",
+  "requests": [
+    {
+      "schema": "character-production-request-v1",
+      "operation": "create",
+      "bodyType": "female",
+      "identity": {
+        "id": "uniform-1k-female",
+        "name": "制服样件 · 金色短发",
+        "gender": "female"
+      },
+      "edits": [
+        {
+          "domain": "outfit",
+          "selection": {
+            "bodySha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+            "role": "pants-top-far",
+            "equipment": [
+              {
+                "id": "m1-female-uniform-top-1k-v1",
+                "slot": "top",
+                "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+              },
+              {
+                "id": "m1-training-pants",
+                "slot": "bottom",
+                "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+              },
+              {
+                "id": "m1-uniform-shoes",
+                "slot": "shoes",
+                "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+              }
+            ]
+          }
+        },
+        {
+          "domain": "appearance",
+          "values": {
+            "eyeColor": "brown",
+            "hairColor": "blonde",
+            "hairStyle": "female-bob-v1",
+            "lipColor": "coral",
+            "skinTone": "warm"
+          }
+        }
+      ]
+    },
+    {
+      "schema": "character-production-request-v1",
+      "operation": "create",
+      "bodyType": "source-male-ab9a-release-v1",
+      "identity": {
+        "id": "uniform-1k-male",
+        "name": "制服样件 · 原生男体",
+        "gender": "male"
+      },
+      "edits": [
+        {
+          "domain": "outfit",
+          "selection": {
+            "bodySha256": "cf1118a2a8d8fca8ccc094e51d051f660ec12ffdbdda4c8ecaad407b55cef9d4",
+            "role": "pants-top-far",
+            "equipment": [
+              {
+                "id": "raw-male-uniform-top-1k-v1",
+                "slot": "top",
+                "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+              },
+              {
+                "id": "source-outfit-release-flat-shoes-v1",
+                "slot": "shoes",
+                "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756"
+              },
+              {
+                "id": "source-outfit-release-uniform-pants-v1",
+                "slot": "bottom",
+                "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

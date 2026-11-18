@@ -2,6 +2,8 @@
 
 ## 固定入口与备份
 
+游戏制作 Agent 当前使用交付单中的制作工具 `e8dc4eb2` 和游戏 `80fb16b7 / 5859bd00da8b`。一份制服配方支持按角色指定已登记的发型和配色。两条新签记录已在独立游戏包首次加载、关闭重开并恢复；旧版两条短袜记录也已在此游戏版本独立冷开重验。干净检出重复生成的身份、外观与资源相同，按固定签名重新导出的 48 个文件逐字节一致。整套发行准入与普通机性能仍待验证。下个输入是融合侧新增原生身体与多部件服装，先按真实结构和同体皮肤供体确认可复用范围。[当前交付单](../delivery/character-production-handoff.json) · [固定实物回读](../evidence/m2-uniform-agent-handoff-v1/verified-handoff.json) · [双人游戏录像](../evidence/m2-uniform-agent-handoff-v1/game/produced-pair-1x.webm)
+
 最新衔接。角色侧已只读复核云岚的同源供体、双冷开和实际装备，同时保留正式发行守卫与设施接线缺口。新批次汇总可供外部 agent 读取，准入仍按逐项精确身体。男女正式制服的 45 张身体图已逐张复算；无损 PNG 重编码可减少传输载荷，但无法消除纹理预算超限。不要把元数据缩略图的静态上界写成 GPU 实际分配。下一步优先把可复用的身体输入与现有接收包做固定审定，先用已具分发许可的输入验证；云岚源授权范围见接收记录。[批次字段](../evidence/m2-native-batch-aggregate-v1/README.md) · [真实新身体与正式运行边界](../evidence/m2-body-intake-v1/yun-receiver-followup.md) · [逐图依据](../evidence/m2-uniform-body-texture-intake-v1/README.md)
 
 融合侧回报已复算。代表房间对未知座位的误成功已修复，独立固定检出为 `efb1c3aa / 992da68517e1`，4196 的制服回放发版指针单独保留。正式公司座位尚待按真实使用点、接触句柄和租约接通。[正式入口责任与接收条件](../evidence/character-seat-consumer-v1/REPORT.md) · [新原生角色同源受理边界](../evidence/m2-body-intake-v1/new-family-receiver.md) · [白衣袖口待归因](../evidence/m2-body-intake-v1/bo-appearance-review.md)。角色新增工作树统一在项目内，固定运行检出的命令为 `python -B scripts/character-worktree.py create 名称 提交 --runtime-only`。
@@ -14,7 +16,7 @@
 
 原始男体的三件独立制服已进入共用工厂、房间动作和关闭重开。候选源码 31129ebf，固定构建 1eede692231c，两个干净检出 513 个文件一致。脚本 `python -B scripts/production/raw_male_equipment.py --stage-runtime --check` 重算并核对整个游戏资源包。4196 现有进程最后核实仍为 0d1ccbf3ff61，下次正常启动指针已更新，先前指针已存档。当前可直接打开[本地回放](../evidence/m2-raw-male-equipment-v1/index.html)。实际适配、椅面误差和设备限制见 CAPABILITIES。本次独立接收小包使用新签原始男体和旧签原生袜装两份记录，37 个文件，在离开工作台后的浏览器首次进入／关闭重开均还原；见[接收证据](../evidence/m2-raw-male-equipment-v1/receiver/game/report.json)。正式生产交接指针仍锁此前交付版本。下一工作包针对原始身体与服装的重复资源，先复用已有预算与导出工具验证安全的发布派生物，保留源和原记录。
 
-现用游戏制作交付单已切到含输出保护的工具 `2ae88304`，配套游戏仍锁 `cfca0dd1`／`fe2e58489bbb`。独立检出实际比对 508 个构建文件、38 个交付文件和两份旧签名记录；默认制作、生成与导出入口均已在真实命令行拒绝盘根输出。[现用交付单](../delivery/character-production-handoff.json) · [复算回执](../evidence/character-worktree-relocation-v1/operator-receiver.json)
+历史游戏制作交付单使用含输出保护的工具 `2ae88304`，配套游戏为 `cfca0dd1 / fe2e58489bbb`。独立检出实际比对 508 个构建文件、38 个交付文件和两份旧签名记录。默认制作、生成与导出入口均已在真实命令行拒绝盘根输出。[历史交付单](../delivery/history/character-production-handoff-2ae88304.json) · [复算回执](../evidence/character-worktree-relocation-v1/operator-receiver.json)
 
 盘根复核：迁移清单 37/37 旧路径已消失，新路径均在主项目。公司工程和独立融合测试归属已区分。批产计划、角色记录与取证、游戏清单与打包、原生制作、注册报告和口部附件适配入口现检查真实输出位置。已在工程内重新生成一份角色，按原固定清单导出 38 文件包，两份记录在浏览器关闭重开后还原。[本次运行回执](../evidence/character-worktree-relocation-v1/production-path-regression.json)。盘根检查命令为 `python -B scripts/character-worktree.py audit`。制作时以工程内 `output/`、`experiments/`、`evidence/` 接收对应结果。
 

@@ -75,6 +75,9 @@ def make_server(config, *, verification=False):
         def translate_path(self, path):
             # Review recordings stay outside the game build and its download budget.
             name = urlsplit(path).path
+            personal_look_film = 'm2-uniform-agent-handoff-v1/game/produced-pair-1x.webm'
+            if config.get('uniformTextureReview') and name == '/reviews/' + personal_look_film:
+                return str(ROOT / 'evidence' / personal_look_film)
             if config.get('uniformTextureReview') and name.startswith(UNIFORM_REVIEW):
                 member = name[len(UNIFORM_REVIEW):] or 'index.html'
                 if member in UNIFORM_FILES:
