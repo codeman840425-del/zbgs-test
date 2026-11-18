@@ -1,0 +1,144 @@
+{
+  "schema": "m2-hairstyle-contract-audit-v1",
+  "generatedAt": "2026-11-18",
+  "scope": {
+    "readOnly": true,
+    "files": [
+      "prototype/src/hairstyle-catalog.js",
+      "prototype/src/hair-fit-contract.js",
+      "prototype/src/native-hair-attachment.js",
+      "scripts/production/long_hair_package.py",
+      "scripts/production/hat_package.py",
+      "docs/CAPABILITIES.md"
+    ],
+    "noRuntimeUiGateOrCompanyChanges": true
+  },
+  "inventory": {
+    "catalogRows": 27,
+    "catalogSources": {
+      "m2-preset-short-hair-fits-v2/catalog.json": 6,
+      "m2-preset-ponytail-fits-v2/catalog.json": 3,
+      "m2-preset-short-hair-fits-v1/catalog.json": 8,
+      "m2-preset-ponytail-fits-v1/catalog.json": 4,
+      "standaloneNativeOrLegacyRows": 6
+    },
+    "styleIds": [
+      "female-bob-v1",
+      "male-sidepart-v1",
+      "female-ponytail-headref-v3",
+      "female-ponytail-v1",
+      "native-male-hairset001-v1"
+    ],
+    "packageGranularity": [
+      {
+        "kind": "body-specific hairstyle row",
+        "identity": "styleId + target body SHA + fit id/version/SHA + asset/manifest SHA",
+        "examples": [
+          "m2-preset-short-hair-fits-v2 (6 rows)",
+          "m2-preset-ponytail-fits-v2 (3 rows)"
+        ]
+      },
+      {
+        "kind": "frozen producer source package",
+        "source": "scripts/production/long_hair_package.py",
+        "inventoryFiles": 26,
+        "publishedFiles": [
+          "female-ponytail.glb",
+          "fit.json",
+          "manifest.json"
+        ],
+        "revisionInventoryFiles": 16,
+        "notes": "rootjoin-v2 preserves source/fit/manifest identity and retained failed attempts"
+      },
+      {
+        "kind": "frozen hat source package",
+        "source": "scripts/production/hat_package.py",
+        "inventoryFiles": 27,
+        "publishedFiles": [
+          "baseball-cap.glb",
+          "fit.json",
+          "manifest.json"
+        ],
+        "notes": "rigid head accessory with exact rootjoin-v2 dependency; not a hairstyle row"
+      }
+    ]
+  },
+  "contractClosure": {
+    "bodyType": {
+      "status": "partial",
+      "finding": "Catalog and manifests use compatibleBodies/targetBodySha256 hashes. No explicit bodyType field is present in hairstyle rows or hairstyle manifests, so bodyType-to-SHA provenance must be resolved by an outer profile/query layer."
+    },
+    "styleId": {
+      "status": "closed_for_explicit_fit_rows",
+      "finding": "Explicit fit rows carry fit.styleId and manifest.id/fit.id/version identity. Legacy standalone manifests omit fit identity."
+    },
+    "fit": {
+      "status": "mixed",
+      "finding": "v1/v2 rigid or spring fit records and native character-hair-fit-v3 are validated against exact body/resource hashes. Several legacy rows rely on legacyImplicitFit and have no fit object."
+    },
+    "dynamic": {
+      "status": "mechanisms_present_acceptance_pending",
+      "finding": "Rigid short/sidepart fits declare no dynamics. Ponytail packages declare hair-spring-v1 with six joints and three colliders. native-hairset001 declares VRMC_springBone with 59 joints and 22 colliders. Catalog and package runtimeAccepted remain false, so this is mechanism evidence rather than runtime admission."
+    },
+    "provenance": {
+      "status": "incomplete",
+      "finding": "The jaw fit has an explicit provenance object. Long-hair and hat producer scripts pin source inventory, license, generator and dependency bytes, but published hairstyle fit JSON does not carry a provenance object. Most preset fit JSONs have no provenance field."
+    }
+  },
+  "reusableQueryLayer": {
+    "entryPoint": "prototype/src/hair-fit-contract.js hairEntry/body+style",
+    "behavior": "Queries exact style id and exact compatible body hash, requiring exactly one row. hairFitIdentity returns explicit-fit-v1 (fit id/version/SHA) or legacy-head-local-v1 (manifest SHA). validateHairFitData checks body/style/resource identity and rigid/spring/native structure.",
+    "reusableRows": [
+      "Short bob and male sidepart v1/v2 rows can share the query and validator when the requested body hash has its own row.",
+      "Ponytail v1/v2 rows can share the query and validator for their listed body hashes. The same source asset SHA does not make a fit transferable to another body.",
+      "native-male-hairset001-v1 uses the native-hair-attachment validator and can share the selection/query contract for its exact body row."
+    ],
+    "nonReusableByInference": [
+      "No implicit cross-body reuse. Derived female bodies m1a-jaw-v1 and m1a-waisthip-v1 are not admitted for the current ponytail source (evidence/m2-derived-hair-admission-audit-v1/report.json).",
+      "Hat package depends on rootjoin-v2 but is an accessory dependency, not proof of a second hairstyle or double-ponytail mechanism."
+    ]
+  },
+  "legacyImplicitFitRisk": {
+    "status": "material",
+    "rows": [
+      "female-bob-v1 -> /assets/m2-hairstyle-v1/manifest.json",
+      "male-sidepart-v1 -> /assets/m2-male-hairstyle-v1/manifest.json"
+    ],
+    "finding": "These rows set legacyImplicitFit=true and expose no fit id/version/SHA. Their manifests omit version, explicit fit and source-body provenance fields. Saved legacy records can only identify the manifest SHA and are rejected when a caller requests legacy compatibility against an explicit-fit row. They must not be treated as equivalent to explicit v1/v2 fit rows."
+  },
+  "conceptImageMinimumGaps": {
+    "shortHair": {
+      "status": "mechanism_present_body_scoped",
+      "evidence": "female-bob-v1 and male-sidepart-v1 rigid head-local assets, with explicit body-specific v1/v2 rows plus legacy rows.",
+      "gap": "Keep use scoped to exact body rows. Close bodyType/provenance and runtime/visual admission before presenting as a generally reusable short-hair family."
+    },
+    "mediumLengthHair": {
+      "status": "missing_dedicated_style",
+      "evidence": "No medium-length styleId or package is present. Existing bob is a neck-length rigid asset and ponytail is a long spring asset.",
+      "gap": "Produce a dedicated medium-length package or explicitly classify an existing asset, with exact styleId, body fits, attachment/physics declaration and runtime evidence."
+    },
+    "ponytail": {
+      "status": "mechanism_present_runtime_pending",
+      "evidence": "female-ponytail-v1 rootjoin-v2 and female-ponytail-headref-v3 provide one six-joint spring chain and three colliders. Producer/runtime CPU checks pass, while runtimeAccepted remains false and derived-body admission is false.",
+      "gap": "Complete target-body runtime/visual and record/reload admission, plus provenance closure. Do not promote CPU/source evidence to game acceptance."
+    },
+    "doublePonytail": {
+      "status": "missing",
+      "evidence": "No double-ponytail styleId, asset, fit or dual-chain dynamic record exists.",
+      "gap": "Create a distinct package with two independently skinned/dynamic tails, explicit colliders and body-specific fits, then run the same producer, runtime, recovery and visual evidence sequence."
+    }
+  },
+  "evidence": [
+    "evidence/m2-hair-rootjoin-independent-v1/report-producer-v1.json",
+    "evidence/m2-hair-rootjoin-independent-v1/report-runtime-v2.json",
+    "evidence/m2-hair-head-reference-admitted-v1/report.json",
+    "evidence/m2-derived-hair-admission-audit-v1/report.json",
+    "evidence/m2-hat-accessory-cpu-v1/root-hat-report.json",
+    "docs/CAPABILITIES.md HAIR-01 and hair production notes"
+  ],
+  "readOnlyChecks": {
+    "python scripts/production/qa-long-hair-package.py": "passed=true, inventoryFiles=26, runtimeAccepted=false",
+    "python scripts/production/qa-hat-package.py": "passed=true, sourceInventoryFiles=27, runtimeAccepted=false"
+  },
+  "conclusion": "The project has a reusable exact-body query and several frozen hairstyle production packages. Explicit body/style/fit/resource identity is strongest in v1/v2 preset rows and native v3, while bodyType and provenance closure are incomplete and legacy rows remain implicit-fit. Short and single-ponytail mechanisms exist as body-scoped candidates. Medium-length and double-ponytail mechanisms are absent. No listed hair package is runtime-admitted."
+}
