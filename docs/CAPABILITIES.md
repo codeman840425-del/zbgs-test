@@ -537,3 +537,5 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 2026-11-18 预算交叉核查：`scripts/production/qa_native_budget_gate.py` 只读复核生产闸门、FaceContour KTX2 旁车、确定性编码回执和历史预算包装的身体身份、编码一致性、静态超预算、普通电脑未测及 `runtimeVerified=false`。32 项检查通过，输出 `status=pass`、`readOnly=true`、`runtimeAdmissionChanged=false`、`acceptedForRuntime=[]`。该工具验证预算证据没有漂移，不会把旁车或静态估算升级为运行时准入。
 
 2026-11-18 工作台资源矩阵接入：4196 工作台外观页新增“生产资源矩阵”只读区域，按当前基础身体显示已登记款式及 `candidate`/`runtime-admitted` 状态。它复用 `queryCharacterProduction()` 的精确身份查询，不提供绕过准入的应用入口。当前男女代表制服和露膝短裤均显示候选，正式可用数量为零；Vite 构建通过。
+
+2026-11-18 新候选头部附件回读：固定预览构建 `c0f83a22c2f0` 对 `native-contour-roundness-a-v1` 与 `native-contour-cheek-b-v1` 分别完成站立/坐姿的未适配眼镜捕获，随后按精确身体 SHA 生成两份 `cpu-candidate-only` 镜腿 fit。证据为 `evidence/m2-native-batch-runtime-seam-v1/native-glasses-capture-candidate-v3`、`native-glasses-candidate-v4`。这证明候选捕获和 fit 生成可重复，尚未接入运行时 registry，也未完成关闭重开与人工视觉准入，`headAttachments` 继续阻塞。
