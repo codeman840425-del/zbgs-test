@@ -18,9 +18,9 @@
 从项目根运行，给报告和试导各用一个新目录。
 
 ```powershell
-node scripts/company-platform/build-desktop-plants.mjs --check
+node scripts/company-platform/build-desktop-plants-v2.mjs --check
 node scripts/company-platform/test-desktop-plant-assets.mjs output/desktop-plants/producer/verified
-node scripts/company-platform/build-desktop-plants.mjs --parameters assets-source/company-desktop-plants-v1/examples/pointed-kenney-v2.json --output output/desktop-plants/producer/pointed
+node scripts/company-platform/build-desktop-plants-v2.mjs --parameters assets-source/company-desktop-plants-v1/examples/pointed-kenney-v2.json --output output/desktop-plants/producer/pointed
 ```
 
 首次生成固定四款用 `node scripts/company-platform/build-desktop-plants.mjs --write`。同版按文件字节核对。集合为 `collection.json`，输出模型与资源描述位于 `prototype/public/company-assets/desktop-plants-v1/<id>/v<version>/`。试导会重复生成并校验实际包络、带面积的水平盆底接触、冠部和叶片射线。
@@ -39,3 +39,27 @@ node scripts/company-platform/publish-room-appearance.mjs --check assets-source/
 ## 给制作 agent 的输入
 
 > 制作一盆直播桌上可摆放的绿植。先确定实际冠部轮廓，选择有独立盆底、冠部和明确许可的原件。给出 GLB、本地授权说明及作者和 SHA-256。以盆底中心为原点，实接桌面，在 0.35 × 0.55 × 0.35 米内完成。保留真实叶片和枝干，使用桌面包络检查和公开生产入口。新造型填写独立 ID 和版本，先试导再登记。
+
+## 交付可编辑原稿
+
+在配方的 `sources` 中为相应来源添加 `editable`，例如：
+
+```json
+"editable": {
+  "path": "assets-source/company-my-plant/author.py",
+  "sha256": "<原稿实际字节的64位小写SHA-256>"
+}
+```
+
+原稿需为 `assets-source/company-*/` 内的普通文件。可用 `(Get-FileHash -Algorithm SHA256 原稿路径).Hash.ToLowerInvariant()` 取得摘要。工具读取原稿以校验和随包保存；原稿的执行和 GLB 导出由制作方完成。GLB 与许可仍须各自声明文件和摘要。
+
+从接收包的 `source` 目录试导，再按同一配方发布。
+
+```powershell
+node scripts/company-platform/build-desktop-plants-v2.mjs --parameters assets-source/company-my-plant/recipe.json --output ../trial-new
+node scripts/company-platform/publish-room-appearance.mjs --publish assets-source/company-my-plant/recipe.json
+node scripts/company-platform/publish-room-appearance.mjs --check assets-source/company-my-plant/recipe.json
+node scripts/company-platform/build-library.mjs --check
+```
+
+显式原稿登记在 `provenance.dependencies.editableSource`。修改已登记的原稿会导致建库检查失败。制作下一版时保留旧原稿，为新稿使用独立路径、摘要和资源版本。冻结的 `build-desktop-plants.mjs` 提供 V1 几何编译和历史复建；新增原稿请走上述 V2 入口。V2 对没有声明原稿的历史配方保留原侧车、模型和集合字节。

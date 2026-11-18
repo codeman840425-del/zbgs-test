@@ -2,6 +2,8 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 
+import {verifyPlantEditableProvenance} from './plant-editable-source.mjs';
+
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 
 export async function validateResourceProvenance({root, resource, label = resource?.id || '?'}) {
@@ -21,5 +23,7 @@ export async function validateResourceProvenance({root, resource, label = resour
     const bytes = await fs.readFile(file).catch(() => null);
     if (!bytes) throw new Error(`missing-resource-provenance-file: ${label}.${field}`);
     if (provenance[hashField] !== digest(bytes)) throw new Error(`provenance-hash-mismatch: ${label}.${hashField}`);
+    if(field==='sourceParameters' && resource.productionBranch==='plant-desktop-installation')
+      await verifyPlantEditableProvenance(root,resource,JSON.parse(bytes));
   }
 }

@@ -15,7 +15,7 @@
 包根目录运行 `node verify.mjs` 可核对发布清单。复制为可写工作目录，运行 `npm ci --prefix source/prototype` 安装锁定依赖。在 `source` 目录运行以下命令，批次输出使用新的目录名。
 
 ```powershell
-node scripts/company-platform/build-desktop-plants.mjs --check
+node scripts/company-platform/build-desktop-plants-v2.mjs --check
 node scripts/company-platform/build-library.mjs --check
 node scripts/company-platform/batch.mjs scripts/company-platform/batch-inputs/desktop-plant-rooms.json ../my-plant-rooms
 ```
@@ -28,3 +28,27 @@ node scripts/company-platform/publish-room-appearance.mjs --check assets-source/
 ```
 
 在布局的 `add-facility` 或 `replace-resource` 操作中选择新资源并重新运行批次。正式包从根目录运行 `node serve.mjs 0` 后，在打印的地址后加 `?delivery=plant-home` 或 `?delivery=plant-rental` 即可观看两张工位。
+
+## 交付可编辑原稿
+
+在配方的 `sources` 中为相应来源添加 `editable`，例如：
+
+```json
+"editable": {
+  "path": "assets-source/company-my-plant/author.py",
+  "sha256": "<原稿实际字节的64位小写SHA-256>"
+}
+```
+
+原稿需为 `assets-source/company-*/` 内的普通文件。可用 `(Get-FileHash -Algorithm SHA256 原稿路径).Hash.ToLowerInvariant()` 取得摘要。工具读取原稿以校验和随包保存；原稿的执行和 GLB 导出由制作方完成。GLB 与许可仍须各自声明文件和摘要。
+
+从接收包的 `source` 目录试导，再按同一配方发布。
+
+```powershell
+node scripts/company-platform/build-desktop-plants-v2.mjs --parameters assets-source/company-my-plant/recipe.json --output ../trial-new
+node scripts/company-platform/publish-room-appearance.mjs --publish assets-source/company-my-plant/recipe.json
+node scripts/company-platform/publish-room-appearance.mjs --check assets-source/company-my-plant/recipe.json
+node scripts/company-platform/build-library.mjs --check
+```
+
+显式原稿登记在 `provenance.dependencies.editableSource`。修改已登记的原稿会导致建库检查失败。制作下一版时保留旧原稿，为新稿使用独立路径、摘要和资源版本。冻结的 `build-desktop-plants.mjs` 提供 V1 几何编译和历史复建；新增原稿请走上述 V2 入口。V2 对没有声明原稿的历史配方保留原侧车、模型和集合字节。
