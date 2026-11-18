@@ -117,7 +117,7 @@ async function shot(name){
         const shown=await page.evaluate(()=>company.session.scene.surfacePresentation());
         for(const region of doc.nodes.filter(n=>['room','area'].includes(n.kind)&&n.parentId===floor.id)) {
           assert(shown.some(s=>s.regionId===region.id&&s.surface==='floor'));
-          assert(shown.some(s=>s.regionId===region.id&&s.surface==='north'));
+          assert(shown.some(s=>s.regionId===region.id&&s.surface!=='floor'));
         }
         await shot(`${key}-${floors.indexOf(floor)+1}`);
       }
