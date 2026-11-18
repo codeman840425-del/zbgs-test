@@ -176,6 +176,7 @@ test('release and source outfits share the clothes but have separate exact fits'
     return JSON.parse(bytes).items;
   };
   const [sourceItems,releaseItems] = await Promise.all([loadCatalog(original),loadCatalog(release)]);
+  for (const p of [original,release]) assert.equal(p.baseBodyDisplay, 'source-with-hair');
   assert.equal(release.embeddedClothing,false);
   assert.notEqual(release.sha256,original.sha256);
   for (const role of ['top','pants','shoes']) {
