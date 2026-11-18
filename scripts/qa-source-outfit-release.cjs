@@ -12,13 +12,17 @@ const RELEASE = 'source-male-ab9a-release-v1';
 const SOURCE_SHA = 'ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c';
 const RELEASE_SHA = 'cf1118a2a8d8fca8ccc094e51d051f660ec12ffdbdda4c8ecaad407b55cef9d4';
 const RELEASE_BYTES = 14_358_460;
+const ORIGINAL_PAIR = {
+  source:{bodyType:SOURCE, sha256:SOURCE_SHA},
+  release:{bodyType:RELEASE, sha256:RELEASE_SHA, bytes:RELEASE_BYTES},
+};
 const VIEWPORT = {width: 1600, height: 1000};
 const ROLES = ['body', 'top', 'pants', 'shoes'];
 const POSE_VIEWS = ['dressed-front', 'dressed-side', 'base-front'];
 const TOLERANCE = 1e-7;
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 
-function readIdentity() {
+function readIdentity(skinMaterial) {
   const debug = window.__debug, actor = debug.avatar();
   const outfit = actor.getOutfitInfo();
   if (outfit.index !== 0 || outfit.equipment.debugBody) throw Error('Candidate did not open in its default dressed outfit');
@@ -37,7 +41,19 @@ function readIdentity() {
   const colors = Object.fromEntries(['hairStyle', 'hairColor', 'eyebrowColor', 'skinTone', 'eyeColor', 'lipColor']
     .map(key => [key, appearance[key] ?? null]));
   const gl = debug.renderer.getContext(), ext = gl.getExtension('WEBGL_debug_renderer_info');
-  return {bodyType, resources, colors, build:debug.buildInfo?.shortId ?? null,
+  const skinMaps = [];
+  if (skinMaterial) {
+    actor.vrm.scene.traverseVisible(mesh => {
+      if (!mesh.isSkinnedMesh) return;
+      for (const mat of [].concat(mesh.material)) {
+        if (!mat.visible || mat.name !== skinMaterial) continue;
+        skinMaps.push({mesh:mesh.name, material:mat.name,
+          base:[mat.map?.image?.width,mat.map?.image?.height],
+          shade:[mat.shadeMultiplyTexture?.image?.width,mat.shadeMultiplyTexture?.image?.height]});
+      }
+    });
+  }
+  return {bodyType, resources, colors, skinMaps, build:debug.buildInfo?.shortId ?? null,
     sourceDigest:debug.buildInfo?.sourceDigest ?? null, development:debug.buildInfo?.development === true,
     environment:{userAgent:navigator.userAgent, platform:navigator.userAgentData?.platform ?? navigator.platform,
       pixelRatio:window.devicePixelRatio, webgl:gl.getParameter(gl.VERSION),
@@ -157,7 +173,8 @@ function comparePixels(left, right, bounds, PNG) {
   return {pair, stats:{bounds, pixels, changedPixels:changed, maxRgbDelta:peak, meanAbsoluteRgbDelta:sum / (pixels * 3)}};
 }
 
-async function inspect(browser, base, build, out, bodyType, label, report) {
+async function inspect(browser, base, build, out, expected, label, report) {
+  const {bodyType} = expected;
   const context = await browser.newContext({viewport:VIEWPORT, deviceScaleFactor:1, serviceWorkers:'block'});
   const row = {label, bodyType, shots:{}, errors:[]};
   report.cases.push(row);
@@ -173,12 +190,19 @@ async function inspect(browser, base, build, out, bodyType, label, report) {
     await page.goto(url.href);
     await page.waitForFunction(build => window.__debug?.ready && window.__debug.buildInfo?.shortId === build,
       build, {timeout:90000});
-    row.identity = await page.evaluate(readIdentity);
+    row.identity = await page.evaluate(readIdentity, expected.skin?.material);
+    if (expected.skin) {
+      assert(row.identity.skinMaps.length > 0, 'No visible skinned mesh using the selected body material');
+      for (const rowMap of row.identity.skinMaps) {
+        assert.deepEqual(rowMap.base, [expected.skin.size,expected.skin.size], 'Body color map');
+        assert.deepEqual(rowMap.shade, rowMap.base, 'Body shade map');
+      }
+    }
     assert.equal(row.identity.bodyType, bodyType);
     assert.equal(row.identity.build, build);
     assert.equal(row.identity.development, false);
     assert.ok(Object.values(row.identity.colors).every(value => value === 'original' || value === null), 'Candidate is not in original colors');
-    assert.equal(row.identity.resources.body.sha256, bodyType === SOURCE ? SOURCE_SHA : RELEASE_SHA);
+    assert.equal(row.identity.resources.body.sha256, expected.sha256);
     const served = await network.read(new URL('/build-info.json', base).href);
     const buildInfo = JSON.parse(served.bytes);
     assert.equal(buildInfo.shortId, build);
@@ -196,7 +220,7 @@ async function inspect(browser, base, build, out, bodyType, label, report) {
       row.responses[role] = {url:resource.url, sha256:hash, responseBodyBytes:bytes.length, ...transfer};
     }
     assert.equal(new Set(ROLES.map(role => row.responses[role].url)).size, ROLES.length, 'Unexpected aliased wardrobe URLs');
-    if (bodyType === RELEASE) assert.equal(row.responses.body.responseBodyBytes, RELEASE_BYTES);
+    if (expected.bytes !== undefined) assert.equal(row.responses.body.responseBodyBytes, expected.bytes);
     row.totalResponseBodyBytes = ROLES.reduce((sum, role) => sum + row.responses[role].responseBodyBytes, 0);
     row.totalTransferBytes = ROLES.reduce((sum, role) => sum + row.responses[role].transferBytes, 0);
 
@@ -234,18 +258,25 @@ async function inspect(browser, base, build, out, bodyType, label, report) {
 }
 
 async function main() {
-  const [base, build, directory] = process.argv.slice(2);
-  if (!directory || process.argv.length !== 5 || !/^[a-f0-9]{12}$/.test(build))
-    throw Error('Usage: node scripts/run-fixed-check.cjs FIXED_DIST scripts/qa-source-outfit-release.cjs BUILD_ID NEW_PROJECT_OUTPUT_DIR');
+  const [base, build, directory, pairFile] = process.argv.slice(2);
+  if (!directory || ![5,6].includes(process.argv.length) || !/^[a-f0-9]{12}$/.test(build))
+    throw Error('Expected loopback URL, fixed build ID, new project output directory and optional body pair JSON');
   const address = new URL(base);
   assert.equal(address.protocol, 'http:');
   assert.ok(['127.0.0.1','localhost','[::1]'].includes(address.hostname), 'Use the fixed-build loopback harness');
   const out = await projectOutput(directory, await productionRoot());
+  const pair = pairFile ? JSON.parse(await fs.readFile(pairFile, 'utf8')) : ORIGINAL_PAIR;
+  for (const key of ['source', 'release']) {
+    const row = pair[key];
+    assert.ok(row && typeof row.bodyType === 'string' && row.bodyType.length && /^[a-f0-9]{64}$/.test(row.sha256));
+    if (pairFile) assert.ok(Number.isSafeInteger(row.bytes) && row.bytes > 0);
+  }
+  assert.notEqual(pair.source.sha256, pair.release.sha256);
   await fs.mkdir(out);
   await fs.copyFile(__filename, path.join(out, 'executed-script.cjs'));
   await fs.copyFile(require.resolve('./qa-cold-assets.cjs'), path.join(out, 'qa-cold-assets.cjs'));
   await fs.copyFile(require.resolve('./qa-seated-outfit-contact.cjs'), path.join(out, 'qa-seated-outfit-contact.cjs'));
-  const report = {schema:'ab9a-outfit-release-browser-comparison-v1', build, viewport:VIEWPORT,
+  const report = {schema: pairFile ? 'texture-body-outfit-browser-comparison-v1' : 'ab9a-outfit-release-browser-comparison-v1', build, bodyPair:pair, viewport:VIEWPORT,
     host:{platform:os.platform(), version:os.version(), architecture:os.arch(), cpu:os.cpus()[0]?.model},
     status:'incomplete', cases:[], comparisons:{}, limits:[
       'Headless Chrome on the development machine. This is neither target-device performance nor visual acceptance.',
@@ -261,8 +292,8 @@ async function main() {
     const {PNG} = require('../prototype/node_modules/playwright-core/lib/utilsBundle.js');
     browser = await chromium.launch({channel:'chrome', headless:true});
     report.browser = browser.version();
-    const source = await inspect(browser, base, build, out, SOURCE, 'source', report);
-    const release = await inspect(browser, base, build, out, RELEASE, 'release', report);
+    const source = await inspect(browser, base, build, out, pair.source, 'source', report);
+    const release = await inspect(browser, base, build, out, pair.release, 'release', report);
     assert.equal(release.identity.sourceDigest, source.identity.sourceDigest);
     assert.deepEqual(release.identity.environment, source.identity.environment);
     assert.deepEqual(release.poses, source.poses, 'The same deterministic action did not produce the same pose stage');

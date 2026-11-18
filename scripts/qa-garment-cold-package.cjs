@@ -12,7 +12,8 @@ async function run(base, build, selectedFile, oppositeFile, directory) {
   const parse = async file => JSON.parse(await fs.readFile(file, 'utf8'));
   const [records, other] = await Promise.all([parse(selectedFile), parse(oppositeFile)]);
   const {canonicalJson} = await import('../prototype/src/character-record.js');
-  assert.equal(records.length, 2);
+  assert(Array.isArray(records) && records.length >= 1 && records.length <= 4, 'Expected 1–4 signed records');
+  assert.equal(new Set(records.map(r=>r.identity.id)).size, records.length);
   const top = record => {
     const equipment = record.appearanceRecipe.equipment;
     const matches = Object.values(equipment.resources).filter(item => item.slot === 'top');
@@ -59,8 +60,8 @@ async function run(base, build, selectedFile, oppositeFile, directory) {
           return {build:api.buildInfo.shortId, failure:api.inputFailure, actors};
         });
         assert.equal(state.build, build);
-        assert.equal(state.actors.length, 2, JSON.stringify(state.failure));
-        assert.notEqual(state.actors[0].root, state.actors[1].root);
+        assert.equal(state.actors.length, records.length, JSON.stringify(state.failure));
+        assert.equal(new Set(state.actors.map(actor=>actor.root)).size, state.actors.length, 'Expected independent avatar instances');
         trace.actors = [];
         for (const [index, record] of records.entries()) {
           const actor=state.actors.find(a=>a.id===record.identity.id), item=expected[index];

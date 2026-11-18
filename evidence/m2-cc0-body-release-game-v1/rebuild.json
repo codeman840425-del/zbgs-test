@@ -1,0 +1,65 @@
+{
+  "schema": "cc0-body-fixed-game-rebuild-v1",
+  "status": "technical-build-review-pass",
+  "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+  "sourceDigest": "f4966554bcfc32a18891a749ce61739fd0b7bad579eebf146631a71ec77d517f",
+  "buildId": "f4966554bcfc",
+  "cleanBuilds": [
+    {
+      "worktree": "experiments/worktrees/cc0-body-4636fe86",
+      "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+      "buildId": "f4966554bcfc",
+      "sourceDigest": "f4966554bcfc32a18891a749ce61739fd0b7bad579eebf146631a71ec77d517f",
+      "lockSha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7",
+      "dependenciesFrom": "experiments/worktrees/garment-80fb16b7/prototype",
+      "npmVersion": "11.6.2",
+      "nodeVersion": "v24.13.0",
+      "gitClean": true
+    },
+    {
+      "worktree": "experiments/worktrees/cc0-body-4636fe86-repeat",
+      "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+      "buildId": "f4966554bcfc",
+      "sourceDigest": "f4966554bcfc32a18891a749ce61739fd0b7bad579eebf146631a71ec77d517f",
+      "lockSha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7",
+      "dependenciesFrom": "experiments/worktrees/garment-80fb16b7/prototype",
+      "npmVersion": "11.6.2",
+      "nodeVersion": "v24.13.0",
+      "gitClean": true
+    }
+  ],
+  "comparison": {
+    "distFiles": 522,
+    "distBytes": 730523946,
+    "inventorySha256": "dd4c4ec5ca311ec2c6a0a461ce57818db20bbafdfc98f8b1adb8cff389a40917",
+    "distDifference": [],
+    "sourceInputCount": 635,
+    "sourceDigest": "f4966554bcfc32a18891a749ce61739fd0b7bad579eebf146631a71ec77d517f"
+  },
+  "review": {
+    "path": "scripts/runtime-package/game-record-cc0-body-texture-reviewed.json",
+    "sha256": "e02dfae5947d9fb97c8bc46c8240990ae95c4dbd93794875b422b9570fbca64e",
+    "compiledEntryClosureFiles": 11,
+    "indexSection": "externalRecords",
+    "existingIndexEntriesPreserved": true
+  },
+  "reproduction": {
+    "checkouts": [
+      {
+        "command": "python -B scripts/character-worktree.py create cc0-body-4636fe86 4636fe861238ed25aa2a4725ff1e5becf328cb5d --runtime-only",
+        "buildCwd": "experiments/worktrees/cc0-body-4636fe86/prototype",
+        "build": "npm run build"
+      },
+      {
+        "command": "python -B scripts/character-worktree.py create cc0-body-4636fe86-repeat 4636fe861238ed25aa2a4725ff1e5becf328cb5d --runtime-only",
+        "buildCwd": "experiments/worktrees/cc0-body-4636fe86-repeat/prototype",
+        "build": "npm run build"
+      }
+    ],
+    "dependencyMethod": "Independent copies of the existing project node_modules with identical package-lock bytes, no install or network",
+    "privateTempAndNpmCache": "Separate directories below output/m2-cc0-body-release-game-build-r01 for the two builds",
+    "reviewCommand": "node scripts/runtime-package/review-game-runtime.mjs experiments/worktrees/cc0-body-4636fe86/prototype/dist experiments/worktrees/cc0-body-4636fe86-repeat/prototype/dist experiments/worktrees/cc0-body-4636fe86-repeat NEW_REVIEW_FILE",
+    "distInventoryDigest": "SHA-256 of compact, sorted-key JSON mapping each POSIX path to [file byte count, SHA-256]"
+  },
+  "scope": "Technical rebuild and external-record runtime closure only."
+}

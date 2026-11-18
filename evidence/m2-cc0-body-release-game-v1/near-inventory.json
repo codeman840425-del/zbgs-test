@@ -1,0 +1,524 @@
+{
+  "schema": "game-character-record-package-v1",
+  "runtime": {
+    "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+    "sourceDigest": "f4966554bcfc32a18891a749ce61739fd0b7bad579eebf146631a71ec77d517f",
+    "buildId": "f4966554bcfc",
+    "entry": "record-consumer.html",
+    "entryUrl": "record-consumer.html?records=/records/manifest.json"
+  },
+  "recordManifest": "records/manifest.json",
+  "records": [
+    {
+      "id": "cc0-uniform-body-texture-v1",
+      "label": "制服男体 · 身体贴图 A/B",
+      "file": "records/cc0-uniform-body-texture-v1.json",
+      "revision": 1,
+      "recordSha256": "58731c171788b388885ae13f07efc719ab953d8fd4bea602f7b088330f3aa55b",
+      "bodyType": "source-male-cc0-texture-release-v1",
+      "avatarSha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+      "outfitIndex": 0,
+      "equipmentIds": [
+        "cc0-texture-release-uniform-top-v1",
+        "cc0-texture-release-flat-shoes-v1",
+        "cc0-texture-release-uniform-pants-v1"
+      ],
+      "actions": [
+        "idle",
+        "walk",
+        "jog",
+        "talk",
+        "sitTalk",
+        "sitEnter",
+        "sitExit",
+        "sitIdle",
+        "turn",
+        "greeting",
+        "ual1-dance-reference",
+        "dance-technical-once-v1"
+      ],
+      "unsupportedActions": [
+        "rokoko-5359146-30s-v1",
+        "rokoko-5359146-30s-arm-local-v1",
+        "native-rokoko-5359146-30s-v2"
+      ]
+    }
+  ],
+  "limitations": [
+    "Collection covers the selected records, their eager startup resources and compatible motions.",
+    "Runtime byte verification is scoped to these records. Visual acceptance and ordinary-PC performance are separate checks.",
+    "Assets retain source provenance and existing license boundaries."
+  ],
+  "files": [
+    {
+      "path": "assets/cc0-body-release-v1/body.vrm",
+      "sha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+      "bytes": 12141208,
+      "reasons": [
+        "Exact foundation body"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "sourcePath": "prototype/public/assets/cc0-body-release-v1/body.vrm"
+        },
+        {
+          "sourcePath": "prototype/src/foundation-profiles.js",
+          "source": "Base_Male / stripped VRM0 with 1K opaque body base color",
+          "sourceLicense": {
+            "url": "https://opengameart.org/sites/default/files/base_male.zip",
+            "zipBytes": 14825707,
+            "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+            "vrmBytes": 17914788,
+            "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+            "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+            "publisher": "hecko",
+            "attributedAuthor": "VRoid Project",
+            "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+            "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+            "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+          }
+        }
+      ]
+    },
+    {
+      "path": "assets/cc0-body-release-v1/equipment.json",
+      "sha256": "85c35d0f1dc886b5cd817a3920f45b88938069d34325b4fb6812690d6d4926ab",
+      "bytes": 28014,
+      "reasons": [
+        "Body equipment catalog"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "sourcePath": "prototype/public/assets/cc0-body-release-v1/equipment.json"
+        }
+      ]
+    },
+    {
+      "path": "assets/character-production-query-ClM--82-.js",
+      "sha256": "accf1ef16c45481da076f5519e7a3ba5dfc03cd58a9ca0939b22174e9ca2cdc4",
+      "bytes": 1223028,
+      "reasons": [
+        "Compiled dependency of assets/recordConsumer-CSxUItqk.js"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "buildId": "f4966554bcfc",
+          "bundlePath": "assets/character-production-query-ClM--82-.js",
+          "buildManifest": "build-info.json"
+        }
+      ]
+    },
+    {
+      "path": "assets/character-record-consumer-DTiXcHST.js",
+      "sha256": "38560ca9e7231b529b5009b9b0b69ff89997a4df68edd7c7e517016e8867834e",
+      "bytes": 2967,
+      "reasons": [
+        "Compiled dependency of assets/recordConsumer-CSxUItqk.js"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "buildId": "f4966554bcfc",
+          "bundlePath": "assets/character-record-consumer-DTiXcHST.js",
+          "buildManifest": "build-info.json"
+        }
+      ]
+    },
+    {
+      "path": "assets/character-runtime-record-Dfi8iDFJ.js",
+      "sha256": "aaa5ab555461a9eab200fc915c48c1f61210070ba3911913fedbfaa154a6158c",
+      "bytes": 84846,
+      "reasons": [
+        "Compiled dependency of assets/character-record-consumer-DTiXcHST.js"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "buildId": "f4966554bcfc",
+          "bundlePath": "assets/character-runtime-record-Dfi8iDFJ.js",
+          "buildManifest": "build-info.json"
+        }
+      ]
+    },
+    {
+      "path": "assets/foundation-avatar-CUjpYgZ6.js",
+      "sha256": "da89842bbeedb7e14f144d154a7a3daafbdec1c8c19cecbb21cecd87b6cd2bbd",
+      "bytes": 342515,
+      "reasons": [
+        "Compiled dependency of assets/recordConsumer-CSxUItqk.js"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "buildId": "f4966554bcfc",
+          "bundlePath": "assets/foundation-avatar-CUjpYgZ6.js",
+          "buildManifest": "build-info.json"
+        }
+      ]
+    },
+    {
+      "path": "assets/modulepreload-polyfill-B5Qt9EMX.js",
+      "sha256": "d2a32840421496e872ade591618d2fa5c33797605d1aec04301717e5a90757d0",
+      "bytes": 711,
+      "reasons": [
+        "Compiled dependency of assets/recordConsumer-CSxUItqk.js"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "buildId": "f4966554bcfc",
+          "bundlePath": "assets/modulepreload-polyfill-B5Qt9EMX.js",
+          "buildManifest": "build-info.json"
+        }
+      ]
+    },
+    {
+      "path": "assets/motion-source-DiHnsvO-.js",
+      "sha256": "489a9ff28d905d659dfb5c7cd7bb1e7bb941dd3ffa877c200db6f250e7f769fa",
+      "bytes": 7558,
+      "reasons": [
+        "Compiled dependency of assets/character-record-consumer-DTiXcHST.js"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "buildId": "f4966554bcfc",
+          "bundlePath": "assets/motion-source-DiHnsvO-.js",
+          "buildManifest": "build-info.json"
+        }
+      ]
+    },
+    {
+      "path": "assets/motion/m1c/dance-imports.json",
+      "sha256": "600f7ab75fce550f71d9be5f9240e83f6b58945d67804555feddfe1acf2d67da",
+      "bytes": 9195,
+      "reasons": [
+        "Startup dance catalog"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+        }
+      ]
+    },
+    {
+      "path": "assets/motion/m1c/dance-source-reference.glb",
+      "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744",
+      "bytes": 739436,
+      "reasons": [
+        "Startup dance ual1-dance-reference"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "sourcePath": "prototype/public/assets/motion/m1c/dance-source-reference.glb"
+        },
+        {
+          "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json",
+          "motionId": "ual1-dance-reference",
+          "origin": "Unmodified Quaternius Dance_Loop reference",
+          "licenseBoundary": "CC0-1.0 source; project technical choreography derivative"
+        }
+      ]
+    },
+    {
+      "path": "assets/motion/m1c/dance-technical-v1.glb",
+      "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e",
+      "bytes": 2984076,
+      "reasons": [
+        "Startup dance dance-technical-once-v1"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "sourcePath": "prototype/public/assets/motion/m1c/dance-technical-v1.glb"
+        },
+        {
+          "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json",
+          "motionId": "dance-technical-once-v1",
+          "origin": "Original technical choreography, UAL1 idle reference/rig; not professional dance or mocap",
+          "licenseBoundary": "CC0-1.0 source; project technical choreography derivative"
+        }
+      ]
+    },
+    {
+      "path": "assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+      "sha256": "eec4ef8ab2fb073f7674cc6e839cbad7aea6931e4b19e8e70c0ee46c5fda2d06",
+      "bytes": 1566668,
+      "reasons": [
+        "On-demand greeting"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "sourcePath": "prototype/public/assets/motion/m1c/greeting/greeting-wave-left-v1.glb"
+        },
+        {
+          "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+        },
+        {
+          "sourcePath": "prototype/public/assets/motion/m1c/greeting/gesture-import.json"
+        }
+      ]
+    },
+    {
+      "path": "assets/motion/m1c/jog-ordinary-derived-v1.glb",
+      "sha256": "6ec251d7611f22c6bf918d3401fcf438a8f2bc7b72f2826047dea8beef15c9e5",
+      "bytes": 965540,
+      "reasons": [
+        "Startup jog model"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "sourcePath": "prototype/public/assets/motion/m1c/jog-ordinary-derived-v1.glb"
+        },
+        {
+          "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+        }
+      ]
+    },
+    {
+      "path": "assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+      "sha256": "2df4d6b86227b6bce60a5ea7ba97a982d974448044a46b903e413bd243e75ec0",
+      "bytes": 1503,
+      "reasons": [
+        "Startup jog profile"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "sourcePath": "prototype/public/assets/motion/m1c/jog-ordinary-derived-v1.profile.json"
+        },
+        {
+          "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+        }
+      ]
+    },
+    {
+      "path": "assets/motion/UAL1_Standard.glb",
+      "sha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997",
+      "bytes": 7618436,
+      "reasons": [
+        "Startup shared motion library"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "sourcePath": "prototype/public/assets/motion/UAL1_Standard.glb"
+        },
+        {
+          "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+        }
+      ]
+    },
+    {
+      "path": "assets/native-hair-center-record-BaaBiD40.js",
+      "sha256": "7bc23a04c546fcb16b8378ebaef2a2963dd3a064237d8f001d218f5c88672207",
+      "bytes": 10141,
+      "reasons": [
+        "Compiled dependency of assets/foundation-avatar-CUjpYgZ6.js"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "buildId": "f4966554bcfc",
+          "bundlePath": "assets/native-hair-center-record-BaaBiD40.js",
+          "buildManifest": "build-info.json"
+        }
+      ]
+    },
+    {
+      "path": "assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+      "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+      "bytes": 155976,
+      "reasons": [
+        "Selected outfit: cc0-texture-release-flat-shoes-v1"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "sourcePath": "prototype/public/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb"
+        },
+        {
+          "sourcePath": "prototype/public/assets/cc0-body-release-v1/equipment.json",
+          "equipmentId": "cc0-texture-release-flat-shoes-v1",
+          "sourceLicense": {
+            "url": "https://opengameart.org/sites/default/files/base_male.zip",
+            "zipBytes": 14825707,
+            "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+            "vrmBytes": 17914788,
+            "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+            "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+            "publisher": "hecko",
+            "attributedAuthor": "VRoid Project",
+            "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+            "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+            "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+          }
+        }
+      ]
+    },
+    {
+      "path": "assets/raw-male-equipment-v1/raw-male-ab9a-uniform-pants-v1.glb",
+      "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0",
+      "bytes": 819968,
+      "reasons": [
+        "Selected outfit: cc0-texture-release-uniform-pants-v1"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "sourcePath": "prototype/public/assets/raw-male-equipment-v1/raw-male-ab9a-uniform-pants-v1.glb"
+        },
+        {
+          "sourcePath": "prototype/public/assets/cc0-body-release-v1/equipment.json",
+          "equipmentId": "cc0-texture-release-uniform-pants-v1",
+          "sourceLicense": {
+            "url": "https://opengameart.org/sites/default/files/base_male.zip",
+            "zipBytes": 14825707,
+            "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+            "vrmBytes": 17914788,
+            "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+            "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+            "publisher": "hecko",
+            "attributedAuthor": "VRoid Project",
+            "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+            "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+            "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+          }
+        }
+      ]
+    },
+    {
+      "path": "assets/raw-male-equipment-v1/raw-male-ab9a-uniform-top-v1.glb",
+      "sha256": "10a51cbdac6bfea074ad5cfa30e7c0a46cd2fc099fbc2048a291deb470e10d02",
+      "bytes": 2762796,
+      "reasons": [
+        "Selected outfit: cc0-texture-release-uniform-top-v1"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "sourcePath": "prototype/public/assets/raw-male-equipment-v1/raw-male-ab9a-uniform-top-v1.glb"
+        },
+        {
+          "sourcePath": "prototype/public/assets/cc0-body-release-v1/equipment.json",
+          "equipmentId": "cc0-texture-release-uniform-top-v1",
+          "sourceLicense": {
+            "url": "https://opengameart.org/sites/default/files/base_male.zip",
+            "zipBytes": 14825707,
+            "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+            "vrmBytes": 17914788,
+            "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+            "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+            "publisher": "hecko",
+            "attributedAuthor": "VRoid Project",
+            "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+            "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+            "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+          }
+        }
+      ]
+    },
+    {
+      "path": "assets/recordConsumer-CSxUItqk.js",
+      "sha256": "bbe30066b00a64be0dbaf27c9639e36619d0d2e2678867e6d309f5b749024438",
+      "bytes": 17604,
+      "reasons": [
+        "Compiled dependency of record-consumer.html"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "buildId": "f4966554bcfc",
+          "bundlePath": "assets/recordConsumer-CSxUItqk.js",
+          "buildManifest": "build-info.json"
+        }
+      ]
+    },
+    {
+      "path": "assets/three-vrm.module-C42wnGjh.js",
+      "sha256": "8c66f97689893eb08fe5119203afc4c7c0aca70459b5fee90c86adadf4cbd3d9",
+      "bytes": 944153,
+      "reasons": [
+        "Compiled dependency of assets/foundation-avatar-CUjpYgZ6.js"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "buildId": "f4966554bcfc",
+          "bundlePath": "assets/three-vrm.module-C42wnGjh.js",
+          "buildManifest": "build-info.json"
+        }
+      ]
+    },
+    {
+      "path": "build-info.json",
+      "sha256": "a6f22c84e9a4a99576eca0c6a4dadc9ce28b52a1962459562e39af0f31467365",
+      "bytes": 43246,
+      "reasons": [
+        "Fixed source identity"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "buildId": "f4966554bcfc",
+          "bundlePath": "build-info.json",
+          "buildManifest": "build-info.json"
+        }
+      ]
+    },
+    {
+      "path": "record-consumer.html",
+      "sha256": "b288782847e66869c0b84f1c81204b07f1313348c83de3b3832d16702ceee5d7",
+      "bytes": 1752,
+      "reasons": [
+        "Independent game record entry"
+      ],
+      "provenance": [
+        {
+          "sourceCommit": "4636fe861238ed25aa2a4725ff1e5becf328cb5d",
+          "buildId": "f4966554bcfc",
+          "bundlePath": "record-consumer.html",
+          "buildManifest": "build-info.json"
+        }
+      ]
+    },
+    {
+      "path": "records/cc0-uniform-body-texture-v1.json",
+      "sha256": "b18a92185f0de083df0795a376a68cb77ef535aecbfce4793baae1567983b29f",
+      "bytes": 15425,
+      "generated": "{\"schema\":\"character-record-v1\",\"identity\":{\"id\":\"cc0-uniform-body-texture-v1\",\"name\":\"制服男体 · 身体贴图 A/B\",\"gender\":\"male\"},\"revision\":1,\"createdAt\":\"2026-11-18T23:41:56.581Z\",\"updatedAt\":\"2026-11-18T23:41:56.581Z\",\"appearanceRecipe\":{\"schema\":\"workbench-appearance-recipe-v8\",\"rulesVersion\":\"workbench-appearance-rules-v8\",\"paletteVersion\":\"appearance-color-v3:2eff13c1d3837c4f8f76b7d97007b219059c212c1031d77e27a2f824715af321\",\"accessories\":{\"ears\":{\"selection\":\"none\",\"resource\":null},\"hat\":{\"selection\":\"none\",\"resource\":null}},\"base\":{\"bodyType\":\"source-male-cc0-texture-release-v1\",\"sha256\":\"2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617\"},\"appearance\":{\"hairStyle\":\"original\",\"hairColor\":\"original\",\"skinTone\":\"original\",\"eyeColor\":\"original\",\"lipColor\":\"original\"},\"hairAssetSha256\":null,\"hairFit\":null,\"geometry\":{\"mouthWidth\":0,\"recipeSha256\":null,\"browSample\":\"none\",\"browRecipeSha256\":null,\"noseSample\":\"none\",\"noseRecipeSha256\":null,\"eyeSample\":\"none\",\"eyeRecipeSha256\":null},\"equipment\":{\"index\":0,\"role\":\"pants\",\"manifestUrl\":\"/assets/cc0-body-release-v1/equipment.json\",\"resources\":{\"top\":{\"id\":\"cc0-texture-release-uniform-top-v1\",\"name\":\"CC0 原始男体 · 制服上衣与领带\",\"slot\":\"top\",\"url\":\"/assets/raw-male-equipment-v1/raw-male-ab9a-uniform-top-v1.glb\",\"sha256\":\"10a51cbdac6bfea074ad5cfa30e7c0a46cd2fc099fbc2048a291deb470e10d02\",\"bytes\":2762796,\"compatibleAvatarSha256\":\"2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617\",\"preserveOriginalBody\":true,\"requiresRawSkeleton\":true,\"bindings\":[{\"sourceBone\":\"J_Bip_C_Hips\",\"targetRawBone\":\"J_Bip_C_Hips\",\"humanoidSemantic\":\"hips\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.0005088425241410732,-1.0082560777664185,0.01016148179769516,1]},{\"sourceBone\":\"J_Bip_C_Spine\",\"targetRawBone\":\"J_Bip_C_Spine\",\"humanoidSemantic\":\"spine\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.0005088216857984662,-1.1487854719161987,0.010900397785007954,1]},{\"sourceBone\":\"J_Bip_C_Chest\",\"targetRawBone\":\"J_Bip_C_Chest\",\"humanoidSemantic\":\"chest\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.0005088099278509617,-1.2277687788009644,0.00648073386400938,1]},{\"sourceBone\":\"J_Bip_C_UpperChest\",\"targetRawBone\":\"J_Bip_C_UpperChest\",\"humanoidSemantic\":\"upperChest\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.0005088215693831444,-1.3051297664642334,0.002485901117324829,1]},{\"sourceBone\":\"J_Bip_C_Neck\",\"targetRawBone\":\"J_Bip_C_Neck\",\"humanoidSemantic\":\"neck\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.0005088441539555788,-1.456336498260498,-0.008182603865861893,1]},{\"sourceBone\":\"J_Bip_C_Head\",\"targetRawBone\":\"J_Bip_C_Head\",\"humanoidSemantic\":\"head\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.0005088174948468804,-1.5454000234603882,0.006267928518354893,1]},{\"sourceBone\":\"J_Bip_L_Shoulder\",\"targetRawBone\":\"J_Bip_L_Shoulder\",\"humanoidSemantic\":\"leftShoulder\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,0.02411535754799843,-1.4260399341583252,-0.002688479609787464,1]},{\"sourceBone\":\"J_Bip_L_UpperArm\",\"targetRawBone\":\"J_Bip_L_UpperArm\",\"humanoidSemantic\":\"leftUpperArm\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,0.14726632833480835,-1.4045659303665161,0.004220891743898392,1]},{\"sourceBone\":\"J_Bip_R_Shoulder\",\"targetRawBone\":\"J_Bip_R_Shoulder\",\"humanoidSemantic\":\"rightShoulder\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.02513303980231285,-1.4260399341583252,-0.002688482403755188,1]},{\"sourceBone\":\"J_Bip_R_UpperArm\",\"targetRawBone\":\"J_Bip_R_UpperArm\",\"humanoidSemantic\":\"rightUpperArm\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.14828401803970337,-1.4045659303665161,0.004220875445753336,1]}],\"limits\":[\"CPU fit checked for this exact 1K skin body and original raw skeleton.\",\"Standalone unlit export carries the original base-color PNG, sampler and alpha settings; original MToon shading, normal and emissive channels are not reproduced.\",\"Source and CPU fit readback only; game motion, contacts and coverage require separate evidence.\"],\"sourceLicense\":{\"url\":\"https://opengameart.org/sites/default/files/base_male.zip\",\"zipBytes\":14825707,\"zipSHA256\":\"8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8\",\"vrmBytes\":17914788,\"vrmSHA256\":\"ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c\",\"publisherPage\":\"https://opengameart.org/content/vroid-studio-cc0-models\",\"publisher\":\"hecko\",\"attributedAuthor\":\"VRoid Project\",\"publisherClaim\":\"Bases exported from VRoid Studio 0.14.0 without optimization\",\"officialLegacyCC0\":\"https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model\",\"limits\":\"Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0.\"},\"method\":\"Mapped original VRM0 top, compacted referenced rows with original ordered triangle corners, UV0, normals, normalized weights, raw bone transforms and inverse binds.\",\"stats\":{\"vertices\":1476,\"triangles\":2096,\"multiBoneVertices\":1316,\"joints\":10},\"fitId\":\"cc0-texture-release-uniform-top-v1-fit\",\"styleId\":\"raw-male-uniform-top-v1\",\"version\":1,\"restMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]},\"shoes\":{\"id\":\"cc0-texture-release-flat-shoes-v1\",\"name\":\"CC0 原始男体 · 平底鞋\",\"slot\":\"shoes\",\"url\":\"/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb\",\"sha256\":\"9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756\",\"bytes\":155976,\"compatibleAvatarSha256\":\"2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617\",\"preserveOriginalBody\":true,\"requiresRawSkeleton\":true,\"bindings\":[{\"sourceBone\":\"J_Bip_L_LowerLeg\",\"targetRawBone\":\"J_Bip_L_LowerLeg\",\"humanoidSemantic\":\"leftLowerLeg\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,0.06203300878405571,-0.5768978595733643,-0.000647958368062973,1]},{\"sourceBone\":\"J_Bip_L_Foot\",\"targetRawBone\":\"J_Bip_L_Foot\",\"humanoidSemantic\":\"leftFoot\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,0.0490603893995285,-0.12132149934768677,-0.032085489481687546,1]},{\"sourceBone\":\"J_Bip_L_ToeBase\",\"targetRawBone\":\"J_Bip_L_ToeBase\",\"humanoidSemantic\":\"leftToes\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,0.05045774579048157,-0.04447287321090698,0.10422827303409576,1]},{\"sourceBone\":\"J_Bip_R_LowerLeg\",\"targetRawBone\":\"J_Bip_R_LowerLeg\",\"humanoidSemantic\":\"rightLowerLeg\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.06305015087127686,-0.5768978595733643,-0.0006477832794189453,1]},{\"sourceBone\":\"J_Bip_R_Foot\",\"targetRawBone\":\"J_Bip_R_Foot\",\"humanoidSemantic\":\"rightFoot\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.050076328217983246,-0.12132161855697632,-0.03208553418517113,1]},{\"sourceBone\":\"J_Bip_R_ToeBase\",\"targetRawBone\":\"J_Bip_R_ToeBase\",\"humanoidSemantic\":\"rightToes\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.05147293955087662,-0.04447329044342041,0.10422825813293457,1]}],\"limits\":[\"CPU fit checked for this exact 1K skin body and original raw skeleton.\",\"Standalone unlit export carries the original base-color PNG, sampler and alpha settings; original MToon shading, normal and emissive channels are not reproduced.\",\"Source and CPU fit readback only; game motion, contacts and coverage require separate evidence.\"],\"sourceLicense\":{\"url\":\"https://opengameart.org/sites/default/files/base_male.zip\",\"zipBytes\":14825707,\"zipSHA256\":\"8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8\",\"vrmBytes\":17914788,\"vrmSHA256\":\"ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c\",\"publisherPage\":\"https://opengameart.org/content/vroid-studio-cc0-models\",\"publisher\":\"hecko\",\"attributedAuthor\":\"VRoid Project\",\"publisherClaim\":\"Bases exported from VRoid Studio 0.14.0 without optimization\",\"officialLegacyCC0\":\"https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model\",\"limits\":\"Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0.\"},\"method\":\"Mapped original VRM0 shoes, compacted referenced rows with original ordered triangle corners, UV0, normals, normalized weights, raw bone transforms and inverse binds.\",\"stats\":{\"vertices\":536,\"triangles\":540,\"multiBoneVertices\":388,\"joints\":6},\"fitId\":\"cc0-texture-release-flat-shoes-v1-fit\",\"styleId\":\"raw-male-flat-shoes-v1\",\"version\":1,\"restMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]},\"pants\":{\"id\":\"cc0-texture-release-uniform-pants-v1\",\"name\":\"CC0 原始男体 · 制服长裤\",\"slot\":\"bottom\",\"url\":\"/assets/raw-male-equipment-v1/raw-male-ab9a-uniform-pants-v1.glb\",\"sha256\":\"849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0\",\"bytes\":819968,\"compatibleAvatarSha256\":\"2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617\",\"preserveOriginalBody\":true,\"requiresRawSkeleton\":true,\"bindings\":[{\"sourceBone\":\"J_Bip_C_Hips\",\"targetRawBone\":\"J_Bip_C_Hips\",\"humanoidSemantic\":\"hips\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.0005088425241410732,-1.0082560777664185,0.01016148179769516,1]},{\"sourceBone\":\"J_Bip_C_Spine\",\"targetRawBone\":\"J_Bip_C_Spine\",\"humanoidSemantic\":\"spine\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.0005088216857984662,-1.1487854719161987,0.010900397785007954,1]},{\"sourceBone\":\"J_Bip_C_Chest\",\"targetRawBone\":\"J_Bip_C_Chest\",\"humanoidSemantic\":\"chest\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.0005088099278509617,-1.2277687788009644,0.00648073386400938,1]},{\"sourceBone\":\"J_Bip_L_UpperLeg\",\"targetRawBone\":\"J_Bip_L_UpperLeg\",\"humanoidSemantic\":\"leftUpperLeg\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,0.08432579040527344,-0.9643068313598633,0.006310063414275646,1]},{\"sourceBone\":\"J_Bip_L_LowerLeg\",\"targetRawBone\":\"J_Bip_L_LowerLeg\",\"humanoidSemantic\":\"leftLowerLeg\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,0.06203300878405571,-0.5768978595733643,-0.000647958368062973,1]},{\"sourceBone\":\"J_Bip_L_Foot\",\"targetRawBone\":\"J_Bip_L_Foot\",\"humanoidSemantic\":\"leftFoot\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,0.0490603893995285,-0.12132149934768677,-0.032085489481687546,1]},{\"sourceBone\":\"J_Bip_R_UpperLeg\",\"targetRawBone\":\"J_Bip_R_UpperLeg\",\"humanoidSemantic\":\"rightUpperLeg\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.08534349501132965,-0.9643068313598633,0.006310063414275646,1]},{\"sourceBone\":\"J_Bip_R_LowerLeg\",\"targetRawBone\":\"J_Bip_R_LowerLeg\",\"humanoidSemantic\":\"rightLowerLeg\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.06305015087127686,-0.5768978595733643,-0.0006477832794189453,1]},{\"sourceBone\":\"J_Bip_R_Foot\",\"targetRawBone\":\"J_Bip_R_Foot\",\"humanoidSemantic\":\"rightFoot\",\"inverseBindMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,-0.050076328217983246,-0.12132161855697632,-0.03208553418517113,1]}],\"limits\":[\"CPU fit checked for this exact 1K skin body and original raw skeleton.\",\"Standalone unlit export carries the original base-color PNG, sampler and alpha settings; original MToon shading, normal and emissive channels are not reproduced.\",\"Source and CPU fit readback only; game motion, contacts and coverage require separate evidence.\"],\"sourceLicense\":{\"url\":\"https://opengameart.org/sites/default/files/base_male.zip\",\"zipBytes\":14825707,\"zipSHA256\":\"8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8\",\"vrmBytes\":17914788,\"vrmSHA256\":\"ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c\",\"publisherPage\":\"https://opengameart.org/content/vroid-studio-cc0-models\",\"publisher\":\"hecko\",\"attributedAuthor\":\"VRoid Project\",\"publisherClaim\":\"Bases exported from VRoid Studio 0.14.0 without optimization\",\"officialLegacyCC0\":\"https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model\",\"limits\":\"Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0.\"},\"method\":\"Mapped original VRM0 pants, compacted referenced rows with original ordered triangle corners, UV0, normals, normalized weights, raw bone transforms and inverse binds.\",\"stats\":{\"vertices\":1095,\"triangles\":1624,\"multiBoneVertices\":923,\"joints\":9},\"fitId\":\"cc0-texture-release-uniform-pants-v1-fit\",\"styleId\":\"raw-male-uniform-pants-v1\",\"version\":1,\"restMatrix\":[1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]}}}},\"provenance\":{\"producer\":\"character-production-v1\",\"sourceRefs\":[{\"path\":\"/assets/cc0-body-release-v1/body.vrm\",\"sha256\":\"2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617\"}]},\"integrity\":{\"version\":1,\"recipeSha256\":\"28e8f614dade24ae6beb0878dd16a96c9c5b754b43143b898361dd541db63426\",\"recordSha256\":\"58731c171788b388885ae13f07efc719ab953d8fd4bea602f7b088330f3aa55b\"},\"resourceIdentities\":[{\"id\":\"appearance/base/sha256\",\"sha256\":\"2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617\"},{\"id\":\"appearance/equipment/resources/pants/compatibleAvatarSha256\",\"sha256\":\"2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617\"},{\"id\":\"appearance/equipment/resources/pants/sha256\",\"sha256\":\"849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0\"},{\"id\":\"appearance/equipment/resources/pants/sourceLicense/vrmSHA256\",\"sha256\":\"ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c\"},{\"id\":\"appearance/equipment/resources/pants/sourceLicense/zipSHA256\",\"sha256\":\"8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8\"},{\"id\":\"appearance/equipment/resources/shoes/compatibleAvatarSha256\",\"sha256\":\"2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617\"},{\"id\":\"appearance/equipment/resources/shoes/sha256\",\"sha256\":\"9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756\"},{\"id\":\"appearance/equipment/resources/shoes/sourceLicense/vrmSHA256\",\"sha256\":\"ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c\"},{\"id\":\"appearance/equipment/resources/shoes/sourceLicense/zipSHA256\",\"sha256\":\"8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8\"},{\"id\":\"appearance/equipment/resources/top/compatibleAvatarSha256\",\"sha256\":\"2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617\"},{\"id\":\"appearance/equipment/resources/top/sha256\",\"sha256\":\"10a51cbdac6bfea074ad5cfa30e7c0a46cd2fc099fbc2048a291deb470e10d02\"},{\"id\":\"appearance/equipment/resources/top/sourceLicense/vrmSHA256\",\"sha256\":\"ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c\"},{\"id\":\"appearance/equipment/resources/top/sourceLicense/zipSHA256\",\"sha256\":\"8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8\"},{\"id\":\"materials/selections/0/garmentSha256\",\"sha256\":\"9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756\"},{\"id\":\"materials/selections/1/garmentSha256\",\"sha256\":\"849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0\"},{\"id\":\"materials/selections/2/garmentSha256\",\"sha256\":\"10a51cbdac6bfea074ad5cfa30e7c0a46cd2fc099fbc2048a291deb470e10d02\"}],\"liveAccessories\":{\"schema\":\"live-accessory-record-v1\",\"selections\":{\"mic\":{\"enabled\":false,\"identity\":null},\"glasses\":{\"enabled\":false,\"identity\":null}},\"microphonePresentation\":null},\"equipmentMaterials\":{\"schema\":\"garment-material-record-v1\",\"selections\":[{\"equipmentId\":\"cc0-texture-release-flat-shoes-v1\",\"garmentSha256\":\"9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756\",\"selection\":null},{\"equipmentId\":\"cc0-texture-release-uniform-pants-v1\",\"garmentSha256\":\"849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0\",\"selection\":null},{\"equipmentId\":\"cc0-texture-release-uniform-top-v1\",\"garmentSha256\":\"10a51cbdac6bfea074ad5cfa30e7c0a46cd2fc099fbc2048a291deb470e10d02\",\"selection\":null}]}}",
+      "reasons": [
+        "Validated input character record"
+      ],
+      "provenance": [
+        {
+          "recordId": "cc0-uniform-body-texture-v1",
+          "revision": 1,
+          "recordSha256": "58731c171788b388885ae13f07efc719ab953d8fd4bea602f7b088330f3aa55b"
+        }
+      ]
+    },
+    {
+      "path": "records/manifest.json",
+      "sha256": "36f92dc96d3ead73649e2cd95745624769b3f1244324dd26bf0f919b912e5e92",
+      "bytes": 219,
+      "generated": "{\"schema\":\"character-record-input-v1\",\"entries\":[{\"id\":\"cc0-uniform-body-texture-v1\",\"url\":\"/records/cc0-uniform-body-texture-v1.json\",\"recordSha256\":\"58731c171788b388885ae13f07efc719ab953d8fd4bea602f7b088330f3aa55b\"}]}",
+      "reasons": [
+        "Ordered manifest for validated input character records"
+      ],
+      "provenance": [
+        {
+          "recordId": "cc0-uniform-body-texture-v1",
+          "recordSha256": "58731c171788b388885ae13f07efc719ab953d8fd4bea602f7b088330f3aa55b"
+        }
+      ]
+    }
+  ]
+}

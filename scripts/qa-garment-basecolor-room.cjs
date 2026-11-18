@@ -217,8 +217,8 @@ function checkRecord(record, look, spec) {
   assert.equal(recipe.equipment.resources[look.topRole].sha256,look.top.sha256);
 }
 
-async function inspect(browser,{base,build,out,PNG},label,row) {
-  const spec=CASES[label], room=await openRoom(browser,base,build,spec);
+async function inspect(browser,{base,build,out,PNG},label,spec,row) {
+  const room=await openRoom(browser,base,build,spec);
   const {page,looks}=room;
   Object.assign(row,{identity:room.identity,looks,network:room.network,errors:room.errors,poses:{}});
   const identity={id:`qa-garment-${label}`,gender:label,name:`QA ${label}`};
@@ -289,8 +289,8 @@ async function inspect(browser,{base,build,out,PNG},label,row) {
   } finally {await fresh.context.close();}
 }
 
-async function failureCase(browser,{base,build},label,row) {
-  const room=await openRoom(browser,base,build,CASES[label]);
+async function failureCase(browser,{base,build},spec,row) {
+  const room=await openRoom(browser,base,build,spec);
   const {page,looks}=room;
   try {
     await page.evaluate(setPose,'standing');
@@ -313,13 +313,19 @@ async function failureCase(browser,{base,build},label,row) {
 }
 
 async function main() {
-  const [base,build,directory,caseOption]=process.argv.slice(2);
-  if (!directory||process.argv.length>6||!/^[a-f0-9]{12}$/.test(build))
-    throw Error('Usage: run-fixed-check.cjs FIXED_DIST scripts/qa-garment-basecolor-room.cjs BUILD_ID NEW_PROJECT_DIR [--cases=male,female]');
+  const [base,build,directory,caseOption,specFile]=process.argv.slice(2);
+  if (!directory||process.argv.length>7||!/^[a-f0-9]{12}$/.test(build))
+    throw Error('Expected loopback URL, build, new output, optional --cases=male,female and optional case definitions JSON');
   const address=new URL(base);
   assert.ok(address.protocol==='http:'&&['127.0.0.1','localhost','[::1]'].includes(address.hostname),'Use the fixed-build loopback harness');
   const cases=caseOption ? caseOption.match(/^--cases=(male|female)(?:,(male|female))?$/)?.slice(1).filter(Boolean) : Object.keys(CASES);
   assert.ok(cases?.length&&new Set(cases).size===cases.length,'Use --cases=male,female, --cases=male or --cases=female');
+  const specs=specFile ? JSON.parse(await fs.readFile(specFile,'utf8')) : CASES;
+  for (const name of cases) {
+    const spec=specs[name];
+    assert(spec?.bodyType && spec.assetId && Number.isInteger(spec.farIndex) && spec.farIndex>0);
+    assert(/^[a-f0-9]{64}$/.test(spec.sha256) && /^[a-f0-9]{64}$/.test(spec.farSha));
+  }
   const out=await projectOutput(directory,await productionRoot());
   await fs.mkdir(out);
   await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
@@ -333,9 +339,9 @@ async function main() {
     const {PNG}=require('../prototype/node_modules/playwright-core/lib/utilsBundle.js');
     browser=await chromium.launch({channel:'chrome',headless:true});
     report.browser=browser.version();
-    for (const label of cases) await inspect(browser,{base,build,out,PNG},label,report.cases[label]={});
+    for (const label of cases) await inspect(browser,{base,build,out,PNG},label,specs[label],report.cases[label]={});
     const failureLabel=cases.includes('female')?'female':cases[0];
-    await failureCase(browser,{base,build},failureLabel,report.expectedHttp503={case:failureLabel});
+    await failureCase(browser,{base,build},specs[failureLabel],report.expectedHttp503={case:failureLabel});
     // Collect every body, view and rollback case before reporting any pixel failure.
     report.restorationFailures=[];
     for(const [label,row] of Object.entries(report.cases))

@@ -6,7 +6,10 @@ const [base,recordFile,folder]=process.argv.slice(2);
  const {chromium}=require('../prototype/node_modules/playwright');
  const browser=await chromium.launch({channel:'chrome',headless:true}),page=await browser.newPage({viewport:{width:1440,height:1000}}),report={status:'incomplete',identity:record.identity,recordSha256:record.integrity.recordSha256,errors:[],tasks:[]};
  page.on('pageerror',e=>report.errors.push(e.message));
- const task=async(id,kind,payload={})=>{await page.evaluate(request=>__debug.request(request),{requestId:id,kind,payload});await page.waitForFunction(id=>['completed','failed','cancelled'].includes(__debug.tasks().get(id)?.state),id,{timeout:45000});const value=await page.evaluate(id=>__debug.tasks().get(id),id);assert.equal(value.state,'completed',JSON.stringify(value));report.tasks.push(value);};
+ const task=async(id,kind,payload={})=>{await page.evaluate(request=>{
+   window.__roomProductionFilm.phase=request.kind;
+   return __debug.request(request);
+ },{requestId:id,kind,payload});await page.waitForFunction(id=>['completed','failed','cancelled'].includes(__debug.tasks().get(id)?.state),id,{timeout:45000});const value=await page.evaluate(id=>__debug.tasks().get(id),id);assert.equal(value.state,'completed',JSON.stringify(value));report.tasks.push(value);};
  try{
   const url=new URL(base);url.searchParams.set('workbench','appearance');url.searchParams.set('body',record.appearanceRecipe.base.bodyType);
   const previewOverride=process.env.QA_NATIVE_HAIR_CENTER;
@@ -37,11 +40,30 @@ const [base,recordFile,folder]=process.argv.slice(2);
     const stream=__debug.renderer.domElement.captureStream(30),chunks=[];
     const recorder=new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp9',videoBitsPerSecond:5000000});
     window.__roomProductionFilm={stream,chunks,recorder,done:new Promise(resolve=>recorder.onstop=resolve)};
+    const film=window.__roomProductionFilm;
+    film.intervals=[];
+    film.phase='opening';
+    let last;
+    const sample=time=>{
+      if(last!==undefined && film.intervals.length<12000) film.intervals.push([film.phase,Math.round((time-last)*100)/100]);
+      last=time;film.timer=requestAnimationFrame(sample);
+    };
+    film.timer=requestAnimationFrame(sample);
     recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
     recorder.start();
   });
   await task('produced-walk','walk',{x:-.5,z:1.8});await task('produced-sit','sit');await page.waitForTimeout(1200);await task('produced-stand','stand');await task('produced-leave','walk',{x:-1.4,z:1.7});
-  const data=await page.evaluate(async()=>{const f=__roomProductionFilm;f.recorder.stop();await f.done;f.stream.getTracks().forEach(t=>t.stop());return new Promise(resolve=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.readAsDataURL(new Blob(f.chunks,{type:'video/webm'}));});});
+  const data=await page.evaluate(async()=>{const f=__roomProductionFilm;cancelAnimationFrame(f.timer);f.recorder.stop();await f.done;f.stream.getTracks().forEach(t=>t.stop());return new Promise(resolve=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.readAsDataURL(new Blob(f.chunks,{type:'video/webm'}));});});
+  report.frameTiming=await page.evaluate(()=>{
+    const f=window.__roomProductionFilm;
+    const gl=__debug.renderer.getContext(), ext=gl.getExtension('WEBGL_debug_renderer_info');
+    const ms=f.intervals.map(row=>row[1]).sort((a,b)=>a-b);
+    const quantile=p=>ms[Math.max(0,Math.ceil(p*ms.length)-1)]??null;
+    return {unit:'ms', measurement:'browser rAF during 1x recording', browser:navigator.userAgent,
+      renderer:ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):null,
+      p50:quantile(.5),p95:quantile(.95),p99:quantile(.99),max:ms.at(-1)??null,
+      over33ms:ms.filter(n=>n>33.34).length,intervals:f.intervals};
+  });
   await fs.writeFile(path.join(out,'room-produced-1x.webm'),Buffer.from(data.split(',')[1],'base64'));await page.screenshot({path:path.join(out,'room-produced.png')});
   const final=await page.evaluate(identity=>__debug.captureCharacterRecord({identity}),record.identity);for(const key of ['appearanceRecipe','liveAccessories','equipmentMaterials'])assert.equal(canonicalJson(final[key]),canonicalJson(record[key]),key);
   if(expectedFit){
