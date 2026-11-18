@@ -11,12 +11,14 @@ const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=
 const server=http.createServer(async(request,response)=>{
   try{
     const pathname=decodeURIComponent(new URL(request.url,'http://localhost').pathname);
-    if(pathname==='/delivery-save.json'){
-      const file=path.join(directory,'data','save.json');
+    const room=pathname.match(/^\/delivery-room\/([a-z][a-z0-9-]{0,62})\.json$/);
+    if(pathname==='/delivery-save.json'||room){
+      const entry=room?`data/rooms/${room[1]}/save.json`:'data/save.json';
+      const file=path.join(directory,entry);
       const packageRoot=await fs.realpath(directory), realSave=await fs.realpath(file);
-      if(realSave!==path.join(packageRoot,'data','save.json')){response.writeHead(403).end();return;}
+      if(realSave!==path.join(packageRoot,entry)){response.writeHead(403).end();return;}
       const manifest=JSON.parse(await fs.readFile(path.join(directory,'transfer-manifest.json'),'utf8'));
-      const pin=manifest.files.find(entry=>entry.path==='data/save.json');
+      const pin=manifest.files.find(item=>item.path===entry);
       const bytes=await fs.readFile(realSave);
       if(!pin||pin.bytes!==bytes.length||pin.sha256!==createHash('sha256').update(bytes).digest('hex')){
         response.writeHead(409).end('Packaged save differs from its manifest');return;

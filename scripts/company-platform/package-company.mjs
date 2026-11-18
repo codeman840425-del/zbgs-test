@@ -6,6 +6,10 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 const defaultSource=fileURLToPath(new URL('../../',import.meta.url));
 const fixedInputs=['company.html','vite.company.config.js','scripts/build-company-id.mjs','package.json','package-lock.json'];
 const extraFiles=[
+  'scripts/company-platform/describe-sourced-table.mjs',
+  'scripts/company-platform/test-sourced-table-geometry.mjs',
+  'scripts/company-platform/test-lounge-rooms.mjs',
+  'scripts/company-platform/qa-lounge-rooms.cjs',
   'docs/COMPANY-EXTERIOR-DOOR-LEAF-CONTRACT-v1.txt',
   'scripts/company-platform/build-exterior-door-leaf-v1.mjs',
   'scripts/company-platform/test-exterior-door-leaf-integration.mjs',
@@ -298,7 +302,7 @@ async function list(root,folder=''){
 function decode(bytes,location){try{return JSON.parse(bytes.toString('utf8'));}catch(error){fail('invalid-package-json',location,error.message);}}
 async function assertMissing(file){try{await fs.lstat(file);}catch(error){if(error.code==='ENOENT')return;throw error;}fail('package-output-exists',file,'Output already exists and will not be overwritten');}
 
-export async function packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot=defaultSource}){
+export async function packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot=defaultSource,rooms=[]}){
   if(!/^[a-f0-9]{12}$/.test(buildId||''))fail('invalid-package-build','buildId','Expected the explicit 12-hex company build identity');
   for(const [key,value]of Object.entries({distDirectory,inputPath,outputDirectory,sourceRoot}))if(typeof value!=='string'||!value)fail('invalid-package-argument',key,'Explicit input/output paths are required');
   const source=await noLinks(sourceRoot),dist=await noLinks(distDirectory),input=await noLinks(inputPath),output=path.resolve(outputDirectory);
@@ -349,44 +353,54 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   const catalogBytes=await read(prototype,runtimeInputs.catalog),templateBytes=await read(prototype,runtimeInputs.templates);
   const catalog=decode(catalogBytes,runtimeInputs.catalog),templates=decode(templateBytes,runtimeInputs.templates);
   const persistence=await import(pathToFileURL(path.join(prototype,'src/company/persistence.js')).href);
-  let inputBytes,inputFiles=[],trainingClearance;
-  if((await fs.lstat(input)).isDirectory()){
-    inputBytes=await read(input,'save.json');
-    const names=await fs.readdir(input);
-    if(names.includes('training-edit.json')){
-      if(names.includes('report.json')||names.includes('input.json'))fail('ambiguous-package-input',input,'Choose one batch or edited result');
-      const receipt=await read(input,'training-edit.json'),edited=decode(receipt,'training-edit.json');
-      if(edited.schema!=='training-room-edit@1'||edited.saveSha256!==hash(inputBytes)||!edited.trainingClearance||
-          edited.companyId!==decode(inputBytes,'save.json').document?.id)
-        fail('training-edit-mismatch','training-edit.json','Edited save differs from the recorded company or digest');
-      trainingClearance=edited.trainingClearance;
-      inputFiles.push({name:'layout.json',bytes:await read(input,'layout.json')});
-      add('data/training-edit.json',receipt,'edited-training-contract');
-    }else{
-      for(const name of ['save.json','layout.json','input.json','report.json']){
-        const bytes=await read(input,name);inputFiles.push({name,bytes});add(`data/batch-result/${name}`,bytes,'original-batch-result');
+  async function includeScene(input,prefix){
+    let inputBytes,inputFiles=[],trainingClearance;
+    if((await fs.lstat(input)).isDirectory()){
+      inputBytes=await read(input,'save.json');
+      const names=await fs.readdir(input);
+      if(names.includes('training-edit.json')){
+        if(names.includes('report.json')||names.includes('input.json'))fail('ambiguous-package-input',input,'Choose one batch or edited result');
+        const receipt=await read(input,'training-edit.json'),edited=decode(receipt,'training-edit.json');
+        if(edited.schema!=='training-room-edit@1'||edited.saveSha256!==hash(inputBytes)||!edited.trainingClearance||
+            edited.companyId!==decode(inputBytes,'save.json').document?.id)
+          fail('training-edit-mismatch','training-edit.json','Edited save differs from the recorded company or digest');
+        trainingClearance=edited.trainingClearance;
+        inputFiles.push({name:'layout.json',bytes:await read(input,'layout.json')});
+        add(prefix+'/training-edit.json',receipt,'edited-training-contract');
+      }else{
+        for(const name of ['save.json','layout.json','input.json','report.json']){
+          const bytes=await read(input,name);inputFiles.push({name,bytes});add(`${prefix}/batch-result/${name}`,bytes,'original-batch-result');
+        }
+        const original=name=>inputFiles.find(file=>file.name===name).bytes;
+        const report=decode(original('report.json'),'batch-result/report.json');
+        for(const name of ['save.json','layout.json','input.json']){
+          const bytes=original(name),expected=report.files?.[name];
+          if(expected?.sha256!==hash(bytes)||expected.bytes!==bytes.length)fail('batch-result-hash-mismatch',name,'Original batch result bytes differ from its report');
+        }
+        trainingClearance=decode(original('input.json'),'batch-result/input.json').trainingClearance;
       }
-      const original=name=>inputFiles.find(file=>file.name===name).bytes;
-      const report=decode(original('report.json'),'batch-result/report.json');
-      for(const name of ['save.json','layout.json','input.json']){
-        const bytes=original(name),expected=report.files?.[name];
-        if(expected?.sha256!==hash(bytes)||expected.bytes!==bytes.length)fail('batch-result-hash-mismatch',name,'Original batch result bytes differ from its report');
-      }
-      trainingClearance=decode(original('input.json'),'batch-result/input.json').trainingClearance;
+    }else{inputBytes=await fs.readFile(input);add(prefix+'/original-input.json',inputBytes,'original-save-or-layout');}
+    const raw=decode(inputBytes,'save-or-layout');let saved,document;
+    if(raw.schema==='company-save'){
+      document=await persistence.decodeCompanySave(inputBytes.toString('utf8'),catalog,templates);saved=raw;
+    }else if(raw.schema==='company-layout'){
+      saved=JSON.parse(await persistence.encodeCompanySave(raw,catalog,templates));document=await persistence.decodeCompanySave(JSON.stringify(saved),catalog,templates);
+    }else fail('unsupported-package-save','save-or-layout','Expected company-save or company-layout');
+    if(inputFiles.length){const layout=decode(inputFiles.find(file=>file.name==='layout.json').bytes,'batch-result/layout.json');if(JSON.stringify(canonical(layout))!==JSON.stringify(canonical(document)))fail('batch-layout-save-mismatch','layout.json','Saved document differs from the batch layout');}
+    if(trainingClearance!==undefined){
+      const {checkTrainingClearance}=await import(pathToFileURL(path.join(source,'scripts/company-platform/check-training-clearance.mjs')).href);
+      await checkTrainingClearance(document,trainingClearance,{catalog,templates});
     }
-  }else{inputBytes=await fs.readFile(input);add('data/original-input.json',inputBytes,'original-save-or-layout');}
-  const raw=decode(inputBytes,'save-or-layout');let saved,document;
-  if(raw.schema==='company-save'){
-    document=await persistence.decodeCompanySave(inputBytes.toString('utf8'),catalog,templates);saved=raw;
-  }else if(raw.schema==='company-layout'){
-    saved=JSON.parse(await persistence.encodeCompanySave(raw,catalog,templates));document=await persistence.decodeCompanySave(JSON.stringify(saved),catalog,templates);
-  }else fail('unsupported-package-save','save-or-layout','Expected company-save or company-layout');
-  if(inputFiles.length){const layout=decode(inputFiles.find(file=>file.name==='layout.json').bytes,'batch-result/layout.json');if(JSON.stringify(canonical(layout))!==JSON.stringify(canonical(document)))fail('batch-layout-save-mismatch','layout.json','Saved document differs from the batch layout');}
-  if(trainingClearance!==undefined){
-    const {checkTrainingClearance}=await import(pathToFileURL(path.join(source,'scripts/company-platform/check-training-clearance.mjs')).href);
-    await checkTrainingClearance(document,trainingClearance,{catalog,templates});
+    add(prefix+'/save.json',json(saved),'complete-pinned-save');add(prefix+'/layout.json',json(document),'complete-editable-layout');
+    return {saved,document,trainingClearance};
   }
-  add('data/save.json',json(saved),'complete-pinned-save');add('data/layout.json',json(document),'complete-editable-layout');
+  const {saved,document,trainingClearance}=await includeScene(input,'data');
+  const roomKeys=new Set();
+  for(const {key,folder} of rooms){
+    if(!/^[a-z][a-z0-9-]{0,62}$/.test(key)||roomKeys.has(key))fail('invalid-package-room',key,'Expected a unique room key');
+    roomKeys.add(key);
+    await includeScene(await noLinks(folder),`data/rooms/${key}`);
+  }
   add('data/library-catalog.json',catalogBytes,'complete-catalog');
   add('data/templates.json',templateBytes,'complete-templates');
   const supplemental=new Set(extraFiles);
@@ -457,7 +471,20 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
 
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
   const [distDirectory,buildId,inputPath,outputDirectory,...options]=process.argv.slice(2);
-  if(distDirectory==='--help')console.log('node scripts/company-platform/package-company.mjs FIXED_DIST BUILD_ID SAVE_OR_BATCH_RESULT OUT_NEW_DIR [--source FIXED_SOURCE_ROOT]');
-  else if(options.length&&!(options.length===2&&options[0]==='--source')){console.error('Unsupported package arguments');process.exitCode=1;}
-  else packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot:options[1]||defaultSource}).then(manifest=>console.log(JSON.stringify({ok:true,buildId:manifest.buildId,companyId:manifest.savedCompany.id,files:manifest.files.length,output:path.resolve(outputDirectory)},null,2))).catch(error=>{console.error(JSON.stringify({ok:false,code:error.code||'io-error',path:error.path,message:error.message},null,2));process.exitCode=1;});
+  if(distDirectory==='--help')console.log('node package-company.mjs FIXED_DIST BUILD_ID SAVE_OR_BATCH_RESULT OUT_NEW_DIR [--source FIXED_SOURCE_ROOT] [--room KEY FOLDER]...');
+  else {
+    const run=async()=>{
+      let sourceRoot;
+      const rooms=[];
+      while(options.length){
+        const flag=options.shift();
+        if(flag==='--source'&&!sourceRoot&&options[0])sourceRoot=options.shift();
+        else if(flag==='--room'&&options.length>=2)rooms.push({key:options.shift(),folder:options.shift()});
+        else throw Error(`Invalid package option ${flag}`);
+      }
+      const manifest=await packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot,rooms});
+      console.log(JSON.stringify({ok:true,buildId:manifest.buildId,companyId:manifest.savedCompany.id,rooms:rooms.map(room=>room.key),files:manifest.files.length,output:path.resolve(outputDirectory)},null,2));
+    };
+    run().catch(error=>{console.error(JSON.stringify({ok:false,code:error.code||'io-error',path:error.path,message:error.message},null,2));process.exitCode=1;});
+  }
 }

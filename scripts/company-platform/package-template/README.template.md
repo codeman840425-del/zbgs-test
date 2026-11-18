@@ -4,6 +4,18 @@
 
 ## 打开固定预览
 
+交付目录若包含 `data/rooms/<名称>/save.json`，可用 `?delivery=<名称>` 打开其中一份布局。它与默认房间使用相同的目录校验和游戏加载入口。
+
+## 制作新版圆几并布置休息区
+
+在交付包副本中，先到 `source/prototype` 按锁文件执行 `npm ci`。以下制作步骤从 `source` 目录执行。编辑与重建的新文件保存在这份副本中，原交付包可继续使用。
+
+1. `assets-source/company-sourced-side-table-v1` 保存 Poly Haven 原模、许可、贴图与适配配方。将 `recipe.json` 和 `registration.json` 复制成新文件。新配方可调整 `fit.tabletopDiameterMetres`。新登记文件填写独立的整数版本、可辨识的名称，并将 `sourceParameters` 指向新配方的源目录相对路径。此入口支持这份原模型的尺寸系列。
+2. 以 `node scripts/company-platform/adapt-sourced-side-table.mjs --recipe 新配方路径 --output 模型路径` 导出。模型路径遵循 `prototype/public/company-assets/sourced-side-table-v1/<id>/v<版本>/model.glb`。同一命令加 `--check` 可验证精确复产。原宿主功能保持底部居中、50 厘米桌高和 30 × 22 厘米的摆放面。
+3. 运行 `node scripts/company-platform/describe-sourced-table.mjs 新登记文件 --write`。将输出的相对 `resource.json` 路径追加到该系列 `collection.json` 的 `resources` 数组。运行 `node scripts/company-platform/build-library.mjs` 和同一命令加 `--check`。包内其他已登记版本须保留。
+4. 两种布局的制作输入位于 `scripts/company-platform/batch-inputs/lounge-rooms.json`。执行 `node scripts/company-platform/test-lounge-rooms.mjs 新批次输出目录` 可重做初始两间房。要在其中一间换款，创建操作数组，例如 `[{"type":"replace-resource","id":"concept-lounge-studio/ground/lounge/cup-table","resource":{"id":"side-table-carved-round","version":2}}]`。回到包根目录执行 `node edit.mjs apply 输入房间的save.json 操作文件.json 新结果目录`，然后执行 `node edit.mjs validate 新结果目录/save.json`。
+5. 从 `source/prototype` 执行 `node scripts/build-company-id.mjs` 与 `npx vite build --config vite.company.config.js`。从包根目录执行 `node source/scripts/company-platform/package-company.mjs source/prototype/dist-company 新构建ID 新结果目录/save.json 新交付目录 --source source`。如需在同一个预览里提供另一个已验证批次房间，追加 `--room 房间名 批次房间目录`。接收方可直接在新交付目录执行 `node serve.mjs`。
+
 安装Node后在本目录执行以下命令，再用普通浏览器打开打印的HTTP地址。
 
 ```text

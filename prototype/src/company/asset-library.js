@@ -25,6 +25,7 @@ import {isCameraMountResource} from './camera-mount-data.js';
 import {validateCameraMountGeometry} from './camera-mount-geometry.js';
 import {validateMakeupWallMirrorGeometry} from './makeup-wall-mirror-geometry.js';
 import {validateSideTableGeometry} from './side-table-geometry.js';
+import {isTexturedRoundTable,validateTexturedRoundTable} from './textured-table-geometry.js';
 import {validateSideTableLifeItemsGeometry} from './side-table-life-items-geometry.js';
 import {validateCeilingAcousticGeometry} from './ceiling-acoustic-geometry.js';
 import {validateWallShelfGeometry} from './wall-shelf-geometry.js';
@@ -186,7 +187,8 @@ function validateResource(pack, description) {
   validateMakeupStorageGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateMakeupDrawerGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateMakeupWallMirrorGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
-  validateSideTableGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
+  const tableGeometry = isTexturedRoundTable(description.resource) ? validateTexturedRoundTable : validateSideTableGeometry;
+  tableGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateSideTableLifeItemsGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateCeilingAcousticGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateWallShelfGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });

@@ -470,10 +470,12 @@ async function start(){
   });
   fetch('/company-build-info.json').then(r=>r.ok?r.json():null).then(info=>{if(info){element('build-label').textContent=`构建 ${info.shortId}`;window.company.buildInfo=info;}}).catch(()=>{});
   const query=new URLSearchParams(location.search),requested=query.get('sample');
-  if(query.get('delivery')==='1'){
+  if(query.has('delivery')){
     let imported=false;
     await perform('正在打开交付包的固定方案…',async()=>{
-      const response=await fetch('/delivery-save.json',{cache:'no-store'});
+      const key=query.get('delivery');
+      if(key!=='1'&&!/^[a-z][a-z0-9-]{0,62}$/.test(key))throw Error('交付房间名称无效');
+      const response=await fetch(key==='1'?'/delivery-save.json':`/delivery-room/${key}.json`,{cache:'no-store'});
       if(!response.ok)throw Error(`交付场景读取失败（HTTP ${response.status}）`);
       await session.import(await response.text());
       const target=query.get('object');
