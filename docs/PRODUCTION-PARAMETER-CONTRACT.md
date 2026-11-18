@@ -50,3 +50,9 @@ v4 同时修正了闸门本身的状态接缝：`bodyPackage` 和 `coverage` 不
 
 当前真正的瓶颈分为两层：一是 FaceContour 改变了 HairBack/脸部几何，旧的发丝动态、头部附件、表情口端和材质接触不能按名称或模板自动继承，必须由差分触发精确适配数据；二是新身体/装备的静态资源预算已超出现有技术预算，需先建立压缩、纹理分辨率、材质/网格预算方案并用目标设备实测，不能靠继续精修模型解决。`native_batch_gate.py` 现在把可复用结构与逐身体待办同时输出；只有 adapter、运行时记录和目标设备检查完成后才进入可用目录。
 `native_record_batch.py --readiness-report <gate.json>` 是正式批产入口：它只为闸门 `acceptedForRuntime` 中精确的 bodyType 发出角色记录请求；未准入候选仍可用默认诊断模式生成测试请求，但不能被误当成可发布角色。当前 v5 闸门的 accepted 列表为空，因此 readiness 模式按两条逐项拒绝并保留原因。
+
+## 发布资源旁车边界
+
+当静态预算显示需要压缩时，压缩产物必须是绑定到具体 `sourceModelSha256`、覆盖清单、原图 SHA、材质/UV/采样器、alpha 合同和解码器版本的独立旁车。`scripts/m2-ktx-pilot-v1/prepare-facecontour-sidecar.py` 已为当前两份 FaceContour 身体生成 Body map KTX2 候选；它保留原 VRM 与 PNG/Canvas 回退，不替换 VRM 内嵌图，也不自动修改运行时材质。旁车的确定性、KTX 校验和源合同属于生产证据，不能清除 `surfaceAndTexture` 或 `runtimeRecordAndBudget`。只有另行完成精确 loader 身份、颜色/透明/采样器、染色路径、释放生命周期、浏览器动作和目标设备证据后，才可写入 `native-budget-admission-v1`。
+
+批产入口的失败语义同样属于契约：runtime 证据缺少 record SHA、body SHA 不匹配、accepted gate 与 catalog 身份不一致、重复 body 类型或部分记录写入失败时，必须拒绝并保留诊断；本轮新增的回滚清理只清除本轮新输出，不覆盖既有证据。`technical-candidate` 与 `runtime-admitted` 在请求批次中显式区分。

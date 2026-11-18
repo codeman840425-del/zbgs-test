@@ -97,7 +97,7 @@ def identity_for(profile):
 
 
 def admitted_body_types(path, root=ROOT):
-    """Return exact body types admitted by the shared production gate."""
+    """Return exact body type to body SHA pairs admitted by the shared gate."""
     path = Path(path).resolve()
     check(path.is_file() and path.is_relative_to(root.resolve()),
           'Readiness report must be inside the repository')
@@ -108,12 +108,18 @@ def admitted_body_types(path, root=ROOT):
     check(isinstance(accepted, list) and all(isinstance(value, str) for value in accepted),
           'Readiness report has no acceptedForRuntime list')
     by_id = {row.get('id'): row for row in report.get('items', []) if isinstance(row, dict)}
-    result = set()
+    result = {}
     for item_id in accepted:
         row = by_id.get(item_id)
         check(isinstance(row, dict) and isinstance(row.get('bodyType'), str),
               f'Readiness report has no body type for accepted item: {item_id}')
-        result.add(row['bodyType'])
+        body_type = row['bodyType']
+        body_sha = row.get('bodySha256')
+        check(SHA.fullmatch(str(body_sha or '')),
+              f'Readiness report has no body identity for accepted item: {item_id}')
+        check(body_type not in result,
+              f'Readiness report has duplicate accepted body type: {body_type}')
+        result[body_type] = body_sha
     return result
 
 
@@ -131,7 +137,9 @@ def plan(catalog, root=ROOT, grips=None, glasses=None, presentation=None, readin
     seen = set()
     results = []
     for entry in entries:
-        item = {'bodyType': entry.get('bodyType'), 'status': 'rejected', 'omittedCapabilities': []}
+        item = {'bodyType': entry.get('bodyType'), 'status': 'rejected',
+                'runtimeAdmission': 'pending' if readiness_report else 'candidate',
+                'omittedCapabilities': []}
         try:
             profile = entry['profile']
             body_type = entry['bodyType']
@@ -143,6 +151,9 @@ def plan(catalog, root=ROOT, grips=None, glasses=None, presentation=None, readin
                 raise ValueError('runtime admission pending for ' + body_type)
             check(profile.get('id') == body_type and profile.get('baseBodyDisplay') == 'source-with-hair', 'Catalog profile identity differs')
             check(SHA.fullmatch(profile.get('sha256', '')) and profile.get('url', '').endswith('.vrm'), 'Catalog body identity is incomplete')
+            if admitted is not None:
+                check(admitted[body_type] == profile['sha256'],
+                      'Readiness report body identity differs from catalog')
             body = public_file(root, profile['url'])
             check(body.is_file() and digest(body.read_bytes()) == profile['sha256'], 'Catalog body bytes do not match profile SHA')
             identity = identity_for({'id': body_type, 'recipeSha256': entry.get('recipeSha256')})
@@ -163,7 +174,8 @@ def plan(catalog, root=ROOT, grips=None, glasses=None, presentation=None, readin
                     edits.append({'domain': 'liveAccessory', 'kind': 'glasses', 'enabled': True})
                 else:
                     item['omittedCapabilities'].append(reason)
-            item.update(status='accepted', request={'schema': REQUEST_SCHEMA, 'operation': 'create', 'bodyType': body_type,
+            item.update(status='accepted', runtimeAdmission='admitted' if readiness_report else 'candidate',
+                request={'schema': REQUEST_SCHEMA, 'operation': 'create', 'bodyType': body_type,
                 'identity': {'id': identity, 'name': profile['label'], 'gender': entry['group']}, 'edits': edits},
                 body={'path': body.relative_to(root).as_posix(), 'sha256': digest(body.read_bytes())},
                 recipeSha256=entry['recipeSha256'])
@@ -192,7 +204,8 @@ def run(catalog_path, output, root=ROOT, readiness_report=None, **registries):
             write_json(request_file, item['request'])
             row['request'] = {'path': request_file.name, 'sha256': digest(request_file.read_bytes()), 'bytes': request_file.stat().st_size}
         rows.append(row)
-    batch = {'schema': SCHEMA, 'sourceCatalog': pin(root, catalog_path.relative_to(root).as_posix()), 'items': rows,
+    batch = {'schema': SCHEMA, 'mode': 'runtime-admitted' if readiness_report else 'technical-candidate',
+             'sourceCatalog': pin(root, catalog_path.relative_to(root).as_posix()), 'items': rows,
              'acceptedCount': sum(item['status'] == 'accepted' for item in rows), 'rejectedCount': sum(item['status'] == 'rejected' for item in rows)}
     write_json(output / 'batch-request.json', batch)
     return batch

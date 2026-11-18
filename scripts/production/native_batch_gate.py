@@ -181,6 +181,10 @@ def package_item(batch: dict[str, Any], item: dict[str, Any], root: Path,
     lanes.update(authoring="verified", coldReadback="verified", export="verified",
                  dependencyDelta="verified", bodyPackage="verified", coverage="verified")
     runtime_evidence = (runtime_by_body or {}).get(spec.get("bodyType"))
+    if runtime_evidence and runtime_evidence.get("bodySha256") != spec.get("bodySha256"):
+        # A body label is not an identity. Keep a mismatched runtime report
+        # diagnostic-only so an old body revision cannot clear these lanes.
+        runtime_evidence = None
     if runtime_evidence:
         lanes.update(runtimeCatalog="verified", record="verified", restore="verified")
     if provenance.get("runtimeAccepted") is True:
@@ -231,6 +235,9 @@ def runtime_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
         body_type = body.get("bodyType")
         body_sha = body.get("sha256")
         if isinstance(body_type, str) and SHA.fullmatch(str(body_sha or "")):
+            require(body_type not in result, f"Runtime report has duplicate body type: {body_type}")
+            require(SHA.fullmatch(str(item.get("recordSha256") or "")),
+                    f"Runtime report record identity is incomplete: {body_type}")
             result[body_type] = {"report": pin(path), "recordSha256": item.get("recordSha256"),
                                  "bodySha256": body_sha, "scope": report.get("scope")}
     return result

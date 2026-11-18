@@ -23,6 +23,8 @@ class NativeRecordBatchTests(unittest.TestCase):
         a = run(CATALOG_PATH, first, self.root)
         b = run(CATALOG_PATH, second, self.root)
         self.assertEqual(a['acceptedCount'], 2)
+        self.assertEqual(a['mode'], 'technical-candidate')
+        self.assertTrue(all(row['runtimeAdmission'] == 'candidate' for row in a['items']))
         self.assertEqual((first / 'batch-request.json').read_bytes(), (second / 'batch-request.json').read_bytes())
         for row in a['items']:
             self.assertEqual(row['status'], 'accepted')
@@ -74,6 +76,17 @@ class NativeRecordBatchTests(unittest.TestCase):
             rows = plan(self.catalog, self.root, readiness_report=path)
         self.assertEqual([row['status'] for row in rows], ['accepted', 'rejected'])
         self.assertIn('native-contour-cheek-b-v1', rows[1]['reason'])
+
+    def test_readiness_gate_cannot_admit_a_different_body_revision(self):
+        gate = json.loads((ROOT / 'evidence/m2-native-production-gate-v5/report.json').read_bytes())
+        gate['acceptedForRuntime'] = [gate['items'][0]['id']]
+        gate['items'][0]['bodySha256'] = '0' * 64
+        with tempfile.TemporaryDirectory(dir=ROOT / 'output') as temp:
+            path = Path(temp) / 'tampered-gate.json'
+            path.write_text(json.dumps(gate), encoding='utf-8')
+            rows = plan(self.catalog, self.root, readiness_report=path)
+        self.assertEqual(rows[0]['status'], 'rejected')
+        self.assertIn('body identity differs', rows[0]['reason'])
 
 
 if __name__ == '__main__':

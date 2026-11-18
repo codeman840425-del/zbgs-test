@@ -1,0 +1,605 @@
+{
+  "schema": "m2-ktx-native-facecontour-sidecar-v1",
+  "sourcePilotManifest": "assets-source/m2-ktx-pilot-v1/manifest.json",
+  "sourcePilotManifestSha256": "f00a56e189c40d1a88747bd71af5b6317c8e313bc0749d84956bf14db4bfc93c",
+  "tool": {
+    "version": "4.4.2",
+    "executable": "assets-source/m2-ktx-pilot-v1/tools/KTX-Software-4.4.2-Linux-x86_64/bin/ktx",
+    "executableSha256": "2028e023a18e827e66362a9e184052f40192566b10f92655a337e2eb8ea0829b",
+    "python": "3.13.11",
+    "pillow": "12.1.0",
+    "execution": "Existing WSL Ubuntu isolated KTX release; no installation"
+  },
+  "configuration": {
+    "id": "uastc-q2-zstd18-srgb-full-mips-v1",
+    "options": [
+      "--format",
+      "R8G8B8A8_SRGB",
+      "--encode",
+      "uastc",
+      "--uastc-quality",
+      "2",
+      "--zstd",
+      "18",
+      "--generate-mipmap",
+      "--mipmap-filter",
+      "lanczos4",
+      "--mipmap-wrap",
+      "wrap",
+      "--assign-tf",
+      "srgb",
+      "--assign-primaries",
+      "bt709",
+      "--assign-texcoord-origin",
+      "top-left",
+      "--threads",
+      "4"
+    ],
+    "attemptBudget": "One pinned configuration; no sweep"
+  },
+  "samples": [
+    {
+      "id": "contour-roundness-a-body-color",
+      "bodyType": "native-contour-roundness-a-v1",
+      "sourceModel": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/body.vrm",
+      "sourceModelSha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+      "sourceModelBytes": 17127080,
+      "coverageManifest": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/manifest.json",
+      "coverageManifestSha256": "e2b23e84213dd64fa87a8cf1c568120e392de5ae934710c25a2a8709589baead",
+      "equipmentManifest": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/equipment.json",
+      "recipe": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/recipe.json",
+      "provenance": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/provenance.json",
+      "materialIndex": 8,
+      "materialName": "N00_000_00_Body_00_SKIN (Instance)",
+      "imageIndex": 11,
+      "imageName": "_10",
+      "sourceBufferView": 170,
+      "sourceBufferViewOffset": 16192676,
+      "sourcePng": "assets-source/m2-ktx-pilot-v1/native-facecontour-sidecar-v1/images/contour-roundness-a-body-color.png",
+      "sourcePngSha256": "5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a",
+      "sourcePngBytes": 810023,
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "alphaPixels": {
+        "zero": 0,
+        "oneTo254": 0,
+        "opaque255": 4194304
+      },
+      "textureIndices": [
+        11,
+        11
+      ],
+      "sampler": {
+        "magFilter": 9729,
+        "minFilter": 9729,
+        "wrapS": 10497,
+        "wrapT": 10497
+      },
+      "materialContract": {
+        "baseColorTextureIndex": 11,
+        "shadeMultiplyTextureIndex": 11,
+        "alphaMode": "MASK",
+        "alphaCutoff": 0.5,
+        "texCoord": 0,
+        "transformIdentity": true,
+        "sourceImageSha256": "5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a"
+      },
+      "runtimeRule": "Body map candidate only. Preserve original Linear sampler, flipY=false, alpha MASK/0.5 and MToon material roles. Face, iris, brow and every hair map remain original PNG.",
+      "encoded": {
+        "path": "assets-source/m2-ktx-pilot-v1/native-facecontour-sidecar-v1/encoded/native-contour-roundness-a-v1-body-color.ktx2",
+        "sha256": "d944fd97178d3682621ea9653ffa21a9b28da8d93758d019aadf5e990349d120",
+        "bytes": 679630,
+        "encodingSeconds": 1.4282096000388265,
+        "validationExitCode": 0,
+        "header": {
+          "vkFormat": 0,
+          "typeSize": 1,
+          "pixelWidth": 2048,
+          "pixelHeight": 2048,
+          "pixelDepth": 0,
+          "layerCount": 0,
+          "faceCount": 1,
+          "levelCount": 12,
+          "supercompressionScheme": 2,
+          "levels": [
+            {
+              "byteOffset": 293182,
+              "byteLength": 386448,
+              "uncompressedByteLength": 4194304
+            },
+            {
+              "byteOffset": 113941,
+              "byteLength": 179241,
+              "uncompressedByteLength": 1048576
+            },
+            {
+              "byteOffset": 43041,
+              "byteLength": 70900,
+              "uncompressedByteLength": 262144
+            },
+            {
+              "byteOffset": 15420,
+              "byteLength": 27621,
+              "uncompressedByteLength": 65536
+            },
+            {
+              "byteOffset": 5203,
+              "byteLength": 10217,
+              "uncompressedByteLength": 16384
+            },
+            {
+              "byteOffset": 1905,
+              "byteLength": 3298,
+              "uncompressedByteLength": 4096
+            },
+            {
+              "byteOffset": 958,
+              "byteLength": 947,
+              "uncompressedByteLength": 1024
+            },
+            {
+              "byteOffset": 696,
+              "byteLength": 262,
+              "uncompressedByteLength": 256
+            },
+            {
+              "byteOffset": 623,
+              "byteLength": 73,
+              "uncompressedByteLength": 64
+            },
+            {
+              "byteOffset": 598,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            },
+            {
+              "byteOffset": 573,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            },
+            {
+              "byteOffset": 548,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            }
+          ]
+        },
+        "info": {
+          "$schema": "https://schema.khronos.org/ktx/info_v0.json",
+          "valid": true,
+          "messages": [],
+          "header": {
+            "identifier": "«KTX 20»\r\n\u001a\n",
+            "vkFormat": "VK_FORMAT_UNDEFINED",
+            "typeSize": 1,
+            "pixelWidth": 2048,
+            "pixelHeight": 2048,
+            "pixelDepth": 0,
+            "layerCount": 0,
+            "faceCount": 1,
+            "levelCount": 12,
+            "supercompressionScheme": "KTX_SS_ZSTD"
+          },
+          "index": {
+            "dataFormatDescriptor": {
+              "byteOffset": 368,
+              "byteLength": 44
+            },
+            "keyValueData": {
+              "byteOffset": 412,
+              "byteLength": 136
+            },
+            "supercompressionGlobalData": {
+              "byteOffset": 0,
+              "byteLength": 0
+            },
+            "levels": [
+              {
+                "byteOffset": 293182,
+                "byteLength": 386448,
+                "uncompressedByteLength": 4194304
+              },
+              {
+                "byteOffset": 113941,
+                "byteLength": 179241,
+                "uncompressedByteLength": 1048576
+              },
+              {
+                "byteOffset": 43041,
+                "byteLength": 70900,
+                "uncompressedByteLength": 262144
+              },
+              {
+                "byteOffset": 15420,
+                "byteLength": 27621,
+                "uncompressedByteLength": 65536
+              },
+              {
+                "byteOffset": 5203,
+                "byteLength": 10217,
+                "uncompressedByteLength": 16384
+              },
+              {
+                "byteOffset": 1905,
+                "byteLength": 3298,
+                "uncompressedByteLength": 4096
+              },
+              {
+                "byteOffset": 958,
+                "byteLength": 947,
+                "uncompressedByteLength": 1024
+              },
+              {
+                "byteOffset": 696,
+                "byteLength": 262,
+                "uncompressedByteLength": 256
+              },
+              {
+                "byteOffset": 623,
+                "byteLength": 73,
+                "uncompressedByteLength": 64
+              },
+              {
+                "byteOffset": 598,
+                "byteLength": 25,
+                "uncompressedByteLength": 16
+              },
+              {
+                "byteOffset": 573,
+                "byteLength": 25,
+                "uncompressedByteLength": 16
+              },
+              {
+                "byteOffset": 548,
+                "byteLength": 25,
+                "uncompressedByteLength": 16
+              }
+            ]
+          },
+          "dataFormatDescriptor": {
+            "totalSize": 44,
+            "blocks": [
+              {
+                "vendorId": "KHR_DF_VENDORID_KHRONOS",
+                "descriptorType": "KHR_DF_KHR_DESCRIPTORTYPE_BASICFORMAT",
+                "versionNumber": "KHR_DF_VERSIONNUMBER_1_3",
+                "descriptorBlockSize": 40,
+                "flags": [
+                  "KHR_DF_FLAG_ALPHA_STRAIGHT"
+                ],
+                "transferFunction": "KHR_DF_TRANSFER_SRGB",
+                "colorPrimaries": "KHR_DF_PRIMARIES_BT709",
+                "colorModel": "KHR_DF_MODEL_UASTC",
+                "texelBlockDimension": [
+                  4,
+                  4,
+                  1,
+                  1
+                ],
+                "bytesPlane": [
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "samples": [
+                  {
+                    "qualifiers": [],
+                    "channelType": "KHR_DF_CHANNEL_UASTC_RGB",
+                    "bitLength": 127,
+                    "bitOffset": 0,
+                    "samplePosition": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "sampleLower": 0,
+                    "sampleUpper": 4294967295
+                  }
+                ]
+              }
+            ]
+          },
+          "keyValueData": {
+            "KTXorientation": "rd",
+            "KTXwriter": "ktx create v4.4.2 / libktx v4.4.2",
+            "KTXwriterScParams": "--uastc-quality 2 --threads 4 --zstd 18"
+          }
+        }
+      }
+    },
+    {
+      "id": "contour-cheek-b-body-color",
+      "bodyType": "native-contour-cheek-b-v1",
+      "sourceModel": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/body.vrm",
+      "sourceModelSha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+      "sourceModelBytes": 17126644,
+      "coverageManifest": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/manifest.json",
+      "coverageManifestSha256": "0a3e0c719d36ee8088047d79c91afceea94cb9479ac3b30097a24dfda6c60046",
+      "equipmentManifest": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/equipment.json",
+      "recipe": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/recipe.json",
+      "provenance": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/provenance.json",
+      "materialIndex": 8,
+      "materialName": "N00_000_00_Body_00_SKIN (Instance)",
+      "imageIndex": 11,
+      "imageName": "_10",
+      "sourceBufferView": 170,
+      "sourceBufferViewOffset": 16192256,
+      "sourcePng": "assets-source/m2-ktx-pilot-v1/native-facecontour-sidecar-v1/images/contour-cheek-b-body-color.png",
+      "sourcePngSha256": "5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a",
+      "sourcePngBytes": 810023,
+      "width": 2048,
+      "height": 2048,
+      "mode": "RGBA",
+      "alphaPixels": {
+        "zero": 0,
+        "oneTo254": 0,
+        "opaque255": 4194304
+      },
+      "textureIndices": [
+        11,
+        11
+      ],
+      "sampler": {
+        "magFilter": 9729,
+        "minFilter": 9729,
+        "wrapS": 10497,
+        "wrapT": 10497
+      },
+      "materialContract": {
+        "baseColorTextureIndex": 11,
+        "shadeMultiplyTextureIndex": 11,
+        "alphaMode": "MASK",
+        "alphaCutoff": 0.5,
+        "texCoord": 0,
+        "transformIdentity": true,
+        "sourceImageSha256": "5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a"
+      },
+      "runtimeRule": "Body map candidate only. Preserve original Linear sampler, flipY=false, alpha MASK/0.5 and MToon material roles. Face, iris, brow and every hair map remain original PNG.",
+      "encoded": {
+        "path": "assets-source/m2-ktx-pilot-v1/native-facecontour-sidecar-v1/encoded/native-contour-cheek-b-v1-body-color.ktx2",
+        "sha256": "d944fd97178d3682621ea9653ffa21a9b28da8d93758d019aadf5e990349d120",
+        "bytes": 679630,
+        "encodingSeconds": 1.4556304999860004,
+        "validationExitCode": 0,
+        "header": {
+          "vkFormat": 0,
+          "typeSize": 1,
+          "pixelWidth": 2048,
+          "pixelHeight": 2048,
+          "pixelDepth": 0,
+          "layerCount": 0,
+          "faceCount": 1,
+          "levelCount": 12,
+          "supercompressionScheme": 2,
+          "levels": [
+            {
+              "byteOffset": 293182,
+              "byteLength": 386448,
+              "uncompressedByteLength": 4194304
+            },
+            {
+              "byteOffset": 113941,
+              "byteLength": 179241,
+              "uncompressedByteLength": 1048576
+            },
+            {
+              "byteOffset": 43041,
+              "byteLength": 70900,
+              "uncompressedByteLength": 262144
+            },
+            {
+              "byteOffset": 15420,
+              "byteLength": 27621,
+              "uncompressedByteLength": 65536
+            },
+            {
+              "byteOffset": 5203,
+              "byteLength": 10217,
+              "uncompressedByteLength": 16384
+            },
+            {
+              "byteOffset": 1905,
+              "byteLength": 3298,
+              "uncompressedByteLength": 4096
+            },
+            {
+              "byteOffset": 958,
+              "byteLength": 947,
+              "uncompressedByteLength": 1024
+            },
+            {
+              "byteOffset": 696,
+              "byteLength": 262,
+              "uncompressedByteLength": 256
+            },
+            {
+              "byteOffset": 623,
+              "byteLength": 73,
+              "uncompressedByteLength": 64
+            },
+            {
+              "byteOffset": 598,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            },
+            {
+              "byteOffset": 573,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            },
+            {
+              "byteOffset": 548,
+              "byteLength": 25,
+              "uncompressedByteLength": 16
+            }
+          ]
+        },
+        "info": {
+          "$schema": "https://schema.khronos.org/ktx/info_v0.json",
+          "valid": true,
+          "messages": [],
+          "header": {
+            "identifier": "«KTX 20»\r\n\u001a\n",
+            "vkFormat": "VK_FORMAT_UNDEFINED",
+            "typeSize": 1,
+            "pixelWidth": 2048,
+            "pixelHeight": 2048,
+            "pixelDepth": 0,
+            "layerCount": 0,
+            "faceCount": 1,
+            "levelCount": 12,
+            "supercompressionScheme": "KTX_SS_ZSTD"
+          },
+          "index": {
+            "dataFormatDescriptor": {
+              "byteOffset": 368,
+              "byteLength": 44
+            },
+            "keyValueData": {
+              "byteOffset": 412,
+              "byteLength": 136
+            },
+            "supercompressionGlobalData": {
+              "byteOffset": 0,
+              "byteLength": 0
+            },
+            "levels": [
+              {
+                "byteOffset": 293182,
+                "byteLength": 386448,
+                "uncompressedByteLength": 4194304
+              },
+              {
+                "byteOffset": 113941,
+                "byteLength": 179241,
+                "uncompressedByteLength": 1048576
+              },
+              {
+                "byteOffset": 43041,
+                "byteLength": 70900,
+                "uncompressedByteLength": 262144
+              },
+              {
+                "byteOffset": 15420,
+                "byteLength": 27621,
+                "uncompressedByteLength": 65536
+              },
+              {
+                "byteOffset": 5203,
+                "byteLength": 10217,
+                "uncompressedByteLength": 16384
+              },
+              {
+                "byteOffset": 1905,
+                "byteLength": 3298,
+                "uncompressedByteLength": 4096
+              },
+              {
+                "byteOffset": 958,
+                "byteLength": 947,
+                "uncompressedByteLength": 1024
+              },
+              {
+                "byteOffset": 696,
+                "byteLength": 262,
+                "uncompressedByteLength": 256
+              },
+              {
+                "byteOffset": 623,
+                "byteLength": 73,
+                "uncompressedByteLength": 64
+              },
+              {
+                "byteOffset": 598,
+                "byteLength": 25,
+                "uncompressedByteLength": 16
+              },
+              {
+                "byteOffset": 573,
+                "byteLength": 25,
+                "uncompressedByteLength": 16
+              },
+              {
+                "byteOffset": 548,
+                "byteLength": 25,
+                "uncompressedByteLength": 16
+              }
+            ]
+          },
+          "dataFormatDescriptor": {
+            "totalSize": 44,
+            "blocks": [
+              {
+                "vendorId": "KHR_DF_VENDORID_KHRONOS",
+                "descriptorType": "KHR_DF_KHR_DESCRIPTORTYPE_BASICFORMAT",
+                "versionNumber": "KHR_DF_VERSIONNUMBER_1_3",
+                "descriptorBlockSize": 40,
+                "flags": [
+                  "KHR_DF_FLAG_ALPHA_STRAIGHT"
+                ],
+                "transferFunction": "KHR_DF_TRANSFER_SRGB",
+                "colorPrimaries": "KHR_DF_PRIMARIES_BT709",
+                "colorModel": "KHR_DF_MODEL_UASTC",
+                "texelBlockDimension": [
+                  4,
+                  4,
+                  1,
+                  1
+                ],
+                "bytesPlane": [
+                  16,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "samples": [
+                  {
+                    "qualifiers": [],
+                    "channelType": "KHR_DF_CHANNEL_UASTC_RGB",
+                    "bitLength": 127,
+                    "bitOffset": 0,
+                    "samplePosition": [
+                      0,
+                      0,
+                      0,
+                      0
+                    ],
+                    "sampleLower": 0,
+                    "sampleUpper": 4294967295
+                  }
+                ]
+              }
+            ]
+          },
+          "keyValueData": {
+            "KTXorientation": "rd",
+            "KTXwriter": "ktx create v4.4.2 / libktx v4.4.2",
+            "KTXwriterScParams": "--uastc-quality 2 --threads 4 --zstd 18"
+          }
+        }
+      }
+    }
+  ],
+  "runtimeVerified": false,
+  "limits": [
+    "Source-side sidecar only. No VRM rewrite and no runtime admission or loader change.",
+    "Body material map candidate only. Face, iris, brow and hair maps stay on original PNG sources.",
+    "The two body identities bind separately even though their extracted Body PNG bytes and encoded KTX2 bytes are equal.",
+    "No browser, GPU, ordinary-PC, action, visual, expression, garment-contact or gameplay acceptance is claimed."
+  ],
+  "encodedByteIdentity": {
+    "equal": true,
+    "sha256": "d944fd97178d3682621ea9653ffa21a9b28da8d93758d019aadf5e990349d120"
+  }
+}

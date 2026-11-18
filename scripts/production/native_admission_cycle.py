@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import shutil
 import sys
 from typing import Any
 
@@ -70,6 +71,13 @@ def cycle(batch: Path, gate_output: Path, records_output: Path, **reports: Path 
             readiness_report=gate_output,
         )
     except Exception:
+        # Both outputs belong to this cycle. Remove newly created evidence so
+        # a retry cannot consume a partial record batch.
+        gate_output.unlink(missing_ok=True)
+        if records_output.is_dir():
+            shutil.rmtree(records_output)
+        elif records_output.exists():
+            records_output.unlink()
         raise
 
     return {

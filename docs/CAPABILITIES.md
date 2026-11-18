@@ -520,3 +520,7 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 准入流程新增 typed `native-glasses-admission-v1` 输入：只有精确 body/profile/accessory 身份、正常运行、关闭重开和人工视觉检查都标为 passed 的报告，才可清除对应身体的 `headAttachments`；candidate-only、legacy 或 `verified:false` 不能清除。当前没有这样的通过报告，因此现有两体的 `acceptedForRuntime` 仍为空。
 
 资源预算同步新增 typed `native-budget-admission-v1` 输入：transport、decode/Canvas、GPU 生命周期和 ordinary-PC 四层必须对同一 body/record 全部 passed，才可清除 `runtimeRecordAndBudget`。当前报告仍为静态估算/超预算且普通电脑未测，不满足该输入，不能写成资源准入通过。
+
+2026-11-18 CUSTOM-P01 资源旁车与批产可靠性增量：`scripts/m2-ktx-pilot-v1/prepare-facecontour-sidecar.py --encode` 已从两份实际 FaceContour body.vrm 提取精确 Body 图，按 body SHA、coverage manifest SHA、材质/UV/采样器/alpha 合同生成独立 KTX2 旁车。两项均用隔离 KTX-Software 4.4.2、同一 UASTC/ZSTD/完整 mip 配置，KTX validate/info exit 0，2048²、12 mip、679630 bytes，两个输入图字节相同但仍按不同 body 身份分别绑定；两次编码哈希一致。旁车只作为发布候选，未改写 VRM、未接入 loader/admission，face/iris/brow/hair 仍保留 PNG/Canvas 回退，runtimeVerified=false。证据 `evidence/m2-ktx-native-facecontour-sidecar-v1/report.json` 与 `determinism-check.json`；不能据此宣称 GPU、普通电脑、视觉或游戏性能通过。
+
+同日批产闸门可靠性增量：`native_batch_gate.py` 拒绝重复 body 类型、缺失 record SHA 及 runtime report 与 staged body SHA 不一致的证据；`native_record_batch.py` 在 readiness 模式比较 accepted body SHA 与 catalog SHA，并明确输出 `technical-candidate`/`runtime-admitted` 模式；`native_admission_cycle.py` 在记录规划失败时清理本轮新写入的 gate/部分记录目录，允许安全重试。46 项 native production 单测通过。上述修复只强化拒绝、幂等和恢复，不增加任何准入通过项；v5 两项 `acceptedForRuntime` 仍为空。

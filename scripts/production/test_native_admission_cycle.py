@@ -52,6 +52,24 @@ class NativeAdmissionCycleTests(unittest.TestCase):
                     gate_path, root / 'records',
                 )
 
+    def test_failed_record_planning_rolls_back_new_cycle_outputs(self):
+        with tempfile.TemporaryDirectory(dir=cycle.ROOT) as temp:
+            root = Path(temp)
+            gate_path = root / 'gate.json'
+            records_path = root / 'records'
+            with (
+                patch.object(cycle.native_batch_gate, 'evaluate', return_value={
+                    'schema': 'native-production-readiness-v1', 'acceptedForRuntime': [], 'items': []}),
+                patch.object(cycle.native_record_batch, 'run', side_effect=RuntimeError('planner failed')),
+            ):
+                with self.assertRaises(RuntimeError):
+                    cycle.cycle(
+                        cycle.ROOT / 'assets-source/native-parameter-game-packages-v1/import-batch.json',
+                        gate_path, records_path,
+                    )
+            self.assertFalse(gate_path.exists())
+            self.assertFalse(records_path.exists())
+
 
 if __name__ == '__main__':
     unittest.main()

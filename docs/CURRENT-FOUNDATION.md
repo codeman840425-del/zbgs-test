@@ -61,3 +61,7 @@
 - 闸门已增加可选 `native-glasses-admission-v1` 车道；它只接受精确身份和完整运行/恢复/人工视觉证据，不会把现有 `verified:false` 候选升级为通过。
 - 资源预算也增加 `native-budget-admission-v1` 车道；四层（传输、解码/Canvas、GPU、普通电脑）任一缺失或未测都不能清除预算 blocker。
 - 恢复命令：从仓库根运行 `python -B scripts/production/native_admission_cycle.py`，使用当前批次和现有证据路径生成新的、不可覆写的 gate/record 输出目录；新增配方先产生新证据目录，再更新准入报告。
+
+2026-11-18 生产链路继续收敛：两份新 FaceContour 身体已生成 source-only KTX2 发布旁车，脚本与证据为 `scripts/m2-ktx-pilot-v1/prepare-facecontour-sidecar.py`、`assets-source/m2-ktx-pilot-v1/native-facecontour-sidecar-v1/`、`evidence/m2-ktx-native-facecontour-sidecar-v1/`。旁车绑定精确 body/coverage/material identity，重复编码哈希一致；未改 VRM，未改运行时，未清除预算或 surface blocker。现有 KTX2 runtime adapter 仍只接受旧801身份，后续若接入必须另做 exact-resource loader admission 与 PNG/Canvas 回退验证。
+
+同日批产入口增强身份与回滚保护：runtime report 必须带 record SHA 且与 staged body SHA 精确一致；readiness 记录请求按 bodyType→body SHA 对照 catalog；记录规划失败会删除本轮新写入的 gate/partial output。`python -B -m unittest discover -s scripts/production -p "test_native*.py"` 当前 46 项通过。当前 v5 gate 仍 `acceptedForRuntime=[]`；可观看结果继续使用固定 `bda6fd250bb8` 的 `evidence/m2-native-admission-cycle-v1/index.html`，这是技术候选回放，不是准入版本。

@@ -51,6 +51,18 @@ class NativeBatchGateTests(unittest.TestCase):
             self.assertIsNotNone(row['runtimeEvidence'])
             self.assertEqual(report['acceptedForRuntime'], [])
 
+    def test_runtime_report_with_wrong_body_identity_does_not_clear_lanes(self):
+        source = json.loads(Path('evidence/m2-native-record-plan-v4/runtime/dual-restore/report.json').read_text(encoding='utf-8'))
+        source['inputs'][0]['body']['sha256'] = '0' * 64
+        with tempfile.TemporaryDirectory(dir='output') as temp_dir:
+            report_path = Path(temp_dir) / 'wrong-runtime.json'
+            report_path.write_text(json.dumps(source), encoding='utf-8')
+            report = evaluate(Path('assets-source/native-parameter-game-packages-v1/import-batch.json'),
+                              runtime_report=report_path)
+        row = next(item for item in report['items'] if item['bodyType'] == 'native-contour-roundness-a-v1')
+        self.assertIsNone(row['runtimeEvidence'])
+        self.assertEqual(row['lanes']['runtimeCatalog'], 'unverified')
+
     def test_shared_adapter_evidence_removes_only_the_expression_task(self):
         report = evaluate(
             Path('assets-source/native-parameter-game-packages-v1/import-batch.json'),
