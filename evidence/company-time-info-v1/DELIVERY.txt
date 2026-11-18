@@ -1,0 +1,24 @@
+公司时间与信息装饰固定交付包
+
+固定版本
+- source commit: e7f5cd945e1fed51c197cffe359f0b75c55cd919（QA 控件迁移与封装录制支持）
+- fixed tree: F:/gamemake-company-time-info-fixed-v1
+- fixed tree commit: f515e7c6b8b45867db7eb30a0e63df0315225564
+- build: 96210ac9f301
+- independent delivery: F:/gamemake-company-time-info-delivery-v1
+
+内容
+- 挂墙指针钟四款：analog-clock 分支；挂墙数字钟四款：digital-clock 分支。宿主时间驱动指针/数码段，偏移、开关、亮度和保存恢复沿既有合同工作。
+- 图文信息板四款真实框体，两个独立图文内容资源可替换；内容替换保留框体身份、安装和状态。
+- 墙镜四款真实轮廓与框体，使用受限真实宿主场景反射；验证侧墙、切层释放和异常重建。
+
+验证
+- CPU：时钟数据/14 项几何、信息板数据/15 项几何、镜子数据/165 项几何全部通过。
+- 固定浏览器：时钟 6 组、信息板 7 组、镜子 8 组通过；镜子在本 SwiftShader 环境选择 detail-1024-msaa4-v1。
+- 独立交付浏览器：同三组 QA 全部通过。
+- 独立 npm ci + build 后 viewer 与重建 dist-company 443/443 文件字节一致。
+- 固定与独立均产出正常速度 1× 录像，路径见 identity.json。
+
+边界
+本包验证时间/图文/镜面显示、替换、状态、反射预算、保存恢复和资源释放；不声称普通电脑性能、真实角色使用、经营业务或 C3 最终联调。未修改角色系统、main/navigation、4196 或 60880。
+

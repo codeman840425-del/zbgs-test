@@ -1,0 +1,102 @@
+{
+  "sourceCommit": "3a0f5181eb73538514dcf46abcf262dc762d0897",
+  "build": "96210ac9f301",
+  "playbackSpeed": 1,
+  "steps": [
+    {
+      "name": "mirror-1",
+      "text": "墙镜 1/4 · 真实轮廓与框体，反射同一房间中的绿植。",
+      "seconds": 4.886
+    },
+    {
+      "name": "mirror-2",
+      "text": "墙镜 2/4 · 真实轮廓与框体，反射同一房间中的绿植。",
+      "seconds": 10.664
+    },
+    {
+      "name": "mirror-3",
+      "text": "墙镜 3/4 · 真实轮廓与框体，反射同一房间中的绿植。",
+      "seconds": 15.669
+    },
+    {
+      "name": "mirror-4",
+      "text": "墙镜 4/4 · 真实轮廓与框体，反射同一房间中的绿植。",
+      "seconds": 21.141
+    },
+    {
+      "name": "behind-camera",
+      "text": "绿植位于当前主镜头后方；镜子仍反射它，未使用预制镜像。",
+      "seconds": 26.48
+    },
+    {
+      "name": "moved-object",
+      "text": "移动实际绿植，镜中位置随之变化；镜子和工位不动。",
+      "seconds": 31.276
+    },
+    {
+      "name": "restored",
+      "text": "重开保留镜子外观和绿植布置，镜面重新反射当前场景。",
+      "seconds": 37.442
+    },
+    {
+      "name": "side-wall",
+      "text": "第二布局：镜片随侧墙旋转90度，仍反射真实场景。",
+      "seconds": 42.897
+    },
+    {
+      "name": "building",
+      "text": "返回大楼概览，释放室内镜面显示资源。",
+      "seconds": 45.317
+    },
+    {
+      "name": "returned",
+      "text": "回到本层，重新建立当前楼层的反射。",
+      "seconds": 49.607
+    }
+  ],
+  "limits": [
+    "SwiftShader; not ordinary-PC, role C3 or final human acceptance",
+    "One active planar mirror; other mirror surfaces are explicitly non-realtime"
+  ],
+  "cost": {
+    "reflectionPasses": 136,
+    "preflightPasses": 2,
+    "shaderChecks": 3,
+    "failures": 0,
+    "skipped": 59,
+    "groupUpdates": 136,
+    "preflightGroupUpdates": 2,
+    "lastAdmissionFacePasses": 1,
+    "lastReflection": {
+      "ownerId": "mirror/primary",
+      "faceId": "mirror/primary",
+      "preflight": false,
+      "completed": true,
+      "cpuSubmissionMs": 0.8000000715255737,
+      "calls": 40,
+      "triangles": 4388
+    },
+    "activeId": "mirror/primary",
+    "activeOwnerId": "mirror/primary",
+    "activeFaceIds": [
+      "mirror/primary"
+    ],
+    "activeFaceCount": 1,
+    "candidateOwnerId": null,
+    "candidateFaceCount": 0,
+    "maxFacesPerMirror": 3,
+    "maxLiveTargets": 3,
+    "maxHandoffTargets": 6,
+    "inPass": false,
+    "resources": {
+      "created": 3,
+      "disposed": 2,
+      "live": 1,
+      "peak": 1
+    },
+    "hostFrameId": 195,
+    "hostTimeMs": 18287.600000023842
+  },
+  "status": "recorded",
+  "scriptSeconds": 49.766
+}

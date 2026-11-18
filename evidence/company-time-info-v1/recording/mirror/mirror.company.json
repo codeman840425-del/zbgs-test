@@ -1,0 +1,281 @@
+{
+  "schema": "company-save",
+  "version": 1,
+  "document": {
+    "schema": "company-layout",
+    "version": 1,
+    "id": "appearance-mirror",
+    "name": "墙镜 · 真实场景反射",
+    "revision": 6,
+    "scale": "single-room",
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "nodes": [
+      {
+        "id": "appearance-mirror/floor-1",
+        "kind": "floor",
+        "parentId": "appearance-mirror",
+        "name": "一层",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "appearance-mirror/room-1",
+        "kind": "room",
+        "parentId": "appearance-mirror/floor-1",
+        "name": "直播间",
+        "purpose": "streaming",
+        "bounds": {
+          "width": 7,
+          "depth": 5.25
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "mirror/station",
+        "kind": "workstation",
+        "parentId": "appearance-mirror/room-1",
+        "name": "mirror/station",
+        "transform": {
+          "position": [
+            -1.2,
+            0,
+            0.3
+          ],
+          "yaw": 0
+        },
+        "template": {
+          "id": "stream-station",
+          "version": 1
+        }
+      },
+      {
+        "id": "mirror/station/desk",
+        "kind": "facility",
+        "stationId": "mirror/station",
+        "partKey": "desk",
+        "parentId": "mirror/station",
+        "resource": {
+          "id": "desk",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            -0.9
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "mirror/station/monitor",
+        "kind": "facility",
+        "stationId": "mirror/station",
+        "partKey": "monitor",
+        "parentId": "mirror/station/desk",
+        "resource": {
+          "id": "monitor",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        },
+        "state": {
+          "on": true
+        }
+      },
+      {
+        "id": "mirror/station/keyboard",
+        "kind": "facility",
+        "stationId": "mirror/station",
+        "partKey": "keyboard",
+        "parentId": "mirror/station/desk",
+        "resource": {
+          "id": "keyboard",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.21
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "mirror/station/microphone",
+        "kind": "facility",
+        "stationId": "mirror/station",
+        "partKey": "microphone",
+        "parentId": "mirror/station/desk",
+        "resource": {
+          "id": "desk-microphone",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.8,
+            0.84,
+            0.18
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "mirror/station/chair",
+        "kind": "facility",
+        "stationId": "mirror/station",
+        "partKey": "chair",
+        "parentId": "mirror/station",
+        "resource": {
+          "id": "chair",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        },
+        "state": {}
+      },
+      {
+        "id": "mirror/station/fill-light",
+        "kind": "facility",
+        "stationId": "mirror/station",
+        "partKey": "fill-light",
+        "parentId": "mirror/station",
+        "resource": {
+          "id": "fill-light",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.15
+          ],
+          "yaw": 0
+        },
+        "state": {
+          "on": true,
+          "intensity": 5
+        }
+      },
+      {
+        "id": "mirror/primary",
+        "kind": "facility",
+        "parentId": "appearance-mirror/room-1",
+        "resource": {
+          "id": "mirror-full",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            1.2,
+            1.4,
+            -2.525
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      },
+      {
+        "id": "mirror/object",
+        "kind": "facility",
+        "parentId": "appearance-mirror/room-1",
+        "resource": {
+          "id": "plant-palm",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            1.8,
+            0,
+            1.5
+          ],
+          "yaw": 0
+        },
+        "state": {}
+      }
+    ]
+  },
+  "dependencies": {
+    "resources": [
+      {
+        "id": "chair",
+        "version": 1,
+        "sha256": "85593a00831a465019d57cf167cb7728bea6eb8b4df921f637f6720247d48c07"
+      },
+      {
+        "id": "desk-microphone",
+        "version": 1,
+        "sha256": "c519d0db034673cdc1d02de653ee8a5e6540d9aee355b7668a62629d2d27e853"
+      },
+      {
+        "id": "desk",
+        "version": 1,
+        "sha256": "938b3904b32bb89d6fe18518b50619adeb93fe0b1e9408a4b1e3d400735163d8"
+      },
+      {
+        "id": "fill-light",
+        "version": 1,
+        "sha256": "52a149c6017acf6ca35b5987c651870c353bc036f299e1fdbc1e037955d3bd4b"
+      },
+      {
+        "id": "keyboard",
+        "version": 1,
+        "sha256": "52423572c215536ef73c6daf96157912893f661000b9ca741dc35051a4b7d9d9"
+      },
+      {
+        "id": "mirror-full",
+        "version": 1,
+        "sha256": "0895044535670b8a577fb12eae518b915024da5328efdac4ada52397ee21be84"
+      },
+      {
+        "id": "monitor",
+        "version": 1,
+        "sha256": "cc761bf4e4fc786e1cccdfef1af1f4ec01a4f0049a3b142733091c0bf66f4fd0"
+      },
+      {
+        "id": "plant-palm",
+        "version": 1,
+        "sha256": "185d7a6f57c0db0aca89e9432bd00a8ecaf62807ab35aaf6effa6f8b759ffbdb"
+      }
+    ],
+    "templates": [
+      {
+        "id": "stream-station",
+        "version": 1,
+        "sha256": "47dc0c9ae9e042c8e36a728022536ad2abbded2c7afebf314e8cf8105a74bdbc"
+      }
+    ]
+  }
+}
