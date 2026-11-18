@@ -2,11 +2,14 @@
 import copy
 import json
 from pathlib import Path
+import shutil
 import tempfile
 import unittest
 from unittest.mock import patch
 
 import native_body_package as package
+
+YUN_CONFIG = package.ROOT / "output/native-removal-fit-intake-v1/yun-config.json"
 
 
 def snapshot(folder):
@@ -65,6 +68,20 @@ class GarmentSelectionTests(unittest.TestCase):
         self.assert_incompatible('one primitive claims multiple slots: top, bottom', "node[1] 'Fixture Body'",
                                  'mesh[0] primitive[1] material[1]')
 
+    def test_top_group_needs_exact_ordered_members_without_partial_matches(self):
+        prims = self.doc["meshes"][0]["primitives"]
+        prims.append({**prims[1], "material": 4})
+        self.doc["materials"].append({**self.doc["materials"][1], "name": "Fixture_Tops_02_CLOTH"})
+        members = [self.mapping["top"], {**self.mapping["top"], "primitive": 4, "material": 4}]
+        for bad in ([members[0]], members[::-1], [*members, members[1]], [members[0], self.mapping["shoes"]],
+                    [members[0], {**members[1], "skin": False}]):
+            with self.subTest(wrong=bad), self.assertRaisesRegex(ValueError, "top removal members"):
+                package.garment_selection(self.doc, self.consumer, self.item, verified_top_members=bad)
+        self.item["garmentSelection"] = dict(self.mapping, top=members)
+        selections = package.garment_selection(self.doc, self.consumer, self.item, verified_top_members=members)[2]
+        self.assertEqual([member["primitive"] for member in selections[0][1]], [1, 4])
+        self.assertEqual(selections[1:], [('bottom', 2, 'Bottoms'), ('shoes', 3, 'Shoes')])
+
     def test_one_piece_rejects_even_when_all_three_standard_slots_exist(self):
         extras = copy.deepcopy(self.doc['materials'][1])
         extras['name'] = 'Fixture_OnePiece_01_CLOTH'
@@ -104,6 +121,14 @@ class NativePackageTests(unittest.TestCase):
     def test_rebuilds_and_shared_import(self):
         first = package.build(self.config, self.output)
         self.assertTrue(first["passed"], first)
+        for row in self.config["items"]:
+            historical = package.DEFAULT / row["id"]
+            for path in historical.iterdir():
+                actual = (self.output / row["id"] / path.name).read_bytes()
+                if path.name in {"extraction.json", "import-spec.json"}:
+                    actual = actual.replace(self.output.relative_to(package.ROOT).as_posix().encode(),
+                                            package.DEFAULT.relative_to(package.ROOT).as_posix().encode())
+                self.assertEqual(package.sha(actual), package.sha(path.read_bytes()), path.name)
         before = snapshot(self.output)
         self.assertEqual(first, package.build(self.config,self.output))
         self.assertEqual(before,snapshot(self.output))
@@ -111,6 +136,109 @@ class NativePackageTests(unittest.TestCase):
         report = package.importer.execute(batch,package.ROOT,self.output.parent/"runtime-inputs")
         self.assertTrue(report["passed"],report)
         self.assertEqual([r["bodySha256"] for r in report["items"]],[r["bodySha256"] for r in first["items"]])
+
+    def test_external_recipe_claims_cannot_replace_native_replay(self):
+        self.config["items"] = self.config["items"][:1]
+        item = self.config["items"][0]
+        raw = package.encode({"schema": "native-top-removal-fit-receipt-v1", "status": "native-top-and-skin-verified"})
+        path = self.output.parent / "fake.json"
+        path.write_bytes(raw)
+        item["topRemovalRecipe"] = {"path": path.relative_to(package.ROOT).as_posix(), "sha256": package.sha(raw)}
+        del self.config["donor"], self.config["mask"]
+        rejected = package.build(self.config, self.output)
+        self.assertFalse(rejected["passed"])
+        self.assertIn("Unknown native top removal fit recipe", rejected["items"][0]["reason"])
+        self.assertFalse(list(self.output.iterdir()))
+        item["topRemovalRecipe"]["sha256"] = "0" * 64
+        rejected = package.build(self.config, self.output)
+        self.assertIn("recipe SHA mismatch", rejected["items"][0]["reason"])
+
+    def test_item_without_removal_proof_still_needs_the_legacy_inputs(self):
+        self.config["items"][0]["topRemovalRecipe"] = {"path": "unused.json", "sha256": "0" * 64}
+        del self.config["donor"]
+        with self.assertRaisesRegex(ValueError, "Missing required package input: donor"):
+            package.build(self.config, self.output)
+        self.assertFalse(self.output.exists())
+
+    def test_authoring_identity_and_verified_recipe_outputs(self):
+        row = self.config["items"][0]
+        studio_sha = row["candidate"]["sha256"]
+        row["topRemovalRecipe"] = self.config["authoringBatch"]
+        donor, masked = b"verified original layout", b"masked"
+        templ = self.config["template"]["sha256"]
+        saved = "7" * 64
+        proof = dict(schema="native-top-removal-fit-receipt-v1", status="native-top-and-skin-verified",
+                     donor={"sha256": package.sha(donor), "bytes": len(donor)}, coveredPngSha256=package.sha(masked),
+                     sourceSha256=studio_sha, originalEditableSha256=templ, referenceSha256="8" * 64,
+                     groupId="test-group", coldGroupReadback=False, members=[{"primitive": 1}])
+        with patch("native_top_removal_fit.derive", return_value=(donor, masked, proof)):
+            with self.assertRaisesRegex(ValueError, "original editable differs"):
+                package.removal_inputs(self.config, row, saved)
+            self.config["baseline"] = row["candidate"]
+            self.assertEqual(package.removal_inputs(self.config, row, saved), (donor, masked, proof))
+            self.config["baseline"] = {"sha256": "0" * 64}
+            proof["originalEditableSha256"] = saved
+            self.assertEqual(package.removal_inputs(self.config, row, saved)[0], donor)
+            proof["sourceSha256"] = "1" * 64
+            with self.assertRaisesRegex(ValueError, "source differs"):
+                package.removal_inputs(self.config, row, saved)
+
+    @unittest.skipUnless((package.ROOT / "output/native-group-extractor-13/studio-13-nami-yu.vrm").exists(),
+                         "Private studio multi-primitive source unavailable")
+    def test_real_multi_part_top_with_singleton_bottom_and_shoes(self):
+        folder = package.ROOT / "output/native-group-extractor-13"
+        source = folder / "studio-13-nami-yu.vrm"
+        spec = dict(sourcePath=source.relative_to(package.ROOT).as_posix(),
+                    sourceSha256="254fedea6b91273df2f1d6f06670b954f3a77a3aa0d14dc4b679aeda475ee83a",
+                    sourceNode=112, sourceNodeName="Body", sourceMesh=1, sourceSkin=1,
+                    idPrefix="test-", equipmentId="test-13", limits=["CPU fixture", "Bindings only"])
+        members = [dict(node=112, mesh=1, skin=1, primitive=p, material=m) for p, m in ((3, 11), (4, 12))]
+        body = package.GLB(source)
+        _, _, _, consumer = package.skin.body(body)
+        selections = package.garment_selection(body.doc, consumer, {"id": "multi-part-test"},
+                                               verified_top_members=members)[2]
+        files = package.extract_garments(spec, selections, self.output.parent)
+        catalog = json.loads(files["equipment.json"])
+        self.assertEqual([e["slot"] for e in catalog["items"]], ["top", "bottom", "shoes"])
+        single = package.equipment.extract(dict(spec, primitives=selections[1:]), self.output.parent)
+        for entry in catalog["items"]:
+            path = self.output.parent / entry["url"]
+            path.write_bytes(files[entry["url"]])
+            expected = [3, 4] if entry["slot"] == "top" else None
+            package.bindings_and_buffers(body, package.GLB(path), entry, expected_primitives=expected)
+            if expected is None:
+                self.assertEqual(files[entry["url"]], single[entry["url"]])
+
+    @unittest.skipUnless(YUN_CONFIG.exists(), "Private Yun Lan native receipts unavailable")
+    def test_relocated_authoring_inputs_keep_the_same_runtime_bytes(self):
+        config = json.loads(YUN_CONFIG.read_bytes())
+        item, = config["items"]
+        first = package.build(config, self.output)
+        self.assertTrue(first["passed"], first)
+        moved = self.output.parent / "moved-inputs"
+        moved.mkdir()
+        source = package.pinned(item["candidate"])
+        author = json.loads(package.pinned(config["authoringResult"]).read_bytes())
+        record, = [r for r in author["items"] if r["id"] == item["id"]]
+        shutil.copyfile(source, moved / source.name)
+        editable = record["editable"]["path"]
+        shutil.copyfile(source.parent / editable, moved / editable)
+        item["candidate"]["path"] = (moved / source.name).relative_to(package.ROOT).as_posix()
+        recipe = package.pinned(item["topRemovalRecipe"]).read_bytes() + b"\n"
+        recipe_path = moved / "reformatted.json"
+        recipe_path.write_bytes(recipe)
+        item["topRemovalRecipe"] = dict(path=recipe_path.relative_to(package.ROOT).as_posix(), sha256=package.sha(recipe))
+        again = self.output.parent / "replayed"
+        self.assertEqual(package.build(config, again), first)
+        before, after = self.output / item["id"], again / item["id"]
+        runtime = json.loads((before / "import-spec.json").read_bytes())["files"]
+        self.assertEqual(len(runtime), 7)
+        for name in runtime:
+            self.assertEqual((before / name).read_bytes(), (after / name).read_bytes(), name)
+        lineage = json.loads((after / "manifest.json").read_bytes())["sourceMaskLineage"]
+        self.assertEqual(set(lineage), {"sourceSha256", "referenceSha256", "originalEditableSha256", "coveredPngSha256",
+                                        "groupId", "members", "coldGroupReadback"})
+        self.assertNotEqual((before / "provenance.json").read_bytes(), (after / "provenance.json").read_bytes())
 
     def test_wrong_source_identity_isolated_then_retried(self):
         wrong = copy.deepcopy(self.config)

@@ -11,6 +11,7 @@ import re
 import subprocess
 import sys
 import tempfile
+from types import SimpleNamespace
 
 import numpy as np
 from PIL import Image
@@ -56,7 +57,13 @@ def pinned(ref):
 
 def resources(config):
     verify(config["schema"] == "native-body-package-recipe-v1", "Unknown recipe")
-    paths = {k:pinned(config[k]) for k in ("template","donor","baseline","mask","authoringResult","authoringBatch")}
+    legacy = any("topRemovalRecipe" not in item for item in config["items"])
+    paths = {}
+    for key in ("template","donor","baseline","mask","authoringResult","authoringBatch"):
+        if key in ("donor", "mask") and not legacy and key not in config:
+            continue
+        verify(key in config, "Missing required package input: " + key)
+        paths[key] = pinned(config[key])
     batch = json.loads(paths["authoringBatch"].read_bytes())
     verify(batch["template"]["sha256"] == config["template"]["sha256"], "Authoring template mismatch")
     return paths, batch, json.loads(paths["authoringResult"].read_bytes())
@@ -74,8 +81,8 @@ def check_body_uv(reference, candidate):
                "Body indexed attribute differs: " + attr)
 
 
-def garment_selection(doc, consumer, item):
-    """Check the existing single-owner, three-primitive extraction contract."""
+def garment_selection(doc, consumer, item, *, verified_top_members=None):
+    """Use legacy singleton slots unless native removal proves the exact ordered top group."""
     nodes, meshes, materials = (doc[key] for key in ("nodes", "meshes", "materials"))
     body_mesh = consumer["mesh"]
 
@@ -106,6 +113,7 @@ def garment_selection(doc, consumer, item):
         mesh_owners = owners_by_mesh.get(mesh, [])
         for prim, primitive in enumerate(data["primitives"]):
             material = primitive["material"]
+            verify(type(material) is int and 0 <= material < len(materials), "Invalid primitive material index")
             name = materials[material]["name"]
             selectors = [dict(node=i, mesh=mesh, skin=nodes[i].get("skin") if i is not None else None,
                               primitive=prim, material=material) for i in mesh_owners or [None]]
@@ -121,40 +129,51 @@ def garment_selection(doc, consumer, item):
             elif "_CLOTH" in name:
                 unknown_clothes.extend(selectors)
 
+    if verified_top_members is not None:
+        verify(isinstance(verified_top_members, list) and verified_top_members and
+               all(isinstance(r, dict) and set(r) == GARMENT_SELECTOR_KEYS and
+                   all(type(i) is int and i >= 0 for i in r.values()) for r in verified_top_members),
+               "Invalid verified top removal members")
+        if verified_top_members != found["top"]:
+            fail("verified top removal members differ from all source top primitives", found["top"] + verified_top_members)
+    grouped = len(found["top"]) > 1 and verified_top_members is not None
     selected = {}
     for slot, _ in GARMENT_SLOTS:
         candidates = found[slot]
         if not candidates:
             fail(f"missing slot {slot!r} on the Body mesh", inspected + [r for r in unknown_clothes if r["mesh"] != body_mesh])
-        if len(candidates) > 1:
+        if len(candidates) > 1 and not (slot == "top" and grouped):
             fail(f"multiple candidates for slot {slot!r}. This extractor requires one primitive per slot", candidates)
-        selected[slot] = candidates[0]
+        selected[slot] = candidates
     if unknown_clothes:
         fail("unmapped clothing primitive requires a supported slot and coverage contract", unknown_clothes)
 
     if "garmentSelection" in item:
         requested = item["garmentSelection"]
         if not isinstance(requested, dict) or set(requested) != set(found):
-            fail("garmentSelection requires exactly top, bottom and shoes. Multi-part and onePiece are unsupported",
-                 selected.values())
+            detail = ("Only the verified top may have multiple members" if grouped
+                      else "Multi-part and onePiece are unsupported")
+            fail("garmentSelection requires exactly top, bottom and shoes. " + detail, inspected)
         claimed = set()
         for slot, _ in GARMENT_SLOTS:
-            selector = requested[slot]
-            if (not isinstance(selector, dict) or set(selector) != GARMENT_SELECTOR_KEYS or
-                    any(type(index) is not int or index < 0 for index in selector.values())):
-                fail(f"invalid garmentSelection selector for slot {slot!r}. Expected one exact node/mesh/skin/primitive/material",
-                     [selected[slot]])
-            key = (selector["mesh"], selector["primitive"])
-            if key in claimed:
-                fail(f"garmentSelection assigns the same primitive to multiple slots at {slot!r}", [selector])
-            claimed.add(key)
-        for slot, selector in selected.items():
-            if requested[slot] != selector:
-                fail(f"garmentSelection for slot {slot!r} differs from the verified primitive", [requested[slot], selector])
+            selectors = requested[slot] if slot == "top" and grouped else [requested[slot]]
+            if not isinstance(selectors, list) or not selectors:
+                fail(f"invalid garmentSelection selector for slot {slot!r}", selected[slot])
+            for selector in selectors:
+                if (not isinstance(selector, dict) or set(selector) != GARMENT_SELECTOR_KEYS or
+                        any(type(index) is not int or index < 0 for index in selector.values())):
+                    fail(f"invalid garmentSelection selector for slot {slot!r}", selected[slot])
+                key = (selector["mesh"], selector["primitive"])
+                if key in claimed:
+                    fail(f"garmentSelection assigns the same primitive to multiple slots at {slot!r}", [selector])
+                claimed.add(key)
+        for slot, selectors in selected.items():
+            supplied = requested[slot] if slot == "top" and grouped else [requested[slot]]
+            if supplied != selectors:
+                fail(f"garmentSelection for slot {slot!r} differs from the verified primitive", supplied + selectors)
 
     selections, names = [], {}
-    for slot, token in GARMENT_SLOTS:
-        selector = selected[slot]
+    def checked_member(slot, selector):
         if selector["node"] != body_owner or selector["mesh"] != body_mesh:
             fail(f"slot {slot!r} is outside the single skinned Body mesh. A separate part is unsupported", [selector])
         skin_index = selector["skin"]
@@ -167,8 +186,12 @@ def garment_selection(doc, consumer, item):
                 not {"POSITION", "JOINTS_0", "WEIGHTS_0"} <= primitive.get("attributes", {}).keys() or
                 "VRMC_materials_mtoon" not in material.get("extensions", {})):
             fail(f"slot {slot!r} requires an indexed, weighted MToon triangle primitive without morph targets", [selector])
-        selections.append((slot, selector["primitive"], token))
-        names[slot] = material["name"]
+        return dict(primitive=selector["primitive"], material=selector["material"], materialName=material["name"])
+
+    for slot, token in GARMENT_SLOTS:
+        members = [checked_member(slot, s) for s in selected[slot]]
+        selections.append((slot, members if len(members) > 1 else members[0]["primitive"], token))
+        names[slot] = members[0]["materialName"]
     return body_owner, node, selections, names
 
 
@@ -209,6 +232,53 @@ def bindings_and_buffers(body, garment, item, *, expected_primitives=None):
                np.array_equal(ibm[index], binding["inverseBindMatrix"]), "Named raw binding differs")
 
 
+def removal_inputs(config, item, editable_sha):
+    from native_top_removal_fit import derive
+
+    link = item["topRemovalRecipe"]
+    verify(isinstance(link, dict) and set(link) == {"path", "sha256"}, "Expected a pinned topRemovalRecipe")
+    raw = importer.confined(ROOT, link["path"]).read_bytes()
+    verify(sha(raw) == link["sha256"], "Top removal recipe SHA mismatch")
+    donor, masked, proof = derive(json.loads(raw))
+    source_sha = item["candidate"]["sha256"]
+    verify(proof.get("schema") == "native-top-removal-fit-receipt-v1" and
+           proof.get("status") == "native-top-and-skin-verified" and
+           proof.get("donor") == {"sha256": sha(donor), "bytes": len(donor)} and
+           proof.get("coveredPngSha256") == sha(masked), "Native top removal output identity differs")
+    verify(proof["sourceSha256"] == source_sha, "Top removal source differs from native item")
+    original_editable = proof["originalEditableSha256"]
+    verify(original_editable == editable_sha or
+           (original_editable == config["template"]["sha256"] and source_sha == config["baseline"]["sha256"]),
+           "Top removal original editable differs from verified authoring result and baseline template")
+    verify(isinstance(proof["groupId"], str) and proof["groupId"] and
+           re.fullmatch("[0-9a-f]{64}", proof["referenceSha256"]) and type(proof.get("coldGroupReadback")) is bool
+           and isinstance(proof.get("members"), list) and proof["members"],
+           "Missing native top removal evidence")
+    return donor, masked, proof
+
+
+def extract_garments(spec, selections, temp):
+    # Keep the historical GLB, manifest and trace encoding for every singleton.
+    singles = [s for s in selections if isinstance(s[1], int)]
+    files = equipment.extract(dict(spec, primitives=singles), temp)
+    groups = [dict(slot=slot, members=members) for slot, members, _ in selections if isinstance(members, list)]
+    if groups:
+        grouped = equipment.extract(dict(spec, primitiveGroups=groups), temp)
+        for name, field in (("equipment.json", "items"), ("extraction.json", "records")):
+            first, rest = json.loads(grouped.pop(name)), json.loads(files.pop(name))
+            if field == "records":
+                for row in rest[field]:
+                    member = {k: row.pop(k) for k in ("sourcePrimitive", "sourceMaterial", "materialName",
+                              "sourceAttributes", "sourceIndices", "triangles", "attributeRows")}
+                    row["maps"]["materials"] = {str(member["sourceMaterial"]): 0}
+                    row.update(members=[member], selectionStatus="single-native-slot", fitAccepted=False, runtimeAccepted=False)
+            first[field].extend(rest[field])
+            files[name] = encode(first)
+        verify(not (files.keys() & grouped.keys()), "Conflicting equipment outputs")
+        files.update(grouped)
+    return files
+
+
 def create(config, common, item, dest, temp):
     paths, batch, result = common
     ident = item["id"]
@@ -222,20 +292,35 @@ def create(config, common, item, dest, temp):
            "Native final parameters not confirmed")
     verify(delta["baseline"]["sha256"] == config["baseline"]["sha256"] and
            delta["candidate"]["sha256"] == item["candidate"]["sha256"] == row["exported"]["sha256"], "Wrong delta or native export identity")
-    editable = native.parent/row["editable"]["path"]
+    editable = importer.confined(native.parent, row["editable"]["path"])
     verify(sha(editable.read_bytes()) == row["editable"]["sha256"], "Native editable SHA mismatch")
-    original, baseline, donor = (GLB(p) for p in (native, paths["baseline"], paths["donor"]))
+    original = GLB(native)
     _, mat, masked, consumer = skin.body(original)
-    ni, node, selections, names = garment_selection(original.doc, consumer, item)
-    check_body_uv(baseline, original)
+    proof = None
+    if "topRemovalRecipe" in item:
+        from native_top_removal_fit import runtime_lineage
+
+        derived, expected_mask, proof = removal_inputs(config, item, row["editable"]["sha256"])
+        donor = GLB(SimpleNamespace(read_bytes=lambda: derived))
+        lineage = runtime_lineage(proof)
+    else:
+        baseline, donor = (GLB(paths[key]) for key in ("baseline", "donor"))
+        check_body_uv(baseline, original)
+        expected_mask = paths["mask"].read_bytes()
+        verify(masked == skin.body(baseline)[2], "Native covered Body PNG differs from the verified top mask")
+        lineage = dict(nativeMasked=item["candidate"], originalMask=config["mask"])
+    ni, node, selections, names = garment_selection(original.doc, consumer, item,
+                                                    verified_top_members=proof["members"] if proof else None)
     check_body_uv(donor, original)
     _, _, full, _ = skin.body(donor)
-    verify(masked == paths["mask"].read_bytes() == skin.body(baseline)[2], "Native covered Body PNG differs from the verified top mask")
+    verify(masked == expected_mask, "Native covered Body PNG differs from the verified top mask")
     a, b = [np.asarray(Image.open(io.BytesIO(data)).convert("RGBA")) for data in (full,masked)]
     verify(a.shape == b.shape and np.all(a[:,:,3] == 255) and np.array_equal(a[:,:,:3], b[:,:,:3]), "Body mask changed RGB or dimensions")
     changed = int(np.count_nonzero(a[:,:,3] != b[:,:,3]))
     verify(changed > 0, "Missing coverage alpha change")
     body_raw = geometry.encode(copy.deepcopy(original.doc), original.bin, consumer["image"], full)
+    if proof is not None:
+        verify(body_raw == derived, "Removal donor changes data outside the original Body PNG")
     body_path = temp/"body.vrm"
     body_path.write_bytes(body_raw)
     target = GLB(body_path)
@@ -249,9 +334,9 @@ def create(config, common, item, dest, temp):
     url_root = "/assets/" + package + "/"
     spec = dict(sourcePath=body_path.relative_to(ROOT).as_posix(), sourceSha256=body_sha,
                 sourceNode=ni, sourceNodeName=node["name"], sourceMesh=node["mesh"], sourceSkin=node["skin"],
-                primitives=selections, idPrefix="native-"+ident+"-", equipmentId=package+"-equipment",
+                idPrefix="native-"+ident+"-", equipmentId=package+"-equipment",
                 limits=["Exact same-source three garments only","Runtime fit/contact pending"])
-    files = equipment.extract(spec, temp)
+    files = extract_garments(spec, selections, temp)
     trace = json.loads(files.pop("extraction.json"))
     trace["sourcePath"] = (dest/"body.vrm").relative_to(ROOT).as_posix()
     files["extraction.json"] = encode(trace)
@@ -259,8 +344,10 @@ def create(config, common, item, dest, temp):
         (temp/name).write_bytes(data)
     catalog = json.loads(files["equipment.json"])
     rules, ids = [], {}
+    group_indices = {slot: [m["primitive"] for m in members]
+                     for slot, members, _ in selections if isinstance(members, list)}
     for entry in catalog["items"]:
-        bindings_and_buffers(target, GLB(temp/entry["url"]), entry)
+        bindings_and_buffers(target, GLB(temp/entry["url"]), entry, expected_primitives=group_indices.get(entry["slot"]))
         rules.append({k:entry[k] for k in ("id","slot","sha256","compatibleAvatarSha256")} |
                      dict(covered=entry["slot"]=="top",required=True))
         ids["shorts" if entry["slot"] == "bottom" else entry["slot"]] = entry["id"]
@@ -269,9 +356,11 @@ def create(config, common, item, dest, temp):
     coverage = dict(schema="native-body-texture-coverage-v1",id=package+"-coverage",avatarSha256=body_sha,
                     materialName=mat["name"],width=a.shape[1],height=a.shape[0],alphaTest=mat.get("alphaCutoff",.5),
                     basePngSha256=sha(full),covered=dict(url="native-tops-body.png",sha256=sha(masked)),
-                    rgbPreserved=True,equipment=rules,sourceMaskLineage=dict(nativeMasked=item["candidate"],originalMask=config["mask"]))
+                    rgbPreserved=True,equipment=rules,sourceMaskLineage=lineage)
     coverage_bytes = encode(coverage)
-    profile = dict(id=package,label=item["label"],source="VRoid native FaceContour recipe; exact embedded garments and complete-skin donor",
+    source_description = ("VRoid native Tops removal and same-body skin recovery; exact embedded garments"
+                          if proof is not None else "VRoid native FaceContour recipe; exact embedded garments and complete-skin donor")
+    profile = dict(id=package,label=item["label"],source=source_description,
                    fitStatus="Same-source geometry, raw bindings and CPU rest floor checked; gameplay fit and contact pending",
                    url=url_root+"body.vrm",sha256=body_sha,manifestUrl=url_root+"equipment.json",
                    sourceFloorY=floor["rest"],sourceRawFloorY=floor["raw"],baseBodyDisplay="source-with-hair",
@@ -289,11 +378,14 @@ def create(config, common, item, dest, temp):
             "import-spec.json":encode(dict(schema="native-parameter-factory-staging-v1",bodyFile="body.vrm",bodySha256=body_sha,
                                             bodyType=package,urlRoot=url_root,files={n:[(dest/n).relative_to(ROOT).as_posix(),sha(v)] for n,v in files.items()})),
             "provenance.json":encode(dict(schema="native-parameter-body-provenance-v1",id=ident,
-                inputs={k:config[k] for k in paths},native=item["candidate"],editable=row["editable"],delta=item["delta"],
+                inputs={k:config[k] for k in paths if proof is None or k not in ("donor","mask")}
+                | ({"topRemovalRecipe": item["topRemovalRecipe"]} if proof is not None else {}),
+                native=item["candidate"],editable=row["editable"],delta=item["delta"],
                 recipeValues=recipe["values"],changedCoverageAlphaPixels=changed,bodyConsumer=consumer,
                 allNativeAccessorsPreserved=len(target.doc["accessors"]),garmentAttributesAndInverseBindsExact=True,
                 bodySha256=body_sha,sourceMeta=original.doc["extensions"]["VRMC_vrm"]["meta"],
-                floor=floor,followUp=delta["requiredChecks"],runtimeAccepted=False,visualAccepted=False))}
+                floor=floor,followUp=delta["requiredChecks"],runtimeAccepted=False,visualAccepted=False,
+                **({"topRemovalReadback": proof} if proof is not None else {})))}
     for name,raw in data.items():
         (temp/name).write_bytes(raw)
     importer.bindings(temp, {"bodyFile":"body.vrm"})
@@ -301,7 +393,9 @@ def create(config, common, item, dest, temp):
 
 
 def build(config, output=DEFAULT):
-    output = output.resolve()
+    from production_paths import project_output
+
+    output = project_output(output, __file__)
     verify(output.is_relative_to(ROOT) and output != ROOT, "Output must be in repository")
     common = resources(config)
     ids = [r["id"] for r in config["items"]]
@@ -312,6 +406,7 @@ def build(config, output=DEFAULT):
         ident = item["id"]
         dest = output/ident
         try:
+            verify(project_output(dest, __file__) == dest, "Redirected package destination")
             with tempfile.TemporaryDirectory(dir=output,prefix=".prepare-") as scratch:
                 folder = Path(scratch)/"package"
                 folder.mkdir()

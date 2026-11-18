@@ -47,12 +47,29 @@ def coverage_entry(folder, staged, spec, native_file, lineage):
     changed = int(np.count_nonzero(base[:,:,3] != covered[:,:,3]))
     if not changed or changed != lineage['changedCoverageAlphaPixels']:
         raise ValueError('Coverage alpha readback differs from source provenance')
+    source_mask = manifest['sourceMaskLineage']
+    if ('topRemovalRecipe' in lineage['inputs'] or 'topRemovalReadback' in lineage or 'groupId' in source_mask):
+        from native_body_package import bindings_and_buffers
+        from native_top_removal_fit import derive, runtime_lineage
+        proof_pin = lineage['inputs'].get('topRemovalRecipe')
+        if not proof_pin:
+            raise ValueError('Missing source recipe for native top removal')
+        _, proof_bytes = pinned(proof_pin)
+        donor, native_mask, proof = derive(json.loads(proof_bytes))
+        if (proof != lineage.get('topRemovalReadback') or runtime_lineage(proof) != source_mask
+                or proof['sourceSha256'] != lineage['native']['sha256'] or native_mask != masked
+                or importer.digest(donor) != spec['bodySha256']):
+            raise ValueError('Recomputed upper garment, skin or authoring receipt differs')
+        equipment = json.loads((staged / 'equipment.json').read_bytes())
+        top, = [row for row in equipment['items'] if row['slot'] == 'top']
+        glb = GLB(importer.confined(staged, top['url']))
+        bindings_and_buffers(GLB(base_path), glb, top, expected_primitives=[r['primitive'] for r in proof['members']])
     return dict(avatarSha256=spec['bodySha256'],manifestSha256=importer.digest(manifest_bytes),
                 basePngSha256=manifest['basePngSha256'],maskedPngSha256=manifest['covered']['sha256'],
                 evidence=(folder/'provenance.json').relative_to(ROOT).as_posix())
 
 
-def registration(item, prepared, group):
+def registration(item, prepared, group, *, prepared_root=None):
     spec_path = importer.confined(ROOT, item['spec'])
     spec_bytes = spec_path.read_bytes()
     if importer.digest(spec_bytes) != prepared['specSha256']:
@@ -77,7 +94,8 @@ def registration(item, prepared, group):
             or final['exported']['sha256'] != source['sourceExportSha256'] or lineage['native']['sha256'] != source['sourceExportSha256']
             or source['recipeSha256'] != importer.digest(recipe_bytes)):
         raise ValueError('Profile, native export and authoring recipe identities differ')
-    staged = ROOT / 'output/native-production-registration' / item['package']
+    prepared_root = ROOT / 'output/native-production-registration' if prepared_root is None else prepared_root
+    staged = importer.confined(prepared_root, item['package'])
     equipment = json.loads((staged / 'equipment.json').read_bytes())
     ids = {('shorts' if e['slot'] == 'bottom' else e['slot']):e['id'] for e in equipment['items']}
     p = source['profile']
