@@ -154,6 +154,21 @@ FOUNDATION_PROFILES['m2-male-lower-leg-v1'] = {
 
 Object.assign(FOUNDATION_PROFILES,REPRESENTATIVE_PROFILES);
 
+// The publisher VRM and the Blender roundtrip have different inverse binds.
+// The shoe floor below was measured on the publisher mesh after rest skinning.
+FOUNDATION_PROFILES['source-male-ab9a-v1'] = {
+  id: 'source-male-ab9a-v1', label: '男性原始导出 · 分件服装候选',
+  source: 'Base_Male / publisher VRM0 with garments extracted from its own skin',
+  url: '/assets/raw-male-equipment-v1/Base_Male.vrm',
+  sha256: 'ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c',
+  manifestUrl: '/assets/raw-male-equipment-v1/equipment.json',
+  sourceFloorY: 0.000494730619615788,
+  ids: {top:'raw-male-ab9a-uniform-top-v1', pants:'raw-male-ab9a-uniform-pants-v1', shoes:'raw-male-ab9a-flat-shoes-v1'},
+  pantsLabel: '原版上衣、长裤和平底鞋',
+  seatLayerThickness: 0,
+  fitStatus: 'Source-specific equipment candidate; seat contact, surface coverage and device budget need independent checks.',
+};
+
 // Explicit technical candidate. Not listed by the normal appearance menu.
 // Own source geometry/skin/binds; no old-body accessory or contact fits inherited.
 FOUNDATION_PROFILES['native-female-843ac-v1'] = {

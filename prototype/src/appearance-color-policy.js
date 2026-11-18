@@ -6,6 +6,7 @@ import {nativeLipColorContract} from './native-lip-color-contract.js';
 // source families retain their prior color presets and resource preparation.
 const originalOnly = Object.freeze({hairColor:false,skinTone:false,eyeColor:false,lipColor:false});
 const sourcePolicies = Object.freeze({
+  'ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c':originalOnly,
   'cf1574b243b3eb1d5803928598f62809c30938bde67154d3956d346f39fa1ed5':originalOnly,
   'cc0843b8781e5897fdfce144d7d2d872f33f455b568a9d62165ad9b3a0ac00ce':originalOnly,
   '843acca5003bab1e72d5a276b7218b5d8c7261dfc3c762247774941350c590ef':originalOnly,

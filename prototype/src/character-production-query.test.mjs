@@ -149,9 +149,21 @@ test('lists exact body registrations and all outfits and material references fro
       }
     }
   }
-  assert.equal(registrations.length, 25 + productionCatalog.entries.length);
-  assert.equal(outfitCount, 42 + productionCatalog.entries.length);
+  assert.equal(registrations.length, 26 + productionCatalog.entries.length);
+  assert.equal(outfitCount, 43 + productionCatalog.entries.length);
   assert.equal(checkedRecipes.size, 1);
+});
+
+test('publisher VRM0 wears only its own three bindings in the source outfit', async () => {
+  const {controller} = await fixture('source-male-ab9a-v1');
+  const {body, outfits, liveAccessories} = queryCharacterProduction(controller);
+  assert.equal(sha256(await readFile(publicFile(body.url))), body.sha256);
+  assert.notEqual(body.sha256, FOUNDATION_PROFILES.male.sha256);
+  assert.deepEqual(outfits.map(look => look.role), ['pants']);
+  assert.deepEqual(outfits[0].equipment.map(item => item.role), ['top', 'shoes', 'pants']);
+  for (const item of outfits[0].equipment) assert.equal(item.materials.binding.bodySha256, body.sha256);
+  assert.equal(liveAccessories.mic.status, 'unavailable');
+  assert.equal(liveAccessories.glasses.status, 'unavailable');
 });
 
 test('uses the actual shared accessory, exact grip and exact temple resources for each fitted registration', async () => {
