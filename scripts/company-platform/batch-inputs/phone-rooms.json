@@ -1,0 +1,43 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "phone-home",
+      "input": {
+        "id": "phone-home", "name": "民房 · 手机监看直播桌",
+        "spaceProfile": {"id": "company-space-v2", "version": 1}, "furnishingVersion": 2,
+        "scale": "small-home",
+        "floors": [{"id": "ground", "name": "一层", "rooms": [
+          {"id": "live", "name": "直播间", "purpose": "streaming", "stations": 1}
+        ]}]
+      },
+      "operations": [
+        {"type": "replace-resource", "id": "phone-home/ground/live/station-1/keyboard", "resource": {"id": "keyboard-compact", "version": 1}},
+        {"type": "add-facility", "id": "phone-home/ground/live/station-1/phone", "parentId": "phone-home/ground/live/station-1/desk",
+         "resource": {"id": "phone-static-portrait", "version": 1}, "state": {"on": true},
+         "transform": {"position": [0.57, 0.84, 0.06], "yaw": 0}}
+      ]
+    },
+    {
+      "key": "phone-rental",
+      "input": {
+        "id": "phone-rental", "name": "整套出租屋 · 横屏直播桌",
+        "spaceProfile": {"id": "company-space-v2", "version": 1}, "furnishingVersion": 2,
+        "scale": "rental-home",
+        "floors": [{"id": "ground", "name": "一层", "rooms": [
+          {"id": "live", "name": "直播间", "purpose": "streaming", "stations": 1},
+          {"id": "work", "name": "剪辑间", "purpose": "work", "stations": 0, "furniture": "desk-chair"},
+          {"id": "rest", "name": "休息间", "purpose": "rest", "stations": 0}
+        ]}]
+      },
+      "operations": [
+        {"type": "move", "id": "phone-rental/ground", "transform": {"position": [0, 0, 0], "yaw": 1.5707963267948966}},
+        {"type": "replace-resource", "id": "phone-rental/ground/live/station-1/keyboard", "resource": {"id": "keyboard-retro", "version": 1}},
+        {"type": "add-facility", "id": "phone-rental/ground/live/station-1/phone", "parentId": "phone-rental/ground/live/station-1/desk",
+         "resource": {"id": "phone-static-landscape", "version": 1}, "state": {"on": false},
+         "transform": {"position": [-0.50, 0.84, 0.12], "yaw": 0}}
+      ]
+    }
+  ]
+}

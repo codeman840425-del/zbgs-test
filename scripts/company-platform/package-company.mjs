@@ -462,6 +462,12 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   add('data/library-catalog.json',catalogBytes,'complete-catalog');
   add('data/templates.json',templateBytes,'complete-templates');
   const supplemental=new Set(extraFiles);
+  if (catalog.resources.some(resource => resource.productionBranch === 'phone-static')) {
+    supplemental.add('docs/research/COMPANY-PHONE-STATIC-PRODUCTION.md');
+    supplemental.add('scripts/company-platform/test-phone-static-assets.mjs');
+    supplemental.add('scripts/company-platform/test-phone-rooms.mjs');
+    supplemental.add('scripts/company-platform/qa-phone-rooms.cjs');
+  }
   if (catalog.resources.some(resource => resource.productionBranch === 'mouse-and-pad')) {
     supplemental.add('docs/research/COMPANY-MOUSE-PAD-PRODUCTION.md');
     supplemental.add('scripts/company-platform/test-mouse-pad-assets.mjs');

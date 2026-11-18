@@ -1,0 +1,104 @@
+{
+  "id": "phone-static-cradle",
+  "version": 1,
+  "displayName": "支座手机 · 楔形托台",
+  "category": "dynamic",
+  "mountRole": "phone-static",
+  "productionBranch": "phone-static",
+  "mount": "desk-surface",
+  "parent": "desk.desktop",
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.18,
+    "height": 0.19,
+    "depth": 0.11,
+    "reserveDesktopArea": true
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.09,
+      0.055
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": true
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "on": "phone-display-power-v1"
+  },
+  "display": {
+    "screen": {
+      "nodes": [
+        "phone-screen"
+      ],
+      "onColor": "#e0f1f3",
+      "offColor": "#000000",
+      "emissive": "#a6d8d9",
+      "onIntensity": 0.68
+    }
+  },
+  "materialSlots": {
+    "body": [
+      "phone-body-authored",
+      "phone-speaker",
+      "phone-camera-island",
+      "phone-lens-1",
+      "phone-lens-2",
+      "phone-side-key"
+    ],
+    "screen": [
+      "phone-screen"
+    ],
+    "support": [
+      "phone-cradle-base",
+      "phone-cradle-wedge",
+      "phone-cradle-lip"
+    ]
+  },
+  "provenance": {
+    "license": "Project-authored model and screen content",
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader readback",
+      "pngjs 7.0.0"
+    ],
+    "sourceParameters": "assets-source/company-phone-static-v1/parameters.json",
+    "sourceParametersSha256": "7a99c5e6a889150d1170c494c288d84669922baa0f0d49f0664cf34601125600",
+    "generator": "scripts/company-platform/build-phone-static.mjs",
+    "generatorSha256": "151d89d33fac731db7fdd52de08c0739960f89eceafd0addc9934d4f1ae3763e",
+    "functionalContractSource": "assets-source/company-phone-static-v1/contract.json",
+    "functionalContractSourceSha256": "30d96e4bf678434d379e7071f47217424963c89cb0ac141a7f76e30bf911be7d",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "environmentBranch": "phone-static",
+    "dependencies": {
+      "geometryValidation": {
+        "path": "scripts/company-platform/test-phone-static-assets.mjs",
+        "sha256": "c7c63e9b79da13555d2d52d7f1055cafb69ebb83c5cbcaace1a0f5c9fc54db86"
+      }
+    }
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/phone-static-v1/phone-static-cradle/v1/model.glb",
+    "sha256": "10c7246f3d529473a8770e0a9bb02290260624bd42fb87b5cc2ca7651e622e2b",
+    "bytes": 197292
+  }
+}

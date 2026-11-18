@@ -1,0 +1,77 @@
+{
+  "schema": "company-phone-static-collection",
+  "version": 1,
+  "sources": {
+    "grab3d-smartphone": {
+      "path": "assets-source/company-phone-static-v1/original/grab3d/smartphone.glb",
+      "sha256": "92ae6687a5c6412c0c577a908d177b767c5e94f27814a656be9b16029f7c5352",
+      "licensePath": "assets-source/company-phone-static-v1/original/grab3d/LICENSE.txt",
+      "licenseSha256": "01908a56d6cada52704b20c5094c2aa16c9d8be6f124349c986764067abfd921",
+      "manifestPath": "assets-source/company-phone-static-v1/original/grab3d/manifest.json",
+      "manifestSha256": "b031f915703ad2783f983cdf4854f52240ac3e448b1c89838857f4c8f6f53e0e",
+      "license": "CC0-1.0",
+      "author": "Grab3D",
+      "url": "https://grab3d.com/models/electronics/smartphone/",
+      "download": "https://grab3d.com/dl/smartphone/smartphone.glb",
+      "bodyNode": "smartphone_body",
+      "screenNode": "smartphone_glass_1"
+    }
+  },
+  "designs": [
+    {
+      "id": "phone-static-portrait",
+      "version": 1,
+      "displayName": "竖屏手机 · 素描边机身",
+      "source": "grab3d-smartphone",
+      "orientation": "portrait",
+      "body": { "bottom": 0.0039, "pitchDegrees": 90, "scale": 1 },
+      "finishes": { "body": "#784f58", "detail": "#bd8490", "support": "#343a42", "grip": "#50515b" },
+      "support": [
+        { "name": "phone-case-foot", "kind": "box", "size": [0.063, 0.0041, 0.023], "at": [0, 0.00205, 0], "finish": "support" },
+        { "name": "phone-case-rear-sill", "kind": "box", "size": [0.048, 0.008, 0.011], "at": [0, 0.006, -0.007], "finish": "grip" }
+      ]
+    },
+    {
+      "id": "phone-static-landscape",
+      "version": 1,
+      "displayName": "横屏手机 · 双低脚",
+      "orientation": "landscape",
+      "body": { "size": [0.153, 0.077, 0.013], "bottom": 0.0041, "corner": 0.008, "bezelX": 0.008, "bezelY": 0.005 },
+      "finishes": { "body": "#454e61", "detail": "#b6c2ce", "support": "#404755", "grip": "#212830" },
+      "support": [
+        { "name": "phone-case-foot-left", "kind": "box", "size": [0.029, 0.0043, 0.029], "at": [-0.049, 0.00215, -0.002], "finish": "grip" },
+        { "name": "phone-case-foot-right", "kind": "box", "size": [0.029, 0.0043, 0.029], "at": [0.049, 0.00215, -0.002], "finish": "grip" }
+      ]
+    },
+    {
+      "id": "phone-static-cradle",
+      "version": 1,
+      "displayName": "支座手机 · 楔形托台",
+      "orientation": "portrait",
+      "body": { "size": [0.073, 0.145, 0.012], "bottom": 0.018, "corner": 0.007, "bezelX": 0.005, "bezelY": 0.010 },
+      "finishes": { "body": "#ad9b81", "detail": "#e0cdb2", "support": "#72685c", "grip": "#343735" },
+      "support": [
+        { "name": "phone-cradle-base", "kind": "box", "size": [0.088, 0.010, 0.078], "at": [0, 0.005, -0.007], "finish": "support" },
+        { "name": "phone-cradle-wedge", "kind": "wedge", "width": 0.052, "profile": [[-0.039, 0.009], [0.002, 0.009], [0.002, 0.022], [-0.005, 0.054]], "finish": "support" },
+        { "name": "phone-cradle-lip", "kind": "box", "size": [0.076, 0.012, 0.013], "at": [0, 0.015, 0.008], "finish": "grip" }
+      ]
+    },
+    {
+      "id": "phone-static-clamp",
+      "version": 1,
+      "displayName": "夹持手机 · 底座侧爪",
+      "orientation": "portrait",
+      "body": { "size": [0.076, 0.15, 0.014], "bottom": 0.027, "corner": 0.006, "bezelX": 0.006, "bezelY": 0.008 },
+      "finishes": { "body": "#547065", "detail": "#b3cbb9", "support": "#424948", "grip": "#1b2728" },
+      "support": [
+        { "name": "phone-clamp-foot-left", "kind": "box", "size": [0.026, 0.006, 0.068], "at": [-0.033, 0.003, -0.005], "finish": "grip" },
+        { "name": "phone-clamp-foot-right", "kind": "box", "size": [0.026, 0.006, 0.068], "at": [0.033, 0.003, -0.005], "finish": "grip" },
+        { "name": "phone-clamp-base", "kind": "box", "size": [0.106, 0.012, 0.093], "at": [0, 0.011, -0.004], "finish": "support" },
+        { "name": "phone-clamp-post", "kind": "box", "size": [0.024, 0.086, 0.025], "at": [0, 0.057, -0.022], "finish": "support" },
+        { "name": "phone-clamp-crossbar", "kind": "box", "size": [0.094, 0.020, 0.010], "at": [0, 0.085, -0.010], "finish": "support" },
+        { "name": "phone-clamp-jaw-left", "kind": "box", "size": [0.011, 0.022, 0.023], "at": [-0.040, 0.085, 0.001], "finish": "grip" },
+        { "name": "phone-clamp-jaw-right", "kind": "box", "size": [0.011, 0.022, 0.023], "at": [0.040, 0.085, 0.001], "finish": "grip" }
+      ]
+    }
+  ]
+}

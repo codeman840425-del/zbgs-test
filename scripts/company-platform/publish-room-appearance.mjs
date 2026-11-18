@@ -22,8 +22,9 @@ const families = {
   'company-static-textile-collection': 'static-textile',
   'company-baseboard-collection': 'baseboard',
   'company-mouse-pad-collection': 'mouse-pad',
+  'company-phone-static-collection': 'phone-static',
 };
-const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs'};
+const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs'};
 
 function belongsToFamily(resource,family) {
   return family === 'baseboard'

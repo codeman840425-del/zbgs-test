@@ -1,0 +1,19 @@
+{
+  "schema": "company-phone-static-contract",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "phone-static",
+  "productionBranch": "phone-static",
+  "mount": "desk-surface",
+  "parent": "desk.desktop",
+  "mounting": { "origin": "bottom", "width": 0.18, "height": 0.19, "depth": 0.11, "reserveDesktopArea": true },
+  "coordinates": { "units": "metres", "up": "+Y", "forward": "+Z" },
+  "footprint": { "center": [0, 0], "halfSize": [0.09, 0.055], "blocking": false },
+  "usePoints": [],
+  "stateDefaults": { "on": true },
+  "stateSchema": { "on": { "type": "boolean" } },
+  "stateSemantics": { "on": "phone-display-power-v1" },
+  "display": {
+    "screen": { "nodes": ["phone-screen"], "onColor": "#e0f1f3", "offColor": "#000000", "emissive": "#a6d8d9", "onIntensity": 0.68 }
+  }
+}
