@@ -69,3 +69,4 @@
 修复后的最新循环回执为 `evidence/m2-native-admission-cycle-v3/summary.json`：gate 仍 blocked，两个候选的 readiness 记录请求均拒绝，批次 `mode=readiness-gated`。这证明新失败语义已实际运行，未新增准入项；v1 的视频回放仍是当前可观看样件，v3 是最新流程证据。
 
 共同适配审查已增加两个可重复入口：`evidence/m2-native-dynamic-motion-adapter-v1/report.json` 证明两体共享 spring 结构可计算指纹，但逐身体动态/头部 fit 和视觉证据仍阻塞；`evidence/m2-native-surface-texture-admission-v1/REPORT.json` 证明两体 Body 静态材质/纹理合同通过，运行时 WebGL 与人工视觉仍阻塞。当前没有任何新候选被误标为 runtime admitted。
+2026-11-18 产品验收权重更新：游戏主要采用锁定/拉远的2.5D镜头，正常距离优先看轮廓、发型、服装区分、动作连贯和明显穿插；近景只用于发现结构性绑定、接触、资源身份和运行可靠性问题。视频/图片到动作的输入检查、骨架映射、批量导入、元数据和游戏回读提前列为M2共同工作包；已封存30秒舞不重开。
