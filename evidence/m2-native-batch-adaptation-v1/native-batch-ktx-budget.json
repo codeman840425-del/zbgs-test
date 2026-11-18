@@ -1,0 +1,221 @@
+{
+  "schema": "native-batch-ktx-sidecar-budget-v1",
+  "pilotManifestSha256": "f00a56e189c40d1a88747bd71af5b6317c8e313bc0749d84956bf14db4bfc93c",
+  "pilotConfiguration": {
+    "id": "uastc-q2-zstd18-srgb-full-mips-v1",
+    "options": [
+      "--format",
+      "R8G8B8A8_SRGB",
+      "--encode",
+      "uastc",
+      "--uastc-quality",
+      "2",
+      "--zstd",
+      "18",
+      "--generate-mipmap",
+      "--mipmap-filter",
+      "lanczos4",
+      "--mipmap-wrap",
+      "wrap",
+      "--assign-tf",
+      "srgb",
+      "--assign-primaries",
+      "bt709",
+      "--assign-texcoord-origin",
+      "top-left",
+      "--threads",
+      "4"
+    ],
+    "attemptBudget": "One configuration, at most one evidence-driven correction, no sweep"
+  },
+  "pilotRuntimeVerified": false,
+  "decision": "reject-direct-ktx-reuse",
+  "decisionReasons": [
+    "KTX pilot samples pin old 801 model and image identities, not either FaceContour body",
+    "Current runtime KTX trial requires PNG/Canvas fallback for hair and does not replace a VRM image graph generically",
+    "New FaceContour bodies exceed current static body budget and need explicit target-device evidence",
+    "No KTX2 encoding was run for the new bodies and no VRM source model was modified"
+  ],
+  "candidates": [
+    {
+      "id": "contour-roundness-a",
+      "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+      "bodySourceExportSha256": "a5aa0d4ffff9137f787d17565d738ece580bba085cac1fee2aa88b8e4dcc7cf2",
+      "packagePngSha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c",
+      "pilotFemaleBodySourceModelSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "pilotFemaleBodyPngSha256": "ff84d277896e7fd0e365763e7426ca27a89aadd42f24880cfbed25ce8203c6da",
+      "pilotReuse": {
+        "sourceModel": false,
+        "bodyPng": false,
+        "materialName": false
+      },
+      "sidecarPolicy": "publish-KTX2-as-explicit-derived-resource-only; keep VRM source and PNG/Canvas fallback",
+      "staticBudget": {
+        "status": "rejected",
+        "metrics": {
+          "maxInfluences": 4,
+          "externalImageBytes": 0,
+          "fileBytes": 17127080,
+          "triangles": 54950,
+          "skins": 3,
+          "morphAccessorBytes": 6441912,
+          "materials": 14,
+          "primitiveVertices": 108256,
+          "primitives": 14,
+          "springJoints": 102,
+          "nodeTriangles": 54950,
+          "jointSlots": 390,
+          "maxImageDimension": 2048,
+          "textures": 24,
+          "uniquePositionVertices": 38661,
+          "rgba8MipBytes": 126179680,
+          "colliders": 28,
+          "maxJointsPerSkin": 130,
+          "images": 24,
+          "morphTargetsPerPrimitive": 57
+        },
+        "violations": [
+          {
+            "metric": "uniquePositionVertices",
+            "actual": 38661,
+            "limit": 30000
+          },
+          {
+            "metric": "primitiveVertices",
+            "actual": 108256,
+            "limit": 80000
+          },
+          {
+            "metric": "triangles",
+            "actual": 54950,
+            "limit": 40000
+          },
+          {
+            "metric": "nodeTriangles",
+            "actual": 54950,
+            "limit": 40000
+          },
+          {
+            "metric": "jointSlots",
+            "actual": 390,
+            "limit": 256
+          },
+          {
+            "metric": "maxJointsPerSkin",
+            "actual": 130,
+            "limit": 128
+          },
+          {
+            "metric": "rgba8MipBytes",
+            "actual": 126179680,
+            "limit": 100663296
+          },
+          {
+            "metric": "springJoints",
+            "actual": 102,
+            "limit": 32
+          },
+          {
+            "metric": "colliders",
+            "actual": 28,
+            "limit": 16
+          }
+        ],
+        "ordinaryPCPerformance": "unmeasured"
+      },
+      "dynamicMotion": "requires per-body motion recheck before hair KTX sidecar admission",
+      "surfaceAndTexture": "PNG body coverage admitted; KTX2 texture replacement not admitted",
+      "provenanceSha256": "7c94290453078406d7b140117df6a06c0e6104b01d152c00128fefee0e74c2e6"
+    },
+    {
+      "id": "contour-cheek-b",
+      "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+      "bodySourceExportSha256": "2f6082fd631043a6fe71acb96ea342560c97004871425bce58eb15ff0457ddb8",
+      "packagePngSha256": "dc375769e28d015bc70c3cef6be1dec3794b5b2430a9bf173d60584105f68a8c",
+      "pilotFemaleBodySourceModelSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "pilotFemaleBodyPngSha256": "ff84d277896e7fd0e365763e7426ca27a89aadd42f24880cfbed25ce8203c6da",
+      "pilotReuse": {
+        "sourceModel": false,
+        "bodyPng": false,
+        "materialName": false
+      },
+      "sidecarPolicy": "publish-KTX2-as-explicit-derived-resource-only; keep VRM source and PNG/Canvas fallback",
+      "staticBudget": {
+        "status": "rejected",
+        "metrics": {
+          "primitiveVertices": 108256,
+          "materials": 14,
+          "maxInfluences": 4,
+          "springJoints": 102,
+          "nodeTriangles": 54950,
+          "images": 24,
+          "morphAccessorBytes": 6441912,
+          "maxImageDimension": 2048,
+          "externalImageBytes": 0,
+          "jointSlots": 390,
+          "fileBytes": 17126644,
+          "skins": 3,
+          "textures": 24,
+          "triangles": 54950,
+          "maxJointsPerSkin": 130,
+          "primitives": 14,
+          "uniquePositionVertices": 38661,
+          "morphTargetsPerPrimitive": 57,
+          "colliders": 28,
+          "rgba8MipBytes": 126179680
+        },
+        "violations": [
+          {
+            "metric": "uniquePositionVertices",
+            "actual": 38661,
+            "limit": 30000
+          },
+          {
+            "metric": "primitiveVertices",
+            "actual": 108256,
+            "limit": 80000
+          },
+          {
+            "metric": "triangles",
+            "actual": 54950,
+            "limit": 40000
+          },
+          {
+            "metric": "nodeTriangles",
+            "actual": 54950,
+            "limit": 40000
+          },
+          {
+            "metric": "jointSlots",
+            "actual": 390,
+            "limit": 256
+          },
+          {
+            "metric": "maxJointsPerSkin",
+            "actual": 130,
+            "limit": 128
+          },
+          {
+            "metric": "rgba8MipBytes",
+            "actual": 126179680,
+            "limit": 100663296
+          },
+          {
+            "metric": "springJoints",
+            "actual": 102,
+            "limit": 32
+          },
+          {
+            "metric": "colliders",
+            "actual": 28,
+            "limit": 16
+          }
+        ],
+        "ordinaryPCPerformance": "unmeasured"
+      },
+      "dynamicMotion": "requires per-body motion recheck before hair KTX sidecar admission",
+      "surfaceAndTexture": "PNG body coverage admitted; KTX2 texture replacement not admitted",
+      "provenanceSha256": "98dcc6fbe1554b05b50f520fe01e51bad4376d3416535debcb17c1d0e238d087"
+    }
+  ]
+}

@@ -506,3 +506,6 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 2026-11-17 批产卡点从“模型精修”收敛为可复用适配闸门：`scripts/production/qa_native_batch_adaptation.py` 对两份 FaceContour 产物确认 nodes/skins/humanoid/expressions/VRMC_springBone 结构逐字段一致，27 springs/28 colliders 可复用；Body 2048² RGB/UV/材质合同和 608383 个覆盖 alpha 差异已核。HairBack 几何仍变化，因此 dynamicMotion 与头部挂点只标为需逐身体运行复核。
 
 新增 `native_batch_gate.py` 的诊断输入会附带源侧适配审查和 runtime/head 预算审查，但不会把候选证据误标为通过。`evidence/m2-native-production-gate-v5/report.json` 当前两项仍各剩 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`；两体预算均为 `over-budget`，普通电脑未测，`acceptedForRuntime=[]`。这证明批量链路的共性制作、导入、登记和记录生成已经可复用，当前卡点是每个身体的受影响 fit 证据与素材预算策略，不是继续修改单个脸型。
+2026-11-17 资源预算分层与压缩旁车复核：`scripts/production/budget_classification_report.py` 将现有记录成本拆成传输、解码/Canvas、GPU 和普通电脑四层，实际报告 `evidence/m2-native-batch-runtime-seam-v1/budget-classification-v1.json` 标记为 `blocked`。传输闭包字节已测量；RGBA8+mip 与纹理对象只是静态估算；GPU 驻留、释放生命周期和普通电脑帧耗时仍未测。两份新 FaceContour 身体、三件同源装备和麦克风均逐资源超出现有静态预算，眼镜仅通过静态契约。
+
+同日 KTX2 旁车复核 `evidence/m2-native-batch-adaptation-v1/native-batch-ktx-budget.json`：已有 KTX2 pilot 绑定旧 801 男女模型，不能按文件名或材质名复用到两份新身体；本轮没有改写 VRM，也没有把 KTX2 文件大小当作 GPU 或普通电脑通过。后续若做发布派生，只能按 `sourceExportSha256`、原图 SHA、材质/UV/采样器、alpha 和解码器版本建立显式旁车，并保留 PNG/Canvas 回退。

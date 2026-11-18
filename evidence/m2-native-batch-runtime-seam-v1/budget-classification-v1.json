@@ -1,0 +1,344 @@
+{
+  "schema": "native-batch-budget-classification-v1",
+  "status": "blocked",
+  "source": {
+    "budget": {
+      "path": "evidence/m2-native-batch-runtime-seam-v1/native-records-budget.json",
+      "sha256": "d9c331d1164f3872d0444a22d8a2c63b56de95241874ad4d4d42c3dae1df9b6b"
+    },
+    "ktxPilot": {
+      "path": "evidence/m2-ktx-pilot-source-v1/source-report.json",
+      "sha256": "f00a56e189c40d1a88747bd71af5b6317c8e313bc0749d84956bf14db4bfc93c"
+    }
+  },
+  "layers": {
+    "transport": "Encoded file and closure bytes measured from source files",
+    "decodeCanvas": "RGBA8/mip and texture-object static estimates. Canvas-derived color paths require a separate cost model",
+    "gpu": "No observed GPU residency or lifetime evidence",
+    "ordinaryPC": "No ordinary-PC frame or memory evidence"
+  },
+  "records": [
+    {
+      "bodyType": "native-contour-roundness-a-v1",
+      "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+      "transport": {
+        "status": "measured",
+        "closureSourceBytes": 34487828,
+        "selectedFileBytes": 20330749,
+        "standaloneEncodedImageBytes": 859933
+      },
+      "decodeCanvas": {
+        "status": "static-estimate",
+        "rgba8MipBytes": 211466920,
+        "textureObjects": 40,
+        "bodyExcesses": [
+          {
+            "actual": 38661,
+            "limit": 30000,
+            "metric": "uniquePositionVertices"
+          },
+          {
+            "actual": 108256,
+            "limit": 80000,
+            "metric": "primitiveVertices"
+          },
+          {
+            "actual": 54950,
+            "limit": 40000,
+            "metric": "triangles"
+          },
+          {
+            "actual": 54950,
+            "limit": 40000,
+            "metric": "nodeTriangles"
+          },
+          {
+            "actual": 390,
+            "limit": 256,
+            "metric": "jointSlots"
+          },
+          {
+            "actual": 130,
+            "limit": 128,
+            "metric": "maxJointsPerSkin"
+          },
+          {
+            "actual": 126179680,
+            "limit": 100663296,
+            "metric": "rgba8MipBytes"
+          },
+          {
+            "actual": 102,
+            "limit": 32,
+            "metric": "springJoints"
+          },
+          {
+            "actual": 28,
+            "limit": 16,
+            "metric": "colliders"
+          }
+        ],
+        "garmentExcesses": {
+          "native-contour-roundness-a-shoes-v1": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ],
+          "native-contour-roundness-a-shorts-v1": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ],
+          "native-contour-roundness-a-top-v1": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ]
+        },
+        "accessoryExcesses": {
+          "studio-glasses-v1": [],
+          "studio-microphone-v1": [
+            {
+              "actual": 9,
+              "limit": 8,
+              "metric": "primitives"
+            }
+          ]
+        },
+        "canvasDerivedHairCost": "unsupported unless the selected hair color model is explicitly budgeted"
+      },
+      "gpu": {
+        "status": "unmeasured",
+        "observedGpuBytes": null,
+        "observedTextureLifetime": false,
+        "reason": "RGBA8 mip totals and KTX CPU transcode bytes are estimates, not GPU residency"
+      },
+      "ordinaryPC": {
+        "status": "unmeasured"
+      },
+      "resourceGates": {
+        "body": "failed",
+        "garments": {
+          "native-contour-roundness-a-shoes-v1": "failed",
+          "native-contour-roundness-a-shorts-v1": "failed",
+          "native-contour-roundness-a-top-v1": "failed"
+        },
+        "accessories": {
+          "studio-glasses-v1": "passed-static",
+          "studio-microphone-v1": "failed"
+        }
+      }
+    },
+    {
+      "bodyType": "native-contour-cheek-b-v1",
+      "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+      "transport": {
+        "status": "measured",
+        "closureSourceBytes": 34487332,
+        "selectedFileBytes": 20330313,
+        "standaloneEncodedImageBytes": 859933
+      },
+      "decodeCanvas": {
+        "status": "static-estimate",
+        "rgba8MipBytes": 211466920,
+        "textureObjects": 40,
+        "bodyExcesses": [
+          {
+            "actual": 38661,
+            "limit": 30000,
+            "metric": "uniquePositionVertices"
+          },
+          {
+            "actual": 108256,
+            "limit": 80000,
+            "metric": "primitiveVertices"
+          },
+          {
+            "actual": 54950,
+            "limit": 40000,
+            "metric": "triangles"
+          },
+          {
+            "actual": 54950,
+            "limit": 40000,
+            "metric": "nodeTriangles"
+          },
+          {
+            "actual": 390,
+            "limit": 256,
+            "metric": "jointSlots"
+          },
+          {
+            "actual": 130,
+            "limit": 128,
+            "metric": "maxJointsPerSkin"
+          },
+          {
+            "actual": 126179680,
+            "limit": 100663296,
+            "metric": "rgba8MipBytes"
+          },
+          {
+            "actual": 102,
+            "limit": 32,
+            "metric": "springJoints"
+          },
+          {
+            "actual": 28,
+            "limit": 16,
+            "metric": "colliders"
+          }
+        ],
+        "garmentExcesses": {
+          "native-contour-cheek-b-shoes-v1": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ],
+          "native-contour-cheek-b-shorts-v1": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ],
+          "native-contour-cheek-b-top-v1": [
+            {
+              "actual": 130,
+              "limit": 128,
+              "metric": "jointSlots"
+            },
+            {
+              "actual": 130,
+              "limit": 96,
+              "metric": "maxJointsPerSkin"
+            }
+          ]
+        },
+        "accessoryExcesses": {
+          "studio-glasses-v1": [],
+          "studio-microphone-v1": [
+            {
+              "actual": 9,
+              "limit": 8,
+              "metric": "primitives"
+            }
+          ]
+        },
+        "canvasDerivedHairCost": "unsupported unless the selected hair color model is explicitly budgeted"
+      },
+      "gpu": {
+        "status": "unmeasured",
+        "observedGpuBytes": null,
+        "observedTextureLifetime": false,
+        "reason": "RGBA8 mip totals and KTX CPU transcode bytes are estimates, not GPU residency"
+      },
+      "ordinaryPC": {
+        "status": "unmeasured"
+      },
+      "resourceGates": {
+        "body": "failed",
+        "garments": {
+          "native-contour-cheek-b-shoes-v1": "failed",
+          "native-contour-cheek-b-shorts-v1": "failed",
+          "native-contour-cheek-b-top-v1": "failed"
+        },
+        "accessories": {
+          "studio-glasses-v1": "passed-static",
+          "studio-microphone-v1": "failed"
+        }
+      }
+    }
+  ],
+  "ktxPilot": {
+    "status": "pilot-only-fixed-801",
+    "samples": [
+      {
+        "id": "male-body-color",
+        "sourcePngBytes": 2713614,
+        "ktxBytes": 2417760,
+        "encodingSeconds": 2.426964099984616,
+        "cpuTranscodedMipUncompressedBytes": 5592432,
+        "transport": "measured",
+        "decodeCanvas": "source PNG retained separately",
+        "gpu": "unmeasured",
+        "ordinaryPC": "unmeasured"
+      },
+      {
+        "id": "male-hair-alpha-canvas",
+        "sourcePngBytes": 366352,
+        "ktxBytes": 373399,
+        "encodingSeconds": 0.6321627999423072,
+        "cpuTranscodedMipUncompressedBytes": 1398128,
+        "transport": "measured",
+        "decodeCanvas": "source PNG retained separately",
+        "gpu": "unmeasured",
+        "ordinaryPC": "unmeasured"
+      },
+      {
+        "id": "female-body-color",
+        "sourcePngBytes": 2982493,
+        "ktxBytes": 2560821,
+        "encodingSeconds": 2.3130192999960855,
+        "cpuTranscodedMipUncompressedBytes": 5592432,
+        "transport": "measured",
+        "decodeCanvas": "source PNG retained separately",
+        "gpu": "unmeasured",
+        "ordinaryPC": "unmeasured"
+      },
+      {
+        "id": "female-hair-alpha-canvas",
+        "sourcePngBytes": 287349,
+        "ktxBytes": 313435,
+        "encodingSeconds": 0.5228279000148177,
+        "cpuTranscodedMipUncompressedBytes": 1398128,
+        "transport": "measured",
+        "decodeCanvas": "source PNG retained separately",
+        "gpu": "unmeasured",
+        "ordinaryPC": "unmeasured"
+      }
+    ],
+    "limitations": [
+      "The pilot targets fixed build/body samples, not the two native FaceContour bodies.",
+      "KTX validation and CPU transcode do not establish GPU residency, Canvas allocations, or ordinary-PC performance."
+    ]
+  },
+  "nextEvidence": [
+    "Run the same estimator for each new body and each selected garment/accessory separately.",
+    "Measure browser texture/Canvas allocations and release after a settled actor.",
+    "Measure ordinary-PC memory/frame time with the fixed build and exact records."
+  ]
+}
