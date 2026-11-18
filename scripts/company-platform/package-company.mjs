@@ -64,6 +64,7 @@ const extraFiles=[
   'scripts/company-platform/qa-upgrade-handoff.cjs',
   'scripts/company-platform/record-seat-sofa-preview.cjs',
   'scripts/company-platform/record-static-collection-preview.cjs',
+  'scripts/company-platform/record-floor-decor-preview.cjs',
   'scripts/company-platform/record-upgrade-preview.cjs',
   'scripts/company-platform/qa-scale-v2.cjs',
   'scripts/company-platform/qa-scale-handoff.cjs',
