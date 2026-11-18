@@ -9,6 +9,7 @@ from variant_matrix import runtime_variants, validate_matrix, validate_matrix_fi
 def variant(body="female-v1", status="runtime-admitted"):
     row = {
         "bodyType": body,
+        "variantVersion": "v1",
         "resourceManifest": f"assets/{body}/dress.json",
         "fitManifest": f"fits/{body}/dress.json",
         "coverageManifest": f"coverage/{body}/dress.json",
@@ -54,6 +55,17 @@ class VariantMatrixTests(unittest.TestCase):
 
     def test_duplicate_body_variant_is_rejected(self):
         self.assertTrue(validate_matrix({"schema": "zbgs-style-variant-matrix-v1", "styles": [{"styleId": "dress", "variants": [variant(), variant("female-v1", "candidate")]}]}))
+
+    def test_same_body_can_have_distinct_versions(self):
+        newer = variant()
+        newer["variantVersion"] = "v2"
+        data = {"schema": "zbgs-style-variant-matrix-v1", "styles": [{"styleId": "dress", "variants": [variant(), newer]}]}
+        self.assertEqual(validate_matrix(data), [])
+
+    def test_variant_version_is_required(self):
+        row = variant()
+        del row["variantVersion"]
+        self.assertTrue(validate_matrix({"schema": "zbgs-style-variant-matrix-v1", "styles": [{"styleId": "dress", "variants": [row]}]}))
 
     def test_file_closure_checks_manifest_hashes_and_fragments(self):
         with tempfile.TemporaryDirectory() as directory:

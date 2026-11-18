@@ -145,3 +145,5 @@
 2026-11-18 批量拒绝原因细化：`variant_batch.py` 对候选行仍保持 readiness-gated，但现在把已登记的静态预算超限和四类 blocker 写进每条拒绝原因。`evidence/m2-native-variant-batch-v4/plan.json` 八条均独立拒绝、0 accepted，失败不会跨体型 fallback。
 
 2026-11-18 工作台候选显示修复：原生参数包的 `defaultOutfit` 源数据没有携带展示标签，导致 4196 场景角标出现 `undefined`。`foundationProfile()` 现在对默认装备做通用标签归一化，保留已提供标签并为缺失数据使用明确的基础服装标签；查询回归增加原生候选断言。新构建 `51219f06f488`，源码提交 `66d3d2a6e009`。该修复只解决显示和数据健壮性，不改变候选仍待准入、预算超限和随机生成尚未开始的结论。
+
+2026-11-18 批产版本键收紧：代表矩阵的每条资源变体现在明确携带 `variantVersion`，校验器按 `styleId + bodyType + variantVersion` 检查唯一性，批量请求必须精确匹配版本。相同身体与款式可并存多个版本，缺失或错配会逐项拒绝。15 项变体矩阵/批量回归通过，代表 8 条请求仍为 0 accepted，未改变当前准入结论。

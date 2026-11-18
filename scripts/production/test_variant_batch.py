@@ -6,6 +6,7 @@ from variant_batch import SCHEMA, OUT_SCHEMA, plan
 def matrix(status="runtime-admitted"):
     row = {
         "bodyType": "female-base-v1",
+        "variantVersion": "v1",
         "bodySha256": "a" * 64,
         "resourceManifest": "/assets/body/resource.json",
         "resourceManifestSha256": "b" * 64,
@@ -25,7 +26,7 @@ def matrix(status="runtime-admitted"):
 class VariantBatchTests(unittest.TestCase):
     def request(self, stable="host-a"):
         return {"schema": SCHEMA, "batchId": "batch-v1", "items": [{
-            "stableId": stable, "styleId": "uniform-top-v1", "bodyType": "female-base-v1"
+            "stableId": stable, "styleId": "uniform-top-v1", "bodyType": "female-base-v1", "variantVersion": "v1"
         }]}
 
     def test_admitted_row_emits_game_request(self):
@@ -49,6 +50,13 @@ class VariantBatchTests(unittest.TestCase):
         result = plan(matrix(), request)
         self.assertEqual(result["acceptedCount"], 1)
         self.assertIn("Duplicate stableId", result["items"][1]["reason"])
+
+    def test_version_selects_exact_matrix_row(self):
+        request = self.request("host-d")
+        request["items"][0]["variantVersion"] = "v2"
+        result = plan(matrix(), request)
+        self.assertEqual(result["acceptedCount"], 0)
+        self.assertIn("No exact variant", result["items"][0]["reason"])
 
 
 if __name__ == "__main__":

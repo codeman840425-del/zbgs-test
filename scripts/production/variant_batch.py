@@ -39,8 +39,8 @@ def pin(root: Path, reference: str) -> dict:
             "bytes": len(raw)}
 
 
-def matrix_rows(matrix: dict) -> dict[tuple[str, str], dict]:
-    return {(style["styleId"], variant["bodyType"]): {
+def matrix_rows(matrix: dict) -> dict[tuple[str, str, str], dict]:
+    return {(style["styleId"], variant["bodyType"], variant["variantVersion"]): {
         "styleId": style["styleId"],
         "label": style.get("label", style["styleId"]),
         **variant,
@@ -63,13 +63,15 @@ def plan(matrix: dict, request: dict) -> dict:
             stable_id = item.get("stableId")
             style_id = item.get("styleId")
             body_type = item.get("bodyType")
+            version = item.get("variantVersion")
             check(isinstance(stable_id, str) and ID.fullmatch(stable_id), "Invalid stableId")
             check(stable_id not in seen, f"Duplicate stableId: {stable_id}")
             seen.add(stable_id)
             check(isinstance(style_id, str) and ID.fullmatch(style_id), "Invalid styleId")
             check(isinstance(body_type, str) and ID.fullmatch(body_type), "Invalid bodyType")
-            row = rows.get((style_id, body_type))
-            check(row is not None, f"No exact variant for {style_id}/{body_type}")
+            check(isinstance(version, str) and ID.fullmatch(version), "Invalid variantVersion")
+            row = rows.get((style_id, body_type, version))
+            check(row is not None, f"No exact variant for {style_id}/{body_type}/{version}")
             if row.get("status") != "runtime-admitted":
                 details = []
                 if row.get("budgetStatus") == "reject-static-over-budget":
@@ -85,8 +87,6 @@ def plan(matrix: dict, request: dict) -> dict:
                   "runtime-admitted variant has no parameter recipe identity")
             for key in ("bodySha256", "resourceManifestSha256", "coverageManifestSha256"):
                 check(SHA.fullmatch(str(row.get(key) or "")), f"Invalid {key}")
-            version = item.get("variantVersion", row.get("variantVersion", "v1"))
-            check(isinstance(version, str) and ID.fullmatch(version), "Invalid variantVersion")
             result.update({
                 "status": "accepted",
                 "stableId": stable_id,

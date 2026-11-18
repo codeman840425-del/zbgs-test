@@ -9,12 +9,14 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 
 
 SCHEMA = "zbgs-style-variant-matrix-v1"
 VALID_STATUSES = {"candidate", "runtime-admitted", "rejected"}
 SHA256 = 64
+VERSION = re.compile(r"^[a-z][a-z0-9-]{0,100}$")
 
 
 def validate_matrix(data: dict) -> list[str]:
@@ -37,7 +39,7 @@ def validate_matrix(data: dict) -> list[str]:
         if not isinstance(variants, list) or not variants:
             errors.append(f"{sid}: variants must be a non-empty array")
             continue
-        body_ids: set[str] = set()
+        body_versions: set[tuple[str, str]] = set()
         for variant in variants:
             if not isinstance(variant, dict):
                 errors.append(f"{sid}: variant must be an object")
@@ -45,29 +47,33 @@ def validate_matrix(data: dict) -> list[str]:
             body = variant.get("bodyType")
             if not isinstance(body, str) or not body:
                 errors.append(f"{sid}: variant requires bodyType")
-            elif body in body_ids:
-                errors.append(f"{sid}: duplicate bodyType {body}")
-            body_ids.add(body)
+            version = variant.get("variantVersion")
+            if not isinstance(version, str) or not VERSION.fullmatch(version):
+                errors.append(f"{sid}/{body}: variantVersion must be a stable identifier")
+            elif isinstance(body, str) and (body, version) in body_versions:
+                errors.append(f"{sid}: duplicate bodyType/version {body}/{version}")
+            if isinstance(body, str) and isinstance(version, str) and VERSION.fullmatch(version):
+                body_versions.add((body, version))
             for key in ("bodySha256", "resourceManifestSha256", "coverageManifestSha256"):
                 value = variant.get(key)
                 if not isinstance(value, str) or len(value) != SHA256 or any(c not in "0123456789abcdef" for c in value):
-                    errors.append(f"{sid}/{body}: {key} must be a lowercase sha256")
+                    errors.append(f"{sid}/{body}/{version}: {key} must be a lowercase sha256")
             for key in ("resourceManifest", "fitManifest", "coverageManifest"):
                 if not isinstance(variant.get(key), str) or not variant[key]:
-                    errors.append(f"{sid}/{body}: missing {key}")
+                    errors.append(f"{sid}/{body}/{version}: missing {key}")
             status = variant.get("status")
             if status not in VALID_STATUSES:
-                errors.append(f"{sid}/{body}: invalid status {status!r}")
+                errors.append(f"{sid}/{body}/{version}: invalid status {status!r}")
             if status == "runtime-admitted" and not variant.get("admissionEvidence"):
-                errors.append(f"{sid}/{body}: runtime-admitted requires admissionEvidence")
+                errors.append(f"{sid}/{body}/{version}: runtime-admitted requires admissionEvidence")
             if status == "runtime-admitted" and variant.get("budgetStatus") == "reject-static-over-budget":
-                errors.append(f"{sid}/{body}: over-budget variant cannot be runtime-admitted")
+                errors.append(f"{sid}/{body}/{version}: over-budget variant cannot be runtime-admitted")
             blockers = variant.get("admissionBlockers")
             if status == "runtime-admitted" and blockers:
                 if not isinstance(blockers, list) or any(not isinstance(item, str) or not item for item in blockers):
-                    errors.append(f"{sid}/{body}: admissionBlockers must be non-empty strings")
+                    errors.append(f"{sid}/{body}/{version}: admissionBlockers must be non-empty strings")
                 else:
-                    errors.append(f"{sid}/{body}: runtime-admitted variant still has admission blockers")
+                    errors.append(f"{sid}/{body}/{version}: runtime-admitted variant still has admission blockers")
     return errors
 
 
@@ -110,7 +116,7 @@ def validate_matrix_files(data: dict, root: Path) -> list[str]:
     for style in data['styles']:
         style_id = style['styleId']
         for variant in style['variants']:
-            label = f"{style_id}/{variant['bodyType']}"
+            label = f"{style_id}/{variant['bodyType']}/{variant['variantVersion']}"
             for key, sha_key in (
                 ('resourceManifest', 'resourceManifestSha256'),
                 ('coverageManifest', 'coverageManifestSha256'),
