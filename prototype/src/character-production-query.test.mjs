@@ -1,4 +1,5 @@
 import productionCatalog from './native-production-catalog.json' with {type:'json'};
+import sourceOutfits from './source-outfit-profiles.json' with {type:'json'};
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
@@ -149,9 +150,28 @@ test('lists exact body registrations and all outfits and material references fro
       }
     }
   }
-  assert.equal(registrations.length, 27 + productionCatalog.entries.length);
-  assert.equal(outfitCount, 46 + productionCatalog.entries.length);
+  const sourceProfiles = Object.values(sourceOutfits);
+  assert.equal(registrations.length, 25 + sourceProfiles.length + productionCatalog.entries.length);
+  assert.equal(outfitCount, 43 + sourceProfiles.reduce((sum, row) => sum + 1 + (row.extraOutfits?.length ?? 0), 0) + productionCatalog.entries.length);
   assert.equal(checkedRecipes.size, 1);
+});
+
+test('texture-derived body resolves both separately fitted tops with unchanged garment payloads', async () => {
+  const base = await fixture('source-male-ab9a-release-v1');
+  const derived = await fixture('source-male-cc0-texture-release-v1');
+  const old = queryCharacterProduction(base.controller), next = queryCharacterProduction(derived.controller);
+  assert.notEqual(next.body.sha256, old.body.sha256);
+  assert.equal(sha256(await readFile(publicFile(next.body.url))), next.body.sha256);
+  assert.deepEqual(next.outfits.map(row => row.role), ['pants','pants-top-far']);
+  for (const [i, look] of next.outfits.entries()) {
+    assert.deepEqual(look.equipment.map(row => [row.role,row.sha256]), old.outfits[i].equipment.map(row => [row.role,row.sha256]));
+    for (const row of look.equipment) {
+      assert.equal(row.materials.binding.bodySha256, next.body.sha256);
+      assert.notEqual(row.id, old.outfits[i].equipment.find(previous => previous.role === row.role).id);
+    }
+  }
+  assert.equal(next.liveAccessories.mic.status, 'unavailable');
+  assert.equal(next.liveAccessories.glasses.status, 'unavailable');
 });
 
 test('publisher VRM0 wears only its own three bindings in the source outfit', async () => {

@@ -337,6 +337,7 @@ export function bindAppearanceWorkbench({ controller }) {
   }
   const nativeReviews = document.createElement('p');
   for (const [href,label] of [
+    ['/reviews/cc0-body-texture/room-produced-1x.webm', '身体贴图 1K · 男制服走路和坐起'],
     ['/reviews/uniform-texture/', '男女制服 · 原图与轻量贴图'],
     ['/reviews/source-outfit-release/', '同套男制服 · 加载与动作对照'],
     ['/reviews/shared-looks/', '男女裤装与中筒袜 · 1 倍速回放'],
