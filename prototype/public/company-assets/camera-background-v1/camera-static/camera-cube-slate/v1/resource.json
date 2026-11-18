@@ -1,0 +1,128 @@
+{
+  "id": "camera-cube-slate",
+  "displayName": "方盒镜头",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "camera-static",
+  "productionBranch": "camera-device",
+  "mount": "desk-surface",
+  "mounting": {
+    "width": 0.18,
+    "height": 0.12,
+    "depth": 0.12,
+    "origin": "desk support plane centre"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Desk support plane centre; lens faces +Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.09,
+      0.06
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "recording": false
+  },
+  "stateSchema": {
+    "recording": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "recording": "camera-recording-indicator"
+  },
+  "materialSlots": {
+    "body": [
+      "camera-body"
+    ],
+    "lens": [
+      "camera-lens"
+    ],
+    "status": [
+      "recording-led"
+    ]
+  },
+  "provenance": {
+    "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "RoundedBoxGeometry",
+      "CylinderGeometry",
+      "TorusGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-camera-background-v1/parameters.json",
+    "sourceParametersSha256": "f6838529231c4006d367f81c7bfd6babee28b53fd59e7276704c13da81e074c2",
+    "functionalContractSource": "assets-source/company-camera-background-v1/contracts/camera-static.json",
+    "functionalContractSourceSha256": "774ede8bdaf8a092104d1e2aefa6e9ff67a3c6e0d4ce367a07432149eaf63c82",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranch": "camera-device",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "generator": "scripts/company-platform/build-camera-background-collection.mjs",
+    "generatorSha256": "6e65ca47c42aca50ef8e0d773b235212c1b4b1a657097cddd5b874dce62d6ec0",
+    "designId": "camera-cube-slate",
+    "method": "Squared slate camera with chamfered front plate and offset indicator"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/camera-background-v1/camera-static/camera-cube-slate/v1/model.glb",
+    "sha256": "78c098045460d31dbd1b2d63b27d912534ef26d347a72fecb89dbc4ec7100f7d",
+    "bytes": 106264
+  },
+  "checks": {
+    "meshCount": 5,
+    "triangles": 1088,
+    "nodeNames": [
+      "camera-body",
+      "camera-front-plate",
+      "camera-lens",
+      "camera-heel",
+      "recording-led"
+    ],
+    "localBounds": {
+      "min": [
+        -0.07500000298023224,
+        -1.7881393449270533e-9,
+        -0.05000000178813934
+      ],
+      "max": [
+        0.07500000298023224,
+        0.09000000178813934,
+        0.06000000021606684
+      ]
+    },
+    "geometrySha256": "54fd40314cf9ba0c851d93cee17719e2b995c74a2ac81c38444d8e457d546d7d",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true
+  },
+  "camera": {
+    "lensNode": "camera-lens",
+    "statusNode": "recording-led",
+    "forward": "+Z"
+  },
+  "display": {
+    "status": {
+      "stateField": "recording",
+      "nodes": [
+        "recording-led"
+      ],
+      "onColor": "#85b5ff",
+      "offColor": "#27344c",
+      "emissive": "#85b5ff",
+      "onIntensity": 1.4
+    }
+  }
+}

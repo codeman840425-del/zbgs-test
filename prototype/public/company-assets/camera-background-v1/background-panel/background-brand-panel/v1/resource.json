@@ -1,0 +1,125 @@
+{
+  "id": "background-brand-panel",
+  "displayName": "品牌条带板",
+  "version": 1,
+  "category": "decor",
+  "mountRole": "background-panel",
+  "productionBranch": "background-display",
+  "mount": "floor-surface",
+  "mounting": {
+    "width": 2.4,
+    "height": 2.2,
+    "depth": 0.08,
+    "origin": "bottom"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Floor contact centre; display face +Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      1.2,
+      0.04
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "visible": true
+  },
+  "stateSchema": {
+    "visible": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "visible": "background-panel-visible"
+  },
+  "materialSlots": {
+    "surface": [
+      "background-surface"
+    ],
+    "edge": [
+      "background-edge"
+    ],
+    "accent": [
+      "background-accent"
+    ]
+  },
+  "provenance": {
+    "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "RoundedBoxGeometry",
+      "CylinderGeometry",
+      "TorusGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-camera-background-v1/parameters.json",
+    "sourceParametersSha256": "f6838529231c4006d367f81c7bfd6babee28b53fd59e7276704c13da81e074c2",
+    "functionalContractSource": "assets-source/company-camera-background-v1/contracts/background-panel.json",
+    "functionalContractSourceSha256": "1d57c85a00a0094f610830aed9b2a3174a38983aa2e1dc75bddac8f65a866ab3",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranch": "background-display",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "generator": "scripts/company-platform/build-camera-background-collection.mjs",
+    "generatorSha256": "6e65ca47c42aca50ef8e0d773b235212c1b4b1a657097cddd5b874dce62d6ec0",
+    "designId": "background-brand-panel",
+    "method": "Solid panel with an inset brand stripe and lower plinth"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/camera-background-v1/background-panel/background-brand-panel/v1/model.glb",
+    "sha256": "b2c963645b398ca7c6e8edfe366c73df271e3647964c36c8a14d24c1172addb4",
+    "bytes": 9940
+  },
+  "checks": {
+    "meshCount": 5,
+    "triangles": 60,
+    "nodeNames": [
+      "background-surface",
+      "background-edge",
+      "background-accent",
+      "background-content",
+      "background-brand-plinth"
+    ],
+    "localBounds": {
+      "min": [
+        -1.2000000476837158,
+        -2.3841857821338408e-8,
+        -0.03999999910593033
+      ],
+      "max": [
+        1.2000000476837158,
+        2.200000023841858,
+        0.03999999961256981
+      ]
+    },
+    "geometrySha256": "8b482242350a2746e52efc4ec1983cff754213aba7acac5439b3e30b56ad12ed",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true
+  },
+  "background": {
+    "surfaceNode": "background-surface",
+    "contentSlot": "background-content",
+    "front": "+Z"
+  },
+  "display": {
+    "content": {
+      "stateField": "visible",
+      "nodes": [
+        "background-content"
+      ],
+      "accentColor": "#9fe3d1"
+    }
+  }
+}

@@ -185,7 +185,8 @@ function sofaNode(){
 }
 function fillSampleLooks(){
   const branch=element('sample-branch').value;
-  element('sample-look-field').hidden=branch!=='stream-station';
+  element('sample-look-field').hidden=false;
+  element('sample-look-field').querySelector('label').textContent=branch==='stream-station'?'整套组合造型':'外观造型';
   fillOptions('sample-look',appearanceCandidates(catalog,branch).map((r,i)=>({id:String(i),name:r.displayName||r.name||r.id})),'0');
 }
 const finishChoice=finish=>finish?`${finish.resource.id}@${finish.resource.version}`:'';

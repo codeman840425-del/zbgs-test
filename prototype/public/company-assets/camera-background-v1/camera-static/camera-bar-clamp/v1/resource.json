@@ -1,0 +1,129 @@
+{
+  "id": "camera-bar-clamp",
+  "displayName": "横条镜头",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "camera-static",
+  "productionBranch": "camera-device",
+  "mount": "desk-surface",
+  "mounting": {
+    "width": 0.18,
+    "height": 0.12,
+    "depth": 0.12,
+    "origin": "desk support plane centre"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Desk support plane centre; lens faces +Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.09,
+      0.06
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "recording": false
+  },
+  "stateSchema": {
+    "recording": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "recording": "camera-recording-indicator"
+  },
+  "materialSlots": {
+    "body": [
+      "camera-body"
+    ],
+    "lens": [
+      "camera-lens"
+    ],
+    "status": [
+      "recording-led"
+    ]
+  },
+  "provenance": {
+    "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "RoundedBoxGeometry",
+      "CylinderGeometry",
+      "TorusGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-camera-background-v1/parameters.json",
+    "sourceParametersSha256": "f6838529231c4006d367f81c7bfd6babee28b53fd59e7276704c13da81e074c2",
+    "functionalContractSource": "assets-source/company-camera-background-v1/contracts/camera-static.json",
+    "functionalContractSourceSha256": "774ede8bdaf8a092104d1e2aefa6e9ff67a3c6e0d4ce367a07432149eaf63c82",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranch": "camera-device",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "generator": "scripts/company-platform/build-camera-background-collection.mjs",
+    "generatorSha256": "6e65ca47c42aca50ef8e0d773b235212c1b4b1a657097cddd5b874dce62d6ec0",
+    "designId": "camera-bar-clamp",
+    "method": "Slim horizontal camera bar with two end caps and a centered optic"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/camera-background-v1/camera-static/camera-bar-clamp/v1/model.glb",
+    "sha256": "3a4ae0f1ce089c6788d2990246ad4cd32918d78b1c026f2530cc151ccb4d8bf6",
+    "bytes": 111964
+  },
+  "checks": {
+    "meshCount": 6,
+    "triangles": 1172,
+    "nodeNames": [
+      "camera-body",
+      "camera-front-plate",
+      "camera-lens",
+      "camera-end-left",
+      "camera-end-right",
+      "recording-led"
+    ],
+    "localBounds": {
+      "min": [
+        -0.08500000089406967,
+        1.4901161207725444e-10,
+        -0.03500000014901161
+      ],
+      "max": [
+        0.08500000089406967,
+        0.07100000018998981,
+        0.05200000005215406
+      ]
+    },
+    "geometrySha256": "fe355bc880c49d4b75cbab7cce07ace27d96f4b12779bc79d093fd170167c171",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true
+  },
+  "camera": {
+    "lensNode": "camera-lens",
+    "statusNode": "recording-led",
+    "forward": "+Z"
+  },
+  "display": {
+    "status": {
+      "stateField": "recording",
+      "nodes": [
+        "recording-led"
+      ],
+      "onColor": "#ffd16a",
+      "offColor": "#493322",
+      "emissive": "#ffd16a",
+      "onIntensity": 1.4
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "camera-static",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "camera-static",
+  "productionBranch": "camera-static",
+  "mount": "desk-surface",
+  "mounting": {"width": 0.18, "height": 0.12, "depth": 0.12, "origin": "desk support plane centre"},
+  "coordinates": {"units": "metres", "up": "+Y", "forward": "+Z", "origin": "Desk support plane centre; lens faces +Z", "scale": "Identity only"},
+  "footprint": {"center": [0, 0], "halfSize": [0.09, 0.06], "blocking": false},
+  "usePoints": [],
+  "stateDefaults": {"recording": false},
+  "stateSchema": {"recording": {"type": "boolean"}},
+  "stateSemantics": {"recording": "camera-recording-indicator"},
+  "camera": {"lensNode": "camera-lens", "statusNode": "recording-led", "forward": "+Z"},
+  "materialSlots": {"body": ["camera-body"], "lens": ["camera-lens"], "status": ["recording-led"]}
+}

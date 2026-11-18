@@ -216,6 +216,31 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
             }
           }
         }
+        // Other static display resources (for example a camera recording LED or
+        // a background content panel) declare their own state field.  This
+        // keeps visual state mapping generic without giving each facility a
+        // private renderer path.
+        for(const [displayKey, mapping] of Object.entries(entry.resource.display||{})) {
+          if(displayKey==='screen'||!mapping||!Array.isArray(mapping.nodes)||!mapping.nodes.length)continue;
+          const field=mapping.stateField||(displayKey==='status'?'recording':displayKey==='content'?'visible':null);
+          if(!field)continue;
+          const value=entry.state[field]??entry.resource.stateDefaults?.[field];
+          for(const name of mapping.nodes) {
+            const mesh=parts.get(name);
+            if(!mesh?.isMesh)throw new CompanyError('missing-display-mesh',`${entry.id}.${name}`,'Display target must resolve to a mesh');
+            const visible=field==='visible'?Boolean(value):true;
+            mesh.visible=visible;
+            for(const material of [mesh.material].flat()) {
+              if(!material)continue;
+              const onColor=mapping.onColor||mapping.accentColor, offColor=mapping.offColor;
+              if(onColor&&offColor&&material.color)material.color.set(value?onColor:offColor);
+              if(material.emissive&&mapping.emissive) {
+                material.emissive.set(value?mapping.emissive:'#000000');
+                material.emissiveIntensity=value?Number(mapping.onIntensity??1):0;
+              }
+            }
+          }
+        }
         const facility={...entry,root,parts,visual};
         facility.mirrors=createMirrorBindings(entry.resource,parts,entry.id,mirrorRenderProfile);
         facility.mirror=facility.mirrors[0]||null;

@@ -23279,6 +23279,1038 @@
           "chair-leg-4"
         ]
       }
+    },
+    {
+      "id": "camera-orbit-eye",
+      "displayName": "环形镜头",
+      "version": 1,
+      "category": "dynamic",
+      "mountRole": "camera-static",
+      "productionBranch": "camera-device",
+      "mount": "desk-surface",
+      "mounting": {
+        "width": 0.18,
+        "height": 0.12,
+        "depth": 0.12,
+        "origin": "desk support plane centre"
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Desk support plane centre; lens faces +Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.09,
+          0.06
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "recording": false
+      },
+      "stateSchema": {
+        "recording": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "recording": "camera-recording-indicator"
+      },
+      "materialSlots": {
+        "body": [
+          "camera-body"
+        ],
+        "lens": [
+          "camera-lens"
+        ],
+        "status": [
+          "recording-led"
+        ]
+      },
+      "provenance": {
+        "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "TorusGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-camera-background-v1/parameters.json",
+        "sourceParametersSha256": "f6838529231c4006d367f81c7bfd6babee28b53fd59e7276704c13da81e074c2",
+        "functionalContractSource": "assets-source/company-camera-background-v1/contracts/camera-static.json",
+        "functionalContractSourceSha256": "774ede8bdaf8a092104d1e2aefa6e9ff67a3c6e0d4ce367a07432149eaf63c82",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "camera-device",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-camera-background-collection.mjs",
+        "generatorSha256": "6e65ca47c42aca50ef8e0d773b235212c1b4b1a657097cddd5b874dce62d6ec0",
+        "designId": "camera-orbit-eye",
+        "method": "Compact camera body with a raised orbit lens ring and recording LED"
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/camera-background-v1/camera-static/camera-orbit-eye/v1/model.glb",
+        "sha256": "f08ea3ca19eef261f82322c26d86426033d039c744d0b5c25a6bae787a096004",
+        "bytes": 117168
+      },
+      "checks": {
+        "meshCount": 5,
+        "triangles": 1556,
+        "nodeNames": [
+          "camera-body",
+          "camera-optic-ring",
+          "camera-lens",
+          "camera-foot",
+          "recording-led"
+        ],
+        "localBounds": {
+          "min": [
+            -0.07999999821186066,
+            -1.490116086078075e-10,
+            -0.04399999910593033
+          ],
+          "max": [
+            0.07999999821186066,
+            0.07100000018998981,
+            0.05800000005215407
+          ]
+        },
+        "geometrySha256": "98e83a24e244220ac992481521de6a0445f052d10fe96fe250056168dc41b8f1",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true
+      },
+      "camera": {
+        "lensNode": "camera-lens",
+        "statusNode": "recording-led",
+        "forward": "+Z"
+      },
+      "display": {
+        "status": {
+          "stateField": "recording",
+          "nodes": [
+            "recording-led"
+          ],
+          "onColor": "#ff6b62",
+          "offColor": "#3b2528",
+          "emissive": "#ff6b62",
+          "onIntensity": 1.4
+        }
+      }
+    },
+    {
+      "id": "camera-bar-clamp",
+      "displayName": "横条镜头",
+      "version": 1,
+      "category": "dynamic",
+      "mountRole": "camera-static",
+      "productionBranch": "camera-device",
+      "mount": "desk-surface",
+      "mounting": {
+        "width": 0.18,
+        "height": 0.12,
+        "depth": 0.12,
+        "origin": "desk support plane centre"
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Desk support plane centre; lens faces +Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.09,
+          0.06
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "recording": false
+      },
+      "stateSchema": {
+        "recording": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "recording": "camera-recording-indicator"
+      },
+      "materialSlots": {
+        "body": [
+          "camera-body"
+        ],
+        "lens": [
+          "camera-lens"
+        ],
+        "status": [
+          "recording-led"
+        ]
+      },
+      "provenance": {
+        "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "TorusGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-camera-background-v1/parameters.json",
+        "sourceParametersSha256": "f6838529231c4006d367f81c7bfd6babee28b53fd59e7276704c13da81e074c2",
+        "functionalContractSource": "assets-source/company-camera-background-v1/contracts/camera-static.json",
+        "functionalContractSourceSha256": "774ede8bdaf8a092104d1e2aefa6e9ff67a3c6e0d4ce367a07432149eaf63c82",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "camera-device",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-camera-background-collection.mjs",
+        "generatorSha256": "6e65ca47c42aca50ef8e0d773b235212c1b4b1a657097cddd5b874dce62d6ec0",
+        "designId": "camera-bar-clamp",
+        "method": "Slim horizontal camera bar with two end caps and a centered optic"
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/camera-background-v1/camera-static/camera-bar-clamp/v1/model.glb",
+        "sha256": "3a4ae0f1ce089c6788d2990246ad4cd32918d78b1c026f2530cc151ccb4d8bf6",
+        "bytes": 111964
+      },
+      "checks": {
+        "meshCount": 6,
+        "triangles": 1172,
+        "nodeNames": [
+          "camera-body",
+          "camera-front-plate",
+          "camera-lens",
+          "camera-end-left",
+          "camera-end-right",
+          "recording-led"
+        ],
+        "localBounds": {
+          "min": [
+            -0.08500000089406967,
+            1.4901161207725444e-10,
+            -0.03500000014901161
+          ],
+          "max": [
+            0.08500000089406967,
+            0.07100000018998981,
+            0.05200000005215406
+          ]
+        },
+        "geometrySha256": "fe355bc880c49d4b75cbab7cce07ace27d96f4b12779bc79d093fd170167c171",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true
+      },
+      "camera": {
+        "lensNode": "camera-lens",
+        "statusNode": "recording-led",
+        "forward": "+Z"
+      },
+      "display": {
+        "status": {
+          "stateField": "recording",
+          "nodes": [
+            "recording-led"
+          ],
+          "onColor": "#ffd16a",
+          "offColor": "#493322",
+          "emissive": "#ffd16a",
+          "onIntensity": 1.4
+        }
+      }
+    },
+    {
+      "id": "camera-cube-slate",
+      "displayName": "方盒镜头",
+      "version": 1,
+      "category": "dynamic",
+      "mountRole": "camera-static",
+      "productionBranch": "camera-device",
+      "mount": "desk-surface",
+      "mounting": {
+        "width": 0.18,
+        "height": 0.12,
+        "depth": 0.12,
+        "origin": "desk support plane centre"
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Desk support plane centre; lens faces +Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.09,
+          0.06
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "recording": false
+      },
+      "stateSchema": {
+        "recording": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "recording": "camera-recording-indicator"
+      },
+      "materialSlots": {
+        "body": [
+          "camera-body"
+        ],
+        "lens": [
+          "camera-lens"
+        ],
+        "status": [
+          "recording-led"
+        ]
+      },
+      "provenance": {
+        "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "TorusGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-camera-background-v1/parameters.json",
+        "sourceParametersSha256": "f6838529231c4006d367f81c7bfd6babee28b53fd59e7276704c13da81e074c2",
+        "functionalContractSource": "assets-source/company-camera-background-v1/contracts/camera-static.json",
+        "functionalContractSourceSha256": "774ede8bdaf8a092104d1e2aefa6e9ff67a3c6e0d4ce367a07432149eaf63c82",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "camera-device",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-camera-background-collection.mjs",
+        "generatorSha256": "6e65ca47c42aca50ef8e0d773b235212c1b4b1a657097cddd5b874dce62d6ec0",
+        "designId": "camera-cube-slate",
+        "method": "Squared slate camera with chamfered front plate and offset indicator"
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/camera-background-v1/camera-static/camera-cube-slate/v1/model.glb",
+        "sha256": "78c098045460d31dbd1b2d63b27d912534ef26d347a72fecb89dbc4ec7100f7d",
+        "bytes": 106264
+      },
+      "checks": {
+        "meshCount": 5,
+        "triangles": 1088,
+        "nodeNames": [
+          "camera-body",
+          "camera-front-plate",
+          "camera-lens",
+          "camera-heel",
+          "recording-led"
+        ],
+        "localBounds": {
+          "min": [
+            -0.07500000298023224,
+            -1.7881393449270533e-9,
+            -0.05000000178813934
+          ],
+          "max": [
+            0.07500000298023224,
+            0.09000000178813934,
+            0.06000000021606684
+          ]
+        },
+        "geometrySha256": "54fd40314cf9ba0c851d93cee17719e2b995c74a2ac81c38444d8e457d546d7d",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true
+      },
+      "camera": {
+        "lensNode": "camera-lens",
+        "statusNode": "recording-led",
+        "forward": "+Z"
+      },
+      "display": {
+        "status": {
+          "stateField": "recording",
+          "nodes": [
+            "recording-led"
+          ],
+          "onColor": "#85b5ff",
+          "offColor": "#27344c",
+          "emissive": "#85b5ff",
+          "onIntensity": 1.4
+        }
+      }
+    },
+    {
+      "id": "camera-pod-cream",
+      "displayName": "胶囊镜头",
+      "version": 1,
+      "category": "dynamic",
+      "mountRole": "camera-static",
+      "productionBranch": "camera-device",
+      "mount": "desk-surface",
+      "mounting": {
+        "width": 0.18,
+        "height": 0.12,
+        "depth": 0.12,
+        "origin": "desk support plane centre"
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Desk support plane centre; lens faces +Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.09,
+          0.06
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "recording": false
+      },
+      "stateSchema": {
+        "recording": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "recording": "camera-recording-indicator"
+      },
+      "materialSlots": {
+        "body": [
+          "camera-body"
+        ],
+        "lens": [
+          "camera-lens"
+        ],
+        "status": [
+          "recording-led"
+        ]
+      },
+      "provenance": {
+        "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "TorusGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-camera-background-v1/parameters.json",
+        "sourceParametersSha256": "f6838529231c4006d367f81c7bfd6babee28b53fd59e7276704c13da81e074c2",
+        "functionalContractSource": "assets-source/company-camera-background-v1/contracts/camera-static.json",
+        "functionalContractSourceSha256": "774ede8bdaf8a092104d1e2aefa6e9ff67a3c6e0d4ce367a07432149eaf63c82",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "camera-device",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-camera-background-collection.mjs",
+        "generatorSha256": "6e65ca47c42aca50ef8e0d773b235212c1b4b1a657097cddd5b874dce62d6ec0",
+        "designId": "camera-pod-cream",
+        "method": "Rounded capsule camera pod with a forward lens hood and warm status lamp"
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/camera-background-v1/camera-static/camera-pod-cream/v1/model.glb",
+        "sha256": "7695ce545d781a48efc105fef4aeda11a9551d5cbe3aa2cb3333c694e6acbbfb",
+        "bytes": 117160
+      },
+      "checks": {
+        "meshCount": 5,
+        "triangles": 1556,
+        "nodeNames": [
+          "camera-body",
+          "camera-lens",
+          "camera-optic-ring",
+          "camera-foot",
+          "recording-led"
+        ],
+        "localBounds": {
+          "min": [
+            -0.07500000298023224,
+            -1.490116086078075e-10,
+            -0.04500000178813934
+          ],
+          "max": [
+            0.07500000298023224,
+            0.07100000018998981,
+            0.05870633914321661
+          ]
+        },
+        "geometrySha256": "b6660e7ff5fb506dc73607d9079640acf23d0af003e3ef0a459ed01f2de2f2ec",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true
+      },
+      "camera": {
+        "lensNode": "camera-lens",
+        "statusNode": "recording-led",
+        "forward": "+Z"
+      },
+      "display": {
+        "status": {
+          "stateField": "recording",
+          "nodes": [
+            "recording-led"
+          ],
+          "onColor": "#ffb35e",
+          "offColor": "#4a3424",
+          "emissive": "#ffb35e",
+          "onIntensity": 1.4
+        }
+      }
+    },
+    {
+      "id": "background-brand-panel",
+      "displayName": "品牌条带板",
+      "version": 1,
+      "category": "decor",
+      "mountRole": "background-panel",
+      "productionBranch": "background-display",
+      "mount": "floor-surface",
+      "mounting": {
+        "width": 2.4,
+        "height": 2.2,
+        "depth": 0.08,
+        "origin": "bottom"
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Floor contact centre; display face +Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          1.2,
+          0.04
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "visible": true
+      },
+      "stateSchema": {
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "visible": "background-panel-visible"
+      },
+      "materialSlots": {
+        "surface": [
+          "background-surface"
+        ],
+        "edge": [
+          "background-edge"
+        ],
+        "accent": [
+          "background-accent"
+        ]
+      },
+      "provenance": {
+        "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "TorusGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-camera-background-v1/parameters.json",
+        "sourceParametersSha256": "f6838529231c4006d367f81c7bfd6babee28b53fd59e7276704c13da81e074c2",
+        "functionalContractSource": "assets-source/company-camera-background-v1/contracts/background-panel.json",
+        "functionalContractSourceSha256": "1d57c85a00a0094f610830aed9b2a3174a38983aa2e1dc75bddac8f65a866ab3",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "background-display",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-camera-background-collection.mjs",
+        "generatorSha256": "6e65ca47c42aca50ef8e0d773b235212c1b4b1a657097cddd5b874dce62d6ec0",
+        "designId": "background-brand-panel",
+        "method": "Solid panel with an inset brand stripe and lower plinth"
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/camera-background-v1/background-panel/background-brand-panel/v1/model.glb",
+        "sha256": "b2c963645b398ca7c6e8edfe366c73df271e3647964c36c8a14d24c1172addb4",
+        "bytes": 9940
+      },
+      "checks": {
+        "meshCount": 5,
+        "triangles": 60,
+        "nodeNames": [
+          "background-surface",
+          "background-edge",
+          "background-accent",
+          "background-content",
+          "background-brand-plinth"
+        ],
+        "localBounds": {
+          "min": [
+            -1.2000000476837158,
+            -2.3841857821338408e-8,
+            -0.03999999910593033
+          ],
+          "max": [
+            1.2000000476837158,
+            2.200000023841858,
+            0.03999999961256981
+          ]
+        },
+        "geometrySha256": "8b482242350a2746e52efc4ec1983cff754213aba7acac5439b3e30b56ad12ed",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true
+      },
+      "background": {
+        "surfaceNode": "background-surface",
+        "contentSlot": "background-content",
+        "front": "+Z"
+      },
+      "display": {
+        "content": {
+          "stateField": "visible",
+          "nodes": [
+            "background-content"
+          ],
+          "accentColor": "#9fe3d1"
+        }
+      }
+    },
+    {
+      "id": "background-slat-panel",
+      "displayName": "竖向格栅板",
+      "version": 1,
+      "category": "decor",
+      "mountRole": "background-panel",
+      "productionBranch": "background-display",
+      "mount": "floor-surface",
+      "mounting": {
+        "width": 2.4,
+        "height": 2.2,
+        "depth": 0.08,
+        "origin": "bottom"
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Floor contact centre; display face +Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          1.2,
+          0.04
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "visible": true
+      },
+      "stateSchema": {
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "visible": "background-panel-visible"
+      },
+      "materialSlots": {
+        "surface": [
+          "background-surface"
+        ],
+        "edge": [
+          "background-edge"
+        ],
+        "accent": [
+          "background-accent"
+        ]
+      },
+      "provenance": {
+        "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "TorusGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-camera-background-v1/parameters.json",
+        "sourceParametersSha256": "f6838529231c4006d367f81c7bfd6babee28b53fd59e7276704c13da81e074c2",
+        "functionalContractSource": "assets-source/company-camera-background-v1/contracts/background-panel.json",
+        "functionalContractSourceSha256": "1d57c85a00a0094f610830aed9b2a3174a38983aa2e1dc75bddac8f65a866ab3",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "background-display",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-camera-background-collection.mjs",
+        "generatorSha256": "6e65ca47c42aca50ef8e0d773b235212c1b4b1a657097cddd5b874dce62d6ec0",
+        "designId": "background-slat-panel",
+        "method": "Warm panel with evenly spaced raised vertical slats"
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/camera-background-v1/background-panel/background-slat-panel/v1/model.glb",
+        "sha256": "7cd772414610a6a12e607694c2a8d6d43cb70cfcf97f58bd645a6721c34676b8",
+        "bytes": 24592
+      },
+      "checks": {
+        "meshCount": 13,
+        "triangles": 156,
+        "nodeNames": [
+          "background-surface",
+          "background-edge",
+          "background-content",
+          "background-accent",
+          "background-accent-slat-1",
+          "background-accent-slat-2",
+          "background-accent-slat-3",
+          "background-accent-slat-4",
+          "background-accent-slat-5",
+          "background-accent-slat-6",
+          "background-accent-slat-7",
+          "background-accent-slat-8",
+          "background-slat-rail"
+        ],
+        "localBounds": {
+          "min": [
+            -1.2000000476837158,
+            -2.3841857821338408e-8,
+            -0.03999999910593033
+          ],
+          "max": [
+            1.2000000476837158,
+            2.200000023841858,
+            0.03999999910593033
+          ]
+        },
+        "geometrySha256": "667c68e75da9cba7fb06e9c8bb87a6aea5679a41efd0b5f5d9fb80a4bdf272b8",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true
+      },
+      "background": {
+        "surfaceNode": "background-surface",
+        "contentSlot": "background-content",
+        "front": "+Z"
+      },
+      "display": {
+        "content": {
+          "stateField": "visible",
+          "nodes": [
+            "background-content"
+          ],
+          "accentColor": "#d4a16e"
+        }
+      }
+    },
+    {
+      "id": "background-grid-panel",
+      "displayName": "商品网格板",
+      "version": 1,
+      "category": "decor",
+      "mountRole": "background-panel",
+      "productionBranch": "background-display",
+      "mount": "floor-surface",
+      "mounting": {
+        "width": 2.4,
+        "height": 2.2,
+        "depth": 0.08,
+        "origin": "bottom"
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Floor contact centre; display face +Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          1.2,
+          0.04
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "visible": true
+      },
+      "stateSchema": {
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "visible": "background-panel-visible"
+      },
+      "materialSlots": {
+        "surface": [
+          "background-surface"
+        ],
+        "edge": [
+          "background-edge"
+        ],
+        "accent": [
+          "background-accent"
+        ]
+      },
+      "provenance": {
+        "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "TorusGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-camera-background-v1/parameters.json",
+        "sourceParametersSha256": "f6838529231c4006d367f81c7bfd6babee28b53fd59e7276704c13da81e074c2",
+        "functionalContractSource": "assets-source/company-camera-background-v1/contracts/background-panel.json",
+        "functionalContractSourceSha256": "1d57c85a00a0094f610830aed9b2a3174a38983aa2e1dc75bddac8f65a866ab3",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "background-display",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-camera-background-collection.mjs",
+        "generatorSha256": "6e65ca47c42aca50ef8e0d773b235212c1b4b1a657097cddd5b874dce62d6ec0",
+        "designId": "background-grid-panel",
+        "method": "Cool panel with a recessed square grid for product framing"
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/camera-background-v1/background-panel/background-grid-panel/v1/model.glb",
+        "sha256": "23248421901537f7aa9492ee5b2f692c2032a5efb2f7a5ce3a4ffeca86787d29",
+        "bytes": 22680
+      },
+      "checks": {
+        "meshCount": 12,
+        "triangles": 144,
+        "nodeNames": [
+          "background-surface",
+          "background-edge",
+          "background-content",
+          "background-accent",
+          "background-grid-h-086",
+          "background-grid-h-13",
+          "background-grid-h-174",
+          "background-grid-v--078",
+          "background-grid-v--039",
+          "background-grid-v-0",
+          "background-grid-v-039",
+          "background-grid-v-078"
+        ],
+        "localBounds": {
+          "min": [
+            -1.2000000476837158,
+            -2.3841857821338408e-8,
+            -0.03999999910593033
+          ],
+          "max": [
+            1.2000000476837158,
+            2.200000023841858,
+            0.03999999910593033
+          ]
+        },
+        "geometrySha256": "dfa67f2ed32ece021e584915c1f4d882fd0bc885f62d89b9318c04d619d42abe",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true
+      },
+      "background": {
+        "surfaceNode": "background-surface",
+        "contentSlot": "background-content",
+        "front": "+Z"
+      },
+      "display": {
+        "content": {
+          "stateField": "visible",
+          "nodes": [
+            "background-content"
+          ],
+          "accentColor": "#a9c7eb"
+        }
+      }
+    },
+    {
+      "id": "background-soft-panel",
+      "displayName": "柔光纹理板",
+      "version": 1,
+      "category": "decor",
+      "mountRole": "background-panel",
+      "productionBranch": "background-display",
+      "mount": "floor-surface",
+      "mounting": {
+        "width": 2.4,
+        "height": 2.2,
+        "depth": 0.08,
+        "origin": "bottom"
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Floor contact centre; display face +Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          1.2,
+          0.04
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "visible": true
+      },
+      "stateSchema": {
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "visible": "background-panel-visible"
+      },
+      "materialSlots": {
+        "surface": [
+          "background-surface"
+        ],
+        "edge": [
+          "background-edge"
+        ],
+        "accent": [
+          "background-accent"
+        ]
+      },
+      "provenance": {
+        "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "TorusGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-camera-background-v1/parameters.json",
+        "sourceParametersSha256": "f6838529231c4006d367f81c7bfd6babee28b53fd59e7276704c13da81e074c2",
+        "functionalContractSource": "assets-source/company-camera-background-v1/contracts/background-panel.json",
+        "functionalContractSourceSha256": "1d57c85a00a0094f610830aed9b2a3174a38983aa2e1dc75bddac8f65a866ab3",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "background-display",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-camera-background-collection.mjs",
+        "generatorSha256": "6e65ca47c42aca50ef8e0d773b235212c1b4b1a657097cddd5b874dce62d6ec0",
+        "designId": "background-soft-panel",
+        "method": "Muted panel with a stepped fabric-like relief and top valance"
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/camera-background-v1/background-panel/background-soft-panel/v1/model.glb",
+        "sha256": "f1fa0aac9ea185f8c49523ee36531521a530f757db586b1a46c44c6d765a3cbc",
+        "bytes": 17204
+      },
+      "checks": {
+        "meshCount": 9,
+        "triangles": 108,
+        "nodeNames": [
+          "background-surface",
+          "background-edge",
+          "background-content",
+          "background-accent",
+          "background-soft-step-068",
+          "background-soft-step-102",
+          "background-soft-step-136",
+          "background-soft-step-17",
+          "background-soft-valance"
+        ],
+        "localBounds": {
+          "min": [
+            -1.2000000476837158,
+            -2.3841857821338408e-8,
+            -0.03999999910593033
+          ],
+          "max": [
+            1.2000000476837158,
+            2.200000023841858,
+            0.03999999977648258
+          ]
+        },
+        "geometrySha256": "f5124a322e1a4859d05e9c37e1dc6e9cc6582ec4ff47d31ca8a6ebbbc784f1db",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true
+      },
+      "background": {
+        "surfaceNode": "background-surface",
+        "contentSlot": "background-content",
+        "front": "+Z"
+      },
+      "display": {
+        "content": {
+          "stateField": "visible",
+          "nodes": [
+            "background-content"
+          ],
+          "accentColor": "#c8d6bc"
+        }
+      }
     }
   ]
 }

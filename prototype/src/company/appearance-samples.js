@@ -43,6 +43,7 @@ export const appearanceBranches=[
  ['sliding-drawer-cabinet','单抽屉收纳柜'],
  ['storage-shelf','多层开放架'],['tabletop-ornament','台面陈列摆件'],
  ['desk','桌子'],['chair','单人座椅'],['sofa','双人沙发'],['monitor','屏幕'],['fill-light','补光系统'],
+ ['camera-device','摄像设备'],['background-display','直播背景'],
  ['keyboard','键盘'],['desk-microphone','桌面麦克风'],['plant','绿植'],['wall-art','挂画'],
  ['floor-panel','地板模块'],['wall-panel','墙面模块'],['door-frame','开放门框'],['window-panel','窗饰模块'],['rug','地毯'],['stream-station','组合直播工位'],
 ];
@@ -112,9 +113,12 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
  else {
    const transforms={sofa:[[-2.8,0,1.7],0],chair:[[-2.8,0,1.7],0],'fill-light':[[-2.8,0,1.7],0],plant:[[3.4,0,1.8],0],'wall-art':[[0,1.4,-3.4],0],
      'wall-panel':[[-2,0,-3.4],0],'window-panel':[[2,1.4,-3.4],0],'door-frame':[[0,0,3.4],Math.PI],
-     'floor-panel':[[2,0,-1.5],0],rug:[[0,0,1.8],0]};
+     'floor-panel':[[2,0,-1.5],0],rug:[[0,0,1.8],0], 'camera-device':[[.52,.84,-.02],0], 'background-display':[[0,0,-2.6],0]};
    const [position,yaw]=transforms[branch];target='sample/object';
-   ops.push({type:'add-facility',id:target,parentId:room.id,resource:{id:selected.id,version:selected.version},transform:{position,yaw}});
+   const parentId=branch==='camera-device'?`${station}/desk`:room.id;
+   const cameraPosition=branch==='camera-device'?[.52,.84,-.02]:position;
+   ops.push({type:'add-facility',id:branch==='camera-device'?`${station}/camera`:target,parentId,resource:{id:selected.id,version:selected.version},transform:{position:cameraPosition,yaw}});
+   if(branch==='camera-device')target=`${station}/camera`;
  }
  doc=prepareCompanyChange(doc,ops,{catalog,templates}).document;
  return {document:doc,target,branch,index,resource:{id:selected.id,version:selected.version}};
