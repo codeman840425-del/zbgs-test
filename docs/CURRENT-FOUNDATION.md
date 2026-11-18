@@ -127,3 +127,4 @@
 2026-11-18 资源预算主包回执：FaceContour KTX2 旁车通过两体各 9/9 合同检查，旁车仍是 `safe-candidate-only`。v18 的两项静态预算决策仍为 `reject-static-over-budget`，ordinary-PC 为 `unmeasured`，没有改变 `acceptedForRuntime=[]`。下一最小输入已写入报告，包括固定构建的浏览器/WebGL 解码与关闭重开、普通电脑测量，以及清除静态超限的资源规格或新导出。
 
 2026-11-18 发型合同缺口：概念图中的短发可复用现有精确身体行，中长发和双马尾需要独立资源包与 fit。当前多数发型包尚未闭合 `bodyType/provenance`，旧 implicit fit 不能作为跨身体批产依据。该审查不制作新模型，下一步优先补共同身份合同和候选准入，不回到单模型外观精修。
+2026-11-18 发型合同审计已落地为可重复检查：`scripts/production/qa-hairstyle-contract.mjs` 生成 `evidence/m2-hairstyle-contract-v1/report.json`，当前 27 条记录中 25 条显式闭合，2 条历史 implicit fit 被标记为迁移项。该审计只收紧未来批产输入，不制作新模型、不改变 `runtimeVariants` 或准入结果。下一批发型必须携带精确 `bodyType`、`fit`、资源哈希和来源闭包，中长发与双马尾仍需独立生产样件。
