@@ -595,7 +595,7 @@ def glasses_candidate_index(path: Path, root: Path = ROOT) -> dict[str, dict[str
     require(path.is_file() and path.is_relative_to(root),
             "Glasses candidate report must be inside repository")
     report = read_json(path)
-    require(report.get("schema") in ("native-glasses-candidate-runtime-v1", "native-glasses-candidate-chain-v1") and
+    require(report.get("schema") in ("native-glasses-candidate-runtime-v1", "native-glasses-candidate-chain-v1", "native-glasses-candidate-lifecycle-v1") and
             report.get("status") == "candidate-only",
             "Unsupported glasses candidate report")
     result: dict[str, dict[str, Any]] = {}
@@ -604,7 +604,7 @@ def glasses_candidate_index(path: Path, root: Path = ROOT) -> dict[str, dict[str
         require(isinstance(body_sha, str) and SHA.fullmatch(body_sha),
                 "Glasses candidate body identity is incomplete")
         require(body_sha not in result, "Duplicate glasses candidate body")
-        if report.get("schema") == "native-glasses-candidate-chain-v1":
+        if report.get("schema") in ("native-glasses-candidate-chain-v1", "native-glasses-candidate-lifecycle-v1"):
             snapshots = item.get("snapshots")
             require(isinstance(snapshots, list) and snapshots,
                     "Glasses candidate chain has no snapshots")
@@ -613,6 +613,15 @@ def glasses_candidate_index(path: Path, root: Path = ROOT) -> dict[str, dict[str
                     "Glasses candidate chain is incomplete")
             close_reopen = item.get("closeReopen") is True
             require(close_reopen, "Glasses candidate chain lacks fresh-page reload")
+            if report.get("schema") == "native-glasses-candidate-lifecycle-v1":
+                lifecycle = item.get("lifecycle")
+                require(isinstance(lifecycle, dict) and
+                        all(lifecycle.get(key) is True for key in (
+                            "walkingAttached", "seatedAttached", "standingAgainAttached",
+                            "reloadedAttached", "canceledUnloadPreservesPrevious",
+                            "committedUnloadRollbackPreservesPrevious",
+                            "identityErrorRollbackPreservesPrevious")),
+                        "Glasses candidate lifecycle is incomplete")
             stand_applied = bool(item.get("fit"))
             sit_applied = any(
                 row.get("name") == "seated" and
@@ -630,7 +639,7 @@ def glasses_candidate_index(path: Path, root: Path = ROOT) -> dict[str, dict[str
             chain = None
         result[body_sha] = {
             "report": pin(path),
-            "body": item.get("body"),
+            "body": item.get("body", item.get("bodyType")),
             "bodySha256": body_sha,
             "standApplied": stand_applied,
             "sitApplied": sit_applied,

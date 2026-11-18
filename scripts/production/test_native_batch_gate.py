@@ -97,6 +97,15 @@ class NativeBatchGateTests(unittest.TestCase):
             self.assertFalse(row['verified'])
             self.assertEqual(row['clears'], [])
 
+    def test_glasses_candidate_lifecycle_requires_rollback_and_reload_checks(self):
+        indexed = glasses_candidate_index(Path('evidence/m2-native-glasses-candidate-lifecycle-v1/report.json'))
+        self.assertEqual(len(indexed), 2)
+        for row in indexed.values():
+            self.assertTrue(row['chain']['closeReopen'])
+            self.assertTrue(row['chain']['seated'])
+            self.assertFalse(row['verified'])
+            self.assertEqual(row['clears'], [])
+
     def test_microphone_candidate_is_attached_without_browser_clear(self):
         indexed = microphone_candidate_index(Path('evidence/m2-native-batch-runtime-seam-v1/microphone-final-v1/result.json'))
         self.assertEqual(len(indexed), 2)
