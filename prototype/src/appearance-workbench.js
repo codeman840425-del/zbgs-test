@@ -538,7 +538,9 @@ export function bindAppearanceWorkbench({ controller }) {
       productionMatrixList.replaceChildren(...styles.map(style=>{
         const item=document.createElement('li');
         const variant=style.variants[0];
-        item.textContent=`${style.label} · ${variant.status==='runtime-admitted'?'可运行准入':'候选，待准入'}`;
+        const blockers=variant.admissionBlockers?.length ? ` · 阻塞：${variant.admissionBlockers.join('、')}` : '';
+        const budget=variant.budgetStatus==='reject-static-over-budget' ? ' · 静态预算超限' : '';
+        item.textContent=`${style.label} · ${variant.status==='runtime-admitted'?'可运行准入':'候选，待准入'}${budget}${blockers}`;
         return item;
       }));
       productionMatrixNote.textContent=styles.length

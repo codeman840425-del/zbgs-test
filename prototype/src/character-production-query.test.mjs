@@ -188,6 +188,9 @@ test('exposes native parameter packages as exact candidate variants without inhe
       assert.equal(style.variants[0].bodySha256, entry.profile.sha256);
       assert.equal(style.variants[0].recipeSha256, entry.recipeSha256);
       assert.equal(style.variants[0].packageStatus, 'offline-prepared');
+      assert.equal(style.variants[0].budgetStatus, 'reject-static-over-budget');
+      assert.deepEqual(style.variants[0].admissionBlockers,
+        ['dynamicMotion', 'headAttachments', 'runtimeRecordAndBudget', 'surfaceAndTexture']);
       assert.equal(style.variants[0].status, 'candidate');
     }
     assert.deepEqual(query.runtimeVariants, []);
