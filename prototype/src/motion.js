@@ -456,9 +456,10 @@ export function createMotion(
   }
   const stance = 0.6;
   const ankleHeight = (feet[0].local.y + feet[1].local.y) / 2;
-  const seatHeight =
+  const defaultSeatHeight =
     profile?.seatHeight ??
     (feet[0].second + feet[1].second) / 2 + ankleHeight - 0.025;
+  let seatHeight = defaultSeatHeight;
   let seatPelvisClearance = 0.2;
   let seatLayerThickness = profile?.seatLayerThickness ?? 0;
   const pelvisSurface = [];
@@ -2214,6 +2215,12 @@ export function createMotion(
     getMetrics,
     snapshot: getMetrics,
     getSeatHeight: () => seatHeight,
+    // Metres above the facility's floor frame. Release the contact with null.
+    setFacilitySeatHeight(height) {
+      if (height !== null && (!Number.isFinite(height) || height <= 0))
+        throw new Error("invalid-facility-seat-height");
+      seatHeight = height ?? defaultSeatHeight;
+    },
     getSeatApproach: () => seatApproach,
     setCorrections,
     refreshPose,
