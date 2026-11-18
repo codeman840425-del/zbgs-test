@@ -3,7 +3,7 @@ import path from 'node:path';
 
 let libraryModulePromise;
 
-function installNodeImageDecodeShim() {
+export function installNodeImageDecodeShim() {
   globalThis.self ??= globalThis;
   if (globalThis.createImageBitmap) return;
   globalThis.createImageBitmap = async blob => {
@@ -13,8 +13,7 @@ function installNodeImageDecodeShim() {
     if (bytes.length >= 24 && bytes.readUInt32BE(0) === 0x89504e47) {
       width = bytes.readUInt32BE(16);
       height = bytes.readUInt32BE(20);
-    } else if (bytes.length >= 10 && bytes.toString('ascii', 0, 6) === 'GIF89a' ||
-               bytes.toString('ascii', 0, 6) === 'GIF87a') {
+    } else if (bytes.length >= 10 && ['GIF89a','GIF87a'].includes(bytes.toString('ascii',0,6))) {
       width = bytes.readUInt16LE(6);
       height = bytes.readUInt16LE(8);
     }

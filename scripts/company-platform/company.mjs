@@ -10,9 +10,18 @@ const read = async file => restoreCompany(await fs.readFile(file,'utf8'),catalog
 async function write(file, document) {
   inspectCompanyPlacement(document,catalog,templates);
   const bytes=serializeCompany(document,catalog,templates);
-  await fs.mkdir(path.dirname(path.resolve(file)),{recursive:true});
-  const handle=await fs.open(file,'wx');
-  try { await handle.writeFile(bytes,'utf8'); await handle.sync(); } finally { await handle.close(); }
+  const parent=path.dirname(path.resolve(file));
+  if(parent!==path.parse(parent).root)await fs.mkdir(parent,{recursive:true});
+  const stage=await fs.mkdtemp(path.join(parent,'.company-layout-'));
+  const candidate=path.join(stage,'layout.json');
+  try {
+    const handle=await fs.open(candidate,'wx');
+    try {await handle.writeFile(bytes,'utf8');await handle.sync();} finally {await handle.close();}
+    await fs.link(candidate,file);
+  } finally {
+    await fs.rm(candidate,{force:true});
+    await fs.rmdir(stage);
+  }
 }
 try {
   if (command==='create' && input) {

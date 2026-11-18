@@ -97,7 +97,7 @@ try {
   await jsonFile(recipePath,{...recipe,id:'wall-art-triptych',version:2});
   await expectCode(recipePath,'wall-print-id-conflict');
 
-  const lockPath = path.posix.join(path.posix.dirname(collectionPath),'.wall-print-ingress.lock');
+  const lockPath = 'scripts/company-platform/.catalog-write.lock';
   await jsonFile(recipePath,{...recipe,id:'failed-wall-print'});
   await write(lockPath,'other import');
   await expectCode(recipePath,'wall-print-import-busy');

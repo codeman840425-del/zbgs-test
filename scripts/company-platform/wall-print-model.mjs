@@ -46,7 +46,7 @@ function checkInflateBoundary(compressed, {width, height, colorType, bitDepth, i
     invalidPng('PNG IDAT compressed or decoded size does not match the declared image');
 }
 
-function validatePng(png) {
+export function validatePng(png) {
   if (png.length < signature.length || !png.subarray(0, signature.length).equals(signature))
     invalidPng('Expected a PNG signature');
   if (png.length > maxPngBytes) invalidPng('PNG exceeds the 16 MiB encoded image limit');

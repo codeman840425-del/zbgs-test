@@ -12,9 +12,9 @@ export async function validateResourceProvenance({root, resource, label = resour
     throw new Error(`missing-resource-provenance: ${label}`);
   for (const [field, hashField] of [['sourceParameters', 'sourceParametersSha256'], ['generator', 'generatorSha256'],
     ['functionalContractSource', 'functionalContractSourceSha256'], ['environmentBranchSource', 'environmentBranchSourceSha256'],
-    ['sourceImage', 'sourceImageSha256']]) {
+    ['sourceImage', 'sourceImageSha256'], ['sourceArtifactPath', 'sourceArtifactSha256']]) {
     if (!provenance[field]) {
-      if (['functionalContractSource','environmentBranchSource','sourceImage'].includes(field) && !provenance[hashField]) continue;
+      if (['functionalContractSource','environmentBranchSource','sourceImage','sourceArtifactPath'].includes(field) && !provenance[hashField]) continue;
       throw new Error(`missing-resource-provenance: ${label}.${field}`);
     }
     const file = path.resolve(root, provenance[field]);

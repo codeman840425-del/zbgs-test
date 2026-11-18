@@ -6,6 +6,11 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 const defaultSource=fileURLToPath(new URL('../../',import.meta.url));
 const fixedInputs=['company.html','vite.company.config.js','scripts/build-company-id.mjs','package.json','package-lock.json'];
 const extraFiles=[
+  'scripts/company-platform/publish-tabletop-ornaments.mjs',
+  'scripts/company-platform/test-ornament-publication.mjs',
+  'scripts/company-platform/adapt-tabletop-ornament.mjs',
+  'scripts/company-platform/qa-sourced-ornaments.cjs',
+  'assets-source/company-sourced-ornaments-v1/collection.json',
   'scripts/company-platform/describe-sourced-table.mjs',
   'scripts/company-platform/test-sourced-table-geometry.mjs',
   'scripts/company-platform/test-lounge-rooms.mjs',
@@ -416,8 +421,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(!files.has(`viewer${asset.url}`))fail('missing-runtime-asset',name,'Viewer is missing a catalog GLB');
     assetDependencies.push({id:resource.id,version:resource.version,path:name,bytes:bytes.length,sha256:hash(bytes)});
     const entry=resource.provenance;
-    for(const [field,pin]of [['sourceParameters','sourceParametersSha256'],['generator','generatorSha256'],['functionalContractSource','functionalContractSourceSha256'],['sourceImage','sourceImageSha256']]){
-      if((field==='functionalContractSource'||field==='sourceImage')&&!entry?.[field]&&!entry?.[pin])continue;
+    for(const [field,pin]of [['sourceParameters','sourceParametersSha256'],['generator','generatorSha256'],['functionalContractSource','functionalContractSourceSha256'],['sourceImage','sourceImageSha256'],['sourceArtifactPath','sourceArtifactSha256']]){
+      if((field==='functionalContractSource'||field==='sourceImage'||field==='sourceArtifactPath')&&!entry?.[field]&&!entry?.[pin])continue;
       const target=entry?.[field];relative(target);
       if(!target.startsWith('assets-source/company-')&&!target.startsWith('scripts/company-platform/')&&!target.startsWith('prototype/public/company-assets/')&&
           !(field==='functionalContractSource'&&extraFiles.includes(target)&&target.startsWith('docs/COMPANY-')))
