@@ -1,0 +1,20 @@
+公司素材登记预检合同 v1
+
+目的
+
+agent 将模型、纹理和资源描述接入公司素材库时，登记脚本必须先复用运行时资产库完成一次 CPU 预检。预检通过后才允许比较或写入注册目录，避免把只在浏览器加载阶段才暴露的问题写进可交付版本。
+
+检查范围
+
+- GLB 必须是完整 glTF 2.0 容器，使用嵌入 BIN 和 bufferView 图像，不允许外部 URI、未配置压缩扩展、骨骼或动画。
+- 资源身份、坐标、资产字节数和 SHA-256、接触点、阻挡包络、纹理 UV、有限变换和实际网格必须符合现有 asset-library 合同。
+- 声明了 mounting 的资源必须满足实际模型包络和开口净空。已有分类专用几何检查继续由 asset-library 调用。
+- URL 只能解析到本地 prototype/public/company-assets，预检不能通过网络或登记目录外的文件补齐输入。
+
+失败语义
+
+预检失败使用现有稳定 CompanyError code，例如 invalid-glb、external-asset-uri、asset-digest-mismatch、missing-contact-mesh、asset-mount-envelope-mismatch。失败时 build-library 不写注册目录，原有效目录保持可恢复。
+
+边界
+
+这是素材登记和运行时加载合同的接缝检查，不替代浏览器画面验收、普通电脑性能评估、真实角色 C3 使用或最终联调。材质解码在 Node 预检中使用尺寸保真的轻量图像解码桩，实际浏览器仍必须通过既有纹理加载检查。

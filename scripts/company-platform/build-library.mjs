@@ -3,6 +3,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {catalogMaps} from '../../prototype/src/company/document.js';
+import {preflightLibraryAssets} from './preflight-library-assets.mjs';
 const root=fileURLToPath(new URL('../..',import.meta.url));
 const plan=JSON.parse(await fs.readFile(new URL('./library-inputs.json',import.meta.url),'utf8'));
 const catalog=JSON.parse(await fs.readFile(path.join(root,plan.base),'utf8'));
@@ -40,6 +41,7 @@ for(const adapter of plan.adapters||[]) {
     provenance:{...structuredClone(source.provenance),functionalAdapter:{source:adapter.source,input:'scripts/company-platform/library-inputs.json',scope:'Explicit approach/exit adaptation; same source geometry, not a new appearance.'}}};
   if(adapter.after){const afterIndex=catalog.resources.findIndex(resource=>`${resource.id}@${resource.version}`===adapter.after);if(afterIndex<0)throw Error(`Resource adapter insertion point missing: ${adapter.after}`);catalog.resources.splice(afterIndex+1,0,adapted);}else catalog.resources.push(adapted);
 }
+await preflightLibraryAssets({root,resources:catalog.resources});
 catalogMaps(catalog,{templates:[]});
 const output=path.join(root,plan.output),text=JSON.stringify(catalog,null,2)+'\n';
 if(process.argv.includes('--check')){if(await fs.readFile(output,'utf8')!==text)throw Error('Registered catalog is stale');}
