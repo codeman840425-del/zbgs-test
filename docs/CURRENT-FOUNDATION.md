@@ -2,6 +2,8 @@
 
 ## 固定入口与备份
 
+最新私有受理构建 `9071184230a1` 已为一女一男重新登记来自同体去组实证的上衣和遮罩，批量创建两条新签名记录并完成独立冷开。现有正式交付与 4196 指针仍见下文。第 13 号已完成源制作和参数回执核验，缺该身体的去组导出。VRoid 正常历史、设置和应用缓存已有用户授权；本轮授权后的一次隐藏启动被执行工具拒绝，经查无进程、无 7811 监听。保留已固定请求，不循环启动。接续使用有权来源推进正式准入；设施接线需要同一场景持有真实接触句柄和租约并按同一时钟驱动人物。[来源、结果与复现入口](../evidence/m2-native-top-removal-intake-v1/README.md) · [精确启动阻碍](../evidence/m2-native-top-removal-intake-v1/native-launch.json)
+
 游戏制作 Agent 取 [固定交付单](../delivery/character-production-handoff.json)。当前制作工具为 `54e8a24c`，游戏为 `80fb16b7 / 5859bd00da8b`。两条已签制服记录已在干净工具检出复核。交付单绑定静态预算、签名和 48 个游戏文件。两体均超静态预算，普通机未测。短发女体的发、眉、虹膜、唇共 8 张派生画布，固定游戏的两轮 Chrome 检查确认了切换复用与逐人释放。已登记的配色可以按同一材质规则重复核算。[独立交付回读](../evidence/m2-signed-hair-cache-budget-v1/verified-handoff.json) · [逐部件比对](../evidence/m2-signed-hair-cache-budget-v1/matched.json) · [当前双人 1× 录像](../evidence/m2-uniform-agent-handoff-v1/game/produced-pair-1x.webm)
 
 CC0 男制服与领带的单槽签名记录已完成首次独立加载和关闭恢复，完整构建也完成换回原衣。当前固定交付单仍使用此前双记录。原生多片上衣的下一项是将同体去组回执、索引、材质及皮肤遮罩串入制作，十三人范围按各自证据认定。[本轮正常速度录像与复算入口](../evidence/m2-garment-group-game-v1/README.md) · [原生单片对照与错体拒绝](../evidence/m2-garment-group-input-v1/native-removal-result.json)。保留七人的既有独立冷开结果及十三人未支持边界。上一制作工具 `27ebb18f` 已给九个制作和诊断命令补上工程内写入检查，37 个迁移目录旧路径残留为 0。[多图元源配方](../evidence/m2-raw-male-equipment-v1/outfit.json) · [外部样本范围](../evidence/m2-body-intake-v1/seven-receiver-observations.md) · [输出范围实测](../evidence/character-worktree-relocation-v1/production-output-audit-v2.json) · [上一份交付单](../delivery/history/character-production-handoff-27ebb18f.json)

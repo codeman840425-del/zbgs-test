@@ -1,0 +1,28 @@
+{
+  "item": "studio-13-nami-yu",
+  "userPermission": "The existing app's normal history, settings, caches and necessary OS logging were authorized before this retry. Project sources, worktrees and exports remain within the project.",
+  "attemptsAfterAuthorization": 1,
+  "runner": "functions.exec -> tools.exec_command, PowerShell, login=false",
+  "cmdlet": "Start-Process",
+  "executable": "F:/gamemake/experiments/tools/vroid-mcp-bridge-0.15.0/app-2.16/VRoidStudio.exe",
+  "workingDirectory": "F:/gamemake/experiments/tools/vroid-mcp-bridge-0.15.0/app-2.16",
+  "argv": ["-logFile", "F:/gamemake/output/native-group-13/session-live-01/player.log"],
+  "windowStyle": "Hidden",
+  "passThru": true,
+  "preflight": ["no VRoidStudio process", "no local listener on port 7811"],
+  "plannedEnvironment": {
+    "TEMP": "F:/gamemake/output/character-work-temp",
+    "TMP": "F:/gamemake/output/character-work-temp",
+    "VROID_BRIDGE_URL": "http://127.0.0.1:7811",
+    "VROID_PRESET_CACHE": "F:/gamemake/output/native-group-13/session-live-01/presets",
+    "VROID_FRAMING_CONFIG": "F:/gamemake/output/native-group-13/session-live-01/framing.json",
+    "VROID_FRAMING_OVERRIDES": "F:/gamemake/output/native-group-13/session-live-01/framing-overrides.json"
+  },
+  "errorClassVerbatim": "exec_command failed: CreateProcess",
+  "toolRejectionVerbatim": "rejected: blocked by policy",
+  "errorScope": "The tool rejected the PowerShell invocation before execution. The tool response did not identify the trigger or a more specific policy.",
+  "followUpUtc": "2026-11-18T23:13:42.3854374Z",
+  "postCheck": {"studioProcesses": 0, "bridge7811Listeners": 0, "sessionDirectoryCreated": false, "document": "No running editor to query", "exportProduced": false},
+  "status": "native-launch-blocked",
+  "furtherRetries": 0
+}
