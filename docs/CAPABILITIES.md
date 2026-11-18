@@ -611,3 +611,5 @@ SURFACE / surfaceAndTexture。构建 ba8a7b36d01b 的两份原生女性完整记
 
 
 SURFACE / 原生暖肤色与记录移交。固定构建 436562eeac4a，两份 FaceContour 女性身体已实际从外观入口换色并还原，在基础和穿衣模式保留原有身体遮罩。原生制作经冷开确认四组 MainColor，游戏同步脸、眼线和基础／穿衣身体四张贴图，口内、眼白、绿虹膜及装备保留。两体各自缺图失败保旧，恢复后录制 1× 讲话。暖肤及绿瞳两份独立记录已通过共用游戏包关闭重开。暖肤造型各 60 个纹理对象静态上界、377840984 字节 RGBA8 估算，超预算；普通电脑未测，其他基模与唇色尚未获此结论。证据 evidence/m2-native-skin-room-v1、evidence/m2-native-skin-game-handoff-v1，绿瞳移交对照 evidence/m2-native-pair-handoff-browser-v1。
+
+原生男性 7586 独立短筒袜首次制版未通过。未遮罩人体足踝蒙皮存在，实际鞋裤静止正背投影可见约 11.23 厘米小腿。沿既有方法生成袜壳后，双踝各有八条多余开边，未导出、登记或进入游戏。此结果只适用于该派生方式。可重现脚本、源版本和材质分区图见 assets-source/native-male-crew-socks-fit-v1/。
