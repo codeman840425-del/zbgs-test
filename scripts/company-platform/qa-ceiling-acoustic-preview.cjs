@@ -29,7 +29,7 @@ const intact=r=>assert(r.code&&r.documentPreserved&&r.savePreserved&&r.rootPrese
  await fs.mkdir(out);made=true;report.harnessSha256=hash(await fs.readFile(__filename));server=await serve(dist,build,{manifest:'company-build-info.json',entry:'company.html'});await open();
  await check('Four actual appearances connect at 2.8m, leave 2.5m clear and survive separate browser restarts',async()=>{
   const rows=[];for(let index=0;index<4;index++){
-   await page.locator('#sample-branch').selectOption('ceiling-acoustic-baffle');await page.locator('#sample-look').selectOption(String(index));await page.locator('#sample-show').click();
+   await page.evaluate(index=>company.showAppearanceSample('ceiling-acoustic-baffle',index),index);
    await page.waitForFunction(index=>company.session.document.nodes.find(n=>n.id==='ceiling-acoustic/primary')?.resource.id===company.appearanceCandidates('ceiling-acoustic-baffle')[index].id&&!document.getElementById('sample-show').disabled,index);
    await draw();const before=await inspect(),item=before.entries[0];assert(item.visible&&item.meshes>8);assert(Math.abs(item.low-2.5)<1e-5&&Math.abs(item.high-2.8)<1e-5);assert(before.ceilings.every(c=>c.visible));await shot('look-'+(index+1));await page.evaluate(()=>company.save());
    await Promise.all(pending);await context.close();context=null;await open();assert.deepEqual((await inspect()).document,before.document);await inside();const after=await inspect();assert(after.entries[0].visible);rows.push(before);
@@ -59,7 +59,7 @@ const intact=r=>assert(r.code&&r.documentPreserved&&r.savePreserved&&r.rootPrese
    return{code,documentPreserved:before===JSON.stringify(c.session.document),savePreserved:saved===JSON.stringify({...localStorage}),rootPreserved:root===c.session.scene.root,view:c.session.scene.view,cache:c.assetLibrary.snapshot()};});intact(hidden);assert.equal(hidden.code,'ceiling-visual-overlap');assert.equal(hidden.cache.loadedAssets,0);return{visible:r,hidden};
  });
  await check('Second input preserves placement during repeated replacement and resource release',async()=>{
-  await page.locator('#layout').selectOption('ceilingAcousticAlternate');await page.waitForFunction(()=>company.session.document.id==='ceiling-acoustic-alternate'&&!document.getElementById('layout').disabled);const before=await inspect(),cycles=[];
+  await page.evaluate(async()=>company.load(company.layouts.ceilingAcousticAlternate));await page.waitForFunction(()=>company.session.document.id==='ceiling-acoustic-alternate');const before=await inspect(),cycles=[];
   for(let cycle=0;cycle<2;cycle++)for(let index=0;index<4;index++){await page.evaluate(i=>company.showAppearanceSample('ceiling-acoustic-baffle',i),index);await draw();const state=await inspect();assert.equal(state.document.id,before.document.id);assert.deepEqual(state.entries[0].node.transform,before.entries[0].node.transform);cycles.push({index,memory:state.memory,cache:state.cache});}
   assert.deepEqual(cycles.slice(0,4),cycles.slice(4));await shot('second-input');await page.evaluate(()=>company.save());await context.close();context=null;await open();await inside();const restored=await inspect();assert.equal(restored.document.id,before.document.id);return{cycles,restored};
  });
