@@ -1,0 +1,492 @@
+{
+  "status": "passed",
+  "legacyBuild": "2070c652571c",
+  "legacyManifestSha256": "16c896a6981fa334e2c5eda54a89d7ba4541c2fcc84fdb3ccba764ab62561256",
+  "sourceManifestUnchanged": true,
+  "upgradedFiles": {
+    "edit.mjs": "df09c1bedac8e0a0104566cc2f7ea9ea2583bf7fab5c919ce3fcb82a8f2387b2",
+    "source/scripts/company-platform/package-template/training-room.mjs": "7f5e8196f727dc30fb59cafdc93c72c212b7bcfcdd827a3f7ff06b5956ea626d"
+  },
+  "sourceDataUnchanged": 24,
+  "border": {
+    "instance": {
+      "type": "add-facility",
+      "id": "concept-dance-training-rental/ground/dance-training/test-bonsai",
+      "parentId": "concept-dance-training-rental/ground/dance-training",
+      "resource": {
+        "id": "plant-bonsai",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.625,
+          0,
+          -1.02
+        ],
+        "yaw": 0
+      }
+    },
+    "wideMinX": -1.25,
+    "narrowMinX": -1.2,
+    "plantRightEdge": -1.225
+  },
+  "identicalPackagedInput": {
+    "wide": "2daff2ac8b3eaa9f6e8c501e8115aa050302c3fead483f0b7cdafb716def87c3",
+    "narrow": "2daff2ac8b3eaa9f6e8c501e8115aa050302c3fead483f0b7cdafb716def87c3",
+    "detached": "2daff2ac8b3eaa9f6e8c501e8115aa050302c3fead483f0b7cdafb716def87c3"
+  },
+  "normalizedV3": {
+    "canonicalPackaged": "0154efe9a541ea5f1061733c6eddead7420649e2f4d5cbbd0850c3e140c43c3c",
+    "originalReceiptSave": "f419c53c7da2d56b20c01a7c5996812a35b6ce95957ae8e2a0535d3fc54d65e9"
+  },
+  "cases": [
+    {
+      "case": "rental-block",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "apply",
+        "upgraded/data/rooms/rental-original/save.json",
+        "rental-intrusion.ops.json",
+        "compat-results\\rental-block"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "case": "upper-block",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "apply",
+        "upgraded/data/rooms/upper-original/save.json",
+        "upper-intrusion.ops.json",
+        "compat-results\\upper-block"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-company/floor-beta/beta-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-company/floor-beta/beta-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-company/floor-beta/beta-training"
+      }
+    },
+    {
+      "case": "upper-old-obstructed-save",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "validate",
+        "accepted-upper/save.json"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-company/floor-beta/beta-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-company/floor-beta/beta-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-company/floor-beta/beta-training"
+      }
+    },
+    {
+      "case": "rental-old-obstructed-save-explicit",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "validate",
+        "accepted-rental/save.json",
+        "--room",
+        "rental-original"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "case": "original-safe-receipt",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "apply",
+        "upgraded/data/rooms/rental-original/save.json",
+        "rental-safe.ops.json",
+        "compat-results\\original-safe-receipt"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-rental",
+        "revision": 3,
+        "floors": [
+          "concept-dance-training-rental/ground"
+        ],
+        "output": "compat-results\\original-safe-receipt"
+      },
+      "written": {
+        "layout.json": "5f92a45c1f64248e5109bd6b43f198ee5534ffeebdc1f8decdec7011a5b2a672",
+        "save.json": "f419c53c7da2d56b20c01a7c5996812a35b6ce95957ae8e2a0535d3fc54d65e9",
+        "training-edit.json": "e5c9ae4d6cf7345a261789192e1d9bb1441bd04896f4738de2728e451c8b8682"
+      },
+      "constraint": {
+        "activity": {
+          "clearHeight": 2.2,
+          "maxX": 1,
+          "maxZ": 1.25,
+          "minX": -1.25,
+          "minZ": -1.25
+        },
+        "entry": {
+          "clearHeight": 2.2,
+          "maxX": -1.15,
+          "maxZ": 0.5,
+          "minX": -2.25,
+          "minZ": -0.5,
+          "portalId": "concept-dance-training-rental/ground/portal-work-living"
+        },
+        "roomId": "concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "case": "wide-rejects-border",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "apply",
+        "upgraded/data/rooms/rental-original/save.json",
+        "compat-border.ops.json",
+        "compat-results\\wide-rejects-border"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "case": "narrow-allows-border",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "apply",
+        "upgraded/data/rooms/rental-narrow/save.json",
+        "compat-border.ops.json",
+        "compat-results\\narrow-allows-border"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-rental",
+        "revision": 3,
+        "floors": [
+          "concept-dance-training-rental/ground"
+        ],
+        "output": "compat-results\\narrow-allows-border"
+      },
+      "written": {
+        "layout.json": "89391034a0a23da4f9894f75bec555fd164d391af4902cbc889dbf8a7bb03d4a",
+        "save.json": "812b60bf3610c76ef4be7e0c0c4becdb8a9bda7d3b8db3e9b94d5a0f179278b4",
+        "training-edit.json": "db0b4b8cc05973e9e0738969c0c790ecd403138e61150a79984b0e75c0f8fd4e"
+      },
+      "constraint": {
+        "activity": {
+          "clearHeight": 2.2,
+          "maxX": 1,
+          "maxZ": 1.25,
+          "minX": -1.2,
+          "minZ": -1.25
+        },
+        "entry": {
+          "clearHeight": 2.2,
+          "maxX": -1.15,
+          "maxZ": 0.5,
+          "minX": -2.25,
+          "minZ": -0.5,
+          "portalId": "concept-dance-training-rental/ground/portal-work-living"
+        },
+        "roomId": "concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "case": "detached-ambiguous",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "validate",
+        "detached-rental.json"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "ambiguous-training-room",
+        "path": "detached-rental.json",
+        "message": "Use the original packaged room path or append --room KEY to select the intended room."
+      }
+    },
+    {
+      "case": "detached-wide-rejects-border",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "apply",
+        "detached-rental.json",
+        "compat-border.ops.json",
+        "compat-results\\detached-wide-rejects-border",
+        "--room",
+        "rental-original"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "case": "detached-narrow-allows-border",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "apply",
+        "detached-rental.json",
+        "compat-border.ops.json",
+        "compat-results\\detached-narrow-allows-border",
+        "--room",
+        "rental-narrow"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-rental",
+        "revision": 3,
+        "floors": [
+          "concept-dance-training-rental/ground"
+        ],
+        "output": "compat-results\\detached-narrow-allows-border"
+      },
+      "written": {
+        "layout.json": "89391034a0a23da4f9894f75bec555fd164d391af4902cbc889dbf8a7bb03d4a",
+        "save.json": "812b60bf3610c76ef4be7e0c0c4becdb8a9bda7d3b8db3e9b94d5a0f179278b4",
+        "training-edit.json": "db0b4b8cc05973e9e0738969c0c790ecd403138e61150a79984b0e75c0f8fd4e"
+      },
+      "constraint": {
+        "activity": {
+          "clearHeight": 2.2,
+          "maxX": 1,
+          "maxZ": 1.25,
+          "minX": -1.2,
+          "minZ": -1.25
+        },
+        "entry": {
+          "clearHeight": 2.2,
+          "maxX": -1.15,
+          "maxZ": 0.5,
+          "minX": -2.25,
+          "minZ": -0.5,
+          "portalId": "concept-dance-training-rental/ground/portal-work-living"
+        },
+        "roomId": "concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "case": "conflicting-key-cannot-relax",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "apply",
+        "upgraded/data/rooms/rental-original/save.json",
+        "compat-border.ops.json",
+        "compat-results\\conflicting-key-cannot-relax",
+        "--room",
+        "rental-narrow"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "training-room-origin-mismatch",
+        "path": "upgraded/data/rooms/rental-original/save.json",
+        "message": "Select the packaged room that owns this company layout."
+      }
+    },
+    {
+      "case": "other-company-key",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "validate",
+        "upgraded/data/rooms/upper-original/save.json",
+        "--room",
+        "rental-original"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "training-room-origin-mismatch",
+        "path": "upgraded/data/rooms/upper-original/save.json",
+        "message": "Select the packaged room that owns this company layout."
+      }
+    },
+    {
+      "case": "detached-wrong-version-key",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "validate",
+        "detached-rental.json",
+        "--room",
+        "rental-raw"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "training-room-origin-mismatch",
+        "path": "detached-rental.json",
+        "message": "The saved bytes belong to a different room."
+      }
+    },
+    {
+      "case": "edited-canonical-save",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "validate",
+        "upgraded/data/rooms/rental-edited/save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-rental",
+        "revision": 3,
+        "floors": [
+          "concept-dance-training-rental/ground"
+        ]
+      }
+    },
+    {
+      "case": "edited-canonical-layout",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "validate",
+        "upgraded/data/rooms/rental-edited/layout.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-rental",
+        "revision": 3,
+        "floors": [
+          "concept-dance-training-rental/ground"
+        ]
+      }
+    },
+    {
+      "case": "edited-source-rejects-border",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "apply",
+        "upgraded/data/rooms/rental-edited/save.json",
+        "compat-border.ops.json",
+        "compat-results\\edited-source-rejects-border"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "case": "edited-source-remains-editable",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "apply",
+        "upgraded/data/rooms/rental-edited/save.json",
+        "rental-safe.ops.json",
+        "compat-results\\edited-source-remains-editable"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-rental",
+        "revision": 4,
+        "floors": [
+          "concept-dance-training-rental/ground"
+        ],
+        "output": "compat-results\\edited-source-remains-editable"
+      },
+      "written": {
+        "layout.json": "d8967afe9898517998a78e8cd32aafa456d6236d7169a909da067327b4c3d1de",
+        "save.json": "20e48822b1ccdd1324ddbde32d6d55bcb8788ef84109f18e15c7b1fb62974ba9",
+        "training-edit.json": "c2283c418facba2b10fa7ad2d7f881a918dd170aad498314aee30ab873c54bba"
+      },
+      "constraint": {
+        "activity": {
+          "clearHeight": 2.2,
+          "maxX": 1,
+          "maxZ": 1.25,
+          "minX": -1.25,
+          "minZ": -1.25
+        },
+        "entry": {
+          "clearHeight": 2.2,
+          "maxX": -1.15,
+          "maxZ": 0.5,
+          "minX": -2.25,
+          "minZ": -0.5,
+          "portalId": "concept-dance-training-rental/ground/portal-work-living"
+        },
+        "roomId": "concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "case": "roundtrip-local-receipt",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "validate",
+        "compat-results/narrow-allows-border/save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-rental",
+        "revision": 3,
+        "floors": [
+          "concept-dance-training-rental/ground"
+        ]
+      }
+    },
+    {
+      "case": "conflicting-local-receipt",
+      "args": [
+        "node",
+        "upgraded/edit.mjs",
+        "validate",
+        "compat-results/narrow-allows-border/save.json",
+        "--room",
+        "rental-original"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "training-edit-mismatch",
+        "path": "compat-results/narrow-allows-border/save.json",
+        "message": "The edit receipt differs from the company training contract in this package."
+      }
+    }
+  ]
+}

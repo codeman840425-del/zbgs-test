@@ -1,0 +1,291 @@
+{
+  "status": "passed",
+  "baseDirectory": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-receiver-v1",
+  "derived": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-receiver-v1\\derivative",
+  "verify": {
+    "ok": true,
+    "build": "2070c652571c",
+    "manifestSha256": "0d32bcfdc322a5b99b77dffdb87c9a11356db5df3b47d513b86d574e72b55925",
+    "declaredFiles": 1860,
+    "checkedFiles": 1860,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "default": {
+    "id": "backdrop-home",
+    "save": "26d4ccd3b4511d1dc7885f951323c809f2b0433aec5ec256d0cdb5fc311e84b0",
+    "unchanged": true
+  },
+  "localCopy": "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\editable",
+  "rooms": {
+    "rental-edited": {
+      "sourceKind": "save-with-sibling-receipt",
+      "source": "F:\\gamemake-company-platform-c1\\output\\named-training\\tests\\receiver-v1\\rental-training-room\\first-edit",
+      "company": "concept-dance-training-rental",
+      "revision": 3,
+      "originalReceiptHash": "89ced64f18436ddc426b376204faaa167bac869e1ada058360866cfaf1be958a",
+      "originalReceiptSaveDigest": "f65dc195fea76c6f13eb7c10732e2fe9b0ee124195e49f83bfd52bfc2921b95c",
+      "inputSaveDigest": "f65dc195fea76c6f13eb7c10732e2fe9b0ee124195e49f83bfd52bfc2921b95c",
+      "normalizedSaveDigest": "af4594e89287ad8686830cf5f8824a6ab2b6bd0d45bd6f84b533ec54ae22e88f",
+      "normalizedReceiptHash": "192b71587362b2f75f9a084dd4fc08a6f5cc3b4a8dc8cb1ff3e0dbfba3376c2a",
+      "constraint": {
+        "activity": {
+          "clearHeight": 2.2,
+          "maxX": 1,
+          "maxZ": 1.25,
+          "minX": -1.25,
+          "minZ": -1.25
+        },
+        "entry": {
+          "clearHeight": 2.2,
+          "maxX": -1.15,
+          "maxZ": 0.5,
+          "minX": -2.25,
+          "minZ": -0.5,
+          "portalId": "concept-dance-training-rental/ground/portal-work-living"
+        },
+        "roomId": "concept-dance-training-rental/ground/dance-training"
+      },
+      "rejection": {
+        "args": [
+          "node",
+          "edit.mjs",
+          "apply",
+          "data/rooms/rental-edited/save.json",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\rental-edited-intrusion.json",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\rental-edited-must-reject"
+        ],
+        "exit": 1,
+        "result": {
+          "ok": false,
+          "code": "training-clearance-obstructed",
+          "path": "concept-dance-training-rental/ground/dance-training/receiver-bonsai",
+          "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/receiver-bonsai: Clearance intrusion in activity of concept-dance-training-rental/ground/dance-training"
+        }
+      },
+      "acceptance": {
+        "args": [
+          "node",
+          "edit.mjs",
+          "apply",
+          "data/rooms/rental-edited/save.json",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\rental-edited-safe.json",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\rental-edited-second-edit"
+        ],
+        "exit": 0,
+        "result": {
+          "ok": true,
+          "id": "concept-dance-training-rental",
+          "revision": 4,
+          "floors": [
+            "concept-dance-training-rental/ground"
+          ],
+          "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\rental-edited-second-edit"
+        }
+      },
+      "validation": {
+        "args": [
+          "node",
+          "edit.mjs",
+          "validate",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\rental-edited-second-edit\\save.json"
+        ],
+        "exit": 0,
+        "result": {
+          "ok": true,
+          "id": "concept-dance-training-rental",
+          "revision": 4,
+          "floors": [
+            "concept-dance-training-rental/ground"
+          ]
+        }
+      },
+      "secondSaveDigest": "dd705840d8d773ea5e5a6ec53a73755ef67f4429a501df8b57fa158ec3c8ff52"
+    },
+    "upper-edited": {
+      "sourceKind": "edited-directory",
+      "source": "F:\\gamemake-company-platform-c1\\output\\named-training\\tests\\receiver-v1\\upper-floor-training-room\\first-edit",
+      "company": "concept-dance-training-company",
+      "revision": 3,
+      "originalReceiptHash": "279bbee8af91a55d66a4fbe2dbcbf5a5563650ce66dc8576587685c58e2905ed",
+      "originalReceiptSaveDigest": "12d37571880d2c5044bb85410582f35081544bd91515eae6a0eda7522e920e14",
+      "inputSaveDigest": "12d37571880d2c5044bb85410582f35081544bd91515eae6a0eda7522e920e14",
+      "normalizedSaveDigest": "15c5879a5baa06e69680209ab4ad7882a064bf0d37afca77e7dbcccfb7544aea",
+      "normalizedReceiptHash": "3a9d81000bc875094cc370c95f7f6681215a14fd415b4ad7ec608f6a9a7ae4f0",
+      "constraint": {
+        "activity": {
+          "clearHeight": 2.2,
+          "maxX": 1.5,
+          "maxZ": 1.5,
+          "minX": -1.5,
+          "minZ": -1.5
+        },
+        "entry": {
+          "clearHeight": 2.2,
+          "maxX": 0.5,
+          "maxZ": 3,
+          "minX": -0.5,
+          "minZ": 1.4,
+          "portalId": "concept-dance-training-company/floor-beta/portal-beta-training"
+        },
+        "roomId": "concept-dance-training-company/floor-beta/beta-training"
+      },
+      "rejection": {
+        "args": [
+          "node",
+          "edit.mjs",
+          "apply",
+          "data/rooms/upper-edited/save.json",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\upper-edited-intrusion.json",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\upper-edited-must-reject"
+        ],
+        "exit": 1,
+        "result": {
+          "ok": false,
+          "code": "training-clearance-obstructed",
+          "path": "concept-dance-training-company/floor-beta/beta-training/receiver-bonsai",
+          "message": "training-clearance-obstructed at concept-dance-training-company/floor-beta/beta-training/receiver-bonsai: Clearance intrusion in activity of concept-dance-training-company/floor-beta/beta-training"
+        }
+      },
+      "acceptance": {
+        "args": [
+          "node",
+          "edit.mjs",
+          "apply",
+          "data/rooms/upper-edited/save.json",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\upper-edited-safe.json",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\upper-edited-second-edit"
+        ],
+        "exit": 0,
+        "result": {
+          "ok": true,
+          "id": "concept-dance-training-company",
+          "revision": 4,
+          "floors": [
+            "concept-dance-training-company/floor-alpha",
+            "concept-dance-training-company/floor-beta"
+          ],
+          "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\upper-edited-second-edit"
+        }
+      },
+      "validation": {
+        "args": [
+          "node",
+          "edit.mjs",
+          "validate",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\upper-edited-second-edit\\save.json"
+        ],
+        "exit": 0,
+        "result": {
+          "ok": true,
+          "id": "concept-dance-training-company",
+          "revision": 4,
+          "floors": [
+            "concept-dance-training-company/floor-alpha",
+            "concept-dance-training-company/floor-beta"
+          ]
+        }
+      },
+      "secondSaveDigest": "224072399bb074af408b888a7e51fee43c4d3f123efad6b9d805a313305cd810"
+    },
+    "legacy-edited": {
+      "sourceKind": "legacy-package-directory",
+      "source": "F:\\gamemake-company-platform-c1\\output\\named-training\\old-receiver\\named-mixed\\data\\rooms\\rental-edited",
+      "company": "concept-dance-training-rental",
+      "revision": 3,
+      "originalReceiptHash": "e5c9ae4d6cf7345a261789192e1d9bb1441bd04896f4738de2728e451c8b8682",
+      "originalReceiptSaveDigest": "f419c53c7da2d56b20c01a7c5996812a35b6ce95957ae8e2a0535d3fc54d65e9",
+      "inputSaveDigest": "0154efe9a541ea5f1061733c6eddead7420649e2f4d5cbbd0850c3e140c43c3c",
+      "normalizedSaveDigest": "0154efe9a541ea5f1061733c6eddead7420649e2f4d5cbbd0850c3e140c43c3c",
+      "normalizedReceiptHash": "84bf081c1010b0b47d0a66b500d1b8bd9042a10cf73b903c3c69d7c665ce403e",
+      "constraint": {
+        "activity": {
+          "clearHeight": 2.2,
+          "maxX": 1,
+          "maxZ": 1.25,
+          "minX": -1.25,
+          "minZ": -1.25
+        },
+        "entry": {
+          "clearHeight": 2.2,
+          "maxX": -1.15,
+          "maxZ": 0.5,
+          "minX": -2.25,
+          "minZ": -0.5,
+          "portalId": "concept-dance-training-rental/ground/portal-work-living"
+        },
+        "roomId": "concept-dance-training-rental/ground/dance-training"
+      },
+      "rejection": {
+        "args": [
+          "node",
+          "edit.mjs",
+          "apply",
+          "data/rooms/legacy-edited/save.json",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\legacy-edited-intrusion.json",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\legacy-edited-must-reject"
+        ],
+        "exit": 1,
+        "result": {
+          "ok": false,
+          "code": "training-clearance-obstructed",
+          "path": "concept-dance-training-rental/ground/dance-training/receiver-bonsai",
+          "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/receiver-bonsai: Clearance intrusion in activity of concept-dance-training-rental/ground/dance-training"
+        }
+      },
+      "acceptance": {
+        "args": [
+          "node",
+          "edit.mjs",
+          "apply",
+          "data/rooms/legacy-edited/save.json",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\legacy-edited-safe.json",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\legacy-edited-second-edit"
+        ],
+        "exit": 0,
+        "result": {
+          "ok": true,
+          "id": "concept-dance-training-rental",
+          "revision": 4,
+          "floors": [
+            "concept-dance-training-rental/ground"
+          ],
+          "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\legacy-edited-second-edit"
+        }
+      },
+      "validation": {
+        "args": [
+          "node",
+          "edit.mjs",
+          "validate",
+          "F:\\gamemake-company-platform-c1\\output\\named-training\\second-handoff\\legacy-edited-second-edit\\save.json"
+        ],
+        "exit": 0,
+        "result": {
+          "ok": true,
+          "id": "concept-dance-training-rental",
+          "revision": 4,
+          "floors": [
+            "concept-dance-training-rental/ground"
+          ]
+        }
+      },
+      "secondSaveDigest": "05b0a4dcc5c8e93b88facc066a2d3402d7dd429dac6f77e314f58032f9a183d5"
+    }
+  },
+  "oldPackagePreservation": {
+    "legacy": {
+      "manifest": "16c896a6981fa334e2c5eda54a89d7ba4541c2fcc84fdb3ccba764ab62561256",
+      "matches": 1871
+    },
+    "base": {
+      "manifest": "0b2aa384cb0d998025dcf2488cac2eb37e0854e456aaf408f3c794d4c5d4c08e",
+      "matches": 1861
+    },
+    "derivedAfterEditingCopy": {
+      "manifest": "0d32bcfdc322a5b99b77dffdb87c9a11356db5df3b47d513b86d574e72b55925",
+      "matches": 1860
+    }
+  }
+}
