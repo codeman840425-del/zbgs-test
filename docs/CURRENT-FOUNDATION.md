@@ -117,3 +117,7 @@
 2026-11-18 admission cycle v16：以 v4 头部附件候选链重新汇总，状态仍为 `adapter-work-required`，`acceptedForRuntime=[]`。四类未完成任务保持为 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`。v16 证明候选链已进入共同闸门，不代表眼镜或两份 FaceContour 身体已正式可用。
 
 2026-11-18 资源矩阵文件闭包：`scripts/production/variant_matrix.py --root` 新增对 `resourceManifest`、`fitManifest`、`coverageManifest` 和 runtime-admitted 证据文件的实际路径/哈希核验。当前 `assets-source/variant-matrix-v1/representative-matrix.json` 的男女制服/短裤两款矩阵验证通过，证据 `evidence/m2-variant-matrix-file-closure-v1/report.json`；candidate 状态和 `runtimeVariants=[]` 保持不变。
+
+2026-11-18 当前预览入口核对：用户截图对应根路径房间展示页，不是角色工作台。4196 当前固定工作台入口为 `http://127.0.0.1:4196/?body=female&workbench=appearance&view=inspect-face-front`，页面就绪选择器为 `body.appearance-workbench`。源码提交 `d47c0e96` 重建 build `21984326d5e5`，旧指针仍可回退。
+
+2026-11-18 共性候选复核：眼镜生命周期和纹理发布旁车已补充可重复诊断，均保持 candidate-only/diagnostic-only，不改变批产闸门结论。当前两份 FaceContour 候选仍未进入 `acceptedForRuntime`，四类待办仍为 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`。

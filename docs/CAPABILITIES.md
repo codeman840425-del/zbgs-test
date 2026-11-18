@@ -560,3 +560,9 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 同日 `evidence/m2-native-admission-cycle-v16/` 接入该候选链。批产闸门保持 `acceptedForRuntime=[]`，每项仍有 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture` 四类任务。该结果证明共同闸门能够消费完整候选链，不把候选运行证据升级为正式资源。
 
 2026-11-18 资源矩阵文件闭包核验：`scripts/production/variant_matrix.py --root` 现在实际读取并校验矩阵内 `resourceManifest`、`fitManifest`、`coverageManifest` 及 runtime-admitted 证据文件，哈希不一致或缺件会拒绝。现有男女制服/露膝短裤矩阵验证通过，证据 `evidence/m2-variant-matrix-file-closure-v1/report.json`，状态仍为 candidate，未增加 `runtimeVariants`，未替代动作、接触、视觉或目标设备准入。
+
+2026-11-18 候选附件生命周期复核：`scripts/qa-native-glasses-candidate-chain.cjs` 生成 `evidence/m2-native-glasses-candidate-lifecycle-v1/report.json`，两份精确 FaceContour 身体均完成正常速度走路、坐下、起身、关闭重开、取消卸载保旧、提交卸载回滚和身份错误回滚检查，0 页面错误。结果仍为 `candidate-only`，`verified=false`，未清除 `headAttachments`，普通电脑和人工视觉仍未验证。
+
+2026-11-18 纹理发布旁车诊断：`prototype/src/native-release-sidecar-diagnostic.js` 对两份精确身体执行 KTX2 候选读取、PNG 回退、透明材质拒绝、候选解码失败保留当前材质及关闭重开。`evidence/m2-native-release-sidecar-diagnostic-v1/report.json` 为 `technical-pass-diagnostic-only`，未修改默认材质路径、运行时登记或 `acceptedForRuntime`。
+
+2026-11-18 4196 入口修正并重建：固定交付指针的入口为 `/?body=female&workbench=appearance&view=inspect-face-front`，就绪条件为 `body.appearance-workbench`。当前源码重建 build `21984326d5e5`，来源提交 `d47c0e96`；根路径仍是房间展示页。
