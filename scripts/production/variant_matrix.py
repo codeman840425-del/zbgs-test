@@ -63,6 +63,10 @@ def validate_matrix(data: dict) -> list[str]:
             for key in ("resourceManifest", "fitManifest", "coverageManifest"):
                 if not isinstance(variant.get(key), str) or not variant[key]:
                     errors.append(f"{sid}/{body}/{version}: missing {key}")
+            if "bodyAsset" in variant:
+                url = variant["bodyAsset"]
+                if not isinstance(url, str) or not url.startswith('/assets/') or '#' in url or '?' in url:
+                    errors.append(f"{sid}/{body}/{version}: bodyAsset must be a local asset URL")
             status = variant.get("status")
             if status not in VALID_STATUSES:
                 errors.append(f"{sid}/{body}/{version}: invalid status {status!r}")
@@ -179,7 +183,13 @@ def _validate_resources(variant, style_id, docs, paths, assets):
     item, body = catalog[ident], variant['bodySha256']
     _match(item, {'compatibleAvatarSha256':body, 'requiresRawSkeleton':True}, 'resourceManifest')
     require(isinstance(item.get('slot'), str) and item['slot'], 'resourceManifest: missing slot')
-    _check_bindings(assets, resource_path, item)
+    if 'bodyAsset' in variant:
+        # Matrices which declare an exact body file also check its actual raw
+        # skeleton and garment weights using the shared production validator.
+        target = GLB(assets.pin(assets.url(variant['bodyAsset']), body))
+        assets.equipment(item, body, target, resource_path.relative_to(assets.root).as_posix())
+    else:
+        _check_bindings(assets, resource_path, item)
     if fit_path == resource_path:
         require(fit_ref in (ident+'.bindings', ident+'.fitId'), 'fitManifest: expected the selected equipment and fit field')
         if fit_ref == ident+'.fitId':

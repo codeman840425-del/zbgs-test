@@ -1,0 +1,87 @@
+{
+  "runtime": {
+    "buildId": "5859bd00da8b",
+    "sourceCommit": "80fb16b7c6df3a7c85724c757969c6e3e6fb2b2c",
+    "sourceDigest": "5859bd00da8bcba953c70df771de6c2c1d294f0228e23867d071ec332a3f0fa7"
+  },
+  "scope": "D02 parser, real runtime create and cold record restore against fixed source; CPU only; no visual or whole-outfit admission",
+  "deterministicPlan": true,
+  "plan": {
+    "path": "evidence/m2-uniform-top-variant-batch-v1/plan/plan.json",
+    "sha256": "765acad043ad5482465a8c44fd2ec6ea6a40ca311e5e08323c7c84502487191f",
+    "bytes": 4978
+  },
+  "requestBatch": {
+    "path": "evidence/m2-uniform-top-variant-batch-v1/plan/diagnostic-requests/create-001.batch.json",
+    "sha256": "fad18bf1e226c6b207054b852bcf32dcb4c69f935fe329f639804f3870af7328",
+    "bytes": 2445
+  },
+  "actors": [
+    {
+      "bodyType": "female",
+      "recordSha256": "3f5fbf0f0e8b88bf97f782ede3197de4d7042174d948d48587995d63f62138fb",
+      "sha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+      "identity": {
+        "id": "uniform-1k-female",
+        "name": "原版女体 · 1K 制服",
+        "gender": "female"
+      },
+      "outfitIndex": 5,
+      "role": "pants-top-far",
+      "equipment": [
+        {
+          "id": "m1-female-uniform-top-1k-v1",
+          "slot": "top",
+          "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+        },
+        {
+          "id": "m1-training-pants",
+          "slot": "bottom",
+          "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+        },
+        {
+          "id": "m1-uniform-shoes",
+          "slot": "shoes",
+          "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+        }
+      ],
+      "activeCoverage": [
+        "m1-female-uniform-top-1k-v1"
+      ],
+      "bodyAsset": "/assets/foundation/base-female-roundtrip.vrm",
+      "rejectedOriginalTopSha": true
+    },
+    {
+      "bodyType": "source-male-ab9a-release-v1",
+      "recordSha256": "5aac763675342522968b2e0b7e78d3b0c8aac713051375678c454316668ad17e",
+      "sha256": "cf1118a2a8d8fca8ccc094e51d051f660ec12ffdbdda4c8ecaad407b55cef9d4",
+      "identity": {
+        "id": "uniform-1k-male",
+        "name": "发布派生男体 · 1K 制服",
+        "gender": "male"
+      },
+      "outfitIndex": 1,
+      "role": "pants-top-far",
+      "equipment": [
+        {
+          "id": "raw-male-uniform-top-1k-v1",
+          "slot": "top",
+          "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+        },
+        {
+          "id": "source-outfit-release-flat-shoes-v1",
+          "slot": "shoes",
+          "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756"
+        },
+        {
+          "id": "source-outfit-release-uniform-pants-v1",
+          "slot": "bottom",
+          "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0"
+        }
+      ],
+      "activeCoverage": [],
+      "bodyAsset": "/assets/source-outfit-release-v1/body.vrm",
+      "rejectedOriginalTopSha": true
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "schema": "zbgs-style-variant-batch-plan-v1",
+  "batchId": "uniform-top-missing-exact-body-v1",
+  "mode": "technical-candidate",
+  "items": [
+    {
+      "status": "candidate",
+      "stableId": "uniform-1k-female",
+      "selection": {
+        "styleId": "uniform-top-v1",
+        "variantVersion": "basecolor-1k-v1",
+        "bodySha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+        "recipeSha256": "4f962e5cfe71db5b8891160750457f02b86433951acaf0e1795118954b159403",
+        "resourceManifest": "/assets/garment-basecolor-release-v1/female/equipment.json#m1-female-uniform-top-1k-v1",
+        "resourceManifestSha256": "8a9c814ec42f968982940952423d62d29ae411c1ac9db39eafe6610ddb5f6dc7",
+        "fitManifest": "/assets/garment-basecolor-release-v1/female/equipment.json#m1-female-uniform-top-1k-v1.bindings",
+        "coverageManifest": "/assets/garment-basecolor-release-v1/female/body-coverage.json",
+        "coverageManifestSha256": "fab2830ae2a47d79f19a265bdec60431b6fbc5f67916004215651e355a147c36",
+        "admissionEvidence": null,
+        "outfit": {
+          "bodySha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+          "role": "pants-top-far",
+          "equipment": [
+            {
+              "id": "m1-female-uniform-top-1k-v1",
+              "slot": "top",
+              "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+            },
+            {
+              "id": "m1-training-pants",
+              "slot": "bottom",
+              "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+            },
+            {
+              "id": "m1-uniform-shoes",
+              "slot": "shoes",
+              "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+            }
+          ]
+        }
+      },
+      "requestPin": {
+        "path": "diagnostic-requests/uniform-1k-female.request.json",
+        "sha256": "82b0a517f2a6a3e783193dbb317d244e68ae34e24ab4d8e92d2632ef51ae84b4",
+        "bytes": 1009
+      }
+    },
+    {
+      "status": "rejected",
+      "reason": "No exact variant for uniform-top-v1/male/basecolor-1k-v1",
+      "stableId": "uniform-1k-unmatched-m1b"
+    }
+  ],
+  "acceptedCount": 0,
+  "candidateCount": 1,
+  "rejectedCount": 1,
+  "source": {
+    "matrix": {
+      "path": "assets-source/variant-matrix-v1/uniform-top-texture-matrix.json",
+      "sha256": "5f2584ce85365684e2cb4f2526857b9447f23148b927118ade8df94d0cac449e",
+      "bytes": 2901
+    },
+    "request": {
+      "path": "evidence/m2-uniform-top-variant-batch-v1/missing-body.request.json",
+      "sha256": "e9b23b38c118c849e9b0beb0bf49992b7ac41406248f079fb8213d4921739620",
+      "bytes": 516
+    }
+  },
+  "creationBatches": [
+    {
+      "ids": [
+        "uniform-1k-female"
+      ],
+      "path": "diagnostic-requests/create-001.batch.json",
+      "sha256": "a96dd3b6cd38d7bcfbdaaeb9bc92b5d5aeee9620dc14d846eefec4722ad1e449",
+      "bytes": 1229
+    }
+  ]
+}
