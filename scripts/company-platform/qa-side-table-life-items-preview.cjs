@@ -41,8 +41,8 @@ async function rejected(ops,expected){const result=await page.evaluate(async ops
   await check('Four real life-item looks rest on a real table, decode original pixels and each survive complete browser restart',async()=>{
     const rows=[];
     for(let index=0;index<4;index++){
-      await page.locator('#sample-branch').selectOption(role);await page.locator('#sample-look').selectOption(String(index));await page.locator('#sample-show').click();
-      await page.waitForFunction(index=>company.session.document.nodes.find(n=>n.id==='life-items/primary')?.resource.id===company.appearanceCandidates('side-table-life-items')[index].id&&!document.getElementById('sample-show').disabled,index);
+      await page.evaluate(index=>company.showAppearanceSample('side-table-life-items',index),index);
+      await page.waitForFunction(index=>company.session.document.nodes.find(n=>n.id==='life-items/primary')?.resource.id===company.appearanceCandidates('side-table-life-items')[index].id,index);
       await draw();const before=await inspect();assert.equal(before.items.length,1);
       const item=before.items[0];assert(item.meshes.length>0);assert(Math.abs(item.bottom-item.topY)<1e-5);assert.equal(before.cache.loadedAssets,2);
       if(index!==2){assert(item.decoded.length);for(const image of item.decoded){assert.equal(image.width,512);assert.equal(image.height,512);assert.equal(image.rgbaSha256,'fa98a1a1ac8d9ef41320a1077c5ce0cd0791bb26889e826c87b46b6891761d81');}assert(item.meshes.some(m=>m.uv>0&&m.textures.some(t=>t.colorSpace==='srgb')));}
@@ -107,7 +107,7 @@ async function rejected(ops,expected){const result=await page.evaluate(async ops
     });assert(result.late.code);assert(result.documentPreserved&&result.savePreserved&&result.scenePreserved&&result.closed);assert.equal(result.closes,1);assert.equal(result.cache.loadedAssets,2);return result;
   });
   await check('Independent second layout and repeated swap use the same chain with stable rendering allocations',async()=>{
-    await page.locator('#layout').selectOption('sideTableLifeItemsAlternate');await page.waitForFunction(()=>company.session.document.id==='side-table-life-items-alternate'&&!document.getElementById('layout').disabled);await draw();const before=await inspect();before.items[0].world.forEach((v,i)=>assert(Math.abs(v-[1,.5,.3][i])<1e-6));
+    await page.evaluate(()=>company.load(company.layouts.sideTableLifeItemsAlternate));await page.waitForFunction(()=>company.session.document.id==='side-table-life-items-alternate');await draw();const before=await inspect();before.items[0].world.forEach((v,i)=>assert(Math.abs(v-[1,.5,.3][i])<1e-6));
     await page.evaluate(()=>company.view('top'));await shot('second-input');await page.evaluate(()=>company.save());const encoded=await page.evaluate(()=>company.export());await fs.writeFile(path.join(out,'life-items.company.json'),encoded);const envelope=JSON.parse(encoded);assert.equal(envelope.dependencies.resources.length,2);
     await context.close();context=null;await open();assert.deepEqual((await inspect()).document,before.document);
     const cycles=[];for(let i=0;i<8;i++){await page.evaluate(i=>company.showAppearanceSample('side-table-life-items',i%4),i);const current=await page.evaluate(()=>company.session.document);assert.equal(current.id,before.document.id);assert.deepEqual(current.nodes.find(n=>n.id===parent),before.document.nodes.find(n=>n.id===parent));assert.deepEqual(current.nodes.find(n=>n.id===target).transform,before.items[0].node.transform);await draw();cycles.push(await page.evaluate(()=>({cache:company.assetLibrary.snapshot(),memory:{...company.renderer.info.memory},liveBitmaps:window.__bitmapRecords.filter(r=>r.image.width>0).length})));}
