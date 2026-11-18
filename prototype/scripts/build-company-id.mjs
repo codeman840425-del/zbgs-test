@@ -13,7 +13,8 @@ const registeredRoots=new Set([...registeredAssetDirs].map(dir => dir.split('/')
 const unregistered=publicAssetFiles.filter(file => {
   if ([...registeredAssetDirs].some(dir => file.startsWith(`${dir}/`))) return false;
   const parts=file.split('/');
-  return !registeredRoots.has(parts.slice(0,3).join('/'));
+  const collectionManifest=parts.length===4 && ['collection.json','resources.json'].includes(parts[3]);
+  return !(collectionManifest && registeredRoots.has(parts.slice(0,3).join('/')));
 });
 if(unregistered.length)throw Error(`unregistered-company-assets: ${unregistered.join(',')}`);
 const inputs=[...await files('src/company'),...publicAssetFiles,'company.html','vite.company.config.js','scripts/build-company-id.mjs','package.json','package-lock.json'].sort();

@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+import {createHash} from 'node:crypto';
 import path from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 
@@ -32,7 +33,12 @@ try{
     try{
       stage=await fs.mkdtemp(path.join(parent,`.${path.basename(target)}.edit-`));
       await fs.writeFile(path.join(stage,'layout.json'),documentTools.serializeCompany(document,catalog,templates),{flag:'wx'});
-      await fs.writeFile(path.join(stage,'save.json'),await persistence.encodeCompanySave(document,catalog,templates),{flag:'wx'});
+      const saved=await persistence.encodeCompanySave(document,catalog,templates);
+      await fs.writeFile(path.join(stage,'save.json'),saved,{flag:'wx'});
+      if(constraint && document.id===manifest.savedCompany.id){
+        const handoff={schema:'training-room-edit@1', companyId:document.id, saveSha256:createHash('sha256').update(saved).digest('hex'), trainingClearance:constraint};
+        await fs.writeFile(path.join(stage,'training-edit.json'),JSON.stringify(handoff,null,2)+'\n',{flag:'wx'});
+      }
       try{await fs.lstat(target);throw Error('Output appeared during preparation');}catch(error){if(error.code!=='ENOENT')throw error;}
       await fs.rename(stage,target);stage=null;
     }finally{if(stage&&path.dirname(path.resolve(stage))===parent)await fs.rm(stage,{recursive:true,force:true});}

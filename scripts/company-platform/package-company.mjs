@@ -122,6 +122,12 @@ const extraFiles=[
   'scripts/company-platform/qa-style-recipe-preview.mjs',
   'scripts/company-platform/record-style-recipe-preview.mjs',
   'docs/COMPANY-STYLE-RECIPE-CONTRACT-v1.txt',
+  'assets-source/company-wall-prints-v1/collection.json',
+  'scripts/company-platform/import-wall-print.mjs',
+  'scripts/company-platform/wall-print-model.mjs',
+  'scripts/company-platform/test-wall-print-model.mjs',
+  'scripts/company-platform/test-wall-print-ingress.mjs',
+  'scripts/company-platform/qa-wall-print-ingress.cjs',
   'scripts/company-platform/build-concept-acoustic-panel.mjs',
   'scripts/company-platform/qa-concept-acoustic-panel-preview.mjs',
   'scripts/company-platform/record-concept-acoustic-panel-preview.mjs',
@@ -343,20 +349,32 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   const catalogBytes=await read(prototype,runtimeInputs.catalog),templateBytes=await read(prototype,runtimeInputs.templates);
   const catalog=decode(catalogBytes,runtimeInputs.catalog),templates=decode(templateBytes,runtimeInputs.templates);
   const persistence=await import(pathToFileURL(path.join(prototype,'src/company/persistence.js')).href);
-  let inputBytes,inputFiles=[];
+  let inputBytes,inputFiles=[],trainingClearance;
   if((await fs.lstat(input)).isDirectory()){
     inputBytes=await read(input,'save.json');
-    for(const name of ['save.json','layout.json','input.json','report.json']){
-      const bytes=await read(input,name);inputFiles.push({name,bytes});add(`data/batch-result/${name}`,bytes,'original-batch-result');
-    }
-    const report=decode(inputFiles.find(file=>file.name==='report.json').bytes,'batch-result/report.json');
-    for(const name of ['save.json','layout.json','input.json']){
-      const bytes=inputFiles.find(file=>file.name===name).bytes,expected=report.files?.[name];
-      if(expected?.sha256!==hash(bytes)||expected.bytes!==bytes.length)fail('batch-result-hash-mismatch',name,'Original batch result bytes differ from its report');
+    const names=await fs.readdir(input);
+    if(names.includes('training-edit.json')){
+      if(names.includes('report.json')||names.includes('input.json'))fail('ambiguous-package-input',input,'Choose one batch or edited result');
+      const receipt=await read(input,'training-edit.json'),edited=decode(receipt,'training-edit.json');
+      if(edited.schema!=='training-room-edit@1'||edited.saveSha256!==hash(inputBytes)||!edited.trainingClearance||
+          edited.companyId!==decode(inputBytes,'save.json').document?.id)
+        fail('training-edit-mismatch','training-edit.json','Edited save differs from the recorded company or digest');
+      trainingClearance=edited.trainingClearance;
+      inputFiles.push({name:'layout.json',bytes:await read(input,'layout.json')});
+      add('data/training-edit.json',receipt,'edited-training-contract');
+    }else{
+      for(const name of ['save.json','layout.json','input.json','report.json']){
+        const bytes=await read(input,name);inputFiles.push({name,bytes});add(`data/batch-result/${name}`,bytes,'original-batch-result');
+      }
+      const original=name=>inputFiles.find(file=>file.name===name).bytes;
+      const report=decode(original('report.json'),'batch-result/report.json');
+      for(const name of ['save.json','layout.json','input.json']){
+        const bytes=original(name),expected=report.files?.[name];
+        if(expected?.sha256!==hash(bytes)||expected.bytes!==bytes.length)fail('batch-result-hash-mismatch',name,'Original batch result bytes differ from its report');
+      }
+      trainingClearance=decode(original('input.json'),'batch-result/input.json').trainingClearance;
     }
   }else{inputBytes=await fs.readFile(input);add('data/original-input.json',inputBytes,'original-save-or-layout');}
-  const batchItem=inputFiles.find(file=>file.name==='input.json');
-  const trainingClearance=batchItem && decode(batchItem.bytes,'batch-result/input.json').trainingClearance;
   const raw=decode(inputBytes,'save-or-layout');let saved,document;
   if(raw.schema==='company-save'){
     document=await persistence.decodeCompanySave(inputBytes.toString('utf8'),catalog,templates);saved=raw;
@@ -384,8 +402,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(!files.has(`viewer${asset.url}`))fail('missing-runtime-asset',name,'Viewer is missing a catalog GLB');
     assetDependencies.push({id:resource.id,version:resource.version,path:name,bytes:bytes.length,sha256:hash(bytes)});
     const entry=resource.provenance;
-    for(const [field,pin]of [['sourceParameters','sourceParametersSha256'],['generator','generatorSha256'],['functionalContractSource','functionalContractSourceSha256']]){
-      if(field==='functionalContractSource'&&!entry?.[field])continue;
+    for(const [field,pin]of [['sourceParameters','sourceParametersSha256'],['generator','generatorSha256'],['functionalContractSource','functionalContractSourceSha256'],['sourceImage','sourceImageSha256']]){
+      if((field==='functionalContractSource'||field==='sourceImage')&&!entry?.[field]&&!entry?.[pin])continue;
       const target=entry?.[field];relative(target);
       if(!target.startsWith('assets-source/company-')&&!target.startsWith('scripts/company-platform/')&&!target.startsWith('prototype/public/company-assets/')&&
           !(field==='functionalContractSource'&&extraFiles.includes(target)&&target.startsWith('docs/COMPANY-')))
