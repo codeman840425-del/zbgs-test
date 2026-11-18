@@ -1,0 +1,14 @@
+墙装多层壁架：实施前核对
+
+对应COMPANY-PLATFORM-COMPLETE-LONG-GOAL-v3的wall-shelf分支；数量、功能和出口见docs/COMPANY-WALL-SHELF-CONTRACT-v1.txt，不改完整目标，不把本包当成C1整体完成。
+
+先查源与已有实现
+官方Kenney Furniture Kit页面https://kenney.nl/assets/furniture-kit继续标明CC0；本机已留的原包SHA256 e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0和原License.txt用于核实具体源，不能只凭网页名推断资产能力。本轮查看原包bookcaseOpen、bookcaseClosed、bookcaseClosedWide、bookcaseOpenLow的GLB/DAE与原作者等轴预览；这些是落地架，尚无本包真实壁挂结构，且不匹配指定三层支持面。候选与结构检查保存在evidence/company-wall-shelf-preflight-v1，未登记为已验壁架。
+采用现有自有build-support-collection.mjs的层板/Three导出经验，四款壁架为项目参数化新制；真实背挂条、侧托/悬臂/框/背板形成支撑连接。复用Kenney导入的日用品作为各层子物，避免重复生产。不得把只是借鉴外观或使用既有脚本说成直接导入原作者四款模型。
+墙面适配复用document.js已有room/area父级、内墙面位置、四向yaw、高度、宽度与门洞检查；asset-library已有墙装包络的Z0..depth与真实网格检查。support-data/support-geometry已有三面命名映射、实际顶面与净空，原地面架的落地检查明确排除mount wall。父子世界变换与保存/复制沿现有设施树。具体独立代码追踪见contract-audit报告，未测处不借文档宣称通过。
+
+实施边界
+生产与独立几何审查按文件分开；root完成数据合同、现有入口接入、两布局及浏览器验证。运行源码基线9aa10e36/build5d260122791d；上一包证据与源已远备，60880继续运行固定上一包，不用并发修改源码覆盖公开入口。CAP/CURRENT和角色链不写。
+固定1×1.8×.35m后背底中心，三层.35/.95/1.55m，子物净空.45/.45/.25m；A北墙、B东墙，底高.35m。二维导航保留保守投影，不开放架下通行。所有安装、层板、子物真实三角面与显示最终一致才算本包通过。四款换架保留支持层和子物局部修改；墙剖切同时隐藏其子物，但不可修改阻挡或存档。
+先验证数据与实际几何，再用真实GLB浏览器四款逐个关闭恢复、两输入/换墙复制/坏输入保原、遮挡与资源释放。旧数据157条逐字段保持。固定提交独立重建、交付包修改恢复和正常1×录像沿既有方式完成；只测新增与受影响链，不重跑无关角色矩阵。
+一次实现、一轮有根因修正；同因两轮无新证据停止扫参重新定位。CPU元数据检查不代替真实GLB，GLB几何不代替浏览器，软件渲染不代替普通电脑性能，阶段产物不代替人类验收。

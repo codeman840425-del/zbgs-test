@@ -1,0 +1,26 @@
+墙装多层壁架：固定交付 v2
+
+源码提交：8973ad4b843e5e4020a93b0e53ed897035aaf0f6
+构建：a329692a0d6c
+固定源码：F:/gamemake-company-wall-shelf-fixed-v2
+独立交付：F:/gamemake-company-wall-shelf-delivery-v3
+预览：http://127.0.0.1:60880/?sample=wall-shelf&look=0
+第二布局：http://127.0.0.1:60880/?layout=wallShelfAlternate
+录像：F:/gamemake-company-wall-shelf-fixed-v2/evidence/company-wall-shelf-release-v2/recording/wall-shelf-preview-normal1x.webm
+
+四款真实墙装层架：侧托、悬挑、框式、背板；三层支持面与摆件接触真实加载验证。父子移动、换墙旋转、整组复制、外观替换、墙体剖切、第二布局、保存/重启、非法安装/承载/HTTP 失败保旧均已覆盖。
+
+CPU 数据与实际 GLB 几何检查通过；固定浏览器 5/5、独立交付浏览器 5/5、独立交接 3/3、正常 1×录像通过；固定和独立重建 443/443 运行文件字节一致。
+
+可重复命令（固定树或独立 source/prototype）：
+  npm ci
+  node scripts/build-company-id.mjs
+  npx vite build --config vite.company.config.js
+  node scripts/company-platform/test-wall-shelf-data.mjs evidence/wall-shelf-data
+  node scripts/company-platform/test-wall-shelf-geometry.mjs evidence/wall-shelf-geometry
+  node scripts/company-platform/qa-wall-shelf-preview.cjs prototype/dist-company a329692a0d6c evidence/wall-shelf-browser
+
+独立包交接：
+  node source/scripts/company-platform/qa-wall-shelf-handoff.cjs F:/gamemake-company-wall-shelf-delivery-v3 evidence/wall-shelf-handoff
+
+限制：软件渲染不代表普通电脑性能；本包不含墙体锚固承重模拟、架下通行、角色取放物或 C3 真实角色联调。共享 library-catalog 的 --check 仍因后续包尚未回写 library-inputs 而失败，已原样保留日志；墙架生产与示例检查、独立包资产哈希和运行验证均通过。未修改角色、main、navigation、4196 或 60880。
