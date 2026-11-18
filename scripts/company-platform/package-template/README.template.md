@@ -14,6 +14,41 @@ node serve.mjs
 
 交付目录若包含 `data/rooms/<名称>/save.json`，可用 `?delivery=<名称>` 打开其中一份布局。它与默认房间使用相同的目录校验和游戏加载入口。
 
+## 核对收到的目录
+
+正式交付目录的文件集合是 `transfer-manifest.json` 加上其 `files` 中逐项登记的文件。刚接收时在包根目录运行 `node verify.mjs`。若交付回执给出了清单 SHA-256，可运行 `node verify.mjs . 回执中的SHA256` 一并核对版本。检查会报告缺失、额外及字节不符的文件。
+
+保留这份验证通过的原包。后续命令在它的独立工作副本中执行。安装和重建会在工作副本产生 `source/prototype/node_modules/`、`source/prototype/public/company-build-info.json` 和 `source/prototype/dist-company/`。构建身份由 `build-company-id.mjs` 生成，Vite 将它复制进查看器。
+
+## 使用制作工具
+
+在交付包根目录执行一次 `npm ci --prefix source/prototype`，再运行布局批处理、素材生产或 `edit.mjs`。制作端使用 `source/prototype/package-lock.json` 固定的依赖。只打开上面的预览时，运行 `node serve.mjs` 即可。
+
+落地分隔有两份可直接修改的输入。单间把直播桌与会客沙发分开，出租屋在工作间设置通透屏风。在交付包根目录可运行以下命令。
+
+```text
+node source/scripts/company-platform/batch.mjs source/scripts/company-platform/batch-inputs/screen-partition-rooms.json my-screen-rooms
+node edit.mjs validate my-screen-rooms/screen-partition-rental/save.json
+```
+
+在输入的 `furniture` 中，`id` 标识该房间内的实例，`resource` 选用外观和版本，`transform` 规定房间局部位置和朝向。四款屏风共用固定展开的落地规格。调整位置后重新生成到新目录，检查结果会指出受阻的门口或使用点。制作第五个同规格候选的步骤见 `source/assets-source/company-screen-partition-v1/README.md`。
+
+## 把自己的台灯或屏风加入正式房间
+
+从包内 `source` 目录运行。复制下列示例配方到自己的 `assets-source/company-名称/`，保留所选的新设计，在 `designs` 里写入资源 ID、版本及部件参数。也可直接用示例验证全过程。
+
+```text
+node scripts/company-platform/publish-room-appearance.mjs --publish assets-source/company-desk-lamp-v1/examples/a-frame-reading-v1.json
+node scripts/company-platform/publish-room-appearance.mjs --publish assets-source/company-screen-partition-v1/examples/acoustic-narrow-tiles-v2.json
+node scripts/company-platform/publish-room-appearance.mjs --check assets-source/company-desk-lamp-v1/examples/a-frame-reading-v1.json
+node scripts/company-platform/batch.mjs assets-source/company-screen-partition-v1/examples/published-room.json ../my-reading-studio
+node scripts/company-platform/build-library.mjs --check
+```
+
+发布命令使用原生产器重新导出，检查实际 GLB、安装规格和来源，把可编辑配方按内容摘要留存，并登记资源及目录。同版内容发生变化时请升版，再显式选用新版。对于独立试样，生成器的 `--output` 仍可单独使用。
+
+在批次的设施 `resource` 或 `replace-resource` 操作里引用 `desk-lamp-a-frame@1`、`screen-partition-acoustic-narrow-tiles@2` 对应的 ID 和整数版本。运行批处理后，在 `source/prototype` 依次运行 `node scripts/build-company-id.mjs` 和 `node node_modules/vite/bin/vite.js build --config vite.company.config.js`，再用新构建和该批次房间生成交付包。
+
 ## 批量生成公司
 
 完整公司也可从同一个批次生成。到 `source` 目录执行：

@@ -173,7 +173,11 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           // switching textured and untextured casters. Own these materials with
           // the imported mesh so its shadow uniforms end with the same scene.
           instance.root.traverse(object=>{if(object.isMesh){
-            object.castShadow=true;object.receiveShadow=true;
+            // Depth shadows treat blended glass as solid. Keep the opaque frame and alpha-tested cutouts as casters.
+            const materials=Array.isArray(object.material)?object.material:[object.material];
+            object.castShadow=materials.some(material=>material.visible && (material.alphaTest>0 ||
+              (!(material.transmission>0) && !(material.transparent && material.opacity<1))));
+            object.receiveShadow=true;
             object.customDepthMaterial=new THREE.MeshDepthMaterial();
             object.customDistanceMaterial=new THREE.MeshDistanceMaterial();
           }});

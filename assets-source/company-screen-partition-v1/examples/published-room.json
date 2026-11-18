@@ -1,0 +1,115 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "reader-studio",
+      "input": {
+        "id": "reader-studio",
+        "name": "叉架台灯与五行毡块屏风",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "scale": "single-room",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播与会客间",
+                "purpose": "streaming",
+                "stations": [
+                  {
+                    "id": "station-left",
+                    "transform": {
+                      "position": [
+                        -1.38,
+                        0,
+                        -0.5
+                      ],
+                      "yaw": 0
+                    }
+                  }
+                ],
+                "furniture": [
+                  {
+                    "id": "sofa",
+                    "resource": {
+                      "id": "lounge-sofa",
+                      "version": 1
+                    },
+                    "transform": {
+                      "position": [
+                        1.48,
+                        0,
+                        -0.52
+                      ],
+                      "yaw": 0
+                    }
+                  },
+                  {
+                    "id": "screen",
+                    "resource": {
+                      "id": "screen-partition-acoustic-narrow-tiles",
+                      "version": 2
+                    },
+                    "transform": {
+                      "position": [
+                        0,
+                        0,
+                        -0.52
+                      ],
+                      "yaw": 1.5707963267948966
+                    }
+                  },
+                  {
+                    "id": "plant",
+                    "resource": {
+                      "id": "plant",
+                      "version": 1
+                    },
+                    "transform": {
+                      "position": [
+                        2.45,
+                        0,
+                        1.5
+                      ],
+                      "yaw": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "add-facility",
+          "id": "reader-studio/ground/live/station-left/reading-light",
+          "parentId": "reader-studio/ground/live/station-left/desk",
+          "resource": {
+            "id": "desk-lamp-a-frame",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.67,
+              0.84,
+              -0.2
+            ],
+            "yaw": 0
+          },
+          "state": {
+            "on": true,
+            "intensity": 6,
+            "angle": 0.15
+          }
+        }
+      ]
+    }
+  ]
+}

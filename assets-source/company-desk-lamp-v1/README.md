@@ -22,3 +22,12 @@ node scripts/company-platform/build-desk-lamp-collection.mjs --output output/des
 ```
 
 `--check` 逐字节比较已登记产物。预导出的 `report.json` 记录各角度的网格包络、实际出光射线和桌面落点。独立测试回读已登记 GLB，核对 Kenney 源三角、顶点、UV、PBR 参数和四款轮廓。
+
+## 登记新外观
+
+在制作工作副本安装依赖后，从源码根目录运行以下命令，导出并正式登记示例配方。普通新款可放在自己的 `assets-source/company-名称/` 里，填写新 ID 或升版本。重复执行同一配方会核对既有字节。
+
+```text
+node scripts/company-platform/publish-room-appearance.mjs --publish assets-source/company-desk-lamp-v1/examples/a-frame-reading-v1.json
+node scripts/company-platform/publish-room-appearance.mjs --check assets-source/company-desk-lamp-v1/examples/a-frame-reading-v1.json
+```

@@ -271,6 +271,14 @@ const extraFiles=[
   'scripts/company-platform/test-desk-lamp-runtime.mjs',
   'scripts/company-platform/qa-desk-lamps.cjs',
   'assets-source/company-desk-lamp-v1/collection.json',
+  'scripts/company-platform/build-screen-partition-collection.mjs',
+  'scripts/company-platform/test-screen-partition-geometry.mjs',
+  'scripts/company-platform/test-screen-partition-placement.mjs',
+  'scripts/company-platform/qa-screen-partitions.cjs',
+  'scripts/company-platform/publish-room-appearance.mjs',
+  'scripts/company-platform/test-room-appearance-publication.mjs',
+  'scripts/company-platform/qa-published-room-looks.cjs',
+  'assets-source/company-screen-partition-v1/collection.json',
   'prototype/scripts/build-id.mjs',
 ];
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
@@ -456,6 +464,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   const readme=(await read(toolRoot,'package-template/README.template.md')).toString('utf8').replaceAll('{{BUILD_ID}}',buildId).replaceAll('{{SOURCE_DIGEST}}',info.sourceDigest);
   add('README.md',Buffer.from(readme,'utf8'),'handoff-instructions');add('serve.mjs',await read(toolRoot,'package-template/serve.mjs'),'local-http-viewer');
   add('edit.mjs',await read(toolRoot,'package-template/edit.mjs'),'standalone-data-editor');
+  add('verify.mjs',await read(toolRoot,'package-template/verify.mjs'),'verify-clean-handoff');
   const manifest={schema:'company-transfer',version:1,buildId,sourceDigest:info.sourceDigest,
     runtimeInputs,sourceVerification:{method:'SHA256 of each manifest path, NUL, original bytes, NUL in sorted input order',inputs:sourceFiles},
     savedCompany:{id:document.id,revision:document.revision,...(trainingClearance ? {trainingClearance}:{}),floors:document.nodes.filter(node=>node.kind==='floor').map(node=>node.id),dependencies:saved.dependencies},
