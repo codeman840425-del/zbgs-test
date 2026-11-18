@@ -1,0 +1,18 @@
+file:///F:/gamemake-company-platform-c1/company-workspace/production-trials/plant-editable-receiver-v1/source/scripts/company-platform/plant-editable-source.mjs:12
+const fail=(code,file)=>{throw Object.assign(new Error(code+': '+file),{code,path:file});};
+                                             ^
+
+Error: appearance-source-missing: assets-source/company-desktop-plants-v1/receiver-herringbone-v1/author.py
+    at fail (file:///F:/gamemake-company-platform-c1/company-workspace/production-trials/plant-editable-receiver-v1/source/scripts/company-platform/plant-editable-source.mjs:12:46)
+    at readProductionFile (file:///F:/gamemake-company-platform-c1/company-workspace/production-trials/plant-editable-receiver-v1/source/scripts/company-platform/plant-editable-source.mjs:23:54)
+    at async editableSources (file:///F:/gamemake-company-platform-c1/company-workspace/production-trials/plant-editable-receiver-v1/source/scripts/company-platform/plant-editable-source.mjs:36:15)
+    at async verifyPlantEditableProvenance (file:///F:/gamemake-company-platform-c1/company-workspace/production-trials/plant-editable-receiver-v1/source/scripts/company-platform/plant-editable-source.mjs:52:14)
+    at async validateResourceProvenance (file:///F:/gamemake-company-platform-c1/company-workspace/production-trials/plant-editable-receiver-v1/source/scripts/company-platform/validate-resource-provenance.mjs:27:7)
+    at async buildLibrary (file:///F:/gamemake-company-platform-c1/company-workspace/production-trials/plant-editable-receiver-v1/source/scripts/company-platform/build-library.mjs:31:5)
+    at async run (file:///F:/gamemake-company-platform-c1/company-workspace/production-trials/plant-editable-receiver-v1/source/scripts/company-platform/build-library.mjs:83:42)
+    at async file:///F:/gamemake-company-platform-c1/company-workspace/production-trials/plant-editable-receiver-v1/source/scripts/company-platform/build-library.mjs:89:12 {
+  code: 'appearance-source-missing',
+  path: 'assets-source/company-desktop-plants-v1/receiver-herringbone-v1/author.py'
+}
+
+Node.js v24.13.0

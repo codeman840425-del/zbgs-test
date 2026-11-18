@@ -1,0 +1,217 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "plant-home",
+      "input": {
+        "id": "plant-home",
+        "name": "民房 · 盆景直播桌",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "furnishingVersion": 2,
+        "scale": "small-home",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set-surface-finish",
+          "id": "plant-home/ground/live",
+          "surface": "floor",
+          "finish": {
+            "resource": {
+              "id": "floor-offset-plank",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "replace-resource",
+          "id": "plant-home/ground/live/station-1/desk",
+          "resource": {
+            "id": "desk-trestle",
+            "version": 1
+          }
+        },
+        {
+          "type": "replace-resource",
+          "id": "plant-home/ground/live/station-1/keyboard",
+          "resource": {
+            "id": "keyboard-compact",
+            "version": 1
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "plant-home/ground/live/station-1/phone",
+          "parentId": "plant-home/ground/live/station-1/desk",
+          "resource": {
+            "id": "phone-static-portrait",
+            "version": 1
+          },
+          "state": {
+            "on": true
+          },
+          "transform": {
+            "position": [
+              0.57,
+              0.84,
+              0.06
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "plant-home/ground/live/station-1/desktop-plant",
+          "parentId": "plant-home/ground/live/station-1/desk",
+          "resource": {
+            "id": "desktop-plant-herringbone-ceramic",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -0.7,
+              0.84,
+              -0.25
+            ],
+            "yaw": 0
+          }
+        }
+      ]
+    },
+    {
+      "key": "plant-rental",
+      "input": {
+        "id": "plant-rental",
+        "name": "整套出租屋 · 绿植剪辑与直播间",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "furnishingVersion": 2,
+        "scale": "rental-home",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              },
+              {
+                "id": "work",
+                "name": "剪辑间",
+                "purpose": "work",
+                "stations": 0,
+                "furniture": "desk-chair"
+              },
+              {
+                "id": "rest",
+                "name": "休息间",
+                "purpose": "rest",
+                "stations": 0
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set-surface-finish",
+          "id": "plant-rental/ground/live",
+          "surface": "floor",
+          "finish": {
+            "resource": {
+              "id": "floor-herringbone",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "replace-resource",
+          "id": "plant-rental/ground/live/station-1/desk",
+          "resource": {
+            "id": "desk-cabinet",
+            "version": 1
+          }
+        },
+        {
+          "type": "move",
+          "id": "plant-rental/ground",
+          "transform": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "replace-resource",
+          "id": "plant-rental/ground/live/station-1/keyboard",
+          "resource": {
+            "id": "keyboard-retro",
+            "version": 1
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "plant-rental/ground/live/station-1/phone",
+          "parentId": "plant-rental/ground/live/station-1/desk",
+          "resource": {
+            "id": "phone-static-landscape",
+            "version": 1
+          },
+          "state": {
+            "on": false
+          },
+          "transform": {
+            "position": [
+              -0.5,
+              0.84,
+              0.12
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "plant-rental/ground/live/station-1/desktop-plant",
+          "parentId": "plant-rental/ground/live/station-1/desk",
+          "resource": {
+            "id": "desktop-plant-broadleaf",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.7,
+              0.84,
+              0.15
+            ],
+            "yaw": 0
+          }
+        }
+      ]
+    }
+  ]
+}
