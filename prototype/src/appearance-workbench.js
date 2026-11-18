@@ -9,6 +9,7 @@ import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
 import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
 import {CHARACTER_RECORD_MAX_BYTES,isSafeCharacterRecordId} from './character-record.js';
 import {queryCharacterProduction} from './character-production-query.js';
+import representativeBatch from '../../assets-source/variant-matrix-v1/representative-batch-request.json' with {type:'json'};
 import earManifest from '../public/assets/m2-paired-ear-accessory-v1/manifest.json' with {type:'json'};
 import hatFit from '../public/assets/m2-hat-hair-v1/fit.json' with {type:'json'};
 // DOM binding only: appearance ownership and camera framing stay in the controller.
@@ -89,9 +90,10 @@ export function bindAppearanceWorkbench({ controller }) {
   fields.append(samplesPanel);
   const productionPanel=document.createElement('details');
   productionPanel.id='appearance-production-matrix';
-  productionPanel.innerHTML='<summary>生产资源矩阵</summary><p id="appearance-production-matrix-note" class="appearance-hint"></p><ul id="appearance-production-matrix-list"></ul>';
+  productionPanel.innerHTML='<summary>生产资源矩阵</summary><p id="appearance-production-matrix-note" class="appearance-hint"></p><p id="appearance-production-batch-note" class="appearance-hint"></p><ul id="appearance-production-matrix-list"></ul>';
   fields.append(productionPanel);
   const productionMatrixNote=productionPanel.querySelector('#appearance-production-matrix-note');
+  const productionBatchNote=productionPanel.querySelector('#appearance-production-batch-note');
   const productionMatrixList=productionPanel.querySelector('#appearance-production-matrix-list');
   const freckles=samplesPanel.querySelector('#appearance-surface-freckles'),blush=samplesPanel.querySelector('#appearance-surface-blush');
   const ears=samplesPanel.querySelector('#appearance-ears'),hat=samplesPanel.querySelector('#appearance-hat');
@@ -531,6 +533,8 @@ export function bindAppearanceWorkbench({ controller }) {
       const query=queryCharacterProduction(controller);
       const styles=query.styleVariants||[];
       const admitted=query.runtimeVariants||[];
+      const bodyType=query.body?.bodyType;
+      const batchItems=(representativeBatch.items||[]).filter(item=>item.bodyType===bodyType);
       productionMatrixList.replaceChildren(...styles.map(style=>{
         const item=document.createElement('li');
         const variant=style.variants[0];
@@ -540,9 +544,13 @@ export function bindAppearanceWorkbench({ controller }) {
       productionMatrixNote.textContent=styles.length
         ?`当前基模已登记 ${styles.length} 个款式，正式可用 ${admitted.length} 个。候选资源仍需通过适配、预算和运行验收。`
         :'当前基模没有已登记的生产变体。';
+      productionBatchNote.textContent=batchItems.length
+        ?`批量组合计划 ${batchItems.length} 项，当前可生成 ${admitted.length} 项。未获 runtime admission 的组合会逐项拒绝，不会自动换用其他体型。`
+        :'当前基模没有进入代表批量组合计划。';
     }catch(error){
       productionMatrixList.replaceChildren();
       productionMatrixNote.textContent='当前基模的生产矩阵尚未登记。';
+      productionBatchNote.textContent='当前基模的批量组合计划尚未登记。';
     }
   }
   const appearanceChanged = event => {
