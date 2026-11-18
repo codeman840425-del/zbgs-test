@@ -49,6 +49,21 @@ class NativePackageTests(unittest.TestCase):
         self.assertEqual([r["state"] for r in package.build(self.config,self.output)["items"]],["failed","ready"])
         self.assertEqual(broken,snapshot(a))
 
+    def test_unsupported_delta_with_matching_hashes_cannot_enter_packager(self):
+        config = copy.deepcopy(self.config)
+        row = config["items"][0]
+        delta = json.loads(package.pinned(row["delta"]).read_bytes())
+        why = 'candidate: textures[0].name missing; used by materials[0].pbrMetallicRoughness.baseColorTexture'
+        delta.update(status='unsupported', reason=why)
+        path = self.output.parent / 'unsupported-delta.json'
+        path.write_text(json.dumps(delta), encoding='utf8')
+        row["delta"] = {"path": path.relative_to(package.ROOT).as_posix(), "sha256": package.sha(path.read_bytes())}
+        result = package.build(config, self.output)
+        self.assertEqual([r['state'] for r in result['items']], ['failed', 'ready'])
+        self.assertIn(why, result['items'][0]['reason'])
+        self.assertFalse((self.output / row['id']).exists())
+        self.assertFalse((self.output / 'import-batch.json').exists())
+
     def test_wrong_covered_png_is_rejected_even_with_correct_sha(self):
         wrong = copy.deepcopy(self.config)
         wrong["mask"] = wrong["template"]

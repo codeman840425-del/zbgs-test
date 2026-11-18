@@ -23,6 +23,29 @@ class ImportTests(unittest.TestCase):
             for name, data in files.items():
                 self.assertEqual((live / name).read_bytes(), data, name)
 
+    def test_redirected_output_root_is_rejected_before_writing(self):
+        import os
+        import subprocess
+        with tempfile.TemporaryDirectory(dir=imp.ROOT / 'experiments') as temp:
+            fixture = Path(temp).resolve()
+            project = fixture / 'project'
+            project.mkdir()
+            alias = project / 'output'
+            if os.name == 'nt':
+                subprocess.run(['cmd.exe', '/d', '/c', 'mklink', '/j', str(alias), str(fixture)],
+                               check=True, capture_output=True)
+            else:
+                alias.symlink_to(fixture, target_is_directory=True)
+            try:
+                with patch.object(imp, 'ROOT', project), self.assertRaisesRegex(ValueError, 'dedicated output'):
+                    imp.execute(self.batch, project, alias / 'fresh-package')
+                self.assertFalse((fixture / 'fresh-package').exists())
+            finally:
+                if os.name == 'nt':
+                    alias.rmdir()
+                else:
+                    alias.unlink()
+
     def test_missing_and_wrong_body_rejected(self):
         broken = copy.deepcopy(self.face)
         del broken['files'][broken['bodyFile']]

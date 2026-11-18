@@ -100,6 +100,38 @@ class SourceIntakeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Recipe reference differs'):
             intake.inspect(request, {})
 
+    def test_empty_modern_expressions_and_bad_targets_remain_warnings(self):
+        request = fixture('native-template')
+        model = intake.AssetCost(intake.confined(intake.ROOT, request['source']['path']))
+        vrm = model.doc['extensions']['VRMC_vrm']
+        names = list(vrm['expressions']['preset']) + ['lookUp', 'lookDown', 'lookLeft', 'lookRight']
+        vrm['expressions'] = {'preset': {name: {} for name in names}}
+        active = intake.active_scene(model.doc)
+        result = intake.expression_bindings(model, vrm, True, active)
+        self.assertEqual((result['declaredCount'], result['withResolvedBindings'], len(result['warnings'])), (18, 0, 18))
+        vrm['expressions']['custom'] = {'test': {
+            'materialColorBinds': [{'material': 0, 'type': 'color', 'targetValue': [0, 1, 1, 1]}],
+            'textureTransformBinds': [{'material': 0, 'offset': [.2, .2]}],
+            'morphTargetBinds': [{'node': len(model.doc['nodes']), 'index': 0, 'weight': 1}]}}
+        result = intake.expression_bindings(model, vrm, True, active)
+        self.assertEqual(result['resolvedByExpression']['custom.test'], {'materialColor': 1, 'textureTransform': 1})
+        self.assertTrue(any(w.get('binding') == 'morphTargetBinds[0]' for w in result['warnings']))
+
+    def test_legacy_morph_material_and_unbound_declarations(self):
+        request = fixture('published-cc0')
+        model = intake.AssetCost(intake.confined(intake.ROOT, request['source']['path']))
+        vrm = model.doc['extensions']['VRM']
+        material = model.doc['materials'][0]['name']
+        vrm['blendShapeMaster']['blendShapeGroups'] = [
+            {'name': 'Empty', 'presetName': 'unknown'}, {'name': 'MaterialOnly', 'materialValues': [
+                {'materialName': material, 'propertyName': '_Color', 'targetValue': [1, 0, 0, 1]},
+                {'materialName': material, 'propertyName': '_MainTex_ST', 'targetValue': [1, 1, .1, .1]}]},
+            {'name': 'Bad', 'binds': [{'mesh': 0, 'index': 1000, 'weight': 100}]}]
+        result = intake.expression_bindings(model, vrm, False, intake.active_scene(model.doc))
+        self.assertEqual((result['declaredCount'], result['withResolvedBindings']), (3, 1))
+        self.assertEqual(result['resolvedByExpression']['groups[1].MaterialOnly'], {'materialColor': 1, 'textureTransform': 1})
+        self.assertTrue(any(w.get('binding') == 'binds[0]' for w in result['warnings']))
+
     def test_legacy_body_without_a_foot_or_with_a_bad_parent_is_rejected(self):
         source = fixture('published-cc0')['source']
         model = intake.AssetCost(intake.confined(intake.ROOT, source['path']))

@@ -134,9 +134,10 @@ def execute(batch, source_root, output):
         seen_ids.add(row['id']); seen_packages.add(row['package'].lower())
         confined(source_root, row['spec'])
     # Never publish directly into live assets, source/evidence trees or a checkout.
-    allowed = (ROOT / 'output').resolve()
+    root = ROOT.resolve()
+    allowed = (root / 'output').resolve()
     output = output.resolve()
-    if not output.is_relative_to(allowed) or output == allowed:
+    if not allowed.is_relative_to(root) or allowed == root or not output.is_relative_to(allowed) or output == allowed:
         raise ValueError('Use a dedicated output/ candidate directory')
     output.mkdir(parents=True, exist_ok=True)
     results = []

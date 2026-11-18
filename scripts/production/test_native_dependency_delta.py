@@ -6,8 +6,11 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from native_dependency_delta import ROOT, compare_exports
+from native_import import embedded_glb
+from native_mesh_budget import encode
 
 
 BASELINE = ROOT / 'assets-source/native-vroid-geometry-production-v1/generated/female-geometry-baseline.vrm'
@@ -40,6 +43,21 @@ class DependencyDeltaTests(unittest.TestCase):
 
     def compare_mutation(self, mutate):
         return compare_exports(BASELINE, BASELINE_SHA, *self.mutated(mutate))
+
+    def test_unnamed_texture_reports_array_index_and_material_channels(self):
+        doc, binary = embedded_glb(self.raw)
+        tex = doc['materials'][0]['pbrMetallicRoughness']['baseColorTexture']['index']
+        del doc['textures'][tex]['name']
+        other = encode(doc, binary)
+        pins = [({'sha256': BASELINE_SHA}, self.raw), ({'sha256': hashlib.sha256(other).hexdigest()}, other)]
+        with patch('native_dependency_delta.read_pinned', side_effect=pins):
+            report = compare_exports(BASELINE, BASELINE_SHA, BASELINE, pins[1][0]['sha256'])
+        self.assertEqual(report['status'], 'unsupported')
+        self.assertIn('candidate:', report['reason'])
+        issue, = report['matchingIssues']
+        self.assertEqual(issue['path'], f'textures[{tex}].name')
+        self.assertIn('materials[0].pbrMetallicRoughness.baseColorTexture', issue['materialChannels'])
+        self.assertTrue(all(v['status'] == 'needs-recheck' for v in report['requiredChecks'].values()))
 
     def test_accessor_reindex_keeps_dependency_data(self):
         def reindex(doc, _):

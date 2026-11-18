@@ -99,6 +99,8 @@ def create(config, common, item, dest, temp):
     row, = [r for r in result["items"] if r["id"] == ident]
     native = pinned(item["candidate"])
     delta = json.loads(pinned(item["delta"]).read_bytes())
+    verify(delta.get("schema") == "native-dependency-delta-v1" and delta.get("status") == "compared",
+           "Native reference comparison unavailable: " + str(delta.get("reason") or delta.get("status")))
     verify(result["passed"] and row["state"] == "exported" and recipe["values"] == row["coldReadback"] == row["values"],
            "Native final parameters not confirmed")
     verify(delta["baseline"]["sha256"] == config["baseline"]["sha256"] and

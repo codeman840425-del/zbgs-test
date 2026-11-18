@@ -5,12 +5,13 @@ Pass a request JSON (see evidence/m2-body-intake-v1) to print the report to stdo
 """
 import argparse
 import json
+import math
 from pathlib import Path
 import subprocess
 
 from asset_budget import AssetCost, budget_config, check, ref
 from flow import ROOT, require
-from native_dependency_delta import compare_exports, read_pinned
+from native_dependency_delta import compare_exports, name_matching_issues, read_pinned
 from native_import import confined, digest, embedded_glb
 
 
@@ -76,6 +77,131 @@ def active_scene(doc):
     return active
 
 
+def expression_bindings(model, vrm, modern, active):
+    doc = model.doc
+    nodes, meshes, materials = doc['nodes'], doc['meshes'], doc.get('materials', [])
+    active_meshes = {nodes[i]['mesh'] for i in active if 'mesh' in nodes[i]}
+    active_materials = {p['material'] for mesh in active_meshes for p in meshes[mesh]['primitives'] if 'material' in p}
+    declared = []
+    if modern:
+        for group in ('preset', 'custom'):
+            for name, entry in vrm.get('expressions', {}).get(group, {}).items():
+                declared.append((f'{group}.{name}', entry))
+    else:
+        for i, entry in enumerate(vrm.get('blendShapeMaster', {}).get('blendShapeGroups', [])):
+            declared.append((f"groups[{i}].{entry.get('name') or entry.get('presetName') or 'unnamed'}", entry))
+
+    def finite(value):
+        return type(value) in (float, int) and math.isfinite(value)
+
+    def vector(value, size):
+        return isinstance(value, list) and len(value) == size and all(finite(x) for x in value)
+
+    geometry = {}
+
+    def morph_target(mesh, index):
+        if (mesh, index) not in geometry:
+            primitives = meshes[mesh]['primitives']
+            if not all(0 <= index < len(p.get('targets', [])) for p in primitives):
+                return 'morph index missing from target mesh primitives'
+            changed = False
+            for p in primitives:
+                used = ({row[0] for row in model.accessor(p['indices'])} if 'indices' in p
+                        else range(len(model.accessor(p['attributes']['POSITION']))))
+                for accessor in p['targets'][index].values():
+                    values = model.accessor(accessor)
+                    if any(any(values[vertex]) for vertex in used):
+                        changed = True
+                        break
+                if changed:
+                    break
+            geometry[mesh, index] = None if changed else 'no nonzero morph delta on referenced vertices'
+        return geometry[mesh, index]
+
+    def resolve(kind, bind):
+        if not isinstance(bind, dict):
+            return kind, 'invalid binding object'
+        if kind == 'morph':
+            mesh = bind.get('mesh')
+            if modern:
+                node = bind.get('node')
+                if type(node) is not int or node not in active:
+                    return kind, 'target node missing from active scene'
+                mesh = nodes[node].get('mesh')
+            if type(mesh) is not int or mesh not in active_meshes or type(bind.get('index')) is not int:
+                return kind, 'target mesh or morph index unavailable'
+            weight = bind.get('weight', None if modern else 100)
+            if not finite(weight) or not 0 < weight <= (1 if modern else 100):
+                return kind, 'missing, zero or out-of-range influence'
+            return kind, morph_target(mesh, bind['index'])
+        if modern:
+            material = bind.get('material')
+            if type(material) is not int or material not in active_materials:
+                return kind, 'material missing from active primitives'
+            if kind == 'materialColor':
+                supported = ('color', 'emissionColor', 'shadeColor', 'matcapColor', 'rimColor', 'outlineColor')
+                valid = bind.get('type') in supported and vector(bind.get('targetValue'), 4)
+            else:
+                valid = vector(bind.get('scale', [1, 1]), 2) and vector(bind.get('offset', [0, 0]), 2)
+        else:
+            matches = [i for i in active_materials if bind.get('materialName') and
+                       materials[i].get('name') == bind['materialName']]
+            if len(matches) != 1:
+                return kind, 'material name is missing or ambiguous on active primitives'
+            material = matches[0]
+            field = bind.get('propertyName')
+            if field == '_MainTex_ST':
+                kind = 'textureTransform'
+            elif field in ('_Color', '_EmissionColor', '_ShadeColor', '_RimColor', '_OutlineColor'):
+                kind = 'materialColor'
+            else:
+                return kind, 'unsupported VRM0 material property'
+            valid = vector(bind.get('targetValue'), 4)
+        definition = materials[material]
+        extensions = definition.get('extensions', {})
+        legacy_materials = vrm.get('materialProperties', [])
+        legacy = legacy_materials[material] if not modern and material < len(legacy_materials) else {}
+        mtoon = 'VRMC_materials_mtoon' in extensions or legacy.get('shader') == 'VRM/MToon'
+        if kind == 'materialColor':
+            channel = bind.get('type') if modern else bind.get('propertyName')
+            if channel in ('shadeColor', 'rimColor', 'matcapColor', 'outlineColor', '_RimColor', '_ShadeColor', '_OutlineColor') and not mtoon:
+                return kind, 'target material has no MToon color channel'
+            if channel in ('emissionColor', '_EmissionColor') and not mtoon and 'KHR_materials_unlit' in extensions:
+                return kind, 'unlit material has no emission channel'
+        elif kind == 'textureTransform':
+            pbr = definition.get('pbrMetallicRoughness', {})
+            mapped = [pbr.get(k) for k in ('baseColorTexture', 'metallicRoughnessTexture')]
+            mapped.extend(definition.get(k) for k in ('normalTexture', 'emissiveTexture'))
+            mapped.extend(extensions.get('VRMC_materials_mtoon', {}).get(k) for k in
+                          ('shadeMultiplyTexture', 'rimMultiplyTexture', 'outlineWidthMultiplyTexture', 'uvAnimationMaskTexture'))
+            legacy_maps = legacy.get('textureProperties', {})
+            if not any(isinstance(tex, dict) and 'index' in tex for tex in mapped) and not any(
+                    legacy_maps.get(k, -1) >= 0 for k in ('_MainTex', '_BumpMap', '_ShadeTexture', '_EmissionMap',
+                                                         '_RimTexture', '_OutlineWidthTexture', '_UvAnimMaskTexture')):
+                return kind, 'target material has no sampled texture for UV transforms'
+        return kind, None if valid else 'invalid material channel or target value'
+
+    fields = ([('morphTargetBinds', 'morph'), ('materialColorBinds', 'materialColor'),
+               ('textureTransformBinds', 'textureTransform')] if modern
+              else [('binds', 'morph'), ('materialValues', 'legacyMaterial')])
+    resolved, warnings = {}, []
+    for name, entry in declared:
+        counts = {}
+        for field, kind in fields:
+            for i, bind in enumerate(entry.get(field, [])):
+                category, issue = resolve(kind, bind)
+                if issue:
+                    warnings.append({'expression': name, 'binding': f'{field}[{i}]', 'reason': issue})
+                else:
+                    counts[category] = counts.get(category, 0) + 1
+        resolved[name] = counts
+        if not counts:
+            warnings.append({'expression': name, 'reason': 'no resolved morph, material color or texture transform binding'})
+    return {'declaredCount': len(declared), 'withResolvedBindings': sum(bool(v) for v in resolved.values()),
+            'resolvedByExpression': resolved, 'warnings': warnings,
+            'scope': 'Static active-scene targets. Morphs require nonzero referenced deltas. Material bindings resolve source channels and values; runtime or visible change is unmeasured.'}
+
+
 def humanoid(model):
     """Read semantics after asset_budget.check validated this SHA's primitive indices and weight streams."""
     doc = model.doc
@@ -137,7 +263,8 @@ def humanoid(model):
             'activeNodes': len(active), 'skinnedMeshNodes': mesh_count, 'mappedBones': len(bones),
             'directlyWeightedCoreBones': sorted(s for s in CORE if bones[s] in influenced),
             'coreBonesWithoutDirectWeights': sorted(s for s in CORE if bones[s] not in influenced),
-            'expressionPresetDeclarations': sorted(x for x in expressions if x)}
+            'expressionPresetDeclarations': sorted(x for x in expressions if x),
+            'expressionBindings': expression_bindings(model, vrm, name == 'VRMC_vrm', active)}
 
 
 def inspect(request, profiles):
@@ -170,9 +297,12 @@ def inspect(request, profiles):
                               'observedCounts': delta['comparedCounts'], 'checks': delta['requiredChecks']}
             else:
                 comparison = {'classification': 'reference-comparison-unsupported', 'reference': reference, 'reason': delta['reason']}
+                if 'matchingIssues' in delta:
+                    comparison['matchingIssues'] = delta['matchingIssues']
     registered = sorted(key for key, sha in profiles.items() if sha == identity['sha256'])
     return {'schema': 'native-body-intake-result-v1', 'source': identity, 'origin': origin, 'body': body,
             'registration': {'exactBodyProfiles': registered}, 'referenceComparison': comparison,
+            'nativeNameMatchingIssues': name_matching_issues(doc) if body['format'] == 'VRMC_vrm' else [],
             'staticBodyBudget': {'version': cost['budgetVersion'], 'rulesSha256': digest(BUDGET.read_bytes()),
                                  'status': cost['status'], 'metrics': dict(sorted(cost['metrics'].items())),
                                  'violations': cost['violations']},

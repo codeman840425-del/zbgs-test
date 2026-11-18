@@ -38,6 +38,61 @@ class Unsupported(ValueError):
     pass
 
 
+def texture_consumers(doc):
+    def walk(value, path):
+        if isinstance(value, dict):
+            for key, child in value.items():
+                channel = path + '.' + key
+                if key.endswith('Texture') and isinstance(child, dict) and type(child.get('index')) is int:
+                    yield child['index'], channel
+                elif isinstance(child, (dict, list)):
+                    yield from walk(child, channel)
+        elif isinstance(value, list):
+            for i, child in enumerate(value):
+                yield from walk(child, f'{path}[{i}]')
+
+    consumers = defaultdict(list)
+    for i, material in enumerate(doc.get('materials', [])):
+        for index, channel in walk(material, f'materials[{i}]'):
+            consumers[index].append(channel)
+    return consumers
+
+
+def name_matching_issues(doc):
+    """Names are required only by this exact cross-export matcher, not by glTF."""
+    issues = []
+    consumers = None
+    for table in ('meshes', 'materials', 'nodes', 'images', 'textures'):
+        rows = doc.get(table)
+        if not isinstance(rows, list):
+            issues.append({'path': table, 'reason': 'named table unavailable for native comparison'})
+            continue
+        names = defaultdict(list)
+        for i, row in enumerate(rows):
+            name = row.get('name') if isinstance(row, dict) else None
+            names[name if isinstance(name, str) and name.strip() else None].append(i)
+        for name, indices in names.items():
+            if name is not None and len(indices) == 1:
+                continue
+            for i in indices:
+                issue = {'path': f'{table}[{i}].name',
+                         'reason': 'missing or empty identity' if name is None else f'duplicate identity {name!r}'}
+                if table == 'textures':
+                    if consumers is None:
+                        consumers = texture_consumers(doc)
+                    issue['materialChannels'] = consumers.get(i, [])
+                issues.append(issue)
+    return issues
+
+
+class NameMismatch(Unsupported):
+    def __init__(self, issues):
+        self.issues = issues
+        super().__init__('; '.join(issue['path'] + ': ' + issue['reason'] +
+                                   ('; used by ' + ', '.join(issue['materialChannels'])
+                                    if issue.get('materialChannels') else '') for issue in issues))
+
+
 def require(condition, message):
     if not condition:
         raise Unsupported(message)
@@ -79,12 +134,11 @@ class Export:
         self.vrm = extensions['VRMC_vrm']
         self.spring = extensions.get('VRMC_springBone')
         self._validate_extensions(self.doc)
-        self.names = {}
-        for key in ('meshes', 'materials', 'nodes', 'images', 'textures'):
-            names = [record['name'] for record in self.doc[key]]
-            require(all(isinstance(name, str) and name for name in names)
-                    and len(set(names)) == len(names), f'Ambiguous {key} identity')
-            self.names[key] = names
+        issues = name_matching_issues(self.doc)
+        if issues:
+            raise NameMismatch(issues)
+        self.names = {key: [row['name'] for row in self.doc[key]]
+                      for key in ('meshes', 'materials', 'nodes', 'images', 'textures')}
         self.accessors = {}
         for image in self.doc['images']:
             require(set(image) <= {'name', 'bufferView', 'mimeType'}, 'Unsupported image layout')
@@ -435,7 +489,10 @@ def compare_exports(baseline, baseline_sha256, candidate, candidate_sha256):
         'status': 'compared',
     }
     try:
-        a, b = Export(baseline_raw), Export(candidate_raw)
+        side = 'baseline'
+        a = Export(baseline_raw)
+        side = 'candidate'
+        b = Export(candidate_raw)
         for table in a.names:
             require(a.names[table] == b.names[table], f'{table} identities or order changed')
         require(a.doc['asset'] == b.doc['asset'], 'Exporter metadata differs')
@@ -458,6 +515,8 @@ def compare_exports(baseline, baseline_sha256, candidate, candidate_sha256):
         )
         if topology:
             raise Unsupported('Index topology differs at ' + ', '.join(topology))
+    except NameMismatch as error:
+        report.update(status='unsupported', reason=f'{side}: {error}', matchingIssues=error.issues)
     except (AssertionError, KeyError, IndexError, TypeError, ValueError, struct.error) as error:
         report.update(status='unsupported', reason=str(error) or type(error).__name__)
     report['requiredChecks'] = required_checks(report)
