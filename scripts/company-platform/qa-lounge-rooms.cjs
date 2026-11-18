@@ -21,7 +21,10 @@ const cases = [
   { key: 'rental-lounge', id: 'concept-lounge-rental', move: [-0.58, 0, 1.48] },
 ];
 const parts = ['sofa', 'rug', 'cup-table', 'book-table', 'cup', 'book'];
-const report = { build, preflight, status: 'running', checks: [], browserErrors: [], video: { enabled: record, playbackSpeed: 1 } };
+const report = {
+  build, preflight, status: 'running', browser: 'Headless Chromium with SwiftShader',
+  checks: [], browserErrors: [], video: { enabled: record, playbackSpeed: 1 },
+};
 let server, profile, context, page, responses, stage, rejection;
 
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -149,13 +152,16 @@ async function inspectRoom(fixture) {
       objects[key] = object;
       let meshCount = 0;
       let bottom = Infinity;
-      const visual = object?.children[0];
-      visual?.traverse(mesh => {
-        if (!mesh.isMesh || !mesh.geometry?.attributes.position?.count || !visible(mesh)) return;
-        mesh.geometry.computeBoundingBox();
-        bottom = Math.min(bottom, mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld).min.y);
-        meshCount++;
-      });
+      const supported = new Set(session.document.nodes.filter(node => node.parentId === id).map(node => node.id));
+      for (const visual of object?.children || []) {
+        if (supported.has(visual.name)) continue;
+        visual.traverse(mesh => {
+          if (!mesh.isMesh || !mesh.geometry?.attributes.position?.count || !visible(mesh)) return;
+          mesh.geometry.computeBoundingBox();
+          bottom = Math.min(bottom, mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld).min.y);
+          meshCount++;
+        });
+      }
       return [key, {
         id, meshCount, bottom, resource: entry.resource, asset: resource.asset, parentId: entry.parentId,
         sceneParent: object?.parent?.name, attachment: entry.attachment, local: entry.transform,
@@ -222,9 +228,13 @@ async function inspectCarvedTable(fixture) {
     const groundArea = [0, 0, 0, 0];
     const photos = new Map();
     const meshes = [];
-    table.children[0].traverse(mesh => {
-      if (mesh.isMesh && mesh.geometry?.attributes.position) meshes.push(mesh);
-    });
+    const supported = new Set(session.document.nodes.filter(node => node.parentId === tableId).map(node => node.id));
+    for (const visual of table.children) {
+      if (supported.has(visual.name) || !visual.visible) continue;
+      visual.traverse(mesh => {
+        if (mesh.isMesh && mesh.visible && mesh.geometry?.attributes.position) meshes.push(mesh);
+      });
+    }
     const pixelEvidence = async image => {
       if (!image || image.width <= 1 || image.height <= 1) throw new Error('PBR image must be decoded at its actual dimensions');
       if (photos.has(image)) return photos.get(image);
@@ -333,12 +343,19 @@ async function verifyEdit(before, id, changes) {
   return after;
 }
 
+async function openPlacement() {
+  const placement = page.locator('#placement-tools');
+  const precise = placement.locator(':scope > details');
+  for (const details of [placement, precise]) {
+    if (!(await details.evaluate(element => element.open))) await details.locator(':scope > summary').click();
+  }
+}
+
 async function moveAndRotate(fixture) {
   const tableId = fixture.ids['cup-table'];
   await click('#tool-selection');
   await select('#edit-instance', tableId);
-  await page.locator('#placement-tools > summary').click();
-  await page.locator('#placement-tools > details > summary').click();
+  await openPlacement();
   const before = await browserDocument();
   await page.locator('#edit-x').fill(String(fixture.move[0]));
   await page.locator('#edit-z').fill(String(fixture.move[2]));
@@ -369,11 +386,7 @@ async function replaceTable(fixture, resource) {
 }
 
 async function rejectOutOfBounds(fixture, expected, expectedSaved) {
-  const precise = page.locator('#placement-tools > details');
-  if (!(await page.locator('#placement-tools').evaluate(element => element.open))) {
-    await page.locator('#placement-tools > summary').click();
-  }
-  if (!(await precise.evaluate(element => element.open))) await precise.locator('summary').click();
+  await openPlacement();
   rejection = { id: fixture.ids['cup-table'], messages: [] };
   await page.evaluate(() => { window.__qaLoungeRoot = company.session.scene.root; });
   await page.locator('#edit-x').fill('99');
