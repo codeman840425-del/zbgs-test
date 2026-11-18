@@ -96,3 +96,9 @@ v4 同时修正了闸门本身的状态接缝：`bodyPackage` 和 `coverage` 不
 当静态预算显示需要压缩时，压缩产物必须是绑定到具体 `sourceModelSha256`、覆盖清单、原图 SHA、材质/UV/采样器、alpha 合同和解码器版本的独立旁车。`scripts/m2-ktx-pilot-v1/prepare-facecontour-sidecar.py` 已为当前两份 FaceContour 身体生成 Body map KTX2 候选；它保留原 VRM 与 PNG/Canvas 回退，不替换 VRM 内嵌图，也不自动修改运行时材质。旁车的确定性、KTX 校验和源合同属于生产证据，不能清除 `surfaceAndTexture` 或 `runtimeRecordAndBudget`。只有另行完成精确 loader 身份、颜色/透明/采样器、染色路径、释放生命周期、浏览器动作和目标设备证据后，才可写入 `native-budget-admission-v1`。
 
 批产入口的失败语义同样属于契约：runtime 证据缺少 record SHA、body SHA 不匹配、accepted gate 与 catalog 身份不一致、重复 body 类型或部分记录写入失败时，必须拒绝并保留诊断；本轮新增的回滚清理只清除本轮新输出，不覆盖既有证据。`technical-candidate` 与 `runtime-admitted` 在请求批次中显式区分。
+
+## 统一参数到批量角色请求
+
+美术 Agent 的输出先落为资源矩阵行，再由 `scripts/production/variant_batch.py` 生成角色请求。最小组合键是 `bodyType + styleId + variantVersion`，请求还必须带稳定 `stableId`。矩阵行保存身体 SHA、资源/fit/coverage 引用及对应哈希，候选行可以进入审查和预览，只有带 `admissionEvidence` 且状态为 `runtime-admitted` 的行才会生成 `character-production-request-v1`。
+
+该入口是确定性批量生产接缝，不负责从概念图推断网格、权重或服装版型，也不根据相似名称跨身体 fallback。未来的随机角色只负责在已准入矩阵行中选择组合，再复用同一入口生成记录。当前代表矩阵四项仍为 candidate，实际计划 `evidence/m2-variant-batch-plan-v2/plan.json` 为 0 accepted，这是资源准入不足的真实结果。
