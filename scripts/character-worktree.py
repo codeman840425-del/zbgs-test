@@ -1,0 +1,46 @@
+"""Create an isolated character checkout within the project, or audit its drive root."""
+import argparse
+import json
+from pathlib import Path
+import re
+import subprocess
+
+
+SCRIPT_REPO = Path(__file__).resolve().parents[1]
+COMMON = subprocess.check_output(['git','rev-parse','--path-format=absolute','--git-common-dir'],
+                                 cwd=SCRIPT_REPO,text=True).strip()
+ROOT = Path(COMMON).parent.resolve()
+HOME_DIR = ROOT / 'experiments' / 'worktrees'
+
+
+def audit():
+    siblings = sorted(p.name for p in ROOT.parent.iterdir()
+                      if p.name.lower().startswith('gamemake-') and p.is_dir())
+    company = [name for name in siblings if name.startswith('gamemake-company-')]
+    outside = [name for name in siblings if name not in company]
+    print(json.dumps({'project':str(ROOT), 'unexpectedSiblings':outside,
+                      'companyOwnedSiblings':company}, ensure_ascii=False))
+    return bool(outside)
+
+
+def create(name, revision):
+    if not re.fullmatch('[a-z0-9][a-z0-9_-]{0,79}', name):
+        raise ValueError('Use one lowercase directory name')
+    if HOME_DIR.resolve() != HOME_DIR or (HOME_DIR / name).exists():
+        raise ValueError('Worktree parent is redirected or destination already exists')
+    commit = subprocess.check_output(['git','rev-parse','--verify','--end-of-options', revision+'^{commit}'],
+                                     cwd=ROOT, text=True).strip()
+    HOME_DIR.mkdir(parents=True,exist_ok=True)
+    subprocess.run(['git','worktree','add','--detach',str(HOME_DIR / name),commit],cwd=ROOT,check=True)
+    return 0
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    commands = parser.add_subparsers(dest='command',required=True)
+    commands.add_parser('audit')
+    add = commands.add_parser('create')
+    add.add_argument('name')
+    add.add_argument('revision',nargs='?',default='HEAD')
+    args = parser.parse_args()
+    raise SystemExit(audit() if args.command == 'audit' else create(args.name,args.revision))

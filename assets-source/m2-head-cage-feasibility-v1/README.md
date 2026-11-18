@@ -8,7 +8,7 @@
 
 ```powershell
 python scripts/m2-head-cage-feasibility-v1/api_check.py assets-source/m2-head-cage-feasibility-v1/api-check.json
-python scripts/m2-head-cage-feasibility-v1/prepare.py --probe-root F:/gamemake-representative-head-cage --probe-commit EXACT_COMMIT
+python scripts/m2-head-cage-feasibility-v1/prepare.py --probe-root experiments/worktrees/gamemake-representative-head-cage --probe-commit EXACT_COMMIT
 # 将新源码、inputs和plan.json固定为提交后
 python scripts/m2-head-cage-feasibility-v1/run.py
 python scripts/m2-head-cage-feasibility-v1/qa.py

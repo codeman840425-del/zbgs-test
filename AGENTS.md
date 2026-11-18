@@ -2,6 +2,8 @@
 
 目标：保留 Phaser 经营、界面和场景，验证可维护的角色表现生产流程。
 
+角色平台新增的独立验证工作树放在主工程 `experiments/` 内。可用 `python scripts/character-worktree.py create 名称 提交` 在 `experiments/worktrees/` 创建，使用 `python scripts/character-worktree.py audit` 检查同级散落目录。临时脚本和输出也放在工程内。历史工作树的迁移或清理另行核对使用者、未提交改动和固定构建依赖。
+
 ## 当前长目标优先约定（2026-11-16，取代下文历史有限M2范围）
 
 - 当前功能和验收以用户完整v2 `docs/research/M2-COMPLETE-CUSTOMIZATION-LONG-GOAL-v2-2026-11-16.txt` 及后续明确决定为准；原第一版只保历史。短版执行指令不缩范围：一次一个主工作包，声明缺口/输入/产物/最小验收/尝试预算及停止条件，交付后接续。两轮同因无新证据或改善则重定位，不扫参、不降低验收。全部必需项有证据后提交用户确认，确认后才可进入M3。

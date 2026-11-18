@@ -5,7 +5,7 @@
 条件与原 LP 一致。每个附着地标坐标误差 ±2mm，前 Y 链/宽/深非负，c 为自由符号，t>=0。弱条件允许笼退化，成功只记 `proxy-feasible`，仍需后续真实几何门。八请求各一次，求解时间限60秒，无 cap、容差或正则化扫描。
 
 ```powershell
-python scripts/m2-head-cage-skin-domain-feasibility-v1/run.py prepare --source-root F:/gamemake-representative-head-cage --source-commit EXACT_COMMIT
+python scripts/m2-head-cage-skin-domain-feasibility-v1/run.py prepare --source-root experiments/worktrees/gamemake-representative-head-cage --source-commit EXACT_COMMIT
 # 将源码、输入和plan固定为提交后
 python scripts/m2-head-cage-skin-domain-feasibility-v1/run.py execute
 python scripts/m2-head-cage-skin-domain-feasibility-v1/qa.py
