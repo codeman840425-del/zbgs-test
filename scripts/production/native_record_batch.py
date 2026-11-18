@@ -204,9 +204,11 @@ def run(catalog_path, output, root=ROOT, readiness_report=None, **registries):
             write_json(request_file, item['request'])
             row['request'] = {'path': request_file.name, 'sha256': digest(request_file.read_bytes()), 'bytes': request_file.stat().st_size}
         rows.append(row)
-    batch = {'schema': SCHEMA, 'mode': 'runtime-admitted' if readiness_report else 'technical-candidate',
+    accepted_count = sum(item['status'] == 'accepted' for item in rows)
+    batch_mode = ('runtime-admitted' if accepted_count else 'readiness-gated') if readiness_report else 'technical-candidate'
+    batch = {'schema': SCHEMA, 'mode': batch_mode,
              'sourceCatalog': pin(root, catalog_path.relative_to(root).as_posix()), 'items': rows,
-             'acceptedCount': sum(item['status'] == 'accepted' for item in rows), 'rejectedCount': sum(item['status'] == 'rejected' for item in rows)}
+             'acceptedCount': accepted_count, 'rejectedCount': sum(item['status'] == 'rejected' for item in rows)}
     write_json(output / 'batch-request.json', batch)
     return batch
 

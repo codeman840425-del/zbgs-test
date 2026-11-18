@@ -66,6 +66,10 @@ class NativeRecordBatchTests(unittest.TestCase):
         rows = plan(self.catalog, self.root, readiness_report=gate)
         self.assertEqual([row['status'] for row in rows], ['rejected', 'rejected'])
         self.assertTrue(all('runtime admission pending' in row['reason'] for row in rows))
+        output = Path(self.scratch.name) / 'readiness-gated'
+        batch = run(CATALOG_PATH, output, self.root, readiness_report=gate)
+        self.assertEqual(batch['mode'], 'readiness-gated')
+        self.assertEqual(batch['acceptedCount'], 0)
 
     def test_readiness_gate_accepts_only_exact_body_types(self):
         gate = json.loads((ROOT / 'evidence/m2-native-production-gate-v5/report.json').read_bytes())
