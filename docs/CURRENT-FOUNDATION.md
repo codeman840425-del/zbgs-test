@@ -105,3 +105,5 @@
 2026-11-18 复工后房间证据接缝：准入闸门现在可读取当前构建的 room candidate 目录，校验 input record、bodyType、身体 SHA、record SHA、4项动作任务和页面错误，并按身体附加录像/回读证据。v13 报告两体均有4项任务，仍为 visual candidate，acceptedForRuntime=[]。26项回归通过。
 
 2026-11-18 admission cycle v13a：房间候选目录已沿完整 admission cycle 传递，gate 能保留两体当前构建的4项动作回归、录像和记录身份，record planner 仍对两体返回 rejected/runtime admission pending。
+
+2026-11-18 复工旁车资源接缝：新增 `prototype/src/native-release-sidecar.js`，按 `bodyType` 与 `sourceModelSha256` 精确选择 FaceContour KTX2 候选，并在身份未登记时返回 PNG 回退。候选必须保持 `candidate-only` 且清单 `runtimeAdmission=false`，不会进入正式资源目录或改变 4196 默认材质路径。旁车解析测试3项、角色查询与生产回归59项通过，提交 `39da46fe` 已推送并核实远程分支。

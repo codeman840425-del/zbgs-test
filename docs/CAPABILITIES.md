@@ -541,6 +541,8 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 2026-11-18 新候选头部附件回读：固定预览构建 `c0f83a22c2f0` 对 `native-contour-roundness-a-v1` 与 `native-contour-cheek-b-v1` 分别完成站立/坐姿的未适配眼镜捕获，随后按精确身体 SHA 生成两份 `cpu-candidate-only` 镜腿 fit。证据为 `evidence/m2-native-batch-runtime-seam-v1/native-glasses-capture-candidate-v3`、`native-glasses-candidate-v4`。这证明候选捕获和 fit 生成可重复，尚未接入运行时 registry，也未完成关闭重开与人工视觉准入，`headAttachments` 继续阻塞。
 同日候选运行时诊断：`scripts/qa-native-glasses-candidate-runtime.cjs` 在固定预览构建 `1cccc47bd39e` 通过 `glassesFit=candidate` 将两份精确镜腿 fit 加载到真实 Three.js/VRM 运行链，男女候选各完成站立→坐稳，眼镜保持加载且页面无错误。证据 `evidence/m2-native-batch-runtime-seam-v1/native-glasses-runtime-candidate-v1/report.json`，结果仍是 `candidate-only`、`verified=false`，没有写入正式 registry 或准入报告。
 
+2026-11-18 旁车资源选择接缝：`prototype/src/native-release-sidecar.js` 以 `bodyType + sourceModelSha256` 精确解析 FaceContour KTX2 发布候选，身份不匹配时返回 PNG 回退，清单状态异常或派生/回退哈希无效时拒绝。3项解析测试、59项 native production 回归及9项 Node 查询/旁车测试通过。该入口只提供候选选择和安全回退，未接入默认材质替换、未清除预算闸门、未增加 `runtimeVariants`，适用范围为当前两份女性 FaceContour 候选。
+
 2026-11-18 矩阵查询接缝复核：`character-production-query.js` 直接读取 `assets-source/variant-matrix-v1/representative-matrix.json`，Node/Vite 生产构建可重复，无需生成运行时副本。女性和男性查询各返回 `uniform-top-v1`、`lower-shorts-v1` 两个 `candidate` 款式，`runtimeVariants=[]`；深层数据脱离性回归通过，证据 `evidence/m2-variant-query-runtime-seam-v1/report.json`，提交 `dc6067e4`。这只证明统一资源矩阵可以被查询层消费，不证明服装、动作、预算、附件或视觉准入。
 
 2026-11-18 预览边界：4196 角色工作台和公司平台当前实际端口 60880 只用于人类观看、比较和验收。它们不等于游戏内交付，游戏交付仍以可加载场景/角色配置、资源、适配数据、状态及保存恢复链的版本化证据为准。副总工边几与生活小物包已在其独立分支发布，但真实角色 C3 联调仍待双方固定接口后进行。
