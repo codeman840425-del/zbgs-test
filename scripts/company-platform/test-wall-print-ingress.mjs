@@ -117,14 +117,19 @@ try {
 
   await jsonFile(recipePath,{...recipe,version:2});
   await write(imagePath,newImage);
-  assert.equal((await importPrint(recipePath)).status,'registered');
+  const concurrent = await Promise.allSettled([importPrint(recipePath),importPrint(recipePath)]);
+  assert.equal(concurrent.filter(result => result.status === 'fulfilled' && result.value.status === 'registered').length,1);
+  for (const result of concurrent) if (result.status === 'rejected') {
+    assert.equal(result.reason.code,1);
+    assert.equal(JSON.parse(result.reason.stderr).code,'wall-print-import-busy');
+  }
   const registered = (await json(catalogPath)).resources;
   assert.equal(registered[2].version,2);
   assert.notEqual(registered[2].asset.sha256,resource.asset.sha256);
   assert.deepEqual(await Promise.all(stableFiles.slice(2).map(read)),unchanged.slice(2));
   await run('build-library','--check');
   console.log(JSON.stringify({ok:true,scope:'Isolated import, exact source rebuild, previous identity preservation, and rollback',
-    checks:['register','repeat','stored-recipe-rebuild','version-conflict','source-pin','illegal-path','non-wall-print-id','lock','invalid-png','catalog-failure-rollback','new-version','catalog-check']}));
+    checks:['register','repeat','stored-recipe-rebuild','version-conflict','source-pin','illegal-path','non-wall-print-id','lock','invalid-png','catalog-failure-rollback','concurrent-new-version','catalog-check']}));
 } finally {
   const resolved = await fs.realpath(fixture);
   assert.equal(path.dirname(resolved),await fs.realpath(os.tmpdir()));

@@ -470,7 +470,22 @@ async function start(){
   });
   fetch('/company-build-info.json').then(r=>r.ok?r.json():null).then(info=>{if(info){element('build-label').textContent=`构建 ${info.shortId}`;window.company.buildInfo=info;}}).catch(()=>{});
   const query=new URLSearchParams(location.search),requested=query.get('sample');
-  if(requested&&appearanceBranches.some(([branch])=>branch===requested))await showAppearanceSample(requested,Number(query.get('look')||0));
+  if(query.get('delivery')==='1'){
+    let imported=false;
+    await perform('正在打开交付包的固定方案…',async()=>{
+      const response=await fetch('/delivery-save.json',{cache:'no-store'});
+      if(!response.ok)throw Error(`交付场景读取失败（HTTP ${response.status}）`);
+      await session.import(await response.text());
+      const target=query.get('object');
+      const current=deriveCompany(session.document,catalog,templates);
+      if(target && current.roomIds.get(target) && current.floorIds.get(target)){
+        await showSpace('room',current.floorIds.get(target),current.roomIds.get(target));
+        facilityEditor.select(target);
+      }else await defaultSpace();
+      imported=true;
+    });
+    if(imported && query.get('object')===facilityEditor.selected)element('edit-focus').click();
+  }else if(requested&&appearanceBranches.some(([branch])=>branch===requested))await showAppearanceSample(requested,Number(query.get('look')||0));
   else if(Object.hasOwn(layouts,query.get('layout'))){const key=query.get('layout');if(!(key==='conceptStudio'&&restored&&session.document.id===conceptStudio.id))await window.company.load(layouts[key]);if(key==='conceptStudio')setView('station');if(!['smallHome','conceptStudio','studio','base','alternate','rental','flat','twoFloors','building'].includes(query.get('layout')))facilityEditor.sampleLoaded({target:''});}
   facilityEditor.sync();
 }

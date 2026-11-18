@@ -1,5 +1,5 @@
 import {execFile} from 'node:child_process';
-import {createHash} from 'node:crypto';
+import {createHash,randomUUID} from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
@@ -77,14 +77,14 @@ async function writeNew(file, bytes, ownedFiles) {
 }
 
 async function replaceIndex(file, bytes) {
-  const directory = await fs.mkdtemp(path.join(path.dirname(file),'.wall-print-index-'));
-  const candidate = path.join(directory,'next.json');
+  const candidate = path.join(path.dirname(file),`.wall-print-index-${randomUUID()}.json`);
+  const owned = [];
   try {
-    await writeNew(candidate,bytes);
+    await writeNew(candidate,bytes,owned);
     await fs.rename(candidate,file);
-  } finally {
-    await fs.rm(candidate,{force:true});
-    await fs.rmdir(directory);
+  } catch (error) {
+    if (owned.length) await fs.rm(candidate,{force:true});
+    throw error;
   }
 }
 
@@ -184,6 +184,7 @@ export async function importWallPrint(recipeFile) {
   }
   const ownedDirectories = [], ownedFiles = [];
   let committed = false;
+  let preserveRecoveryState = false;
   try {
     const sourceIndex = path.join(root,collectionPath);
     const oldCollection = await normalFile(sourceIndex);
@@ -241,16 +242,30 @@ export async function importWallPrint(recipeFile) {
       fail('wall-print-registration-changed',collectionPath,'The existing registry or catalog changed during the build');
     await replaceIndex(sourceIndex,nextCollection);
     try {await replaceIndex(catalogFile,nextCatalog);}
-    catch (error) {await replaceIndex(sourceIndex,oldCollection); throw error;}
+    catch (error) {
+      try {await replaceIndex(sourceIndex,oldCollection);}
+      catch (rollback) {
+        preserveRecoveryState = true;
+        fail('wall-print-rollback-failed',collectionPath,
+          `Catalog replacement failed: ${error.message}. Collection restore failed: ${rollback.message}. The import lock and files are retained for recovery.`);
+      }
+      throw error;
+    }
     committed = true;
     return {ok:true,status:'registered',id:recipe.id,version:recipe.version,resourcePath:paths.resourcePath,sha256};
   } finally {
     try {
-      if (!committed) {
+      if (!committed && !preserveRecoveryState) {
         for (const file of ownedFiles.reverse()) await fs.rm(file,{force:true});
         for (const directory of ownedDirectories.reverse()) await fs.rmdir(directory);
       }
-    } finally {await lock.close(); await fs.rm(lockFile,{force:true});}
+    } catch (error) {
+      preserveRecoveryState = true;
+      fail('wall-print-cleanup-failed',lockFile,`The import lock is retained after cleanup failed: ${error.message}`);
+    } finally {
+      await lock.close();
+      if (!preserveRecoveryState) await fs.rm(lockFile,{force:true});
+    }
   }
 }
 
