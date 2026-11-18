@@ -535,14 +535,14 @@ export function bindAppearanceWorkbench({ controller }) {
       const admitted=query.runtimeVariants||[];
       const bodyType=query.body?.bodyType;
       const batchItems=(representativeBatch.items||[]).filter(item=>item.bodyType===bodyType);
-      productionMatrixList.replaceChildren(...styles.map(style=>{
+      productionMatrixList.replaceChildren(...styles.flatMap(style=>style.variants.map(variant=>{
         const item=document.createElement('li');
-        const variant=style.variants[0];
         const blockers=variant.admissionBlockers?.length ? ` · 阻塞：${variant.admissionBlockers.join('、')}` : '';
         const budget=variant.budgetStatus==='reject-static-over-budget' ? ' · 静态预算超限' : '';
-        item.textContent=`${style.label} · ${variant.status==='runtime-admitted'?'可运行准入':'候选，待准入'}${budget}${blockers}`;
+        const version=variant.variantVersion ? ` · ${variant.variantVersion}` : '';
+        item.textContent=`${style.label}${version} · ${variant.status==='runtime-admitted'?'可运行准入':'候选，待准入'}${budget}${blockers}`;
         return item;
-      }));
+      })));
       productionMatrixNote.textContent=styles.length
         ?`当前基模已登记 ${styles.length} 个款式，正式可用 ${admitted.length} 个。候选资源仍需通过适配、预算和运行验收。`
         :'当前基模没有已登记的生产变体。';
