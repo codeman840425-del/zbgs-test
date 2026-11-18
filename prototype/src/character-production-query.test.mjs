@@ -149,8 +149,8 @@ test('lists exact body registrations and all outfits and material references fro
       }
     }
   }
-  assert.equal(registrations.length, 26 + productionCatalog.entries.length);
-  assert.equal(outfitCount, 43 + productionCatalog.entries.length);
+  assert.equal(registrations.length, 27 + productionCatalog.entries.length);
+  assert.equal(outfitCount, 44 + productionCatalog.entries.length);
   assert.equal(checkedRecipes.size, 1);
 });
 
@@ -164,6 +164,29 @@ test('publisher VRM0 wears only its own three bindings in the source outfit', as
   for (const item of outfits[0].equipment) assert.equal(item.materials.binding.bodySha256, body.sha256);
   assert.equal(liveAccessories.mic.status, 'unavailable');
   assert.equal(liveAccessories.glasses.status, 'unavailable');
+});
+
+test('release and source outfits share the clothes but have separate exact fits', async () => {
+  const original = foundationProfile('source-male-ab9a-v1');
+  const release = foundationProfile('source-male-ab9a-release-v1');
+  const loadCatalog = async profile => {
+    assert.equal(sha256(await readFile(publicFile(profile.url))), profile.sha256);
+    const bytes = await readFile(publicFile(profile.manifestUrl));
+    assert.equal(sha256(bytes), profile.manifestSha256);
+    return JSON.parse(bytes).items;
+  };
+  const [sourceItems,releaseItems] = await Promise.all([loadCatalog(original),loadCatalog(release)]);
+  assert.equal(release.embeddedClothing,false);
+  assert.notEqual(release.sha256,original.sha256);
+  for (const role of ['top','pants','shoes']) {
+    const oldItem = sourceItems.find(item => item.id === original.ids[role]);
+    const newItem = releaseItems.find(item => item.id === release.ids[role]);
+    assert.equal(newItem.compatibleAvatarSha256,release.sha256);
+    assert.notEqual(newItem.fitId,oldItem.fitId);
+    assert.equal(newItem.sha256,oldItem.sha256);
+    assert.equal(new URL(newItem.url,publicFile(release.manifestUrl)).pathname.split('/assets/').pop(),
+      new URL(oldItem.url,publicFile(original.manifestUrl)).pathname.split('/assets/').pop());
+  }
 });
 
 test('uses the actual shared accessory, exact grip and exact temple resources for each fitted registration', async () => {

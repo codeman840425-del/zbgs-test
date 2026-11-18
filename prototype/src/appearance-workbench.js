@@ -1,4 +1,5 @@
 import {nativeProductionCatalog} from './native-production-catalog.js';
+import sourceOutfits from './source-outfit-profiles.json' with {type:'json'};
 import {captureAppearanceRecipe,applyAppearanceRecipe,appearanceDraftKey,exportAppearanceRecipe,readAppearanceRecipeFile} from './appearance-recipe.js';
 import {queryAppearanceCandidates} from './appearance-candidates.js';
 import {HAIRSTYLES} from './hairstyle-catalog.js';
@@ -38,13 +39,14 @@ export function bindAppearanceWorkbench({ controller }) {
     ],
     male: [
       { id: 'male', label: '原始脸型与身形' },
-      { id: 'source-male-ab9a-v1', label: '原始男体 · 分件服装检查' },
       { id: 'm2-male-jaw-v1', label: '下颌变化' },
       { id: 'm2-male-lower-leg-v1', label: '小腿比例样件' },
       { id: 'native-male-7586-v1', label: '原生可编辑候选 · 接入验证' },
     ],
   };
   for (const [group, rows] of Object.entries(nativeProductionCatalog().choices)) bodyGroups[group].push(...rows);
+  for (const profile of Object.values(sourceOutfits))
+    bodyGroups[profile.workbenchGroup].push({id:profile.id, label:profile.workbenchLabel});
   const diagnosticPresets = new Map(REPRESENTATIVE_PRESETS.map(preset => [preset.id, preset]));
   for(const preset of REPRESENTATIVE_PRESETS)bodyGroups[preset.sex].push({id:preset.id,label:preset.previewLabel,diagnostic:true});
   const groupFor = bodyType => Object.keys(bodyGroups).find(group => bodyGroups[group].some(item => item.id === bodyType));
@@ -335,6 +337,7 @@ export function bindAppearanceWorkbench({ controller }) {
   }
   const nativeReviews = document.createElement('p');
   for (const [href,label] of [
+    ['/reviews/source-outfit-release/', '同套男制服 · 加载与动作对照'],
     ['/reviews/shared-looks/', '男女裤装与中筒袜 · 1 倍速回放'],
     ['/reviews/native-hair-motion/', '入座时的发尾动态对照'],
     ['/reviews/native-surfaces/', '房间光照下的脸部与服装'],

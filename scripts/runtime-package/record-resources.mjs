@@ -83,7 +83,7 @@ function resourceReaders(add) {
 }
 
 async function equipmentCatalog(io, config) {
-  const primary = await io.read(config.manifestUrl, 'Body equipment catalog');
+  const primary = await io.read(config.manifestUrl, 'Body equipment catalog', {sha256:config.manifestSha256});
   const items = [];
   const manifests = new Map();
   function merge({value:data, path:manifest}, extension = false) {

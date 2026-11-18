@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
+import {createEquipment} from './equipment.js';
 import {createBodyCoverageSet} from './body-coverage.js';
 
 const originalFetch = globalThis.fetch;
@@ -53,4 +54,15 @@ test('body coverage commit can be rolled back after a later-domain failure injec
   owner.dispose();
   material.dispose();
   geometry.dispose();
+});
+
+test('primary equipment catalog refuses changed bytes before accessing the rig', async () => {
+  const original = '{"schema":"zbgs-equipment-v1","items":[]}';
+  globalThis.fetch = async () => new Response(original + ' ');
+  const options = {
+    vrm: {humanoid: {}, scene: {}},
+    manifestUrl: '/assets/test-equipment.json',
+    manifestSha256: await digest(new TextEncoder().encode(original)),
+  };
+  await assert.rejects(createEquipment(options), /Equipment manifest integrity mismatch/);
 });

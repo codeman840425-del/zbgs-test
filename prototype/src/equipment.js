@@ -8,6 +8,14 @@ import { layerFitRequirement, validateLayerFit, assertLayerFitSet } from './garm
 // GLTFLoader sanitizes node names and retains the exact glTF name in userData.
 const boneNames = bone => [...new Set([bone.name, bone.userData?.name]
   .filter(name => typeof name === 'string' && name.length > 0))];
+const sha256 = async buffer => [...new Uint8Array(await crypto.subtle.digest('SHA-256', buffer))]
+  .map(n => n.toString(16).padStart(2, '0')).join('');
+
+async function pinnedCatalog(response, expected, label = 'manifest') {
+  const bytes = await response.arrayBuffer();
+  if (await sha256(bytes) !== expected) throw Error(`Equipment ${label} integrity mismatch`);
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
 
 /** Load independent garment GLBs onto a compatible existing raw skeleton.
  * No motion/controller dependency, no mutation of the avatar's meshes/materials.
@@ -17,13 +25,14 @@ export async function createEquipment({
   vrm,
   parent = vrm.scene,
   manifestUrl = "/assets/garments/equipment.json",
+  manifestSha256,
   avatarSha256,
   additionalManifests = [],
 }) {
   if (!vrm?.humanoid || !parent) throw new TypeError("A loaded VRM is required");
   const response = await fetch(manifestUrl, { cache: "no-store" });
   if (!response.ok) throw new Error(`Equipment manifest HTTP ${response.status}`);
-  const manifest = await response.json();
+  const manifest = manifestSha256 === undefined ? await response.json() : await pinnedCatalog(response, manifestSha256);
   if (manifest.schema !== "zbgs-equipment-v1" || !Array.isArray(manifest.items))
     throw new Error("Unsupported equipment manifest");
   // Additive catalogs keep the original manifest URL and every legacy entry
@@ -33,10 +42,7 @@ export async function createEquipment({
     if(typeof descriptor?.url!=='string'||!descriptor.url.startsWith('/assets/')||!/^[a-f0-9]{64}$/.test(descriptor.sha256))throw Error('Invalid additional equipment manifest identity');
     const extraResponse=await fetch(descriptor.url,{cache:'no-store'});
     if(!extraResponse.ok)throw Error(`Equipment extension HTTP ${extraResponse.status}`);
-    const bytes=await extraResponse.arrayBuffer();
-    const digest=[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(n=>n.toString(16).padStart(2,'0')).join('');
-    if(digest!==descriptor.sha256)throw Error('Equipment extension integrity mismatch');
-    const extra=JSON.parse(new TextDecoder().decode(bytes));
+    const extra=await pinnedCatalog(extraResponse,descriptor.sha256,'extension');
     if(extra.schema!=='zbgs-equipment-v1'||!Array.isArray(extra.items)||extra.items.some(item=>item.compatibleAvatarSha256!==avatarSha256||!item.url?.startsWith('/assets/')))throw Error('Invalid equipment extension body or absolute resource URL');
     manifest.items.push(...extra.items);
   }
@@ -65,8 +71,6 @@ export async function createEquipment({
   const materialRequests = new Map();
   let disposed = false;
   let setRevision = 0;
-  const sha256 = async (buffer) => [...new Uint8Array(await crypto.subtle.digest("SHA-256", buffer))]
-    .map((n) => n.toString(16).padStart(2, "0")).join("");
   const packed = attribute => {
     if (!attribute || attribute.normalized) throw Error('Body shape attribute format is incompatible');
     const Type = attribute.isInterleavedBufferAttribute ? attribute.data.array.constructor : attribute.array.constructor;

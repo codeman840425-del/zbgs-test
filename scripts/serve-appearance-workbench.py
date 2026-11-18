@@ -23,6 +23,10 @@ CREW_FILES = {'index.html', 'close/original.png', 'close/socks.png',
 NORMAL_REVIEW = '/reviews/native-body-cost/'
 RAW_OUTFIT_REVIEW = '/reviews/raw-source-outfit/'
 RAW_OUTFIT_FILES = {'index.html', 'room-1x/room-produced-1x.webm', 'posed-check/seated.png'}
+RELEASE_REVIEW = '/reviews/source-outfit-release/'
+RELEASE_FILES = {'index.html', 'room/room-produced-1x.webm', 'comparison/report.json',
+                 'comparison/standing-dressed-front-figure-source-left-release-right.png',
+                 'comparison/seated-dressed-side-figure-source-left-release-right.png'}
 NORMAL_MEDIA = {
     **{'/reviews/m2-native-mesh-room-v1/' + f: 'm2-native-mesh-room-v1/' + f for f in (
         'index.html', 'pixel-boundaries/speech-1x.webm', 'pixel-boundaries/open-mouth.png',
@@ -62,6 +66,10 @@ def make_server(config, *, verification=False):
         def translate_path(self, path):
             # Review recordings stay outside the game build and its download budget.
             name = urlsplit(path).path
+            if config.get('sourceOutfitReleaseReview') and name.startswith(RELEASE_REVIEW):
+                member = name[len(RELEASE_REVIEW):] or 'index.html'
+                if member in RELEASE_FILES:
+                    return str(ROOT / 'evidence/m2-source-outfit-release-v1' / member)
             if config.get('rawSourceOutfitReview') and name.startswith(RAW_OUTFIT_REVIEW):
                 member = name[len(RAW_OUTFIT_REVIEW):] or 'index.html'
                 if member in RAW_OUTFIT_FILES:

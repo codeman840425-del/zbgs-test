@@ -13,6 +13,8 @@ export const M1_AVATAR_SHA256 =
  * source geometry remains available for diagnostics and contact calibration. */
 export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female" }) {
   const config = foundationProfile(bodyType), IDS = config.ids;
+  const embeddedClothing = config.embeddedClothing === undefined ? true : config.embeddedClothing;
+  if (typeof embeddedClothing !== 'boolean') throw Error('Invalid embedded clothing policy');
   // This measured native mask owner replaces index coverage for this candidate.
   // Combining independently committed coverage systems needs its own contract.
   if(config.bodyTextureCoverage && (config.bodyCoverage || config.additionalBodyCoverage?.length || config.garmentCoverage))
@@ -27,6 +29,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     vrm,
     avatarSha256,
     manifestUrl: config.manifestUrl,
+    manifestSha256: config.manifestSha256,
     additionalManifests: config.additionalEquipmentManifests,
   });
   try {
@@ -54,9 +57,9 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     else if (names.some((n) => /_HAIR/.test(n))) hair.push(mesh);
     else face.push(mesh);
   });
-  if (!body.length || !sourceClothes.length) {
+  if (!body.length || Boolean(sourceClothes.length) !== embeddedClothing) {
     adapter.dispose();
-    throw new Error("M1 expected separate body/clothing primitives");
+    throw new Error("Body or embedded clothing primitives differ from the registered body layout");
   }
   let outfit = 0,
     lowerBodyRole = outfitSelection(config, 0).bottomRole,
