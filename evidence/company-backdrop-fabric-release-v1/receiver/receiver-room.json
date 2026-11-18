@@ -1,0 +1,235 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "backdrop-home",
+      "input": {
+        "id": "backdrop-home",
+        "name": "民房 · 绿幕直播间",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "furnishingVersion": 2,
+        "scale": "small-home",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set-surface-finish",
+          "id": "backdrop-home/ground/live",
+          "surface": "floor",
+          "finish": {
+            "resource": {
+              "id": "floor-offset-plank",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "move",
+          "id": "backdrop-home/ground/live/station-1",
+          "transform": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "backdrop-home/ground/live/station-1/camera",
+          "parentId": "backdrop-home/ground/live/station-1/desk",
+          "resource": {
+            "id": "camera-orbit-eye",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0.84,
+              0.395
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "backdrop-home/ground/live/backdrop",
+          "parentId": "backdrop-home/ground/live",
+          "resource": {
+            "id": "backdrop-fabric-green",
+            "version": 1
+          },
+          "state": {
+            "deployment": 1
+          },
+          "transform": {
+            "position": [
+              1.95,
+              0,
+              0
+            ],
+            "yaw": -1.5707963267948966
+          }
+        },
+        {
+          "type": "replace-resource",
+          "id": "backdrop-home/ground/live/backdrop",
+          "resource": {
+            "id": "backdrop-fabric-print-river",
+            "version": 2
+          }
+        }
+      ],
+      "stationLooks": [
+        {
+          "stationId": "backdrop-home/ground/live/station-1",
+          "look": {
+            "id": "station-look-3",
+            "version": 1
+          }
+        }
+      ]
+    },
+    {
+      "key": "backdrop-rental",
+      "input": {
+        "id": "backdrop-rental",
+        "name": "整套出租屋 · 印花直播间",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "furnishingVersion": 2,
+        "scale": "rental-home",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              },
+              {
+                "id": "work",
+                "name": "剪辑间",
+                "purpose": "work",
+                "stations": 0,
+                "furniture": "desk-chair"
+              },
+              {
+                "id": "rest",
+                "name": "休息间",
+                "purpose": "rest",
+                "stations": 0
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "move",
+          "id": "backdrop-rental/ground",
+          "transform": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "set-surface-finish",
+          "id": "backdrop-rental/ground/live",
+          "surface": "floor",
+          "finish": {
+            "resource": {
+              "id": "floor-terrazzo",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "move",
+          "id": "backdrop-rental/ground/live/station-1",
+          "transform": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": -1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "backdrop-rental/ground/live/station-1/camera",
+          "parentId": "backdrop-rental/ground/live/station-1/desk",
+          "resource": {
+            "id": "camera-orbit-eye",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0.84,
+              0.395
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "backdrop-rental/ground/live/backdrop",
+          "parentId": "backdrop-rental/ground/live",
+          "resource": {
+            "id": "backdrop-fabric-print",
+            "version": 1
+          },
+          "state": {
+            "deployment": 0.5
+          },
+          "transform": {
+            "position": [
+              -1.95,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          }
+        }
+      ],
+      "stationLooks": [
+        {
+          "stationId": "backdrop-rental/ground/live/station-1",
+          "look": {
+            "id": "station-look-3",
+            "version": 1
+          }
+        }
+      ]
+    }
+  ]
+}

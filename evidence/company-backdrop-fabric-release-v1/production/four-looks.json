@@ -1,0 +1,1733 @@
+{
+  "status": "passed",
+  "results": [
+    {
+      "resource": {
+        "id": "backdrop-fabric-green",
+        "version": 1,
+        "displayName": "直播绿幕 · 窄边矮盒",
+        "category": "dynamic",
+        "mountRole": "background-fabric",
+        "productionBranch": "background-fabric",
+        "mount": "floor-surface",
+        "parent": "room.floor",
+        "mounting": {
+          "origin": "bottom",
+          "width": 2.1,
+          "height": 1.93,
+          "depth": 0.3
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            1.05,
+            0.15
+          ],
+          "blocking": true
+        },
+        "usePoints": [],
+        "stateDefaults": {
+          "deployment": 1
+        },
+        "stateSchema": {
+          "deployment": {
+            "type": "number",
+            "min": 0,
+            "max": 1
+          }
+        },
+        "stateSemantics": {
+          "deployment": "backdrop-deployment-fraction"
+        },
+        "backdropRoll": {
+          "slotY": 0.11,
+          "travel": 1.78
+        },
+        "materialSlots": {
+          "foot": [
+            "foot-left",
+            "foot-right"
+          ],
+          "fittings": [
+            "riser-left",
+            "riser-right",
+            "roller-endcaps",
+            "roller-mouth",
+            "mast-socket"
+          ],
+          "case": [
+            "roller-case"
+          ],
+          "pole": [
+            "roller-drum",
+            "lift-mast"
+          ],
+          "cloth": [
+            "fabric-sheet"
+          ],
+          "rail": [
+            "lift-rail"
+          ]
+        },
+        "provenance": {
+          "license": "Project-authored cloth, artwork and installation geometry; reuses the project-authored fiber pattern.",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "background-fabric",
+          "sourceParameters": "assets-source/company-backdrop-fabric-v1/parameters.json",
+          "sourceParametersSha256": "a325168a7bde8d6dd59857ff7526dbae66ccbaefb593b6bec9e7c0da77dafd94",
+          "functionalContractSource": "assets-source/company-backdrop-fabric-v1/contract.json",
+          "functionalContractSourceSha256": "cf4d9eb3dc22e0cd5beb10abe13138747fd027e63e217955cb0e83c6f7cc2adf",
+          "generator": "scripts/company-platform/build-backdrop-fabric.mjs",
+          "generatorSha256": "68a2695cd6d9830db633b43282b52de5cd8bd00275f4fdbdf819676212d59d31",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-backdrop-fabric-assets.mjs",
+              "sha256": "390445b2e8be509914cc236d8a5e836d12834501d2bddea8dabe4133bba93b07"
+            },
+            "weaveSource": {
+              "path": "prototype/public/company-assets/ceiling-finishes-v1/ceiling-woven/v1/texture.png",
+              "sha256": "4df80dcb3c727f2d6995d79016aa42e473d730a760981febddfa103256d9e598"
+            }
+          },
+          "texture": {
+            "original": {
+              "path": "prototype/public/company-assets/ceiling-finishes-v1/ceiling-woven/v1/texture.png",
+              "sha256": "4df80dcb3c727f2d6995d79016aa42e473d730a760981febddfa103256d9e598",
+              "license": "Project-authored procedural surface sample. No external art assets."
+            },
+            "embeddedSha256": "78ac25501b3a1cb914736d796aa5050a20cebb7e71270f2567bfe52eb62b915d",
+            "embeddedBytes": 23118
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback",
+            "pngjs 7.0.0"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/backdrop-fabric-v1/backdrop-fabric-green/v1/model.glb",
+          "sha256": "a95f0dadc9df8d5497a121314bea2093dcd877c5d789798a0a65634e6a80d055",
+          "bytes": 536120
+        }
+      },
+      "geometry": {
+        "triangles": 9228,
+        "meshCount": 12,
+        "materialCount": 6,
+        "geometrySha256": "6bb2aadcd16ae1a43fc1343233a3c777db944985d545f0eb4cf5a8fd8ae0bec7",
+        "sheetSha256": "3cfa8ce65d6ebb9a3a47a24957ee25ce5ab8cdc2a39932e6bafd05164dede8eb",
+        "footSha256": "7ebc7e28b462d79bef8a28e0c3398a7a8af75af64f0b274e9874d9853670c4ce",
+        "railSha256": "65a304926507b34e589ccbfd88b0a0db8460e5f8576c0ee993814f1ea4874ed1",
+        "envelope": {
+          "min": [
+            -1.0395,
+            0,
+            -0.132
+          ],
+          "max": [
+            1.0395,
+            1.90900004,
+            0.132
+          ],
+          "size": [
+            2.079,
+            1.90900004,
+            0.264
+          ]
+        },
+        "feet": [
+          {
+            "node": "foot-left",
+            "point": [
+              -0.73,
+              0,
+              0.041
+            ],
+            "areaSquareMetres": 0.00738001
+          },
+          {
+            "node": "foot-right",
+            "point": [
+              0.71999999,
+              0,
+              0.041
+            ],
+            "areaSquareMetres": 0.00738001
+          }
+        ],
+        "cloth": {
+          "longitudinalSegments": 36,
+          "bounds": {
+            "min": [
+              -1.00800002,
+              0.11,
+              0.0205048
+            ],
+            "max": [
+              1.00800002,
+              1.88999999,
+              0.02841622
+            ],
+            "size": [
+              2.01600003,
+              1.77999999,
+              0.00791142
+            ]
+          },
+          "front": [
+            {
+              "point": [
+                -0.62496001,
+                0.2524,
+                0.02315074
+              ],
+              "uv": [
+                0.18990834,
+                0.92000001
+              ],
+              "normal": [
+                -0.00088182,
+                0.0060373,
+                0.99998139
+              ]
+            },
+            {
+              "point": [
+                -0.62496001,
+                0.7864,
+                0.02107172
+              ],
+              "uv": [
+                0.18965689,
+                0.62
+              ],
+              "normal": [
+                -0.01463403,
+                0.00202825,
+                0.99989086
+              ]
+            },
+            {
+              "point": [
+                -0.62496001,
+                1.3026,
+                0.0217025
+              ],
+              "uv": [
+                0.18968211,
+                0.32999998
+              ],
+              "normal": [
+                -0.02211561,
+                -0.00342508,
+                0.99974955
+              ]
+            },
+            {
+              "point": [
+                -0.62496001,
+                1.7476,
+                0.02348192
+              ],
+              "uv": [
+                0.18990817,
+                0.08000001
+              ],
+              "normal": [
+                -0.0085461,
+                -0.00334997,
+                0.99995787
+              ]
+            },
+            {
+              "point": [
+                0,
+                0.2524,
+                0.02406636
+              ],
+              "uv": [
+                0.5,
+                0.92000001
+              ],
+              "normal": [
+                -0.01088069,
+                -0.00079407,
+                0.99994049
+              ]
+            },
+            {
+              "point": [
+                0,
+                0.7864,
+                0.02514031
+              ],
+              "uv": [
+                0.5,
+                0.62
+              ],
+              "normal": [
+                -0.0388176,
+                -0.00242074,
+                0.99924338
+              ]
+            },
+            {
+              "point": [
+                0,
+                1.3026,
+                0.02577727
+              ],
+              "uv": [
+                0.5,
+                0.32999998
+              ],
+              "normal": [
+                -0.03380651,
+                0.00073357,
+                0.99942813
+              ]
+            },
+            {
+              "point": [
+                0,
+                1.7476,
+                0.02466285
+              ],
+              "uv": [
+                0.5,
+                0.08000001
+              ],
+              "normal": [
+                -0.00867214,
+                0.0043785,
+                0.99995281
+              ]
+            },
+            {
+              "point": [
+                0.62496001,
+                0.2524,
+                0.02485782
+              ],
+              "uv": [
+                0.81009184,
+                0.92000001
+              ],
+              "normal": [
+                0.00088182,
+                -0.00603499,
+                0.9999814
+              ]
+            },
+            {
+              "point": [
+                0.62496001,
+                0.7864,
+                0.02705542
+              ],
+              "uv": [
+                0.81034331,
+                0.62
+              ],
+              "normal": [
+                0.01463403,
+                -0.00201347,
+                0.99989089
+              ]
+            },
+            {
+              "point": [
+                0.62496001,
+                1.3026,
+                0.02649193
+              ],
+              "uv": [
+                0.81031781,
+                0.32999998
+              ],
+              "normal": [
+                0.02211561,
+                0.00339362,
+                0.99974966
+              ]
+            },
+            {
+              "point": [
+                0.62496001,
+                1.7476,
+                0.02460104
+              ],
+              "uv": [
+                0.81009167,
+                0.08000001
+              ],
+              "normal": [
+                0.0085461,
+                0.00332788,
+                0.99995794
+              ]
+            }
+          ]
+        },
+        "rail": {
+          "min": [
+            -1.02450001,
+            1.87100005,
+            -0.069
+          ],
+          "max": [
+            1.02450001,
+            1.90900004,
+            0.0465
+          ],
+          "size": [
+            2.04900002,
+            0.03799999,
+            0.1155
+          ]
+        },
+        "mast": {
+          "min": [
+            -0.01856,
+            0.11,
+            -0.08256
+          ],
+          "max": [
+            0.01856,
+            1.88999999,
+            -0.04544
+          ],
+          "size": [
+            0.03712,
+            1.77999999,
+            0.03712
+          ]
+        },
+        "railRetractedY": [
+          0.09100005,
+          0.12900004
+        ],
+        "texture": {
+          "dimensionsPixels": [
+            288,
+            256
+          ],
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opacity": 1,
+          "distinctQuantizedColors": 1,
+          "sha256": "78ac25501b3a1cb914736d796aa5050a20cebb7e71270f2567bfe52eb62b915d"
+        }
+      }
+    },
+    {
+      "resource": {
+        "id": "backdrop-fabric-blue",
+        "version": 1,
+        "displayName": "直播蓝幕 · 圆轴与斜翼脚",
+        "category": "dynamic",
+        "mountRole": "background-fabric",
+        "productionBranch": "background-fabric",
+        "mount": "floor-surface",
+        "parent": "room.floor",
+        "mounting": {
+          "origin": "bottom",
+          "width": 2.1,
+          "height": 1.93,
+          "depth": 0.3
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            1.05,
+            0.15
+          ],
+          "blocking": true
+        },
+        "usePoints": [],
+        "stateDefaults": {
+          "deployment": 1
+        },
+        "stateSchema": {
+          "deployment": {
+            "type": "number",
+            "min": 0,
+            "max": 1
+          }
+        },
+        "stateSemantics": {
+          "deployment": "backdrop-deployment-fraction"
+        },
+        "backdropRoll": {
+          "slotY": 0.11,
+          "travel": 1.78
+        },
+        "materialSlots": {
+          "foot": [
+            "foot-left",
+            "foot-right"
+          ],
+          "fittings": [
+            "riser-left",
+            "riser-right",
+            "roller-endcaps",
+            "roller-mouth",
+            "mast-socket"
+          ],
+          "case": [
+            "roller-case"
+          ],
+          "pole": [
+            "roller-drum",
+            "lift-mast"
+          ],
+          "cloth": [
+            "fabric-sheet"
+          ],
+          "rail": [
+            "lift-rail"
+          ]
+        },
+        "provenance": {
+          "license": "Project-authored cloth, artwork and installation geometry; reuses the project-authored fiber pattern.",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "background-fabric",
+          "sourceParameters": "assets-source/company-backdrop-fabric-v1/parameters.json",
+          "sourceParametersSha256": "a325168a7bde8d6dd59857ff7526dbae66ccbaefb593b6bec9e7c0da77dafd94",
+          "functionalContractSource": "assets-source/company-backdrop-fabric-v1/contract.json",
+          "functionalContractSourceSha256": "cf4d9eb3dc22e0cd5beb10abe13138747fd027e63e217955cb0e83c6f7cc2adf",
+          "generator": "scripts/company-platform/build-backdrop-fabric.mjs",
+          "generatorSha256": "68a2695cd6d9830db633b43282b52de5cd8bd00275f4fdbdf819676212d59d31",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-backdrop-fabric-assets.mjs",
+              "sha256": "390445b2e8be509914cc236d8a5e836d12834501d2bddea8dabe4133bba93b07"
+            },
+            "weaveSource": {
+              "path": "prototype/public/company-assets/ceiling-finishes-v1/ceiling-woven/v1/texture.png",
+              "sha256": "4df80dcb3c727f2d6995d79016aa42e473d730a760981febddfa103256d9e598"
+            }
+          },
+          "texture": {
+            "original": {
+              "path": "prototype/public/company-assets/ceiling-finishes-v1/ceiling-woven/v1/texture.png",
+              "sha256": "4df80dcb3c727f2d6995d79016aa42e473d730a760981febddfa103256d9e598",
+              "license": "Project-authored procedural surface sample. No external art assets."
+            },
+            "embeddedSha256": "91e7d82d2b4609f22bfc2444f6e40ec17907e216eb1b6133742f9435e4087e90",
+            "embeddedBytes": 26600
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback",
+            "pngjs 7.0.0"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/backdrop-fabric-v1/backdrop-fabric-blue/v1/model.glb",
+          "sha256": "a3623d99100bf738b73e47a409d9b7c834c7af015426f94ac5e2b5dfe4e84730",
+          "bytes": 387032
+        }
+      },
+      "geometry": {
+        "triangles": 7676,
+        "meshCount": 12,
+        "materialCount": 6,
+        "geometrySha256": "e1af16306fe0c7479259b88f63bda11a156da060d60fc2a4adb4875fa9321b82",
+        "sheetSha256": "783a28ae3f2ace44f3bea2be6459a43dc7e548fc02af8fce63a72a9fa8153b5a",
+        "footSha256": "ec6ad3f1712bfdc6359e6637897cc80e1d632dc7e3ad59fdc0a8ce30b90f713d",
+        "railSha256": "998c26414aeb1fba0bcf4b7c615d02c67c05f1126de179bc4b8f50b9f9ef3a94",
+        "envelope": {
+          "min": [
+            -1.03900003,
+            0,
+            -0.14300001
+          ],
+          "max": [
+            1.03900003,
+            1.91499996,
+            0.14300001
+          ],
+          "size": [
+            2.07800007,
+            1.91499996,
+            0.28600001
+          ]
+        },
+        "feet": [
+          {
+            "node": "foot-left",
+            "point": [
+              -0.799,
+              0,
+              0.06578
+            ],
+            "areaSquareMetres": 0.01820848
+          },
+          {
+            "node": "foot-right",
+            "point": [
+              0.78100002,
+              0,
+              0.06578
+            ],
+            "areaSquareMetres": 0.01820848
+          }
+        ],
+        "cloth": {
+          "longitudinalSegments": 36,
+          "bounds": {
+            "min": [
+              -0.99250001,
+              0.11,
+              0.01700614
+            ],
+            "max": [
+              0.99250001,
+              1.88999999,
+              0.03798202
+            ],
+            "size": [
+              1.98500001,
+              1.77999999,
+              0.02097588
+            ]
+          },
+          "front": [
+            {
+              "point": [
+                -0.61535,
+                0.2524,
+                0.0254686
+              ],
+              "uv": [
+                0.18990691,
+                0.92000001
+              ],
+              "normal": [
+                -0.01970683,
+                -0.00873974,
+                0.9997676
+              ]
+            },
+            {
+              "point": [
+                -0.61535,
+                0.7864,
+                0.03025058
+              ],
+              "uv": [
+                0.18965152,
+                0.62
+              ],
+              "normal": [
+                -0.00043159,
+                -0.00663165,
+                0.99997792
+              ]
+            },
+            {
+              "point": [
+                -0.61535,
+                1.3026,
+                0.02866175
+              ],
+              "uv": [
+                0.18967715,
+                0.32999998
+              ],
+              "normal": [
+                0.05993157,
+                0.00940984,
+                0.99815813
+              ]
+            },
+            {
+              "point": [
+                -0.61535,
+                1.7476,
+                0.02469176
+              ],
+              "uv": [
+                0.18990673,
+                0.08000001
+              ],
+              "normal": [
+                0.0296318,
+                0.00437287,
+                0.99955132
+              ]
+            },
+            {
+              "point": [
+                0,
+                0.2524,
+                0.02428214
+              ],
+              "uv": [
+                0.5,
+                0.92000001
+              ],
+              "normal": [
+                -0.02256496,
+                -0.00336948,
+                0.9997397
+              ]
+            },
+            {
+              "point": [
+                0,
+                0.7864,
+                0.02849964
+              ],
+              "uv": [
+                0.5,
+                0.62
+              ],
+              "normal": [
+                -0.10602051,
+                -0.00850504,
+                0.99432757
+              ]
+            },
+            {
+              "point": [
+                0,
+                1.3026,
+                0.0298714
+              ],
+              "uv": [
+                0.5,
+                0.32999998
+              ],
+              "normal": [
+                -0.05376459,
+                0.00515094,
+                0.99854035
+              ]
+            },
+            {
+              "point": [
+                0,
+                1.7476,
+                0.02567368
+              ],
+              "uv": [
+                0.5,
+                0.08000001
+              ],
+              "normal": [
+                0.00035634,
+                0.01201882,
+                0.99992771
+              ]
+            },
+            {
+              "point": [
+                0.61535,
+                0.2524,
+                0.0229039
+              ],
+              "uv": [
+                0.81009328,
+                0.92000001
+              ],
+              "normal": [
+                -0.02772498,
+                0.008407,
+                0.99958024
+              ]
+            },
+            {
+              "point": [
+                0.61535,
+                0.7864,
+                0.02336149
+              ],
+              "uv": [
+                0.81034867,
+                0.62
+              ],
+              "normal": [
+                -0.12270767,
+                -0.00563836,
+                0.99242684
+              ]
+            },
+            {
+              "point": [
+                0.61535,
+                1.3026,
+                0.02666438
+              ],
+              "uv": [
+                0.81032276,
+                0.32999998
+              ],
+              "normal": [
+                -0.09638714,
+                0.00060532,
+                0.99534374
+              ]
+            },
+            {
+              "point": [
+                0.61535,
+                1.7476,
+                0.02537735
+              ],
+              "uv": [
+                0.8100931,
+                0.08000001
+              ],
+              "normal": [
+                -0.01670075,
+                0.01139468,
+                0.9997956
+              ]
+            }
+          ]
+        },
+        "rail": {
+          "min": [
+            -1.00899994,
+            1.86500001,
+            -0.07
+          ],
+          "max": [
+            1.00899994,
+            1.91499996,
+            0.053
+          ],
+          "size": [
+            2.01799989,
+            0.04999995,
+            0.123
+          ]
+        },
+        "mast": {
+          "min": [
+            -0.02146,
+            0.10999999,
+            -0.08646
+          ],
+          "max": [
+            0.02146,
+            1.88999999,
+            -0.04354
+          ],
+          "size": [
+            0.04292,
+            1.77999999,
+            0.04292
+          ]
+        },
+        "railRetractedY": [
+          0.08500001,
+          0.13499996
+        ],
+        "texture": {
+          "dimensionsPixels": [
+            288,
+            256
+          ],
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opacity": 1,
+          "distinctQuantizedColors": 1,
+          "sha256": "91e7d82d2b4609f22bfc2444f6e40ec17907e216eb1b6133742f9435e4087e90"
+        }
+      }
+    },
+    {
+      "resource": {
+        "id": "backdrop-fabric-print",
+        "version": 1,
+        "displayName": "图案背景幕 · 矿彩拱廊",
+        "category": "dynamic",
+        "mountRole": "background-fabric",
+        "productionBranch": "background-fabric",
+        "mount": "floor-surface",
+        "parent": "room.floor",
+        "mounting": {
+          "origin": "bottom",
+          "width": 2.1,
+          "height": 1.93,
+          "depth": 0.3
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            1.05,
+            0.15
+          ],
+          "blocking": true
+        },
+        "usePoints": [],
+        "stateDefaults": {
+          "deployment": 1
+        },
+        "stateSchema": {
+          "deployment": {
+            "type": "number",
+            "min": 0,
+            "max": 1
+          }
+        },
+        "stateSemantics": {
+          "deployment": "backdrop-deployment-fraction"
+        },
+        "backdropRoll": {
+          "slotY": 0.11,
+          "travel": 1.78
+        },
+        "materialSlots": {
+          "foot": [
+            "foot-left",
+            "foot-right"
+          ],
+          "fittings": [
+            "riser-left",
+            "riser-right",
+            "roller-endcaps",
+            "roller-mouth",
+            "mast-socket"
+          ],
+          "case": [
+            "roller-case"
+          ],
+          "pole": [
+            "roller-drum",
+            "lift-mast"
+          ],
+          "cloth": [
+            "fabric-sheet"
+          ],
+          "rail": [
+            "lift-rail"
+          ]
+        },
+        "provenance": {
+          "license": "Project-authored cloth, artwork and installation geometry; reuses the project-authored fiber pattern.",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "background-fabric",
+          "sourceParameters": "assets-source/company-backdrop-fabric-v1/parameters.json",
+          "sourceParametersSha256": "a325168a7bde8d6dd59857ff7526dbae66ccbaefb593b6bec9e7c0da77dafd94",
+          "functionalContractSource": "assets-source/company-backdrop-fabric-v1/contract.json",
+          "functionalContractSourceSha256": "cf4d9eb3dc22e0cd5beb10abe13138747fd027e63e217955cb0e83c6f7cc2adf",
+          "generator": "scripts/company-platform/build-backdrop-fabric.mjs",
+          "generatorSha256": "68a2695cd6d9830db633b43282b52de5cd8bd00275f4fdbdf819676212d59d31",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-backdrop-fabric-assets.mjs",
+              "sha256": "390445b2e8be509914cc236d8a5e836d12834501d2bddea8dabe4133bba93b07"
+            },
+            "weaveSource": {
+              "path": "prototype/public/company-assets/ceiling-finishes-v1/ceiling-woven/v1/texture.png",
+              "sha256": "4df80dcb3c727f2d6995d79016aa42e473d730a760981febddfa103256d9e598"
+            }
+          },
+          "texture": {
+            "original": {
+              "path": "prototype/public/company-assets/ceiling-finishes-v1/ceiling-woven/v1/texture.png",
+              "sha256": "4df80dcb3c727f2d6995d79016aa42e473d730a760981febddfa103256d9e598",
+              "license": "Project-authored procedural surface sample. No external art assets."
+            },
+            "embeddedSha256": "313268e3184f35f72220240908ce0057b4069b0345540b8a6aabcca847f68c25",
+            "embeddedBytes": 39147
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback",
+            "pngjs 7.0.0"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/backdrop-fabric-v1/backdrop-fabric-print/v1/model.glb",
+          "sha256": "e98f1b0e455e99ab09a52dcf9cc35204b9a18f8317842482d8fd5dd4fdbf14e4",
+          "bytes": 397996
+        }
+      },
+      "geometry": {
+        "triangles": 7620,
+        "meshCount": 12,
+        "materialCount": 6,
+        "geometrySha256": "54c67f81819cba8d9fe1d5b8f5b3959e1bcde51d3a9097ce92a95691c9af2eec",
+        "sheetSha256": "49aa597f6241258f3e559a358ef13bfdd0a7accacf45b61af0538169b5449597",
+        "footSha256": "ad42454b85dadbe912f79cbfcb000d71b601704aaebd19df32aa76ebbf554016",
+        "railSha256": "375830f283cff7e880cc264d253a1a011a19471d69bc1f68d1349638f4289ab2",
+        "envelope": {
+          "min": [
+            -1.04400003,
+            0,
+            -0.14300001
+          ],
+          "max": [
+            1.04400003,
+            1.91849995,
+            0.14300001
+          ],
+          "size": [
+            2.08800006,
+            1.91849995,
+            0.28600001
+          ]
+        },
+        "feet": [
+          {
+            "node": "foot-left",
+            "point": [
+              -0.85849333,
+              0,
+              0.09438
+            ],
+            "areaSquareMetres": 0.02016614
+          },
+          {
+            "node": "foot-right",
+            "point": [
+              0.84150666,
+              0,
+              0.09438
+            ],
+            "areaSquareMetres": 0.02016614
+          }
+        ],
+        "cloth": {
+          "longitudinalSegments": 36,
+          "bounds": {
+            "min": [
+              -1.01250005,
+              0.11,
+              0.01000691
+            ],
+            "max": [
+              1.01250005,
+              1.88999999,
+              0.04908898
+            ],
+            "size": [
+              2.0250001,
+              1.77999999,
+              0.03908207
+            ]
+          },
+          "front": [
+            {
+              "point": [
+                -0.62775003,
+                0.2524,
+                0.02338496
+              ],
+              "uv": [
+                0.18990874,
+                0.92000001
+              ],
+              "normal": [
+                -0.05372941,
+                0.00950298,
+                0.99851031
+              ]
+            },
+            {
+              "point": [
+                -0.62775003,
+                0.7864,
+                0.02717494
+              ],
+              "uv": [
+                0.1896584,
+                0.62
+              ],
+              "normal": [
+                -0.19508378,
+                -0.01020307,
+                0.98073351
+              ]
+            },
+            {
+              "point": [
+                -0.62775003,
+                1.3026,
+                0.03146119
+              ],
+              "uv": [
+                0.1896835,
+                0.32999998
+              ],
+              "normal": [
+                -0.15107608,
+                0.00325766,
+                0.98851677
+              ]
+            },
+            {
+              "point": [
+                -0.62775003,
+                1.7476,
+                0.02697641
+              ],
+              "uv": [
+                0.18990857,
+                0.08000001
+              ],
+              "normal": [
+                -0.03060657,
+                0.02179916,
+                0.99929377
+              ]
+            },
+            {
+              "point": [
+                0,
+                0.2524,
+                0.02357595
+              ],
+              "uv": [
+                0.5,
+                0.92000001
+              ],
+              "normal": [
+                0.03706159,
+                0.00506707,
+                0.99930014
+              ]
+            },
+            {
+              "point": [
+                0,
+                0.7864,
+                0.01694611
+              ],
+              "uv": [
+                0.5,
+                0.62
+              ],
+              "normal": [
+                0.13917628,
+                0.01416553,
+                0.9901663
+              ]
+            },
+            {
+              "point": [
+                0,
+                1.3026,
+                0.0137997
+              ],
+              "uv": [
+                0.5,
+                0.32999998
+              ],
+              "normal": [
+                0.13072346,
+                -0.00612032,
+                0.99139998
+              ]
+            },
+            {
+              "point": [
+                0,
+                1.7476,
+                0.02057923
+              ],
+              "uv": [
+                0.5,
+                0.08000001
+              ],
+              "normal": [
+                0.02205487,
+                -0.02333317,
+                0.99948444
+              ]
+            },
+            {
+              "point": [
+                0.62775003,
+                0.2524,
+                0.02546239
+              ],
+              "uv": [
+                0.81009144,
+                0.92000001
+              ],
+              "normal": [
+                -0.04839933,
+                -0.00916093,
+                0.99878605
+              ]
+            },
+            {
+              "point": [
+                0.62775003,
+                0.7864,
+                0.03393826
+              ],
+              "uv": [
+                0.81034178,
+                0.62
+              ],
+              "normal": [
+                -0.11233214,
+                -0.01441868,
+                0.9935661
+              ]
+            },
+            {
+              "point": [
+                0.62775003,
+                1.3026,
+                0.03543635
+              ],
+              "uv": [
+                0.81031641,
+                0.32999998
+              ],
+              "normal": [
+                -0.03209676,
+                0.01391695,
+                0.99938787
+              ]
+            },
+            {
+              "point": [
+                0.62775003,
+                1.7476,
+                0.02738349
+              ],
+              "uv": [
+                0.81009127,
+                0.08000001
+              ],
+              "normal": [
+                0.01130916,
+                0.02285748,
+                0.99967477
+              ]
+            }
+          ]
+        },
+        "rail": {
+          "min": [
+            -1.02900004,
+            1.86150002,
+            -0.069
+          ],
+          "max": [
+            1.02900004,
+            1.91849995,
+            0.054
+          ],
+          "size": [
+            2.05800009,
+            0.05699992,
+            0.123
+          ]
+        },
+        "mast": {
+          "min": [
+            -0.02204,
+            0.11,
+            -0.08604
+          ],
+          "max": [
+            0.02204,
+            1.88999999,
+            -0.04196
+          ],
+          "size": [
+            0.04408,
+            1.77999999,
+            0.04408
+          ]
+        },
+        "railRetractedY": [
+          0.08150002,
+          0.13849995
+        ],
+        "texture": {
+          "dimensionsPixels": [
+            288,
+            256
+          ],
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opacity": 1,
+          "distinctQuantizedColors": 10,
+          "sha256": "313268e3184f35f72220240908ce0057b4069b0345540b8a6aabcca847f68c25"
+        }
+      }
+    },
+    {
+      "resource": {
+        "id": "backdrop-fabric-sheer",
+        "version": 1,
+        "displayName": "半透纱幕 · 波褶与银框",
+        "category": "dynamic",
+        "mountRole": "background-fabric",
+        "productionBranch": "background-fabric",
+        "mount": "floor-surface",
+        "parent": "room.floor",
+        "mounting": {
+          "origin": "bottom",
+          "width": 2.1,
+          "height": 1.93,
+          "depth": 0.3
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            1.05,
+            0.15
+          ],
+          "blocking": true
+        },
+        "usePoints": [],
+        "stateDefaults": {
+          "deployment": 1
+        },
+        "stateSchema": {
+          "deployment": {
+            "type": "number",
+            "min": 0,
+            "max": 1
+          }
+        },
+        "stateSemantics": {
+          "deployment": "backdrop-deployment-fraction"
+        },
+        "backdropRoll": {
+          "slotY": 0.11,
+          "travel": 1.78
+        },
+        "materialSlots": {
+          "foot": [
+            "foot-left",
+            "foot-right"
+          ],
+          "fittings": [
+            "riser-left",
+            "riser-right",
+            "roller-endcaps",
+            "roller-mouth",
+            "mast-socket"
+          ],
+          "case": [
+            "roller-case"
+          ],
+          "pole": [
+            "roller-drum",
+            "lift-mast"
+          ],
+          "cloth": [
+            "fabric-sheet"
+          ],
+          "rail": [
+            "lift-rail"
+          ]
+        },
+        "provenance": {
+          "license": "Project-authored cloth, artwork and installation geometry; reuses the project-authored fiber pattern.",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "background-fabric",
+          "sourceParameters": "assets-source/company-backdrop-fabric-v1/parameters.json",
+          "sourceParametersSha256": "a325168a7bde8d6dd59857ff7526dbae66ccbaefb593b6bec9e7c0da77dafd94",
+          "functionalContractSource": "assets-source/company-backdrop-fabric-v1/contract.json",
+          "functionalContractSourceSha256": "cf4d9eb3dc22e0cd5beb10abe13138747fd027e63e217955cb0e83c6f7cc2adf",
+          "generator": "scripts/company-platform/build-backdrop-fabric.mjs",
+          "generatorSha256": "68a2695cd6d9830db633b43282b52de5cd8bd00275f4fdbdf819676212d59d31",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-backdrop-fabric-assets.mjs",
+              "sha256": "390445b2e8be509914cc236d8a5e836d12834501d2bddea8dabe4133bba93b07"
+            },
+            "weaveSource": {
+              "path": "prototype/public/company-assets/ceiling-finishes-v1/ceiling-woven/v1/texture.png",
+              "sha256": "4df80dcb3c727f2d6995d79016aa42e473d730a760981febddfa103256d9e598"
+            }
+          },
+          "texture": {
+            "original": {
+              "path": "prototype/public/company-assets/ceiling-finishes-v1/ceiling-woven/v1/texture.png",
+              "sha256": "4df80dcb3c727f2d6995d79016aa42e473d730a760981febddfa103256d9e598",
+              "license": "Project-authored procedural surface sample. No external art assets."
+            },
+            "embeddedSha256": "9685c045aca7d06f01a50e8468bb87fe2da483ef0ff4c2d252bde38c1eabd8cc",
+            "embeddedBytes": 48176
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback",
+            "pngjs 7.0.0"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/backdrop-fabric-v1/backdrop-fabric-sheer/v1/model.glb",
+          "sha256": "756542ab0f5c9c28d50220da2d629f81ce172e2238f3aa988e1b1b00a935c466",
+          "bytes": 516876
+        }
+      },
+      "geometry": {
+        "triangles": 8764,
+        "meshCount": 12,
+        "materialCount": 6,
+        "geometrySha256": "7c6f36000cf99eb41151e4c5e394326f73d465e16f1a552f11a807a9c751da32",
+        "sheetSha256": "35254679bfbc72f49a3d6462211f58eaab10ea9d922d18d05f4be9c19b6c6003",
+        "footSha256": "f587075e75a1c453457c265159b9f1dca9b1f335317dd7153846a09b089e7dd9",
+        "railSha256": "8a5b770aeffd9b74fdb441182c9a108c22cae0859c9a3bf0ff53ad91af75b170",
+        "envelope": {
+          "min": [
+            -1.02600002,
+            0,
+            -0.139
+          ],
+          "max": [
+            1.02600002,
+            1.90499997,
+            0.139
+          ],
+          "size": [
+            2.05200005,
+            1.90499997,
+            0.278
+          ]
+        },
+        "feet": [
+          {
+            "node": "foot-left",
+            "point": [
+              -0.78000001,
+              0,
+              0
+            ],
+            "areaSquareMetres": 0.0172684
+          },
+          {
+            "node": "foot-right",
+            "point": [
+              0.77999999,
+              0,
+              0
+            ],
+            "areaSquareMetres": 0.0172684
+          }
+        ],
+        "cloth": {
+          "longitudinalSegments": 36,
+          "bounds": {
+            "min": [
+              -0.977,
+              0.11,
+              -0.01099979
+            ],
+            "max": [
+              0.977,
+              1.88999999,
+              0.07454719
+            ],
+            "size": [
+              1.954,
+              1.77999999,
+              0.08554698
+            ]
+          },
+          "front": [
+            {
+              "point": [
+                -0.60574,
+                0.2524,
+                0.02088062
+              ],
+              "uv": [
+                0.18990544,
+                0.92000001
+              ],
+              "normal": [
+                -0.22933702,
+                0.04613859,
+                0.97225293
+              ]
+            },
+            {
+              "point": [
+                -0.60574,
+                0.7864,
+                0.03264608
+              ],
+              "uv": [
+                0.189646,
+                0.62
+              ],
+              "normal": [
+                -0.71080375,
+                -0.02451498,
+                0.70296304
+              ]
+            },
+            {
+              "point": [
+                -0.60574,
+                1.3026,
+                0.04712546
+              ],
+              "uv": [
+                0.18967202,
+                0.32999998
+              ],
+              "normal": [
+                -0.52988685,
+                0.01827022,
+                0.84787153
+              ]
+            },
+            {
+              "point": [
+                -0.60574,
+                1.7476,
+                0.03194953
+              ],
+              "uv": [
+                0.18990527,
+                0.08000001
+              ],
+              "normal": [
+                -0.03089881,
+                0.05988136,
+                0.99772716
+              ]
+            },
+            {
+              "point": [
+                0,
+                0.2524,
+                0.02571552
+              ],
+              "uv": [
+                0.5,
+                0.92000001
+              ],
+              "normal": [
+                -0.22065407,
+                -0.01996161,
+                0.97514784
+              ]
+            },
+            {
+              "point": [
+                0,
+                0.7864,
+                0.05008506
+              ],
+              "uv": [
+                0.5,
+                0.62
+              ],
+              "normal": [
+                -0.18184793,
+                -0.044941,
+                0.98229916
+              ]
+            },
+            {
+              "point": [
+                0,
+                1.3026,
+                0.05403195
+              ],
+              "uv": [
+                0.5,
+                0.32999998
+              ],
+              "normal": [
+                -0.32578641,
+                0.03489246,
+                0.94479931
+              ]
+            },
+            {
+              "point": [
+                0,
+                1.7476,
+                0.03075815
+              ],
+              "uv": [
+                0.5,
+                0.08000001
+              ],
+              "normal": [
+                0.17219169,
+                0.05164588,
+                0.98370866
+              ]
+            },
+            {
+              "point": [
+                0.60574,
+                0.2524,
+                0.02990287
+              ],
+              "uv": [
+                0.81009474,
+                0.92000001
+              ],
+              "normal": [
+                -0.153004,
+                -0.03864844,
+                0.98746953
+              ]
+            },
+            {
+              "point": [
+                0.60574,
+                0.7864,
+                0.05354012
+              ],
+              "uv": [
+                0.81035421,
+                0.62
+              ],
+              "normal": [
+                0.16847198,
+                -0.03518572,
+                0.98507825
+              ]
+            },
+            {
+              "point": [
+                0.60574,
+                1.3026,
+                0.04489008
+              ],
+              "uv": [
+                0.81032789,
+                0.32999998
+              ],
+              "normal": [
+                0.57788809,
+                0.03836879,
+                0.81521358
+              ]
+            },
+            {
+              "point": [
+                0.60574,
+                1.7476,
+                0.02628723
+              ],
+              "uv": [
+                0.81009457,
+                0.08000001
+              ],
+              "normal": [
+                0.2700732,
+                -0.01143009,
+                0.96277195
+              ]
+            }
+          ]
+        },
+        "rail": {
+          "min": [
+            -0.99349999,
+            1.87249994,
+            -0.067
+          ],
+          "max": [
+            0.99349999,
+            1.90499997,
+            0.051
+          ],
+          "size": [
+            1.98699999,
+            0.03250003,
+            0.118
+          ]
+        },
+        "mast": {
+          "min": [
+            -0.01566,
+            0.11,
+            -0.07766
+          ],
+          "max": [
+            0.01566,
+            1.88999999,
+            -0.04634
+          ],
+          "size": [
+            0.03132,
+            1.77999999,
+            0.03132
+          ]
+        },
+        "railRetractedY": [
+          0.09249994,
+          0.12499997
+        ],
+        "texture": {
+          "dimensionsPixels": [
+            288,
+            256
+          ],
+          "alphaRange": [
+            97,
+            233
+          ],
+          "opacity": 0.58,
+          "distinctQuantizedColors": 4,
+          "sha256": "9685c045aca7d06f01a50e8468bb87fe2da483ef0ff4c2d252bde38c1eabd8cc"
+        }
+      }
+    }
+  ]
+}

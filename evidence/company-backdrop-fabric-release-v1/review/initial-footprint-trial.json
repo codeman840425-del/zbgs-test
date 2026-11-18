@@ -1,0 +1,91 @@
+{
+  "scope": "Preliminary in-memory footprint trial; no new visual asset or change to either published layout.",
+  "dimensionsMetres": [
+    2.1,
+    1.93,
+    0.3
+  ],
+  "results": [
+    {
+      "id": "phone-home",
+      "room": "phone-home/ground/live",
+      "roomBounds": {
+        "depth": 4,
+        "width": 4.5
+      },
+      "checks": [
+        {
+          "label": "side-wall",
+          "position": [
+            1.95,
+            0,
+            0
+          ],
+          "yaw": 1.5707963267948966,
+          "allowed": true,
+          "portals": 1
+        },
+        {
+          "label": "seat-approach",
+          "position": [
+            -0.7499999999999999,
+            0,
+            -0.5499999999999999
+          ],
+          "yaw": 0,
+          "allowed": false,
+          "code": "overlapping-facilities",
+          "path": "phone-home/ground/live/station-1/fill-light",
+          "message": "overlapping-facilities at phone-home/ground/live/station-1/fill-light: Blocking footprint overlaps phone-home/backdrop-probe"
+        }
+      ]
+    },
+    {
+      "id": "phone-rental",
+      "room": "phone-rental/ground/live",
+      "roomBounds": {
+        "depth": 4,
+        "width": 4.5
+      },
+      "checks": [
+        {
+          "label": "side-wall",
+          "position": [
+            1.95,
+            0,
+            0
+          ],
+          "yaw": 1.5707963267948966,
+          "allowed": false,
+          "code": "blocked-portal",
+          "path": "phone-rental/ground/portal-stream-living",
+          "message": "blocked-portal at phone-rental/ground/portal-stream-living: Portal interior-to-boundary segment lacks the static envelope and width margin"
+        },
+        {
+          "label": "seat-approach",
+          "position": [
+            -0.75,
+            0,
+            -0.55
+          ],
+          "yaw": 0,
+          "allowed": false,
+          "code": "overlapping-facilities",
+          "path": "phone-rental/ground/live/station-1/fill-light",
+          "message": "overlapping-facilities at phone-rental/ground/live/station-1/fill-light: Blocking footprint overlaps phone-rental/backdrop-probe"
+        },
+        {
+          "label": "opposite-wall-away-from-living-door",
+          "position": [
+            -1.95,
+            0,
+            0
+          ],
+          "yaw": -1.5707963267948966,
+          "allowed": true,
+          "portals": 6
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+[
+  {
+    "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\backdrop-receiver-v1",
+    "command": [
+      "C:\\Program Files\\nodejs\\npm.cmd",
+      "ci",
+      "--prefix",
+      "source/prototype",
+      "--offline",
+      "--no-audit",
+      "--no-fund"
+    ]
+  },
+  {
+    "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\backdrop-receiver-v1\\source\\prototype",
+    "command": [
+      "node",
+      "scripts/build-company-id.mjs"
+    ]
+  },
+  {
+    "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\backdrop-receiver-v1\\source\\prototype",
+    "command": [
+      "node",
+      "node_modules/vite/bin/vite.js",
+      "build",
+      "--config",
+      "vite.company.config.js"
+    ]
+  },
+  {
+    "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\backdrop-receiver-v1\\source",
+    "command": [
+      "node",
+      "scripts/company-platform/batch.mjs",
+      "scripts/company-platform/batch-inputs/backdrop-rooms.json",
+      "../pristine-rooms"
+    ]
+  },
+  {
+    "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\backdrop-receiver-v1\\source",
+    "command": [
+      "node",
+      "scripts/company-platform/publish-room-appearance.mjs",
+      "--publish",
+      "assets-source/company-backdrop-fabric-v1/examples/river-print-v2.json"
+    ]
+  },
+  {
+    "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\backdrop-receiver-v1\\source",
+    "command": [
+      "node",
+      "scripts/company-platform/publish-room-appearance.mjs",
+      "--check",
+      "assets-source/company-backdrop-fabric-v1/examples/river-print-v2.json"
+    ]
+  },
+  {
+    "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\backdrop-receiver-v1\\source",
+    "command": [
+      "node",
+      "scripts/company-platform/test-backdrop-rooms.mjs"
+    ]
+  },
+  {
+    "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\backdrop-receiver-v1\\source",
+    "command": [
+      "node",
+      "scripts/company-platform/test-backdrop-roll.mjs",
+      "F:\\gamemake-company-platform-c1\\output\\backdrop-rail\\receiver\\five-rolls"
+    ]
+  },
+  {
+    "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\backdrop-receiver-v1\\source",
+    "command": [
+      "node",
+      "scripts/company-platform/batch.mjs",
+      "../receiver-room.json",
+      "../derived-rooms"
+    ]
+  },
+  {
+    "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\backdrop-receiver-v1\\source",
+    "command": [
+      "node",
+      "scripts/company-platform/batch.mjs",
+      "../receiver-invalid.json",
+      "../derived-rooms",
+      "--only",
+      "backdrop-home"
+    ]
+  },
+  {
+    "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\backdrop-receiver-v1\\source\\prototype",
+    "command": [
+      "node",
+      "scripts/build-company-id.mjs"
+    ]
+  },
+  {
+    "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\backdrop-receiver-v1\\source\\prototype",
+    "command": [
+      "node",
+      "node_modules/vite/bin/vite.js",
+      "build",
+      "--config",
+      "vite.company.config.js"
+    ]
+  },
+  {
+    "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\backdrop-receiver-v1",
+    "command": [
+      "node",
+      "source/scripts/company-platform/package-company.mjs",
+      "source/prototype/dist-company",
+      "d1dcebcae165",
+      "derived-rooms/backdrop-home",
+      "published-backdrop",
+      "--source",
+      "source",
+      "--room",
+      "backdrop-home",
+      "derived-rooms/backdrop-home",
+      "--room",
+      "backdrop-rental",
+      "derived-rooms/backdrop-rental"
+    ]
+  },
+  {
+    "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\backdrop-receiver-v1\\published-backdrop",
+    "command": [
+      "node",
+      "verify.mjs"
+    ]
+  }
+]
