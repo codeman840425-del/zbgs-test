@@ -570,3 +570,5 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 2026-11-18 眼镜候选生命周期进入共同闸门：`native_batch_gate.py` 接受 `native-glasses-candidate-lifecycle-v1`，要求站立/坐姿/起身/重载及取消卸载保旧、卸载回滚、身份错误回滚均有明确布尔证据。`evidence/m2-native-admission-cycle-v18/summary.json` 实际结果仍为 `blocked`，`acceptedForRuntime=[]`，候选不会清除 `headAttachments`。
 
 2026-11-18 FaceContour 发布旁车预算审查：`scripts/production/qa_facecontour_sidecar_release_candidate.py` 对两份新身体各完成 9/9 精确身份、源导出链、2048 RGBA PNG 回退、材质索引/alpha/UV、KTX2 哈希和预算绑定检查。报告 `evidence/m2-native-release-sidecar-budget-review-v1/report.json` 为 `technical-pass-candidate-only`，决定 `reject-runtime-admission`；两项均静态超预算，普通电脑未测，运行时继续 PNG 回退。
+
+2026-11-18 发型生产合同审查：`evidence/m2-hairstyle-contract-audit-v1/report.json` 只读核对当前 27 条发型记录。短发和单马尾可复用精确 `styleId + body SHA + fit/resource SHA` 查询，但 `female-bob-v1`、`male-sidepart-v1` 的 legacy implicit fit 仍有身份风险。单马尾和原生动态长发仍为候选，未获 runtime admission；中长发独立样式包与双马尾双动态链尚不存在。

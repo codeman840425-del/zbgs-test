@@ -125,3 +125,5 @@
 2026-11-18 admission cycle v18：共同闸门消费眼镜生命周期候选后重新生成 `evidence/m2-native-admission-cycle-v18/`。两份 FaceContour 候选仍为 `acceptedForRuntime=[]`，未完成项仍为 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`；新增生命周期证据只强化可追溯性，不改变准入标准。
 
 2026-11-18 资源预算主包回执：FaceContour KTX2 旁车通过两体各 9/9 合同检查，旁车仍是 `safe-candidate-only`。v18 的两项静态预算决策仍为 `reject-static-over-budget`，ordinary-PC 为 `unmeasured`，没有改变 `acceptedForRuntime=[]`。下一最小输入已写入报告，包括固定构建的浏览器/WebGL 解码与关闭重开、普通电脑测量，以及清除静态超限的资源规格或新导出。
+
+2026-11-18 发型合同缺口：概念图中的短发可复用现有精确身体行，中长发和双马尾需要独立资源包与 fit。当前多数发型包尚未闭合 `bodyType/provenance`，旧 implicit fit 不能作为跨身体批产依据。该审查不制作新模型，下一步优先补共同身份合同和候选准入，不回到单模型外观精修。
