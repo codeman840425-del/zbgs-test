@@ -934,12 +934,21 @@ class CharacterScene extends Phaser.Scene {
       !live?.accessories.mic.requested&&!(["loading","playing","fading"].includes(live?.greeting?.status))&&
       ((this.mode==="idle"&&m.gait<.01&&m.stopTime>=.5)||(this.mode==="sit"&&m.sitProgress===1));
   }
+  static explicitSeatRejection(usePointId, mounted) {
+    if (usePointId !== "room-chair-1") return "unknown-seat-use-point";
+    return mounted ? null : "seat-target-invalidated";
+  }
   requestBehavior({requestId, kind, payload = {}, timeoutSeconds = 60, queue = false} = {}) {
+    const request = {requestId, kind, payload, timeoutSeconds, queue};
     const active = this.behaviorTasks.active();
     if (!requestId && kind === "greeting" && active?.kind === "greeting")
       return {admission:active.admission, duplicate:true, task:active};
     if (requestId && this.behaviorTasks.get(requestId))
-      return this.behaviorTasks.request({requestId, kind, payload, timeoutSeconds, queue});
+      return this.behaviorTasks.request(request);
+    if (kind === "sit" && Object.hasOwn(payload ?? {}, "usePointId")) {
+      const rejection = CharacterScene.explicitSeatRejection(payload.usePointId, Boolean(chair.parent));
+      if (rejection) return this.behaviorTasks.request(request, rejection);
+    }
     if (kind === "greeting" && !this.greetingReady()) {
       const admission=this.behaviorTasks.request({requestId,kind,payload,timeoutSeconds,queue:false});
       if(admission.admission==="accepted")this.behaviorTasks.fail(admission.task.requestId,"greeting-requires-stable-standing-or-seated-empty-hands");
@@ -949,7 +958,7 @@ class CharacterScene extends Phaser.Scene {
       for (const task of [this.behaviorTasks.active(), ...this.behaviorTasks.pending()].filter(Boolean))
         this.behaviorTasks.cancel(task.requestId, "superseded");
     }
-    const admission = this.behaviorTasks.request({requestId, kind, payload, timeoutSeconds, queue});
+    const admission = this.behaviorTasks.request(request);
     if (admission.admission === "accepted" && !admission.duplicate) this.startBehavior(admission.task);
     return {...admission, task: this.behaviorTasks.get(admission.task.requestId)};
   }
@@ -957,6 +966,10 @@ class CharacterScene extends Phaser.Scene {
     this.executingRequest = task.requestId;
     try {
       if (!this.actor || !this.rig) throw new Error("avatar-resource-unavailable");
+      if (task.kind === "sit" && Object.hasOwn(task.payload ?? {}, "usePointId")) {
+        const rejection = CharacterScene.explicitSeatRejection(task.payload.usePointId, Boolean(chair.parent));
+        if (rejection) throw new Error(rejection);
+      }
       const gesture = this.actor.livePresentation?.getState().greeting;
       if (task.kind !== "greeting" && ["loading","playing","fading"].includes(gesture?.status)) {
         this.actor.livePresentation.cancelGreeting();

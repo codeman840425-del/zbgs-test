@@ -38,7 +38,7 @@ export function createBehaviorTasks({ ownerId = 'actor', onEvent } = {}) {
     emit('running', task);
   }
   return {
-    request({ requestId, kind, payload = null, timeoutSeconds = 30, queue: allowQueue = true } = {}) {
+    request({ requestId, kind, payload = null, timeoutSeconds = 30, queue: allowQueue = true } = {}, rejectionReason = null) {
       if (typeof kind !== 'string' || !kind) throw new TypeError('Task kind must be a nonempty string');
       if (!Number.isFinite(timeoutSeconds) || timeoutSeconds <= 0) throw new RangeError('timeoutSeconds must be positive finite simulation seconds');
       const payloadKey = fingerprint(payload);
@@ -51,11 +51,11 @@ export function createBehaviorTasks({ ownerId = 'actor', onEvent } = {}) {
         return { admission: conflict ? 'rejected' : old.admission, duplicate: true, reason: conflict ? 'request-id-conflict' : old.reason, task: snapshot(old) };
       }
       const busy = activeId !== null || queue.length > 0;
-      const admission = disposed || (busy && !allowQueue) ? 'rejected' : busy ? 'queued' : 'accepted';
+      const admission = disposed || rejectionReason !== null || (busy && !allowQueue) ? 'rejected' : busy ? 'queued' : 'accepted';
       const task = { requestId: id, ownerId, kind, payload: copy(payload), admission,
         state: admission === 'rejected' ? null : 'pending', requestedAt: simulationTime,
         startedAt: null, endedAt: admission === 'rejected' ? simulationTime : null,
-        deadline: simulationTime + timeoutSeconds, reason: disposed ? 'disposed' : admission === 'rejected' ? 'busy' : null, result: null };
+        deadline: simulationTime + timeoutSeconds, reason: disposed ? 'disposed' : admission === 'rejected' ? rejectionReason ?? 'busy' : null, result: null };
       tasks.set(id, task);
       // Reserve active identity before notifying admission to prevent a listener
       // submitting a second simultaneously accepted task.

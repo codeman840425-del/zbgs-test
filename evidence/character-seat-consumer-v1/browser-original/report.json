@@ -1,0 +1,107 @@
+{
+  "build": "9d520a80d731",
+  "expected": "original",
+  "scope": "Representative room request routing, demo chair and actual task/lease state",
+  "outcome": {
+    "rightful": null,
+    "result": {
+      "admission": "accepted",
+      "duplicate": false,
+      "reason": null,
+      "task": {
+        "requestId": "sofa-left",
+        "ownerId": "room-primary",
+        "kind": "sit",
+        "payload": {
+          "usePointId": "screen-partition-studio/ground/live/sofa#left"
+        },
+        "admission": "accepted",
+        "state": "running",
+        "requestedAt": 0.0775999999977648,
+        "startedAt": 0.0775999999977648,
+        "endedAt": null,
+        "deadline": 60.077599999997766,
+        "reason": null,
+        "result": null
+      }
+    },
+    "retry": {
+      "admission": "accepted",
+      "duplicate": true,
+      "reason": null,
+      "task": {
+        "requestId": "sofa-left",
+        "ownerId": "room-primary",
+        "kind": "sit",
+        "payload": {
+          "usePointId": "screen-partition-studio/ground/live/sofa#left"
+        },
+        "admission": "accepted",
+        "state": "running",
+        "requestedAt": 0.0775999999977648,
+        "startedAt": 0.0775999999977648,
+        "endedAt": null,
+        "deadline": 60.077599999997766,
+        "reason": null,
+        "result": null
+      }
+    },
+    "conflicting": {
+      "admission": "rejected",
+      "duplicate": true,
+      "reason": "request-id-conflict",
+      "task": {
+        "requestId": "sofa-left",
+        "ownerId": "room-primary",
+        "kind": "sit",
+        "payload": {
+          "usePointId": "screen-partition-studio/ground/live/sofa#left"
+        },
+        "admission": "accepted",
+        "state": "running",
+        "requestedAt": 0.0775999999977648,
+        "startedAt": 0.0775999999977648,
+        "endedAt": null,
+        "deadline": 60.077599999997766,
+        "reason": null,
+        "result": null
+      }
+    },
+    "requestedTask": {
+      "requestId": "sofa-left",
+      "ownerId": "room-primary",
+      "kind": "sit",
+      "payload": {
+        "usePointId": "screen-partition-studio/ground/live/sofa#left"
+      },
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 0.0775999999977648,
+      "startedAt": 0.0775999999977648,
+      "endedAt": 6.935933333331232,
+      "deadline": 60.077599999997766,
+      "reason": null,
+      "result": {
+        "mode": "sit",
+        "position": [
+          2.6495813593679114,
+          0,
+          1.311914895183797
+        ],
+        "seatToken": "seat-lease:1"
+      }
+    },
+    "demoTask": null,
+    "intendedLease": null,
+    "actualLease": {
+      "token": "seat-lease:1",
+      "seatId": "room-chair-1",
+      "ownerId": "room-primary",
+      "requestId": "sofa-left",
+      "state": "occupied",
+      "releaseRequested": false,
+      "releaseReason": null
+    }
+  },
+  "status": "wrong-seat-reproduced"
+}
