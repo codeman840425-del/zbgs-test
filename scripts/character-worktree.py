@@ -42,7 +42,32 @@ def audit():
     return bool(outside or unexpected_worktrees)
 
 
-def create(name, revision):
+def runtime_inputs(commit):
+    matrix = 'assets-source/variant-matrix-v1/representative-matrix.json'
+    listing = subprocess.check_output(
+        ['git', 'ls-tree', '-z', commit, '--', 'prototype', '.gitattributes', matrix], cwd=ROOT, env=GIT_ENV,
+    )
+    entries = {}
+    for field in listing.split(b'\0'):
+        if field:
+            metadata, name = field.split(b'\t', 1)
+            entries[os.fsdecode(name)] = metadata.split()
+    if entries.get('prototype', [None])[0] != b'040000':
+        raise ValueError('Runtime checkout requires a prototype directory in the requested commit')
+    directories = ['prototype']
+    if matrix in entries:
+        directories.append(Path(matrix).parent.as_posix())
+    attributes = None
+    attribute_entry = entries.get('.gitattributes')
+    if attribute_entry:
+        mode, _, object_id = attribute_entry
+        if mode not in (b'100644', b'100755'):
+            raise ValueError('Expected a regular .gitattributes file in the requested commit')
+        attributes = subprocess.check_output(['git', 'cat-file', 'blob', os.fsdecode(object_id)], cwd=ROOT, env=GIT_ENV)
+    return directories, attributes, bool(attribute_entry and attribute_entry[0] == b'100755')
+
+
+def create(name, revision, runtime_only=False):
     if not re.fullmatch('[a-z0-9][a-z0-9_-]{0,79}', name):
         raise ValueError('Use one lowercase directory name')
     if re.fullmatch('con|prn|aux|nul|com[1-9]|lpt[1-9]', name):
@@ -59,8 +84,23 @@ def create(name, revision):
         raise ValueError('Worktree destination already exists')
     commit = subprocess.check_output(['git','rev-parse','--verify','--end-of-options', revision+'^{commit}'],
                                      cwd=ROOT, env=GIT_ENV, text=True).strip()
+    if runtime_only:
+        directories, attributes, attributes_executable = runtime_inputs(commit)
     HOME_DIR.mkdir(parents=True,exist_ok=True)
-    subprocess.run(['git','worktree','add','--detach',str(destination),commit],cwd=ROOT,env=GIT_ENV,check=True)
+    checkout_options = ['--no-checkout'] if runtime_only else []
+    subprocess.run(['git', 'worktree', 'add', '--detach', *checkout_options, str(destination), commit],
+                   cwd=ROOT, env=GIT_ENV, check=True)
+    if runtime_only:
+        # Populate the exact attributes before Git materializes runtime inputs on Windows.
+        if attributes is not None:
+            attribute_path = destination / '.gitattributes'
+            with attribute_path.open('xb') as stream:
+                stream.write(attributes)
+            if attributes_executable:
+                attribute_path.chmod(0o755)
+        subprocess.run(['git', 'sparse-checkout', 'set', '--cone', *directories],
+                       cwd=destination, env=GIT_ENV, check=True)
+        subprocess.run(['git', 'checkout', '--detach', commit], cwd=destination, env=GIT_ENV, check=True)
     return 0
 
 
@@ -71,5 +111,6 @@ if __name__ == '__main__':
     add = commands.add_parser('create')
     add.add_argument('name')
     add.add_argument('revision',nargs='?',default='HEAD')
+    add.add_argument('--runtime-only', action='store_true', help='Check out the fixed runtime sources and variant matrix')
     args = parser.parse_args()
-    raise SystemExit(audit() if args.command == 'audit' else create(args.name,args.revision))
+    raise SystemExit(audit() if args.command == 'audit' else create(args.name,args.revision,args.runtime_only))

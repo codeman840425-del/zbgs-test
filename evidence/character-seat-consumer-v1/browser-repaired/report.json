@@ -1,0 +1,142 @@
+{
+  "build": "992da68517e1",
+  "expected": "repaired",
+  "scope": "Representative room request routing, demo chair and actual task/lease state",
+  "outcome": {
+    "rightful": {
+      "admission": "accepted",
+      "duplicate": false,
+      "reason": null,
+      "task": {
+        "requestId": "requested-demo",
+        "ownerId": "room-primary",
+        "kind": "sit",
+        "payload": {
+          "usePointId": "room-chair-1"
+        },
+        "admission": "accepted",
+        "state": "running",
+        "requestedAt": 0.08349999999999999,
+        "startedAt": 0.08349999999999999,
+        "endedAt": null,
+        "deadline": 60.0835,
+        "reason": null,
+        "result": null
+      }
+    },
+    "result": {
+      "admission": "rejected",
+      "duplicate": false,
+      "reason": "unknown-seat-use-point",
+      "task": {
+        "requestId": "sofa-left",
+        "ownerId": "room-primary",
+        "kind": "sit",
+        "payload": {
+          "usePointId": "screen-partition-studio/ground/live/sofa#left"
+        },
+        "admission": "rejected",
+        "state": null,
+        "requestedAt": 0.08349999999999999,
+        "startedAt": null,
+        "endedAt": 0.08349999999999999,
+        "deadline": 60.0835,
+        "reason": "unknown-seat-use-point",
+        "result": null
+      }
+    },
+    "retry": {
+      "admission": "rejected",
+      "duplicate": true,
+      "reason": "unknown-seat-use-point",
+      "task": {
+        "requestId": "sofa-left",
+        "ownerId": "room-primary",
+        "kind": "sit",
+        "payload": {
+          "usePointId": "screen-partition-studio/ground/live/sofa#left"
+        },
+        "admission": "rejected",
+        "state": null,
+        "requestedAt": 0.08349999999999999,
+        "startedAt": null,
+        "endedAt": 0.08349999999999999,
+        "deadline": 60.0835,
+        "reason": "unknown-seat-use-point",
+        "result": null
+      }
+    },
+    "conflicting": {
+      "admission": "rejected",
+      "duplicate": true,
+      "reason": "request-id-conflict",
+      "task": {
+        "requestId": "sofa-left",
+        "ownerId": "room-primary",
+        "kind": "sit",
+        "payload": {
+          "usePointId": "screen-partition-studio/ground/live/sofa#left"
+        },
+        "admission": "rejected",
+        "state": null,
+        "requestedAt": 0.08349999999999999,
+        "startedAt": null,
+        "endedAt": 0.08349999999999999,
+        "deadline": 60.0835,
+        "reason": "unknown-seat-use-point",
+        "result": null
+      }
+    },
+    "requestedTask": {
+      "requestId": "sofa-left",
+      "ownerId": "room-primary",
+      "kind": "sit",
+      "payload": {
+        "usePointId": "screen-partition-studio/ground/live/sofa#left"
+      },
+      "admission": "rejected",
+      "state": null,
+      "requestedAt": 0.08349999999999999,
+      "startedAt": null,
+      "endedAt": 0.08349999999999999,
+      "deadline": 60.0835,
+      "reason": "unknown-seat-use-point",
+      "result": null
+    },
+    "demoTask": {
+      "requestId": "requested-demo",
+      "ownerId": "room-primary",
+      "kind": "sit",
+      "payload": {
+        "usePointId": "room-chair-1"
+      },
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 0.08349999999999999,
+      "startedAt": 0.08349999999999999,
+      "endedAt": 6.941833333333468,
+      "deadline": 60.0835,
+      "reason": null,
+      "result": {
+        "mode": "sit",
+        "position": [
+          2.6495813593679114,
+          0,
+          1.311914895183797
+        ],
+        "seatToken": "seat-lease:1"
+      }
+    },
+    "intendedLease": null,
+    "actualLease": {
+      "token": "seat-lease:1",
+      "seatId": "room-chair-1",
+      "ownerId": "room-primary",
+      "requestId": "requested-demo",
+      "state": "occupied",
+      "releaseRequested": false,
+      "releaseReason": null
+    }
+  },
+  "status": "explicit-request-isolated"
+}

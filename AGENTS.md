@@ -4,7 +4,7 @@
 
 目标：保留 Phaser 经营、界面和场景，验证可维护的角色表现生产流程。
 
-角色平台新增的独立验证工作树放在主工程 `experiments/` 内。可用 `python scripts/character-worktree.py create 名称 提交` 在 `experiments/worktrees/` 创建，发布角色候选前运行 `python scripts/character-worktree.py audit`，核对 Git 登记的全部工作树和盘根同名产物。总工和各子任务的临时脚本、压缩包、录屏与构建输出也放在工程内。副总工独立使用的公司平台目录单列。历史工作树的迁移或清理另行核对使用者、未提交改动和固定构建依赖。
+角色平台新增的独立验证工作树放在主工程 `experiments/` 内。可用 `python scripts/character-worktree.py create 名称 提交` 在 `experiments/worktrees/` 创建；固定游戏构建可给同一入口追加 `--runtime-only`，仅检出该提交的运行源码和所需资产矩阵。发布角色候选前运行 `python scripts/character-worktree.py audit`，核对 Git 登记的全部工作树和盘根同名产物。总工和各子任务的临时脚本、压缩包、录屏与构建输出也放在工程内。副总工独立使用的公司平台目录单列。历史工作树的迁移或清理另行核对使用者、未提交改动和固定构建依赖。
 
 固定重建工具从 Git 元数据确定主检出，在创建文件前校验工作树与证据位置。交给子任务的写入路径也应给出工程内位置。根目录巡检中，`gamemake-test` 属独立融合测试，`gamemake-company-platform-c1` 属公司平台。未确认归属的文件保留原位。
 
