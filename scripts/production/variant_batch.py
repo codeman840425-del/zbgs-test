@@ -85,9 +85,9 @@ def batch_items(request):
           all(isinstance(v, str) and ID.fullmatch(v) for v in shared.values()), "Invalid sharedLook")
     expanded = []
     for item in items:
-        if not isinstance(item, dict) or set(item) != {"bodyType", "identity"}:
+        if not isinstance(item, dict) or set(item) not in ({"bodyType", "identity"}, {"bodyType", "identity", "appearance"}):
             # Keep per-item errors isolated, including attempted overrides of the shared style.
-            expanded.append({"itemError": "Shared looks require only bodyType and identity per item"})
+            expanded.append({"itemError": "Shared looks require bodyType, identity and optional appearance per item"})
             continue
         identity = item["identity"]
         expanded.append({**item, "stableId": identity.get("id") if isinstance(identity, dict) else None,
@@ -123,6 +123,20 @@ def outfit_pins(pins):
     return sorted(checked)
 
 
+def personal_appearance(values, query):
+    check(isinstance(values, dict) and values, "Specify a nonempty appearance object")
+    defaults = query.get("appearanceDefaults", {})
+    choices = query.get("appearanceChoices", {})
+    for field, value in values.items():
+        check(field in defaults and isinstance(value, str), f"Unknown appearance field or invalid value: {field}")
+        options = [entry for entry in choices.get(field, []) if entry["value"] == value]
+        check(len(options) == 1, f"Appearance value is not registered for this body: {field}={value}")
+        allowed_tones = options[0].get("supportedSkinTones")
+        check(allowed_tones is None or values.get("skinTone", defaults.get("skinTone")) in allowed_tones,
+              f"Appearance value is incompatible with the selected skin tone: {field}={value}")
+    return {field: values[field] for field in sorted(values) if values[field] != defaults[field]}
+
+
 def production_request(item, row, query, member):
     identity = item.get("identity")
     check(isinstance(identity, dict) and set(identity) == {"id", "name", "gender"} and
@@ -146,11 +160,16 @@ def production_request(item, row, query, member):
     check(bool(member) and outfit_pins([member])[0] in pins, "Configured outfit does not contain the exact matrix equipment")
     index = matches[0]["index"]
     check(type(index) is int and index >= 0, "Runtime query returned an invalid outfit index")
+    edits = [{"domain": "outfit", "selection": {
+        "bodySha256":body["sha256"], "role":chosen["role"],
+        "equipment":[dict(id=id_, slot=slot, sha256=sha) for id_, slot, sha in pins],
+    }}]
+    if "appearance" in item:
+        values = personal_appearance(item["appearance"], query)
+        if values:
+            edits.append({"domain": "appearance", "values": values})
     return {"schema": "character-production-request-v1", "operation": "create", "bodyType": row["bodyType"],
-            "identity": dict(identity), "edits": [{"domain": "outfit", "selection": {
-                "bodySha256":body["sha256"], "role":chosen["role"],
-                "equipment":[dict(id=id_, slot=slot, sha256=sha) for id_, slot, sha in pins],
-            }}]}
+            "identity": dict(identity), "edits": edits}
 
 
 def eligible_variant(row, diagnostic):
@@ -215,6 +234,7 @@ def plan(matrix: dict, request: dict, *, queries=None, members=None, diagnostic=
             outfit = executable["edits"][0]["selection"]
             approval = None
             if not diagnostic:
+                check(len(executable["edits"]) == 1, "Whole-outfit review covers default appearance only")
                 fit_sha = (fit_shas or {}).get(variant_key(item))
                 approval = (admissions or {}).get(binding_key(outfit_binding(row, outfit, fit_sha)))
                 check(approval, "Whole-outfit runtime admission evidence is required for this exact body, version and equipment")
@@ -236,6 +256,7 @@ def plan(matrix: dict, request: dict, *, queries=None, members=None, diagnostic=
                     "coverageManifestSha256": row["coverageManifestSha256"],
                     "admissionEvidence": row.get("admissionEvidence"),
                     "outfit": outfit,
+                    **({"appearance": dict(item["appearance"])} if "appearance" in item else {}),
                     **({"wholeOutfitAdmission":approval} if approval else {}),
                 },
             })
@@ -279,7 +300,8 @@ def resolve_runtime(matrix, request, root, diagnostic, has_admissions):
         body = row["bodyType"]
         if body in queries:
             continue
-        result = subprocess.run(["node", QUERY_SCRIPT, body], cwd=root, text=True, encoding="utf-8",
+        projection = Path(__file__).with_name("variant_batch_query.mjs")
+        result = subprocess.run(["node", str(projection), body, str(root.resolve())], cwd=root, text=True, encoding="utf-8",
                                 capture_output=True, check=False)
         if result.returncode:
             queries[body] = {"ok":False, "error":result.stderr.strip() or "Runtime query failed"}
@@ -302,11 +324,14 @@ def publish_plan(package: Path, output: Path):
             time.sleep(delay)
 
 
-def run(matrix_path: Path, request_path: Path, output: Path, root: Path, diagnostic=False) -> dict:
+def run(matrix_path: Path, request_path: Path, output: Path, root: Path, diagnostic=False, *, input_root=None) -> dict:
     output = output.resolve()
     checkout = production_checkout()
     check(output != checkout and output.is_relative_to(checkout),
           'Output must be inside the production tool main checkout')
+    input_root = (input_root or root).resolve()
+    for path in (matrix_path, request_path):
+        check(path.resolve().is_relative_to(input_root), "Matrix and request must be inside the selected input checkout")
     matrix = read_json(matrix_path)
     errors = validate_matrix_files(matrix, root)
     check(not errors, "; ".join(errors))
@@ -326,8 +351,8 @@ def run(matrix_path: Path, request_path: Path, output: Path, root: Path, diagnos
     result = plan(matrix, request, queries=queries, members=members, diagnostic=diagnostic,
                   fit_shas=fit_shas, admissions=admissions, runtime_commit=runtime_commit)
     result["source"] = {
-        "matrix": pin(root, matrix_path.relative_to(root).as_posix()),
-        "request": pin(root, request_path.relative_to(root).as_posix()),
+        "matrix": pin(input_root, matrix_path.resolve().relative_to(input_root).as_posix()),
+        "request": pin(input_root, request_path.resolve().relative_to(input_root).as_posix()),
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     with TemporaryDirectory(dir=output.parent, prefix=".variant-batch-") as temp:
@@ -368,11 +393,12 @@ def main() -> int:
     parser.add_argument("request", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--root", type=Path, required=True)
+    parser.add_argument("--input-root", type=Path, help="Checkout containing the operator matrix and request; defaults to --root")
     parser.add_argument("--diagnostic", action="store_true", help="Emit explicitly mapped test requests without granting runtime admission")
     args = parser.parse_args()
     try:
         print(json.dumps(run(args.matrix.resolve(), args.request.resolve(), args.output, args.root.resolve(),
-                             diagnostic=args.diagnostic), ensure_ascii=False))
+                             diagnostic=args.diagnostic, input_root=args.input_root), ensure_ascii=False))
         return 0
     except (OSError, ValueError, KeyError, TypeError) as error:
         print(error)

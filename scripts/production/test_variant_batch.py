@@ -10,7 +10,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from variant_batch import FIXED_MATRIX, QUERY_SCRIPT, SCHEMA, OUT_SCHEMA, main, plan, run
+from variant_batch import FIXED_MATRIX, SCHEMA, OUT_SCHEMA, main, plan, run
 from outfit_admission import binding_key, evidence_pin, outfit_binding
 
 
@@ -319,12 +319,17 @@ class VariantBatchTests(unittest.TestCase):
             request_data = self.request()
             request_data["items"][0]["outfit"]["equipment"] = [member]
             request = write("synthetic-request.json", request_data)
-            query = root / QUERY_SCRIPT
-            query.parent.mkdir(parents=True)
-            query_data = self.query()[MATCH[1]]
-            query_data["outfits"][0]["equipment"] = [member]
-            query.write_text("console.log(JSON.stringify(" + json.dumps(query_data) + "));\n",
-                             encoding="utf-8")
+            headless = root / "scripts/headless-avatar-node.mjs"
+            headless.parent.mkdir(parents=True, exist_ok=True)
+            headless.write_text("export const THREE = {Scene: class {}};\n", encoding="utf-8")
+            runtime = root / "prototype/src/character-production.js"
+            runtime.parent.mkdir(parents=True, exist_ok=True)
+            response = {"query": {"body": self.query()[MATCH[1]]["body"], "appearance": {
+                "defaultRecipe": {"appearance": {}}, "appearance": {}, "equipment": {"sets": [
+                    {"index": 7, "role": "configured", "resources": {"top": member}},
+                ]}}}}
+            runtime.write_text("export async function performCharacterProduction(){return " +
+                               json.dumps(response) + ";}\n", encoding="utf-8")
             git("init", "-q")
             git("config", "core.autocrlf", "false")
             git("add", ".")
@@ -372,6 +377,19 @@ batchCreates(parseRequest(fs.readFileSync(process.argv[1])))
             self.assertEqual(json.loads(parsed.stdout)[0]["edits"][0]["selection"]["equipment"], [member])
             self.assertEqual(fixed_matrix.read_bytes(), matrix_bytes)
             self.assertEqual(git("rev-parse", "HEAD"), commit)
+            # A later operator may own the short recipe while an exact older
+            # runtime owns the bodies and equipment. Both inputs keep their pins.
+            input_root = operator_output / "author-inputs"
+            input_root.mkdir()
+            detached_matrix = input_root / "matrix.json"
+            detached_request = input_root / "request.json"
+            detached_matrix.write_bytes(matrix_bytes)
+            detached_request.write_bytes(request.read_bytes())
+            separate = run(detached_matrix, detached_request, operator_output / "separate-inputs", root, True, input_root=input_root)
+            self.assertEqual((separate["candidateCount"], separate["source"]["matrix"]["path"]), (1, "matrix.json"))
+            self.assertEqual(separate["source"]["request"]["sha256"], evidence_pin(request)["sha256"])
+            with self.assertRaisesRegex(ValueError, "selected input checkout"):
+                run(detached_matrix, request, operator_output / "escaped-input", root, True, input_root=input_root)
             status, stdout = cli("alternate", synthetic_index, write("alternate-matrix.json", data))
             self.assertEqual(status, 1, stdout)
             self.assertIn("compiled fixed matrix", stdout)
