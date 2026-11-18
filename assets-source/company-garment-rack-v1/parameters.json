@@ -1,0 +1,104 @@
+{
+  "schema": "company-garment-rack-collection",
+  "version": 1,
+  "sources": {
+    "kenney-trestle": {
+      "kind": "glb",
+      "path": "assets-source/company-garment-rack-v1/original/furniture-kit/coatRackStanding.glb",
+      "sha256": "d8231c22dab63ceb9fc8678f6c8ceafc62afa8726b51a73b4ce349043d3cdc91",
+      "author": "Kenney",
+      "license": "CC0-1.0",
+      "licensePath": "assets-source/company-garment-rack-v1/original/furniture-kit/License.txt",
+      "licenseSha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29",
+      "url": "https://kenney.nl/assets/furniture-kit",
+      "entry": "Models/GLTF format/coatRackStanding.glb",
+      "archiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+      "mesh": "coatRackStanding(Clone)",
+      "footTop": 0.1036
+    }
+  },
+  "designs": [
+    {
+      "id": "garment-rack-portal", "version": 1, "displayName": "开放衣架 · 门式钢框",
+      "type": "rack", "form": "portal",
+      "finish": { "frame": "#343b46", "rail": "#9babb3", "feet": "#282d36", "fittings": "#596873" },
+      "shape": { "postX": 0.428, "upright": 0.035, "top": 1.704, "footDepth": 0.442, "footWidth": 0.091 }
+    },
+    {
+      "id": "garment-rack-a-frame", "version": 1, "displayName": "开放衣架 · 三角斜架",
+      "type": "rack", "form": "a-frame",
+      "finish": { "frame": "#ac7953", "rail": "#93897d", "feet": "#514339", "fittings": "#7e5c49" },
+      "shape": { "postX": 0.423, "strut": 0.026, "top": 1.635, "spread": 0.197, "footWidth": 0.071 }
+    },
+    {
+      "id": "garment-rack-cantilever", "version": 1, "displayName": "开放衣架 · 单臂悬挑",
+      "type": "rack", "form": "cantilever",
+      "finish": { "frame": "#9ca8ac", "rail": "#788b95", "feet": "#57626b", "fittings": "#d7d3c8" },
+      "shape": { "postX": 0.430, "back": 0.156, "upright": 0.061, "top": 1.748, "footDepth": 0.435 }
+    },
+    {
+      "id": "garment-rack-trestle", "version": 1, "displayName": "开放衣架 · 交叉木脚",
+      "type": "rack", "form": "trestle", "source": "kenney-trestle",
+      "finish": { "frame": "#8c614d", "rail": "#b3a38e", "feet": "#9b7153", "fittings": "#6b5245" },
+      "shape": { "postX": 0.428, "shoeX": 0.300, "shoeScale": [1.20, 0.79, 1.45], "top": 1.568, "strut": 0.035 }
+    },
+    {
+      "id": "garment-hanging-jacket", "version": 1, "displayName": "挂衣陈列 · 开襟长袖夹克",
+      "type": "garment",
+      "finish": { "cloth": "#426778", "trim": "#365159", "hanger": "#c89d6d", "hook": "#9cabb4" },
+      "shape": {
+        "thickness": 0.018, "fold": 0.009, "hangerHalfWidth": 0.171,
+        "outline": [[0,-0.173],[-0.048,-0.121],[-0.147,-0.137],[-0.183,-0.190],[-0.210,-0.443],[-0.170,-0.466],[-0.137,-0.316],[-0.131,-0.666],[0.125,-0.666],[0.129,-0.326],[0.174,-0.456],[0.208,-0.431],[0.175,-0.185],[0.148,-0.139],[0.052,-0.121]],
+        "seams": [
+          { "path": [[-0.058,-0.138],[-0.028,-0.260],[0,-0.320],[0,-0.650]], "radius": 0.0038 },
+          { "path": [[0.058,-0.138],[0.030,-0.260],[0,-0.320]], "radius": 0.0038 },
+          { "path": [[0.038,-0.398],[0.088,-0.398],[0.088,-0.456],[0.038,-0.456]], "radius": 0.0031 },
+          { "path": [[-0.120,-0.630],[0.111,-0.630]], "radius": 0.0034 }
+        ]
+      }
+    },
+    {
+      "id": "garment-hanging-shirt", "version": 1, "displayName": "挂衣陈列 · 短袖方领衫",
+      "type": "garment",
+      "finish": { "cloth": "#e3d0b7", "trim": "#ae7d67", "hanger": "#8d674d", "hook": "#93979c" },
+      "shape": {
+        "thickness": 0.012, "fold": 0.007, "hangerHalfWidth": 0.171,
+        "outline": [[0,-0.167],[-0.048,-0.162],[-0.063,-0.123],[-0.126,-0.133],[-0.202,-0.196],[-0.179,-0.290],[-0.125,-0.271],[-0.116,-0.533],[0.117,-0.533],[0.123,-0.264],[0.179,-0.294],[0.202,-0.198],[0.125,-0.132],[0.063,-0.122],[0.047,-0.162]],
+        "seams": [
+          { "path": [[-0.071,-0.141],[-0.052,-0.173],[0.052,-0.173],[0.071,-0.142]], "radius": 0.0042 },
+          { "path": [[-0.180,-0.250],[-0.132,-0.237]], "radius": 0.0040 },
+          { "path": [[0.131,-0.237],[0.180,-0.250]], "radius": 0.0040 },
+          { "path": [[-0.102,-0.498],[0.104,-0.498]], "radius": 0.0035 }
+        ]
+      }
+    },
+    {
+      "id": "garment-hanging-dress", "version": 1, "displayName": "挂衣陈列 · 无袖伞摆裙",
+      "type": "garment",
+      "finish": { "cloth": "#9d5164", "trim": "#653b51", "hanger": "#cb9d79", "hook": "#9a9ba5" },
+      "shape": {
+        "thickness": 0.011, "fold": 0.019, "hangerHalfWidth": 0.104,
+        "outline": [[0,-0.172],[-0.040,-0.156],[-0.056,-0.121],[-0.101,-0.128],[-0.083,-0.230],[-0.070,-0.318],[-0.112,-0.485],[-0.196,-0.770],[-0.125,-0.795],[-0.041,-0.793],[0.045,-0.800],[0.132,-0.790],[0.196,-0.767],[0.118,-0.475],[0.070,-0.318],[0.085,-0.232],[0.102,-0.127],[0.055,-0.122],[0.040,-0.157]],
+        "seams": [
+          { "path": [[-0.056,-0.319],[0,-0.320],[0.056,-0.319]], "radius": 0.0043 },
+          { "path": [[-0.053,-0.344],[-0.084,-0.510],[-0.140,-0.743]], "radius": 0.0028 },
+          { "path": [[0.028,-0.346],[0.055,-0.530],[0.099,-0.745]], "radius": 0.0028 }
+        ]
+      }
+    },
+    {
+      "id": "garment-hanging-hoodie", "version": 1, "displayName": "挂衣陈列 · 连帽宽袖卫衣",
+      "type": "garment",
+      "finish": { "cloth": "#7c8c65", "trim": "#536443", "hanger": "#b28663", "hook": "#9fa7a7" },
+      "shape": {
+        "thickness": 0.025, "fold": 0.011, "hangerHalfWidth": 0.164,
+        "outline": [[0,-0.083],[-0.055,-0.102],[-0.070,-0.146],[-0.138,-0.141],[-0.187,-0.181],[-0.208,-0.423],[-0.173,-0.458],[-0.146,-0.448],[-0.138,-0.331],[-0.125,-0.568],[0.126,-0.568],[0.137,-0.332],[0.151,-0.456],[0.183,-0.462],[0.207,-0.426],[0.194,-0.201],[0.144,-0.144],[0.071,-0.147],[0.054,-0.102]],
+        "seams": [
+          { "path": [[-0.048,-0.119],[-0.035,-0.171],[0,-0.193],[0.036,-0.171],[0.048,-0.119]], "radius": 0.0051 },
+          { "path": [[-0.059,-0.482],[-0.039,-0.416],[0.040,-0.416],[0.064,-0.482],[-0.059,-0.482]], "radius": 0.0045 },
+          { "path": [[-0.111,-0.535],[0.111,-0.535]], "radius": 0.0048 }
+        ]
+      }
+    }
+  ]
+}

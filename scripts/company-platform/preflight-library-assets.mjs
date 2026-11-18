@@ -66,7 +66,8 @@ export async function preflightLibraryAssets({root, resources, validate}) {
 
 /** Use the game's installation geometry for offline room acceptance, including hidden floors. */
 export async function preflightDesktopAreas(root, derived) {
-  if (!derived.facilities.some(f => f.resource.mounting?.reserveDesktopArea === true)) return;
+  if (!derived.facilities.some(f => f.resource.mounting?.reserveDesktopArea === true ||
+      f.resource.garmentRail || f.resource.mount === 'garment-rail')) return;
   const {installationGeometryFacilities} = await import('../../prototype/src/company/desktop-placement.js');
   const {validateCeilingDocumentAssets} = await import('../../prototype/src/company/render.js');
   const entries = installationGeometryFacilities(derived);

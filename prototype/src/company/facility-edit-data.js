@@ -184,6 +184,33 @@ function exteriorDoorTargets(region, floor, resource) {
   return result;
 }
 
+function garmentTargets(region, derived) {
+  const fixtures = derived.facilities.filter(entry => entry.roomId === region.id);
+  const occupied = new Map();
+  for (const {node,resource} of fixtures) {
+    if (resource.mount !== 'garment-rail') continue;
+    if (!occupied.has(node.parentId)) occupied.set(node.parentId, new Set());
+    occupied.get(node.parentId).add(node.attachment.slotId);
+  }
+  const result = [];
+  const racks = fixtures.filter(entry => entry.resource.garmentRail);
+  for (const [index,rack] of racks.entries()) {
+    const name = rack.node.name || rack.resource.displayName || rack.id;
+    const rackLabel = racks.length > 1 ? (index+1) + ' · ' + name : name;
+    for (const slot of rack.resource.garmentRail.slots) {
+      if (occupied.get(rack.id)?.has(slot.id)) continue;
+      const label = slot.id === 'left' ? '左挂位' : '右挂位';
+      result.push(target(rack.id + ':rail:' + slot.id, rack.id,
+        rackLabel + ' · ' + label,
+        slot.position, 0, 'garment-rail', {
+          attachment: {slotId: slot.id}, lockedAxes: ['x','y','z','yaw'],
+          note: '衣钩固定在所选挂位，整架可以移动和转向。'
+        }));
+    }
+  }
+  return result;
+}
+
 function informationTargets(region, derived, resource) {
   const result = [];
   for (const facility of derived.facilities.filter(entry => entry.roomId === region.id && entry.resource.informationSurface)) {
@@ -273,6 +300,7 @@ export function listPlacementTargets(document, catalog, resource, regionId, opti
     for (const parent of derived.facilities.filter(entry => entry.roomId === region.id && Array.isArray(entry.resource.supportSurfaces)))
       for (const surface of parent.resource.supportSurfaces) { const value = targetForSupport(parent.node, parent.resource, selected, surface); if (value) result.push(value); }
   } else if (selected.mount === 'information-surface') result.push(...informationTargets(region, derived, selected));
+  else if (selected.mount === 'garment-rail') result.push(...garmentTargets(region, derived));
   else if (selected.mount === 'window-cover') result.push(...windowCoverTargets(region, derived, selected));
   else { const value = groundTarget(region, selected); if (value) result.push(value); }
   return result;
@@ -315,6 +343,7 @@ export function getFacilityEditConstraints(node, resource) {
     const horizontal = Math.abs(Math.sin(yaw)) < .5;
     return {lockedAxes: [horizontal ? 'z' : 'x', 'yaw'], note: '沿墙移动，法向坐标和朝向固定'};
   }
+  if (mount === 'garment-rail') return {lockedAxes:['x','y','z','yaw'],note:'选择空挂位可更换悬挂位置，移动或转向请操作衣架。'};
   if (mount === 'portal') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '门洞位置和朝向固定，只能更换真实门洞目标'};
   if (mount === 'portal-door') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '外部门扇绑定真实外部门洞，位置和朝向固定；开合状态单独保存'};
   if (mount === 'window-cover') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '窗体覆盖绑定真实窗户，位置和朝向固定；开合状态单独保存'};

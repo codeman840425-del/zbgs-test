@@ -1,0 +1,78 @@
+{
+  "id": "garment-hanging-shirt",
+  "version": 1,
+  "displayName": "挂衣陈列 · 短袖方领衫",
+  "category": "decor",
+  "mountRole": "hanging-garment",
+  "productionBranch": "hanging-garment",
+  "mount": "garment-rail",
+  "parent": "garment-rack-wardrobe",
+  "mounting": {
+    "origin": "top",
+    "width": 0.14,
+    "height": 0.86,
+    "depth": 0.432
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.07,
+      0.216
+    ],
+    "blocking": false
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "usePoints": [],
+  "stateDefaults": {},
+  "materialSlots": {
+    "hook": [
+      "hanger-hook"
+    ],
+    "hanger": [
+      "garment-hanger"
+    ],
+    "cloth": [
+      "garment-cloth"
+    ],
+    "trim": [
+      "garment-seams"
+    ]
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/garment-rack-v1/garment-hanging-shirt/v1/model.glb",
+    "bytes": 563352,
+    "sha256": "76d6a0bb388023eaa58eca93b4fce900bfc9ded03d8e786ea82091c040e79af4"
+  },
+  "provenance": {
+    "license": "Project-authored frame or garment geometry.",
+    "sourceDesign": "editable-hanging-silhouette",
+    "sourceParameters": "assets-source/company-garment-rack-v1/parameters.json",
+    "sourceParametersSha256": "ea544db31c2011cf11a57ac542b0d8be3d4d2f4dcae2e179461e4657391c4d75",
+    "generator": "scripts/company-platform/build-garment-rack.mjs",
+    "generatorSha256": "0e316355aa613a67c0bd760963c667567b1016ddd5e517848994f5044843630c",
+    "functionalContractSource": "assets-source/company-garment-rack-v1/contracts.json",
+    "functionalContractSourceSha256": "e5c7b479428804d6d23265eaef1ccb5db0912dc3dacf528d9f8d8a197e025cca",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "environmentBranch": "garment-rack-wardrobe",
+    "dependencies": {
+      "geometryValidation": {
+        "path": "scripts/company-platform/test-garment-rack-assets.mjs",
+        "sha256": "048385607ac2d50375f84f1bea5d8f1c9e9fc5f6ee83d41fbe2d63441e82e0b4"
+      }
+    },
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ]
+  }
+}

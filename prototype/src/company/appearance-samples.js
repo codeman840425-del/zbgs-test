@@ -38,6 +38,7 @@ export const appearanceBranches=[
  ['makeup-storage','化妆台面收纳'],
  ['makeup-mirror','台面化妆镜'],
  ['vanity-table','化妆台'],
+ ['garment-rack-wardrobe','开放衣架'],['hanging-garment','陈列挂衣'],
  ['floor-mirror','落地镜'],
  ['mirror','墙挂镜'],
  ['information-board-floor','落地图文板'],
@@ -132,6 +133,16 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
    selected.productionBranch==='sofa-textile-host' ? 'appearance-sofa-textile-host' : `appearance-${branch}`;
  let doc=createCompany({id:sampleId,name:`${appearanceBranches.find(([key])=>key===branch)?.[1]} · ${selected.displayName||selected.name||selected.id}`,width:9,depth:7},catalog);
  const floor=doc.nodes[0],room=doc.nodes[1],area=`${doc.id}/public`;
+ if (branch==='garment-rack-wardrobe' || branch==='hanging-garment') {
+   const rackLook = branch==='garment-rack-wardrobe' ? selected : appearanceCandidates(catalog,'garment-rack-wardrobe')[0];
+   const garmentLook = branch==='hanging-garment' ? selected : appearanceCandidates(catalog,'hanging-garment')[0];
+   const rack = 'sample/rack', garment = rack + '/look';
+   doc=prepareCompanyChange(doc,[
+     {type:'add-facility',id:rack,parentId:room.id,resource:{id:rackLook.id,version:rackLook.version}},
+     {type:'add-facility',id:garment,parentId:rack,resource:{id:garmentLook.id,version:garmentLook.version},attachment:{slotId:'left'}},
+   ],{catalog,templates}).document;
+   return {document:doc,target:branch==='hanging-garment'?garment:rack,branch,index,resource:{id:selected.id,version:selected.version}};
+ }
  if (branch==='static-textile') {
    const host='sample/sofa', target=host+'/textile', resource={id:selected.id,version:selected.version};
    doc=prepareCompanyChange(doc,[

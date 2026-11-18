@@ -33,6 +33,7 @@ export function describeFacilityFunction(resource) {
     ...(resource.windowSystem!==undefined?{windowSystem:normalized(resource.windowSystem)}:{}),
     ...(resource.windowCoverSystem!==undefined?{windowCoverSystem:resource.windowCoverSystem}:{}),
     ...(resource.backdropRoll!==undefined?{backdropRoll:normalized(resource.backdropRoll)}:{}),
+    ...(resource.garmentRail!==undefined?{garmentRail:normalized(resource.garmentRail)}:{}),
     ...(resource.cableConnection!==undefined?{cableConnection:normalized(resource.cableConnection)}:{}),
     capacity, clearance, clockDisplay:normalized(resource.clockDisplay??null),
     mirrorSurface:normalized(resource.mirrorSurface??null),

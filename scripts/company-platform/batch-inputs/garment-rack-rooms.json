@@ -1,0 +1,232 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "wardrobe-rental",
+      "input": {
+        "id": "wardrobe-rental",
+        "name": "整套出租屋 · 开播前准备",
+        "scale": "rental-home",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "furnishingVersion": 2,
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              },
+              {
+                "id": "dressing",
+                "name": "开播准备间",
+                "purpose": "work",
+                "stations": 0
+              },
+              {
+                "id": "rest",
+                "name": "休息间",
+                "purpose": "rest",
+                "stations": 0
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set-surface-finish",
+          "id": "wardrobe-rental/ground/dressing",
+          "surface": "floor",
+          "finish": {
+            "resource": {
+              "id": "floor-offset-plank",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "wardrobe-rental/ground/dressing/rack",
+          "parentId": "wardrobe-rental/ground/dressing",
+          "resource": {
+            "id": "garment-rack-portal",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -0.8,
+              0,
+              -1.3
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "wardrobe-rental/ground/dressing/rack/look-left",
+          "parentId": "wardrobe-rental/ground/dressing/rack",
+          "resource": {
+            "id": "garment-hanging-jacket",
+            "version": 1
+          },
+          "attachment": {
+            "slotId": "left"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "wardrobe-rental/ground/dressing/rack/look-right",
+          "parentId": "wardrobe-rental/ground/dressing/rack",
+          "resource": {
+            "id": "garment-hanging-shirt",
+            "version": 1
+          },
+          "attachment": {
+            "slotId": "right"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "wardrobe-rental/ground/dressing/mirror",
+          "parentId": "wardrobe-rental/ground/dressing",
+          "resource": {
+            "id": "floor-mirror-full",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              1.0,
+              0,
+              -1.35
+            ],
+            "yaw": 0
+          }
+        }
+      ]
+    },
+    {
+      "key": "wardrobe-floor",
+      "input": {
+        "id": "wardrobe-floor",
+        "name": "整租平层 · 主播造型间",
+        "scale": "leased-floor",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "furnishingVersion": 2,
+        "floors": [
+          {
+            "id": "level",
+            "name": "造型工作层",
+            "rooms": [
+              {
+                "id": "dressing",
+                "name": "服装陈列间",
+                "purpose": "work",
+                "stations": 0
+              },
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set-surface-finish",
+          "id": "wardrobe-floor/level/dressing",
+          "surface": "floor",
+          "finish": {
+            "resource": {
+              "id": "floor-herringbone",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "wardrobe-floor/level/dressing/rack",
+          "parentId": "wardrobe-floor/level/dressing",
+          "resource": {
+            "id": "garment-rack-trestle",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              1.65,
+              0,
+              -1.5
+            ],
+            "yaw": 4.71238898038469
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "wardrobe-floor/level/dressing/rack/look-left",
+          "parentId": "wardrobe-floor/level/dressing/rack",
+          "resource": {
+            "id": "garment-hanging-dress",
+            "version": 1
+          },
+          "attachment": {
+            "slotId": "left"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "wardrobe-floor/level/dressing/rack/look-right",
+          "parentId": "wardrobe-floor/level/dressing/rack",
+          "resource": {
+            "id": "garment-hanging-hoodie",
+            "version": 1
+          },
+          "attachment": {
+            "slotId": "right"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "wardrobe-floor/level/dressing/vanity",
+          "parentId": "wardrobe-floor/level/dressing",
+          "resource": {
+            "id": "vanity-table-plain",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -1.55,
+              0,
+              -1.45
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "wardrobe-floor/level/dressing/vanity/mirror",
+          "parentId": "wardrobe-floor/level/dressing/vanity",
+          "resource": {
+            "id": "makeup-mirror-tri-fold",
+            "version": 1
+          },
+          "attachment": {
+            "surfaceId": "top"
+          }
+        }
+      ]
+    }
+  ]
+}

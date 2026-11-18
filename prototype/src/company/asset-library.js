@@ -15,6 +15,8 @@ import {validateMovingPartGeometry,validateExteriorDoorLeafGeometry} from './mov
 import {validateSlidingPartGeometry} from './sliding-part-geometry.js';
 import {validateWallAmbientResource,validateWallAmbientGeometry} from './wall-ambient.js';
 import {validateDeskLampResource,validateDeskLampGeometry} from './desk-lamp.js';
+import {HOOK_CROWN_ALLOWANCE,validateGarmentResource} from './garment-rack-data.js';
+import {validateGarmentGeometry} from './garment-rack-geometry.js';
 import {validateClockResource} from './clock-display.js';
 import {validateClockGeometry} from './clock-geometry.js';
 import {validateInformationResource} from './information-display.js';
@@ -50,6 +52,7 @@ function describe(resource) {
     throw error('invalid-asset-resource', path, 'Expected stable resource id and positive version');
   validateWallAmbientResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateDeskLampResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
+  validateGarmentResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateWindowResource(resource,(code,location,message)=>{throw error(code,location,message);});
   validateWindowCoverResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateBackdropResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
@@ -184,6 +187,7 @@ async function releaseFailedParser(parser, json, pack) {
 
 // A loaded GLB pack is immutable; instances receive private meshes.
 const checkedBackdropPacks = new WeakSet();
+const checkedGarmentPacks = new WeakMap();
 function validateResource(pack, description) {
   pack.scene.updateMatrixWorld(true);
   if (description.resource.display?.screen !== undefined) {
@@ -205,6 +209,11 @@ function validateResource(pack, description) {
   if(description.resource.cablePorts)validateCablePortGeometry(pack.scene, description.resource, (code,path,message)=>{throw error(code,path,message);});
   validateWallAmbientGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
   validateDeskLampGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
+  const garmentRole=description.resource.mountRole;
+  if(['garment-rack-wardrobe','hanging-garment'].includes(garmentRole)&&checkedGarmentPacks.get(pack)!==garmentRole){
+    validateGarmentGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
+    checkedGarmentPacks.set(pack,garmentRole);
+  }
   validateClockGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateInformationGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateMakeupMirrorGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
@@ -241,9 +250,10 @@ function validateResource(pack, description) {
   }
   if(description.mounting) {
     const s=description.mounting,b=new THREE.Box3().setFromObject(pack.scene),cameraMount=isCameraMountResource(description.resource),wall=!cameraMount&&['wall','wall-opening','portal','portal-door','information-surface','window-cover'].includes(description.mount);
-    const lo=description.mount==='ceiling'&&s.origin==='top'?-s.height:wall&&s.origin==='center'?-s.height/2:cameraMount?-.25:0;
+    const hanging=description.mount==='garment-rail';
+    const lo=(hanging||description.mount==='ceiling')&&s.origin==='top'?-s.height:wall&&s.origin==='center'?-s.height/2:cameraMount?-.25:0;
     if(![s.width,s.height,s.depth].every(v=>Number.isFinite(v)&&v>0)||
-      b.min.x < -s.width/2-.001||b.max.x > s.width/2+.001||b.min.y<lo-.001||b.max.y>lo+s.height+.001||
+      b.min.x < -s.width/2-.001||b.max.x > s.width/2+.001||b.min.y<lo-.001||b.max.y>(hanging?HOOK_CROWN_ALLOWANCE:lo+s.height)+.001||
       b.min.z<(wall?0:-s.depth/2)-.001||b.max.z>(wall?s.depth:s.depth/2)+.001)
       throw error('asset-mount-envelope-mismatch',description.path,'Actual model exceeds its fixed installation envelope');
     if(description.mount==='portal') {

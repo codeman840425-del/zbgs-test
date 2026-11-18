@@ -26,11 +26,14 @@ const families = {
   'company-backdrop-fabric-collection': 'backdrop-fabric',
   'company-wall-ambient-collection': 'wall-ambient',
   'company-desktop-plants-collection': 'desktop-plants',
+  'company-garment-rack-collection': 'garment-rack',
 };
-const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs', 'wall-ambient':'build-wall-ambient.mjs', 'desktop-plants':'build-desktop-plants.mjs'};
+const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs', 'wall-ambient':'build-wall-ambient.mjs', 'desktop-plants':'build-desktop-plants.mjs', 'garment-rack':'build-garment-rack.mjs'};
 const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric', 'wall-ambient':'ambient-led-and-neon', 'desktop-plants':'plant-desktop-installation'};
 
+const garmentBranches = {rack:'garment-rack-wardrobe',garment:'hanging-garment'};
 function belongsToFamily(resource,family) {
+  if (family === 'garment-rack') return Object.values(garmentBranches).includes(resource?.productionBranch);
   return family === 'baseboard'
     ? resource?.kind === 'surface-finish' && resource.provenance?.environmentBranch === 'baseboard-and-edge' &&
       isDeepStrictEqual(resource.finish?.allowedSurfaces,['baseboard'])
@@ -126,7 +129,8 @@ async function publish(recipePath,check) {
       plan.collections.filter(file => file === collectionPath).length !== 1)
     fail('invalid-appearance-plan',collectionPath);
   const defaults = parse(await regularFile(collectionPath));
-  const reference = previous.resources.find(r => r.id === defaults.resources[0].id && r.version === defaults.resources[0].version);
+  const defaultRefs = defaults.resources.map(entry => previous.resources.find(r => r.id === entry.id && r.version === entry.version));
+  const reference = defaultRefs[0];
   assert(belongsToFamily(reference,family),'Missing registered functional reference');
   const generator = 'scripts/company-platform/'+(generatorFiles[family] ?? 'build-'+family+'-collection.mjs');
   const pinnedTools = [{path:generator,sha256:reference.provenance.generatorSha256},
@@ -136,11 +140,17 @@ async function publish(recipePath,check) {
   }
   const perDesignSource = family === 'wall-ambient' || family === 'desktop-plants';
   const artwork = new Map();
+  const designBranches = new Map();
   for (const design of input.designs) {
     if (!/^[a-z][a-z0-9-]{0,70}$/.test(design.id) || /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/.test(design.id) ||
         !Number.isSafeInteger(design.version) || design.version < 1)
       fail('invalid-appearance-identity',String(design.id));
-    if (previous.resources.some(r => r.id.toLowerCase() === design.id && !belongsToFamily(r,family)))
+    const branch = family === 'garment-rack' ? garmentBranches[design.type] : undefined;
+    if (family === 'garment-rack' && !Object.hasOwn(garmentBranches,design.type))
+      fail('invalid-appearance-recipe','Expected rack or garment for '+design.id);
+    if (branch) designBranches.set(design.id+'@'+design.version,branch);
+    if (previous.resources.some(r => r.id.toLowerCase() === design.id &&
+        (!belongsToFamily(r,family) || (branch && r.productionBranch !== branch))))
       fail('appearance-id-conflict',design.id+' already belongs to a different family');
     if (design.source) {
       const member = input.sources?.[design.source];
@@ -148,7 +158,7 @@ async function publish(recipePath,check) {
         family === 'static-textile' ? input.archives?.[member?.archive] : member;
       productionSource(source?.path);
       const bytes = await regularFile(source.path);
-      if (perDesignSource) {
+      if (perDesignSource || family === 'garment-rack') {
         productionSource(source.licensePath);
         const license = await regularFile(source.licensePath);
         if (hash(bytes) !== source.sha256 || hash(license) !== source.licenseSha256)
@@ -200,8 +210,11 @@ async function publish(recipePath,check) {
       const resource = parse(sidecar);
       assert.equal(resource.id,entry.id); assert.equal(resource.version,entry.version);
       assert.equal(resource.provenance.sourceParameters,pinned); assert.equal(resource.provenance.sourceParametersSha256,digest);
-      let expectedDependencies = reference.provenance.dependencies;
-      if (perDesignSource) {
+      const branch = designBranches.get(key);
+      const functionalReference = branch ? defaultRefs.find(r => r?.productionBranch === branch) : reference;
+      assert(functionalReference && (!branch || resource.productionBranch === branch),'Missing matching branch for '+key);
+      let expectedDependencies = functionalReference.provenance.dependencies;
+      if (perDesignSource || artwork.has(key)) {
         const source = artwork.get(key);
         if (!source) fail('invalid-appearance-source','Missing original artwork for '+key);
         assert.equal(resource.provenance.sourceArtifactPath,source.path);
@@ -213,7 +226,7 @@ async function publish(recipePath,check) {
         if (source.editable) expectedDependencies.editableContour = source.editable;
       }
       assert.deepEqual(resource.provenance.dependencies,expectedDependencies);
-      validateFunction(reference,resource,family);
+      validateFunction(functionalReference,resource,family);
       assert.equal(resource.asset.url,entry.modelPath.slice('prototype/public'.length));
       assert.equal(resource.asset.sha256,hash(model)); assert.equal(resource.asset.bytes,model.length);
       assert.equal(entry.sha256,resource.asset.sha256);

@@ -1,0 +1,124 @@
+{
+  "id": "garment-rack-trestle",
+  "version": 1,
+  "displayName": "开放衣架 · 交叉木脚",
+  "category": "decor",
+  "mountRole": "garment-rack-wardrobe",
+  "productionBranch": "garment-rack-wardrobe",
+  "mount": "floor-surface",
+  "parent": "room.floor",
+  "mounting": {
+    "origin": "bottom",
+    "width": 1,
+    "height": 1.8,
+    "depth": 0.5
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.5,
+      0.25
+    ],
+    "blocking": true
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "clearance": {
+    "schema": "garment-rack-front-v1",
+    "front": {
+      "min": [
+        -0.44,
+        0.25
+      ],
+      "max": [
+        0.44,
+        0.85
+      ]
+    }
+  },
+  "garmentRail": {
+    "radius": 0.015,
+    "centerY": 1.5,
+    "slots": [
+      {
+        "id": "left",
+        "position": [
+          -0.24,
+          1.515,
+          0
+        ]
+      },
+      {
+        "id": "right",
+        "position": [
+          0.24,
+          1.515,
+          0
+        ]
+      }
+    ]
+  },
+  "usePoints": [],
+  "stateDefaults": {},
+  "materialSlots": {
+    "feet": [
+      "rack-stock-feet"
+    ],
+    "frame": [
+      "rack-frame"
+    ],
+    "fittings": [
+      "rack-rail-bosses"
+    ],
+    "rail": [
+      "garment-rail"
+    ]
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/garment-rack-v1/garment-rack-trestle/v1/model.glb",
+    "bytes": 102040,
+    "sha256": "b5641652a8a9c429339c5b2571476d3f5b5582f14517b1128d6facdb4ae4cbe0"
+  },
+  "provenance": {
+    "license": "CC0-1.0 source with project-authored adaptation.",
+    "sourceDesign": "trestle",
+    "sourceParameters": "assets-source/company-garment-rack-v1/parameters.json",
+    "sourceParametersSha256": "ea544db31c2011cf11a57ac542b0d8be3d4d2f4dcae2e179461e4657391c4d75",
+    "generator": "scripts/company-platform/build-garment-rack.mjs",
+    "generatorSha256": "0e316355aa613a67c0bd760963c667567b1016ddd5e517848994f5044843630c",
+    "functionalContractSource": "assets-source/company-garment-rack-v1/contracts.json",
+    "functionalContractSourceSha256": "e5c7b479428804d6d23265eaef1ccb5db0912dc3dacf528d9f8d8a197e025cca",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "environmentBranch": "garment-rack-wardrobe",
+    "sourceArtifactPath": "assets-source/company-garment-rack-v1/original/furniture-kit/coatRackStanding.glb",
+    "sourceArtifactSha256": "d8231c22dab63ceb9fc8678f6c8ceafc62afa8726b51a73b4ce349043d3cdc91",
+    "sourceAuthor": "Kenney",
+    "sourceLicense": "CC0-1.0",
+    "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+    "sourceEntry": "Models/GLTF format/coatRackStanding.glb",
+    "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+    "dependencies": {
+      "geometryValidation": {
+        "path": "scripts/company-platform/test-garment-rack-assets.mjs",
+        "sha256": "048385607ac2d50375f84f1bea5d8f1c9e9fc5f6ee83d41fbe2d63441e82e0b4"
+      },
+      "license": {
+        "path": "assets-source/company-garment-rack-v1/original/furniture-kit/License.txt",
+        "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+      }
+    },
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ]
+  }
+}

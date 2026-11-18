@@ -7,7 +7,8 @@ export function installationGeometryFacilities(derived) {
     if (['ceiling', 'parent-device-endpoints', 'wall-opening'].includes(item.resource.mount)) floors.add(item.floorId);
     if (item.resource.mounting?.reserveDesktopArea) desks.add(item.node.parentId);
   }
-  return derived.facilities.filter(item => floors.has(item.floorId) || desks.has(item.node.parentId));
+  return derived.facilities.filter(item => floors.has(item.floorId) || desks.has(item.node.parentId) ||
+    item.resource.garmentRail || item.resource.mount === 'garment-rail');
 }
 
 function reservedBox(item) {

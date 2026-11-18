@@ -21,6 +21,7 @@ const sourceFiles=[
   'prototype/src/company/scale-profile.js','prototype/src/company/scale-v2.js',
   'prototype/src/company/document.js','prototype/src/company/placement.js',
   'prototype/src/company/moving-parts.js','prototype/src/company/support-data.js',
+  'prototype/src/company/garment-rack-data.js','prototype/src/company/garment-rack-geometry.js',
   'prototype/src/company/appearance-contract.js','prototype/src/company/workstation-looks.js',
   'prototype/src/company/workstation-looks.json',
   'prototype/src/company/persistence.js','prototype/src/company/library-catalog.json',

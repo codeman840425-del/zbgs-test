@@ -4,6 +4,7 @@ import {validateWindowResource,deriveWindowOpenings} from './window-data.js';
 import {deriveCableConnections} from './cable-data.js';
 import {validateBaseboardProfile} from './baseboard-profile.js';
 import {validateBackdropResource} from './backdrop-roll.js';
+import {attachGarment,garmentSlotTransform,validateGarmentPlacement,validateGarmentResource} from './garment-rack-data.js';
 import {companyScaleProfile,validateScaleProfile} from './scale-profile.js';
 // Company authoring data. Actor tasks and seat leases remain in the character platform.
 import {validateCeilingAttachments} from './ceiling-acoustic-data.js';
@@ -177,7 +178,7 @@ export function deriveCompany(document, catalog, templates) {
     fail('catalog-version-mismatch', 'document.catalog', 'Load the pinned resource catalog');
   if (!Array.isArray(document.nodes)) fail('invalid-nodes', 'document.nodes', 'Expected an array');
   const { resources, combinations } = catalogMaps(catalog, templates);
-  for (const resource of resources.values()) { validateWallAmbientResource(resource,fail); validateDeskLampResource(resource,fail); validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); validateWindowCoverResource(resource,fail); validateBackdropResource(resource,fail); }
+  for (const resource of resources.values()) { validateWallAmbientResource(resource,fail); validateDeskLampResource(resource,fail); validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); validateWindowCoverResource(resource,fail); validateBackdropResource(resource,fail); validateGarmentResource(resource,fail); }
   const nodes = new Map(), worlds = new Map(), localTransforms = new Map(), floorIds = new Map(), roomIds = new Map();
   for (const node of document.nodes) {
     checkId(node.id, 'nodes.id');
@@ -376,6 +377,7 @@ export function deriveCompany(document, catalog, templates) {
   const cableConnections=deriveCableConnections({nodes,facilities},fail);
   validateCeilingAttachments({nodes,facilities},fail);
   validateSupportAttachments(nodes, resources, fail);
+  validateGarmentPlacement({facilities,nodes,worlds,resources,obstacles},pointInTransform,localPoint,fail);
   validateMakeupMirrorAttachments(nodes, resources, fail);
   validateMakeupStorageAttachments(nodes,resources,fail);
   validateMakeupDrawerAttachments(nodes,resources,fail);
@@ -511,6 +513,8 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
       const resource = resources.get(key(op.resource));
       if (op.transform === undefined && op.attachment?.surfaceId && resource?.mount === 'support-surface')
         node.transform = centerOnParent(resource, op.parentId, op.attachment.surfaceId, op.id);
+      if(op.transform===undefined && resource?.mount==='garment-rail')
+        node.transform=garmentSlotTransform(op.attachment?.slotId) ?? node.transform;
       if (op.appearance !== undefined) node.appearance = copy(op.appearance);
       if (op.attachment !== undefined) node.attachment = copy(op.attachment);
       if (op.cableLink !== undefined) node.cableLink = copy(op.cableLink);
@@ -543,6 +547,7 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
     const related = descendants(next.nodes, node.id);
     if (!['copy-workstation', 'copy-group','copy-facility'].includes(op.type)) for (const id of related) affected.add(id);
     if (op.type === 'move') node.transform = copy(op.transform);
+    else if(op.type==='attach-garment')attachGarment(next.nodes,resources,node,op,fail);
     else if(op.type==='set-exterior-entrances'){
       if(node.kind!=='floor'||!Array.isArray(op.entrances))fail('invalid-exterior-entrances',op.id,'Exterior entrances belong to an existing floor');
       node.exteriorEntrances=copy(op.entrances);
