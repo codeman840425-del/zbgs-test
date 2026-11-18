@@ -5,9 +5,16 @@ import path from "node:path";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 async function files(dir) {
   const out = [];
-  for (const e of await readdir(path.join(root, dir), {
+  let entries;
+  try {
+    entries = await readdir(path.join(root, dir), {
     withFileTypes: true,
-  })) {
+    });
+  } catch (error) {
+    if (error?.code === "ENOENT") return out;
+    throw error;
+  }
+  for (const e of entries) {
     const p = path.posix.join(dir, e.name);
     if (e.isDirectory()) out.push(...(await files(p)));
     else out.push(p);
