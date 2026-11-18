@@ -14,7 +14,17 @@ node serve.mjs
 
 交付目录若包含 `data/rooms/<名称>/save.json`，可用 `?delivery=<名称>` 打开其中一份布局。它与默认房间使用相同的目录校验和游戏加载入口。
 
-## 批量接入桌面摆件
+## 批量生成公司
+
+完整公司也可从同一个批次生成。到 `source` 目录执行：
+
+```text
+node scripts/company-platform/batch.mjs scripts/company-platform/batch-inputs/whole-company-styles-v1.json ../my-companies
+```
+
+示例包含暖木单工位民房和两层冷色制作公司。每项的 `input.id` 标识独立公司，`styleRecipe` 选择饰面与兼容设施，`operations` 保存该公司单独指定的调整，`stationLooks` 可指定工位搭配。每个结果目录包含输入、布局、完整存档和带摘要的检查报告。项目失败可按报告中的实例与字段修正配置，再在原命令末尾添加 `--only cool-studios` 单独重试。要保留旧版并发布一份修改成功的公司，请选用新的输出目录。
+
+## 导入新的桌面摆件
 
 在独立包的副本里工作。以下前三步的命令从 `source` 目录运行。先在 `source/prototype` 用 `npm ci` 安装锁定依赖。
 

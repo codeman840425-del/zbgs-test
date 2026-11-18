@@ -121,6 +121,8 @@ const extraFiles=[
   'scripts/company-platform/style-recipes/warm-live.json',
   'scripts/company-platform/style-recipes/cool-work.json',
   'scripts/company-platform/test-style-recipe.mjs',
+  'scripts/company-platform/test-style-recipe-batch.mjs',
+  'scripts/company-platform/qa-whole-style-batch.cjs',
   'scripts/company-platform/test-workstation-looks.mjs',
   'scripts/company-platform/test-workstation-look-batch.mjs',
   'scripts/company-platform/check-training-clearance.mjs',

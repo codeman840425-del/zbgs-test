@@ -1,0 +1,305 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "warm-home",
+      "input": {
+        "id": "warm-home",
+        "name": "暖木直播民房",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "scale": "small-home",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1,
+                "furniture": [
+                  {
+                    "id": "plant",
+                    "resource": {
+                      "id": "plant",
+                      "version": 1
+                    },
+                    "transform": {
+                      "position": [
+                        1.6,
+                        0,
+                        -1.4
+                      ],
+                      "yaw": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "styleRecipe": {
+        "version": 1,
+        "id": "warm-live-v1",
+        "name": "暖木直播间",
+        "surfaces": {
+          "default": {
+            "wall": {
+              "resource": {
+                "id": "wall-leaf-damask",
+                "version": 1
+              }
+            },
+            "floor": {
+              "resource": {
+                "id": "floor-herringbone",
+                "version": 1
+              }
+            }
+          },
+          "purposes": {
+            "streaming": {
+              "wall": {
+                "resource": {
+                  "id": "wall-fine-stripes",
+                  "version": 1
+                }
+              },
+              "floor": {
+                "resource": {
+                  "id": "floor-offset-plank",
+                  "version": 1
+                }
+              }
+            }
+          }
+        },
+        "facilities": {
+          "default": {
+            "desk": {
+              "id": "desk-trestle",
+              "version": 1
+            },
+            "monitor": {
+              "id": "monitor-aurora",
+              "version": 1
+            },
+            "keyboard": {
+              "id": "keyboard-compact",
+              "version": 1
+            },
+            "desk-microphone": {
+              "id": "desk-microphone-ball",
+              "version": 1
+            },
+            "chair": {
+              "id": "chair-cantilever",
+              "version": 1
+            },
+            "fill-light": {
+              "id": "fill-light-orbit",
+              "version": 1
+            },
+            "sofa": {
+              "id": "lounge-sofa",
+              "version": 1
+            },
+            "plant": {
+              "id": "plant-palm",
+              "version": 1
+            },
+            "rug": {
+              "id": "rug-border",
+              "version": 1
+            },
+            "floor-panel": {
+              "id": "floor-panel-grid",
+              "version": 1
+            },
+            "wall-panel": {
+              "id": "wall-panel-slat",
+              "version": 1
+            },
+            "wall-art": {
+              "id": "wall-art-triptych",
+              "version": 1
+            },
+            "window-panel": {
+              "id": "window-panel-cross",
+              "version": 1
+            },
+            "door-frame": {
+              "id": "door-frame-plain",
+              "version": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "key": "cool-studios",
+      "input": {
+        "id": "cool-studios",
+        "name": "两层冷色直播公司",
+        "scale": "building",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "floors": [
+          {
+            "id": "floor-alpha",
+            "name": "直播层",
+            "rooms": [
+              {
+                "id": "alpha-stream",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 2
+              },
+              {
+                "id": "alpha-work",
+                "name": "工作间",
+                "purpose": "work",
+                "furniture": "desk-chair"
+              },
+              {
+                "id": "alpha-rest",
+                "name": "休息间",
+                "purpose": "rest",
+                "sofaVersion": 1
+              }
+            ]
+          },
+          {
+            "id": "floor-beta",
+            "name": "训练层",
+            "rooms": [
+              {
+                "id": "beta-stream",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              },
+              {
+                "id": "beta-training",
+                "name": "培训间",
+                "purpose": "training",
+                "furniture": "desk-chair"
+              },
+              {
+                "id": "beta-rest",
+                "name": "休息间",
+                "purpose": "rest",
+                "sofaVersion": 1
+              }
+            ]
+          }
+        ]
+      },
+      "styleRecipe": {
+        "version": 1,
+        "id": "cool-work-v1",
+        "name": "冷静制作间",
+        "surfaces": {
+          "default": {
+            "wall": {
+              "resource": {
+                "id": "wall-diamond-grid",
+                "version": 1
+              }
+            },
+            "floor": {
+              "resource": {
+                "id": "floor-checker-tile",
+                "version": 1
+              }
+            }
+          },
+          "purposes": {
+            "work": {
+              "wall": {
+                "resource": {
+                  "id": "wall-arc-fan",
+                  "version": 1
+                }
+              },
+              "floor": {
+                "resource": {
+                  "id": "floor-terrazzo",
+                  "version": 1
+                }
+              }
+            }
+          }
+        },
+        "facilities": {
+          "default": {
+            "desk": {
+              "id": "desk-frame",
+              "version": 1
+            },
+            "monitor": {
+              "id": "monitor-slate",
+              "version": 1
+            },
+            "keyboard": {
+              "id": "keyboard-console",
+              "version": 1
+            },
+            "desk-microphone": {
+              "id": "desk-microphone-capsule",
+              "version": 1
+            },
+            "chair": {
+              "id": "chair-crossbeam",
+              "version": 1
+            },
+            "fill-light": {
+              "id": "fill-light-panel",
+              "version": 1
+            },
+            "sofa": {
+              "id": "sofa-modular",
+              "version": 1
+            },
+            "plant": {
+              "id": "plant-bonsai",
+              "version": 1
+            },
+            "rug": {
+              "id": "rug-inset",
+              "version": 1
+            },
+            "floor-panel": {
+              "id": "floor-panel-herringbone",
+              "version": 1
+            },
+            "wall-panel": {
+              "id": "wall-panel-ribbed",
+              "version": 1
+            },
+            "wall-art": {
+              "id": "wall-art-woven",
+              "version": 1
+            },
+            "window-panel": {
+              "id": "window-panel-round",
+              "version": 1
+            },
+            "door-frame": {
+              "id": "door-frame-crown",
+              "version": 2
+            }
+          }
+        }
+      }
+    }
+  ]
+}

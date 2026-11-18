@@ -23,6 +23,11 @@ const sourceFiles=[
   'prototype/src/company/persistence.js','prototype/src/company/library-catalog.json',
   'prototype/src/company/templates-extended.json',
 ];
+const styleSourceFiles=[
+  'scripts/company-platform/apply-style-recipe.mjs',
+  'prototype/src/company/appearance-samples.js',
+];
+const hasStyleRecipe=item=>Object.hasOwn(item,'styleRecipe');
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 function canonical(value){
   if(Array.isArray(value))return value.map(canonical);
@@ -31,8 +36,8 @@ function canonical(value){
 }
 const jsonBytes=value=>Buffer.from(JSON.stringify(canonical(value),null,2)+'\n','utf8');
 const fail=(code,location,message)=>{throw new CompanyError(code,location,message);};
-async function sources(){
-  return Object.fromEntries(await Promise.all(sourceFiles.map(async file=>[file,hash(await fs.readFile(new URL(file,workspace)))])));
+async function sources(files){
+  return Object.fromEntries(await Promise.all(files.map(async file=>[file,hash(await fs.readFile(new URL(file,workspace)))])));
 }
 function validateBatch(batch,only){
   if(!batch||batch.schema!=='company-batch'||batch.version!==1||!Array.isArray(batch.items)||!batch.items.length||
@@ -41,7 +46,7 @@ function validateBatch(batch,only){
   const keys=new Set(),ids=new Set();
   for(const [index,item]of batch.items.entries()){
     const location=`items[${index}]`;
-    if(!item||Object.keys(item).some(key=>!['key','input','document','operations','stationLooks','trainingClearance'].includes(key))||
+    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance'].includes(key))||
         typeof item.key!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(item.key)||
         /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(item.key))
       fail('invalid-batch-key',location,'Use a portable nonempty directory key with letters, digits, underscore or hyphen');
@@ -87,6 +92,13 @@ async function prepare(item,sourceHashes){
   if(item.operations!==undefined&&!Array.isArray(item.operations))
     fail('invalid-batch-operations',`${item.key}.operations`,'Optional operations must be an array');
   let document=item.document?structuredClone(item.document):(item.input.spaceProfile!==undefined?createCompanyScaleV2:createScaledCompany)(item.input,catalog,templates);
+  let styleRecipe;
+  if(hasStyleRecipe(item)){
+    const {applyStyleRecipe}=await import('./apply-style-recipe.mjs');
+    const styled=applyStyleRecipe(document,item.styleRecipe,{catalog,templates});
+    document=styled.document;
+    styleRecipe={...styled.recipe,sha256:hash(jsonBytes(item.styleRecipe)),operations:styled.operations.length};
+  }
   if(item.operations?.length){const previous=document;document=prepareCompanyChange(document,item.operations,{catalog,templates}).document;inspectCompanyMotionSweep(previous,document,catalog,templates);}
   if(item.stationLooks!==undefined){
     if(!Array.isArray(item.stationLooks))fail('invalid-station-looks',item.key,'stationLooks must be an array');
@@ -132,6 +144,7 @@ async function prepare(item,sourceHashes){
   const files={'input.json':jsonBytes(item),'layout.json':jsonBytes(document),'save.json':jsonBytes(saved)};
   const report={schema:'company-batch-result',version:1,key:item.key,companyId:document.id,
     documentRevision:document.revision,dependencies:saved.dependencies,assetDependencies,sourceHashes,
+    ...(styleRecipe ? {styleRecipe} : {}),
     files:Object.fromEntries(Object.entries(files).map(([name,bytes])=>[name,{bytes:bytes.length,sha256:hash(bytes)}])),
     checks:{connections,placement,...(trainingClearance ? {trainingClearance} : {})},
     scope:'Complete deterministic authoring result. Static geometry and placement admission only; rendering and character usage require their own evidence.'};
@@ -169,13 +182,16 @@ async function publish(root,key,files){
 export async function runCompanyBatch(batch,{outputDirectory,only}={}){
   validateBatch(batch,only);
   if(typeof outputDirectory!=='string'||!outputDirectory)fail('invalid-output-directory','outputDirectory','Provide an explicit output directory');
-  const input=structuredClone(batch),sourceHashes=await sources();
+  const items=structuredClone(batch).items.filter(item=>only===undefined||item.key===only);
+  const baseHashes=await sources(sourceFiles);
+  const styleHashes=items.some(hasStyleRecipe)?await sources(styleSourceFiles):null;
   await fs.mkdir(path.resolve(outputDirectory),{recursive:true});
   const root=await fs.realpath(path.resolve(outputDirectory)),results=[];
-  for(const item of input.items.filter(item=>only===undefined||item.key===only)){
+  for(const item of items){
     try{
+      const sourceHashes=hasStyleRecipe(item)?{...baseHashes,...styleHashes}:baseHashes;
       const {files,report}=await prepare(item,sourceHashes);
-      if(JSON.stringify(canonical(await sources()))!==JSON.stringify(canonical(sourceHashes)))
+      if(JSON.stringify(canonical(await sources(Object.keys(sourceHashes))))!==JSON.stringify(canonical(sourceHashes)))
         fail('source-changed',item.key,'Production sources changed during this batch; retry against one fixed source candidate');
       const status=await publish(root,item.key,files);
       results.push({key:item.key,companyId:report.companyId,status,directory:childPath(root,item.key),files:report.files});
