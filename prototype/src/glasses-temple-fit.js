@@ -1,5 +1,6 @@
 import {Matrix3,Vector3} from 'three';
 import registry from './glasses-temple-fit-manifest.json' with {type:'json'};
+import candidateRegistry from '../public/assets/native-glasses-candidate-v2/manifest.json' with {type:'json'};
 const hash=async bytes=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');
 export function validateTempleProfile(p,bodySHA,accessorySHA){
  if(p?.schema!=='m1.glasses-temple-fit.1'||p.bodySHA256!==bodySHA||p.accessorySHA256!==accessorySHA||!Array.isArray(p.controls)||p.controls.length!==2)return false;
@@ -13,7 +14,9 @@ export function validateTempleProfile(p,bodySHA,accessorySHA){
  }return names.size===0;
 }
 export async function fitGlassesTemples(object,{bodySHA256,accessorySHA256,signal}){
- const entry=registry.profiles.find(p=>p.bodySHA256===bodySHA256);
+ const candidateMode=typeof location!=='undefined'&&new URLSearchParams(location.search).get('glassesFit')==='candidate';
+ const source=candidateMode&&candidateRegistry.status==='candidate-only'?candidateRegistry:registry;
+ const entry=source.profiles.find(p=>p.bodySHA256===bodySHA256);
  if(!entry)throw Error('当前基模没有精确匹配的镜腿适配配置；眼镜暂不可用。');
  const response=await fetch(entry.url,{signal,cache:'no-store'});if(!response.ok)throw Error('Glasses fit HTTP '+response.status);
  const bytes=await response.arrayBuffer();if(bytes.byteLength!==entry.bytes||await hash(bytes)!==entry.sha256)throw Error('Glasses fit integrity mismatch');
