@@ -16,6 +16,7 @@ import { validateJointHandProfile } from "./joint-hand-workspace.mjs";
 import { createNativeHairCenterFitPlugin, NATIVE_HAIR_CENTER_FIT_ID, supportsNativeHairCenterFit } from "./native-hair-center-fit.js";
 import { validateNativeHairCenterPin } from "./native-hair-center-record.js";
 import { shareBodyNormalSource } from "./shared-body-normal-source.js";
+import { registerUniformNormals } from "./uniform-normal-source.js";
 
 // Each actor owns its prewarm variants. Geometry UUID is deliberately omitted:
 // a new clone with identical layouts/material versions reuses the same program.
@@ -135,6 +136,7 @@ export async function loadFoundationAvatar({
     if (!validateJointHandProfile(jointHandCollision, sha256)) throw new Error("Joint-hand body identity/schema mismatch");
   }
   const loader = new GLTFLoader();
+  registerUniformNormals(loader, sha256);
   if (nativeHairCenterFit) {
     loader.register(parser => createNativeHairCenterFitPlugin(parser, {bodyType, bodySha256:sha256}));
   }

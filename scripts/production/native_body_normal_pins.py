@@ -1,17 +1,17 @@
-"""Derive per-body normal texture identities from pinned factory packages."""
+"""Derive per-body normal texture identities from pinned bodies and coverage."""
 import argparse
 import json
 from pathlib import Path
 import struct
 
-from native_import import ROOT, confined, digest, embedded_glb
+from native_import import ROOT, body_image, confined, digest, embedded_glb
 
 
-def pinned_file(spec, name, root):
-    path, expected = spec['files'][name]
+def pinned_file(root, reference, label):
+    path, expected = reference
     raw = confined(root, path).read_bytes()
     if digest(raw) != expected:
-        raise ValueError(f"{spec['bodyType']}: file identity mismatch: {name}")
+        raise ValueError(f'{label}: file identity mismatch: {path}')
     return raw
 
 
@@ -48,7 +48,21 @@ def extract_normal(body, coverage):
     return dict(material=material, texture=tex_index, image=image_index, pngSha256=digest(png))
 
 
-def build(batches, root):
+def add_binding(avatars, root, body_ref, coverage_ref, label):
+    sha = body_ref[1]
+    body = pinned_file(root, body_ref, label)
+    coverage = json.loads(pinned_file(root, coverage_ref, label))
+    if coverage['schema'] != 'native-body-texture-coverage-v1' or coverage['avatarSha256'] != sha:
+        raise ValueError(f'{label}: coverage/body mismatch')
+    body_image(body, coverage)
+    pin = extract_normal(body, coverage)
+    if pin is not None:
+        if sha in avatars and avatars[sha] != pin:
+            raise ValueError(f'{sha}: conflicting normal ownership')
+        avatars[sha] = pin
+
+
+def build(batches, root, sources=()):
     avatars = {}
     for path in batches:
         batch = json.loads(path.read_bytes())
@@ -58,27 +72,29 @@ def build(batches, root):
             spec = json.loads(confined(root, item['spec']).read_bytes())
             if item['package'] != spec['bodyType'] or spec['schema'] != 'native-parameter-factory-staging-v1':
                 raise ValueError('Body specification mismatch')
-            body = pinned_file(spec, spec['bodyFile'], root)
-            coverage = json.loads(pinned_file(spec, 'manifest.json', root))
-            sha = spec['bodySha256']
-            if sha != digest(body) or coverage['avatarSha256'] != sha:
-                raise ValueError(f"{item['package']}: coverage/body mismatch")
-            pin = extract_normal(body, coverage)
-            if pin is not None:
-                if sha in avatars and avatars[sha] != pin:
-                    raise ValueError(f'{sha}: conflicting normal ownership')
-                avatars[sha] = pin
-    return {'schema':'native-body-normal-source-pins-v1', 'avatars':avatars}
+            body_ref = spec['files'][spec['bodyFile']]
+            if spec['bodySha256'] != body_ref[1]:
+                raise ValueError(f"{item['package']}: body pin mismatch")
+            add_binding(avatars, root, body_ref, spec['files']['manifest.json'], item['package'])
+    for path in sources:
+        source = json.loads(path.read_bytes())
+        if set(source) != {'schema', 'body', 'coverage'} or source['schema'] != 'native-body-normal-source-v1':
+            raise ValueError(f'{path.name}: expected a native body normal source')
+        add_binding(avatars, root, source['body'], source['coverage'], path.name)
+    return {'schema':'native-body-normal-source-pins-v1', 'avatars':dict(sorted(avatars.items()))}
 
 
 if __name__ == '__main__':
     cli = argparse.ArgumentParser(description=__doc__)
-    cli.add_argument('--batch', type=Path, action='append', required=True)
+    cli.add_argument('--batch', type=Path, action='append', default=[])
+    cli.add_argument('--source', type=Path, action='append', default=[])
     mode = cli.add_mutually_exclusive_group(required=True)
     mode.add_argument('--check', type=Path)
     mode.add_argument('--write-new', type=Path)
     args = cli.parse_args()
-    result = build(args.batch, ROOT)
+    if not (args.batch or args.source):
+        cli.error('provide at least one --batch or --source')
+    result = build(args.batch, ROOT, args.source)
     if args.check:
         if result != json.loads(args.check.read_bytes()):
             raise SystemExit('Body normal pins differ from source packages')

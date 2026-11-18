@@ -4,12 +4,15 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const {chromium} = require('../prototype/node_modules/playwright');
 const {PNG} = require('../prototype/node_modules/playwright-core/lib/utilsBundle.js');
-const [base, recordsPath, build, mode, out] = process.argv.slice(2);
+const [base, recordsPath, build, mode, out, expectedFaceSize] = process.argv.slice(2);
 
 async function main() {
   assert.ok(['separate', 'shared'].includes(mode));
   const records = JSON.parse(await fs.readFile(recordsPath, 'utf8'));
   assert.equal(records.length, 2);
+  const {resolveGarmentMaterials} = await import('../prototype/src/garment-material-record.js');
+  const materials = records.map(r => resolveGarmentMaterials({profile:r.appearanceRecipe.base},
+    r.appearanceRecipe, r.equipmentMaterials).record);
   await fs.mkdir(out, {recursive:false});
   const report = {build, mode, cases:[], errors:[]};
   const browser = await chromium.launch({channel:'chrome', headless:true});
@@ -17,9 +20,21 @@ async function main() {
     for (const remove of [0, 1]) {
       const page = await browser.newPage({viewport:{width:1440,height:1000}});
       page.on('pageerror', e => report.errors.push(e.message));
+      if (expectedFaceSize) await page.addInitScript(() => {
+        const sizes = window.__qaAllocated2D = new WeakMap();
+        const proto = WebGL2RenderingContext.prototype, allocate = proto.texStorage2D;
+        proto.texStorage2D = function(target, levels, format, width, height) {
+          const result = allocate.call(this,target,levels,format,width,height);
+          if (target === this.TEXTURE_2D) {
+            const handle = this.getParameter(this.TEXTURE_BINDING_2D);
+            if (handle) sizes.set(handle,{levels,format,width,height});
+          }
+          return result;
+        };
+      });
       await page.goto(base + 'record-consumer.html?production=1');
       await page.waitForFunction(() => window.__recordConsumer?.ready);
-      const sample = await page.evaluate(async ({records, build, remove}) => {
+      const sample = await page.evaluate(async ({records, materials, build, remove, expectedFaceSize}) => {
         const d = window.__recordConsumer, renderer = d.renderer, gl = renderer.getContext();
         if (d.buildInfo.shortId !== build) throw Error('Wrong fixed build');
         const tick = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
@@ -55,6 +70,26 @@ async function main() {
         });
         const handles = textures.map(t => renderer.properties.get(t).__webglTexture);
         if (!handles.every(h => h && gl.isTexture(h))) throw Error('Body normals were not drawn');
+        const storage = [], portraits = [];
+        if (expectedFaceSize) {
+          for (const [i,actor] of actors.entries()) {
+            const faces = new Set();
+            actor.avatar.root.traverseVisible(o => {
+              if (o.isMesh) for(const mat of [].concat(o.material))
+                if (/_Face_\d+_SKIN/.test(mat.name) && mat.normalMap) faces.add(mat.normalMap);
+            });
+            if (faces.size !== 1) throw Error('Expected one active face normal texture');
+            const face = [...faces][0], faceHandle = renderer.properties.get(face).__webglTexture;
+            storage.push({face:window.__qaAllocated2D.get(faceHandle), body:window.__qaAllocated2D.get(handles[i])});
+            const close = camera.clone();
+            const head = actor.avatar.vrm.humanoid.getRawBoneNode('head').getWorldPosition(close.position.clone());
+            head.y += 0.065;
+            close.position.copy(head); close.position.z += 0.54;
+            close.lookAt(head);close.updateMatrixWorld(true);
+            render(d.scene,close);
+            portraits.push(renderer.domElement.toDataURL('image/png'));
+          }
+        }
         const survivor = actors[1-remove], departed = actors[remove];
         departed.avatar.root.visible = false;
         const before = draw();
@@ -64,14 +99,19 @@ async function main() {
         const removedStillLive = gl.isTexture(handles[remove]);
         const keptAppearance = await survivor.capture();
         const record = records[1-remove];
-        const restored = ['appearanceRecipe','liveAccessories','equipmentMaterials','nativeHairCenter']
-          .every(k => JSON.stringify(keptAppearance[k]) === JSON.stringify(record[k]));
+        const restored = ['appearanceRecipe','liveAccessories','nativeHairCenter']
+          .every(k => JSON.stringify(keptAppearance[k]) === JSON.stringify(record[k])) &&
+          JSON.stringify(keptAppearance.equipmentMaterials) === JSON.stringify(materials[1-remove]);
         d.actors.delete(survivor.identity.id); survivor.dispose();
         await tick();
-        return {pair,before,after,removed:departed.identity.id,baseline,loaded,
+        return {pair,before,after,portraits,storage,removed:departed.identity.id,baseline,loaded,
           sameTexture:textures[0]===textures[1],sameHandle:handles[0]===handles[1],survived,removedStillLive,
           restored,finalReleased:handles.every(h=>!gl.isTexture(h)),released:renderer.info.memory.textures};
-      }, {records, build, remove});
+      }, {records, materials, build, remove, expectedFaceSize});
+      for (const [i,png] of sample.portraits.entries()) {
+        await fs.writeFile(path.join(out,remove+'-face-'+i+'.png'),Buffer.from(png.split(',')[1],'base64'));
+      }
+      delete sample.portraits;
       for (const key of ['pair','before','after']) {
         const bytes = Buffer.from(sample[key].split(',')[1], 'base64');
         await fs.writeFile(path.join(out, remove + '-' + key + '.png'), bytes);
@@ -86,6 +126,12 @@ async function main() {
       }
       Object.assign(sample, {changedPixels, peak});
       report.cases.push(sample);
+      if (expectedFaceSize) for (const {face,body} of sample.storage) {
+        assert.deepEqual([face.width,face.height,face.levels], [Number(expectedFaceSize),Number(expectedFaceSize),1]);
+        assert.deepEqual([body.width,body.height,body.levels], [2048,2048,1]);
+        assert.equal(face.format, 0x8058, 'Expected RGBA8 storage for the face normal');
+        assert.equal(body.format, 0x8058, 'Expected RGBA8 storage for the body normal');
+      }
       assert.equal(sample.sameTexture,false);
       assert.equal(sample.sameHandle,mode==='shared');
       assert.equal(sample.removedStillLive,mode==='shared');
