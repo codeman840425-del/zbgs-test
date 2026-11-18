@@ -1,0 +1,2377 @@
+{
+  "schema": "company-layout",
+  "version": 1,
+  "id": "mixed-company-c2",
+  "name": "混合素材公司 · 两层住宅与公共客厅",
+  "revision": 3,
+  "scale": "building",
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "nodes": [
+    {
+      "id": "mixed-company-c2/floor-1",
+      "kind": "floor",
+      "parentId": "mixed-company-c2",
+      "name": "一层 · 住宅直播与公共客厅",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "connections": [
+        {
+          "id": "mixed-company-c2/floor-1/rental/door-stream",
+          "from": {
+            "regionId": "mixed-company-c2/floor-1/room-1",
+            "edge": "east",
+            "offset": 1.125,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "mixed-company-c2/floor-1/living-entry",
+            "edge": "west",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "mixed-company-c2/floor-1/rental/door-work",
+          "from": {
+            "regionId": "mixed-company-c2/floor-1/room-2",
+            "edge": "south",
+            "offset": -1.5,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "mixed-company-c2/floor-1/living",
+            "edge": "north",
+            "offset": 1.5,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "mixed-company-c2/floor-1/rental/door-rest",
+          "from": {
+            "regionId": "mixed-company-c2/floor-1/room-3",
+            "edge": "east",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "mixed-company-c2/floor-1/living",
+            "edge": "west",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "mixed-company-c2/floor-1/rental/living-connection",
+          "from": {
+            "regionId": "mixed-company-c2/floor-1/living-entry",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "mixed-company-c2/floor-1/living",
+            "edge": "north",
+            "offset": -1.5,
+            "width": 1.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1",
+      "kind": "room",
+      "parentId": "mixed-company-c2/floor-1",
+      "name": "直播间",
+      "bounds": {
+        "width": 6,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          -6,
+          0,
+          -2.625
+        ],
+        "yaw": 0
+      },
+      "purpose": "streaming",
+      "finishes": {
+        "north": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "south": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "west": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "east": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "floor": {
+          "resource": {
+            "id": "floor-checker-tile",
+            "version": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-2",
+      "kind": "room",
+      "parentId": "mixed-company-c2/floor-1",
+      "name": "工作间",
+      "bounds": {
+        "width": 6,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          3,
+          0,
+          -2.625
+        ],
+        "yaw": 0
+      },
+      "purpose": "work",
+      "finishes": {
+        "north": {
+          "resource": {
+            "id": "wall-arc-fan",
+            "version": 1
+          }
+        },
+        "south": {
+          "resource": {
+            "id": "wall-arc-fan",
+            "version": 1
+          }
+        },
+        "west": {
+          "resource": {
+            "id": "wall-arc-fan",
+            "version": 1
+          }
+        },
+        "east": {
+          "resource": {
+            "id": "wall-arc-fan",
+            "version": 1
+          }
+        },
+        "floor": {
+          "resource": {
+            "id": "floor-terrazzo",
+            "version": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-3",
+      "kind": "room",
+      "parentId": "mixed-company-c2/floor-1",
+      "name": "休息间",
+      "bounds": {
+        "width": 6,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          -6,
+          0,
+          2.625
+        ],
+        "yaw": 0
+      },
+      "purpose": "rest",
+      "finishes": {
+        "north": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "south": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "west": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "east": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "floor": {
+          "resource": {
+            "id": "floor-checker-tile",
+            "version": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living",
+      "kind": "area",
+      "parentId": "mixed-company-c2/floor-1",
+      "name": "公共客厅",
+      "bounds": {
+        "width": 6,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          2.625
+        ],
+        "yaw": 0
+      },
+      "entry": {
+        "position": [
+          -1.5,
+          0,
+          1.8
+        ]
+      },
+      "finishes": {
+        "north": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "south": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "west": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "east": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "floor": {
+          "resource": {
+            "id": "floor-checker-tile",
+            "version": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living-entry",
+      "kind": "area",
+      "parentId": "mixed-company-c2/floor-1",
+      "name": "客厅入口",
+      "bounds": {
+        "width": 3,
+        "depth": 3
+      },
+      "transform": {
+        "position": [
+          -1.5,
+          0,
+          -1.5
+        ],
+        "yaw": 0
+      },
+      "finishes": {
+        "north": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "south": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "west": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "east": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "floor": {
+          "resource": {
+            "id": "floor-checker-tile",
+            "version": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/station-1",
+      "kind": "workstation",
+      "parentId": "mixed-company-c2/floor-1/room-1",
+      "name": "station-1",
+      "transform": {
+        "position": [
+          -1.4,
+          0,
+          -0.3
+        ],
+        "yaw": 0
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/station-1/desk",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-1/room-1/station-1",
+      "partKey": "desk",
+      "parentId": "mixed-company-c2/floor-1/room-1/station-1",
+      "resource": {
+        "id": "desk-frame",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/station-1/monitor",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-1/room-1/station-1",
+      "partKey": "monitor",
+      "parentId": "mixed-company-c2/floor-1/room-1/station-1/desk",
+      "resource": {
+        "id": "monitor-slate",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/station-1/keyboard",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-1/room-1/station-1",
+      "partKey": "keyboard",
+      "parentId": "mixed-company-c2/floor-1/room-1/station-1/desk",
+      "resource": {
+        "id": "keyboard-console",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/station-1/microphone",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-1/room-1/station-1",
+      "partKey": "microphone",
+      "parentId": "mixed-company-c2/floor-1/room-1/station-1/desk",
+      "resource": {
+        "id": "desk-microphone-capsule",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/station-1/chair",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-1/room-1/station-1",
+      "partKey": "chair",
+      "parentId": "mixed-company-c2/floor-1/room-1/station-1",
+      "resource": {
+        "id": "chair-crossbeam",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/station-1/fill-light",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-1/room-1/station-1",
+      "partKey": "fill-light",
+      "parentId": "mixed-company-c2/floor-1/room-1/station-1",
+      "resource": {
+        "id": "fill-light-panel",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true,
+        "intensity": 5
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/station-2",
+      "kind": "workstation",
+      "parentId": "mixed-company-c2/floor-1/room-1",
+      "name": "station-2",
+      "transform": {
+        "position": [
+          1.4,
+          0,
+          -0.3
+        ],
+        "yaw": 0
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/station-2/desk",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-1/room-1/station-2",
+      "partKey": "desk",
+      "parentId": "mixed-company-c2/floor-1/room-1/station-2",
+      "resource": {
+        "id": "desk-frame",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/station-2/monitor",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-1/room-1/station-2",
+      "partKey": "monitor",
+      "parentId": "mixed-company-c2/floor-1/room-1/station-2/desk",
+      "resource": {
+        "id": "monitor-slate",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/station-2/keyboard",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-1/room-1/station-2",
+      "partKey": "keyboard",
+      "parentId": "mixed-company-c2/floor-1/room-1/station-2/desk",
+      "resource": {
+        "id": "keyboard-console",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/station-2/microphone",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-1/room-1/station-2",
+      "partKey": "microphone",
+      "parentId": "mixed-company-c2/floor-1/room-1/station-2/desk",
+      "resource": {
+        "id": "desk-microphone-capsule",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/station-2/chair",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-1/room-1/station-2",
+      "partKey": "chair",
+      "parentId": "mixed-company-c2/floor-1/room-1/station-2",
+      "resource": {
+        "id": "chair-crossbeam",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/station-2/fill-light",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-1/room-1/station-2",
+      "partKey": "fill-light",
+      "parentId": "mixed-company-c2/floor-1/room-1/station-2",
+      "resource": {
+        "id": "fill-light-panel",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true,
+        "intensity": 5
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-2/desk",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-2",
+      "resource": {
+        "id": "desk-frame",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.3,
+          0,
+          -0.8
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-2/chair",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-2",
+      "resource": {
+        "id": "chair-crossbeam",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.3,
+          0,
+          0.65
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-3/sofa",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-3",
+      "resource": {
+        "id": "sofa-modular",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -1
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living/sofa",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/living",
+      "resource": {
+        "id": "sofa-modular",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.3,
+          0,
+          1
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living/plant",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/living",
+      "resource": {
+        "id": "plant-bonsai",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -2.4,
+          0,
+          -1.6
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2",
+      "kind": "floor",
+      "parentId": "mixed-company-c2",
+      "name": "二层 · 住宅制作与共享客厅",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "connections": [
+        {
+          "id": "mixed-company-c2/floor-2/rental/door-stream",
+          "from": {
+            "regionId": "mixed-company-c2/floor-2/room-1",
+            "edge": "east",
+            "offset": 1.125,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "mixed-company-c2/floor-2/living-entry",
+            "edge": "west",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "mixed-company-c2/floor-2/rental/door-work",
+          "from": {
+            "regionId": "mixed-company-c2/floor-2/room-2",
+            "edge": "south",
+            "offset": -1.5,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "mixed-company-c2/floor-2/living",
+            "edge": "north",
+            "offset": 1.5,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "mixed-company-c2/floor-2/rental/door-rest",
+          "from": {
+            "regionId": "mixed-company-c2/floor-2/room-3",
+            "edge": "east",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "mixed-company-c2/floor-2/living",
+            "edge": "west",
+            "offset": 0,
+            "width": 1.4
+          }
+        },
+        {
+          "id": "mixed-company-c2/floor-2/rental/living-connection",
+          "from": {
+            "regionId": "mixed-company-c2/floor-2/living-entry",
+            "edge": "south",
+            "offset": 0,
+            "width": 1.4
+          },
+          "to": {
+            "regionId": "mixed-company-c2/floor-2/living",
+            "edge": "north",
+            "offset": -1.5,
+            "width": 1.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1",
+      "kind": "room",
+      "parentId": "mixed-company-c2/floor-2",
+      "name": "直播间",
+      "bounds": {
+        "width": 6,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          -6,
+          0,
+          -2.625
+        ],
+        "yaw": 0
+      },
+      "purpose": "streaming",
+      "finishes": {
+        "north": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "south": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "west": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "east": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "floor": {
+          "resource": {
+            "id": "floor-checker-tile",
+            "version": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-2",
+      "kind": "room",
+      "parentId": "mixed-company-c2/floor-2",
+      "name": "二层休息室",
+      "bounds": {
+        "width": 6,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          3,
+          0,
+          -2.625
+        ],
+        "yaw": 0
+      },
+      "purpose": "rest",
+      "finishes": {
+        "north": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "south": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "west": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "east": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "floor": {
+          "resource": {
+            "id": "floor-checker-tile",
+            "version": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-3",
+      "kind": "room",
+      "parentId": "mixed-company-c2/floor-2",
+      "name": "二层制作室",
+      "bounds": {
+        "width": 6,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          -6,
+          0,
+          2.625
+        ],
+        "yaw": 0
+      },
+      "purpose": "work",
+      "finishes": {
+        "north": {
+          "resource": {
+            "id": "wall-arc-fan",
+            "version": 1
+          }
+        },
+        "south": {
+          "resource": {
+            "id": "wall-arc-fan",
+            "version": 1
+          }
+        },
+        "west": {
+          "resource": {
+            "id": "wall-arc-fan",
+            "version": 1
+          }
+        },
+        "east": {
+          "resource": {
+            "id": "wall-arc-fan",
+            "version": 1
+          }
+        },
+        "floor": {
+          "resource": {
+            "id": "floor-terrazzo",
+            "version": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living",
+      "kind": "area",
+      "parentId": "mixed-company-c2/floor-2",
+      "name": "公共客厅",
+      "bounds": {
+        "width": 6,
+        "depth": 5.25
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          2.625
+        ],
+        "yaw": 0
+      },
+      "entry": {
+        "position": [
+          -1.5,
+          0,
+          1.8
+        ]
+      },
+      "finishes": {
+        "north": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "south": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "west": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "east": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "floor": {
+          "resource": {
+            "id": "floor-checker-tile",
+            "version": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living-entry",
+      "kind": "area",
+      "parentId": "mixed-company-c2/floor-2",
+      "name": "客厅入口",
+      "bounds": {
+        "width": 3,
+        "depth": 3
+      },
+      "transform": {
+        "position": [
+          -1.5,
+          0,
+          -1.5
+        ],
+        "yaw": 0
+      },
+      "finishes": {
+        "north": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "south": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "west": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "east": {
+          "resource": {
+            "id": "wall-diamond-grid",
+            "version": 1
+          }
+        },
+        "floor": {
+          "resource": {
+            "id": "floor-checker-tile",
+            "version": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/station-1",
+      "kind": "workstation",
+      "parentId": "mixed-company-c2/floor-2/room-1",
+      "name": "station-1",
+      "transform": {
+        "position": [
+          -1.4,
+          0,
+          -0.3
+        ],
+        "yaw": 0
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/station-1/desk",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-2/room-1/station-1",
+      "partKey": "desk",
+      "parentId": "mixed-company-c2/floor-2/room-1/station-1",
+      "resource": {
+        "id": "desk-frame",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/station-1/monitor",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-2/room-1/station-1",
+      "partKey": "monitor",
+      "parentId": "mixed-company-c2/floor-2/room-1/station-1/desk",
+      "resource": {
+        "id": "monitor-slate",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/station-1/keyboard",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-2/room-1/station-1",
+      "partKey": "keyboard",
+      "parentId": "mixed-company-c2/floor-2/room-1/station-1/desk",
+      "resource": {
+        "id": "keyboard-console",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/station-1/microphone",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-2/room-1/station-1",
+      "partKey": "microphone",
+      "parentId": "mixed-company-c2/floor-2/room-1/station-1/desk",
+      "resource": {
+        "id": "desk-microphone-capsule",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/station-1/chair",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-2/room-1/station-1",
+      "partKey": "chair",
+      "parentId": "mixed-company-c2/floor-2/room-1/station-1",
+      "resource": {
+        "id": "chair-crossbeam",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/station-1/fill-light",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-2/room-1/station-1",
+      "partKey": "fill-light",
+      "parentId": "mixed-company-c2/floor-2/room-1/station-1",
+      "resource": {
+        "id": "fill-light-panel",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true,
+        "intensity": 5
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/station-2",
+      "kind": "workstation",
+      "parentId": "mixed-company-c2/floor-2/room-1",
+      "name": "station-2",
+      "transform": {
+        "position": [
+          0.5,
+          0,
+          1.4
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "template": {
+        "id": "stream-station",
+        "version": 1
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/station-2/desk",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-2/room-1/station-2",
+      "partKey": "desk",
+      "parentId": "mixed-company-c2/floor-2/room-1/station-2",
+      "resource": {
+        "id": "desk-frame",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.9
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/station-2/monitor",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-2/room-1/station-2",
+      "partKey": "monitor",
+      "parentId": "mixed-company-c2/floor-2/room-1/station-2/desk",
+      "resource": {
+        "id": "monitor-slate",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.25
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/station-2/keyboard",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-2/room-1/station-2",
+      "partKey": "keyboard",
+      "parentId": "mixed-company-c2/floor-2/room-1/station-2/desk",
+      "resource": {
+        "id": "keyboard-console",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          0.21
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/station-2/microphone",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-2/room-1/station-2",
+      "partKey": "microphone",
+      "parentId": "mixed-company-c2/floor-2/room-1/station-2/desk",
+      "resource": {
+        "id": "desk-microphone-capsule",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.8,
+          0.84,
+          0.18
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/station-2/chair",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-2/room-1/station-2",
+      "partKey": "chair",
+      "parentId": "mixed-company-c2/floor-2/room-1/station-2",
+      "resource": {
+        "id": "chair-crossbeam",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/station-2/fill-light",
+      "kind": "facility",
+      "stationId": "mixed-company-c2/floor-2/room-1/station-2",
+      "partKey": "fill-light",
+      "parentId": "mixed-company-c2/floor-2/room-1/station-2",
+      "resource": {
+        "id": "fill-light-panel",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.75,
+          0,
+          -0.15
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true,
+        "intensity": 5
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-3/desk",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-3",
+      "resource": {
+        "id": "desk-frame",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.9,
+          0,
+          -0.75
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-3/chair",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-3",
+      "resource": {
+        "id": "chair-crossbeam",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0.9,
+          0,
+          0.7
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-2/sofa",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-2",
+      "resource": {
+        "id": "sofa-modular",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.9,
+          0,
+          -0.85
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living/sofa",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/living",
+      "resource": {
+        "id": "sofa-modular",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.3,
+          0,
+          1
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living/plant",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/living",
+      "resource": {
+        "id": "plant-bonsai",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -2.4,
+          0,
+          -1.6
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living/mixed-sofa",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/living",
+      "resource": {
+        "id": "sofa-modular",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.3,
+          0,
+          1
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living/mixed-plant",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/living",
+      "resource": {
+        "id": "plant-bonsai",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          2
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living/fill-light",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/living",
+      "resource": {
+        "id": "fill-light-panel",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          2.5,
+          0,
+          -1.5
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living/rug",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/living",
+      "resource": {
+        "id": "rug-inset",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          1
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/floor-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-1",
+      "resource": {
+        "id": "floor-panel-herringbone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-2/floor-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-2",
+      "resource": {
+        "id": "floor-panel-herringbone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-3/floor-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-3",
+      "resource": {
+        "id": "floor-panel-herringbone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living/floor-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/living",
+      "resource": {
+        "id": "floor-panel-herringbone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living-entry/floor-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/living-entry",
+      "resource": {
+        "id": "floor-panel-herringbone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/wall-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-1",
+      "resource": {
+        "id": "wall-panel-ribbed",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -2.525
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-2/wall-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-2",
+      "resource": {
+        "id": "wall-panel-ribbed",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -2.525
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-3/wall-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-3",
+      "resource": {
+        "id": "wall-panel-ribbed",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -2.525
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living/wall-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/living",
+      "resource": {
+        "id": "wall-panel-ribbed",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          2.525
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living-entry/wall-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/living-entry",
+      "resource": {
+        "id": "wall-panel-ribbed",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -1.4
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/wall-art",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-1",
+      "resource": {
+        "id": "wall-art-woven",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.4,
+          1.4,
+          -2.525
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-2/wall-art",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-2",
+      "resource": {
+        "id": "wall-art-woven",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.4,
+          1.4,
+          -2.525
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-3/wall-art",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-3",
+      "resource": {
+        "id": "wall-art-woven",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.4,
+          1.4,
+          -2.525
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living/wall-art",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/living",
+      "resource": {
+        "id": "wall-art-woven",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          2,
+          1.4,
+          2.525
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/window-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-1",
+      "resource": {
+        "id": "window-panel-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -2.9,
+          1.4,
+          -0.8
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-2/window-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-2",
+      "resource": {
+        "id": "window-panel-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          2.9,
+          1.4,
+          -1
+        ],
+        "yaw": 4.71238898038469
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-3/window-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-3",
+      "resource": {
+        "id": "window-panel-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -2.9,
+          1.4,
+          0.8
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living/window-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/living",
+      "resource": {
+        "id": "window-panel-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.5,
+          1.4,
+          2.525
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/living-entry/window-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/living-entry",
+      "resource": {
+        "id": "window-panel-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.4,
+          1.4,
+          -0.4
+        ],
+        "yaw": 4.71238898038469
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-1/door-frame",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-1",
+      "resource": {
+        "id": "door-frame-crown",
+        "version": 2
+      },
+      "transform": {
+        "position": [
+          2.9,
+          0,
+          1.125
+        ],
+        "yaw": 4.71238898038469
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-2/door-frame",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-2",
+      "resource": {
+        "id": "door-frame-crown",
+        "version": 2
+      },
+      "transform": {
+        "position": [
+          -1.5,
+          0,
+          2.525
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-1/room-3/door-frame",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-1/room-3",
+      "resource": {
+        "id": "door-frame-crown",
+        "version": 2
+      },
+      "transform": {
+        "position": [
+          2.9,
+          0,
+          0
+        ],
+        "yaw": 4.71238898038469
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living/mixed-sofa",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/living",
+      "resource": {
+        "id": "sofa-modular",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.3,
+          0,
+          1
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living/mixed-plant",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/living",
+      "resource": {
+        "id": "plant-bonsai",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          2
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living/fill-light",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/living",
+      "resource": {
+        "id": "fill-light-panel",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          2.5,
+          0,
+          -1.5
+        ],
+        "yaw": 0
+      },
+      "state": {
+        "on": true,
+        "intensity": 5
+      }
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living/rug",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/living",
+      "resource": {
+        "id": "rug-inset",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          1
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/floor-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-1",
+      "resource": {
+        "id": "floor-panel-herringbone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-2/floor-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-2",
+      "resource": {
+        "id": "floor-panel-herringbone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-3/floor-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-3",
+      "resource": {
+        "id": "floor-panel-herringbone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living/floor-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/living",
+      "resource": {
+        "id": "floor-panel-herringbone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living-entry/floor-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/living-entry",
+      "resource": {
+        "id": "floor-panel-herringbone",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/wall-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-1",
+      "resource": {
+        "id": "wall-panel-ribbed",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -2.525
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-2/wall-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-2",
+      "resource": {
+        "id": "wall-panel-ribbed",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -2.525
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-3/wall-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-3",
+      "resource": {
+        "id": "wall-panel-ribbed",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -2.525
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living/wall-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/living",
+      "resource": {
+        "id": "wall-panel-ribbed",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          2.525
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living-entry/wall-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/living-entry",
+      "resource": {
+        "id": "wall-panel-ribbed",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          -1.4
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/wall-art",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-1",
+      "resource": {
+        "id": "wall-art-woven",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.4,
+          1.4,
+          -2.525
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-2/wall-art",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-2",
+      "resource": {
+        "id": "wall-art-woven",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.4,
+          1.4,
+          -2.525
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-3/wall-art",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-3",
+      "resource": {
+        "id": "wall-art-woven",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.4,
+          1.4,
+          -2.525
+        ],
+        "yaw": 0
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living/wall-art",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/living",
+      "resource": {
+        "id": "wall-art-woven",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          2,
+          1.4,
+          2.525
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/window-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-1",
+      "resource": {
+        "id": "window-panel-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -2.9,
+          1.4,
+          -0.8
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-2/window-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-2",
+      "resource": {
+        "id": "window-panel-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          2.9,
+          1.4,
+          -1
+        ],
+        "yaw": 4.71238898038469
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-3/window-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-3",
+      "resource": {
+        "id": "window-panel-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -2.9,
+          1.4,
+          0.8
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living/window-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/living",
+      "resource": {
+        "id": "window-panel-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.5,
+          1.4,
+          2.525
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/living-entry/window-panel",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/living-entry",
+      "resource": {
+        "id": "window-panel-round",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.4,
+          1.4,
+          -0.4
+        ],
+        "yaw": 4.71238898038469
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-1/door-frame",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-1",
+      "resource": {
+        "id": "door-frame-crown",
+        "version": 2
+      },
+      "transform": {
+        "position": [
+          2.9,
+          0,
+          1.125
+        ],
+        "yaw": 4.71238898038469
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-2/door-frame",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-2",
+      "resource": {
+        "id": "door-frame-crown",
+        "version": 2
+      },
+      "transform": {
+        "position": [
+          -1.5,
+          0,
+          2.525
+        ],
+        "yaw": 3.141592653589793
+      },
+      "state": {}
+    },
+    {
+      "id": "mixed-company-c2/floor-2/room-3/door-frame",
+      "kind": "facility",
+      "parentId": "mixed-company-c2/floor-2/room-3",
+      "resource": {
+        "id": "door-frame-crown",
+        "version": 2
+      },
+      "transform": {
+        "position": [
+          2.9,
+          0,
+          0
+        ],
+        "yaw": 4.71238898038469
+      },
+      "state": {}
+    }
+  ]
+}
