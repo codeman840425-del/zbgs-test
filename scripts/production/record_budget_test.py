@@ -5,7 +5,7 @@ import sys
 import tempfile
 import unittest
 
-from record_budget import ROOT, SKIN_IMAGE_PREFIX, image_cost, measure, model_roles, skin_cache
+from record_budget import LIP_IMAGE_PREFIX, ROOT, SKIN_IMAGE_PREFIX, image_cost, measure, model_roles, skin_cache
 
 
 class RecordBudgetTests(unittest.TestCase):
@@ -113,6 +113,68 @@ class RecordBudgetTests(unittest.TestCase):
                 implementation.write_bytes(b'unreviewed runtime')
                 with self.assertRaisesRegex(ValueError, 'Unsupported native skin tone resource implementation'):
                     image_cost(modified_root, public, row, 'PNG')
+
+    def test_historical_warm_records_preserve_per_actor_cold_estimates(self):
+        if not (self.source/'prototype/src/native-skin-tone.js').is_file():
+            self.skipTest('Selected historical runtime predates native skin')
+        records = ROOT/'evidence/m2-native-skin-game-handoff-v1/records.json'
+        report = measure(records, self.source, 'm2-technical-v1')
+        for row in report['records']:
+            self.assertIn('nativeSkinToneCache', row)
+            cache = row['nativeSkinToneCache']
+            self.assertEqual(cache['decodedImageBitmaps'], 4)
+            self.assertEqual(cache['imageBitmapRgba8Bytes'], 37 * 1024**2)
+            self.assertEqual(cache['rgba8UpperBoundBytes'], 148 * 1024**2)
+            self.assertEqual(cache['textureObjectUpperBound'], 16)
+            self.assertEqual({image['usage'] for image in row['standaloneImages'] if image.get('nativeSkinBindings')},
+                             {'native-skin-face','native-skin-eyeline','native-skin-body-base','native-skin-body-covered'})
+
+    def test_native_lip_records_estimate_cold_and_retained_cache_separately(self):
+        if not (self.source/'prototype/src/native-lip-color-contract.js').is_file():
+            self.skipTest('Selected historical runtime predates native lip')
+        evidence = ROOT/'evidence'
+        lip_records = evidence/'m2-native-lip-game-handoff-v1/records.json'
+        warm_plain = evidence/'m2-native-skin-game-handoff-v1/records.json'
+        roundness_green = evidence/'m2-native-batch-iris-room-v2/native-contour-roundness-a-v1/green.json'
+        edited = measure(lip_records, self.source, 'm2-technical-v1')['records']
+        warm = measure(warm_plain, self.source, 'm2-technical-v1')['records']
+        original, = measure(roundness_green, self.source, 'm2-technical-v1')['records']
+        self.assertEqual([row['nativeAppearanceTextureCache']['coldState'] for row in edited],
+                         ['original-lip','warm-lip'])
+        self.assertEqual(edited[0]['selectedCost']['totals']['rgba8MipBytes'] -
+                         original['selectedCost']['totals']['rgba8MipBytes'], 16 * 1024**2)
+        self.assertEqual(edited[0]['selectedCost']['totals']['textureObjects'] -
+                         original['selectedCost']['totals']['textureObjects'], 4)
+        self.assertEqual(edited[1]['selectedCost']['totals']['rgba8MipBytes'],
+                         warm[1]['selectedCost']['totals']['rgba8MipBytes'])
+        self.assertEqual(edited[1]['selectedCost']['totals']['textureObjects'],
+                         warm[1]['selectedCost']['totals']['textureObjects'])
+        states = {'original-plain':(0,0), 'original-lip':(1,4), 'warm-plain':(4,37), 'warm-lip':(4,37)}
+        for row in [original, *edited, *warm]:
+            cache = row['nativeAppearanceTextureCache']
+            self.assertEqual(cache['coldLoad'], cache['coldLoadByState'][cache['coldState']])
+            for name, (count, rgba8_mib) in states.items():
+                cold = cache['coldLoadByState'][name]
+                self.assertEqual(cold['decodedImageBitmaps'], count)
+                self.assertEqual(cold['textureObjectUpperBound'], count*4)
+                self.assertEqual(cold['rgba8UpperBoundBytes'], rgba8_mib * 4 * 1024**2)
+                self.assertEqual(cold['imageBitmapRgba8Bytes'], rgba8_mib * 1024**2)
+            retained = cache['retainedAfterVisitingAllFourStates']
+            self.assertEqual(retained['decodedImageBitmaps'], 6)
+            self.assertEqual(retained['textureObjectUpperBound'], 24)
+            self.assertEqual(retained['imageBitmapRgba8Bytes'], 45 * 1024**2)
+            self.assertEqual(retained['rgba8UpperBoundBytes'], 180 * 1024**2)
+        original_files = edited[0]['standaloneImages']
+        warm_files = edited[1]['standaloneImages']
+        self.assertEqual([image['usage'] for image in original_files
+                          if image.get('nativeSkinBindings') or image.get('nativeLipBinding')], ['native-lip-face'])
+        self.assertEqual({image['usage'] for image in warm_files if image.get('nativeSkinBindings') or image.get('nativeLipBinding')},
+                         {'native-lip-face','native-skin-eyeline','native-skin-body-base','native-skin-body-covered'})
+        lip_image = next(image for image in original_files if image.get('nativeLipBinding'))
+        bad_role = {'path':lip_image['path'], 'sha256':lip_image['sha256'], 'bytes':lip_image['encodedBytes'],
+                    'reasons':[LIP_IMAGE_PREFIX + 'unreviewed']}
+        with self.assertRaisesRegex(ValueError, 'Unsupported native lip color image roles'):
+            image_cost(self.source, self.source/'prototype/public', bad_role, 'PNG')
 
     def test_reviewed_hair_color_and_sidecar_regression_records(self):
         review = subprocess.run(['node', 'evidence/m2-record-budget-review-v1/review.mjs'], cwd=ROOT, check=True,

@@ -31,13 +31,23 @@ REVIEWED_SKIN_RUNTIME = {
     'body-texture-coverage.js': '1d1858feadabe84289df7649c6070061e1b4771386c15e42adb50aaa02408764',
     'native-skin-tone.js': '33d04cb0a09815a8c24e94dd66aa7811c985863740076b6ba265909253cd7ff1',
 }
+REVIEWED_LIP_RUNTIME = {
+    **REVIEWED_SKIN_RUNTIME,
+    'character-appearance.js': 'bad816e2949768efa8c8c0174f76fe16ee68fad1080089feddd0531274f9f932',
+    'native-skin-tone.js': '42687783b79ef12c8f5503297f5e3b7a85f3536a0ba406443761fe97308ff09c',
+    'native-lip-color-contract.js': 'b794b1754dc5535b238f74e663207393d10001d2112a759cb3b3990c06467c21',
+}
 SKIN_IMAGE_PREFIX = 'Selected native skin tone PNG: '
+LIP_IMAGE_PREFIX = 'Selected native lip color PNG: '
 SKIN_IMAGE_USAGES = {
     'face': 'native-skin-face',
     'eyeline': 'native-skin-eyeline',
     'body': 'native-skin-body-base',
     'covered body': 'native-skin-body-covered',
 }
+NATIVE_LIP_PACKAGE = 'assets/native-facecontour-lip-package-v1'
+NATIVE_SKIN_PACKAGE = 'assets/native-skin-tone-package-v1'
+NATIVE_LIP_TONES = {'original', 'native-warm-v1'}
 IMAGE_FORMATS = {'.png': 'PNG', '.jpeg': 'JPEG', '.jpg': 'JPEG'}
 AGGREGATE_METRICS = ('fileBytes', 'rgba8MipBytes', 'textureObjects')
 
@@ -88,8 +98,31 @@ def model_roles(reasons, ear_selection):
 
 def require_reviewed_source(source, filename):
     relative = 'prototype/src/' + filename
-    require(sha(local(source, relative).read_bytes()) in (REVIEWED_RUNTIME_SOURCE[filename], REVIEWED_SKIN_RUNTIME.get(filename)),
+    require(sha(local(source, relative).read_bytes()) in
+            (REVIEWED_RUNTIME_SOURCE.get(filename), REVIEWED_SKIN_RUNTIME.get(filename), REVIEWED_LIP_RUNTIME.get(filename)),
             'Unsupported runtime resource implementation: '+relative)
+
+
+def require_native_appearance_source(source, *, lip):
+    reviewed = REVIEWED_LIP_RUNTIME if (source / 'prototype/src/native-lip-color-contract.js').is_file() else REVIEWED_SKIN_RUNTIME
+    require(not lip or reviewed is REVIEWED_LIP_RUNTIME, 'Native lip color requires a reviewed lip runtime')
+    for filename, expected in reviewed.items():
+        require(sha(local(source, 'prototype/src/' + filename).read_bytes()) == expected,
+                'Unsupported native skin tone resource implementation: ' + filename)
+
+
+def native_texture_binding(field, usage, width, height):
+    per_object = width * height * 4
+    return {'field':field, 'usage':usage, 'textureObjectLowerBound':1, 'textureObjectUpperBound':4,
+            'rgba8LowerBoundBytes':per_object, 'rgba8UpperBoundBytes':4 * per_object,
+            'imageBitmapRgba8Bytes':per_object}
+
+
+def summarize_native_bindings(bindings):
+    return {'decodedImageBitmaps':len(bindings),
+            **{key:sum(binding[key] for binding in bindings) for key in
+               ('textureObjectLowerBound', 'textureObjectUpperBound', 'rgba8LowerBoundBytes',
+                'rgba8UpperBoundBytes', 'imageBitmapRgba8Bytes')}}
 
 
 def hair_physics(source, public, record, model, metrics):
@@ -133,22 +166,25 @@ def image_cost(source, public, row, enc_format):
         image.verify()
     reason = row['reasons']
     fields = [label[len(SKIN_IMAGE_PREFIX):] for label in reason if label.startswith(SKIN_IMAGE_PREFIX)]
-    skin_bindings = []
+    lips = [label[len(LIP_IMAGE_PREFIX):] for label in reason if label.startswith(LIP_IMAGE_PREFIX)]
+    skin_bindings, lip_binding = [], None
     if fields:
         require(enc_format == 'PNG' and len(fields) == len(reason) and len(fields) == len(set(fields)) and
                 all(field in SKIN_IMAGE_USAGES for field in fields), 'Unsupported native skin tone image roles')
-        for filename, expected in REVIEWED_SKIN_RUNTIME.items():
-            require(sha(local(source, 'prototype/src/' + filename).read_bytes()) == expected,
-                    'Unsupported native skin tone resource implementation: ' + filename)
+        require_native_appearance_source(source, lip=False)
         # Each field decodes its own bitmap and clones its distinct source textures.
         # Main and outline each expose base and shade maps. Both Body states are cached.
         per_object = width * height * 4
-        skin_bindings = [{'field': field, 'usage': SKIN_IMAGE_USAGES[field],
-                          'textureObjectLowerBound': 1, 'textureObjectUpperBound': 4,
-                          'rgba8LowerBoundBytes': per_object, 'rgba8UpperBoundBytes': 4 * per_object,
-                          'imageBitmapRgba8Bytes': per_object} for field in fields]
+        skin_bindings = [native_texture_binding(field, SKIN_IMAGE_USAGES[field], width, height) for field in fields]
         usage = skin_bindings[0]['usage'] if len(fields) == 1 else 'native-skin-shared-file'
         object_limit = 4 * len(fields)
+    elif lips:
+        require(enc_format == 'PNG' and len(reason) == 1 and len(lips) == 1 and
+                lips[0] in NATIVE_LIP_TONES and (width, height) == (1024, 1024),
+                'Unsupported native lip color image roles')
+        require_native_appearance_source(source, lip=True)
+        usage, object_limit, per_object = 'native-lip-face', 4, width * height * 4
+        lip_binding = native_texture_binding(lips[0], usage, width, height)
     elif 'Startup native body coverage PNG' in reason:
         require_reviewed_source(source, 'body-texture-coverage.js')
         usage, object_limit, per_object = 'native-body-coverage', 4, width * height * 4
@@ -164,7 +200,8 @@ def image_cost(source, public, row, enc_format):
     return {'path':row['path'], 'sha256':row['sha256'], 'encodedBytes':len(data), 'width':width, 'height':height,
             'decodedRgba8Bytes':width * height * 4, 'usage':usage, 'addedTextureObjectUpperBound':object_limit,
             'addedRgba8EstimateBytes':object_limit * per_object,
-            **({'nativeSkinBindings':skin_bindings} if skin_bindings else {})}
+            **({'nativeSkinBindings':skin_bindings} if skin_bindings else {}),
+            **({'nativeLipBinding':lip_binding} if lip_binding else {})}
 
 
 def skin_cache(images):
@@ -173,12 +210,93 @@ def skin_cache(images):
         return None
     require(sorted(binding['field'] for binding in bindings) == sorted(SKIN_IMAGE_USAGES),
             'Native skin tone budget requires all four distinct fields')
-    return {'decodedImageBitmaps':len(bindings),
-            **{key:sum(binding[key] for binding in bindings) for key in
-               ('textureObjectLowerBound', 'textureObjectUpperBound', 'rgba8LowerBoundBytes',
-                'rgba8UpperBoundBytes', 'imageBitmapRgba8Bytes')},
+    return {**summarize_native_bindings(bindings),
             'lifetime':'All four fields remain allocated after switching outfit or resetting to original until actor disposal.',
             'accounting':'Texture upper bounds are included in actor totals. Decoded ImageBitmap RGBA8 equivalents are separate.'}
+
+
+def pinned_appearance_manifest(public, entry, package, schema):
+    manifest_url = entry.get('manifestUrl', f"/{package}/{entry['bodyType']}/manifest.json")
+    data = local(public, manifest_url.lstrip('/')).read_bytes()
+    value = json.loads(data)
+    require(sha(data) == entry['manifestSha256'] and value.get('schema') == schema and
+            value.get('avatarSha256') == entry['bodySha256'] and value.get('version') == 1,
+            'Native appearance manifest identity mismatch')
+    return value
+
+
+def native_appearance_cache(source, public, record, images):
+    registry = public / NATIVE_LIP_PACKAGE / 'registry.json'
+    if not registry.is_file():
+        return None
+    lip_registry = json.loads(registry.read_bytes())
+    require(lip_registry.get('schema') == 'native-facecontour-lip-registry-v1', 'Unexpected native lip registry')
+    lip_entries = [item for item in lip_registry['entries'] if item['bodySha256'] == record['avatarSha256']]
+    if not lip_entries:
+        return None
+    require_native_appearance_source(source, lip=True)
+    require(len(lip_entries) == 1, 'Budget supports one reviewed native lip choice per body')
+    lip_entry, = lip_entries
+    skin_registry = json.loads((public / NATIVE_SKIN_PACKAGE / 'registry.json').read_bytes())
+    skin_entries = [item for item in skin_registry['entries'] if item['bodySha256'] == record['avatarSha256']]
+    require(len(skin_entries) == 1, 'Native lip budget requires one exact warm skin entry')
+    skin_entry, = skin_entries
+    require(lip_entry['bodyType'] == skin_entry['bodyType'] == record['bodyType'] and
+            skin_entry['manifestSha256'] == lip_entry['skinManifestSha256'],
+            'Native lip budget requires the paired skin and body registrations')
+    skin = pinned_appearance_manifest(public, skin_entry, NATIVE_SKIN_PACKAGE, 'native-skin-tone-package-v1')
+    lip = pinned_appearance_manifest(public, lip_entry, NATIVE_LIP_PACKAGE, 'native-facecontour-lip-package-v1')
+    require(skin['toneId'] == 'native-warm-v1' and lip['skinManifestSha256'] == skin_entry['manifestSha256'] and
+            lip['lipId'] == lip_entry['lipId'] and set(lip['tones']) == NATIVE_LIP_TONES,
+            'Native lip budget requires the reviewed four look states')
+    variants = {
+        'warm-face': (skin['face']['authored'], SKIN_IMAGE_PREFIX + 'face'),
+        'warm-eyeline': (skin['eyeline']['authored'], SKIN_IMAGE_PREFIX + 'eyeline'),
+        'warm-body-base': (skin['body']['authored'], SKIN_IMAGE_PREFIX + 'body'),
+        'warm-body-covered': (skin['body']['coveredAuthored'], SKIN_IMAGE_PREFIX + 'covered body'),
+        'original-lip-face': (lip['tones']['original']['authored'], LIP_IMAGE_PREFIX + 'original'),
+        'warm-lip-face': (lip['tones']['native-warm-v1']['authored'], LIP_IMAGE_PREFIX + 'native-warm-v1'),
+    }
+    paths = {field:descriptor['url'].lstrip('/') for field, (descriptor, _) in variants.items()}
+    require(len(set(paths.values())) == len(paths) and
+            len({variants[field][0]['sha256'] for field in ('warm-face','original-lip-face','warm-lip-face')}) == 3,
+            'Budget expects three separately cached Face images and three warm environment images')
+    measured = {image['path']:image for image in images if 'nativeSkinBindings' in image or 'nativeLipBinding' in image}
+    bindings = {}
+    for field, (descriptor, reason) in variants.items():
+        path = paths[field]
+        actual = measured.get(path)
+        if actual is None:
+            raw = local(public, path)
+            actual = image_cost(source, public, {'path':path, 'sha256':descriptor['sha256'],
+                                                'bytes':raw.stat().st_size, 'reasons':[reason]}, 'PNG')
+        require(actual['sha256'] == descriptor['sha256'], 'Native appearance image identity mismatch')
+        binding = actual['nativeLipBinding'] if reason.startswith(LIP_IMAGE_PREFIX) else actual['nativeSkinBindings'][0]
+        require(binding['field'] == reason.split(': ', 1)[1], 'Native appearance image has wrong collected role')
+        bindings[field] = binding
+
+    warm_environment = ['warm-eyeline', 'warm-body-base', 'warm-body-covered']
+    states = {'original-plain':[], 'original-lip':['original-lip-face'],
+              'warm-plain':['warm-face', *warm_environment], 'warm-lip':['warm-lip-face', *warm_environment]}
+    matches = [name for name, fields in states.items() if set(measured) == {paths[field] for field in fields}]
+    require(len(matches) == 1, 'Selected native appearance closure differs from the reviewed four states')
+    cold_state, = matches
+    resource_reasons = {reason for item in record['files'] for reason in item['reasons']}
+    require(('Selected native skin tone manifest' in resource_reasons) == cold_state.startswith('warm-') and
+            ('Selected native lip color manifest' in resource_reasons) == cold_state.endswith('-lip'),
+            'Native appearance manifest and cold image closure disagree')
+    costs = {name:{'cacheKeys':fields, **summarize_native_bindings([bindings[field] for field in fields])}
+             for name, fields in states.items()}
+    return {
+        'coldState':cold_state,
+        'coldLoad':costs[cold_state],
+        'coldLoadByState':costs,
+        'retainedAfterVisitingAllFourStates':{
+            'cacheKeys':list(bindings), **summarize_native_bindings(list(bindings.values())),
+        },
+        'lifetime':'Cache entries for prepared Face images are keyed by image SHA. Warm Eyeline and both Body states share one cache group. Successful preparations remain allocated until actor disposal, including after resetting selectors or changing outfit.',
+        'accounting':'Actor totals include the selected cold texture upper bound only. Retained entries and decoded ImageBitmap equivalents are separate static estimates. The record does not store prior visits.',
+    }
 
 
 def material_cost(source, public, directory, models):
@@ -261,15 +379,20 @@ def measure_record(source, record, config):
             sorted(row['id'] for row in selected if row['class'] == 'garment') == sorted(record['equipmentIds']),
             'Collected models do not cover the complete body and selected outfit')
     materials = material_cost(source, public, record['files'], selected)
-    skin = skin_cache(images)
-    require(bool(skin) == any('Selected native skin tone manifest' in row['reasons'] for row in record['files']),
-            'Native skin tone manifest and budgeted bindings disagree')
+    native_appearance = native_appearance_cache(source, public, record, images)
+    has_lip = any('nativeLipBinding' in image for image in images)
+    skin = skin_cache(images) if not has_lip else None
+    require(not has_lip or native_appearance, 'Native lip color requires a reviewed appearance cache')
+    if not native_appearance:
+        require(bool(skin) == any('Selected native skin tone manifest' in row['reasons'] for row in record['files']),
+                'Native skin tone manifest and budgeted bindings disagree')
     visible = totals_for(selected, images, final=True)
     resident = totals_for(models, images, final=False)
     status = 'over-budget' if visible['aggregateExcesses'] or resident['aggregateExcesses'] or any(
         model['assetExcesses'] for model in models) else 'within-static-limits'
     return {**record, 'status':status, 'models':models, 'standaloneImages':images, 'materialRecipes':materials,
             **({'nativeSkinToneCache':skin} if skin else {}),
+            **({'nativeAppearanceTextureCache':native_appearance} if native_appearance else {}),
             'selectedCost':visible, 'startupAndSelectedCost':resident,
             'closureSourceBytes':sum(row['bytes'] for row in record['files'])}
 
@@ -302,8 +425,8 @@ def measure(input_file, source, version):
         'closureUnionSourceBytes':sum(size for _, size in shared_files.values()),
         'sumAcrossSelectedActors':{name:sum(row['selectedCost']['totals'][name] for row in records) for name in totals},
         'limitations':[
-            'RGBA8 estimates use standalone model texture objects and full mip chains except for the reviewed linear-only native cover and skin tone maps.',
-            'Record estimates start from a fresh actor. An actor reset to original after using a native skin tone retains the selected tone cache until disposal. Compare its authored-tone record for that upper bound.',
+            'RGBA8 estimates use standalone model texture objects and full mip chains except for the reviewed linear-only native cover, skin and lip maps.',
+            'Record totals start from a fresh actor. Native appearance cache estimates show the effect of prior selections separately from cold totals, where reviewed.',
             'Native cover and palette additions allow up to four source texture clones per actor and field, derived from two materials and two maps. Source-only palette references contribute no texture objects.',
             'All parsed model mesh definitions contribute to the estimate. Hidden source geometry, animation, renderer allocations, prior looks and in-flight preparation need runtime measurement.',
             'Paired ear placements share their one parsed model and source textures by the rigid accessory implementation. Their placed triangles count both instances.',
