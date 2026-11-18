@@ -1,4 +1,4 @@
-"""Compare paired paused screenshots against the screen-projected eye bones."""
+"""Compare paired paused GPU frames against the screen-projected skinned iris surfaces."""
 import argparse
 import json
 from pathlib import Path
@@ -15,16 +15,12 @@ def compare(folder, row):
         raise ValueError('Paired camera dimensions changed')
     diff = np.max(np.abs(images[0] - images[1]), axis=2)
     height, width = diff.shape
-    points = [(eye['x'] * width, eye['y'] * height) for eye in row['eyeCenters']]
-    spacing = abs(points[0][0] - points[1][0])
-    if spacing < 2:
-        raise ValueError('Expected a near-frontal face')
     yy, xx = np.ogrid[:height, :width]
     both = np.zeros((height, width), dtype=bool)
     per_eye = []
-    for x, y in points:
-        # Generous windows account for the eyeball pivot behind the iris.
-        window = (abs(xx-x) <= .47*spacing) & (abs(yy-y) <= .44*spacing)
+    for x0,y0,x1,y1 in row['eyeBounds']:
+        # Include the raster edge of triangles and the antialias resolve.
+        window = (xx>=x0*width-2)&(xx<=x1*width+2)&(yy>=y0*height-2)&(yy<=y1*height+2)
         both |= window
         per_eye.append(int(np.count_nonzero(window & (diff >= 4))))
     return {'body': row['body'], 'size': [width,height], 'changesAtLeast4PerEye': per_eye,

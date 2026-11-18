@@ -106,3 +106,5 @@ v4 同时修正了闸门本身的状态接缝：`bodyPackage` 和 `coverage` 不
 当前输入格式只携带一份装备清单哈希。同一文件中的多个条目可组成套装；跨文件组合、任一件身体或配方哈希错配会拒绝整套。命令行同时复算装备清单文件哈希。脸、发、各颜色和附件的待核项逐域返回，装备全部匹配时整套仍保留候选身份。可用 `evidence/m2-look-intake-v3` 对照两份真实输入。
 
 该入口是确定性批量生产接缝，不负责从概念图推断网格、权重或服装版型，也不根据相似名称跨身体 fallback。未来的随机角色只负责在已准入矩阵行中选择组合，再复用同一入口生成记录。当前代表矩阵的旧 M1 男女样件与两个真实原生参数 bodyType 共八项仍为 candidate，实际计划 `evidence/m2-native-variant-batch-v2/plan.json` 为 0 accepted，这是资源准入不足的真实结果。
+
+原生虹膜款式的重复生产输入见 scripts/production/native-facecontour-iris-batch-v1.json。每个身体条目提供身体与包来源的精确版本；native_palette_compatibility.py --stage、--publish、--check-published 依次生成、发布并回读。检查实际虹膜 UV、材质、图片及同图其他消费者后才复用作者款式。登记表随匹配结果生成，原色记录仍按原配方恢复。正式资源适用的许可与运行预算必须单独满足。

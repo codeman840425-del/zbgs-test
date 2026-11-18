@@ -39,6 +39,13 @@ if __name__ == '__main__':
                 media = ('neutral.png', 'mouth.png', 'back.png', 'room.png', 'half-light-diagnostic.png', 'speech-1x.webm')
                 if file == 'index.html' or any(file == body + '/' + asset for body in bodies for asset in media):
                     return str(ROOT / 'evidence/m2-native-surface-room-v1' / file)
+            iris = '/reviews/native-iris-batch/'
+            if config.get('nativeIrisReview') and name.startswith(iris):
+                file = name[len(iris):] or 'index.html'
+                bodies = ('native-contour-roundness-a-v1', 'native-contour-cheek-b-v1')
+                media = ('original.png', 'green.png', 'green.json', 'green-speech-1x.webm')
+                if file == 'index.html' or any(file == body + '/' + asset for body in bodies for asset in media):
+                    return str(ROOT / 'evidence/m2-native-batch-iris-room-v2' / file)
             files = {
                 review: 'index.html',
                 review + 'before-trial.mp4': 'before-trial.mp4',

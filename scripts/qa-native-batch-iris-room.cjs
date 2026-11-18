@@ -45,23 +45,50 @@ async function main() {
         assert.equal((await restore(page,old)).applied,true);
         const read = await capture(page,old);
         assert.equal(canonicalJson(read.appearanceRecipe),canonicalJson(old.appearanceRecipe));
+        await page.evaluate(()=>__debug.camera('inspect-face-front'));
+        await page.waitForTimeout(650);
         await page.waitForFunction(()=>__debug.avatar().vrm.expressionManager.getValue('blink') < .01);
         await page.evaluate(()=>__debug.setPaused(true));
-        const canvas = page.locator('#stage canvas').first();
         const original = await eyes(page);
         assert.ok(original.length && original.every(m=>m.map && m.shade));
-        const eyeCenters = await page.evaluate(()=>['leftEye','rightEye'].map(name=>{
-          const eye=__debug.avatar().vrm.humanoid.getRawBoneNode(name);
-          const point=eye.getWorldPosition(eye.position.clone()).project(__debug.cameraObject());
-          return {name,x:(1+point.x)/2,y:(1-point.y)/2};
-        }));
-        await canvas.screenshot({path:path.join(folder,'original.png')});
+        async function frame(name) {
+          const result=await page.evaluate(()=>{
+            const camera=__debug.cameraObject(),renderer=__debug.renderer;
+            renderer.render(__debug.scene,camera);
+            const xs=[],ys=[];
+            __debug.avatar().root.traverse(node=>{
+              if(!node.isMesh)return;
+              const mats=[].concat(node.material),geo=node.geometry;
+              const ranges=geo.groups.length?geo.groups:[{materialIndex:0,start:0,count:geo.index?.count??geo.attributes.position.count}];
+              const p=node.position.clone();
+              for(const {start,count,materialIndex} of ranges) {
+                if(!/EyeIris/.test(mats[materialIndex]?.name)||mats[materialIndex].isOutline)continue;
+                for(let i=start;i<start+count;i++){
+                  node.getVertexPosition(geo.index?geo.index.getX(i):i,p).applyMatrix4(node.matrixWorld).project(camera);
+                  xs.push((1+p.x)/2);ys.push((1-p.y)/2);
+                }
+              }
+            });
+            if(!xs.length)throw Error('Iris mesh missing');
+            const middle=(Math.min(...xs)+Math.max(...xs))/2;
+            const bounds=[true,false].map(left=>{
+              const indices=xs.map((x,i)=>((x<middle)===left?i:-1)).filter(i=>i>=0);
+              const xx=indices.map(i=>xs[i]), yy=indices.map(i=>ys[i]);
+              return [Math.min(...xx),Math.min(...yy),Math.max(...xx),Math.max(...yy)];
+            });
+            return {bounds,data:renderer.domElement.toDataURL('image/png').split(',')[1]};
+          });
+          await fs.writeFile(path.join(folder,name+'.png'),Buffer.from(result.data,'base64'));
+          return result.bounds;
+        }
+        const eyeBounds = await frame('original');
         await page.locator('#appearance-eye-color').selectOption('green');
         await page.waitForFunction(()=>__debug.avatar().appearance.getState().eyeColor==='green');
         const greenMaps = await eyes(page);
         assert.equal(greenMaps.length,original.length);
         greenMaps.forEach((m,i)=>{assert.notEqual(m.map,original[i].map);assert.notEqual(m.shade,original[i].shade);});
-        await canvas.screenshot({path:path.join(folder,'green.png')});
+        const greenBounds=await frame('green');
+        assert.deepEqual(greenBounds,eyeBounds,'Iris geometry/camera moved during the paired capture');
         const green = await capture(page,old);
         assert.equal(green.identity.id,old.identity.id);
         assert.deepEqual(green.nativeHairCenter,old.nativeHairCenter);
@@ -86,7 +113,7 @@ async function main() {
           assert.equal(canonicalJson(recovered[key]),canonicalJson(green[key]),key);
         await recordSpeech(page,path.join(folder,'green-speech-1x.webm'));
         report.cases.push({body,originalRecord:old.integrity.recordSha256,greenRecord:green.integrity.recordSha256,
-          before:original,after:greenMaps,eyeCenters,rejected,missingRequests:hits,restored:true});
+          before:original,after:greenMaps,eyeBounds,rejected,missingRequests:hits,restored:true});
       } finally { await page.close(); }
     }
     assert.deepEqual(report.errors,[]);

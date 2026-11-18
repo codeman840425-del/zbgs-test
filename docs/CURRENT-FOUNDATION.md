@@ -1,9 +1,9 @@
 # 当前角色基础工程恢复点
 
 ## 固定入口与备份
-- F:/gamemake / feat/m1-foundation-room。4196 固定构建 `ba8a7b36d01b`，源码 `9ff6116a`，可回退 `00418d6b699b`。固定交付见 delivery/appearance-workbench.json。4174 历史证据，4195 封存 M1。
+- F:/gamemake / feat/m1-foundation-room。4196 当前固定构建 `0d1ccbf3ff61`，源码 `e6062a06`，可回退 `ba8a7b36d01b`。固定发布见 delivery/appearance-workbench.json。4174 历史证据，4195 封存 M1。
 
-两份 FaceContour 完整角色记录已完成着装／基础／重新着装的真实表面回读，证据 evidence/m2-native-surface-room-v1。4196 检查区可看近景讲话与光照对照，脸颊和白衣层次较弱，普通电脑未测。已保存后发动态的旧检查入口继续可用。下一步复用经精确材质和 UV 核对的虹膜样件，保持既有原色记录可恢复，验证新配色记录及缺资源时的回退。
+原生两份 FaceContour 记录现可在外观里使用作者绿虹膜，同一批次生成两份精确适配。证据 evidence/m2-native-batch-iris-room-v2，4196 检查区保留肤色／白衣光照和后发动态对照。下一主包为头身联动肤色：先用 VRoid 2.16 Bridge 在源副本读 FaceSkin、BodySkin、Eyelid、NoseLighting 四组的 MainColor、ShadowColor、HighlightColor，再写一个 MainColor 核实联动；待冷开、完整身体／穿衣导出同时验证，仍需保护眼白、牙齿与口内。两份目标源已有相同 12 个字段的离线依据，不能从这点推断完成肤色制作。普通电脑未测，整身准入仍为空。
 - 固定4196所属D02发布增量de2928b319917953cc8304029b85820a1778b766保留；最新生产主包代码与源/证据提交65310018381d1d40d26ba1f93a296153ea8c7b7e已推送，git ls-remote逐字核实。后续恢复说明独立提交，不冒称4196已换构建。公司副总工dirty文件不stage，不用git add -A。
 
 ## 刚完成D02限定主包
