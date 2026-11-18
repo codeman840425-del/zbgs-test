@@ -11,6 +11,8 @@ python -B scripts/production/native_body_intake.py evidence/m2-body-intake-v1/pu
 
 男性 CC0 样件可复用既有制作成果。原文件 `ab9af434a229`、从它还原的可编辑 Blender 文件 `c076d81ce83b`、重新导出的游戏身体 `62b44b037257` 三个实际文件均已按导出回执核对。原始 .vroid 缺失；已制作的衣物及游戏表现对应重新导出的身体身份。收到新的体型或异构模型时须生成自己的适配证据。[原制作入口](../assets-source/m1b/README.md) · [导出回执](../assets-source/m1b/body-export-report.json)
 
+独立长裤可用 `python -B scripts/production/garment_source_mapping.py --export` 在工程内重建。配方分别指定两份模型中实际拥有同件裤装的图元，已有适配的游戏版本输出到 `output/m2-garment-source-map-v1/`。原始发布模型的服装定位和骨骼差异随报告提供。[配方](../evidence/m2-garment-source-map-v1/pants.json)
+
 `delivery/character-production-handoff.json` 分别固定生产工具和游戏运行时。旧游戏源码附带的制作工具可能早于批量请求协议。复算机从交付单读取两个提交，分别检出；工具检出需要自己的 `prototype/node_modules`，游戏检出按锁文件构建。下面的 `$operatorRoot`、`$runtimeRoot` 分别是这两份检出的绝对路径，`$runRoot` 是主工程内新建且未使用的输出目录。完整普通检出可直接运行。稀疏检出需同时取协议引用的源配方、矩阵、已签角色记录和发布资源。
 
 ```powershell

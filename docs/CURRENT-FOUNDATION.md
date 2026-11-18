@@ -2,6 +2,8 @@
 
 ## 固定入口与备份
 
+服装显式选件已在一件男式长裤上跑通，脚本按 `evidence/m2-garment-source-map-v1/pants.json` 可重建原游戏资源。原始和重导出两个布局都有真实核验。下一项接入新的完整美术输入时，沿用该选件方式，按其自身骨架和坐标制作适配，再核实际动作与恢复。
+
 现用游戏制作交付单已切到含输出保护的工具 `2ae88304`，配套游戏仍锁 `cfca0dd1`／`fe2e58489bbb`。独立检出实际比对 508 个构建文件、38 个交付文件和两份旧签名记录；默认制作、生成与导出入口均已在真实命令行拒绝盘根输出。[现用交付单](../delivery/character-production-handoff.json) · [复算回执](../evidence/character-worktree-relocation-v1/operator-receiver.json)
 
 盘根复核：迁移清单 37/37 旧路径已消失，新路径均在主项目。公司工程和独立融合测试归属已区分。批产计划、角色记录与取证、游戏清单与打包、原生制作、注册报告和口部附件适配入口现检查真实输出位置。已在工程内重新生成一份角色，按原固定清单导出 38 文件包，两份记录在浏览器关闭重开后还原。[本次运行回执](../evidence/character-worktree-relocation-v1/production-path-regression.json)。盘根检查命令为 `python -B scripts/character-worktree.py audit`。制作时以工程内 `output/`、`experiments/`、`evidence/` 接收对应结果。
