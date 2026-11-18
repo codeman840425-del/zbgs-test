@@ -1,0 +1,292 @@
+{
+  "schema": "native-facecontour-sidecar-budget-review-v1",
+  "status": "technical-pass-candidate-only",
+  "decision": "reject-runtime-admission",
+  "candidateDerivative": "safe-candidate-only",
+  "runtimeAdmission": false,
+  "sourceManifest": "assets-source/m2-ktx-pilot-v1/native-facecontour-sidecar-v1/manifest.json",
+  "releaseManifest": "evidence/m2-native-release-sidecar-v1/manifest.json",
+  "gate": "evidence/m2-native-admission-cycle-v18/gate.json",
+  "checks": [
+    {
+      "name": "source-sidecar-manifest-identity",
+      "passed": true,
+      "detail": {
+        "path": "assets-source/m2-ktx-pilot-v1/native-facecontour-sidecar-v1/manifest.json",
+        "sha256": "655b40794e3735f5e48781110192c47b3336a1a1093a5c6db19b20539036025d"
+      }
+    },
+    {
+      "name": "release-manifest-candidate-only",
+      "passed": true,
+      "detail": {
+        "runtimeAdmission": false
+      }
+    },
+    {
+      "name": "deterministic-encoded-byte-identity",
+      "passed": true,
+      "detail": {
+        "sha256": [
+          "d944fd97178d3682621ea9653ffa21a9b28da8d93758d019aadf5e990349d120"
+        ],
+        "bodyCount": 2
+      }
+    },
+    {
+      "name": "two-body-audit-complete",
+      "passed": true,
+      "detail": {
+        "bodies": [
+          "contour-roundness-a-body-color",
+          "contour-cheek-b-body-color"
+        ]
+      }
+    }
+  ],
+  "bodies": [
+    {
+      "id": "contour-roundness-a-body-color",
+      "bodyType": "native-contour-roundness-a-v1",
+      "identity": {
+        "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+        "sourceExportSha256": "a5aa0d4ffff9137f787d17565d738ece580bba085cac1fee2aa88b8e4dcc7cf2",
+        "candidateExportSha256": "a5aa0d4ffff9137f787d17565d738ece580bba085cac1fee2aa88b8e4dcc7cf2",
+        "fallbackPngSha256": "5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a",
+        "derivedTextureSha256": "d944fd97178d3682621ea9653ffa21a9b28da8d93758d019aadf5e990349d120",
+        "encodedBytes": 679630
+      },
+      "material": {
+        "materialIndex": 8,
+        "imageIndex": 11,
+        "materialName": "N00_000_00_Body_00_SKIN (Instance)",
+        "width": 2048,
+        "height": 2048,
+        "pngColorType": 6,
+        "contract": {
+          "baseColorTextureIndex": 11,
+          "shadeMultiplyTextureIndex": 11,
+          "alphaMode": "MASK",
+          "alphaCutoff": 0.5,
+          "texCoord": 0,
+          "transformIdentity": true,
+          "sourceImageSha256": "5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a"
+        },
+        "uvTransform": true,
+        "effectiveUV": 0,
+        "alphaPixels": {
+          "zero": 0,
+          "oneTo254": 0,
+          "opaque255": 4194304
+        }
+      },
+      "budget": {
+        "decision": "reject-static-over-budget",
+        "budgetAdmission": false,
+        "status": "rejected",
+        "ordinaryPC": {
+          "status": "unmeasured"
+        },
+        "violations": [
+          {
+            "metric": "uniquePositionVertices",
+            "actual": 38661,
+            "limit": 30000
+          },
+          {
+            "metric": "primitiveVertices",
+            "actual": 108256,
+            "limit": 80000
+          },
+          {
+            "metric": "triangles",
+            "actual": 54950,
+            "limit": 40000
+          },
+          {
+            "metric": "nodeTriangles",
+            "actual": 54950,
+            "limit": 40000
+          },
+          {
+            "metric": "jointSlots",
+            "actual": 390,
+            "limit": 256
+          },
+          {
+            "metric": "maxJointsPerSkin",
+            "actual": 130,
+            "limit": 128
+          },
+          {
+            "metric": "rgba8MipBytes",
+            "actual": 126179680,
+            "limit": 100663296
+          },
+          {
+            "metric": "springJoints",
+            "actual": 102,
+            "limit": 32
+          },
+          {
+            "metric": "colliders",
+            "actual": 28,
+            "limit": 16
+          }
+        ],
+        "metrics": {
+          "maxInfluences": 4,
+          "externalImageBytes": 0,
+          "fileBytes": 17127080,
+          "triangles": 54950,
+          "skins": 3,
+          "morphAccessorBytes": 6441912,
+          "materials": 14,
+          "primitiveVertices": 108256,
+          "primitives": 14,
+          "springJoints": 102,
+          "nodeTriangles": 54950,
+          "jointSlots": 390,
+          "maxImageDimension": 2048,
+          "textures": 24,
+          "uniquePositionVertices": 38661,
+          "rgba8MipBytes": 126179680,
+          "colliders": 28,
+          "maxJointsPerSkin": 130,
+          "images": 24,
+          "morphTargetsPerPrimitive": 57
+        }
+      },
+      "checksPassed": 9,
+      "checksTotal": 9,
+      "allChecksPassed": true
+    },
+    {
+      "id": "contour-cheek-b-body-color",
+      "bodyType": "native-contour-cheek-b-v1",
+      "identity": {
+        "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+        "sourceExportSha256": "2f6082fd631043a6fe71acb96ea342560c97004871425bce58eb15ff0457ddb8",
+        "candidateExportSha256": "2f6082fd631043a6fe71acb96ea342560c97004871425bce58eb15ff0457ddb8",
+        "fallbackPngSha256": "5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a",
+        "derivedTextureSha256": "d944fd97178d3682621ea9653ffa21a9b28da8d93758d019aadf5e990349d120",
+        "encodedBytes": 679630
+      },
+      "material": {
+        "materialIndex": 8,
+        "imageIndex": 11,
+        "materialName": "N00_000_00_Body_00_SKIN (Instance)",
+        "width": 2048,
+        "height": 2048,
+        "pngColorType": 6,
+        "contract": {
+          "baseColorTextureIndex": 11,
+          "shadeMultiplyTextureIndex": 11,
+          "alphaMode": "MASK",
+          "alphaCutoff": 0.5,
+          "texCoord": 0,
+          "transformIdentity": true,
+          "sourceImageSha256": "5bf13646459131ce6455719c8be451eb71b04a53058293974f9ab9da8bdc585a"
+        },
+        "uvTransform": true,
+        "effectiveUV": 0,
+        "alphaPixels": {
+          "zero": 0,
+          "oneTo254": 0,
+          "opaque255": 4194304
+        }
+      },
+      "budget": {
+        "decision": "reject-static-over-budget",
+        "budgetAdmission": false,
+        "status": "rejected",
+        "ordinaryPC": {
+          "status": "unmeasured"
+        },
+        "violations": [
+          {
+            "metric": "uniquePositionVertices",
+            "actual": 38661,
+            "limit": 30000
+          },
+          {
+            "metric": "primitiveVertices",
+            "actual": 108256,
+            "limit": 80000
+          },
+          {
+            "metric": "triangles",
+            "actual": 54950,
+            "limit": 40000
+          },
+          {
+            "metric": "nodeTriangles",
+            "actual": 54950,
+            "limit": 40000
+          },
+          {
+            "metric": "jointSlots",
+            "actual": 390,
+            "limit": 256
+          },
+          {
+            "metric": "maxJointsPerSkin",
+            "actual": 130,
+            "limit": 128
+          },
+          {
+            "metric": "rgba8MipBytes",
+            "actual": 126179680,
+            "limit": 100663296
+          },
+          {
+            "metric": "springJoints",
+            "actual": 102,
+            "limit": 32
+          },
+          {
+            "metric": "colliders",
+            "actual": 28,
+            "limit": 16
+          }
+        ],
+        "metrics": {
+          "primitiveVertices": 108256,
+          "materials": 14,
+          "maxInfluences": 4,
+          "springJoints": 102,
+          "nodeTriangles": 54950,
+          "images": 24,
+          "morphAccessorBytes": 6441912,
+          "maxImageDimension": 2048,
+          "externalImageBytes": 0,
+          "jointSlots": 390,
+          "fileBytes": 17126644,
+          "skins": 3,
+          "textures": 24,
+          "triangles": 54950,
+          "maxJointsPerSkin": 130,
+          "primitives": 14,
+          "uniquePositionVertices": 38661,
+          "morphTargetsPerPrimitive": 57,
+          "colliders": 28,
+          "rgba8MipBytes": 126179680
+        }
+      },
+      "checksPassed": 9,
+      "checksTotal": 9,
+      "allChecksPassed": true
+    }
+  ],
+  "reasonsForRuntimeRejection": [
+    "v18 gate rejects both bodies as statically over budget",
+    "ordinary-PC performance is unmeasured",
+    "KTX2 browser/WebGL loader and target-device residency are not admitted",
+    "dynamic motion, head attachments, surface/texture and runtime record checks remain per-body follow-ups"
+  ],
+  "nextMinimumInput": [
+    "A deterministic body-target KTX2 browser/WebGL decode and close/reopen trace for each exact body SHA",
+    "ordinary-PC measurement using the fixed candidate build and the existing runtime budget contract",
+    "A new body export or budget specification that clears every v18 static violation before admission is reconsidered"
+  ]
+}
