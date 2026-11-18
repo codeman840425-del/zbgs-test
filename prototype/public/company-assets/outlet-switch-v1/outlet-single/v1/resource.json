@@ -1,0 +1,85 @@
+{
+  "id": "outlet-switch-outlet-single",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "outlet-switch",
+  "mount": "wall",
+  "productionBranch": "outlet-switch",
+  "designId": "outlet-single",
+  "displayName": "单插座面板",
+  "mounting": {
+    "origin": "center",
+    "width": 0.12,
+    "height": 0.2,
+    "depth": 0.04
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Wall contact centre; back plane z=0; front +Z",
+    "scale": "Identity only"
+  },
+  "footprint": null,
+  "usePoints": [],
+  "stateDefaults": {
+    "on": false
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "on": "outlet-switch-status"
+  },
+  "display": {
+    "status": {
+      "stateField": "on",
+      "nodes": [
+        "status-led"
+      ],
+      "onColor": "#8de2b3",
+      "offColor": "#31413c",
+      "emissive": "#62e6ae",
+      "onIntensity": 1.2
+    }
+  },
+  "materialSlots": {
+    "construction": [
+      "back-plate",
+      "socket-ring-a",
+      "socket-ring-b",
+      "slot-a",
+      "slot-b",
+      "slot-c",
+      "slot-d"
+    ],
+    "status": [
+      "status-led"
+    ]
+  },
+  "provenance": {
+    "license": "Project-authored construction geometry and solid materials. No external assets.",
+    "sourceParameters": "assets-source/company-outlet-switch-v1/parameters.json",
+    "sourceParametersSha256": "faebfb12089a5cdb8443aefa21a2aaf0a1ff159c01df557a7524e03b52eb2783",
+    "sourceDesign": "outlet-single",
+    "generator": "scripts/company-platform/build-outlet-switch-collection.mjs",
+    "generatorSha256": "87073d7a11d8752a4e7b85a12dab3a9dbfcc91bd0224ff2a5f38e2a6dff832f1",
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader"
+    ],
+    "functionalContractSource": "assets-source/company-environment-specs-v1/branches.json",
+    "functionalContractBranch": "outlet-switch",
+    "functionalContractSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "method": "paired round socket apertures"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/outlet-switch-v1/outlet-single/v1/model.glb",
+    "sha256": "52a17f940833e95887b8859bf38da85c52a914dc967be4cf826916d92d4396b6",
+    "bytes": 25320
+  }
+}

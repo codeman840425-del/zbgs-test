@@ -1,0 +1,87 @@
+{
+  "id": "outlet-switch-outlet-multi",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "outlet-switch",
+  "mount": "wall",
+  "productionBranch": "outlet-switch",
+  "designId": "outlet-multi",
+  "displayName": "多孔插座面板",
+  "mounting": {
+    "origin": "center",
+    "width": 0.12,
+    "height": 0.2,
+    "depth": 0.04
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Wall contact centre; back plane z=0; front +Z",
+    "scale": "Identity only"
+  },
+  "footprint": null,
+  "usePoints": [],
+  "stateDefaults": {
+    "on": false
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "on": "outlet-switch-status"
+  },
+  "display": {
+    "status": {
+      "stateField": "on",
+      "nodes": [
+        "status-led",
+        "status-led_1"
+      ],
+      "onColor": "#8de2b3",
+      "offColor": "#31413c",
+      "emissive": "#62e6ae",
+      "onIntensity": 1.2
+    }
+  },
+  "materialSlots": {
+    "construction": [
+      "back-plate",
+      "upper-panel",
+      "lower-panel",
+      "upper-left",
+      "upper-right",
+      "lower-left",
+      "lower-right"
+    ],
+    "status": [
+      "status-led",
+      "status-led_1"
+    ]
+  },
+  "provenance": {
+    "license": "Project-authored construction geometry and solid materials. No external assets.",
+    "sourceParameters": "assets-source/company-outlet-switch-v1/parameters.json",
+    "sourceParametersSha256": "faebfb12089a5cdb8443aefa21a2aaf0a1ff159c01df557a7524e03b52eb2783",
+    "sourceDesign": "outlet-multi",
+    "generator": "scripts/company-platform/build-outlet-switch-collection.mjs",
+    "generatorSha256": "87073d7a11d8752a4e7b85a12dab3a9dbfcc91bd0224ff2a5f38e2a6dff832f1",
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader"
+    ],
+    "functionalContractSource": "assets-source/company-environment-specs-v1/branches.json",
+    "functionalContractBranch": "outlet-switch",
+    "functionalContractSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "method": "four-port framed panel"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/outlet-switch-v1/outlet-multi/v1/model.glb",
+    "sha256": "6f6afa361ec3738c9dac1cb43c598b096233cbb2740adde26fdbc48bce3ecfe5",
+    "bytes": 36028
+  }
+}

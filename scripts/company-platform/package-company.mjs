@@ -197,6 +197,15 @@ const extraFiles=[
   'assets-source/company-laptop-computer-v1/README.md',
   'assets-source/company-laptop-computer-v1/parameters.json',
   'assets-source/company-laptop-computer-v1/contracts/laptop-computer.json',
+  'docs/research/COMPANY-OUTLET-SWITCH-CONTRACT-v1.txt',
+  'scripts/company-platform/build-outlet-switch-collection.mjs',
+  'scripts/company-platform/register-outlet-switch.mjs',
+  'scripts/company-platform/test-outlet-switch-data.mjs',
+  'scripts/company-platform/qa-outlet-switch-preview.cjs',
+  'scripts/company-platform/record-outlet-switch-preview.cjs',
+  'assets-source/company-outlet-switch-v1/parameters.json',
+  'assets-source/company-outlet-switch-v1/designs.mjs',
+  'assets-source/company-outlet-switch-v1/collection.json',
   'prototype/scripts/build-id.mjs',
 ];
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
