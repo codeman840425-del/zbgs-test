@@ -1,0 +1,140 @@
+{
+  "id": "desk-lamp-bar",
+  "version": 1,
+  "displayName": "条形台灯",
+  "category": "dynamic",
+  "mountRole": "desk-lamp",
+  "productionBranch": "desk-lamp",
+  "mount": "desk-surface",
+  "parent": "desk.desktop",
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.3,
+    "height": 0.5,
+    "depth": 0.3
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.15,
+      0.15
+    ],
+    "contactPlaneY": 0,
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": true,
+    "intensity": 4,
+    "angle": 0
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    },
+    "intensity": {
+      "type": "number",
+      "min": 0,
+      "max": 10
+    },
+    "angle": {
+      "type": "number",
+      "min": -0.35,
+      "max": 0.35
+    }
+  },
+  "stateSemantics": {
+    "on": "desk-lamp-enabled-v1",
+    "intensity": "desk-lamp-candela-v1",
+    "angle": "desk-lamp-pitch-radians-v1"
+  },
+  "light": {
+    "kind": "spot",
+    "color": "#fff1d5",
+    "distance": 1.4,
+    "angle": 0.55,
+    "penumbra": 0.65,
+    "aim": {
+      "pivot": "desk-lamp-head",
+      "emitter": "desk-lamp-diffuser",
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "direction": [
+        0,
+        0,
+        1
+      ],
+      "stateField": "angle",
+      "offset": 0.003
+    },
+    "position": [
+      0,
+      0.352200842,
+      0.048693421
+    ],
+    "target": [
+      0,
+      -0.554106945,
+      0.471311683
+    ]
+  },
+  "display": {
+    "diffuser": {
+      "nodes": [
+        "desk-lamp-diffuser"
+      ],
+      "stateField": "on",
+      "onColor": "#fff3de",
+      "offColor": "#d5ccc0",
+      "emissive": "#fff1d5",
+      "onIntensity": 1.5
+    }
+  },
+  "materialSlots": {
+    "body": [
+      "lamp-base",
+      "lamp-riser-lower",
+      "lamp-hinge",
+      "lamp-head-shell"
+    ],
+    "accent": [
+      "lamp-base-trim",
+      "lamp-riser-upper",
+      "lamp-head-rim"
+    ]
+  },
+  "provenance": {
+    "license": "Project-authored geometry",
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-desk-lamp-v1/parameters.json",
+    "sourceParametersSha256": "c80c8eef96e2a5322585ca724391dc56a0de0714e562eec97705b7128e25560e",
+    "functionalContractSource": "assets-source/company-desk-lamp-v1/contract.json",
+    "functionalContractSourceSha256": "8d9a0bfafa3ec42052b506964211efb43db4ac2c4c35ae9db6092ac30a8eddf5",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "environmentBranch": "desk-lamp",
+    "generator": "scripts/company-platform/build-desk-lamp-collection.mjs",
+    "generatorSha256": "7908bb7485620e175e8c0b0c167f0888df601e9415ac1af5e467cbe59d1c6cf5"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/desk-lamp-v1/desk-lamp-bar/v1/model.glb",
+    "sha256": "7c0d3ad130eac1948758be593e50c983689018ea88e4775df87c9c0847fff5f2",
+    "bytes": 21448
+  }
+}

@@ -37,6 +37,11 @@ export function describeFacilityFunction(resource) {
     mirrorSurface:normalized(resource.mirrorSurface??null),
     ...(['makeup-mirror','makeup-mirror-wall'].includes(resource.mountRole)?{light:normalized(resource.light??null)}:{}),
     informationSurface:normalized(resource.informationSurface??null), informationContent:normalized(resource.informationContent??null),
+    ...(resource.mountRole==='desk-lamp' && resource.light ? {deskLampOptics:normalized({
+      kind:resource.light.kind, color:resource.light.color, distance:resource.light.distance,
+      angle:resource.light.angle, penumbra:resource.light.penumbra, axis:resource.light.aim?.axis,
+      direction:resource.light.aim?.direction, stateField:resource.light.aim?.stateField,
+    })} : {}),
     state: {fields: stateFields, schema: normalized(resource.stateSchema ?? null), semantics: normalized(resource.stateSemantics ?? null)},
   };
 }

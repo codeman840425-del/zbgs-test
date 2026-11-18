@@ -1,3 +1,4 @@
+import {poseDeskLamp} from './desk-lamp.js';
 import {adaptCableGeometry,validateCableVisualPlacement} from './cable-render.js';
 import {validateCeilingVisualPlacement,ceilingVisibleForRegion} from './ceiling-placement.js';
 import * as THREE from 'three';
@@ -237,6 +238,8 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
               if(material.emissive&&mapping.emissive) {
                 material.emissive.set(value?mapping.emissive:'#000000');
                 material.emissiveIntensity=value?Number(mapping.onIntensity??1):0;
+                if(entry.resource.mountRole==='desk-lamp' && displayKey==='diffuser')
+                  material.emissiveIntensity*=entry.state.intensity/entry.resource.stateSchema.intensity.max;
               }
             }
           }
@@ -272,7 +275,9 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         if(entry.resource.light) {
           const def=entry.resource.light;
           const light=new THREE.SpotLight(def.color,entry.state.on?entry.state.intensity:0,def.distance,def.angle,def.penumbra,2);
-          light.position.fromArray(def.position);light.target.position.fromArray(def.target);light.castShadow=false;
+          if(entry.resource.mountRole==='desk-lamp') poseDeskLamp(parts,root,light,entry.state.angle);
+          else {light.position.fromArray(def.position);light.target.position.fromArray(def.target);}
+          light.castShadow=false;
           root.add(light,light.target);lights.push({id:entry.id,roomId:entry.roomId,light,desired:entry.state.on?entry.state.intensity:0});
         }
       }
@@ -291,7 +296,6 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         proxy.position.set(footprint.center[0],.225,footprint.center[1]);proxy.name=`Simplified:${facility.id}`;proxy.visible=false;facility.root.add(proxy);facility.proxy=proxy;
       }
       lights.sort((a,b)=>a.id.localeCompare(b.id));
-      for(let i=0;i<lights.length;i++)lights[i].light.intensity=i<maxRealtimeLights?lights[i].desired:0;
       const wallGroups=groupWallSegments(architecture.visibilityWalls);
       for(const wall of walls)wall.userData.wallGroup=wallGroups.get(wall.userData.physicalBoundary)||wall.userData.physicalBoundary;
       for(const facility of facilities.values())if(facility.wallBinding?.wallId)facility.wallBinding.wallGroup=wallGroups.get(facility.wallBinding.wallId)||facility.wallBinding.wallId;
@@ -405,9 +409,15 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     for(const ceiling of target.ceilings) {
       ceiling.visible=ceilingVisible(ceiling.userData.roomId);
     }
-    const eligible=target.lights.filter(l=>(!focused||l.roomId===focused)&&effectivelyVisible(l.light)).sort((a,b)=>a.id.localeCompare(b.id));
-    const enabled=new Set(eligible.filter(l=>l.desired>0).slice(0,maxRealtimeLights));
-    for(const light of target.lights)light.light.intensity=enabled.has(light)?light.desired:0;
+    // Invisible lights are omitted from Three's shader light list. Test the host's
+    // visibility so a previously budgeted-out light can return on the next view.
+    let remaining=maxRealtimeLights;
+    for(const entry of target.lights) {
+      const active=remaining>0 && entry.desired>0 && (!focused || entry.roomId===focused) && effectivelyVisible(entry.light.parent);
+      entry.light.visible=active;
+      entry.light.intensity=active?entry.desired:0;
+      if(active)remaining--;
+    }
     target.root.updateMatrixWorld(true);
   }
   install(build(initialDocument,visibleFloorId));

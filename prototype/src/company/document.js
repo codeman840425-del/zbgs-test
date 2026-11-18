@@ -10,6 +10,7 @@ import {validateSupportResource, validateSupportAttachments,effectiveSupportTran
 import {MAKEUP_STORAGE_PROFILE,validateMakeupStorageAttachments} from './makeup-storage-data.js';
 import {validateMakeupDrawerAttachments} from './makeup-drawer-data.js';
 import {validateMovingResource, validateFacilityState, movingFootprint} from './moving-parts.js';
+import {validateDeskLampResource} from './desk-lamp.js';
 import {validateClockResource} from './clock-display.js';
 import {validateInformationResource,validateInformationAttachments} from './information-display.js';
 import {validateMirrorResource} from './mirror-data.js';
@@ -168,7 +169,7 @@ export function deriveCompany(document, catalog, templates) {
     fail('catalog-version-mismatch', 'document.catalog', 'Load the pinned resource catalog');
   if (!Array.isArray(document.nodes)) fail('invalid-nodes', 'document.nodes', 'Expected an array');
   const { resources, combinations } = catalogMaps(catalog, templates);
-  for (const resource of resources.values()) { validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); validateWindowCoverResource(resource,fail); }
+  for (const resource of resources.values()) { validateDeskLampResource(resource,fail); validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); validateWindowCoverResource(resource,fail); }
   const nodes = new Map(), worlds = new Map(), localTransforms = new Map(), floorIds = new Map(), roomIds = new Map();
   for (const node of document.nodes) {
     checkId(node.id, 'nodes.id');
@@ -273,6 +274,15 @@ export function deriveCompany(document, catalog, templates) {
       if (Math.abs(node.transform.position[1] - surface.topY) > .01 ||
           Math.abs(node.transform.position[0]) > surface.halfSize[0] || Math.abs(node.transform.position[2]) > surface.halfSize[1])
         fail('invalid-surface-fit', node.id, 'Device mount origin must be on the declared parent surface');
+      if(resource.mountRole==='desk-lamp') {
+        // Compare in desktop coordinates so a rotated host carries the whole reserved installation area.
+        const [x,y,z]=node.transform.position, {width,depth}=resource.mounting;
+        const quarter=Math.round(node.transform.yaw/(Math.PI/2));
+        const [spanX,spanZ]=quarter%2===0 ? [width,depth] : [depth,width];
+        if(Math.abs(y-surface.topY)>.001 || Math.abs(x)+spanX/2>surface.halfSize[0]+1e-6 ||
+           Math.abs(z)+spanZ/2>surface.halfSize[1]+1e-6)
+          fail('invalid-desk-lamp-fit',node.id,'The complete lamp mount must sit on and inside the parent desktop');
+      }
     }
     if(resource.mount==='window-cover'){
       if(node.parentId===undefined||!node.attachment||node.attachment.windowId!==node.parentId)

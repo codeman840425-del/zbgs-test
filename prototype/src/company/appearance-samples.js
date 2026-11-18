@@ -44,7 +44,7 @@ export const appearanceBranches=[
  ['hinged-cabinet','单扇开合柜'],
  ['sliding-drawer-cabinet','单抽屉收纳柜'],
  ['storage-shelf','多层开放架'],['tabletop-ornament','台面陈列摆件'],
- ['desk','桌子'],['chair','单人座椅'],['sofa','双人沙发'],['monitor','屏幕'],['fill-light','补光系统'],
+ ['desk','桌子'],['chair','单人座椅'],['sofa','双人沙发'],['monitor','屏幕'],['fill-light','补光系统'],['desk-lamp','桌面台灯'],
  ['camera-device','摄像设备'],['background-display','直播背景'],['headphones-and-stand','耳机与耳机架'],['audio-control','音频控制设备'],['desktop-computer','桌面电脑'],['laptop-computer','笔记本电脑'],
  ['outlet-switch','墙面插座/开关'],['power-strip','桌面插排'],
  ['keyboard','键盘'],['desk-microphone','桌面麦克风'],['plant','绿植'],['wall-art','挂画'],
@@ -154,14 +154,13 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
  else {
    const transforms={sofa:[[-2.8,0,1.7],0],chair:[[-2.8,0,1.7],0],'fill-light':[[-2.8,0,1.7],0],plant:[[3.4,0,1.8],0],'wall-art':[[0,1.4,-3.4],0],
      'wall-panel':[[-2,0,-3.4],0],'window-panel':[[2,1.4,-3.4],0],'door-frame':[[0,0,3.4],Math.PI],
-     'floor-panel':[[2,0,-1.5],0],rug:[[0,0,1.8],0], 'camera-device':[[.52,.84,-.02],0], 'desktop-computer':[[-.48,.84,.02],0], 'laptop-computer':[[.34,.84,.08],0], 'background-display':[[0,0,-2.6],0], 'headphones-and-stand':[[.72,.84,.05],0], 'audio-control':[[0,.84,.08],0], 'outlet-switch':[[0,1.35,-3.4],0], 'power-strip':[[0,.84,.3],0]};
+     'floor-panel':[[2,0,-1.5],0],rug:[[0,0,1.8],0], 'desk-lamp':[[.67,.84,-.2],0], 'camera-device':[[.52,.84,-.02],0], 'desktop-computer':[[-.48,.84,.02],0], 'laptop-computer':[[.34,.84,.08],0], 'background-display':[[0,0,-2.6],0], 'headphones-and-stand':[[.72,.84,.05],0], 'audio-control':[[0,.84,.08],0], 'outlet-switch':[[0,1.35,-3.4],0], 'power-strip':[[0,.84,.3],0]};
    const [position,yaw]=transforms[branch];target='sample/object';
-   const deskMounted=['camera-device','desktop-computer','laptop-computer','headphones-and-stand','audio-control'].includes(branch);
+   const deskMounted=selected.mount==='desk-surface';
    const parentId=deskMounted?`${station}/desk`:room.id;
-   const cameraPosition=position;
-   const attachedId=deskMounted?`${station}/${branch==='camera-device'?'camera':branch==='headphones-and-stand'?'headphones':branch==='audio-control'?'audio-control':branch==='desktop-computer'?'desktop-computer':'laptop-computer'}`:target;
-   ops.push({type:'add-facility',id:attachedId,parentId,resource:{id:selected.id,version:selected.version},transform:{position:cameraPosition,yaw}});
-   if(deskMounted)target=attachedId;
+   const partId={'camera-device':'camera','headphones-and-stand':'headphones'}[branch]||branch;
+   if(deskMounted)target=`${station}/${partId}`;
+   ops.push({type:'add-facility',id:target,parentId,resource:{id:selected.id,version:selected.version},transform:{position,yaw}});
  }
  doc=prepareCompanyChange(doc,ops,{catalog,templates}).document;
  return {document:doc,target,branch,index,resource:{id:selected.id,version:selected.version}};

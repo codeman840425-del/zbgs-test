@@ -266,6 +266,11 @@ const extraFiles=[
   'scripts/company-platform/test-power-strip-data.mjs',
   'scripts/company-platform/qa-power-strip-preview.cjs',
   'scripts/company-platform/record-power-strip-preview.cjs',
+  'scripts/company-platform/build-desk-lamp-collection.mjs',
+  'scripts/company-platform/test-desk-lamp-assets.mjs',
+  'scripts/company-platform/test-desk-lamp-runtime.mjs',
+  'scripts/company-platform/qa-desk-lamps.cjs',
+  'assets-source/company-desk-lamp-v1/collection.json',
   'prototype/scripts/build-id.mjs',
 ];
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');

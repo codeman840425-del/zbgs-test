@@ -1,0 +1,141 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "desk-lamp-home",
+      "input": {
+        "id": "desk-lamp-home",
+        "name": "民房桌面局部照明",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "scale": "small-home",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1,
+                "furniture": [
+                  {
+                    "id": "plant",
+                    "resource": {
+                      "id": "plant",
+                      "version": 1
+                    },
+                    "transform": {
+                      "position": [
+                        1.6,
+                        0,
+                        -1.4
+                      ],
+                      "yaw": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "add-facility",
+          "id": "desk-lamp-home/ground/live/station-1/desk-lamp",
+          "parentId": "desk-lamp-home/ground/live/station-1/desk",
+          "resource": {
+            "id": "desk-lamp-shade",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.67,
+              0.84,
+              -0.2
+            ],
+            "yaw": 0
+          }
+        }
+      ]
+    },
+    {
+      "key": "desk-lamp-studio",
+      "input": {
+        "id": "desk-lamp-studio",
+        "name": "双工位转向桌面照明",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "scale": "single-room",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": [
+                  {
+                    "id": "station-left",
+                    "transform": {
+                      "position": [
+                        -1.3,
+                        0,
+                        0.4
+                      ],
+                      "yaw": 3.141592653589793
+                    }
+                  },
+                  {
+                    "id": "station-right",
+                    "transform": {
+                      "position": [
+                        1.3,
+                        0,
+                        0.4
+                      ],
+                      "yaw": 3.141592653589793
+                    }
+                  }
+                ],
+                "entry": [
+                  -2.5,
+                  0,
+                  -2.5
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "add-facility",
+          "id": "desk-lamp-studio/ground/live/station-left/desk-lamp",
+          "parentId": "desk-lamp-studio/ground/live/station-left/desk",
+          "resource": {
+            "id": "desk-lamp-shade",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.67,
+              0.84,
+              -0.2
+            ],
+            "yaw": 0
+          }
+        }
+      ]
+    }
+  ]
+}

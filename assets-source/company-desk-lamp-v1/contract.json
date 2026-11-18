@@ -1,0 +1,49 @@
+{
+  "schema": "company-desk-lamp-contract",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "desk-lamp",
+  "productionBranch": "desk-lamp",
+  "mount": "desk-surface",
+  "parent": "desk.desktop",
+  "mounting": { "origin": "bottom", "width": 0.3, "height": 0.5, "depth": 0.3 },
+  "coordinates": { "units": "metres", "up": "+Y", "forward": "+Z" },
+  "footprint": { "center": [0, 0], "halfSize": [0.15, 0.15], "contactPlaneY": 0, "blocking": false },
+  "usePoints": [],
+  "stateDefaults": { "on": true, "intensity": 4, "angle": 0 },
+  "stateSchema": {
+    "on": { "type": "boolean" },
+    "intensity": { "type": "number", "min": 0, "max": 10 },
+    "angle": { "type": "number", "min": -0.35, "max": 0.35 }
+  },
+  "stateSemantics": {
+    "on": "desk-lamp-enabled-v1",
+    "intensity": "desk-lamp-candela-v1",
+    "angle": "desk-lamp-pitch-radians-v1"
+  },
+  "light": {
+    "kind": "spot",
+    "color": "#fff1d5",
+    "distance": 1.4,
+    "angle": 0.55,
+    "penumbra": 0.65,
+    "aim": {
+      "pivot": "desk-lamp-head",
+      "emitter": "desk-lamp-diffuser",
+      "axis": [1, 0, 0],
+      "direction": [0, 0, 1],
+      "stateField": "angle",
+      "offset": 0.003
+    }
+  },
+  "display": {
+    "diffuser": {
+      "nodes": ["desk-lamp-diffuser"],
+      "stateField": "on",
+      "onColor": "#fff3de",
+      "offColor": "#d5ccc0",
+      "emissive": "#fff1d5",
+      "onIntensity": 1.5
+    }
+  }
+}

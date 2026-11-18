@@ -1,0 +1,111 @@
+{
+  "schema": "company-desk-lamp-collection",
+  "version": 1,
+  "archive": {
+    "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+    "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+    "author": "Kenney",
+    "license": "CC0-1.0",
+    "url": "https://kenney.nl/assets/furniture-kit",
+    "licenseEntry": "License.txt",
+    "licenseSha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+  },
+  "designs": [
+    {
+      "id": "desk-lamp-gooseneck",
+      "version": 1,
+      "displayName": "鹅颈台灯",
+      "materials": {
+        "body": { "color": "#2a3032", "roughness": 0.57, "metalness": 0.16 },
+        "accent": { "color": "#a6b6b1", "roughness": 0.34, "metalness": 0.43 }
+      },
+      "stand": [
+        { "name": "lamp-base", "shape": "cylinder", "dimensions": [0.079, 0.095, 0.026, 24], "at": [0, 0.013, 0] },
+        { "name": "lamp-base-ring", "shape": "cylinder", "finish": "accent", "dimensions": [0.072, 0.072, 0.006, 24], "at": [0, 0.026, 0] },
+        { "name": "lamp-gooseneck", "shape": "tube", "dimensions": [0.012, 24, 10],
+          "curves": [
+            [[0, 0.021, -0.045], [0, 0.235, -0.071], [0, 0.406, -0.106], [0, 0.409, -0.031]],
+            [[0, 0.409, -0.031], [0, 0.412, 0.035], [0, 0.392, 0.074], [0, 0.331, 0.072]]
+          ]
+        },
+        { "name": "lamp-hinge", "shape": "cylinder", "finish": "accent", "dimensions": [0.017, 0.017, 0.037, 16], "at": [0, 0.331, 0.072], "rotateDegrees": [0, 0, 90] }
+      ],
+      "head": {
+        "position": [0, 0.331, 0.072], "pitchDegrees": 65,
+        "parts": [
+          { "name": "lamp-head-shell", "shape": "cylinder", "dimensions": [0.047, 0.031, 0.044, 24], "at": [0, 0, 0.013], "rotateDegrees": [90, 0, 0] },
+          { "name": "lamp-head-rim", "shape": "cylinder", "finish": "accent", "dimensions": [0.047, 0.047, 0.005, 24], "at": [0, 0, 0.035], "rotateDegrees": [90, 0, 0] }
+        ],
+        "diffuser": { "shape": "disc", "dimensions": [0.041, 24], "at": [0, 0, 0.038] }
+      }
+    },
+    {
+      "id": "desk-lamp-bar",
+      "version": 1,
+      "displayName": "条形台灯",
+      "materials": {
+        "body": { "color": "#dee4e9", "roughness": 0.42, "metalness": 0.17 },
+        "accent": { "color": "#193347", "roughness": 0.45, "metalness": 0.24 }
+      },
+      "stand": [
+        { "name": "lamp-base", "shape": "box", "dimensions": [0.215, 0.019, 0.123], "at": [0, 0.0095, 0] },
+        { "name": "lamp-base-trim", "shape": "box", "finish": "accent", "dimensions": [0.19, 0.006, 0.101], "at": [0, 0.019, 0] },
+        { "name": "lamp-riser-lower", "shape": "rod", "dimensions": [0.014, 12], "from": [0, 0.017, -0.042], "to": [0, 0.284, -0.058] },
+        { "name": "lamp-riser-upper", "shape": "rod", "finish": "accent", "dimensions": [0.012, 12], "from": [0, 0.276, -0.06], "to": [0, 0.388, 0.032] },
+        { "name": "lamp-hinge", "shape": "cylinder", "dimensions": [0.016, 0.016, 0.058, 16], "at": [0, 0.388, 0.032], "rotateDegrees": [0, 0, 90] }
+      ],
+      "head": {
+        "position": [0, 0.388, 0.032], "pitchDegrees": 65,
+        "parts": [
+          { "name": "lamp-head-shell", "shape": "box", "dimensions": [0.266, 0.05, 0.034], "at": [0, 0, 0.015] },
+          { "name": "lamp-head-rim", "shape": "box", "finish": "accent", "dimensions": [0.248, 0.04, 0.006], "at": [0, 0, 0.033] }
+        ],
+        "diffuser": { "shape": "plane", "dimensions": [0.232, 0.03], "at": [0, 0, 0.0365] }
+      }
+    },
+    {
+      "id": "desk-lamp-shade",
+      "version": 1,
+      "displayName": "圆罩台灯",
+      "source": {
+        "entry": "Models/GLTF format/lampRoundTable.glb",
+        "sha256": "75bb644caaa3da003b4fcad7a931722dd61cd2858aab70cf660021d5061fa1b2"
+      },
+      "materials": { "accent": { "color": "#766346", "roughness": 0.41, "metalness": 0.22 } },
+      "stand": [
+        { "name": "lamp-base-and-post", "shape": "source", "finish": "body", "sourceMaterial": "metal", "sourceOrigin": [0.06, 0, -0.06], "scale": [1.28, 1.52, 1.28] },
+        { "name": "lamp-hinge-bracket", "shape": "box", "finish": "accent", "dimensions": [0.044, 0.028, 0.09], "at": [0, 0.317, 0.023] },
+        { "name": "lamp-hinge", "shape": "cylinder", "finish": "accent", "dimensions": [0.018, 0.018, 0.063, 16], "at": [0, 0.323, 0.052], "rotateDegrees": [0, 0, 90] }
+      ],
+      "head": {
+        "position": [0, 0.323, 0.052], "pitchDegrees": 65,
+        "parts": [
+          { "name": "lamp-head-shell", "shape": "source", "finish": "shell", "sourceMaterial": "lamp", "sourceOrigin": [0.06, 0.13575, -0.06], "scale": [0.86, 0.86, 0.86], "at": [0, 0, 0.055], "rotateDegrees": [-90, 0, 0] }
+        ],
+        "diffuser": { "shape": "disc", "dimensions": [0.032, 24], "at": [0, 0, 0.0547] }
+      }
+    },
+    {
+      "id": "desk-lamp-column",
+      "version": 1,
+      "displayName": "柱形台灯",
+      "source": {
+        "entry": "Models/GLTF format/lampSquareTable.glb",
+        "sha256": "70ec9211af336b1ef3b4da32590b8737b4facf219348c22e6533a1e898cdb13d"
+      },
+      "materials": { "accent": { "color": "#493136", "roughness": 0.42, "metalness": 0.23 } },
+      "stand": [
+        { "name": "lamp-base-and-post", "shape": "source", "finish": "body", "sourceMaterial": "metal", "sourceOrigin": [0.06, 0, -0.06], "scale": [1.13, 1.38, 1.13] },
+        { "name": "lamp-hinge-bracket", "shape": "box", "finish": "accent", "dimensions": [0.031, 0.023, 0.088], "at": [0, 0.287, 0.022] },
+        { "name": "lamp-hinge", "shape": "cylinder", "finish": "accent", "dimensions": [0.014, 0.014, 0.067, 16], "at": [0, 0.294, 0.046], "rotateDegrees": [0, 0, 90] }
+      ],
+      "head": {
+        "position": [0, 0.294, 0.046], "pitchDegrees": 65,
+        "parts": [
+          { "name": "lamp-head-shell", "shape": "source", "finish": "shell", "sourceMaterial": "lamp", "sourceOrigin": [0.06, 0.14, -0.06], "scale": [0.63, 1.28, 0.63], "at": [0, 0, 0.055], "rotateDegrees": [-90, 0, 0] }
+        ],
+        "diffuser": { "shape": "plane", "dimensions": [0.047, 0.047], "at": [0, 0, 0.0547] }
+      }
+    }
+  ]
+}

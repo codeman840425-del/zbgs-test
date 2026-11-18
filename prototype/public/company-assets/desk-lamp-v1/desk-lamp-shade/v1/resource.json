@@ -1,0 +1,148 @@
+{
+  "id": "desk-lamp-shade",
+  "version": 1,
+  "displayName": "圆罩台灯",
+  "category": "dynamic",
+  "mountRole": "desk-lamp",
+  "productionBranch": "desk-lamp",
+  "mount": "desk-surface",
+  "parent": "desk.desktop",
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.3,
+    "height": 0.5,
+    "depth": 0.3
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.15,
+      0.15
+    ],
+    "contactPlaneY": 0,
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": true,
+    "intensity": 4,
+    "angle": 0
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    },
+    "intensity": {
+      "type": "number",
+      "min": 0,
+      "max": 10
+    },
+    "angle": {
+      "type": "number",
+      "min": -0.35,
+      "max": 0.35
+    }
+  },
+  "stateSemantics": {
+    "on": "desk-lamp-enabled-v1",
+    "intensity": "desk-lamp-candela-v1",
+    "angle": "desk-lamp-pitch-radians-v1"
+  },
+  "light": {
+    "kind": "spot",
+    "color": "#fff1d5",
+    "distance": 1.4,
+    "angle": 0.55,
+    "penumbra": 0.65,
+    "aim": {
+      "pivot": "desk-lamp-head",
+      "emitter": "desk-lamp-diffuser",
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "direction": [
+        0,
+        0,
+        1
+      ],
+      "stateField": "angle",
+      "offset": 0.003
+    },
+    "position": [
+      0,
+      0.270706041,
+      0.076385074
+    ],
+    "target": [
+      0,
+      -0.635601746,
+      0.499003335
+    ]
+  },
+  "display": {
+    "diffuser": {
+      "nodes": [
+        "desk-lamp-diffuser"
+      ],
+      "stateField": "on",
+      "onColor": "#fff3de",
+      "offColor": "#d5ccc0",
+      "emissive": "#fff1d5",
+      "onIntensity": 1.5
+    }
+  },
+  "materialSlots": {
+    "body": [
+      "lamp-base-and-post"
+    ],
+    "accent": [
+      "lamp-hinge-bracket",
+      "lamp-hinge"
+    ],
+    "shell": [
+      "lamp-head-shell"
+    ]
+  },
+  "provenance": {
+    "license": "CC0-1.0 source geometry with project-authored adaptation",
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-desk-lamp-v1/parameters.json",
+    "sourceParametersSha256": "c80c8eef96e2a5322585ca724391dc56a0de0714e562eec97705b7128e25560e",
+    "functionalContractSource": "assets-source/company-desk-lamp-v1/contract.json",
+    "functionalContractSourceSha256": "8d9a0bfafa3ec42052b506964211efb43db4ac2c4c35ae9db6092ac30a8eddf5",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "environmentBranch": "desk-lamp",
+    "generator": "scripts/company-platform/build-desk-lamp-collection.mjs",
+    "generatorSha256": "7908bb7485620e175e8c0b0c167f0888df601e9415ac1af5e467cbe59d1c6cf5",
+    "sourceArtifactPath": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+    "sourceArtifactSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+    "sourceModelEntry": "Models/GLTF format/lampRoundTable.glb",
+    "sourceGlbSha256": "75bb644caaa3da003b4fcad7a931722dd61cd2858aab70cf660021d5061fa1b2",
+    "sourceAuthor": "Kenney",
+    "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+    "sourceLicense": "CC0-1.0",
+    "sourceLicenseEntry": "License.txt",
+    "sourceLicenseSha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/desk-lamp-v1/desk-lamp-shade/v1/model.glb",
+    "sha256": "775d7f4b55f6161759e1ac4dede8422925280c31dc9394019f0c66bfdb3c009e",
+    "bytes": 18620
+  }
+}
