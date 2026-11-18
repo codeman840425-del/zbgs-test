@@ -61,6 +61,7 @@ const extraFiles=[
   'docs/research/COMPANY-TEMPLATE-UPGRADE-CONTRACT-v1.txt',
   'scripts/company-platform/qa-upgrade.mjs',
   'scripts/company-platform/qa-upgrade-preview.cjs',
+  'scripts/company-platform/qa-upgrade-handoff.cjs',
   'scripts/company-platform/record-upgrade-preview.cjs',
   'scripts/company-platform/qa-scale-v2.cjs',
   'scripts/company-platform/qa-scale-handoff.cjs',
