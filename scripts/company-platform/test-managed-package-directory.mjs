@@ -4,7 +4,10 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {checkManagedOutput} from './package-company.mjs';
 
-const project = fileURLToPath(new URL('../../', import.meta.url));
+const checkout = path.resolve(fileURLToPath(new URL('../../', import.meta.url)));
+const fixedParent = path.dirname(checkout);
+const project = path.basename(fixedParent) === 'worktrees' && path.basename(path.dirname(fixedParent)) === 'company-workspace'
+  ? path.resolve(fixedParent, '../..') : checkout;
 const at = (...parts) => path.resolve(project, ...parts);
 const releases = at('company-workspace', 'deliveries');
 const trials = at('company-workspace', 'production-trials');
