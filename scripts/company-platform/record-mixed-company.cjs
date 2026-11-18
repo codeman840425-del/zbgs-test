@@ -2,8 +2,12 @@ const {chromium}=require('../../prototype/node_modules/playwright');
 const {serve}=require('./serve.cjs');
 const fs=require('node:fs/promises'),path=require('node:path'),{execFileSync}=require('node:child_process'),{createHash}=require('node:crypto');
 const [dist,build,inputFile,opsFile,outArg]=process.argv.slice(2),out=path.resolve(outArg);
-const sourceCommit=execFileSync('git',['rev-parse','HEAD'],{cwd:path.resolve(dist),encoding:'utf8'}).trim();
-if(execFileSync('git',['status','--porcelain','--untracked-files=no'],{cwd:path.resolve(dist),encoding:'utf8'}).trim())throw Error('Recording needs clean fixed source');
+let sourceCommit='packaged-source';
+try{
+  execFileSync('git',['rev-parse','--show-toplevel'],{cwd:path.resolve(dist),encoding:'utf8'});
+  sourceCommit=execFileSync('git',['rev-parse','HEAD'],{cwd:path.resolve(dist),encoding:'utf8'}).trim();
+  if(execFileSync('git',['status','--porcelain','--untracked-files=no'],{cwd:path.resolve(dist),encoding:'utf8'}).trim())throw Error('Recording needs clean fixed source');
+}catch(error){if(error.message==='Recording needs clean fixed source'||error.status!==128)throw error;}
 const report={sourceCommit,build,playbackSpeed:1,steps:[],limits:['Software-rendered company preview, not GPU performance evidence.','No real character use or ordinary-PC acceptance.']};
 let server,browser,context,video;
 (async()=>{
