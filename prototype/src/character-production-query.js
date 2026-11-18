@@ -4,6 +4,7 @@ import accessoryManifest from '../public/assets/m1c/accessories.json' with {type
 import gripManifest from '../public/assets/m1c/grips/manifest.json' with {type:'json'};
 import templeManifest from './glasses-temple-fit-manifest.json' with {type:'json'};
 import {MICROPHONE_PRESENTATION_FITS} from './microphone-presentation-fits.js';
+import variantMatrix from '../../assets-source/variant-matrix-v1/representative-matrix.json' with {type:'json'};
 
 const SHA256 = /^[a-f0-9]{64}$/;
 
@@ -86,6 +87,14 @@ function configuredOutfits(config, appearance) {
   });
 }
 
+function configuredStyleVariants(bodyType) {
+  return variantMatrix.styles.map(style => ({
+    styleId: style.styleId,
+    label: style.label,
+    variants: style.variants.filter(variant => variant.bodyType === bodyType).map(variant => ({...variant})),
+  })).filter(style => style.variants.length);
+}
+
 /** Return a detached JSON snapshot of registered options for an already loaded body. */
 export function queryCharacterProduction(controller) {
   const actor = controller?.actor;
@@ -103,6 +112,7 @@ export function queryCharacterProduction(controller) {
     appearance,
     liveAccessories:liveAccessoryChoices(profile.sha256),
     outfits:configuredOutfits(actor.config, appearance),
+    styleVariants:configuredStyleVariants(bodyType),
     limitations:[
       'Body entries identify registrations. Load the exact body to query its configured options.',
       'Apply candidates through runtime preparation to verify resource bytes, fit and commit eligibility.',

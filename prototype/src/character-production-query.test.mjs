@@ -162,6 +162,19 @@ test('does not inherit accessory fits or material recipes across different body 
   assert.deepEqual(original.outfits.filter(outfit => outfit.equipment.some(item => item.materials.recipes.length)).map(outfit => outfit.index), [2, 4, 6]);
 });
 
+test('exposes the configured style matrix per exact body while keeping candidates out of runtime admission', async () => {
+  const female = queryCharacterProduction((await fixture('female')).controller);
+  const male = queryCharacterProduction((await fixture('male')).controller);
+  assert.deepEqual(female.styleVariants.map(style => style.styleId), ['uniform-top-v1', 'lower-shorts-v1']);
+  assert.deepEqual(male.styleVariants.map(style => style.styleId), ['uniform-top-v1', 'lower-shorts-v1']);
+  for (const style of [...female.styleVariants, ...male.styleVariants]) {
+    assert.equal(style.variants.length, 1);
+    assert.equal(style.variants[0].status, 'candidate');
+  }
+  assert.deepEqual(female.runtimeVariants ?? [], []);
+  assert.deepEqual(male.runtimeVariants ?? [], []);
+});
+
 test('rejects missing and mismatched loaded body identities', async () => {
   assert.throws(() => queryCharacterProduction(null), {code:'unregistered-body'});
   const {controller} = await fixture('male');
