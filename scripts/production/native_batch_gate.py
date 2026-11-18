@@ -432,6 +432,12 @@ def dynamic_trace_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, An
             "Unsupported dynamic trace summary")
     require(summary.get("status") == "technical-pass-diagnostic-only",
             "Dynamic trace summary must remain diagnostic-only")
+    summary_build = summary.get("build")
+    require(isinstance(summary_build, str) and summary_build,
+            "Dynamic trace summary build is missing")
+    expected_chain = (
+        "walk-dynamics-on", "sit-dynamics-on", "stand-dynamics-on", "walk-dynamics-off",
+    )
     result: dict[str, dict[str, Any]] = {}
     for item in summary.get("bodies", []):
         report_rel = item.get("path")
@@ -448,19 +454,54 @@ def dynamic_trace_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, An
                 "Unsupported dynamic trace report")
         require(report.get("status") == "technical-pass-diagnostic-only",
                 "Dynamic trace report must remain diagnostic-only")
+        require(report.get("admission") == {
+                    "classification": "diagnostic-only",
+                    "runtimeAdmission": False,
+                }, "Dynamic trace admission classification is not diagnostic-only")
         require(report.get("recordSha256") == record_sha,
                 "Dynamic trace summary/report record identity differs")
         body_sha = item.get("bodySha256")
         require(isinstance(body_sha, str) and SHA.fullmatch(body_sha),
                 "Dynamic trace body identity is incomplete")
+        require(report.get("bodySha256") == body_sha,
+                "Dynamic trace summary/report body identity differs")
         require(body_sha not in result, "Duplicate dynamic trace body")
+        builds = report.get("builds")
+        require(isinstance(builds, list) and builds and all(isinstance(build, str) and build for build in builds),
+                "Dynamic trace build contract is incomplete")
+        require(summary_build in builds and item.get("builds") == builds,
+                "Dynamic trace summary/report build identity differs")
+        samples = report.get("samples")
+        require(isinstance(samples, list) and samples and item.get("samples") == len(samples),
+                "Dynamic trace sample count is incomplete")
+        require(all(sample.get("row", {}).get("build") in builds for sample in samples),
+                "Dynamic trace sample build differs")
+        action_chain = report.get("actionChain")
+        require(isinstance(action_chain, list) and [row.get("label") for row in action_chain] == list(expected_chain),
+                "Dynamic trace action chain is incomplete")
+        for index, action in enumerate(action_chain):
+            require(isinstance(action.get("samples"), int) and action["samples"] > 0,
+                    "Dynamic trace action has no samples")
+            expected_dynamics = [False] if index == 3 else [True]
+            require(action.get("dynamics") == expected_dynamics,
+                    "Dynamic trace dynamics switch state is inconsistent")
+        switch_state = report.get("switchState")
+        require(isinstance(switch_state, dict) and
+                switch_state.get("onLabels") == list(expected_chain[:3]) and
+                switch_state.get("offLabels") == [expected_chain[3]] and
+                switch_state.get("onObserved") is True and
+                switch_state.get("offObserved") is True,
+                "Dynamic trace switch-state contract is incomplete")
         result[body_sha] = {
             "report": pin(path),
             "bodySha256": body_sha,
             "recordSha256": record_sha,
             "traceReport": pin(report_path),
-            "builds": item.get("builds", []),
-            "samples": item.get("samples"),
+            "builds": builds,
+            "samples": len(samples),
+            "actionChain": action_chain,
+            "switchState": switch_state,
+            "admission": report.get("admission"),
             "status": summary.get("status"),
             "scope": summary.get("scope"),
             "clears": [],
@@ -483,6 +524,22 @@ def budget_classification_index(path: Path, root: Path = ROOT) -> dict[str, dict
         require(isinstance(body_sha, str) and SHA.fullmatch(body_sha),
                 "Budget classification body identity is incomplete")
         require(body_sha not in result, "Duplicate budget classification body")
+        gates = item.get("resourceGates") or {}
+        static_failures = []
+        if gates.get("body") == "failed":
+            static_failures.append("body")
+        for group in ("garments", "accessories"):
+            for identifier, status in (gates.get(group) or {}).items():
+                if status == "failed":
+                    static_failures.append(f"{group}.{identifier}")
+        unmeasured_layers = [layer for layer in ("gpu", "ordinaryPC")
+                             if (item.get(layer) or {}).get("status") == "unmeasured"]
+        if static_failures:
+            decision = "reject-static-over-budget"
+        elif unmeasured_layers:
+            decision = "hold-unmeasured-resource-layer"
+        else:
+            decision = "candidate-pending-explicit-admission"
         result[body_sha] = {
             "report": pin(path),
             "bodySha256": body_sha,
@@ -491,6 +548,10 @@ def budget_classification_index(path: Path, root: Path = ROOT) -> dict[str, dict
             "gpu": item.get("gpu"),
             "ordinaryPC": item.get("ordinaryPC"),
             "resourceGates": item.get("resourceGates"),
+            "decision": decision,
+            "staticFailures": static_failures,
+            "unmeasuredLayers": unmeasured_layers,
+            "budgetAdmission": False,
             "scope": "four-layer static/runtime budget classification; no admission",
         }
     require(result, "Budget classification has no records")

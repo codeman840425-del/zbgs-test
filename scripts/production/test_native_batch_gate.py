@@ -1,5 +1,6 @@
 import sys
 import json
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
@@ -30,6 +31,30 @@ class NativeBatchGateTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 dynamic_trace_index(path)
 
+    def test_dynamic_trace_body_contract_is_rejected_when_report_differs(self):
+        source_dir = Path('evidence/m2-native-dynamic-runtime-trace-v3a')
+        with tempfile.TemporaryDirectory(dir='output') as temp_dir:
+            trace_dir = Path(temp_dir) / 'trace'
+            shutil.copytree(source_dir, trace_dir)
+            report_path = trace_dir / 'contour-cheek-b' / 'report.json'
+            report = json.loads(report_path.read_text(encoding='utf8'))
+            report['bodySha256'] = '0' * 64
+            report_path.write_text(json.dumps(report), encoding='utf8')
+            with self.assertRaises(ValueError):
+                dynamic_trace_index(trace_dir / 'summary.json', root=Path(temp_dir))
+
+    def test_dynamic_trace_switch_contract_is_rejected_when_chain_changes(self):
+        source_dir = Path('evidence/m2-native-dynamic-runtime-trace-v3a')
+        with tempfile.TemporaryDirectory(dir='output') as temp_dir:
+            trace_dir = Path(temp_dir) / 'trace'
+            shutil.copytree(source_dir, trace_dir)
+            report_path = trace_dir / 'contour-roundness-a' / 'report.json'
+            report = json.loads(report_path.read_text(encoding='utf8'))
+            report['actionChain'][-1]['dynamics'] = [True]
+            report_path.write_text(json.dumps(report), encoding='utf8')
+            with self.assertRaises(ValueError):
+                dynamic_trace_index(trace_dir / 'summary.json', root=Path(temp_dir))
+
     def test_budget_classification_keeps_four_layers_diagnostic(self):
         path = Path('evidence/m2-native-batch-runtime-seam-v1/budget-classification-v1.json')
         indexed = budget_classification_index(path)
@@ -39,6 +64,9 @@ class NativeBatchGateTests(unittest.TestCase):
             self.assertIn('decodeCanvas', row)
             self.assertIn('gpu', row)
             self.assertIn('ordinaryPC', row)
+            self.assertEqual(row['decision'], 'reject-static-over-budget')
+            self.assertIn('ordinaryPC', row['unmeasuredLayers'])
+            self.assertFalse(row['budgetAdmission'])
             self.assertEqual(row['scope'].split(';')[-1].strip(), 'no admission')
 
     def test_surface_static_identity_is_attached_without_runtime_clear(self):

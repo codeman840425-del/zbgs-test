@@ -7,6 +7,7 @@ paired with a different body or inferred from a similar name.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -62,6 +63,73 @@ def validate_matrix(data: dict) -> list[str]:
     return errors
 
 
+def _split_reference(reference: str) -> tuple[str, str | None]:
+    path, separator, fragment = reference.partition('#')
+    return path, fragment if separator else None
+
+
+def _resolve_reference(root: Path, reference: str) -> Path:
+    """Resolve a manifest reference using the repository's public asset roots."""
+    if not isinstance(reference, str) or not reference:
+        raise ValueError('manifest reference must be a non-empty string')
+    path, _ = _split_reference(reference)
+    if path.startswith('/assets/'):
+        candidate = root / 'prototype' / 'public' / 'assets' / path.removeprefix('/assets/')
+    elif path.startswith('assets/'):
+        candidate = root / 'prototype' / 'public' / 'assets' / path.removeprefix('assets/')
+    else:
+        candidate = root / path
+    candidate = candidate.resolve()
+    repository = root.resolve()
+    if not candidate.is_relative_to(repository):
+        raise ValueError(f'manifest reference escapes repository: {reference}')
+    return candidate
+
+
+def validate_matrix_files(data: dict, root: Path) -> list[str]:
+    """Validate the on-disk closure for every matrix row.
+
+    The structural validator deliberately accepts synthetic rows for unit tests.
+    This second pass is used by production/import callers and verifies that each
+    referenced manifest exists, is inside the repository, and matches its pinned
+    hash.  Fit references may include a fragment because several equipment
+    variants share one manifest file.
+    """
+    errors = validate_matrix(data)
+    if errors:
+        return errors
+    root = Path(root).resolve()
+    for style in data['styles']:
+        style_id = style['styleId']
+        for variant in style['variants']:
+            label = f"{style_id}/{variant['bodyType']}"
+            for key, sha_key in (
+                ('resourceManifest', 'resourceManifestSha256'),
+                ('coverageManifest', 'coverageManifestSha256'),
+            ):
+                try:
+                    path = _resolve_reference(root, variant[key])
+                    raw = path.read_bytes()
+                except (OSError, ValueError) as error:
+                    errors.append(f'{label}: {key} cannot be read: {error}')
+                    continue
+                actual = hashlib.sha256(raw).hexdigest()
+                if actual != variant[sha_key]:
+                    errors.append(f'{label}: {key} SHA does not match {actual}')
+            try:
+                fit_path = _resolve_reference(root, variant['fitManifest'])
+                fit_path.read_bytes()
+            except (OSError, ValueError) as error:
+                errors.append(f'{label}: fitManifest cannot be read: {error}')
+            if variant['status'] == 'runtime-admitted':
+                try:
+                    evidence_path = _resolve_reference(root, variant['admissionEvidence'])
+                    evidence_path.read_bytes()
+                except (OSError, ValueError, KeyError) as error:
+                    errors.append(f'{label}: admissionEvidence cannot be read: {error}')
+    return errors
+
+
 def runtime_variants(data: dict, body_type: str) -> list[dict]:
     """Return only exact, admitted variants for one body type."""
     if (errors := validate_matrix(data)):
@@ -78,13 +146,19 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("matrix", type=Path)
     parser.add_argument("--body-type")
+    parser.add_argument("--root", type=Path,
+                        help="Repository root for on-disk manifest closure checks")
     args = parser.parse_args(argv)
     data = json.loads(args.matrix.read_text(encoding="utf-8"))
-    errors = validate_matrix(data)
+    errors = validate_matrix_files(data, args.root) if args.root else validate_matrix(data)
     if errors:
         print(json.dumps({"status": "rejected", "errors": errors}, ensure_ascii=False))
         return 2
     output = {"status": "validated", "styles": len(data["styles"])}
+    if args.root:
+        output["matrixPath"] = args.matrix.resolve().as_posix()
+        output["matrixSha256"] = hashlib.sha256(args.matrix.resolve().read_bytes()).hexdigest()
+        output["root"] = args.root.resolve().as_posix()
     if args.body_type:
         output["runtimeVariants"] = runtime_variants(data, args.body_type)
     print(json.dumps(output, ensure_ascii=False))

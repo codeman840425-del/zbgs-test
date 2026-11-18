@@ -558,3 +558,5 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 2026-11-18 头部附件候选链回读：`scripts/qa-native-glasses-candidate-chain.cjs` 在当前源码构建 `c5d7f7dca6f2` 对两份精确 FaceContour 身体完成正常速度走路、坐下、起身和新页面重载后的再次加载。两体均页面错误为0，walking/seated/standing-again 三个快照的 glasses loaded 为 true，眼部眨眼兼容状态可用。证据 `evidence/m2-native-batch-runtime-seam-v1/native-glasses-runtime-candidate-v4/report.json`，状态仍 `candidate-only`，未写正式 registry，未清除 `headAttachments` 或人工视觉门。
 
 同日 `evidence/m2-native-admission-cycle-v16/` 接入该候选链。批产闸门保持 `acceptedForRuntime=[]`，每项仍有 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture` 四类任务。该结果证明共同闸门能够消费完整候选链，不把候选运行证据升级为正式资源。
+
+2026-11-18 资源矩阵文件闭包核验：`scripts/production/variant_matrix.py --root` 现在实际读取并校验矩阵内 `resourceManifest`、`fitManifest`、`coverageManifest` 及 runtime-admitted 证据文件，哈希不一致或缺件会拒绝。现有男女制服/露膝短裤矩阵验证通过，证据 `evidence/m2-variant-matrix-file-closure-v1/report.json`，状态仍为 candidate，未增加 `runtimeVariants`，未替代动作、接触、视觉或目标设备准入。

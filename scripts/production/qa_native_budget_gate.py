@@ -33,14 +33,50 @@ def check(condition: bool, label: str, issues: list[str], passed: list[str]) -> 
     (passed if condition else issues).append(label)
 
 
+def _classification_decision(record: dict) -> dict:
+    """Turn diagnostic layers into an explicit, non-admission decision."""
+    failures: list[str] = []
+    gates = record.get("resourceGates", {})
+    if gates.get("body") == "failed":
+        failures.append("body")
+    for group in ("garments", "accessories"):
+        for identifier, status in (gates.get(group) or {}).items():
+            if status == "failed":
+                failures.append(f"{group}.{identifier}")
+    unmeasured = []
+    if (record.get("gpu") or {}).get("status") == "unmeasured":
+        unmeasured.append("gpu")
+    if (record.get("ordinaryPC") or {}).get("status") == "unmeasured":
+        unmeasured.append("ordinaryPC")
+    if failures:
+        decision = "reject-static-over-budget"
+    elif unmeasured:
+        decision = "hold-unmeasured-resource-layer"
+    else:
+        decision = "candidate-pending-explicit-admission"
+    return {
+        "bodyType": record.get("bodyType"),
+        "bodySha256": record.get("bodySha256"),
+        "decision": decision,
+        "staticFailures": failures,
+        "unmeasuredLayers": unmeasured,
+        "budgetAdmission": False,
+        "reason": "Static limits reject this record" if failures else (
+            "GPU and/or ordinary-PC evidence is unmeasured" if unmeasured else
+            "Classification is diagnostic and requires a separate four-layer admission report"
+        ),
+    }
+
+
 def verify(gate_path: Path, sidecar_path: Path, deterministic_path: Path,
-           wrapper_path: Path) -> dict:
+           wrapper_path: Path, classification_path: Path | None = None) -> dict:
     issues: list[str] = []
     passed: list[str] = []
     gate = load(gate_path)
     sidecar = load(sidecar_path)
     deterministic = load(deterministic_path)
     wrapper = load(wrapper_path)
+    classification = load(classification_path) if classification_path else None
 
     check(gate.get("schema") == "native-production-readiness-v1",
           "production gate schema", issues, passed)
@@ -118,12 +154,52 @@ def verify(gate_path: Path, sidecar_path: Path, deterministic_path: Path,
         check(png.exists() and sha(png) == row.get("sourcePngSha256"),
               f"sidecar PNG hash for {row.get('bodyType')}", issues, passed)
 
+    # Bind the static classification to the exact sidecar body identity. A
+    # matching label alone is insufficient because a new export can retain it.
+    budget_decisions: list[dict] = []
+    classification_records = classification.get("records", []) if classification else []
+    check(classification is not None,
+          "budget classification report is supplied", issues, passed)
+    if classification is not None:
+        check(classification.get("schema") == "native-batch-budget-classification-v1",
+              "budget classification schema", issues, passed)
+        check(classification.get("status") == "blocked",
+              "budget classification remains blocked", issues, passed)
+        check(isinstance(classification_records, list) and len(classification_records) == len(expected_ids),
+              "budget classification contains the pinned body pair", issues, passed)
+        classification_by_type = {
+            row.get("bodyType"): row for row in classification_records
+            if isinstance(row, dict)
+        }
+        sidecar_by_type = {
+            row.get("bodyType"): row for row in samples if isinstance(row, dict)
+        }
+        for body_type, body_sha in {
+            f"native-{key}-v1": value for key, value in expected_ids.items()
+        }.items():
+            record = classification_by_type.get(body_type)
+            sample = sidecar_by_type.get(body_type)
+            check(isinstance(record, dict) and record.get("bodySha256") == body_sha,
+                  f"classification identity for {body_type}", issues, passed)
+            check(isinstance(sample, dict) and sample.get("sourceModelSha256") == body_sha,
+                  f"sidecar identity for {body_type} is bound to classification", issues, passed)
+            if isinstance(record, dict):
+                decision = _classification_decision(record)
+                budget_decisions.append(decision)
+                check((record.get("ordinaryPC") or {}).get("status") == "unmeasured",
+                      f"{body_type} ordinary-PC layer is explicitly unmeasured", issues, passed)
+                check(decision["decision"] == "reject-static-over-budget",
+                      f"{body_type} static over-budget decision rejects the record", issues, passed)
+        check(len(classification_by_type) == len(classification_records),
+              "budget classification body types are unique", issues, passed)
+
     return {
         "schema": "native-budget-gate-qa-v1",
         "status": "pass" if not issues else "fail",
         "readOnly": True,
         "runtimeAdmissionChanged": False,
         "acceptedForRuntime": gate.get("acceptedForRuntime"),
+        "budgetDecisions": budget_decisions,
         "passed": passed,
         "issues": issues,
         "inputs": {
@@ -145,9 +221,12 @@ def main(argv: list[str] | None = None) -> int:
                         default=ROOT / "evidence/m2-ktx-native-facecontour-sidecar-v1/determinism-check.json")
     parser.add_argument("--wrapper", type=Path,
                         default=ROOT / "evidence/m2-native-batch-adaptation-v1/native-batch-ktx-budget.json")
+    parser.add_argument("--classification", type=Path,
+                        default=ROOT / "evidence/m2-native-batch-runtime-seam-v1/budget-classification-v1.json")
     args = parser.parse_args(argv)
     try:
-        result = verify(*[path.resolve() for path in (args.gate, args.sidecar, args.determinism, args.wrapper)])
+        result = verify(*[path.resolve() for path in (
+            args.gate, args.sidecar, args.determinism, args.wrapper, args.classification)])
     except (OSError, ValueError, KeyError, TypeError) as error:
         result = {"schema": "native-budget-gate-qa-v1", "status": "invalid",
                   "readOnly": True, "runtimeAdmissionChanged": False,

@@ -3,8 +3,8 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const assert = require('node:assert/strict');
 
-const [base, recordFile, outputDir] = process.argv.slice(2);
-if (!base || !recordFile || !outputDir) throw new Error('usage: node qa-native-dynamic-runtime.cjs BASE RECORD OUTPUT_DIR');
+const [baseUrl, recordFile, outputDir] = process.argv.slice(2);
+if (!baseUrl || !recordFile || !outputDir) throw new Error('usage: node qa-native-dynamic-runtime.cjs BASE RECORD OUTPUT_DIR');
 
 (async () => {
   const record = JSON.parse(await fs.readFile(recordFile, 'utf8'));
@@ -12,10 +12,19 @@ if (!base || !recordFile || !outputDir) throw new Error('usage: node qa-native-d
   await fs.mkdir(out, { recursive: false });
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
-  const report = { schema: 'native-dynamic-runtime-trace-v1', status: 'incomplete', bodySha256: record.appearanceRecipe?.base?.bodySha256, recordSha256: record.integrity?.recordSha256, samples: [], errors: [] };
+  const recordBase = record.appearanceRecipe?.base ?? {};
+  const report = {
+    schema: 'native-dynamic-runtime-trace-v1',
+    status: 'incomplete',
+    admission: { classification: 'diagnostic-only', runtimeAdmission: false },
+    bodySha256: recordBase.sha256 ?? recordBase.bodySha256,
+    recordSha256: record.integrity?.recordSha256,
+    samples: [],
+    errors: [],
+  };
   page.on('pageerror', e => report.errors.push(e.message));
   try {
-    await page.goto(base + '?workbench=appearance&body=' + encodeURIComponent(record.appearanceRecipe.base.bodyType));
+    await page.goto(baseUrl + '?workbench=appearance&body=' + encodeURIComponent(record.appearanceRecipe.base.bodyType));
     await page.waitForFunction(() => window.__debug?.ready, null, { timeout: 90000 });
     const restored = await page.evaluate(r => __debug.restoreCharacterRecord(r), record);
     assert.equal(restored.applied, true, JSON.stringify(restored));
@@ -50,7 +59,22 @@ if (!base || !recordFile || !outputDir) throw new Error('usage: node qa-native-d
     await capture('walk-dynamics-off', 2.5);
     const final = await page.evaluate(identity => __debug.captureCharacterRecord({ identity }), record.identity);
     report.finalRecordSha256 = final.integrity?.recordSha256;
-    report.dynamicStates = [...new Set(report.samples.map(s => s.row.appearance?.hairDynamics?.method).filter(Boolean))];
+    const labels = ['walk-dynamics-on', 'sit-dynamics-on', 'stand-dynamics-on', 'walk-dynamics-off'];
+    report.builds = [...new Set(report.samples.map(sample => sample.row.build).filter(Boolean))];
+    report.actionChain = labels.map(label => {
+      const rows = report.samples.filter(sample => sample.label === label);
+      return {
+        label,
+        samples: rows.length,
+        dynamics: [...new Set(rows.map(sample => sample.row.dynamics))],
+      };
+    });
+    report.switchState = {
+      onLabels: labels.slice(0, 3),
+      offLabels: ['walk-dynamics-off'],
+      onObserved: report.actionChain.slice(0, 3).every(item => item.dynamics.length === 1 && item.dynamics[0] === true),
+      offObserved: report.actionChain[3].dynamics.length === 1 && report.actionChain[3].dynamics[0] === false,
+    };
     report.status = report.errors.length ? 'failed' : 'technical-pass-diagnostic-only';
   } catch (error) {
     report.status = 'failed'; report.failure = String(error.stack || error); process.exitCode = 1;

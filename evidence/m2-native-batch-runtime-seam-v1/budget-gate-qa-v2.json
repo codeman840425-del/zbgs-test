@@ -1,0 +1,99 @@
+{
+  "schema": "native-budget-gate-qa-v1",
+  "status": "pass",
+  "readOnly": true,
+  "runtimeAdmissionChanged": false,
+  "acceptedForRuntime": [],
+  "budgetDecisions": [
+    {
+      "bodyType": "native-contour-roundness-a-v1",
+      "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+      "decision": "reject-static-over-budget",
+      "staticFailures": [
+        "body",
+        "garments.native-contour-roundness-a-shoes-v1",
+        "garments.native-contour-roundness-a-shorts-v1",
+        "garments.native-contour-roundness-a-top-v1",
+        "accessories.studio-microphone-v1"
+      ],
+      "unmeasuredLayers": [
+        "gpu",
+        "ordinaryPC"
+      ],
+      "budgetAdmission": false,
+      "reason": "Static limits reject this record"
+    },
+    {
+      "bodyType": "native-contour-cheek-b-v1",
+      "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+      "decision": "reject-static-over-budget",
+      "staticFailures": [
+        "body",
+        "garments.native-contour-cheek-b-shoes-v1",
+        "garments.native-contour-cheek-b-shorts-v1",
+        "garments.native-contour-cheek-b-top-v1",
+        "accessories.studio-microphone-v1"
+      ],
+      "unmeasuredLayers": [
+        "gpu",
+        "ordinaryPC"
+      ],
+      "budgetAdmission": false,
+      "reason": "Static limits reject this record"
+    }
+  ],
+  "passed": [
+    "production gate schema",
+    "production gate remains adapter-work-required",
+    "production gate acceptedForRuntime is empty",
+    "production gate contains two items",
+    "gate body identities match the pinned FaceContour pair",
+    "contour-roundness-a static budget remains over-budget",
+    "contour-roundness-a ordinary-PC performance remains unmeasured",
+    "contour-cheek-b static budget remains over-budget",
+    "contour-cheek-b ordinary-PC performance remains unmeasured",
+    "FaceContour sidecar schema",
+    "FaceContour sidecar runtimeVerified is false",
+    "FaceContour sidecar contains two samples",
+    "sidecar source model identities match the gate",
+    "both sidecar encodings have one explicit byte identity",
+    "both sidecar encodings validated successfully",
+    "sidecar rows retain body-map-only runtime rule",
+    "determinism receipt schema",
+    "determinism receipt has two equal runs",
+    "determinism receipt first and second hashes match",
+    "historical KTX budget wrapper schema",
+    "historical KTX wrapper rejects direct reuse",
+    "historical KTX wrapper pilotRuntimeVerified is false",
+    "historical wrapper identity for contour-roundness-a",
+    "historical wrapper budget for contour-roundness-a remains rejected",
+    "historical wrapper forbids pilot reuse for contour-roundness-a",
+    "historical wrapper identity for contour-cheek-b",
+    "historical wrapper budget for contour-cheek-b remains rejected",
+    "historical wrapper forbids pilot reuse for contour-cheek-b",
+    "source model hash for native-contour-roundness-a-v1",
+    "sidecar PNG hash for native-contour-roundness-a-v1",
+    "source model hash for native-contour-cheek-b-v1",
+    "sidecar PNG hash for native-contour-cheek-b-v1",
+    "budget classification report is supplied",
+    "budget classification schema",
+    "budget classification remains blocked",
+    "budget classification contains the pinned body pair",
+    "classification identity for native-contour-roundness-a-v1",
+    "sidecar identity for native-contour-roundness-a-v1 is bound to classification",
+    "native-contour-roundness-a-v1 ordinary-PC layer is explicitly unmeasured",
+    "native-contour-roundness-a-v1 static over-budget decision rejects the record",
+    "classification identity for native-contour-cheek-b-v1",
+    "sidecar identity for native-contour-cheek-b-v1 is bound to classification",
+    "native-contour-cheek-b-v1 ordinary-PC layer is explicitly unmeasured",
+    "native-contour-cheek-b-v1 static over-budget decision rejects the record",
+    "budget classification body types are unique"
+  ],
+  "issues": [],
+  "inputs": {
+    "productionGate": "evidence\\m2-native-production-gate-v5\\report.json",
+    "sidecarReport": "evidence\\m2-ktx-native-facecontour-sidecar-v1\\report.json",
+    "determinismReceipt": "evidence\\m2-ktx-native-facecontour-sidecar-v1\\determinism-check.json",
+    "historicalBudgetWrapper": "evidence\\m2-native-batch-adaptation-v1\\native-batch-ktx-budget.json"
+  }
+}

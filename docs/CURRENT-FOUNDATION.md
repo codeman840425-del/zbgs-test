@@ -115,3 +115,5 @@
 2026-11-18 头部附件候选链回读：当前源码构建 `c5d7f7dca6f2` 对 `native-contour-roundness-a-v1` 与 `native-contour-cheek-b-v1` 完成眼镜启用、正常速度走路→坐下→起身、页面关闭重开后再次加载。两体均 0 页面错误，三段动作快照的眼镜加载状态为 true，`eyeBlinkCompatibility.available=true`。证据 `evidence/m2-native-batch-runtime-seam-v1/native-glasses-runtime-candidate-v4/report.json`，仍为 `candidate-only`，没有写入正式 fit registry，不清除 `headAttachments` 或人工视觉准入。
 
 2026-11-18 admission cycle v16：以 v4 头部附件候选链重新汇总，状态仍为 `adapter-work-required`，`acceptedForRuntime=[]`。四类未完成任务保持为 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`。v16 证明候选链已进入共同闸门，不代表眼镜或两份 FaceContour 身体已正式可用。
+
+2026-11-18 资源矩阵文件闭包：`scripts/production/variant_matrix.py --root` 新增对 `resourceManifest`、`fitManifest`、`coverageManifest` 和 runtime-admitted 证据文件的实际路径/哈希核验。当前 `assets-source/variant-matrix-v1/representative-matrix.json` 的男女制服/短裤两款矩阵验证通过，证据 `evidence/m2-variant-matrix-file-closure-v1/report.json`；candidate 状态和 `runtimeVariants=[]` 保持不变。
