@@ -12,6 +12,7 @@ import {SURFACE_LAYER_PACKAGE} from './surface-layer-catalog.js';
 import surfaceManifest from '../public/assets/m2-surface-layer-v1/manifest.json' with {type:'json'};
 import {appearanceColorPresets} from './appearance-color-policy.js';
 import {nativePaletteContract} from './native-palette-catalog.js';
+import {NATIVE_SKIN_TONE_SCHEMA,NATIVE_SKIN_TONE_RULES,nativeSkinToneContract} from './native-skin-tone-contract.js';
 
 const preparationChecks=['resource bytes and digest','source geometry and expressions','skin weights and rest binds','actual head attachment and registered fit'];
 const surfacePreparationChecks=['surface manifest and overlay bytes and digests','surface source pixels, material and UV identity','surface dimensions and actual texture composition'];
@@ -57,6 +58,10 @@ export function queryAppearanceCandidates(controller){
   for(const [field,presets] of Object.entries({hairColor:HAIR_COLORS,skinTone:SKIN_TONES,eyeColor:EYE_COLORS,lipColor:LIP_COLORS}))
     appearance[field]={default:'original',unit:'preset',choices:Object.entries(appearanceColorPresets(base.sha256,field,presets))
       .map(([value,color])=>({value,color}))};
+  const skin=nativeSkinToneContract(base.sha256);
+  if(skin)appearance.skinTone.recipe={
+    schema:NATIVE_SKIN_TONE_SCHEMA,rulesVersion:NATIVE_SKIN_TONE_RULES,skinToneManifestSha256:skin.sha256,
+  };
   appearance.eyebrowColor={default:'original',unit:'preset',choices:Object.entries(nativePaletteContract(base.sha256)?.colors?.eyebrowColor??{original:null})
     .map(([value,color])=>({value,color}))};
   const nativeRecipe=Boolean(nativePaletteContract(base.sha256)?.colors?.eyebrowColor);
@@ -78,11 +83,13 @@ export function queryAppearanceCandidates(controller){
 // prepare/commit path, which verifies the actual resource bytes and geometry.
 export function admitAppearanceCandidate(controller,record){
   const nativeVersion=record?.schema===NATIVE_SCHEMA;
-  const accessoryVersion=record?.schema===ACCESSORY_SCHEMA||(nativeVersion&&Object.hasOwn(record,'accessories'));
-  const surfaceVersion=record?.schema===SURFACE_SCHEMA||((accessoryVersion||nativeVersion)&&Object.hasOwn(record,'surface'));
+  const skinVersion=record?.schema===NATIVE_SKIN_TONE_SCHEMA;
+  const accessoryVersion=record?.schema===ACCESSORY_SCHEMA||((nativeVersion||skinVersion)&&Object.hasOwn(record,'accessories'));
+  const surfaceVersion=record?.schema===SURFACE_SCHEMA||(!skinVersion&&(accessoryVersion||nativeVersion)&&Object.hasOwn(record,'surface'));
   const requiresPreparation=[...preparationChecks,...(surfaceVersion?surfacePreparationChecks:[])];
   try{
-    const fields={...recordFields,'':[...recordFields[''],...(surfaceVersion?['surface']:[]),...(accessoryVersion?['accessories']:[])],...(surfaceVersion?{surface:['manifestSha256','layers']}:{}),...(accessoryVersion?{accessories:['ears','hat']}:{})};
+    const fields={...recordFields,'':[...recordFields[''],...(surfaceVersion?['surface']:[]),...(accessoryVersion?['accessories']:[]),
+      ...(skinVersion?['skinToneManifestSha256']:[])],...(surfaceVersion?{surface:['manifestSha256','layers']}:{}),...(accessoryVersion?{accessories:['ears','hat']}:{})};
     for(const [path,allowed] of Object.entries(fields)){
       const object=path?record?.[path]:record;
       const unknown=Object.keys(object??{}).find(key=>!allowed.includes(key));

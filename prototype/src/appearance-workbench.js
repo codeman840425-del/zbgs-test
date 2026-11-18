@@ -54,7 +54,7 @@ export function bindAppearanceWorkbench({ controller }) {
   const eyebrow = panel.querySelector('#appearance-eyebrow-color');
   const eyebrowNote = panel.querySelector('#appearance-eyebrow-note');
   const colorFields=[[hair,'hairColor',HAIR_COLORS],[skin,'skinTone',SKIN_TONES],[eye,'eyeColor',EYE_COLORS],[lip,'lipColor',LIP_COLORS],[eyebrow,'eyebrowColor',{original:null}]];
-  const colorLabels={original:'原色',black:'黑色',brown:'棕色',blonde:'金色',warm:'暖色',deep:'深色',blue:'蓝色',green:'绿色',violet:'紫色',rose:'玫瑰色',coral:'珊瑚色',mauve:'豆沙色'};
+  const colorLabels={original:'原色',black:'黑色',brown:'棕色',blonde:'金色',warm:'暖色',deep:'深色',blue:'蓝色',green:'绿色',violet:'紫色',rose:'玫瑰色',coral:'珊瑚色',mauve:'豆沙色','native-warm-v1':'原生暖肤色'};
   const colorNote = panel.querySelector('#appearance-face-color-note');
   const note = panel.querySelector('#appearance-style-note');
   const geometryPanel=document.createElement('details');
@@ -345,6 +345,15 @@ export function bindAppearanceWorkbench({ controller }) {
     if (nativeReviews.childElementCount) nativeReviews.append(' · ');
     nativeReviews.append(link);
   }
+  const nativeSkinReview = document.createElement('span');
+  const nativeSkinLink = document.createElement('a');
+  nativeSkinLink.href = '/reviews/native-skin-tone/';
+  nativeSkinLink.textContent = '头身肤色与角色恢复';
+  nativeSkinLink.target = '_blank';
+  nativeSkinLink.rel = 'noopener noreferrer';
+  nativeSkinReview.hidden = true;
+  nativeSkinReview.append(' · ', nativeSkinLink);
+  nativeReviews.append(nativeSkinReview);
   previewInfo.append(nativeReviews);
   inspectionPage.prepend(previewInfo);
   const nativePreview=document.createElement('p');
@@ -460,6 +469,7 @@ export function bindAppearanceWorkbench({ controller }) {
   }
   function sync() {
     const actual = state();
+    nativeSkinReview.hidden = !actual.nativeSkinTone;
     const actualBody = actor().profile.bodyType;
     const group = groupFor(actualBody);
     if (!group) {
@@ -504,6 +514,7 @@ export function bindAppearanceWorkbench({ controller }) {
     }
     eyebrowNote.textContent = eyebrow.disabled ? (previewSupport ? '此人物尚未开放独立眉色。' : '此人物眉色随发色变化，暂不单独调整。') : '眉色独立保存；当前发色仍保留原色。';
     colorNote.textContent = [
+      actual.nativeSkinTone&&!skin.disabled ? '原生暖肤色同时应用于脸和身体，可切换基础与穿衣模式检查。' : '',
       eye.disabled ? '此人物瞳色暂不可用。' : previewSupport ? '原生虹膜配色样件；眼白与独立高光保留。' : '瞳色调整虹膜，保留瞳孔与高光。',
       lip.disabled ? '此人物唇色暂不可用。' : '唇色可独立选择。',
     ].join('');

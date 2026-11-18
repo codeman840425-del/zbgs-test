@@ -10,6 +10,8 @@ import { assertAppearanceColorSelection } from './appearance-color-policy.js';
 import {nativePaletteContract} from './native-palette-catalog.js';
 import {createNativeEyebrowPalette} from './native-eyebrow-palette.js';
 import { loadNativeHairAttachment } from './native-hair-attachment.js';
+import {nativeSkinToneContract} from './native-skin-tone-contract.js';
+import {createNativeSkinTone} from './native-skin-tone.js';
 
 export const HAIR_COLORS = { original: null, black: '#343139', brown: '#805039', blonde: '#dab77a' };
 // Presets inspected under the actual room's warm key light and ACES exposure.
@@ -18,8 +20,10 @@ const materialsOf = mesh => Array.isArray(mesh.material) ? mesh.material : [mesh
 
 /** Per-instance appearance only. No skeleton, geometry, motion or skin weights
  * are changed by tinting. Replacements require an exact body admission. */
-export function createCharacterAppearance({ vrm, avatarSha256, validateHairChange, preserveHairInBaseMode = false }) {
+export function createCharacterAppearance({ vrm, avatarSha256, validateHairChange, preserveHairInBaseMode = false, bodyTextureCoverage }) {
   const facialPalette = createFacialPalette({vrm, avatarSha256});
+  const skinContract = nativeSkinToneContract(avatarSha256);
+  const nativeSkin = skinContract ? createNativeSkinTone({vrm, contract:skinContract, coverage:bodyTextureCoverage}) : null;
   const nativeEyebrow = nativePaletteContract(avatarSha256)?.eyebrow
     ? createNativeEyebrowPalette({vrm,avatarSha256,contract:{...nativePaletteContract(avatarSha256).eyebrow,bodySha256:avatarSha256,sourceManifestSha256:nativePaletteContract(avatarSha256).eyebrow.sourceManifestSha256,colors:{eyebrowColor:nativePaletteContract(avatarSha256).colors.eyebrowColor}}})
     : null;
@@ -39,7 +43,8 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
   const noHairAdmission = NO_HAIR_BODIES.find(entry => entry.sha256 === avatarSha256);
   const canHideHair = Boolean(noHairAdmission && hairMeshes.length && !mixedHairMesh);
   let bodyMode = 'dressed';
-  const originals = new Map([...skin, ...hair].map(m => [m, {
+  const tintableSkin = nativeSkin ? [] : [...skin];
+  const originals = new Map([...tintableSkin, ...hair].map(m => [m, {
     color: m.color?.clone(), shade: m.shadeColorFactor?.clone(), map: m.map, shadeMap: m.shadeMultiplyTexture,
   }]));
   const grayTextures = new Map();
@@ -118,7 +123,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
     for (const value of replacements.values()) if(!value.native)value.scene.traverse(mesh => {
       if (mesh.isMesh) for (const m of materialsOf(mesh)) tintHair(m, value.materialBase.get(m));
     });
-    for (const m of skin) {
+    for (const m of tintableSkin) {
       const base = originals.get(m), tint = SKIN_TONES[skinTone];
       if (base.color) { m.color.copy(base.color); if (tint) m.color.multiply(new THREE.Color(tint)); }
       if (base.shade) { m.shadeColorFactor.copy(base.shade); if (tint) m.shadeColorFactor.multiply(new THREE.Color(tint)); }
@@ -225,7 +230,8 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
     const desiredColor = input.reset ? 'original' : input.hairColor ?? hairColor;
     const desiredSkin = input.reset ? 'original' : input.skinTone ?? skinTone;
     const desiredEyebrow = input.reset ? 'original' : input.eyebrowColor ?? nativeEyebrow?.getState().eyebrowColor ?? 'original';
-    if (!(desiredColor in HAIR_COLORS) || !(desiredSkin in SKIN_TONES)) return { applied: false, reason: '未知颜色预设' };
+    if (!Object.hasOwn(HAIR_COLORS,desiredColor) || !Object.hasOwn(skinContract?.colors ?? SKIN_TONES,desiredSkin))
+      return { applied: false, reason: '未知颜色预设' };
     if ((input.eyeColor !== undefined && !(input.eyeColor in EYE_COLORS)) || (input.lipColor !== undefined && !(input.lipColor in LIP_COLORS)))
       return {applied:false,reason:'未知瞳色或唇色'};
     try { assertAppearanceColorSelection(avatarSha256,input.reset ? {} : {...input,hairColor:desiredColor,skinTone:desiredSkin,eyebrowColor:desiredEyebrow}); }
@@ -248,7 +254,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
       applyColors();applyHairVisibility();
     };
     error=null;loading=true;
-    let paletteUpdate=null, eyebrowUpdate=null;
+    let paletteUpdate=null, eyebrowUpdate=null, skinUpdate=null;
     try {
       if (!['original','none'].includes(desiredStyle)&&!replacements.has(desiredStyle)) {
         if (!replacementPromises.has(desiredStyle)) replacementPromises.set(desiredStyle, loadReplacement(admittedStyles.find(entry => entry.id === desiredStyle)).then(value => {
@@ -276,7 +282,8 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
       if(!paletteUpdate.commit){loading=false;return paletteUpdate;}
       eyebrowUpdate=nativeEyebrow?await nativeEyebrow.prepareUpdate({eyebrowColor:desiredEyebrow},{trackIntent}):null;
       if(eyebrowUpdate&&!eyebrowUpdate.commit){paletteUpdate.dispose();loading=false;return eyebrowUpdate;}
-      if(disposed||revision!==requestRevision){paletteUpdate.dispose();eyebrowUpdate?.dispose();applyStyleIntent();return{applied:false,cancelled:true};}
+      if(!disposed&&revision===requestRevision&&nativeSkin)skinUpdate=await nativeSkin.prepareUpdate(desiredSkin);
+      if(disposed||revision!==requestRevision||skinUpdate?.cancelled){paletteUpdate.dispose();eyebrowUpdate?.dispose();skinUpdate?.dispose?.();applyStyleIntent();return{applied:false,cancelled:true};}
       if(desiredColor!=='original'){
         for(const material of hair){const base=originals.get(material);neutralTexture(base.map);neutralTexture(base.shadeMap);}
         for(const value of replacements.values())for(const base of value.materialBase.values()){neutralTexture(base.map);neutralTexture(base.shadeMap);}
@@ -288,7 +295,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
       const restoreAppearance=()=>{for(const [material,state] of previous.materials){material.map=state.map;if('shadeMultiplyTexture' in material)material.shadeMultiplyTexture=state.shadeMap;if(state.color&&material.color)material.color.copy(state.color);if(state.shade&&material.shadeColorFactor)material.shadeColorFactor.copy(state.shade);material.needsUpdate=true;}hairStyle=previous.hairStyle;hairColor=previous.hairColor;skinTone=previous.skinTone;replacement=previous.replacement;applyHairVisibility();};
       let live=true,committed=false,rolledBack=false,cleaned=false;
       const update={
-        isCurrent:()=>live&&!disposed&&revision===requestRevision&&paletteUpdate.isCurrent()&&(!eyebrowUpdate||eyebrowUpdate.isCurrent()),
+        isCurrent:()=>live&&!disposed&&revision===requestRevision&&paletteUpdate.isCurrent()&&(!eyebrowUpdate||eyebrowUpdate.isCurrent())&&(!skinUpdate||skinUpdate.isCurrent()),
         applyStyleIntent,
           validateCommit(){
           if(!update.isCurrent())throw Error('外观准备已过期');
@@ -299,24 +306,31 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
             assertAccessoryTransactionCommit(accessoryTransaction,vrm);
             update.validateCommit();
           try {
-            eyebrowUpdate?.commit(); paletteUpdate.commit();
+            eyebrowUpdate?.commit(); paletteUpdate.commit(); skinUpdate?.commit();
             if(changeStyle){hairStyle=desiredStyle;replacement=replacements.get(desiredStyle)||null;}
             hairColor=desiredColor;skinTone=desiredSkin;applyColors();applyHairVisibility();
             loading=false;live=false;committed=true;pendingUpdates.delete(update);return{applied:true};
-          } catch(error) { eyebrowUpdate?.rollback?.(); paletteUpdate.rollback?.(); restoreAppearance(); throw error; }
+          } catch(error) {
+            try { skinUpdate?.rollback(); }
+            finally { eyebrowUpdate?.rollback?.(); paletteUpdate.rollback?.(); restoreAppearance(); }
+            throw error;
+          }
         },
         rollback(){
           if(!committed||disposed||rolledBack)return{applied:false};
-          eyebrowUpdate?.rollback?.();paletteUpdate.rollback?.();restoreAppearance();committed=false;rolledBack=true;pendingUpdates.delete(update);loading=false;return{applied:true};
+          try { skinUpdate?.rollback(); }
+          finally { eyebrowUpdate?.rollback?.();paletteUpdate.rollback?.();restoreAppearance();committed=false;rolledBack=true;pendingUpdates.delete(update);loading=false; }
+          return{applied:true};
         },
         dispose(){
-          if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(update);try{paletteUpdate.dispose();}finally{eyebrowUpdate?.dispose();}
+          if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(update);
+          try{paletteUpdate.dispose();}finally{try{eyebrowUpdate?.dispose();}finally{skinUpdate?.dispose();}}
           if(revision===requestRevision)loading=false;
         },
       };
       pendingUpdates.add(update);return update;
     } catch (e) {
-      paletteUpdate?.dispose();eyebrowUpdate?.dispose();
+      paletteUpdate?.dispose();eyebrowUpdate?.dispose();skinUpdate?.dispose?.();
       if (disposed || revision !== requestRevision) return { applied: false, cancelled: true };
       error = e.message; loading = false;
       return { applied: false, reason: e.message };
@@ -343,13 +357,14 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
       availableStyles: ['original', ...(canHideHair ? ['none'] : []), ...admittedStyles.map(entry => entry.id)],
       styleOptions: [{id:'original',label:'原发型'}, ...(canHideHair ? [{id:'none',label:'无发（保留眉睫毛）'}] : []), ...admittedStyles.map(({id,label}) => ({id,label}))],
       skinMaterialCount: skin.size, hairMaterialCount: hair.size, neutralTextureCount: grayTextures.size,
+      ...(nativeSkin ? {nativeSkinTone:nativeSkin.getState()} : {}),
       hairFit: replacement ? { ...replacement.hairFit } : null, replacementSHA256: replacement?.sha256 ?? null,
       hairDynamics:replacement?.dynamics?.getState()??null }),
     dispose() {
       if(disposed)return;
       disposed = true; generation++;revision++;loading=false;pendingStyleRequest=0;environmentColliders=[];
       for(const update of pendingUpdates)update.dispose();
-      facialPalette.dispose();nativeEyebrow?.dispose();
+      facialPalette.dispose();nativeEyebrow?.dispose();nativeSkin?.dispose();
       replacements.forEach(releaseReplacement); replacements.clear(); replacement = null;
       for (const [m, base] of originals) {
         if (base.color) m.color.copy(base.color);

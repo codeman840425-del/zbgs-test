@@ -217,6 +217,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   }
   return {
     prepareOutfit,
+    get bodyTextureCoverage() { return textureCoverage; },
     setOutfit(value) {
       const { selection } = outfitSelection(config, value);
       apply(selection.index, debugBody);

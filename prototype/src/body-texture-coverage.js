@@ -71,8 +71,12 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
   records.forEach(r => owners.set(r.material, token));
   const textures = new Map();
   let bitmap = null, disposed = false, covered = false, activeIds = [], revision = 0;
+  let skinMaps = null, skinRevision = 0;
   const pending = new Set(), cleanupErrors = [];
-  const expectedMap = (record, key = 'map') => covered ? textures.get(record[key]) : record[key];
+  const selectedMap = (map, useCovered, variant) => variant
+    ? (useCovered ? variant.covered : variant.base).get(map)
+    : useCovered ? textures.get(map) : map;
+  const expectedMap = (record, key = 'map') => selectedMap(record[key], covered, skinMaps);
   const assertLiveState = () => {
     check(!disposed, 'owner disposed');
     for (const record of records) check(owners.get(record.material) === token &&
@@ -91,13 +95,17 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
   };
   // Clone only for a staging update(0): all work that may fail happens before
   // publishing map references. No source or live material is disposed here.
-  const stageMaterials = useCovered => {
+  const assignMaps = (material, record, useCovered, variant) => {
+    material.map = selectedMap(record.map, useCovered, variant);
+    material.shadeMultiplyTexture = selectedMap(record.shadeMap, useCovered, variant);
+  };
+  const stageMaterials = (useCovered, variant = skinMaps) => {
     const staged = [];
     try {
       for (const record of records) {
         const material = record.material.clone(); staged.push(material);
-        const map = useCovered ? textures.get(record.map) : record.map;
-        material.map = map; material.shadeMultiplyTexture = useCovered ? textures.get(record.shadeMap) : record.shadeMap;
+        assignMaps(material, record, useCovered, variant);
+        check(material.map?.isTexture && material.shadeMultiplyTexture?.isTexture, 'missing staged Body maps');
         material.update(0);
       }
     } finally { staged.forEach(material => material.dispose()); }
@@ -118,6 +126,56 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
     assertLiveState(); stageMaterials(true); stageMaterials(false);
   } catch (error) { cleanup(); throw error; }
 
+  function applyMaps(useCovered, variant) {
+    assertLiveState();
+    const previous = records.map(record => [record.material.map, record.material.shadeMultiplyTexture]);
+    try {
+      for (const record of records) {
+        assignMaps(record.material, record, useCovered, variant);
+        record.material.needsUpdate = true;
+        record.material.update(0);
+      }
+    } catch (error) {
+      records.forEach((record, index) => {
+        [record.material.map, record.material.shadeMultiplyTexture] = previous[index];
+        record.material.needsUpdate = true;
+        try { record.material.update(0); } catch (restoreError) { cleanupErrors.push(String(restoreError)); }
+      });
+      throw error;
+    }
+  }
+
+  function isLive() {
+    try { assertLiveState(); return true; } catch { return false; }
+  }
+
+  function prepareSkinTone(nextMaps) {
+    assertLiveState();
+    stageMaterials(false, nextMaps);
+    stageMaterials(true, nextMaps);
+    const ticket = ++skinRevision;
+    let live = true, committed = false, previousMaps;
+    const update = {
+      isCurrent: () => live && ticket === skinRevision && isLive(),
+      commit() {
+        check(update.isCurrent(), 'prepared skin tone superseded or disposed');
+        previousMaps = skinMaps;
+        applyMaps(covered, nextMaps);
+        skinMaps = nextMaps;
+        live = false; committed = true; pending.delete(update);
+      },
+      rollback() {
+        if (!committed || disposed || ticket !== skinRevision) return;
+        applyMaps(covered, previousMaps);
+        skinMaps = previousMaps;
+        committed = false;
+      },
+      dispose() { live = false; pending.delete(update); },
+    };
+    pending.add(update);
+    return update;
+  }
+
   function prepareEquipmentSet(ids) {
     assertLiveState();
     check(Array.isArray(ids) && new Set(ids).size === ids.length, 'duplicate/invalid equipment set');
@@ -133,42 +191,19 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
     const ticket = ++revision;
     let live = true, committed = false, rolledBack = false;
     const previousCovered = covered, previousActiveIds = activeIds.slice();
-    let previousMaterials = null;
     const update = {
-      isCurrent: () => live && !disposed && ticket === revision && records.every(record =>
-        owners.get(record.material) === token && record.material.map === expectedMap(record) &&
-        record.material.shadeMultiplyTexture === expectedMap(record, 'shadeMap') &&
-        record.material.alphaTest === manifest.alphaTest && record.material.transparent === false),
+      isCurrent: () => live && ticket === revision && isLive(),
       commit() {
         check(update.isCurrent(), 'prepared update superseded or disposed');
-        assertLiveState();
-        const previous = records.map(record => [record.material.map, record.material.shadeMultiplyTexture]);
-        previousMaterials = previous;
-        try {
-          for (const record of records) {
-            const next = nextCovered ? textures.get(record.map) : record.map;
-            record.material.map = next; record.material.shadeMultiplyTexture = nextCovered ? textures.get(record.shadeMap) : record.shadeMap;
-            record.material.needsUpdate = true; record.material.update(0);
-          }
-        } catch (error) {
-          // Unexpected material updater failure is local-atomic too. The factory
-          // still prevalidates all participants before its shared commit.
-          records.forEach((record, i) => {
-            record.material.map = previous[i][0]; record.material.shadeMultiplyTexture = previous[i][1];
-            record.material.needsUpdate = true;
-            try { record.material.update(0); } catch (restoreError) { cleanupErrors.push(String(restoreError)); }
-          });
-          live = false; pending.delete(update); throw error;
-        }
+        // Appearance and outfit may be staged together. Both states of every
+        // prepared tone have been validated by the same material owner.
+        try { applyMaps(nextCovered, skinMaps); }
+        catch (error) { live = false; pending.delete(update); throw error; }
         covered = nextCovered; activeIds = [...selectedIds]; committed = true; live = false; pending.delete(update);
       },
       rollback() {
         if (!committed || rolledBack) return;
-        if (!previousMaterials) throw Error('Body texture update has no committed snapshot');
-        records.forEach((record, i) => {
-          record.material.map = previousMaterials[i][0]; record.material.shadeMultiplyTexture = previousMaterials[i][1];
-          record.material.needsUpdate = true; record.material.update(0);
-        });
+        applyMaps(previousCovered, skinMaps);
         covered = previousCovered; activeIds = previousActiveIds; revision++; rolledBack = true;
       },
       dispose() { live = false; pending.delete(update); },
@@ -176,7 +211,13 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
     pending.add(update); return update;
   }
   return {
-    prepareEquipmentSet,
+    prepareEquipmentSet, prepareSkinTone,
+    skinToneSources(part, manifestSha256) {
+      assertLiveState();
+      check(manifestSha256 === descriptor.sha256 && part.materialName === manifest.materialName &&
+        part.width === manifest.width && part.height === manifest.height, 'skin tone Body/coverage mismatch');
+      return new Map(textures);
+    },
     getInfo: () => ({schema:manifest.schema, avatarSha256, covered, activeIds:[...activeIds],
       maskedPngSha256:admission.maskedPngSha256, ownedTextures:textures.size, materialCount:records.length,
       pendingUpdates:pending.size, disposed, cleanupErrors:[...cleanupErrors],
@@ -190,7 +231,7 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
         record.material.needsUpdate = true;
         try { record.material.update(0); } catch (error) { cleanupErrors.push(String(error)); }
       }
-      covered = false; activeIds = []; cleanup();
+      covered = false; activeIds = []; skinMaps = null; cleanup();
     },
   };
 }

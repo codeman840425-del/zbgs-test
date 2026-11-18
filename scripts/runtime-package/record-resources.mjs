@@ -17,7 +17,7 @@ function requireDependency(ok, message) {
   if (!ok) fail('unsupported-dependency', message);
 }
 
-async function loadContracts(sourceRoot) {
+async function loadContracts(sourceRoot, usesNativeSkinTone) {
   const load = (file, options) => import(pathToFileURL(path.resolve(sourceRoot, 'prototype/src', file)).href, options);
   return Object.assign({}, ...await Promise.all([
     'foundation-profiles.js', 'outfit-selection.js', 'equipment-set.js', 'garment-layer-fit.js',
@@ -26,6 +26,7 @@ async function loadContracts(sourceRoot) {
     'hairstyle-catalog.js', 'hair-fit-contract.js', 'no-hair-bodies.js',
     'facial-geometry-profiles.js', 'facial-geometry-selection.js', 'facial-palette-contract.js',
     'native-palette-catalog.js', 'surface-layer-catalog.js', 'hat-accessory-contract.js',
+    ...(usesNativeSkinTone ? ['native-skin-tone-contract.js'] : []),
     'live-accessory-record.js', 'glasses-temple-fit.js', 'normalized-motion.js',
   ].map(file => load(file))), {glasses: (await load('glasses-temple-fit-manifest.json', {with:{type:'json'}})).default});
 }
@@ -299,6 +300,17 @@ async function addPalettes(io, contracts, avatarSha256, recipe) {
   const appearance = recipe.appearance;
   const native = contracts.nativePaletteContract(avatarSha256);
   const surface = recipe.surface?.layers?.length;
+  if (recipe.skinToneManifestSha256) {
+    const skin = contracts.nativeSkinToneContract(avatarSha256);
+    requireDependency(skin?.sha256 === recipe.skinToneManifestSha256, 'Native skin tone pin differs');
+    const {value:manifest, path:parent} = await io.pin(skin, 'Selected native skin tone manifest');
+    const {face, eyeline, body} = contracts.validateNativeSkinToneManifest(manifest, skin, appearance.skinTone);
+    const provenance = [{sourcePath:'prototype/public/' + parent, coverageManifestSha256:skin.coverage.manifestSha256}];
+    await io.pin(face.authored, 'Selected native skin tone PNG: face', {parent, provenance});
+    await io.pin(eyeline.authored, 'Selected native skin tone PNG: eyeline', {parent, provenance});
+    await io.pin(body.authored, 'Selected native skin tone PNG: body', {parent, provenance});
+    await io.pin(body.coveredAuthored, 'Selected native skin tone PNG: covered body', {parent, provenance});
+  }
   if (native) {
     requireDependency(!surface, 'Native palette has no surface compositor');
     await addNativePalettes(io, native, avatarSha256, appearance);
@@ -419,9 +431,9 @@ async function addMaterials(io, catalog, materials) {
 }
 
 export async function collectRecordResources({record, sourceRoot, add}) {
-  const contracts = await loadContracts(sourceRoot);
-  const io = resourceReaders(add);
   const recipe = record?.appearanceRecipe;
+  const contracts = await loadContracts(sourceRoot, Boolean(recipe?.skinToneManifestSha256));
+  const io = resourceReaders(add);
   const {bodyType, sha256:avatarSha256} = recipe?.base ?? {};
   requireDependency(typeof bodyType === 'string' && Object.hasOwn(contracts.FOUNDATION_PROFILES, bodyType), 'Unknown record body');
   const config = contracts.foundationProfile(bodyType);

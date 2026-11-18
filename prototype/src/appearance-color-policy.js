@@ -1,5 +1,6 @@
 import {isNativeProductionBody} from './native-production-catalog.js';
 import {nativePaletteContract} from './native-palette-catalog.js';
+import {nativeSkinToneContract} from './native-skin-tone-contract.js';
 // Native sources expose only their separately registered baked colors. Existing
 // source families retain their prior color presets and resource preparation.
 const originalOnly = Object.freeze({hairColor:false,skinTone:false,eyeColor:false,lipColor:false});
@@ -15,11 +16,12 @@ export function appearanceColorSupport(avatarSha256) {
   const support={hairColor:true,skinTone:true,eyeColor:true,lipColor:true,...(sourcePolicies[avatarSha256] ?? (isNativeProductionBody(avatarSha256) ? originalOnly : {}))};
   for(const [field,values] of Object.entries(nativePaletteContract(avatarSha256)?.colors??{}))
     support[field]=Object.keys(values).some(value=>value!=='original');
+  if(nativeSkinToneContract(avatarSha256))support.skinTone=true;
   return support;
 }
 
 export function appearanceColorPresets(avatarSha256,field,presets) {
-  const native=nativePaletteContract(avatarSha256)?.colors[field];
+  const native=field==='skinTone'?nativeSkinToneContract(avatarSha256)?.colors:nativePaletteContract(avatarSha256)?.colors[field];
   if(native)return {...native};
   return appearanceColorSupport(avatarSha256)[field]?{...presets}:{original:null};
 }
@@ -29,8 +31,9 @@ export function assertAppearanceColorSelection(avatarSha256, selection) {
   const nativeColors=nativePaletteContract(avatarSha256)?.colors;
   for (const field of Object.keys(labels)) {
     if (selection[field] == null || selection[field] === 'original') continue;
-    if(nativeColors?.[field]?Object.hasOwn(nativeColors[field],selection[field]):support[field])continue;
-    const reason=nativeColors?.[field]?'仅支持已登记的原生配色':'仅支持原色';
+    const registered=field==='skinTone'?nativeSkinToneContract(avatarSha256)?.colors:nativeColors?.[field];
+    if(registered?Object.hasOwn(registered,selection[field]):support[field])continue;
+    const reason=registered?'仅支持已登记的原生配色':'仅支持原色';
     const error = new Error(`当前基模的${labels[field]}尚未适配，${reason}；当前外观未改变`);
     error.field = `appearance.${field}`;
     error.code = 'unsupported-resource';
