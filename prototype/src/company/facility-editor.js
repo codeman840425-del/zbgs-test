@@ -128,6 +128,15 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
     options(el('edit-instance'),[{value:'',label:'选择场景里的物品'},...visible.map((n,i)=>({value:n.id,label:`${i+1} · ${nice(resource(n))||n.name||'组合工位'}`}))],selected);
     const n=node(),r=resource(n),constraints=n?getFacilityEditConstraints(n,r):null;
     el('edit-empty').hidden=Boolean(n);el('edit-fields').hidden=!n;el('edit-focus').disabled=!n||isBusy()||view.mode==='building';outline.visible=false;
+    const upgradePanel=el('template-upgrade-panel');
+    if(n?.kind==='workstation'){
+      const candidates=templates.templates.filter(t=>t.id===n.template?.id).sort((a,b)=>a.version-b.version);
+      options(el('template-target'),candidates.map(t=>({value:JSON.stringify({id:t.id,version:t.version}),label:`${t.id} · v${t.version}${t.version===n.template.version?'（当前）':''}`})),JSON.stringify(n.template));
+      el('template-target').disabled=isBusy()||view.mode==='building';
+      el('template-upgrade').disabled=isBusy()||view.mode==='building'||!candidates.some(t=>t.version>n.template.version);
+      el('template-upgrade-note').textContent=candidates.some(t=>t.version>n.template.version)?'显式升级只作用于当前工位；可保留已调整的位置、状态、外观和部件身份，不兼容时保留原存档并说明原因。':'当前已是该模板的最高版本。';
+      upgradePanel.hidden=false;
+    }else upgradePanel.hidden=true;
     if(n){
       const candidates=r?latestAppearanceVersions(catalog.resources.filter(c=>c.asset&&compareFacilityFunction(r,c).compatible)):[];
       if(r&&!candidates.some(c=>ref(c)===ref(r)))candidates.unshift(r);
@@ -229,6 +238,11 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
   el('edit-parent').onclick=()=>select(node().parentId);
   el('edit-remove').onclick=()=>execute('正在移除物品…',async()=>{await session.apply([{type:'remove',id:selected}]);selected='';cancel();});
   el('edit-copy').onclick=()=>arm({kind:'copy'});
+  el('template-upgrade').onclick=()=>execute('正在检查并升级组合模板…',async()=>{
+    const n=node();if(!n?.template)throw new CompanyError('invalid-operation','template-upgrade','Select a workstation');
+    let target;try{target=JSON.parse(el('template-target').value);}catch{throw new CompanyError('missing-template-version',`${n.id}.template`,'Specify an exact target template');}
+    const result=await session.upgrade(n.id,target);selected=n.id;return result;
+  });
   el('edit-attach').onclick=()=>execute('正在更换安装位置…',()=>{
     const n=node(),r=resource(n),t=listPlacementTargets(session.document,catalog,r,region(),{templates}).find(t=>t.id===el('edit-target').value);
     if(!t)throw new CompanyError('missing-placement-target',n.id,'Select an installation target');
