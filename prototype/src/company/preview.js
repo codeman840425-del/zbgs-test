@@ -344,7 +344,7 @@ function sync(){
 async function perform(label,action){
   if(busy)return;busy=true;document.querySelectorAll('button,select,input').forEach(e=>e.disabled=true);status(label);
   try{await action();status('方案已更新，可以继续查看或保存。');}catch(error){
-    const messages={'overlapping-facilities':'设施位置重叠','visual-outside-room':'模型超出房间边界','visual-surface-overhang':'设备超出桌面承载范围','asset-fetch-failed':'缺少所需模型文件','asset-texture-load-failed':'模型贴图损坏或无法加载','save-not-found':'尚未保存过这个方案','save-write-failed':'浏览器存储空间不足或不可写','dependency-content-mismatch':'存档需要的素材版本与当前素材不一致'};
+    const messages={'overlapping-facilities':'设施位置重叠','visual-outside-room':'模型超出房间边界','desktop-area-occupied':'这块桌面已有设备，请移到空处。','invalid-desktop-envelope':'整个安装区域须贴合桌面并落在桌沿内，可移动或旋转后再放置。','visual-surface-overhang':'设备超出桌面承载范围','asset-fetch-failed':'缺少所需模型文件','asset-texture-load-failed':'模型贴图损坏或无法加载','save-not-found':'尚未保存过这个方案','save-write-failed':'浏览器存储空间不足或不可写','dependency-content-mismatch':'存档需要的素材版本与当前素材不一致'};
     status(`${messages[error.code]||'素材或布局不符合当前支持规则'}。当前有效方案已保留。`,true);console.error(error);
   }
   finally{busy=false;document.querySelectorAll('button,select,input').forEach(e=>e.disabled=false);sync();}

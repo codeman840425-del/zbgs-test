@@ -85,15 +85,24 @@ function targetForSupport(parent, parentResource, resource, surface) {
   });
 }
 
-function deskTarget(parent, parentResource, resource) {
+function deskTargets(parent, parentResource, resource) {
   const surface = parentResource.surface;
-  if (!surface) return null;
+  if (!surface) return [];
   const m = mounting(resource);
   const yaw = m ? supportYaw(resource, {center: [0, 0], halfSize: surface.halfSize, topY: surface.topY, clearanceHeight: .96}) : 0;
-  if (yaw === null) return null;
-  return target(`${parent.id}:desktop`, parent.id, `${parent.name || parent.id} · 台面`, [0, surface.topY, 0], yaw, 'desk-surface', {
+  if (yaw === null) return [];
+  const centre = target(`${parent.id}:desktop`, parent.id, `${parent.name || parent.id} · 台面`, [0, surface.topY, 0], yaw, 'desk-surface', {
     lockedAxes: ['y'], note: '沿桌面移动，Y 固定在桌面承载高度',
   });
+  if (!resource.mounting?.reserveDesktopArea) return [centre];
+  const across = Math.abs(Math.sin(yaw)) > .5;
+  const [halfX,halfZ] = surface.halfSize;
+  const dx = Math.min(halfX*.5, halfX-(across?m.depth:m.width)/2);
+  const dz = Math.min(halfZ*.42, halfZ-(across?m.width:m.depth)/2);
+  if (dx < .001) return [centre];
+  return [[dx,'right','桌面右侧'],[-dx,'left','桌面左侧']].map(([x,side,label]) => ({
+    ...centre,id:centre.id+'-'+side,label:(parent.name || parent.id)+' · '+label,position:[x,surface.topY,Math.max(dz,0)],
+  })).concat(centre);
 }
 
 function deskClampConstraints(yaw) {
@@ -258,7 +267,7 @@ export function listPlacementTargets(document, catalog, resource, regionId, opti
   else if (selected.mount === 'desk-edge-clamp') result.push(...deskClampTargets(region, derived, selected));
   else if (selected.mount === 'desk-surface') {
     for (const parent of derived.facilities.filter(entry => entry.roomId === region.id && parentResourceIsDesk(entry.resource))) {
-      const value = deskTarget(parent.node, parent.resource, selected); if (value) result.push(value);
+      result.push(...deskTargets(parent.node, parent.resource, selected));
     }
   } else if (selected.mount === 'support-surface') {
     for (const parent of derived.facilities.filter(entry => entry.roomId === region.id && Array.isArray(entry.resource.supportSurfaces)))

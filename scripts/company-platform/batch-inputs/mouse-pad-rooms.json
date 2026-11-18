@@ -1,0 +1,70 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "mouse-pad-home",
+      "input": {
+        "id": "mouse-pad-home",
+        "name": "民房 · 双屏直播桌",
+        "spaceProfile": {"id": "company-space-v2", "version": 1},
+        "furnishingVersion": 2,
+        "scale": "small-home",
+        "floors": [{"id": "ground", "name": "一层", "rooms": [
+          {"id": "live", "name": "直播间", "purpose": "streaming", "stations": 1}
+        ]}]
+      },
+      "operations": [
+        {
+          "type": "move", "id": "mouse-pad-home/ground/live/station-1/monitor",
+          "transform": {"position": [-0.44, 0.84, -0.27], "yaw": 0}
+        },
+        {
+          "type": "add-facility", "id": "mouse-pad-home/ground/live/station-1/right-monitor",
+          "parentId": "mouse-pad-home/ground/live/station-1/desk",
+          "resource": {"id": "monitor-aurora-usb", "version": 1},
+          "transform": {"position": [0.44, 0.84, -0.27], "yaw": 0}
+        },
+        {
+          "type": "add-facility", "id": "mouse-pad-home/ground/live/station-1/mouse",
+          "parentId": "mouse-pad-home/ground/live/station-1/desk",
+          "resource": {"id": "mouse-pad-office", "version": 1},
+          "transform": {"position": [0.59, 0.84, 0.25], "yaw": 0}
+        },
+        {
+          "type": "add-facility", "id": "mouse-pad-home/ground/live/station-1/mouse-cable",
+          "parentId": "mouse-pad-home/ground/live/station-1/desk",
+          "resource": {"id": "cable-route-single-sleeve", "version": 1},
+          "transform": {"position": [0, 0, 0], "yaw": 0},
+          "cableLink": {
+            "a": {"deviceId": "mouse-pad-home/ground/live/station-1/right-monitor", "portId": "usb"},
+            "b": {"deviceId": "mouse-pad-home/ground/live/station-1/mouse", "portId": "usb"}
+          }
+        }
+      ]
+    },
+    {
+      "key": "mouse-pad-rental",
+      "input": {
+        "id": "mouse-pad-rental",
+        "name": "整套出租屋 · 轨迹球工位",
+        "spaceProfile": {"id": "company-space-v2", "version": 1},
+        "furnishingVersion": 2,
+        "scale": "rental-home",
+        "floors": [{"id": "ground", "name": "一层", "rooms": [
+          {"id": "live", "name": "直播间", "purpose": "streaming", "stations": 1},
+          {"id": "work", "name": "工作间", "purpose": "work", "stations": 0, "furniture": "desk-chair"},
+          {"id": "rest", "name": "休息间", "purpose": "rest", "stations": 0}
+        ]}]
+      },
+      "operations": [
+        {
+          "type": "add-facility", "id": "mouse-pad-rental/ground/live/station-1/mouse",
+          "parentId": "mouse-pad-rental/ground/live/station-1/desk",
+          "resource": {"id": "mouse-pad-trackball", "version": 1},
+          "transform": {"position": [0.5, 0.84, 0.21], "yaw": 0}
+        }
+      ]
+    }
+  ]
+}

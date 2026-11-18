@@ -21,13 +21,15 @@ const families = {
   'company-screen-partition-collection': 'screen-partition',
   'company-static-textile-collection': 'static-textile',
   'company-baseboard-collection': 'baseboard',
+  'company-mouse-pad-collection': 'mouse-pad',
 };
+const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs'};
 
 function belongsToFamily(resource,family) {
   return family === 'baseboard'
     ? resource?.kind === 'surface-finish' && resource.provenance?.environmentBranch === 'baseboard-and-edge' &&
       isDeepStrictEqual(resource.finish?.allowedSurfaces,['baseboard'])
-    : resource?.productionBranch === family;
+    : resource?.productionBranch === (family === 'mouse-pad' ? 'mouse-and-pad' : family);
 }
 
 function validateFunction(reference,resource,family) {
@@ -112,7 +114,7 @@ async function publish(recipePath,check) {
   const plan = parse(originalPlan), previous = parse(originalCatalog), input = parse(inputBytes);
   const family = families[input.schema];
   if (typeof family !== 'string' || input.version !== 1 || !Array.isArray(input.designs) || !input.designs.length)
-    fail('invalid-appearance-recipe','Expected a version 1 desk-lamp, screen-partition, static-textile or baseboard recipe with designs');
+    fail('invalid-appearance-recipe','Expected a version 1 recipe with designs for one of: '+Object.keys(families).join(', '));
   const base = 'assets-source/company-'+family+'-v1';
   const collectionPath = base+'/collection.json';
   if (plan.output !== catalogPath || !Array.isArray(plan.resources) || !Array.isArray(plan.collections) ||
@@ -121,7 +123,7 @@ async function publish(recipePath,check) {
   const defaults = parse(await regularFile(collectionPath));
   const reference = previous.resources.find(r => r.id === defaults.resources[0].id && r.version === defaults.resources[0].version);
   assert(belongsToFamily(reference,family),'Missing registered functional reference');
-  const generator = 'scripts/company-platform/'+(family === 'baseboard' ? 'build-baseboards.mjs' : 'build-'+family+'-collection.mjs');
+  const generator = 'scripts/company-platform/'+(generatorFiles[family] ?? 'build-'+family+'-collection.mjs');
   const pinnedTools = [{path:generator,sha256:reference.provenance.generatorSha256},
     ...Object.values(reference.provenance.dependencies || {})];
   for (const tool of pinnedTools) {

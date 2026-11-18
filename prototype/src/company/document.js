@@ -280,14 +280,15 @@ export function deriveCompany(document, catalog, templates) {
       if (Math.abs(node.transform.position[1] - surface.topY) > .01 ||
           Math.abs(node.transform.position[0]) > surface.halfSize[0] || Math.abs(node.transform.position[2]) > surface.halfSize[1])
         fail('invalid-surface-fit', node.id, 'Device mount origin must be on the declared parent surface');
-      if(resource.mountRole==='desk-lamp') {
+      if(resource.mountRole==='desk-lamp' || resource.mounting?.reserveDesktopArea===true) {
         // Compare in desktop coordinates so a rotated host carries the whole reserved installation area.
-        const [x,y,z]=node.transform.position, {width,depth}=resource.mounting;
+        const [x,y,z]=node.transform.position, {width,depth,height}=resource.mounting;
         const quarter=Math.round(node.transform.yaw/(Math.PI/2));
         const [spanX,spanZ]=quarter%2===0 ? [width,depth] : [depth,width];
-        if(Math.abs(y-surface.topY)>.001 || Math.abs(x)+spanX/2>surface.halfSize[0]+1e-6 ||
+        if(![width,depth,height].every(v=>Number.isFinite(v) && v>0) || Math.abs(y-surface.topY)>.001 || Math.abs(x)+spanX/2>surface.halfSize[0]+1e-6 ||
            Math.abs(z)+spanZ/2>surface.halfSize[1]+1e-6)
-          fail('invalid-desk-lamp-fit',node.id,'The complete lamp mount must sit on and inside the parent desktop');
+          fail(resource.mountRole==='desk-lamp'?'invalid-desk-lamp-fit':'invalid-desktop-envelope',node.id,
+            'The complete mounting envelope must sit on and inside the parent desktop');
       }
     }
     if(resource.mount==='window-cover'){

@@ -1,6 +1,7 @@
 import {poseDeskLamp} from './desk-lamp.js';
 import {adaptCableGeometry,validateCableVisualPlacement} from './cable-render.js';
 import {validateCeilingVisualPlacement,ceilingVisibleForRegion} from './ceiling-placement.js';
+import {installationGeometryFacilities,validateDesktopReservations} from './desktop-placement.js';
 import * as THREE from 'three';
 import {applyWindowState,validateWindowVisualPlacement} from './window-geometry.js';
 import {applyWindowCoverState} from './window-cover-data.js';
@@ -73,14 +74,13 @@ function effectivelyVisible(object) {
 
 // CPU preflight also covers hidden floors/building overview. Temporary instances
 // are never attached to the visible scene and own their cloned display resources.
-export function validateCeilingDocumentAssets(derived,assetLibrary){
-  const floors=new Set(derived.facilities.filter(f=>['ceiling','parent-device-endpoints','wall-opening'].includes(f.resource.mount)).map(f=>f.floorId));
-  if(!floors.size)return;
+export function validateCeilingDocumentAssets(derived,assetLibrary,entries=installationGeometryFacilities(derived)){
+  if(!entries.length)return;
   const temporary=new Map();
   try {
-    for(const f of derived.facilities.filter(f=>floors.has(f.floorId))){
+    for(const f of entries){
       const root=new THREE.Group();temporary.set(f.id,{...f,root});
-      if(f.resource.asset&&!assetLibrary)throw new CompanyError('asset-library-required',f.id,'Ceiling clearance requires actual geometry, including facilities on hidden floors');
+      if(f.resource.asset&&!assetLibrary)throw new CompanyError('asset-library-required',f.id,'Installation clearance requires actual geometry, including facilities on hidden floors');
       const visual=f.resource.asset?assetLibrary.instantiate(f.resource).root:buildResource(f.resource.node,new Map(),f.state);
       root.add(visual);applyWindowState(visual,f.resource,f.state);
       applyWindowCoverState(visual,f.resource,f.state);
@@ -91,6 +91,7 @@ export function validateCeilingDocumentAssets(derived,assetLibrary){
     validateWindowVisualPlacement(temporary,(code,path,message)=>{throw new CompanyError(code,path,message);});
     validateCableVisualPlacement(temporary,derived.cableConnections,(code,path,message)=>{throw new CompanyError(code,path,message);});
     validateCeilingVisualPlacement(temporary,(code,path,message)=>{throw new CompanyError(code,path,message);});
+    validateDesktopReservations(temporary,(code,path,message)=>{throw new CompanyError(code,path,message);});
   }finally{for(const f of temporary.values())disposeTree(f.root);}
 }
 
@@ -117,6 +118,7 @@ function validatePlacementGeometry(facilities,derived,groups) {
       validateWindowVisualPlacement(facilities,(code,path,message)=>{throw new CompanyError(code,path,message);});
       validateCableVisualPlacement(facilities,derived.cableConnections,(code,path,message)=>{throw new CompanyError(code,path,message);});
       validateCeilingVisualPlacement(facilities,(code,path,message)=>{throw new CompanyError(code,path,message);});
+      validateDesktopReservations(facilities,(code,path,message)=>{throw new CompanyError(code,path,message);});
 }
 
 export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog,templates=defaultTemplates,visibleFloorId,maxRealtimeLights=2,assetLibrary,mirrorPreflight,mirrorRenderProfile='single-512-v1'}={}) {

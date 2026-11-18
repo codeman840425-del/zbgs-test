@@ -1,0 +1,116 @@
+{
+  "id": "mouse-pad-trackball",
+  "version": 1,
+  "displayName": "拇指轨迹球 · 圆边软垫",
+  "category": "decor",
+  "mountRole": "mouse-pad",
+  "productionBranch": "mouse-and-pad",
+  "mount": "desk-surface",
+  "parent": "desk.desktop",
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.28,
+    "height": 0.065,
+    "depth": 0.22,
+    "reserveDesktopArea": true
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.14,
+      0.11
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {},
+  "cablePorts": [
+    {
+      "id": "usb",
+      "connector": "usb-c-visual-v1",
+      "position": [
+        0,
+        0.014,
+        -0.095
+      ],
+      "direction": [
+        0,
+        0,
+        -1
+      ]
+    }
+  ],
+  "cablePortNodes": {
+    "usb": {
+      "frame": [
+        "mouse-usb-left",
+        "mouse-usb-right",
+        "mouse-usb-top",
+        "mouse-usb-bottom"
+      ],
+      "backing": "mouse-usb-backing"
+    }
+  },
+  "materialSlots": {
+    "body": [
+      "mouse-body-ergonomic"
+    ],
+    "controls": [
+      "mouse-button-left",
+      "mouse-button-right",
+      "mouse-wheel",
+      "mouse-trackball",
+      "mouse-trackball-socket"
+    ],
+    "pad": [
+      "pad-rubber-base",
+      "pad-fabric-face"
+    ],
+    "trim": [
+      "pad-sewn-edge"
+    ],
+    "port": [
+      "mouse-usb-left",
+      "mouse-usb-right",
+      "mouse-usb-top",
+      "mouse-usb-bottom",
+      "mouse-usb-backing"
+    ]
+  },
+  "provenance": {
+    "license": "Project-authored geometry and materials",
+    "tools": [
+      "Three.js 187 GLTFExporter",
+      "GLTFLoader CPU ray readback"
+    ],
+    "sourceParameters": "assets-source/company-mouse-pad-v1/parameters.json",
+    "sourceParametersSha256": "5f8bd834a4cab46f5b37aec0d2b6c14baee5f3fa7e12861e71e78b2d846f08cb",
+    "functionalContractSource": "assets-source/company-mouse-pad-v1/contract.json",
+    "functionalContractSourceSha256": "5ea35ce2a9d21eee8e697684cf49375d9cb0426a271c2bc0d7b790b9dc0dfdf5",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "environmentBranch": "mouse-and-pad",
+    "generator": "scripts/company-platform/build-mouse-pads.mjs",
+    "generatorSha256": "b3c11399302ab9ae358d6cdc3ddee5371edd76da48585cdb334a6c26de7936fe",
+    "dependencies": {
+      "geometryValidation": {
+        "path": "scripts/company-platform/test-mouse-pad-assets.mjs",
+        "sha256": "860b1806342a2718800351db6e33b914614be629f52b065f10da261dfa2b6bdd"
+      }
+    }
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/mouse-pad-v1/mouse-pad-trackball/v1/model.glb",
+    "sha256": "e738b7744b8cfb7df94d411a776201403785182f1f52adb7dbf5ece712ffe355",
+    "bytes": 78328
+  }
+}
