@@ -301,3 +301,9 @@ assets-source/company-sofa-textile-host-v1/parameters.json -text whitespace=cr-a
 # Versioned baseboard recipes and their material generator are byte-pinned.
 assets-source/company-baseboard-v1/** -text whitespace=cr-at-eol
 scripts/company-platform/build-baseboards.mjs -text whitespace=cr-at-eol
+
+# Preserve the editable phone recipes and the upstream files referenced by SHA-256.
+assets-source/company-phone-static-v1/** -text whitespace=cr-at-eol
+assets-source/company-phone-static-v1/original/** -text -whitespace
+scripts/company-platform/build-phone-static.mjs -text whitespace=cr-at-eol
+scripts/company-platform/test-phone-static-assets.mjs -text whitespace=cr-at-eol
