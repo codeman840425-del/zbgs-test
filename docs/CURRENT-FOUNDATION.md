@@ -2,7 +2,7 @@
 
 ## 固定入口与备份
 
-原始男体的三件独立制服已进入共用工厂、房间动作和关闭重开。候选源码 31129ebf，固定构建 1eede692231c，两个干净检出 513 个文件一致。脚本 `python -B scripts/production/raw_male_equipment.py --stage-runtime --check` 重算并核对整个游戏资源包。4196 现有进程最后核实仍为 0d1ccbf3ff61，下次正常启动指针已更新，先前指针已存档。当前可直接打开[本地回放](../evidence/m2-raw-male-equipment-v1/index.html)。实际适配、椅面误差和设备限制见 CAPABILITIES。整件游戏交付仍使用已审构建。下一工作包针对原始身体与服装的重复资源，先复用已有预算与导出工具验证安全的发布派生物，保留源和原记录。
+原始男体的三件独立制服已进入共用工厂、房间动作和关闭重开。候选源码 31129ebf，固定构建 1eede692231c，两个干净检出 513 个文件一致。脚本 `python -B scripts/production/raw_male_equipment.py --stage-runtime --check` 重算并核对整个游戏资源包。4196 现有进程最后核实仍为 0d1ccbf3ff61，下次正常启动指针已更新，先前指针已存档。当前可直接打开[本地回放](../evidence/m2-raw-male-equipment-v1/index.html)。实际适配、椅面误差和设备限制见 CAPABILITIES。本次独立接收小包使用新签原始男体和旧签原生袜装两份记录，37 个文件，在离开工作台后的浏览器首次进入／关闭重开均还原；见[接收证据](../evidence/m2-raw-male-equipment-v1/receiver/game/report.json)。正式生产交接指针仍锁此前交付版本。下一工作包针对原始身体与服装的重复资源，先复用已有预算与导出工具验证安全的发布派生物，保留源和原记录。
 
 现用游戏制作交付单已切到含输出保护的工具 `2ae88304`，配套游戏仍锁 `cfca0dd1`／`fe2e58489bbb`。独立检出实际比对 508 个构建文件、38 个交付文件和两份旧签名记录；默认制作、生成与导出入口均已在真实命令行拒绝盘根输出。[现用交付单](../delivery/character-production-handoff.json) · [复算回执](../evidence/character-worktree-relocation-v1/operator-receiver.json)
 

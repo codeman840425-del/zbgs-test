@@ -1,7 +1,9 @@
-const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
-const [base,folder,expectedFile]=process.argv.slice(2),out=path.resolve(folder);
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const [base,folder,expectedFile]=process.argv.slice(2);
 (async()=>{
+ const out=await projectOutput(folder,await productionRoot());
+ const {chromium}=require('../prototype/node_modules/playwright');
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const browser=await chromium.launch({channel:'chrome',headless:true}),context=await browser.newContext({viewport:{width:1440,height:1000}});
  const expected=expectedFile?JSON.parse(await fs.readFile(expectedFile,'utf8')):null;

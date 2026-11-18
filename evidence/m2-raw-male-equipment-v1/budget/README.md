@@ -22,7 +22,7 @@
 
 ## 正式交付审查
 
-现行 `game-record-cli.mjs inventory` 返回退出码 1、`unsupported-build` 和 `No repository review for selected game runtime`。未生成交付清单。资源收集只核对现有记录和资源闭包。[真实拒绝回执](release-inventory-attempt.json)
+技术审查登记前（操作端 cef5e28f 的父级状态），`game-record-cli.mjs inventory` 返回退出码 1、`unsupported-build` 和 `No repository review for selected game runtime`。未生成交付清单。资源收集只核对现有记录和资源闭包。[原始拒绝回执](release-inventory-attempt.json)。随后按两个固定检出复算并审查 11 个运行文件，实际导出双记录包、关闭重开并复核。复算命令在当前已登记版本会得到清单。单项模型预算沿用上表。[后续真实运行](../receiver/game/report.json)
 
 ## 复算
 
