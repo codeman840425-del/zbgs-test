@@ -331,6 +331,12 @@ export function bindAppearanceWorkbench({ controller }) {
     const evidence=new URL(window.location.href);evidence.port='4174';evidence.pathname=path;evidence.search='';evidence.hash='';
     previewInfo.querySelector('#'+id).href=evidence.href;
   }
+  const hairMotionReview = document.createElement('a');
+  hairMotionReview.href = '/reviews/native-hair-motion/';
+  hairMotionReview.textContent = '入座时的发尾动态对照';
+  hairMotionReview.target = '_blank';
+  hairMotionReview.rel = 'noopener noreferrer';
+  previewInfo.append(hairMotionReview);
   inspectionPage.prepend(previewInfo);
   const nativePreview=document.createElement('p');
   const nativeLink=document.createElement('a');

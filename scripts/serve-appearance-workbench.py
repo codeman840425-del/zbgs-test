@@ -19,6 +19,19 @@ if __name__ == '__main__':
         raise ValueError('Build identity mismatch; rebuild the recorded source first')
 
     class Handler(SimpleHTTPRequestHandler):
+        def translate_path(self, path):
+            # Review recordings stay outside the game build and its download budget.
+            name = urlsplit(path).path
+            review = '/reviews/native-hair-motion/'
+            files = {
+                review: 'index.html',
+                review + 'before-trial.mp4': 'before-trial.mp4',
+                review + 'room.webm': 'room/room-produced-1x.webm',
+            }
+            if name in files:
+                return str(ROOT / 'evidence/m2-native-hair-fit-preview-v1' / files[name])
+            return super().translate_path(path)
+
         def do_GET(self):
             request = urlsplit(self.path)
             query = parse_qsl(request.query, keep_blank_values=True)

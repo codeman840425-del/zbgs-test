@@ -13,6 +13,7 @@ import { createFacialGeometry } from "./facial-geometry.js";
 import { prepareFaceShadowPrograms, waitFaceShadowJob } from "./face-shadow-preparation.js";
 import { validateForearmProfile } from "./forearm-envelope-projection.js";
 import { validateJointHandProfile } from "./joint-hand-workspace.mjs";
+import { createNativeHairCenterFitPlugin, NATIVE_HAIR_CENTER_FIT_ID, supportsNativeHairCenterFit } from "./native-hair-center-fit.js";
 
 // Each actor owns its prewarm variants. Geometry UUID is deliberately omitted:
 // a new clone with identical layouts/material versions reuses the same program.
@@ -119,6 +120,13 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     if (!validateJointHandProfile(jointHandCollision, sha256)) throw new Error("Joint-hand body identity/schema mismatch");
   }
   const loader = new GLTFLoader();
+  const preview = new URLSearchParams(globalThis.location?.search);
+  const nativeHairCenterFit = preview.get('workbench') === 'appearance' &&
+    preview.get('nativeHairCenter') === NATIVE_HAIR_CENTER_FIT_ID && supportsNativeHairCenterFit(bodyType, sha256)
+    ? NATIVE_HAIR_CENTER_FIT_ID : null;
+  if (nativeHairCenterFit) {
+    loader.register(parser => createNativeHairCenterFitPlugin(parser, {bodyType, bodySha256:sha256}));
+  }
   loader.register((p) => new VRMLoaderPlugin(p));
   const gltf = await loader.parseAsync(buffer, "/assets/foundation/");
   const vrm = gltf.userData.vrm;
@@ -282,6 +290,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   if (attachToScene) scene.add(root);
   return {
     vrm,
+    nativeHairCenterFit,
     root,
     profile,
     config,
