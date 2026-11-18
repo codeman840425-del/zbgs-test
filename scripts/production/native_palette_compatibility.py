@@ -22,6 +22,7 @@ STAGING = ROOT / "assets-source/native-facecontour-iris-palette-v1"
 MALE_PALETTE = "prototype/public/assets/native-iris-palette-v1"
 BATCH = Path(__file__).with_name("native-facecontour-iris-batch-v1.json")
 PUBLIC = ROOT / "prototype/public/assets/native-facecontour-iris-palette-v1"
+LOCK_DIR = Path("output/native-palette-locks")
 REGISTRY = "registry.json"
 REGISTRY_SCHEMA = "native-facecontour-iris-registry-v1"
 SAMPLER = {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}
@@ -286,10 +287,18 @@ def check_stage(destination, files):
 
 
 def stage(destination, files):
+    from production_paths import main_checkout, project_output
+
     # Stage immutable manifests first. A reader sees new registrations only
     # after their files exist. The OS releases the writer lock on process exit.
-    lock_key = sha(str(destination.resolve()).encode())
-    lock_path = Path(tempfile.gettempdir()) / ("gamemake-iris-" + lock_key + ".lock")
+    destination = project_output(destination, __file__)
+    for name in files:
+        target = project_output(destination / name, __file__)
+        require(target.is_relative_to(destination) and target == destination / name,
+                "Palette output must stay at its registered path")
+    lock_key = sha(os.path.normcase(str(destination)).encode())
+    lock_path = project_output(main_checkout(__file__) / LOCK_DIR / (lock_key + ".lock"), __file__)
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
     with lock_path.open("a+b") as lock:
         if os.name == "nt":
             import msvcrt
@@ -322,6 +331,8 @@ def stage(destination, files):
 
 
 def main():
+    from production_paths import project_output
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--batch", type=Path, default=BATCH, help="Exact body and package provenance pins")
     parser.add_argument("--output", type=Path, help="Write a new report without overwriting an existing file")
@@ -331,6 +342,9 @@ def main():
     staging.add_argument("--publish", action="store_true", help="Verify staging and publish the runtime subset")
     staging.add_argument("--check-published", action="store_true", help="Verify staging and public runtime bytes")
     args = parser.parse_args()
+    output = project_output(args.output, __file__) if args.output is not None else None
+    if args.stage or args.publish:
+        project_output(STAGING if args.stage else PUBLIC, __file__)
     report = audit(args.batch)
     files = palette_files(report)
     report["candidateManifests"] = [
@@ -346,10 +360,10 @@ def main():
             stage(PUBLIC, files)
         elif args.check_published:
             check_stage(PUBLIC, files)
-    if args.output is None:
+    if output is None:
         print(json.dumps(report, ensure_ascii=False, indent=2))
     else:
-        with args.output.open("xb") as handle:
+        with output.open("xb") as handle:
             handle.write(json_bytes(report))
 
 

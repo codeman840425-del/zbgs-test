@@ -524,6 +524,8 @@ def compare_exports(baseline, baseline_sha256, candidate, candidate_sha256):
 
 
 def main():
+    from production_paths import project_output
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--baseline', required=True, type=Path)
     parser.add_argument('--baseline-sha256', required=True)
@@ -532,13 +534,14 @@ def main():
     parser.add_argument('--output', required=True, type=Path)
     args = parser.parse_args()
     try:
-        if args.output.suffix.lower() != '.json':
+        destination = project_output(args.output, __file__)
+        if destination.suffix.lower() != '.json':
             raise ValueError('Expected a new .json output path')
-        if args.output.exists():
-            raise FileExistsError(f'Output already exists: {args.output}')
+        if destination.exists():
+            raise FileExistsError(f'Output already exists: {destination}')
         report = compare_exports(args.baseline, args.baseline_sha256, args.candidate, args.candidate_sha256)
         payload = json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False) + '\n'
-        with args.output.open('x', encoding='utf-8', newline='\n') as output:
+        with destination.open('x', encoding='utf-8', newline='\n') as output:
             output.write(payload)
     except (OSError, ValueError) as error:
         print(str(error), file=sys.stderr)

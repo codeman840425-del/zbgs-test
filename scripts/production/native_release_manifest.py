@@ -75,14 +75,17 @@ def build(sidecar_path: Path, package_root: Path) -> dict[str, Any]:
 
 
 def main() -> int:
+    from production_paths import project_output
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--sidecar", type=Path, required=True)
     parser.add_argument("--packages", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    output = project_output(args.output, __file__)
     result = build(args.sidecar.resolve(), args.packages.resolve())
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf8")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf8")
     print(json.dumps({"schema": result["schema"], "entries": len(result["entries"]), "runtimeAdmission": False}))
     return 0
 

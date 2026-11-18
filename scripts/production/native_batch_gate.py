@@ -949,6 +949,8 @@ def evaluate(batch_path: Path, root: Path = ROOT,
 
 
 def main() -> int:
+    from production_paths import project_output
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--batch", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -968,6 +970,7 @@ def main() -> int:
     parser.add_argument("--room-candidate", type=Path)
     args = parser.parse_args()
     try:
+        output = project_output(args.output, __file__)
         report = evaluate(args.batch, runtime_report=args.runtime_report, adapter_report=args.adapter_report,
                           microphone_report=args.microphone_report, adaptation_report=args.adaptation_report,
                           runtime_head_audit=args.runtime_head_audit, glasses_report=args.glasses_report,
@@ -978,8 +981,8 @@ def main() -> int:
                           glasses_candidate=args.glasses_candidate,
                           microphone_candidate=args.microphone_candidate,
                           room_candidate=args.room_candidate)
-        args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
         print(json.dumps(report, ensure_ascii=False))
         return 0
     except (OSError, ValueError, KeyError, TypeError) as error:

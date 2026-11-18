@@ -17,9 +17,12 @@ def sha(path: Path) -> str:
 
 
 def main() -> None:
+    from production_paths import project_output
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=ROOT / "evidence/m2-male-production-readiness-v1/report.json")
     args = parser.parse_args()
+    out = project_output(ROOT / args.output, __file__)
     manifest = json.loads(NATIVE_MANIFEST.read_bytes())
     meta = manifest["sourceMeta"]
     avatar = manifest["avatar"]
@@ -58,7 +61,6 @@ def main() -> None:
         "reasons": ["native Studio 2.16 source remains blocked, but the separately licensed foundation-male candidate is eligible for adaptation"],
         "nextInput": "run foundation-male editable source through parameter/export/package/runtime gate; retain native Studio source as read-only comparison",
     }
-    out = args.output if args.output.is_absolute() else ROOT / args.output
     out.parent.mkdir(parents=True, exist_ok=True)
     if out.exists():
         old = json.loads(out.read_bytes())

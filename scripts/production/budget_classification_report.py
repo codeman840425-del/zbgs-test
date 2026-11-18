@@ -93,13 +93,16 @@ def classify(budget, budget_path, ktx, ktx_path):
 
 
 def main():
+    from production_paths import project_output
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--budget', type=Path, required=True)
     parser.add_argument('--ktx', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
+    output = project_output(args.output, __file__)
     report = classify(json.loads(args.budget.read_bytes()), args.budget, json.loads(args.ktx.read_bytes()), args.ktx)
-    with args.output.open('x', encoding='utf-8', newline='\n') as stream:
+    with output.open('x', encoding='utf-8', newline='\n') as stream:
         json.dump(report, stream, ensure_ascii=False, indent=2)
         stream.write('\n')
     print(json.dumps({'status': report['status'], 'records': len(report['records'])}, ensure_ascii=False))

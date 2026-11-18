@@ -248,6 +248,7 @@ class VariantBatchTests(unittest.TestCase):
             else:
                 redirect.symlink_to(outside, target_is_directory=True)
             script = operator / 'scripts' / 'production' / 'variant_batch.py'
+            script.parent.mkdir(parents=True)
             matrix_path = operator / 'unused-matrix.json'
             request_path = operator / 'unused-request.json'
             drive_target = Path(workspace.anchor) / ('gamemake-variant-negative-' + fixture.name)

@@ -14,6 +14,7 @@ import re
 from pathlib import Path
 
 from variant_matrix import _resolve_reference, validate_matrix, validate_matrix_files
+from production_paths import project_output
 
 
 SCHEMA = "zbgs-avatar-look-spec-v1"
@@ -209,6 +210,7 @@ def plan(matrix: dict, spec: dict, *, root: Path | None = None) -> dict:
 
 
 def write_plan(matrix_path: Path, spec_path: Path, output: Path, *, root: Path = REPO_ROOT) -> dict:
+    output = project_output(output, __file__)
     check(not output.exists(), "Output already exists")
     matrix_bytes = matrix_path.read_bytes()
     spec_bytes = spec_path.read_bytes()
@@ -237,7 +239,7 @@ def main() -> int:
     parser.add_argument("--root", type=Path, default=REPO_ROOT, help="Repository root for matrix file checks")
     args = parser.parse_args()
     try:
-        result = write_plan(args.matrix.resolve(), args.spec.resolve(), args.output.resolve(), root=args.root.resolve())
+        result = write_plan(args.matrix.resolve(), args.spec.resolve(), args.output, root=args.root.resolve())
         print(json.dumps(result, ensure_ascii=False))
         return 0
     except (OSError, ValueError, KeyError, TypeError) as error:

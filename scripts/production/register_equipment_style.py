@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from flow import GLB, Validator, local, require
+from production_paths import project_output
 from variant_matrix import validate_matrix_files
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -103,22 +104,23 @@ def register(matrix, style):
     return dict(matrix, styles=[combined if s is existing else s for s in matrix['styles']])
 
 
-def main():
+def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--spec',required=True,help='Repository-relative author spec')
     p.add_argument('--publication',required=True,help='Repository-relative published manifest')
     p.add_argument('--label',required=True)
     p.add_argument('--matrix',type=Path,default=MATRIX)
     p.add_argument('--output',type=Path,help='Fresh output matrix; omitted to verify the existing registration')
-    a=p.parse_args()
+    a=p.parse_args(argv)
+    output = project_output(a.output, __file__) if a.output is not None else None
     style, evidence=build_style(ROOT,a.spec,a.publication,a.label)
     raw=a.matrix.read_bytes()
     matrix=json.loads(raw)
     new=register(matrix,style)
     require(not (errors:=validate_matrix_files(new,ROOT)), '; '.join(errors))
-    if a.output:
+    if output is not None:
         encoded=json.dumps(new,ensure_ascii=False,indent=2)+'\n'
-        with a.output.open('xb') as stream:
+        with output.open('xb') as stream:
             stream.write(encoded.encode('utf-8'))
     else:
         require(new == matrix, 'Candidate missing; specify a new output matrix to prepare it')

@@ -143,13 +143,16 @@ def build_report(adaptation_path: Path, runtime_paths: dict[str, Path] | None = 
 
 
 def main() -> int:
+    from production_paths import project_output
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--adaptation-report", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
+    destination = project_output(args.output, __file__)
     report = build_report(args.adaptation_report.resolve())
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf8", newline="\n")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf8", newline="\n")
     print(json.dumps({"status": report["status"], "candidates": len(report["candidates"]),
                       "output": args.output.as_posix()}, ensure_ascii=False))
     return 0

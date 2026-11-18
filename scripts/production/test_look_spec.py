@@ -1,9 +1,13 @@
 import json
+import os
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
 from look_spec import SCHEMA, plan, validate, write_plan
+from production_paths import project_output
 from variant_matrix import SCHEMA as MATRIX_SCHEMA
 
 
@@ -72,6 +76,12 @@ def with_shorts():
 
 
 class LookSpecTests(unittest.TestCase):
+    @unittest.skipUnless(os.name == "nt", "Windows filenames")
+    def test_output_refuses_device_stream_and_ambiguous_names(self):
+        for name in ("nul", "NUL.txt", "com1.log", "plan.json:alternate", "plan.", "plan "):
+            with self.subTest(name=name), self.assertRaisesRegex(ValueError, "Unsupported Windows output path"):
+                project_output(ROOT / "output" / name, __file__)
+
     def test_normalizes_concept_reference(self):
         result = validate(spec())
         self.assertEqual(result["lookId"], "male-blazer-reference-v1")
@@ -183,7 +193,7 @@ class LookSpecTests(unittest.TestCase):
 
     def test_stored_concept_and_structured_inputs_remain_candidates(self):
         concept_path = ROOT / "evidence/m2-look-intake-v1/male-blazer-look.json"
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=ROOT / "experiments") as directory:
             concept = write_plan(MATRIX_PATH, concept_path, Path(directory) / "concept.json")
             structured = write_plan(MATRIX_PATH, STRUCTURED_SPEC_PATH, Path(directory) / "structured.json")
         self.assertEqual(concept["status"], "candidate")
@@ -192,6 +202,32 @@ class LookSpecTests(unittest.TestCase):
         self.assertEqual(structured["resolvedEquipment"][0]["admissionBlockers"], [
             "dynamicMotion", "headAttachments", "runtimeRecordAndBudget", "surfaceAndTexture",
         ])
+
+    def test_cli_refuses_drive_root_and_junction_before_reading_inputs(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / "experiments") as directory:
+            scratch = Path(directory)
+            alias = scratch / "outside"
+            if os.name == "nt":
+                subprocess.run(["cmd.exe", "/d", "/c", "mklink", "/j", str(alias), str(ROOT.parent)],
+                               check=True, capture_output=True)
+            else:
+                alias.symlink_to(ROOT.parent, target_is_directory=True)
+            name = scratch.name + "-look-plan.json"
+            try:
+                for target in [ROOT.parent / name, ROOT / ".." / name, alias / name]:
+                    with self.subTest(target=target):
+                        self.assertFalse(target.exists())
+                        command = [sys.executable, "-B", str(ROOT / "scripts/production/look_spec.py"),
+                                   "missing-matrix", "missing-spec", "--root", str(ROOT.parent), "--output", str(target)]
+                        result = subprocess.run(command, cwd=scratch, capture_output=True, text=True)
+                        self.assertEqual(result.returncode, 1)
+                        self.assertIn("inside the production tool main checkout", result.stdout)
+                        self.assertFalse(target.exists())
+            finally:
+                if os.name == "nt":
+                    alias.rmdir()
+                else:
+                    alias.unlink()
 
     def test_file_validation_rejects_a_forged_matrix_manifest_pin(self):
         matrix = json.loads(MATRIX_PATH.read_text(encoding="utf-8"))

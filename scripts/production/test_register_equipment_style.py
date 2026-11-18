@@ -1,16 +1,21 @@
 """A real two-body publication exercises the matrix authoring boundary and source pin checks."""
+import io
 import json
+import os
+import subprocess
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
 import flow
-from register_equipment_style import MATRIX, ROOT, build_style, register
+from register_equipment_style import MATRIX, ROOT, build_style, main, register
 
 SPEC = 'assets-source/m2-socks-layer-v1/spec.json'
 PUBLICATION = 'prototype/public/assets/m2-socks-layer-v1/manifest.json'
 LABEL = '素色中筒袜'
+ARGS = ['--spec', SPEC, '--publication', PUBLICATION, '--label', LABEL]
 
 
 class PublishedStyleTests(unittest.TestCase):
@@ -50,7 +55,7 @@ class PublishedStyleTests(unittest.TestCase):
         marked, = [e for e in source['items'] if e['id'] == entry['id']]
         marked['preserveOriginalBody'] = False
         real_local = flow.local
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=ROOT/'experiments') as directory:
             file = Path(directory)/'isolated-test-copy'
             for name, data, reason in [(catalog,json.dumps(source).encode(),'Equipment member differs'),
                                         (target,b'wrong GLB','SHA mismatch')]:
@@ -60,6 +65,51 @@ class PublishedStyleTests(unittest.TestCase):
                         return file if candidate == name else real_local(root,candidate)
                     with patch.object(flow,'local',resolve), self.assertRaisesRegex(ValueError, reason):
                         build_style(ROOT, SPEC, PUBLICATION, LABEL)
+
+    def test_fresh_project_matrix_and_verification(self):
+        original = MATRIX.read_bytes()
+        with tempfile.TemporaryDirectory(dir=ROOT/'experiments') as directory, redirect_stdout(io.StringIO()):
+            output = Path(directory)/'candidate-matrix.json'
+            main([*ARGS, '--output', str(output)])
+            expected = output.read_bytes()
+            self.assertEqual(json.loads(expected), json.loads(original))
+            with self.assertRaises(FileExistsError):
+                main([*ARGS, '--output', str(output)])
+            self.assertEqual(output.read_bytes(), expected)
+            main(ARGS)
+        self.assertEqual(MATRIX.read_bytes(), original)
+
+    def test_outside_outputs_rejected_before_loading_publication(self):
+        with tempfile.TemporaryDirectory(dir=ROOT/'experiments') as directory:
+            parent = Path(directory)
+            checkout = parent/'main-checkout'
+            tool = checkout/'scripts/production/register_equipment_style.py'
+            tool.parent.mkdir(parents=True)
+            tool.touch()
+            subprocess.run(['git', 'init', '-q', str(checkout)], check=True)
+            outside = parent/'outside-checkout'
+            outside.mkdir()
+            redirect = checkout/'redirect'
+            if os.name == 'nt':
+                subprocess.run(['cmd.exe', '/d', '/c', 'mklink', '/j', str(redirect), str(outside)],
+                               check=True, capture_output=True)
+            else:
+                redirect.symlink_to(outside, target_is_directory=True)
+            try:
+                blocked = (Path(ROOT.anchor), checkout, outside/'matrix.json',
+                           checkout/'../outside-checkout/matrix.json', redirect/'matrix.json')
+                with patch('register_equipment_style.__file__', str(tool)):
+                    for output in blocked:
+                        with self.subTest(output=output), patch('register_equipment_style.build_style') as build:
+                            with self.assertRaisesRegex(ValueError, 'Output must be inside the production tool main checkout'):
+                                main([*ARGS, '--output', str(output)])
+                            build.assert_not_called()
+                self.assertFalse((outside/'matrix.json').exists())
+            finally:
+                if os.name == 'nt':
+                    redirect.rmdir()
+                else:
+                    redirect.unlink()
 
 
 if __name__ == '__main__':

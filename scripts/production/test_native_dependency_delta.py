@@ -23,7 +23,7 @@ class DependencyDeltaTests(unittest.TestCase):
         cls.raw = BASELINE.read_bytes()
 
     def setUp(self):
-        scratch = tempfile.TemporaryDirectory()
+        scratch = tempfile.TemporaryDirectory(dir=ROOT / 'experiments')
         self.addCleanup(scratch.cleanup)
         self.directory = Path(scratch.name)
 
@@ -173,6 +173,11 @@ class DependencyDeltaTests(unittest.TestCase):
         self.assertEqual(result.returncode, 1)
         self.assertIn('SHA-256 mismatch', result.stderr)
         self.assertFalse(output.exists())
+        outside = ROOT.parent / (self.directory.name + '-delta.json')
+        denied = subprocess.run([*command[:-1], str(outside)], capture_output=True, text=True)
+        self.assertIn('inside the production tool main checkout', denied.stderr)
+        self.assertEqual(denied.returncode, 1)
+        self.assertFalse(outside.exists())
         output.write_text('existing output', encoding='utf-8')
         result = subprocess.run(command, capture_output=True, text=True, check=False)
         self.assertEqual(result.returncode, 1)

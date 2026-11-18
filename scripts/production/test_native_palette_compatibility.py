@@ -2,14 +2,17 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import native_palette_compatibility as palette
+from production_paths import project_output
 
 
 class NativePaletteBatchTest(unittest.TestCase):
     def test_incremental_batch_and_corrupt_publication(self):
         batch = json.loads(palette.BATCH.read_bytes())
-        with tempfile.TemporaryDirectory() as work:
+        with tempfile.TemporaryDirectory(dir=project_output(palette.ROOT / "output", palette.__file__)) as work, \
+                patch.object(palette, "LOCK_DIR", Path(work) / "locks"):
             batch_file = Path(work) / "batch.json"
             destination = Path(work) / "package"
             batch_file.write_bytes(palette.json_bytes({**batch, "targets": batch["targets"][:1]}))
@@ -38,7 +41,7 @@ class NativePaletteBatchTest(unittest.TestCase):
 
     def test_batch_rejects_wrong_body_and_duplicate_target(self):
         batch = json.loads(palette.BATCH.read_bytes())
-        with tempfile.TemporaryDirectory() as work:
+        with tempfile.TemporaryDirectory(dir=project_output(palette.ROOT / "output", palette.__file__)) as work:
             file = Path(work) / "batch.json"
             file.write_bytes(palette.json_bytes({**batch, "targets": batch["targets"][:1] * 2}))
             with self.assertRaisesRegex(ValueError, "Duplicate iris target"):

@@ -1,4 +1,5 @@
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -13,6 +14,13 @@ ADAPTATION = ROOT / "evidence/m2-native-batch-adaptation-v1/adaptation-admission
 
 
 class NativeDynamicMotionAdapterTests(unittest.TestCase):
+    def test_cli_checks_report_location_before_reading_input(self):
+        result = subprocess.run([sys.executable, "-B", str(Path(__file__).with_name("native_dynamic_motion_adapter.py")),
+                                 "--adaptation-report", "missing-source", "--output", str(ROOT.parent)],
+                                capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("inside the production tool main checkout", result.stderr)
+
     def test_report_separates_structural_reuse_from_runtime_admission(self):
         report = build_report(ADAPTATION)
         self.assertEqual(report["schema"], "native-dynamic-motion-adapter-v1")
