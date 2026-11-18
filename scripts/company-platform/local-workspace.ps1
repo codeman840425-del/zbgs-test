@@ -1,4 +1,4 @@
-# 本机制作路径。独立交付包仍由接收者选择输出位置。
+﻿# 本机制作路径。独立交付包仍由接收者选择输出位置。
 [CmdletBinding(DefaultParameterSetName = 'Path')]
 param(
     [Parameter(Mandatory, ParameterSetName = 'Check')]
