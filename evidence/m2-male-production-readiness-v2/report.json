@@ -1,0 +1,45 @@
+{
+  "schema": "native-male-production-readiness-v2",
+  "status": "eligible-candidate-found",
+  "sources": {
+    "nativeStudio216": {
+      "manifest": "assets-source/native-vroid-male-unmasked-base-v1/generated/manifest.json",
+      "sha256": "7f11fdee6e0d76ae563e67005f5613e2e8b6840291ff86f5bf3af2c3f32c226c",
+      "status": "blocked",
+      "reasons": [
+        "sourceMeta.modification='prohibited'; editable derivative is not authorized",
+        "sourceMeta.allowRedistribution is not true; shared batch output cannot be distributed",
+        "pinned male source is explicitly runtimeAccepted=false"
+      ],
+      "license": {
+        "modification": "prohibited",
+        "allowRedistribution": false
+      }
+    },
+    "foundationMaleCc0": {
+      "source": "assets-source/foundation-male/source.json",
+      "sourceSha256": "695bd531d8c0f615758e781bb2f4fef1e9f6750d70a32b4b2d9b5c73754722f4",
+      "vrmSha256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+      "licenseFile": "assets-source/foundation-male/LICENSE.md",
+      "status": "eligible-for-adaptation",
+      "reasons": [],
+      "editableSourceExists": true,
+      "rightsBasis": "legacy VRoid beta Base_Male CC0 record; current Studio presets are not covered"
+    }
+  },
+  "reusableFor": [
+    "male parameter adaptation candidate",
+    "skeleton/interface audit",
+    "new clothing derivative after separate fit checks"
+  ],
+  "notYetProven": [
+    "browser runtime admission",
+    "clothing/coverage fit",
+    "dynamic/head attachments",
+    "ordinary-PC budget"
+  ],
+  "reasons": [
+    "native Studio 2.16 source remains blocked, but the separately licensed foundation-male candidate is eligible for adaptation"
+  ],
+  "nextInput": "run foundation-male editable source through parameter/export/package/runtime gate; retain native Studio source as read-only comparison"
+}
