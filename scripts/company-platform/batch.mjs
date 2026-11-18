@@ -13,7 +13,8 @@ import {encodeCompanySave} from '../../prototype/src/company/persistence.js';
 
 const workspace=new URL('../../',import.meta.url);
 const sourceFiles=[
-  'scripts/company-platform/batch.mjs','prototype/src/company/space.js',
+  'scripts/company-platform/batch.mjs','scripts/company-platform/check-training-clearance.mjs',
+  'prototype/src/company/space.js',
   'prototype/src/company/scale-profile.js','prototype/src/company/scale-v2.js',
   'prototype/src/company/document.js','prototype/src/company/placement.js',
   'prototype/src/company/moving-parts.js','prototype/src/company/support-data.js',
@@ -40,7 +41,7 @@ function validateBatch(batch,only){
   const keys=new Set(),ids=new Set();
   for(const [index,item]of batch.items.entries()){
     const location=`items[${index}]`;
-    if(!item||Object.keys(item).some(key=>!['key','input','document','operations','stationLooks'].includes(key))||
+    if(!item||Object.keys(item).some(key=>!['key','input','document','operations','stationLooks','trainingClearance'].includes(key))||
         typeof item.key!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(item.key)||
         /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(item.key))
       fail('invalid-batch-key',location,'Use a portable nonempty directory key with letters, digits, underscore or hyphen');
@@ -104,9 +105,17 @@ async function prepare(item,sourceHashes){
   }
   const connections=inspectCompanyConnections(document,catalog,templates);
   const placement=inspectCompanyPlacement(document,catalog,templates);
+  let trainingClearance;
+  if(Object.hasOwn(item,'trainingClearance')){
+    const {checkTrainingClearance}=await import('./check-training-clearance.mjs');
+    trainingClearance=await checkTrainingClearance(document,item.trainingClearance,{catalog,templates});
+  }
   const assetDependencies=[];
-  const selected=new Map(deriveCompany(document,catalog,templates).facilities.filter(facility=>facility.resource.asset)
-    .map(facility=>[`${facility.resource.id}@${facility.resource.version}`,facility.resource]));
+  const derived=deriveCompany(document,catalog,templates);
+  const selected=new Map();
+  for(const {resource} of [...derived.facilities,...derived.surfaceFinishes]){
+    if(resource.asset)selected.set(`${resource.id}@${resource.version}`,resource);
+  }
   const publicRoot=fileURLToPath(new URL('../../prototype/public/',import.meta.url));
   for(const resource of [...selected.values()].sort((a,b)=>`${a.id}@${a.version}`.localeCompare(`${b.id}@${b.version}`))){
     const asset=resource.asset,relative=`prototype/public${asset.url}`;
@@ -124,7 +133,7 @@ async function prepare(item,sourceHashes){
   const report={schema:'company-batch-result',version:1,key:item.key,companyId:document.id,
     documentRevision:document.revision,dependencies:saved.dependencies,assetDependencies,sourceHashes,
     files:Object.fromEntries(Object.entries(files).map(([name,bytes])=>[name,{bytes:bytes.length,sha256:hash(bytes)}])),
-    checks:{connections,placement},
+    checks:{connections,placement,...(trainingClearance ? {trainingClearance} : {})},
     scope:'Complete deterministic authoring result. Static geometry and placement admission only; rendering and character usage require their own evidence.'};
   files['report.json']=jsonBytes(report);
   return {files,report};

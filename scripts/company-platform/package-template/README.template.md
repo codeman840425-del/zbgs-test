@@ -31,6 +31,16 @@ node source/scripts/company-platform/batch.mjs source/scripts/company-platform/b
 
 输入中每项的 `stationLooks` 指定已有工位的实例 ID 和外观配方的 ID、版本。配方文件在 `source/prototype/src/company/workstation-looks.json`。换套装保留摆位和状态，额外安装的设备继续跟随原父级。单件调整可沿用前述 `edit.mjs apply`。要单独重试一项，在批量命令末尾加 `--only studio-set-1` 并使用对应项的 key。
 
+## 训练房配方
+
+在 `source/prototype` 执行 `npm ci` 后，从交付包根目录运行：
+
+```text
+node source/scripts/company-platform/batch.mjs source/scripts/company-platform/batch-inputs/dance-training-rooms.json NEW_TRAINING_OUTPUT
+```
+
+每个输入的 `trainingClearance` 定义本房局部坐标下的活动区、入口矩形、净高和实际门洞 ID。校验会读取设施当前状态的实际网格。批处理只发布通过的房间，报告列出所检查的设施、网格和边界容差。以这类批次结果目录制作交付包，会将该公司的净空约束写入 `transfer-manifest.json`。`edit.mjs validate` 和 `edit.mjs apply` 都会复核该公司，后者在写出新布局和存档前完成复核。对浏览器里修改并导出的同一公司存档，可用同一条 validate 命令重新验收。
+
 ## 修改源与重建
 
 ```text

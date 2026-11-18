@@ -114,6 +114,9 @@ const extraFiles=[
   'scripts/company-platform/test-style-recipe.mjs',
   'scripts/company-platform/test-workstation-looks.mjs',
   'scripts/company-platform/test-workstation-look-batch.mjs',
+  'scripts/company-platform/check-training-clearance.mjs',
+  'scripts/company-platform/test-training-clearance.mjs',
+  'scripts/company-platform/qa-dance-training-rooms.cjs',
   'scripts/company-platform/qa-workstation-looks.cjs',
   'scripts/company-platform/build-style-recipe-examples.mjs',
   'scripts/company-platform/qa-style-recipe-preview.mjs',
@@ -352,6 +355,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       if(expected?.sha256!==hash(bytes)||expected.bytes!==bytes.length)fail('batch-result-hash-mismatch',name,'Original batch result bytes differ from its report');
     }
   }else{inputBytes=await fs.readFile(input);add('data/original-input.json',inputBytes,'original-save-or-layout');}
+  const batchItem=inputFiles.find(file=>file.name==='input.json');
+  const trainingClearance=batchItem && decode(batchItem.bytes,'batch-result/input.json').trainingClearance;
   const raw=decode(inputBytes,'save-or-layout');let saved,document;
   if(raw.schema==='company-save'){
     document=await persistence.decodeCompanySave(inputBytes.toString('utf8'),catalog,templates);saved=raw;
@@ -359,6 +364,10 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     saved=JSON.parse(await persistence.encodeCompanySave(raw,catalog,templates));document=await persistence.decodeCompanySave(JSON.stringify(saved),catalog,templates);
   }else fail('unsupported-package-save','save-or-layout','Expected company-save or company-layout');
   if(inputFiles.length){const layout=decode(inputFiles.find(file=>file.name==='layout.json').bytes,'batch-result/layout.json');if(JSON.stringify(canonical(layout))!==JSON.stringify(canonical(document)))fail('batch-layout-save-mismatch','layout.json','Saved document differs from the batch layout');}
+  if(trainingClearance!==undefined){
+    const {checkTrainingClearance}=await import(pathToFileURL(path.join(source,'scripts/company-platform/check-training-clearance.mjs')).href);
+    await checkTrainingClearance(document,trainingClearance,{catalog,templates});
+  }
   add('data/save.json',json(saved),'complete-pinned-save');add('data/layout.json',json(document),'complete-editable-layout');
   add('data/library-catalog.json',catalogBytes,'complete-catalog');
   add('data/templates.json',templateBytes,'complete-templates');
@@ -404,7 +413,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   add('edit.mjs',await read(toolRoot,'package-template/edit.mjs'),'standalone-data-editor');
   const manifest={schema:'company-transfer',version:1,buildId,sourceDigest:info.sourceDigest,
     runtimeInputs,sourceVerification:{method:'SHA256 of each manifest path, NUL, original bytes, NUL in sorted input order',inputs:sourceFiles},
-    savedCompany:{id:document.id,revision:document.revision,floors:document.nodes.filter(node=>node.kind==='floor').map(node=>node.id),dependencies:saved.dependencies},
+    savedCompany:{id:document.id,revision:document.revision,...(trainingClearance ? {trainingClearance}:{}),floors:document.nodes.filter(node=>node.kind==='floor').map(node=>node.id),dependencies:saved.dependencies},
     assetDependencies,productionSources:provenance,runtimeFiles,
     files:[...files].sort(([a],[b])=>a.localeCompare(b)).map(([name,file])=>({path:name,scope:file.scope,bytes:file.bytes.length,sha256:hash(file.bytes)})),
     limits:['Fixed manifest source identity and exact packaged viewer bytes are verified. Rebuild equivalence and browser use require separate acceptance.',

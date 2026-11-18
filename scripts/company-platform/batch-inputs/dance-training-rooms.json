@@ -1,0 +1,139 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "rental-training-room",
+      "trainingClearance": {
+        "roomId": "concept-dance-training-rental/ground/dance-training",
+        "activity": { "minX": -1.25, "maxX": 1, "minZ": -1.25, "maxZ": 1.25, "clearHeight": 2.2 },
+        "entry": {
+          "portalId": "concept-dance-training-rental/ground/portal-work-living",
+          "minX": -2.25,
+          "maxX": -1.15,
+          "minZ": -0.5,
+          "maxZ": 0.5,
+          "clearHeight": 2.2
+        }
+      },
+      "input": {
+        "id": "concept-dance-training-rental",
+        "name": "概念图二 · 整套房歌舞训练区",
+        "scale": "rental-home",
+        "spaceProfile": { "id": "company-space-v2", "version": 1 },
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              { "id": "live", "name": "直播间", "purpose": "streaming", "stations": 1 },
+              { "id": "dance-training", "name": "歌舞训练室", "purpose": "training", "entry": [0, 0, 0] },
+              { "id": "rest", "name": "休息间", "purpose": "rest", "sofaVersion": 1 }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set-surface-finish",
+          "id": "concept-dance-training-rental/ground/dance-training",
+          "surface": "floor",
+          "finish": { "resource": { "id": "floor-offset-plank", "version": 1 } }
+        },
+        {
+          "type": "add-facility",
+          "id": "concept-dance-training-rental/ground/dance-training/mirror",
+          "parentId": "concept-dance-training-rental/ground/dance-training",
+          "resource": { "id": "mirror-full", "version": 1 },
+          "transform": { "position": [-0.5, 1.4, -1.9], "yaw": 0 }
+        },
+        {
+          "type": "add-facility",
+          "id": "concept-dance-training-rental/ground/dance-training/background",
+          "parentId": "concept-dance-training-rental/ground/dance-training",
+          "resource": { "id": "background-soft-panel", "version": 1 },
+          "transform": { "position": [0.35, 0, 1.65], "yaw": 3.141592653589793 },
+          "state": { "visible": true }
+        },
+        {
+          "type": "add-facility",
+          "id": "concept-dance-training-rental/ground/dance-training/rug",
+          "parentId": "concept-dance-training-rental/ground/dance-training",
+          "resource": { "id": "rug-border", "version": 1 },
+          "transform": { "position": [1.59, 0, 0.25], "yaw": 1.5707963267948966 }
+        }
+      ]
+    },
+    {
+      "key": "upper-floor-training-room",
+      "trainingClearance": {
+        "roomId": "concept-dance-training-company/floor-beta/beta-training",
+        "activity": { "minX": -1.5, "maxX": 1.5, "minZ": -1.5, "maxZ": 1.5, "clearHeight": 2.2 },
+        "entry": {
+          "portalId": "concept-dance-training-company/floor-beta/portal-beta-training",
+          "minX": -0.5,
+          "maxX": 0.5,
+          "minZ": 1.4,
+          "maxZ": 3,
+          "clearHeight": 2.2
+        }
+      },
+      "input": {
+        "id": "concept-dance-training-company",
+        "name": "概念图二 · 两层公司歌舞训练区",
+        "scale": "building",
+        "spaceProfile": { "id": "company-space-v2", "version": 1 },
+        "floors": [
+          {
+            "id": "floor-alpha",
+            "name": "直播层",
+            "rooms": [
+              { "id": "alpha-stream", "name": "双工位直播间", "purpose": "streaming", "stations": 2 },
+              { "id": "alpha-work", "name": "工作间", "purpose": "work", "furniture": "desk-chair" },
+              { "id": "alpha-rest", "name": "休息间", "purpose": "rest", "sofaVersion": 1 }
+            ]
+          },
+          {
+            "id": "floor-beta",
+            "name": "训练层",
+            "rooms": [
+              { "id": "beta-stream", "name": "直播间", "purpose": "streaming", "stations": 1 },
+              { "id": "beta-training", "name": "歌舞训练室", "purpose": "training", "entry": [0, 0, 0] },
+              { "id": "beta-rest", "name": "休息间", "purpose": "rest", "sofaVersion": 2 }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set-surface-finish",
+          "id": "concept-dance-training-company/floor-beta/beta-training",
+          "surface": "floor",
+          "finish": { "resource": { "id": "floor-herringbone", "version": 1 } }
+        },
+        {
+          "type": "add-facility",
+          "id": "concept-dance-training-company/floor-beta/beta-training/mirror",
+          "parentId": "concept-dance-training-company/floor-beta/beta-training",
+          "resource": { "id": "mirror-full", "version": 1 },
+          "transform": { "position": [-2.9, 1.4, -0.3], "yaw": 1.5707963267948966 }
+        },
+        {
+          "type": "add-facility",
+          "id": "concept-dance-training-company/floor-beta/beta-training/background",
+          "parentId": "concept-dance-training-company/floor-beta/beta-training",
+          "resource": { "id": "background-slat-panel", "version": 1 },
+          "transform": { "position": [0, 0, -2.65], "yaw": 0 },
+          "state": { "visible": true }
+        },
+        {
+          "type": "add-facility",
+          "id": "concept-dance-training-company/floor-beta/beta-training/rug",
+          "parentId": "concept-dance-training-company/floor-beta/beta-training",
+          "resource": { "id": "rug-inset", "version": 1 },
+          "transform": { "position": [2.18, 0, 0.1], "yaw": 1.5707963267948966 }
+        }
+      ]
+    }
+  ]
+}

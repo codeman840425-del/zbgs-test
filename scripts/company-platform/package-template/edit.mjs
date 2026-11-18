@@ -20,6 +20,13 @@ try{
     document=documentTools.prepareCompanyChange(document,JSON.parse(await fs.readFile(operations,'utf8')),{catalog,templates}).document;
     placement.inspectCompanyMotionSweep(previous,document,catalog,templates);
     space.inspectCompanyConnections(document,catalog,templates);placement.inspectCompanyPlacement(document,catalog,templates);
+  }else if(command!=='validate')throw Error('Use validate INPUT_SAVE or apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY');
+  const constraint=manifest.savedCompany?.trainingClearance;
+  if(document.id===manifest.savedCompany?.id && constraint){
+    const {checkTrainingClearance}=await import('./source/scripts/company-platform/check-training-clearance.mjs');
+    await checkTrainingClearance(document,constraint,{catalog,templates});
+  }
+  if(command==='apply'){
     const target=path.resolve(output),parent=path.dirname(target);let stage;
     try{await fs.lstat(target);throw Error('Output exists; select a new directory');}catch(error){if(error.code!=='ENOENT')throw error;}
     try{
@@ -29,6 +36,6 @@ try{
       try{await fs.lstat(target);throw Error('Output appeared during preparation');}catch(error){if(error.code!=='ENOENT')throw error;}
       await fs.rename(stage,target);stage=null;
     }finally{if(stage&&path.dirname(path.resolve(stage))===parent)await fs.rm(stage,{recursive:true,force:true});}
-  }else if(command!=='validate')throw Error('Use validate INPUT_SAVE or apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY');
+  }
   console.log(JSON.stringify({ok:true,id:document.id,revision:document.revision,floors:document.nodes.filter(node=>node.kind==='floor').map(node=>node.id),output},null,2));
 }catch(error){console.error(JSON.stringify({ok:false,code:error.code||'edit-error',path:error.path,message:error.message},null,2));process.exitCode=1;}
