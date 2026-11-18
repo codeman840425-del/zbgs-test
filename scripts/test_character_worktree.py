@@ -1,5 +1,6 @@
 """Exercise the real Git layout within a temporary directory inside the project."""
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -23,6 +24,15 @@ class LayoutTest(unittest.TestCase):
                             '-c', 'commit.gpgsign=false', 'commit', '-qm', 'fixture'], cwd=root, check=True)
             subprocess.run([sys.executable, str(tool), 'create', 'preview'], cwd=root, check=True)
             subprocess.run([sys.executable, str(tool), 'audit'], cwd=root, check=True)
+            # A task invoked by another repository's Git hook must still write to this project.
+            other = Path(parent) / 'foreign-project'
+            subprocess.run(['git', 'init', '-q', str(other)], check=True)
+            foreign_env = dict(os.environ, GIT_DIR=str(other / '.git'), GIT_WORK_TREE=str(other))
+            audit = subprocess.check_output([sys.executable, str(tool), 'audit'], cwd=other, env=foreign_env)
+            self.assertEqual(Path(json.loads(audit)['project']), root.resolve())
+            subprocess.run([sys.executable, str(tool), 'create', 'from-hook'], cwd=other, env=foreign_env, check=True)
+            self.assertTrue((root / 'experiments/worktrees/from-hook/.git').is_file())
+            self.assertFalse((other / 'experiments').exists())
             stray = Path(parent) / 'unrelated looking name'
             subprocess.run(['git', 'worktree', 'add', '--detach', str(stray)], cwd=root, check=True)
             result = subprocess.run([sys.executable, str(tool), 'audit'], cwd=root, capture_output=True)

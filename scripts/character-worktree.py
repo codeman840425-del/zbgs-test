@@ -8,19 +8,27 @@ import subprocess
 
 
 SCRIPT_REPO = Path(__file__).resolve().parents[1]
-COMMON = subprocess.check_output(['git','rev-parse','--path-format=absolute','--git-common-dir'],
-                                 cwd=SCRIPT_REPO,text=True).strip()
-ROOT = Path(COMMON).parent.resolve()
+GIT_ENV = os.environ.copy()
+for variable in subprocess.check_output(['git', 'rev-parse', '--local-env-vars'], cwd=SCRIPT_REPO).splitlines():
+    GIT_ENV.pop(os.fsdecode(variable), None)
+
+
+def worktrees(cwd):
+    listing = subprocess.check_output(['git', 'worktree', 'list', '--porcelain', '-z'], cwd=cwd, env=GIT_ENV)
+    return [Path(os.fsdecode(field[9:])).resolve() for field in listing.split(b'\0')
+            if field.startswith(b'worktree ')]
+
+
+# Git lists the main checkout first, including when git-common-dir is stored separately.
+ROOT = worktrees(SCRIPT_REPO)[0]
 HOME_DIR = ROOT / 'experiments' / 'worktrees'
 
 
 def audit():
     # Git's NUL-delimited names stay literal even for paths containing whitespace.
-    listing = subprocess.check_output(['git', 'worktree', 'list', '--porcelain', '-z'], cwd=ROOT)
-    worktrees = [Path(os.fsdecode(field[9:])).resolve() for field in listing.split(b'\0')
-                 if field.startswith(b'worktree ')]
+    registered = worktrees(ROOT)
     company_root = (ROOT.parent / 'gamemake-company-platform-c1').resolve()
-    unexpected_worktrees = sorted(str(path) for path in worktrees
+    unexpected_worktrees = sorted(str(path) for path in registered
                                   if not path.is_relative_to(ROOT) and not path.is_relative_to(company_root))
     prefixes = tuple(ROOT.name.casefold() + separator for separator in ('-', '_', '.'))
     siblings = sorted(p.name for p in ROOT.parent.iterdir() if p.name.casefold().startswith(prefixes))
@@ -40,9 +48,9 @@ def create(name, revision):
     if HOME_DIR.resolve() != HOME_DIR or (HOME_DIR / name).exists():
         raise ValueError('Worktree parent is redirected or destination already exists')
     commit = subprocess.check_output(['git','rev-parse','--verify','--end-of-options', revision+'^{commit}'],
-                                     cwd=ROOT, text=True).strip()
+                                     cwd=ROOT, env=GIT_ENV, text=True).strip()
     HOME_DIR.mkdir(parents=True,exist_ok=True)
-    subprocess.run(['git','worktree','add','--detach',str(HOME_DIR / name),commit],cwd=ROOT,check=True)
+    subprocess.run(['git','worktree','add','--detach',str(HOME_DIR / name),commit],cwd=ROOT,env=GIT_ENV,check=True)
     return 0
 
 
