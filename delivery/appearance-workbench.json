@@ -5,7 +5,7 @@
   "sourceCommit": "ca5a8810a53f4df27da5a705a0054aeb4b278f12",
   "directory": "prototype/dist",
   "port": 4196,
-  "entry": "/?workbench=appearance",
+  "entry": "/?body=female&workbench=appearance&view=inspect-face-front",
   "status": "technical-candidate-shared-admission-evidence-pending-human-visual-review",
   "previousWorkbench": "bda6fd250bb8",
   "rollbackPointer": "delivery/history/appearance-workbench-bda6fd250bb8.json",
@@ -63,5 +63,7 @@
     "检查区：四份最终人物记录的独立读取、两人一组与仅失败重试入口",
     "原生制作检查页增加实际 agent 创建/修改的1倍速影片与完整角色记录下载；运行创建/修改/查询/校验CLI及独立记录包。"
   ],
-  "rebuildEvidence": "evidence/m2-production-rebuild-v2"
-}\n
+  "rebuildEvidence": "evidence/m2-production-rebuild-v2",
+  "readySelector": "body.appearance-workbench",
+  "readyCondition": "wait-for-body-appearance-workbench"
+}
