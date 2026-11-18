@@ -53,7 +53,7 @@ const intact=r=>assert(r.code&&r.documentPreserved&&r.savePreserved&&r.rootPrese
  });
  await check('Company editor adds a cable to an available endpoint pair without replacing the room',async()=>{
   await page.locator('#mode-room').click();await idle();await page.evaluate(async()=>{const d=structuredClone(company.layouts.cables);d.id='custom-cable-room';d.nodes[0].parentId=d.id;d.nodes=d.nodes.filter(n=>n.id!=='cable/primary');await company.load(d);});
-  const before=await inspect();await page.locator('#add-panel>summary').click();await page.locator('#add-branch').selectOption('cable-route');await page.locator('#add-look').selectOption('cable-route-flat-ribbon@1');assert.equal(await page.locator('#add-target option').count(),1);await page.locator('#add-center').click();await idle();const after=await inspect();endpoints(after);assert.equal(after.document.id,before.document.id);assert.equal(after.document.nodes.length,before.document.nodes.length+1);assert.equal(await page.locator('#add-target option').count(),0);return after;
+  const before=await inspect();await page.locator('#tool-add').click();await page.locator('#add-branch').selectOption('cable-route');await page.locator('#add-look').selectOption('cable-route-flat-ribbon@1');assert.equal(await page.locator('#add-target option').count(),1);await page.locator('#add-center').click();await idle();const after=await inspect();endpoints(after);assert.equal(after.document.id,before.document.id);assert.equal(after.document.nodes.length,before.document.nodes.length+1);assert.equal(await page.locator('#add-target option').count(),0);return after;
  });
  await check('Actual obstructing geometry rejects edits on a hidden floor in building overview',async()=>{
   const result=await page.evaluate(async()=>{
