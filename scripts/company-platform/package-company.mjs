@@ -35,6 +35,7 @@ const extraFiles=[
   'docs/COMPANY-PREVIEW-EDITOR-v1.txt',
   'scripts/company-platform/build-cable-devices.mjs',
   'scripts/company-platform/build-cable-route.mjs',
+  'scripts/company-platform/record-fill-light-preview.cjs',
   'scripts/company-platform/test-cable-data.mjs',
   'scripts/company-platform/test-cable-render.mjs',
   'scripts/company-platform/test-cable-route-geometry.mjs',
