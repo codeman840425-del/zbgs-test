@@ -21,8 +21,12 @@ async function main() {
   }
   if (['--dist', '--out', ...(command === 'export' ? ['--inventory'] : [])].some(name => !options.has(name))) throw Error(usage);
   const external = options.has('--records');
-  const pinName = external ? './game-record-production-runtime-reviewed.json' : './game-record-runtime-reviewed.json';
-  const reviewedBytes = await readFile(new URL(pinName, import.meta.url));
+  const candidates = external ? ['./game-record-production-runtime-reviewed.json', './game-record-production-iris-reviewed.json']
+    : ['./game-record-runtime-reviewed.json'];
+  const {sourceDigest} = await readJson(path.join(options.get('--dist'), 'build-info.json'));
+  const reviews = await Promise.all(candidates.map(name => readFile(new URL(name, import.meta.url))));
+  const reviewedBytes = reviews.find(bytes => JSON.parse(bytes).sourceDigest === sourceDigest);
+  if (!reviewedBytes) fail('unsupported-build', 'No repository review for selected game runtime');
   if (options.has('--reviewed')) {
     const copy = await readFile(path.resolve(options.get('--reviewed')));
     if (!copy.equals(reviewedBytes)) fail('unsupported-build', 'Review metadata must match the repository-reviewed file exactly');

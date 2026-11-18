@@ -53,7 +53,11 @@ async function verifyBuild(dist, project, reviewed) {
   const publicFiles = new Map();
   for (const relative of build.inputs) {
     if (typeof relative !== 'string') fail('unsupported-build', 'Invalid build source input');
-    const bytes = await readFile(await localFile(project, portablePath(relative)));
+    const matrix = '../assets-source/variant-matrix-v1/representative-matrix.json';
+    const inputFile = relative === matrix
+      ? await localFile(path.dirname(project), matrix.slice(3))
+      : await localFile(project, portablePath(relative));
+    const bytes = await readFile(inputFile);
     sourceHash.update(relative).update('\0').update(bytes).update('\0');
     if (relative.startsWith('public/')) publicFiles.set(relative.slice(7), digest(bytes));
   }
@@ -83,6 +87,47 @@ function moduleReferences(code, parseAst) {
     }
   }
   return references;
+}
+
+async function scanGameBundles(html, parseAst, load) {
+  const scanned = new Set([BUILD, ENTRY]);
+  async function scan(reference, parent) {
+    if (parent.endsWith('.js') && !reference.startsWith('./') && !reference.startsWith('/'))
+      fail('unsupported-dependency', 'Expected a local compiled module reference: ' + reference);
+    const target = portablePath(runtimePath(reference.startsWith('./') ? reference.slice(2) : reference, parent));
+    if (!BUNDLE_PATH.test(target) && target !== 'favicon.svg')
+      fail('unsupported-dependency', 'Invalid game bundle path: ' + target);
+    if (scanned.has(target)) return;
+    scanned.add(target);
+    const bytes = await load(target,parent);
+    if (target.endsWith('.js')) {
+      for (const imported of moduleReferences(bytes.toString('utf8'), parseAst)) await scan(imported,target);
+    }
+  }
+  for (const reference of htmlReferences(html.toString('utf8'))) await scan(reference,ENTRY);
+  return scanned;
+}
+
+// For a game-runtime release, compare the reachable bundle bytes against a
+// separate build from a clean checkout before proposing a new repository pin.
+export async function compareGameRuntimeBuilds({dist, rebuilt, sourceRoot, sourceCommit}) {
+  const project = path.resolve(sourceRoot,'prototype');
+  const {parseAst} = createRequire(path.join(project,'package.json'))('rollup/parseAst');
+  const files = {};
+  async function compare(relative) {
+    const [published, repeated] = await Promise.all([dist,rebuilt].map(async root =>
+      readFile(await localFile(root,relative))));
+    if (!published.equals(repeated)) fail('rebuild-mismatch','Rebuilt file differs: '+relative);
+    files[relative]={sha256:digest(published),bytes:published.length};
+    return published;
+  }
+  const build = JSON.parse(await compare(BUILD));
+  const html = await compare(ENTRY);
+  await scanGameBundles(html,parseAst,compare);
+  const reviewed = {schema:REVIEWED_SCHEMA,sourceCommit,sourceDigest:build.sourceDigest,files};
+  validateReviewed(reviewed);
+  await verifyBuild(rebuilt,project,reviewed);
+  return reviewed;
 }
 
 export async function createGameRecordInventory({dist, sourceRoot, reviewed, records:externalRecords}) {
@@ -133,21 +178,12 @@ export async function createGameRecordInventory({dist, sourceRoot, reviewed, rec
 
   await add('/' + BUILD, 'Fixed source identity');
   const html = await add('/' + ENTRY, 'Independent game record entry');
-  const scanned = new Set([BUILD, ENTRY]);
-  async function scanBundle(reference, parent) {
-    if (parent.endsWith('.js') && !reference.startsWith('./') && !reference.startsWith('/'))
-      fail('unsupported-dependency', 'Expected a local compiled module reference: ' + reference);
-    const target = portablePath(runtimePath(reference.startsWith('./') ? reference.slice(2) : reference, parent));
-    if ((!BUNDLE_PATH.test(target) && target !== 'favicon.svg') || !Object.hasOwn(reviewed.files, target))
+  const scanned = await scanGameBundles(html.bytes, parseAst, async (target,parent) => {
+    if (!Object.hasOwn(reviewed.files, target))
       fail('unsupported-dependency', 'Missing independently reviewed bundle pin: ' + target);
-    if (scanned.has(target)) return;
-    scanned.add(target);
     const {bytes} = await add('/' + target, 'Compiled dependency of ' + parent);
-    if (target.endsWith('.js')) {
-      for (const imported of moduleReferences(bytes.toString('utf8'), parseAst)) await scanBundle(imported, target);
-    }
-  }
-  for (const reference of htmlReferences(html.bytes.toString('utf8'))) await scanBundle(reference, ENTRY);
+    return bytes;
+  });
   if (![...scanned].some(file => file.endsWith('.js')) ||
       Object.keys(reviewed.files).some(file => !scanned.has(file)))
     fail('unsupported-build', 'Reviewed compiled file pins must match the game entry dependency graph');

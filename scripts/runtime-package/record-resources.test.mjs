@@ -16,7 +16,8 @@ import {createCharacterRecord} from '../../prototype/src/character-record.js';
 import {deriveCharacterResourceIdentities} from '../../prototype/src/character-runtime-record.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
-const dist = path.resolve(process.argv[2] ?? path.join(root, 'experiments/m2-character-record-ui-release-v1/prototype/dist'));
+const release = JSON.parse(await readFile(path.join(root, 'delivery/appearance-workbench.json'), 'utf8'));
+const dist = path.resolve(root, process.argv[2] ?? release.directory);
 const publicRoot = path.join(root, 'prototype/public');
 const json = async file => JSON.parse(await readFile(path.join(root, file), 'utf8'));
 const publicJson = url => json('prototype/public' + url);
