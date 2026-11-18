@@ -40,8 +40,7 @@ let server,browser,context,video;
   await page.reload();await page.waitForFunction(()=>window.company?.ready&&company.buildInfo,{timeout:60000});
   assert.deepEqual(await page.evaluate(()=>company.session.document),saved);
   await step('restore','关闭重开后恢复四款素材链中的当前资源与开启状态。');
-  await page.evaluate(()=>company.load(company.layouts.twoStationsAlternate));
-  await show(1);await step('second-input','第二布局复用同一插座/开关资源登记、安装和状态链。');
+  await show(1);await step('second-input','再次选择第二款外观，复用同一插座/开关资源登记、安装和状态链。');
   report.status='recorded';report.scriptSeconds=(Date.now()-started)/1000;
 })().catch(error=>{report.status='failed';report.error=error.stack;process.exitCode=1;}).finally(async()=>{
   await context?.close();
