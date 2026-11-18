@@ -456,6 +456,12 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   add('data/library-catalog.json',catalogBytes,'complete-catalog');
   add('data/templates.json',templateBytes,'complete-templates');
   const supplemental=new Set(extraFiles);
+  if (catalog.resources.some(resource => resource.productionBranch === 'mouse-and-pad')) {
+    supplemental.add('docs/research/COMPANY-MOUSE-PAD-PRODUCTION.md');
+    supplemental.add('scripts/company-platform/test-mouse-pad-assets.mjs');
+    supplemental.add('scripts/company-platform/test-mouse-pad-installation.mjs');
+    supplemental.add('scripts/company-platform/qa-mouse-pad-rooms.cjs');
+  }
   if (catalog.resources.some(resource => resource.finish?.allowedSurfaces?.includes('baseboard'))) {
     supplemental.add('docs/research/COMPANY-BASEBOARD-PRODUCTION.md');
     supplemental.add('scripts/company-platform/test-baseboard-geometry.mjs');
