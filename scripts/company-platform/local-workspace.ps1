@@ -12,7 +12,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $project = (Resolve-Path -LiteralPath 'F:/gamemake-company-platform-c1').ProviderPath
-if ($Check) {
+function Assert-LocalWorkspace {
     $driveRoot = [IO.Path]::GetPathRoot($project)
     $strays = @(Get-ChildItem -LiteralPath $driveRoot -Force | Where-Object {
         $_.FullName -ne $project -and
@@ -33,6 +33,11 @@ if ($Check) {
             throw "Git 仍登记了盘符根目录下的公司工作树：$registered"
         }
     }
+}
+
+# Apply the same guard when allocating a path, before the caller creates any files.
+Assert-LocalWorkspace
+if ($Check) {
     Write-Output "公司根目录和 Git 工作树路径检查通过：$project"
     return
 }
