@@ -1,14 +1,67 @@
 """Bounded fresh locked-build check. Never changes the reference dist or removes worktrees."""
-import argparse,hashlib,json,pathlib,shutil,subprocess,sys,time,platform
-P=argparse.ArgumentParser();P.add_argument('--repo',default=str(pathlib.Path(__file__).resolve().parents[1]));P.add_argument('--commit',required=True);P.add_argument('--baseline',required=True);P.add_argument('--worktree',required=True);P.add_argument('--output',required=True);a=P.parse_args()
-repo=pathlib.Path(a.repo).resolve();baseline=pathlib.Path(a.baseline).resolve();work=pathlib.Path(a.worktree).resolve();out=pathlib.Path(a.output).resolve()
-if not work.is_relative_to(repo/'experiments') or work.exists():raise RuntimeError('New worktree must be a nonexisting path within repo/experiments')
-if out.exists():raise RuntimeError('Refuse to overwrite evidence output')
-if baseline==work or baseline.is_relative_to(work):raise RuntimeError('Baseline cannot be in new worktree')
+import argparse
+import hashlib
+import json
+import os
+import pathlib
+import platform
+import shutil
+import subprocess
+import time
+
+
+def git_paths(directory, *options):
+    result = subprocess.run(
+        ['git', 'rev-parse', '--path-format=absolute', *options],
+        cwd=directory, env=git_env, check=True, capture_output=True,
+    )
+    return tuple(pathlib.Path(os.fsdecode(path)).resolve() for path in result.stdout.splitlines())
+
+
+script_checkout = pathlib.Path(__file__).resolve().parents[1]
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--repo', default=str(script_checkout))
+parser.add_argument('--commit', required=True)
+parser.add_argument('--baseline', required=True)
+parser.add_argument('--worktree', required=True)
+parser.add_argument('--output', required=True)
+a = parser.parse_args()
+
+try:
+    # Find the checkout's own metadata when invoked from another Git command.
+    git_env = os.environ.copy()
+    local_git_vars = subprocess.check_output(['git', 'rev-parse', '--local-env-vars'], cwd=script_checkout)
+    for name in local_git_vars.splitlines():
+        git_env.pop(os.fsdecode(name), None)
+
+    script_root, script_git, common_git = git_paths(
+        script_checkout, '--show-toplevel', '--git-dir', '--git-common-dir',
+    )
+    main_root = script_root if script_git == common_git else common_git.parent
+    if script_git != common_git and git_paths(main_root, '--show-toplevel', '--git-dir') != (main_root, common_git):
+        parser.error('Cannot locate the main checkout of the script repository')
+    repo = pathlib.Path(a.repo).resolve()
+    if git_paths(repo, '--git-common-dir') != (common_git,):
+        parser.error('--repo must use the same Git repository as this script')
+except (OSError, subprocess.CalledProcessError) as exc:
+    parser.error(f'Cannot read Git checkout paths: {exc}')
+
+baseline = pathlib.Path(a.baseline).resolve()
+work = pathlib.Path(a.worktree).resolve()
+out = pathlib.Path(a.output).resolve()
+experiments = main_root / 'experiments'
+if work == experiments or not work.is_relative_to(experiments) or work.exists():
+    parser.error('New worktree must be a nonexisting path within the main repository experiments directory')
+if not out.is_relative_to(main_root):
+    parser.error('Evidence output must be within the main repository')
+if out.exists():
+    parser.error('Refuse to overwrite evidence output')
+if baseline.is_relative_to(work):
+    parser.error('Baseline cannot be in new worktree')
 out.mkdir(parents=True);report={'status':'incomplete','startedUTC':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'repo':str(repo),'requestedCommit':a.commit,'baseline':str(baseline),'worktree':str(work),'checkoutScope':'fresh detached sparse checkout: complete prototype plus root files; historical evidence/assets-source not needed to build runtime','steps':[],'limitations':['Same development machine/OS/toolchain; no browser/visual/performance acceptance.','Source generators are not rerun: this verifies committed runtime source + committed exports + lockfile reproducibly build the fixed runtime.']}
 def sha(b):return hashlib.sha256(b).hexdigest()
 def run(name,cmd,cwd):
- start=time.perf_counter();r=subprocess.run(cmd,cwd=cwd,capture_output=True);(out/(name+'.stdout.log')).write_bytes(r.stdout);(out/(name+'.stderr.log')).write_bytes(r.stderr);step={'name':name,'command':list(map(str,cmd)),'cwd':str(cwd),'exitCode':r.returncode,'seconds':time.perf_counter()-start};report['steps'].append(step);print(json.dumps(step),flush=True)
+ start=time.perf_counter();r=subprocess.run(cmd,cwd=cwd,env=git_env,capture_output=True);(out/(name+'.stdout.log')).write_bytes(r.stdout);(out/(name+'.stderr.log')).write_bytes(r.stderr);step={'name':name,'command':list(map(str,cmd)),'cwd':str(cwd),'exitCode':r.returncode,'seconds':time.perf_counter()-start};report['steps'].append(step);print(json.dumps(step),flush=True)
  if r.returncode:raise RuntimeError(f'{name} exited {r.returncode}; see logs')
  return r.stdout.decode('utf-8',errors='replace').strip()
 def files(root):
