@@ -5,7 +5,8 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from native_batch_gate import CHECK_TO_ADAPTER, GateError, dynamic_trace_index, evaluate
+from native_batch_gate import (CHECK_TO_ADAPTER, GateError, budget_classification_index,
+                               dynamic_trace_index, evaluate)
 
 
 class NativeBatchGateTests(unittest.TestCase):
@@ -26,6 +27,17 @@ class NativeBatchGateTests(unittest.TestCase):
             path.write_text(json.dumps(source), encoding='utf8')
             with self.assertRaises(ValueError):
                 dynamic_trace_index(path)
+
+    def test_budget_classification_keeps_four_layers_diagnostic(self):
+        path = Path('evidence/m2-native-batch-runtime-seam-v1/budget-classification-v1.json')
+        indexed = budget_classification_index(path)
+        self.assertEqual(len(indexed), 2)
+        for row in indexed.values():
+            self.assertIn('transport', row)
+            self.assertIn('decodeCanvas', row)
+            self.assertIn('gpu', row)
+            self.assertIn('ordinaryPC', row)
+            self.assertEqual(row['scope'].split(';')[-1].strip(), 'no admission')
     def test_adapter_tasks_are_explicit_and_no_runtime_auto_accept(self):
         report = evaluate(Path('assets-source/native-parameter-game-packages-v1/import-batch.json'))
         self.assertEqual(report['schema'], 'native-production-readiness-v1')

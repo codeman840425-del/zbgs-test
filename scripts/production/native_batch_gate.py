@@ -469,6 +469,34 @@ def dynamic_trace_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, An
     return result
 
 
+def budget_classification_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
+    """Attach four-layer budget classification without granting admission."""
+    path = path.resolve()
+    require(path.is_file() and path.is_relative_to(root),
+            "Budget classification must be inside repository")
+    report = read_json(path)
+    require(report.get("schema") == "native-batch-budget-classification-v1",
+            "Unsupported budget classification")
+    result: dict[str, dict[str, Any]] = {}
+    for item in report.get("records", []):
+        body_sha = item.get("bodySha256")
+        require(isinstance(body_sha, str) and SHA.fullmatch(body_sha),
+                "Budget classification body identity is incomplete")
+        require(body_sha not in result, "Duplicate budget classification body")
+        result[body_sha] = {
+            "report": pin(path),
+            "bodySha256": body_sha,
+            "transport": item.get("transport"),
+            "decodeCanvas": item.get("decodeCanvas"),
+            "gpu": item.get("gpu"),
+            "ordinaryPC": item.get("ordinaryPC"),
+            "resourceGates": item.get("resourceGates"),
+            "scope": "four-layer static/runtime budget classification; no admission",
+        }
+    require(result, "Budget classification has no records")
+    return result
+
+
 def evaluate(batch_path: Path, root: Path = ROOT,
              runtime_report: Path | None = None,
              adapter_report: Path | None = None,
@@ -477,7 +505,8 @@ def evaluate(batch_path: Path, root: Path = ROOT,
              runtime_head_audit: Path | None = None,
              glasses_report: Path | None = None,
              budget_report: Path | None = None,
-             dynamic_trace: Path | None = None) -> dict[str, Any]:
+             dynamic_trace: Path | None = None,
+             budget_classification: Path | None = None) -> dict[str, Any]:
     root = root.resolve()
     batch_path = batch_path.resolve()
     require(batch_path.is_file() and batch_path.is_relative_to(root), "Batch must be inside repository")
@@ -493,6 +522,7 @@ def evaluate(batch_path: Path, root: Path = ROOT,
     glasses_by_body = glasses_admission_index(glasses_report, root) if glasses_report else {}
     budget_by_body = budget_admission_index(budget_report, root) if budget_report else {}
     dynamic_by_body = dynamic_trace_index(dynamic_trace, root) if dynamic_trace else {}
+    budget_classification_by_body = budget_classification_index(budget_classification, root) if budget_classification else {}
     combined_adapter = dict(adapter_by_body)
     for evidence_map in (glasses_by_body, budget_by_body):
         for body_sha, evidence in evidence_map.items():
@@ -518,6 +548,8 @@ def evaluate(batch_path: Path, root: Path = ROOT,
             row["budgetAdmissionEvidence"] = budget_by_body[body_sha]
         if body_sha in dynamic_by_body:
             row["dynamicRuntimeTrace"] = dynamic_by_body[body_sha]
+        if body_sha in budget_classification_by_body:
+            row["budgetClassification"] = budget_classification_by_body[body_sha]
     for row in rows:
         if row["bodyType"] in microphone_by_body:
             row["accessoryEvidence"] = {"microphone": microphone_by_body[row["bodyType"]]}
@@ -566,12 +598,14 @@ def main() -> int:
     parser.add_argument("--glasses-report", type=Path)
     parser.add_argument("--budget-report", type=Path)
     parser.add_argument("--dynamic-trace", type=Path)
+    parser.add_argument("--budget-classification", type=Path)
     args = parser.parse_args()
     try:
         report = evaluate(args.batch, runtime_report=args.runtime_report, adapter_report=args.adapter_report,
                           microphone_report=args.microphone_report, adaptation_report=args.adaptation_report,
                           runtime_head_audit=args.runtime_head_audit, glasses_report=args.glasses_report,
-                          budget_report=args.budget_report, dynamic_trace=args.dynamic_trace)
+                          budget_report=args.budget_report, dynamic_trace=args.dynamic_trace,
+                          budget_classification=args.budget_classification)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
         print(json.dumps(report, ensure_ascii=False))
