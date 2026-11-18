@@ -2,7 +2,7 @@
 
 目标：保留 Phaser 经营、界面和场景，验证可维护的角色表现生产流程。
 
-角色平台新增的独立验证工作树放在主工程 `experiments/` 内。可用 `python scripts/character-worktree.py create 名称 提交` 在 `experiments/worktrees/` 创建，使用 `python scripts/character-worktree.py audit` 检查同级散落目录。临时脚本和输出也放在工程内。历史工作树的迁移或清理另行核对使用者、未提交改动和固定构建依赖。
+角色平台新增的独立验证工作树放在主工程 `experiments/` 内。可用 `python scripts/character-worktree.py create 名称 提交` 在 `experiments/worktrees/` 创建，发布角色候选前运行 `python scripts/character-worktree.py audit`，核对 Git 登记的全部工作树和盘根同名产物。总工和各子任务的临时脚本、压缩包、录屏与构建输出也放在工程内。副总工独立使用的公司平台目录单列。历史工作树的迁移或清理另行核对使用者、未提交改动和固定构建依赖。
 
 ## 当前长目标优先约定（2026-11-16，取代下文历史有限M2范围）
 
