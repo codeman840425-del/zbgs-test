@@ -8,6 +8,7 @@ import {appearanceColorPresets} from './appearance-color-policy.js';
 import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
 import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
 import {CHARACTER_RECORD_MAX_BYTES,isSafeCharacterRecordId} from './character-record.js';
+import {queryCharacterProduction} from './character-production-query.js';
 import earManifest from '../public/assets/m2-paired-ear-accessory-v1/manifest.json' with {type:'json'};
 import hatFit from '../public/assets/m2-hat-hair-v1/fit.json' with {type:'json'};
 // DOM binding only: appearance ownership and camera framing stay in the controller.
@@ -86,6 +87,12 @@ export function bindAppearanceWorkbench({ controller }) {
     <p class="appearance-hint">新配方与草稿一并保存耳饰、帽子和适配版本；旧版配方保留原语义。</p>
     <p id="appearance-samples-status" class="appearance-hint" role="status" aria-live="polite"></p>`;
   fields.append(samplesPanel);
+  const productionPanel=document.createElement('details');
+  productionPanel.id='appearance-production-matrix';
+  productionPanel.innerHTML='<summary>生产资源矩阵</summary><p id="appearance-production-matrix-note" class="appearance-hint"></p><ul id="appearance-production-matrix-list"></ul>';
+  fields.append(productionPanel);
+  const productionMatrixNote=productionPanel.querySelector('#appearance-production-matrix-note');
+  const productionMatrixList=productionPanel.querySelector('#appearance-production-matrix-list');
   const freckles=samplesPanel.querySelector('#appearance-surface-freckles'),blush=samplesPanel.querySelector('#appearance-surface-blush');
   const ears=samplesPanel.querySelector('#appearance-ears'),hat=samplesPanel.querySelector('#appearance-hat');
   const surfaceNote=samplesPanel.querySelector('#appearance-surface-note'),earsNote=samplesPanel.querySelector('#appearance-ears-note'),hatNote=samplesPanel.querySelector('#appearance-hat-note');
@@ -443,6 +450,7 @@ export function bindAppearanceWorkbench({ controller }) {
       for (const button of groupButtons) button.setAttribute('aria-pressed', 'false');
       throw Error('当前人物不在此工作台的已有样件中');
     }
+    syncProductionMatrix();
     body.replaceChildren(...bodyGroups[group].filter(item=>!item.diagnostic||item.id===actualBody).map(({ id, label, diagnostic }) => {
       const option = document.createElement('option'); option.value = id; option.textContent = diagnostic?'诊断中 · '+label:label; return option;
     }));
@@ -517,6 +525,25 @@ export function bindAppearanceWorkbench({ controller }) {
       :discrete?'此下颌样件嘴宽仅原位 / +4%；眉、鼻、眼几何尚未适配。':'真实嘴宽几何 ±4%；眉、鼻、眼按已制作样件选择。';
     syncSamples(actual,geometry);
     renderCharacterRecords();
+  }
+  function syncProductionMatrix(){
+    try{
+      const query=queryCharacterProduction(controller);
+      const styles=query.styleVariants||[];
+      const admitted=query.runtimeVariants||[];
+      productionMatrixList.replaceChildren(...styles.map(style=>{
+        const item=document.createElement('li');
+        const variant=style.variants[0];
+        item.textContent=`${style.label} · ${variant.status==='runtime-admitted'?'可运行准入':'候选，待准入'}`;
+        return item;
+      }));
+      productionMatrixNote.textContent=styles.length
+        ?`当前基模已登记 ${styles.length} 个款式，正式可用 ${admitted.length} 个。候选资源仍需通过适配、预算和运行验收。`
+        :'当前基模没有已登记的生产变体。';
+    }catch(error){
+      productionMatrixList.replaceChildren();
+      productionMatrixNote.textContent='当前基模的生产矩阵尚未登记。';
+    }
   }
   const appearanceChanged = event => {
     if (disposed || event?.actor !== actor()) return;

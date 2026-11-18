@@ -533,3 +533,7 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 `male-native-base-216`（VRoid 2.16）仍因来源元数据 `modification=prohibited`、`allowRedistribution=false` 只能做只读对照；该限制不适用于仓库另存的 `assets-source/foundation-male/Base_Male.vrm`。后者保留旧版 VRoid Base_Male CC0 来源、许可记录及可编辑 Blender 重建源，已在固定构建 `bda6fd250bb8` 完成男性记录消费的走路→坐下→坐稳→起身→离椅技术回放，证据 `evidence/m2-male-foundation-record-room-v1`，状态 `technical-pass-visual-candidate`。男性短裤记录使用 `equipment.index=2/role=shorts`；这只证明共用运行链和记录恢复，不清除动态、附件、预算、普通机或人工视觉准入。
 
 男性 M1 回归工具在同一固定构建上已修正为等待换装事务返回 `applied` 后再进入下一动作链；重新执行基础人体→长裤→露膝短裤三套完整链均完成，证据 `output/playwright/m1/bda6fd250bb8/male3/chain/observations.json` 与 `same-camera-chain.webm`。这证明验证流程的连续换装同步问题已修复，不提升男性短裤的视觉、预算或正式批产准入状态。
+
+2026-11-18 预算交叉核查：`scripts/production/qa_native_budget_gate.py` 只读复核生产闸门、FaceContour KTX2 旁车、确定性编码回执和历史预算包装的身体身份、编码一致性、静态超预算、普通电脑未测及 `runtimeVerified=false`。32 项检查通过，输出 `status=pass`、`readOnly=true`、`runtimeAdmissionChanged=false`、`acceptedForRuntime=[]`。该工具验证预算证据没有漂移，不会把旁车或静态估算升级为运行时准入。
+
+2026-11-18 工作台资源矩阵接入：4196 工作台外观页新增“生产资源矩阵”只读区域，按当前基础身体显示已登记款式及 `candidate`/`runtime-admitted` 状态。它复用 `queryCharacterProduction()` 的精确身份查询，不提供绕过准入的应用入口。当前男女代表制服和露膝短裤均显示候选，正式可用数量为零；Vite 构建通过。
