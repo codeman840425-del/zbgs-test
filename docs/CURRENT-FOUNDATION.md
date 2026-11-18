@@ -52,3 +52,10 @@
 当前资源预算包已完成分层记录：`budget-classification-v1.json` 将传输闭包列为已测，将解码/Canvas列为静态估算，将GPU与普通电脑列为未测；两项 FaceContour 候选仍为 blocked。KTX2 只保留旧801 pilot 的独立旁车结论，新身体尚未生成压缩派生物。下一步继续共用适配器和发布闸门，不再投入单模型外观精修；只有逐身体适配证据、资源预算策略和目标设备实测满足条件，才允许 `acceptedForRuntime` 非空。
 
 2026-11-17 头部附件共用适配已进入候选阶段：新两体的未适配眼镜站/坐捕获和四环 fit 候选保存在 `evidence/m2-native-batch-runtime-seam-v1/native-glasses-capture-candidate-v1` 与 `native-glasses-candidate-v1`。这证明同一适配器可按精确 body SHA 生成候选，不代表眼镜已通过；下一步是固定构建中的正常速度近景/动作检查，再决定是否进入 source registry 和闸门。
+
+
+## 当前主工作包：M2共同生产链路（2026-11-17）
+- 主线已从单模型精修切换为“配方→原生导出→差分→资源包→准入闸门→确定性角色记录”。新增 `scripts/production/native_admission_cycle.py`，当前批次的实际运行结果保存在 `evidence/m2-native-admission-cycle-v1/summary.json`，状态为 `blocked`，两项均拒绝生成运行时记录请求。
+- 技术回放已在固定 `bda6fd250bb8` 上完成：`room-roundness-a` 与 `room-cheek-b` 各自走路、坐下、坐稳、起身、离椅均完成，供人工观看；不等同视觉通过、普通电脑通过或M2完成。
+- 下一步按共同机制推进：先解决头部附件的版本化证据与准入车道、动态头发逐身体运行检查、预算分层/发布派生方案和男性独立FaceContour观察；不覆盖冲突profile、不放宽超预算闸门、不重开封板裙装/30秒舞。
+- 恢复命令：从仓库根运行 `python -B scripts/production/native_admission_cycle.py`，使用当前批次和现有证据路径生成新的、不可覆写的 gate/record 输出目录；新增配方先产生新证据目录，再更新准入报告。

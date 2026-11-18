@@ -511,3 +511,8 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 同日 KTX2 旁车复核 `evidence/m2-native-batch-adaptation-v1/native-batch-ktx-budget.json`：已有 KTX2 pilot 绑定旧 801 男女模型，不能按文件名或材质名复用到两份新身体；本轮没有改写 VRM，也没有把 KTX2 文件大小当作 GPU 或普通电脑通过。后续若做发布派生，只能按 `sourceExportSha256`、原图 SHA、材质/UV/采样器、alpha 和解码器版本建立显式旁车，并保留 PNG/Canvas 回退。
 
 2026-11-17 新 FaceContour 头部附件共用适配候选：固定构建 `bda6fd250bb8` 在同一游戏运行链对 `native-contour-roundness-a-v1` 与 `native-contour-cheek-b-v1` 各采集站/坐两姿势的未适配眼镜几何；`scripts/production/native_accessory_batch.py` 复用现有四环镜腿求解器生成两份 `cpu-candidate-only` fit。身份、捕获和生成结果均可重跑，但仍未注册到运行时准入，未替代正常速度视觉与头发/脸部接触检查；闸门的 `headAttachments` 继续阻塞。
+
+
+2026-11-17 M2共同生产链路收敛：新增 `scripts/production/native_admission_cycle.py`，把现有批次闸门与确定性角色记录规划串成单次、拒绝覆写的可重复入口。实际批次 `contour-roundness-a`、`contour-cheek-b` 均输出 `acceptedForRuntime=[]`，记录规划器生成2条明确 `runtime admission pending` 拒绝行，未把候选写成可用角色。固定构建 `bda6fd250bb8` 的两份新记录分别完成同房间走路→坐下→坐稳→起身→离椅1×技术回放，证据 `evidence/m2-native-admission-cycle-v1/room-roundness-a` 与 `room-cheek-b`；这是技术候选，不替代人工视觉验收。
+
+当前共同卡点进一步确认：资源预算两体均超静态门，GPU驻留与普通电脑未测；头部附件候选与现registry存在不同profile/source-capture身份，不能覆盖登记，且运行时 fit 仍 `verified:false`；动态头发、表面/纹理仍需逐身体运行证据。男性审计确认 authoring schema/执行器字段形状可复用，但女性观察值、身体包、装备和fit不能直接借用；男性仍缺非基线 FaceContour观察与导出候选。详见 `evidence/m2-native-batch-runtime-seam-v1/GLASSES-ADMISSION-AUDIT.md`、`MALE-RECIPE-REUSE-AUDIT.md`。

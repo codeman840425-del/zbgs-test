@@ -90,3 +90,21 @@ writer顺序为build、Node qa-runtime、Python qa；最终qa只在内存计划/
 制作顺序与完整写范围见 `flow.py show hat-hair-source`。build、qa-runtime与递归qa仅登记供精确源隔离检出重做，不在冻结主源上重跑扩清单。本次顶层 `scripts/publish-hat-hair-v1.py` 放在递归枚举范围外，并独立固定SHA。发布前核整个清单、QApassed、三个ready SHA和实际依赖，再在目标同级 `.hat-stage-*` 暂存并整目录rename。默认仅发布 `prototype/public/assets/m2-hat-hair-v1/{baseball-cap.glb,fit.json,manifest.json}`，相同完整发布不改字节或mtime，不同或部分已有目录拒绝。源文件缺失、坏身份或QA失败均在目标写入前拒绝。
 
 限定复核命令为 `python -B scripts/production/flow.py validate hat-hair-source` 和 `python -B scripts/production/qa-hat-package.py`，实际发布入口为 `python -B scripts/publish-hat-hair-v1.py`。focused QA仅使用临时镜像测试发布/重复/冲突/坏源，语义字段阴性采用明确的内存注入，报告写 `evidence/m2-hat-production-v1`。源27项清单原样保留，静态及CPU结果继续 `runtimeAccepted=false`，不代表浏览器、长发动态、表情视线、椅子接触或观感验收。
+
+
+### Native batch admission cycle
+
+`native_admission_cycle.py` 收口已准备的 native import batch：先按精确 body/package/adapter 证据评估 `native_batch_gate.py`，再把同一份 gate report 交给 `native_record_batch.py`。只有 `acceptedForRuntime` 中的 body 才会得到角色创建请求；未准入项会留下带原因的拒绝行。该入口拒绝覆盖已有输出，且只证明生产与记录链路，不授予视觉或目标设备性能通过。示例：
+
+```powershell
+python -B scripts/production/native_admission_cycle.py `
+  --batch assets-source/native-parameter-game-packages-v1/import-batch.json `
+  --gate-output evidence/<cycle>/gate.json `
+  --records-output evidence/<cycle>/record-requests `
+  --summary evidence/<cycle>/summary.json `
+  --runtime-report <runtime-report.json> `
+  --adapter-report <adapter-report.json> `
+  --microphone-report <microphone-registration.json> `
+  --adaptation-report <adaptation-admissions.json> `
+  --runtime-head-audit <runtime-record-budget-head-attachment-audit.json>
+```
