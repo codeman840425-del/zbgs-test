@@ -15,6 +15,7 @@ from tempfile import TemporaryDirectory
 from pathlib import Path
 
 from variant_matrix import validate_matrix_files, _resolve_reference
+from outfit_admission import binding_key, load_reviewed_admissions, outfit_binding, source_commit, verify_runtime_source
 
 
 SCHEMA = "zbgs-style-variant-batch-request-v1"
@@ -101,7 +102,7 @@ def outfit_pins(pins):
     return sorted(checked)
 
 
-def production_request(item, row, query, member, diagnostic):
+def production_request(item, row, query, member):
     identity = item.get("identity")
     check(isinstance(identity, dict) and set(identity) == {"id", "name", "gender"} and
           identity["id"] == item["stableId"], "Specify identity.id, name and gender; identity.id must equal stableId")
@@ -122,9 +123,6 @@ def production_request(item, row, query, member, diagnostic):
     check(len(matches) == 1, "No unique configured outfit for the requested role and equipment pins")
     pins = outfit_pins(matches[0]["equipment"])
     check(bool(member) and outfit_pins([member])[0] in pins, "Configured outfit does not contain the exact matrix equipment")
-    # The current matrix admission belongs to one garment. A configured and
-    # loadable set still needs its own complete runtime admission evidence.
-    check(diagnostic or len(pins) == 1, "Whole-outfit runtime admission evidence is required; matrix admission covers one equipment member")
     index = matches[0]["index"]
     check(type(index) is int and index >= 0, "Runtime query returned an invalid outfit index")
     return {"schema": "character-production-request-v1", "operation": "create", "bodyType": row["bodyType"],
@@ -134,7 +132,8 @@ def production_request(item, row, query, member, diagnostic):
             }}]}
 
 
-def plan(matrix: dict, request: dict, *, queries=None, members=None, diagnostic=False) -> dict:
+def plan(matrix: dict, request: dict, *, queries=None, members=None, diagnostic=False,
+         fit_shas=None, admissions=None, runtime_commit=None) -> dict:
     check(request.get("schema") == SCHEMA, "Invalid style variant batch request schema")
     batch_id = request.get("batchId")
     check(isinstance(batch_id, str) and ID.fullmatch(batch_id), "Invalid batchId")
@@ -177,7 +176,15 @@ def plan(matrix: dict, request: dict, *, queries=None, members=None, diagnostic=
                 check(SHA.fullmatch(str(row.get(key) or "")), f"Invalid {key}")
             member = (members or {}).get(variant_key(item))
             check(not isinstance(member, str), member)
-            executable = production_request(item, row, (queries or {}).get(body_type), member, diagnostic)
+            executable = production_request(item, row, (queries or {}).get(body_type), member)
+            outfit = executable["edits"][0]["selection"]
+            approval = None
+            if not diagnostic:
+                fit_sha = (fit_shas or {}).get(variant_key(item))
+                approval = (admissions or {}).get(binding_key(outfit_binding(row, outfit, fit_sha)))
+                check(approval, "Whole-outfit runtime admission evidence is required for this exact body, version and equipment")
+                check(approval["runtime"]["sourceCommit"] == runtime_commit,
+                      "Whole-outfit admission requires its reviewed runtime source commit")
             result.update({
                 "status": "candidate" if diagnostic else "accepted",
                 "stableId": stable_id,
@@ -193,7 +200,8 @@ def plan(matrix: dict, request: dict, *, queries=None, members=None, diagnostic=
                     "coverageManifest": row["coverageManifest"],
                     "coverageManifestSha256": row["coverageManifestSha256"],
                     "admissionEvidence": row.get("admissionEvidence"),
-                    "outfit": executable["edits"][0]["selection"],
+                    "outfit": outfit,
+                    **({"wholeOutfitAdmission":approval} if approval else {}),
                 },
             })
         except (TypeError, ValueError, KeyError) as error:
@@ -216,7 +224,7 @@ def plan(matrix: dict, request: dict, *, queries=None, members=None, diagnostic=
 
 def resolve_runtime(matrix, request, root, diagnostic):
     rows = matrix_rows(matrix)
-    queries, members = {}, {}
+    queries, members, fit_shas = {}, {}, {}
     for item in batch_items(request):
         if not isinstance(item, dict) or not all(isinstance(value, str) for value in variant_key(item)):
             continue
@@ -226,6 +234,8 @@ def resolve_runtime(matrix, request, root, diagnostic):
             continue
         try:
             members[key] = resource_member(row, root)
+            if not diagnostic:
+                fit_shas[key] = pin(root, row["fitManifest"])["sha256"]
         except (KeyError, OSError, TypeError, ValueError) as error:
             members[key] = str(error)
             continue
@@ -238,7 +248,7 @@ def resolve_runtime(matrix, request, root, diagnostic):
             queries[body] = {"ok":False, "error":result.stderr.strip() or "Runtime query failed"}
         else:
             queries[body] = json.loads(result.stdout)
-    return queries, members
+    return queries, members, fit_shas
 
 
 def run(matrix_path: Path, request_path: Path, output: Path, root: Path, diagnostic=False) -> dict:
@@ -247,8 +257,17 @@ def run(matrix_path: Path, request_path: Path, output: Path, root: Path, diagnos
     check(not errors, "; ".join(errors))
     check(not output.exists(), "Output already exists")
     request = read_json(request_path)
-    queries, members = resolve_runtime(matrix, request, root, diagnostic)
-    result = plan(matrix, request, queries=queries, members=members, diagnostic=diagnostic)
+    admissions = {} if diagnostic else load_reviewed_admissions()
+    runtime_commit = source_commit(root) if admissions else None
+    reviewed_builds = {approval["runtime"]["sourceDigest"]: approval for approval in admissions.values()
+                       if approval["runtime"]["sourceCommit"] == runtime_commit}
+    for approval in reviewed_builds.values():
+        verify_runtime_source(root, approval)
+    queries, members, fit_shas = resolve_runtime(matrix, request, root, diagnostic)
+    if runtime_commit:
+        check(source_commit(root) == runtime_commit, "Fixed outfit runtime source changed while planning")
+    result = plan(matrix, request, queries=queries, members=members, diagnostic=diagnostic,
+                  fit_shas=fit_shas, admissions=admissions, runtime_commit=runtime_commit)
     result["source"] = {
         "matrix": pin(root, matrix_path.relative_to(root).as_posix()),
         "request": pin(root, request_path.relative_to(root).as_posix()),

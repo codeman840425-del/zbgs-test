@@ -1,10 +1,13 @@
 import unittest
 
 from variant_batch import SCHEMA, OUT_SCHEMA, plan
+from outfit_admission import binding_key, outfit_binding
 
 
 MEMBER = {"id": "female-uniform-item", "slot": "top", "sha256": "e" * 64}
 MATCH = ("uniform-top-v1", "female-base-v1", "v1")
+COMMIT = "1"*40
+FIT_SHA = "2"*64
 
 
 def matrix(status="runtime-admitted"):
@@ -45,6 +48,12 @@ class VariantBatchTests(unittest.TestCase):
     def plan(self, data, request, **options):
         options.setdefault("queries", self.query())
         options.setdefault("members", {MATCH: MEMBER})
+        options.setdefault("fit_shas",{MATCH:FIT_SHA})
+        options.setdefault("runtime_commit",COMMIT)
+        # Synthetic index entry for the exact one-item outfit test fixture.
+        row = {**matrix()["styles"][0]["variants"][0],"styleId":MATCH[0]}
+        binding = outfit_binding(row,{"role":"configured","equipment":[MEMBER]},FIT_SHA)
+        options.setdefault("admissions",{binding_key(binding):{"runtime":{"sourceCommit":COMMIT}}})
         return plan(data, request, **options)
 
     def test_admitted_row_emits_game_request(self):
@@ -138,6 +147,48 @@ class VariantBatchTests(unittest.TestCase):
         self.assertNotIn("request", result["items"][0])
         diagnostic = self.plan(data, request, queries=query, diagnostic=True)
         self.assertEqual((diagnostic["acceptedCount"],diagnostic["candidateCount"]), (0,1))
+
+    def test_request_cannot_self_approve(self):
+        request = self.request()
+        request["items"][0]["wholeOutfitAdmission"] = {"status":"passed"}
+        result = self.plan(matrix(),request,admissions={})
+        self.assertEqual(result["acceptedCount"],0)
+        self.assertIn("Whole-outfit runtime admission evidence",result["items"][0]["reason"])
+
+    def test_review_cannot_be_reused_on_other_exact_body_or_style_version(self):
+        for change in ("body","version","fit","runtime"):
+            data, request, query = matrix(), self.request(), self.query()
+            row = data["styles"][0]["variants"][0]
+            item = request["items"][0]
+            options = {}
+            if change == "body":
+                row["bodySha256"] = "b"*64
+                query[item["bodyType"]]["body"]["sha256"] = row["bodySha256"]
+            elif change == "version":
+                item["variantVersion"] = row["variantVersion"] = "v2"
+                options = {"members": {("uniform-top-v1","female-base-v1","v2"):MEMBER}}
+            elif change == "fit":
+                options = {"fit_shas": {MATCH:"3"*64}}
+            else:
+                options = {"runtime_commit": "4"*40}
+            result = self.plan(data,request,queries=query,**options)
+            self.assertEqual(result["acceptedCount"],0,change)
+            self.assertIn("Whole-outfit",result["items"][0]["reason"],change)
+
+    def test_complete_synthetic_outfit_approval_locks_the_sock_sha(self):
+        data, request, query = matrix(), self.request(), self.query()
+        row = {**data["styles"][0]["variants"][0],"styleId":MATCH[0]}
+        chosen = request["items"][0]["outfit"]
+        socks = {"id":"test-socks","slot":"socks","sha256":"b"*64}
+        chosen["equipment"].append(socks)
+        query["female-base-v1"]["outfits"][0]["equipment"].append(socks)
+        key = binding_key(outfit_binding(row,chosen,FIT_SHA))
+        reviewed = {key:{"runtime":{"sourceCommit":COMMIT}}}
+        self.assertEqual(self.plan(data,request,queries=query,admissions=reviewed)["acceptedCount"],1)
+        socks["sha256"] = "c"*64
+        result = self.plan(data,request,queries=query,admissions=reviewed)
+        self.assertEqual(result["acceptedCount"],0)
+        self.assertIn("Whole-outfit runtime admission evidence",result["items"][0]["reason"])
 
 
 if __name__ == "__main__":
