@@ -13,6 +13,7 @@ from pathlib import Path
 
 SCHEMA = "zbgs-style-variant-matrix-v1"
 VALID_STATUSES = {"candidate", "runtime-admitted", "rejected"}
+SHA256 = 64
 
 
 def validate_matrix(data: dict) -> list[str]:
@@ -46,6 +47,10 @@ def validate_matrix(data: dict) -> list[str]:
             elif body in body_ids:
                 errors.append(f"{sid}: duplicate bodyType {body}")
             body_ids.add(body)
+            for key in ("bodySha256", "resourceManifestSha256", "coverageManifestSha256"):
+                value = variant.get(key)
+                if not isinstance(value, str) or len(value) != SHA256 or any(c not in "0123456789abcdef" for c in value):
+                    errors.append(f"{sid}/{body}: {key} must be a lowercase sha256")
             for key in ("resourceManifest", "fitManifest", "coverageManifest"):
                 if not isinstance(variant.get(key), str) or not variant[key]:
                     errors.append(f"{sid}/{body}: missing {key}")

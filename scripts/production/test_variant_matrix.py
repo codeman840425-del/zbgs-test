@@ -9,6 +9,9 @@ def variant(body="female-v1", status="runtime-admitted"):
         "resourceManifest": f"assets/{body}/dress.json",
         "fitManifest": f"fits/{body}/dress.json",
         "coverageManifest": f"coverage/{body}/dress.json",
+        "bodySha256": "a" * 64,
+        "resourceManifestSha256": "b" * 64,
+        "coverageManifestSha256": "c" * 64,
         "status": status,
     }
     if status == "runtime-admitted":
