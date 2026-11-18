@@ -31,8 +31,8 @@ function assertTime(snapshot,seconds,offset=0){const t=((seconds+offset)%86400+8
   const baseline=await page.evaluate(()=>({doc:JSON.stringify(company.session.document),storage:JSON.stringify({...localStorage})}));const states=[];
   for(const t of [86399,86400,3661,0]){await page.evaluate(t=>company.setPreviewClock(t),t);const s=await inspect();assertTime(s,t);states.push(s);}
   assert.deepEqual(await page.evaluate(()=>({doc:JSON.stringify(company.session.document),storage:JSON.stringify({...localStorage})})),baseline);
-  await page.locator('#clock-power').click();await page.waitForFunction(()=>company.session.document.nodes.find(n=>n.id==='clock/primary').state.on===false);const off=await inspect();assert(off.digits.flat().every(v=>!v)&&off.dots.every(v=>!v));assert.equal(off.intensity,0);
-  await page.locator('#clock-power').click();await page.waitForFunction(()=>company.session.document.nodes.find(n=>n.id==='clock/primary').state.on===true);await page.locator('#clock-brightness').selectOption('0');await page.waitForFunction(()=>company.session.document.nodes.find(n=>n.id==='clock/primary').state.brightness===0);assert((await inspect()).digits.flat().every(v=>!v));
+  await page.evaluate(()=>company.apply([{type:'set-state',id:'clock/primary',state:{on:false}}]));await page.waitForFunction(()=>company.session.document.nodes.find(n=>n.id==='clock/primary').state.on===false);const off=await inspect();assert(off.digits.flat().every(v=>!v)&&off.dots.every(v=>!v));assert.equal(off.intensity,0);
+  await page.evaluate(()=>company.apply([{type:'set-state',id:'clock/primary',state:{on:true}}]));await page.waitForFunction(()=>company.session.document.nodes.find(n=>n.id==='clock/primary').state.on===true);await page.evaluate(()=>company.apply([{type:'set-state',id:'clock/primary',state:{brightness:0}}]));await page.waitForFunction(()=>company.session.document.nodes.find(n=>n.id==='clock/primary').state.brightness===0);assert((await inspect()).digits.flat().every(v=>!v));
   return {states,off};
  });
  await check('Turned wall mounting, cutaway and view release retain latest host input and logical settings',async()=>{

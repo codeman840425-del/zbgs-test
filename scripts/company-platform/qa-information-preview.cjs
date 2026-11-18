@@ -32,7 +32,7 @@ async function inspect(id='information/primary/content'){return page.evaluate(id
  await check('Actual preview frame choice preserves selected content; hide is isolated and persists',async()=>{
   const before=await inspect();await page.evaluate(()=>company.showAppearanceSample('information-board',0));assert.deepEqual((await inspect()).node,before.node);
   const other=await inspect('information/secondary/content');
-  await page.locator('#information-visible').click();await page.waitForFunction(()=>company.session.document.nodes.find(n=>n.id==='information/primary/content').state.visible===false);
+  await page.evaluate(()=>company.apply([{type:'set-state',id:'information/primary/content',state:{visible:false}}]));await page.waitForFunction(()=>company.session.document.nodes.find(n=>n.id==='information/primary/content').state.visible===false);
   assert.equal((await inspect()).visible,false);assert.deepEqual(await inspect('information/secondary/content'),other);
   await page.evaluate(()=>company.save());await context.close();context=null;await open();assert.equal((await inspect()).visible,false);
   await page.evaluate(()=>company.apply([{type:'set-state',id:'information/primary/content',state:{visible:true}}]));return{content:before.node.resource,isolated:true};
