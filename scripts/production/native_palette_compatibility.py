@@ -1,4 +1,4 @@
-"""Audit one native-authored palette against the two exact FaceContour bodies."""
+"""Validate and stage a batch of exact FaceContour bodies for the native iris palette."""
 
 from __future__ import annotations
 
@@ -7,7 +7,9 @@ import hashlib
 import importlib.util
 import io
 import json
+import os
 from pathlib import Path
+import re
 import tempfile
 
 import numpy as np
@@ -18,16 +20,10 @@ SOURCE = "assets-source/native-vroid-iris-study-v1"
 BROW = "assets-source/native-vroid-hair-color-study-v1"
 STAGING = ROOT / "assets-source/native-facecontour-iris-palette-v1"
 MALE_PALETTE = "prototype/public/assets/native-iris-palette-v1"
-TARGETS = {
-    "contour-roundness-a": (
-        "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
-        "7c94290453078406d7b140117df6a06c0e6104b01d152c00128fefee0e74c2e6",
-    ),
-    "contour-cheek-b": (
-        "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
-        "98dcc6fbe1554b05b50f520fe01e51bad4376d3416535debcb17c1d0e238d087",
-    ),
-}
+BATCH = Path(__file__).with_name("native-facecontour-iris-batch-v1.json")
+PUBLIC = ROOT / "prototype/public/assets/native-facecontour-iris-palette-v1"
+REGISTRY = "registry.json"
+REGISTRY_SCHEMA = "native-facecontour-iris-registry-v1"
 SAMPLER = {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}
 LICENSE_FIELDS = (
     "authors", "licenseUrl", "avatarPermission", "creditNotation", "allowRedistribution",
@@ -127,7 +123,10 @@ def license_terms(gltf):
     return {field: meta[field] for field in LICENSE_FIELDS}
 
 
-def audit():
+def audit(batch=BATCH):
+    targets = json.loads(batch.read_bytes())
+    require(targets.get("schema") == "native-facecontour-iris-batch-v1" and
+            isinstance(targets.get("targets"), list) and targets["targets"], "Invalid iris batch")
     iris_ref = reference(
         SOURCE + "/manifest.json", "714c0448c4aa4bade52a13c68115ea384b652c5710f44e4345cb48900465b9b8"
     )
@@ -169,13 +168,21 @@ def audit():
     require(main_image(model(brow["nativeVrm"]), "_FaceBrow_") == pinned(brow_color), "Author brow edit differs")
 
     rows = []
-    for package, (body_sha, provenance_sha) in TARGETS.items():
-        body_type = "native-" + package + "-v1"
+    seen_types, seen_bodies = set(), set()
+    for target in targets["targets"]:
+        body_type, body_sha = target["bodyType"], target["bodySha256"]
+        require(re.fullmatch(r"native-[a-z0-9-]+", body_type) and re.fullmatch(r"[a-f0-9]{64}", body_sha),
+                "Invalid iris target identity")
+        require(body_type not in seen_types and body_sha not in seen_bodies, "Duplicate iris target")
+        seen_types.add(body_type)
+        seen_bodies.add(body_sha)
         public_body = reference("prototype/public/assets/" + body_type + "/body.vrm", body_sha)
-        folder = "assets-source/native-parameter-game-packages-v1/" + package
-        provenance_ref = reference(folder + "/provenance.json", provenance_sha)
+        provenance_ref = target["provenance"]
+        folder = Path(provenance_ref["path"]).parent.as_posix()
         provenance = json.loads(pinned(provenance_ref))
-        require(provenance["id"] == package and provenance["bodySha256"] == body_sha, "Wrong body provenance")
+        require(provenance["schema"] == "native-parameter-body-provenance-v1" and
+                "native-" + provenance["id"] + "-v1" == body_type and provenance["bodySha256"] == body_sha,
+                "Wrong body provenance")
         require(pinned(reference(folder + "/body.vrm", body_sha)) == pinned(public_body), "Public body differs")
         raw_body = model(provenance["native"])
         game_body = model(public_body)
@@ -186,9 +193,7 @@ def audit():
             require(license_terms(gltf) == license_boundary, "Target license metadata differs")
 
         brow_sha = sha(main_image(game_body, "_FaceBrow_"))
-        require(brow_sha != brow_original["sha256"], "Brow compatibility needs new review")
-        require(not any("lip" in m["name"].lower() for m in game_body.doc["materials"]),
-                "New lip material needs review")
+        has_lip = any("lip" in m["name"].lower() for m in game_body.doc["materials"])
         editable = reference(
             (Path(provenance["native"]["path"]).parent / provenance["editable"]["path"]).as_posix(),
             provenance["editable"]["sha256"],
@@ -203,7 +208,8 @@ def audit():
             "variants": {
                 "eyeColor": {"status": "offline-compatible-candidate", "color": "green"},
                 "eyebrowColor": {
-                    "status": "rejected-baseline-mismatch",
+                    "status": ("rejected-baseline-mismatch" if brow_sha != brow_original["sha256"]
+                               else "requires-independent-brow-review"),
                     "targetPngSha256": brow_sha,
                     "authorBaselinePngSha256": brow_original["sha256"],
                 },
@@ -216,7 +222,7 @@ def audit():
                 "lipColor": {
                     "status": "requires-native-lip-overlay",
                     "mouthPngSha256": sha(main_image(game_body, "_FaceMouth_")),
-                    "dedicatedLipMaterial": False,
+                    "dedicatedLipMaterial": has_lip,
                 },
             },
         })
@@ -256,7 +262,7 @@ def palette_files(report):
                 pinned(reference("prototype/public" + shared["url"], shared["sha256"])) == pinned(source[key]),
                 "Shared public iris PNG differs")
 
-    return {
+    files = {
         row["bodyType"] + "/manifest.json": json_bytes({
             **original,
             "id": row["bodyType"] + "-iris-palette-v1",
@@ -264,6 +270,12 @@ def palette_files(report):
         })
         for row in report["bodies"]
     }
+    entries = [{
+        "bodyType": row["bodyType"], "bodySha256": row["body"]["sha256"],
+        "manifestSha256": sha(files[row["bodyType"] + "/manifest.json"]),
+    } for row in sorted(report["bodies"], key=lambda item: item["bodyType"])]
+    files[REGISTRY] = json_bytes({"schema": REGISTRY_SCHEMA, "entries": entries})
+    return files
 
 
 def check_stage(destination, files):
@@ -274,40 +286,66 @@ def check_stage(destination, files):
 
 
 def stage(destination, files):
-    if destination.exists():
+    # Stage immutable manifests first. A reader sees new registrations only
+    # after their files exist. The OS releases the writer lock on process exit.
+    lock_key = sha(str(destination.resolve()).encode())
+    lock_path = Path(tempfile.gettempdir()) / ("gamemake-iris-" + lock_key + ".lock")
+    with lock_path.open("a+b") as lock:
+        if os.name == "nt":
+            import msvcrt
+            lock.seek(0)
+            msvcrt.locking(lock.fileno(), msvcrt.LK_NBLCK, 1)
+        else:
+            import fcntl
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        existing = {p.relative_to(destination).as_posix(): p for p in destination.rglob("*") if p.is_file()}
+        require(existing.keys() <= files.keys(), "Batch omits existing palette assets")
+        for name, path in existing.items():
+            if name != REGISTRY:
+                require(path.read_bytes() == files[name], "Staged palette identity differs: " + name)
+        if REGISTRY in existing:
+            prior = json.loads(existing[REGISTRY].read_bytes())
+            wanted = json.loads(files[REGISTRY])["entries"]
+            require(prior.get("schema") == REGISTRY_SCHEMA and isinstance(prior.get("entries"), list) and
+                    all(row in wanted and row["bodyType"] + "/manifest.json" in existing
+                        for row in prior["entries"]), "Batch changes a published palette registration")
+        with tempfile.TemporaryDirectory(dir=destination.parent, prefix=".iris-palette-") as work:
+            for name in [key for key in files if key != REGISTRY] + [REGISTRY]:
+                path = destination / name
+                if name in existing and path.read_bytes() == files[name]:
+                    continue
+                pending = Path(work) / "next"
+                pending.write_bytes(files[name])
+                path.parent.mkdir(parents=True, exist_ok=True)
+                os.replace(pending, path)
         check_stage(destination, files)
-        return
-
-    with tempfile.TemporaryDirectory(dir=destination.parent, prefix=".iris-palette-") as work:
-        pending = Path(work) / "candidate"
-        for name, data in files.items():
-            path = pending / name
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_bytes(data)
-        check_stage(pending, files)
-        try:
-            pending.rename(destination)
-        except FileExistsError:
-            check_stage(destination, files)
-    check_stage(destination, files)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--batch", type=Path, default=BATCH, help="Exact body and package provenance pins")
     parser.add_argument("--output", type=Path, help="Write a new report without overwriting an existing file")
     staging = parser.add_mutually_exclusive_group()
-    staging.add_argument("--stage", action="store_true", help="Stage the two source-only manifests")
-    staging.add_argument("--check", action="store_true", help="Verify the exact staged manifest bytes")
+    staging.add_argument("--stage", action="store_true", help="Stage the manifests and generated registry")
+    staging.add_argument("--check", action="store_true", help="Verify all staged bytes")
+    staging.add_argument("--publish", action="store_true", help="Verify staging and publish the runtime subset")
+    staging.add_argument("--check-published", action="store_true", help="Verify staging and public runtime bytes")
     args = parser.parse_args()
-    report = audit()
+    report = audit(args.batch)
     files = palette_files(report)
     report["candidateManifests"] = [
         reference((STAGING / name).relative_to(ROOT).as_posix(), sha(data)) for name, data in files.items()
+        if name != REGISTRY
     ]
+    report["registry"] = reference((STAGING / REGISTRY).relative_to(ROOT).as_posix(), sha(files[REGISTRY]))
     if args.stage:
         stage(STAGING, files)
-    elif args.check:
+    elif args.check or args.publish or args.check_published:
         check_stage(STAGING, files)
+        if args.publish:
+            stage(PUBLIC, files)
+        elif args.check_published:
+            check_stage(PUBLIC, files)
     if args.output is None:
         print(json.dumps(report, ensure_ascii=False, indent=2))
     else:

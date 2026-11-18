@@ -121,4 +121,5 @@ async function main() {
     await fs.writeFile(path.join(out,'capture.json'),JSON.stringify(report,null,2));
   }
 }
-main().catch(error => {console.error(error);process.exitCode=1;});
+module.exports = {recordSpeech};
+if (require.main === module) main().catch(error => {console.error(error);process.exitCode=1;});

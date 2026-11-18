@@ -331,17 +331,21 @@ export function bindAppearanceWorkbench({ controller }) {
     const evidence=new URL(window.location.href);evidence.port='4174';evidence.pathname=path;evidence.search='';evidence.hash='';
     previewInfo.querySelector('#'+id).href=evidence.href;
   }
-  const hairMotionReview = document.createElement('a');
-  hairMotionReview.href = '/reviews/native-hair-motion/';
-  hairMotionReview.textContent = '入座时的发尾动态对照';
-  hairMotionReview.target = '_blank';
-  hairMotionReview.rel = 'noopener noreferrer';
-  const surfaceReview = document.createElement('a');
-  surfaceReview.href = '/reviews/native-surfaces/';
-  surfaceReview.textContent = '房间光照下的脸部与服装';
-  surfaceReview.target = '_blank';
-  surfaceReview.rel = 'noopener noreferrer';
-  previewInfo.append(hairMotionReview, ' · ', surfaceReview);
+  const nativeReviews = document.createElement('p');
+  for (const [href,label] of [
+    ['/reviews/native-hair-motion/', '入座时的发尾动态对照'],
+    ['/reviews/native-surfaces/', '房间光照下的脸部与服装'],
+    ['/reviews/native-iris-batch/', '虹膜换色与角色恢复'],
+  ]) {
+    const link = document.createElement('a');
+    link.href = href;
+    link.textContent = label;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    if (nativeReviews.childElementCount) nativeReviews.append(' · ');
+    nativeReviews.append(link);
+  }
+  previewInfo.append(nativeReviews);
   inspectionPage.prepend(previewInfo);
   const nativePreview=document.createElement('p');
   const nativeLink=document.createElement('a');

@@ -19,6 +19,9 @@ export const SURFACE_RULES='workbench-appearance-rules-v7';
 export const NATIVE_SCHEMA='workbench-appearance-recipe-v9';
 export const NATIVE_RULES='workbench-appearance-rules-v9';
 const fields=['hairStyle','hairColor','skinTone','eyeColor','lipColor','eyebrowColor'];
+// Iris-only bodies had complete original-color records before a palette was
+// registered. Preserve the loaded version until the look needs a colored iris.
+const restoredOriginalIrisVersions=new WeakMap();
 export const appearanceDraftKey=bodyType=>'zbgs:appearance-draft:v1:'+bodyType;
 export function captureAppearanceRecipe(controller){
  const a=controller.actor,s=a.appearance.getState(),face=a.facialGeometry.getState();
@@ -27,7 +30,8 @@ export function captureAppearanceRecipe(controller){
  const hasSurface=Boolean(s.surfaceLayers?.length);
  const accessories=a.rigidAccessories&&a.headwear?captureAccessories(a):null;
  const nativeVersion=Boolean(nativePaletteContract(a.profile.sha256)?.eyebrow);
- return{schema:nativeVersion?NATIVE_SCHEMA:accessories?ACCESSORY_SCHEMA:hasSurface?SURFACE_SCHEMA:SCHEMA,rulesVersion:nativeVersion?NATIVE_RULES:accessories?ACCESSORY_RULES:hasSurface?SURFACE_RULES:RULES,paletteVersion:facialPaletteContract(a.profile.sha256).version,
+ const paletteVersion=(s.eyeColor==='original'?restoredOriginalIrisVersions.get(a):undefined)??facialPaletteContract(a.profile.sha256).version;
+ return{schema:nativeVersion?NATIVE_SCHEMA:accessories?ACCESSORY_SCHEMA:hasSurface?SURFACE_SCHEMA:SCHEMA,rulesVersion:nativeVersion?NATIVE_RULES:accessories?ACCESSORY_RULES:hasSurface?SURFACE_RULES:RULES,paletteVersion,
   ...(accessories?{accessories}:{}),
   ...(hasSurface?{surface:{manifestSha256:s.surfaceManifestSha256,layers:structuredClone(s.surfaceLayers)}}:{}),
   base:{bodyType:a.profile.bodyType,sha256:a.profile.sha256},
@@ -208,6 +212,11 @@ export async function applyAppearanceRecipe(controller,record,{liveAccessories,e
   attachmentTransaction?.close();
   for(const update of updates)try{update.dispose();}catch(error){cleanupErrors.push(error.message);}
   if(cleanupErrors.length&&!commitStarted)throw Error(`先前外观已保留，准备资源清理失败：${cleanupErrors.join('；')}`);
+ }
+ const nativePalette=nativePaletteContract(actor.profile.sha256);
+ if(nativePalette&&!nativePalette.eyebrow){
+  if(record.appearance.eyeColor==='original')restoredOriginalIrisVersions.set(actor,record.paletteVersion);
+  else restoredOriginalIrisVersions.delete(actor);
  }
  const notices=record.paletteVersion===LEGACY_PALETTE?['旧配方已使用新版瞳色渲染，颜色选择保持不变']:[];
  if(cleanupErrors.length)notices.push(`造型已应用，旧资源清理失败：${cleanupErrors.join('；')}`);
