@@ -6,7 +6,7 @@ const port=4196;
 (async()=>{
   const buildInfo=await (await fetch(`http://127.0.0.1:${port}/build-info.json`)).json();
   const report={schema:'m2-native-variant-workbench-check-v1',build:buildInfo.shortId,sourceDigest:buildInfo.sourceDigest,
-    sourceCommit:'66d3d2a6e009',port,errors:[],cases:[]};
+    sourceCommit:'919b8a547d06',port,errors:[],cases:[]};
   const browser=await chromium.launch({channel:'chrome',headless:true});
   try {
     for (const body of ['native-contour-roundness-a-v1','native-contour-cheek-b-v1']) {
