@@ -1,6 +1,7 @@
 """Create an isolated character checkout within the project, or audit its drive root."""
 import argparse
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -14,13 +15,20 @@ HOME_DIR = ROOT / 'experiments' / 'worktrees'
 
 
 def audit():
+    # Git's NUL-delimited names stay literal even for paths containing whitespace.
+    listing = subprocess.check_output(['git', 'worktree', 'list', '--porcelain', '-z'], cwd=ROOT)
+    worktrees = [Path(os.fsdecode(field[9:])).resolve() for field in listing.split(b'\0')
+                 if field.startswith(b'worktree ')]
+    company_root = (ROOT.parent / 'gamemake-company-platform-c1').resolve()
+    unexpected_worktrees = sorted(str(path) for path in worktrees
+                                  if not path.is_relative_to(ROOT) and not path.is_relative_to(company_root))
     siblings = sorted(p.name for p in ROOT.parent.iterdir()
                       if p.name.lower().startswith('gamemake-') and p.is_dir())
-    company = [name for name in siblings if name.startswith('gamemake-company-')]
+    company = [name for name in siblings if (ROOT.parent / name).resolve() == company_root]
     outside = [name for name in siblings if name not in company]
     print(json.dumps({'project':str(ROOT), 'unexpectedSiblings':outside,
-                      'companyOwnedSiblings':company}, ensure_ascii=False))
-    return bool(outside)
+                      'unexpectedWorktrees':unexpected_worktrees, 'companyOwnedSiblings':company}, ensure_ascii=False))
+    return bool(outside or unexpected_worktrees)
 
 
 def create(name, revision):
