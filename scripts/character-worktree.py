@@ -45,12 +45,22 @@ def audit():
 def create(name, revision):
     if not re.fullmatch('[a-z0-9][a-z0-9_-]{0,79}', name):
         raise ValueError('Use one lowercase directory name')
-    if HOME_DIR.resolve() != HOME_DIR or (HOME_DIR / name).exists():
-        raise ValueError('Worktree parent is redirected or destination already exists')
+    if re.fullmatch('con|prn|aux|nul|com[1-9]|lpt[1-9]', name):
+        raise ValueError('Worktree name is reserved by Windows')
+    if HOME_DIR.resolve() != HOME_DIR:
+        raise ValueError('Worktree parent is redirected')
+    destination = HOME_DIR / name
+    try:
+        # Inspect the entry itself so a dangling junction or symlink still counts.
+        destination.lstat()
+    except FileNotFoundError:
+        pass
+    else:
+        raise ValueError('Worktree destination already exists')
     commit = subprocess.check_output(['git','rev-parse','--verify','--end-of-options', revision+'^{commit}'],
                                      cwd=ROOT, env=GIT_ENV, text=True).strip()
     HOME_DIR.mkdir(parents=True,exist_ok=True)
-    subprocess.run(['git','worktree','add','--detach',str(HOME_DIR / name),commit],cwd=ROOT,env=GIT_ENV,check=True)
+    subprocess.run(['git','worktree','add','--detach',str(destination),commit],cwd=ROOT,env=GIT_ENV,check=True)
     return 0
 
 
