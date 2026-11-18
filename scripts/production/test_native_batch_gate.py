@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 from native_batch_gate import (CHECK_TO_ADAPTER, GateError, budget_classification_index,
-                               dynamic_trace_index, evaluate)
+                               dynamic_trace_index, evaluate, surface_admission_index)
 
 
 class NativeBatchGateTests(unittest.TestCase):
@@ -38,6 +38,14 @@ class NativeBatchGateTests(unittest.TestCase):
             self.assertIn('gpu', row)
             self.assertIn('ordinaryPC', row)
             self.assertEqual(row['scope'].split(';')[-1].strip(), 'no admission')
+
+    def test_surface_static_identity_is_attached_without_runtime_clear(self):
+        indexed = surface_admission_index(Path('evidence/m2-native-surface-texture-admission-v1/REPORT.json'))
+        self.assertEqual(len(indexed), 2)
+        for row in indexed.values():
+            self.assertTrue(row['static']['bodyShaExact'])
+            self.assertEqual(row['clears'], [])
+            self.assertEqual(row['runtime']['status'], 'blocked')
     def test_adapter_tasks_are_explicit_and_no_runtime_auto_accept(self):
         report = evaluate(Path('assets-source/native-parameter-game-packages-v1/import-batch.json'))
         self.assertEqual(report['schema'], 'native-production-readiness-v1')
