@@ -566,3 +566,5 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 2026-11-18 纹理发布旁车诊断：`prototype/src/native-release-sidecar-diagnostic.js` 对两份精确身体执行 KTX2 候选读取、PNG 回退、透明材质拒绝、候选解码失败保留当前材质及关闭重开。`evidence/m2-native-release-sidecar-diagnostic-v1/report.json` 为 `technical-pass-diagnostic-only`，未修改默认材质路径、运行时登记或 `acceptedForRuntime`。
 
 2026-11-18 4196 入口修正并重建：固定交付指针的入口为 `/?body=female&workbench=appearance&view=inspect-face-front`，就绪条件为 `body.appearance-workbench`。当前源码重建 build `21984326d5e5`，来源提交 `d47c0e96`；根路径仍是房间展示页。
+
+2026-11-18 眼镜候选生命周期进入共同闸门：`native_batch_gate.py` 接受 `native-glasses-candidate-lifecycle-v1`，要求站立/坐姿/起身/重载及取消卸载保旧、卸载回滚、身份错误回滚均有明确布尔证据。`evidence/m2-native-admission-cycle-v18/summary.json` 实际结果仍为 `blocked`，`acceptedForRuntime=[]`，候选不会清除 `headAttachments`。

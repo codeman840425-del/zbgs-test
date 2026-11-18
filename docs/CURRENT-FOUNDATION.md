@@ -121,3 +121,5 @@
 2026-11-18 当前预览入口核对：用户截图对应根路径房间展示页，不是角色工作台。4196 当前固定工作台入口为 `http://127.0.0.1:4196/?body=female&workbench=appearance&view=inspect-face-front`，页面就绪选择器为 `body.appearance-workbench`。源码提交 `d47c0e96` 重建 build `21984326d5e5`，旧指针仍可回退。
 
 2026-11-18 共性候选复核：眼镜生命周期和纹理发布旁车已补充可重复诊断，均保持 candidate-only/diagnostic-only，不改变批产闸门结论。当前两份 FaceContour 候选仍未进入 `acceptedForRuntime`，四类待办仍为 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`。
+
+2026-11-18 admission cycle v18：共同闸门消费眼镜生命周期候选后重新生成 `evidence/m2-native-admission-cycle-v18/`。两份 FaceContour 候选仍为 `acceptedForRuntime=[]`，未完成项仍为 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`；新增生命周期证据只强化可追溯性，不改变准入标准。
