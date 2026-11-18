@@ -1,6 +1,7 @@
 """Read-only KTX sidecar fit and static budget report for native FaceContour packages."""
 import hashlib
 import json
+import argparse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -14,7 +15,7 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def main():
+def build_report():
     old_female = next(row for row in PILOT["samples"] if row["id"] == "female-body-color")
     rows = []
     for name in ("contour-roundness-a", "contour-cheek-b"):
@@ -56,11 +57,27 @@ def main():
         ],
         "candidates": rows,
     }
+    return out
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Build the read-only native KTX sidecar budget report")
+    parser.add_argument("--overwrite", action="store_true", help="replace an existing report only after its bytes are intentionally changed")
+    args = parser.parse_args(argv)
     target = EVIDENCE / "native-batch-ktx-budget.json"
+    rendered = json.dumps(build_report(), ensure_ascii=False, indent=2) + "\n"
+    encoded = rendered.encode("utf8")
     if target.exists():
-        raise FileExistsError(str(target))
-    target.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf8", newline="\n")
-    print(json.dumps({"output": target.as_posix(), "candidates": len(rows)}))
+        existing = target.read_bytes()
+        if existing == encoded:
+            print(json.dumps({"output": target.as_posix(), "status": "unchanged", "candidates": 2}))
+            return
+        if not args.overwrite:
+            raise SystemExit(
+                f"refusing to replace changed evidence: {target}; rerun with --overwrite after reviewing the diff"
+            )
+    target.write_bytes(encoded)
+    print(json.dumps({"output": target.as_posix(), "status": "written", "candidates": 2}))
 
 
 if __name__ == "__main__":
