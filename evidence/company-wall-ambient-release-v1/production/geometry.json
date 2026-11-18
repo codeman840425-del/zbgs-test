@@ -1,0 +1,846 @@
+{
+  "status": "passed",
+  "variants": [
+    {
+      "resource": {
+        "id": "wall-ambient-strip",
+        "version": 1,
+        "displayName": "墙挂氛围灯 · 三段贴装灯带",
+        "category": "dynamic",
+        "mountRole": "ambient-led-and-neon",
+        "productionBranch": "ambient-led-and-neon",
+        "mount": "wall",
+        "parent": "room.wall",
+        "mounting": {
+          "origin": "center",
+          "width": 0.62,
+          "height": 0.35,
+          "depth": 0.04
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.31,
+            0.02
+          ],
+          "blocking": false
+        },
+        "usePoints": [],
+        "stateDefaults": {
+          "on": true,
+          "intensity": 4,
+          "colorHue": 30
+        },
+        "stateSchema": {
+          "on": {
+            "type": "boolean"
+          },
+          "intensity": {
+            "type": "number",
+            "min": 0,
+            "max": 8
+          },
+          "colorHue": {
+            "type": "number",
+            "min": 0,
+            "max": 359
+          }
+        },
+        "stateSemantics": {
+          "on": "wall-ambient-enabled-v1",
+          "intensity": "wall-ambient-candela-v1",
+          "colorHue": "wall-ambient-color-hue-degrees-v1"
+        },
+        "display": {
+          "diffuser": {
+            "nodes": [
+              "ambient-diffuser"
+            ],
+            "stateField": "on",
+            "offColor": "#e2e0da",
+            "onIntensity": 1.5
+          }
+        },
+        "light": {
+          "kind": "spot",
+          "color": "#e19447",
+          "position": [
+            -0.00739,
+            -0.00218,
+            0.04
+          ],
+          "target": [
+            -0.00739,
+            -0.56218,
+            0.7
+          ],
+          "distance": 1.6,
+          "angle": 0.6,
+          "penumbra": 0.6
+        },
+        "materialSlots": {
+          "housing": [
+            "strip-channels"
+          ],
+          "hardware": [
+            "strip-mount-tabs"
+          ],
+          "diffuser": [
+            "ambient-diffuser"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/wall-ambient-v1/wall-ambient-strip/v1/model.glb",
+          "sha256": "c10dd2de184418a3d74cae1d035417822e986a3b292636f8e64780344e999e36",
+          "bytes": 233812
+        },
+        "provenance": {
+          "license": "CC0-1.0 source with project-authored fixture adaptation and finishes.",
+          "sourceDesign": "linear-bars",
+          "sourceParameters": "assets-source/company-wall-ambient-v1/parameters.json",
+          "sourceParametersSha256": "e9bb34a90f11ff24e8d0382bfbb649a91ee75e7b11fec2a11222e8350d2c694b",
+          "generator": "scripts/company-platform/build-wall-ambient.mjs",
+          "generatorSha256": "25981ab5e239d096f26029a39b695d50f535e92ca7e7f7b05fdffe2062d1af4f",
+          "functionalContractSource": "assets-source/company-wall-ambient-v1/contract.json",
+          "functionalContractSourceSha256": "79f3dd452c0ae8baf3e5a53b57af75382cb7215c0503c7bf523ccb7908b0436d",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "ambient-led-and-neon",
+          "sourceArtifactPath": "assets-source/company-wall-ambient-v1/original/game-icons/signal3.png",
+          "sourceArtifactSha256": "3f9536b2920459765576b2eb7d4e539836a234e72115c3456e65f8cf1b659b45",
+          "sourceAuthor": "Kenney",
+          "sourceUrl": "https://opengameart.org/content/game-icons",
+          "sourceLicense": "CC0-1.0",
+          "sourceArchiveSha256": "7a86d8d58e0b851e22004b3c70bf90b003632bbf9ac633424daa3bb17d9e7e4e",
+          "sourceEntry": "PNG/Black/2x/signal3.png",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-wall-ambient-assets.mjs",
+              "sha256": "cbfc126182d06d00a1492429fcbf8e39bdafd73cde2b23c8cbbec296130ce715"
+            },
+            "license": {
+              "path": "assets-source/company-wall-ambient-v1/original/game-icons/LICENSE.txt",
+              "sha256": "68a86b3a620be3366d6dc28a4a8ffb8d5de12e0b86b5199c86e51fc617e29a49"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback",
+            "pngjs 7.0.0"
+          ]
+        }
+      },
+      "result": {
+        "triangles": 2400,
+        "meshesCount": 3,
+        "materialCount": 3,
+        "geometrySha256": "5ef0cbb603be15d7a7c440373fbe7ce0779b46541c692695db492978427e8196",
+        "diffuserSha256": "099f234d77089ba943951fe0eb97d6368d1b0fd9faded763de57ad96d546c080",
+        "envelope": {
+          "min": [
+            -0.25,
+            -0.0865,
+            0
+          ],
+          "max": [
+            0.25,
+            0.0865,
+            0.04
+          ],
+          "dimensions": [
+            0.5,
+            0.17300001,
+            0.04
+          ]
+        },
+        "wallContacts": [
+          {
+            "node": "strip-channels",
+            "areaSquareMetres": 0.008664,
+            "sample": [
+              0.081,
+              -0.06266667,
+              0
+            ]
+          },
+          {
+            "node": "strip-mount-tabs",
+            "areaSquareMetres": 0.00195,
+            "sample": [
+              -0.21583333,
+              -0.0575,
+              0
+            ]
+          }
+        ],
+        "emitted": {
+          "hit": [
+            -0.00739,
+            -0.00218,
+            0.04
+          ],
+          "frontNormal": [
+            0,
+            0,
+            1
+          ],
+          "lightToDiffuserDepthMetres": 0,
+          "position": [
+            -0.00739,
+            -0.00218,
+            0.04
+          ],
+          "target": [
+            -0.00739,
+            -0.56218,
+            0.7
+          ],
+          "direction": [
+            0,
+            -0.64697745,
+            0.76250914
+          ]
+        }
+      }
+    },
+    {
+      "resource": {
+        "id": "wall-ambient-star",
+        "version": 1,
+        "displayName": "墙挂氛围灯 · 空心星形霓虹",
+        "category": "dynamic",
+        "mountRole": "ambient-led-and-neon",
+        "productionBranch": "ambient-led-and-neon",
+        "mount": "wall",
+        "parent": "room.wall",
+        "mounting": {
+          "origin": "center",
+          "width": 0.62,
+          "height": 0.35,
+          "depth": 0.04
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.31,
+            0.02
+          ],
+          "blocking": false
+        },
+        "usePoints": [],
+        "stateDefaults": {
+          "on": true,
+          "intensity": 4,
+          "colorHue": 30
+        },
+        "stateSchema": {
+          "on": {
+            "type": "boolean"
+          },
+          "intensity": {
+            "type": "number",
+            "min": 0,
+            "max": 8
+          },
+          "colorHue": {
+            "type": "number",
+            "min": 0,
+            "max": 359
+          }
+        },
+        "stateSemantics": {
+          "on": "wall-ambient-enabled-v1",
+          "intensity": "wall-ambient-candela-v1",
+          "colorHue": "wall-ambient-color-hue-degrees-v1"
+        },
+        "display": {
+          "diffuser": {
+            "nodes": [
+              "ambient-diffuser"
+            ],
+            "stateField": "on",
+            "offColor": "#e2e0da",
+            "onIntensity": 1.5
+          }
+        },
+        "light": {
+          "kind": "spot",
+          "color": "#e19447",
+          "position": [
+            0.06476,
+            0.06997,
+            0.04
+          ],
+          "target": [
+            0.06476,
+            -0.49003,
+            0.7
+          ],
+          "distance": 1.6,
+          "angle": 0.6,
+          "penumbra": 0.6
+        },
+        "materialSlots": {
+          "hardware": [
+            "tube-supports"
+          ],
+          "housing": [
+            "tube-feed-housing"
+          ],
+          "diffuser": [
+            "ambient-diffuser"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/wall-ambient-v1/wall-ambient-star/v1/model.glb",
+          "sha256": "ca247dccca30259accdca3e6487a26eae61a659b3ea1dce91309232a512957c1",
+          "bytes": 158388
+        },
+        "provenance": {
+          "license": "CC0-1.0 source with project-authored fixture adaptation and finishes.",
+          "sourceDesign": "outline-tube",
+          "sourceParameters": "assets-source/company-wall-ambient-v1/parameters.json",
+          "sourceParametersSha256": "e9bb34a90f11ff24e8d0382bfbb649a91ee75e7b11fec2a11222e8350d2c694b",
+          "generator": "scripts/company-platform/build-wall-ambient.mjs",
+          "generatorSha256": "25981ab5e239d096f26029a39b695d50f535e92ca7e7f7b05fdffe2062d1af4f",
+          "functionalContractSource": "assets-source/company-wall-ambient-v1/contract.json",
+          "functionalContractSourceSha256": "79f3dd452c0ae8baf3e5a53b57af75382cb7215c0503c7bf523ccb7908b0436d",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "ambient-led-and-neon",
+          "sourceArtifactPath": "assets-source/company-wall-ambient-v1/original/game-icons/star.png",
+          "sourceArtifactSha256": "9eb0a7f2367bfe14ac950db43e546ef9614d9bcc49c4a4059c6279bb3e2b638d",
+          "sourceAuthor": "Kenney",
+          "sourceUrl": "https://opengameart.org/content/game-icons",
+          "sourceLicense": "CC0-1.0",
+          "sourceArchiveSha256": "7a86d8d58e0b851e22004b3c70bf90b003632bbf9ac633424daa3bb17d9e7e4e",
+          "sourceEntry": "PNG/Black/2x/star.png",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-wall-ambient-assets.mjs",
+              "sha256": "cbfc126182d06d00a1492429fcbf8e39bdafd73cde2b23c8cbbec296130ce715"
+            },
+            "license": {
+              "path": "assets-source/company-wall-ambient-v1/original/game-icons/LICENSE.txt",
+              "sha256": "68a86b3a620be3366d6dc28a4a8ffb8d5de12e0b86b5199c86e51fc617e29a49"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback",
+            "pngjs 7.0.0"
+          ]
+        }
+      },
+      "result": {
+        "triangles": 3780,
+        "meshesCount": 3,
+        "materialCount": 3,
+        "geometrySha256": "6c3645375b53f4031f8b6849f7920c0cca64c379abb17151143a8d0c5893c416",
+        "diffuserSha256": "76f54c45bac1a87c6d4bc3526b8e2ba18e48a03297132a5443aa54949a04bdc3",
+        "envelope": {
+          "min": [
+            -0.16592324,
+            -0.15832353,
+            0
+          ],
+          "max": [
+            0.16505143,
+            0.15435241,
+            0.0398
+          ],
+          "dimensions": [
+            0.33097467,
+            0.31267594,
+            0.0398
+          ]
+        },
+        "wallContacts": [
+          {
+            "node": "tube-supports",
+            "areaSquareMetres": 0.000882,
+            "sample": [
+              0.14561488,
+              0.01035277,
+              0
+            ]
+          },
+          {
+            "node": "tube-feed-housing",
+            "areaSquareMetres": 0.00037,
+            "sample": [
+              0.14828154,
+              -0.00748057,
+              0
+            ]
+          }
+        ],
+        "emitted": {
+          "hit": [
+            0.06476,
+            0.06997,
+            0.03854639
+          ],
+          "frontNormal": [
+            -0.16835883,
+            -0.26059892,
+            0.95065425
+          ],
+          "lightToDiffuserDepthMetres": 0.00145361,
+          "position": [
+            0.06476,
+            0.06997,
+            0.04
+          ],
+          "target": [
+            0.06476,
+            -0.49003,
+            0.7
+          ],
+          "direction": [
+            0,
+            -0.64697745,
+            0.76250914
+          ]
+        }
+      }
+    },
+    {
+      "resource": {
+        "id": "wall-ambient-wash",
+        "version": 1,
+        "displayName": "墙挂氛围灯 · 浅罩壁洗灯",
+        "category": "dynamic",
+        "mountRole": "ambient-led-and-neon",
+        "productionBranch": "ambient-led-and-neon",
+        "mount": "wall",
+        "parent": "room.wall",
+        "mounting": {
+          "origin": "center",
+          "width": 0.62,
+          "height": 0.35,
+          "depth": 0.04
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.31,
+            0.02
+          ],
+          "blocking": false
+        },
+        "usePoints": [],
+        "stateDefaults": {
+          "on": true,
+          "intensity": 4,
+          "colorHue": 30
+        },
+        "stateSchema": {
+          "on": {
+            "type": "boolean"
+          },
+          "intensity": {
+            "type": "number",
+            "min": 0,
+            "max": 8
+          },
+          "colorHue": {
+            "type": "number",
+            "min": 0,
+            "max": 359
+          }
+        },
+        "stateSemantics": {
+          "on": "wall-ambient-enabled-v1",
+          "intensity": "wall-ambient-candela-v1",
+          "colorHue": "wall-ambient-color-hue-degrees-v1"
+        },
+        "display": {
+          "diffuser": {
+            "nodes": [
+              "ambient-diffuser"
+            ],
+            "stateField": "on",
+            "offColor": "#e2e0da",
+            "onIntensity": 1.5
+          }
+        },
+        "light": {
+          "kind": "spot",
+          "color": "#e19447",
+          "position": [
+            -0.00309,
+            0.02657,
+            0.04
+          ],
+          "target": [
+            -0.00309,
+            -0.53343,
+            0.7
+          ],
+          "distance": 1.6,
+          "angle": 0.6,
+          "penumbra": 0.6
+        },
+        "materialSlots": {
+          "hardware": [
+            "stock-wall-plate"
+          ],
+          "diffuser": [
+            "ambient-diffuser"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/wall-ambient-v1/wall-ambient-wash/v1/model.glb",
+          "sha256": "030877501fc104e9ced20c0a973f5862b22a1ac183453e1df24b57fb1e318678",
+          "bytes": 6656
+        },
+        "provenance": {
+          "license": "CC0-1.0 source with project-authored fixture adaptation and finishes.",
+          "sourceDesign": "stock-sconce",
+          "sourceParameters": "assets-source/company-wall-ambient-v1/parameters.json",
+          "sourceParametersSha256": "e9bb34a90f11ff24e8d0382bfbb649a91ee75e7b11fec2a11222e8350d2c694b",
+          "generator": "scripts/company-platform/build-wall-ambient.mjs",
+          "generatorSha256": "25981ab5e239d096f26029a39b695d50f535e92ca7e7f7b05fdffe2062d1af4f",
+          "functionalContractSource": "assets-source/company-wall-ambient-v1/contract.json",
+          "functionalContractSourceSha256": "79f3dd452c0ae8baf3e5a53b57af75382cb7215c0503c7bf523ccb7908b0436d",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "ambient-led-and-neon",
+          "sourceArtifactPath": "assets-source/company-wall-ambient-v1/original/furniture-kit/lampWall.glb",
+          "sourceArtifactSha256": "a9679ecd3be05731846f22ade97c37069598ca7a06dd9319f50230e63a1ea83c",
+          "sourceAuthor": "Kenney",
+          "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+          "sourceLicense": "CC0-1.0",
+          "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+          "sourceEntry": "Models/GLTF format/lampWall.glb",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-wall-ambient-assets.mjs",
+              "sha256": "cbfc126182d06d00a1492429fcbf8e39bdafd73cde2b23c8cbbec296130ce715"
+            },
+            "license": {
+              "path": "assets-source/company-wall-ambient-v1/original/furniture-kit/LICENSE.txt",
+              "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback",
+            "pngjs 7.0.0"
+          ]
+        }
+      },
+      "result": {
+        "triangles": 42,
+        "meshesCount": 2,
+        "materialCount": 2,
+        "geometrySha256": "91f599a88df8c9ae671c679adacc421e18c73de5c2cef4da2c804427006c7817",
+        "diffuserSha256": "f780589251598ae98962196c317df1b757597320c4842935145b48d273756d9f",
+        "envelope": {
+          "min": [
+            -0.10198592,
+            -0.04176,
+            0
+          ],
+          "max": [
+            0.10198592,
+            0.04176,
+            0.03863635
+          ],
+          "dimensions": [
+            0.20397185,
+            0.08352,
+            0.03863635
+          ]
+        },
+        "wallContacts": [
+          {
+            "node": "stock-wall-plate",
+            "areaSquareMetres": 0.00188782,
+            "sample": [
+              -0.01205507,
+              -0.03306,
+              0
+            ]
+          }
+        ],
+        "emitted": {
+          "hit": [
+            -0.00309,
+            0.02657,
+            0.03543761
+          ],
+          "frontNormal": [
+            -0.16024312,
+            -0.17208053,
+            0.97196216
+          ],
+          "lightToDiffuserDepthMetres": 0.00456239,
+          "position": [
+            -0.00309,
+            0.02657,
+            0.04
+          ],
+          "target": [
+            -0.00309,
+            -0.53343,
+            0.7
+          ],
+          "direction": [
+            0,
+            -0.64697745,
+            0.76250914
+          ]
+        }
+      },
+      "stock": [
+        {
+          "sourceNode": "Mesh_lampWall",
+          "modelNode": "stock-wall-plate",
+          "triangles": 12,
+          "maxVertexErrorMetres": 2.385375841546206e-9
+        },
+        {
+          "sourceNode": "Mesh_lampWall_1",
+          "modelNode": "ambient-diffuser",
+          "triangles": 30,
+          "maxVertexErrorMetres": 3.528668046490354e-9
+        }
+      ]
+    },
+    {
+      "resource": {
+        "id": "wall-ambient-studio",
+        "version": 1,
+        "displayName": "墙挂氛围灯 · 开播工作室徽记",
+        "category": "dynamic",
+        "mountRole": "ambient-led-and-neon",
+        "productionBranch": "ambient-led-and-neon",
+        "mount": "wall",
+        "parent": "room.wall",
+        "mounting": {
+          "origin": "center",
+          "width": 0.62,
+          "height": 0.35,
+          "depth": 0.04
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.31,
+            0.02
+          ],
+          "blocking": false
+        },
+        "usePoints": [],
+        "stateDefaults": {
+          "on": true,
+          "intensity": 4,
+          "colorHue": 30
+        },
+        "stateSchema": {
+          "on": {
+            "type": "boolean"
+          },
+          "intensity": {
+            "type": "number",
+            "min": 0,
+            "max": 8
+          },
+          "colorHue": {
+            "type": "number",
+            "min": 0,
+            "max": 359
+          }
+        },
+        "stateSemantics": {
+          "on": "wall-ambient-enabled-v1",
+          "intensity": "wall-ambient-candela-v1",
+          "colorHue": "wall-ambient-color-hue-degrees-v1"
+        },
+        "display": {
+          "diffuser": {
+            "nodes": [
+              "ambient-diffuser"
+            ],
+            "stateField": "on",
+            "offColor": "#e2e0da",
+            "onIntensity": 1.5
+          }
+        },
+        "light": {
+          "kind": "spot",
+          "color": "#e19447",
+          "position": [
+            0.00262,
+            -0.00264,
+            0.04
+          ],
+          "target": [
+            0.00262,
+            -0.56264,
+            0.7
+          ],
+          "distance": 1.6,
+          "angle": 0.6,
+          "penumbra": 0.6
+        },
+        "materialSlots": {
+          "housing": [
+            "studio-plaque"
+          ],
+          "hardware": [
+            "studio-hardware"
+          ],
+          "diffuser": [
+            "ambient-diffuser"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/wall-ambient-v1/wall-ambient-studio/v1/model.glb",
+          "sha256": "9f90286d8641300f33c25ea9a6167e498e022dca50accc2d3a373db8b0494f33",
+          "bytes": 64832
+        },
+        "provenance": {
+          "license": "CC0-1.0 source with project-authored fixture adaptation and finishes.",
+          "sourceDesign": "studio-plaque",
+          "sourceParameters": "assets-source/company-wall-ambient-v1/parameters.json",
+          "sourceParametersSha256": "e9bb34a90f11ff24e8d0382bfbb649a91ee75e7b11fec2a11222e8350d2c694b",
+          "generator": "scripts/company-platform/build-wall-ambient.mjs",
+          "generatorSha256": "25981ab5e239d096f26029a39b695d50f535e92ca7e7f7b05fdffe2062d1af4f",
+          "functionalContractSource": "assets-source/company-wall-ambient-v1/contract.json",
+          "functionalContractSourceSha256": "79f3dd452c0ae8baf3e5a53b57af75382cb7215c0503c7bf523ccb7908b0436d",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "ambient-led-and-neon",
+          "sourceArtifactPath": "assets-source/company-wall-ambient-v1/original/game-icons/power.png",
+          "sourceArtifactSha256": "710ba3d94e7b722f4493e6c126f05b46d913c9a2f652f6561175391770cdb550",
+          "sourceAuthor": "Kenney",
+          "sourceUrl": "https://opengameart.org/content/game-icons",
+          "sourceLicense": "CC0-1.0",
+          "sourceArchiveSha256": "7a86d8d58e0b851e22004b3c70bf90b003632bbf9ac633424daa3bb17d9e7e4e",
+          "sourceEntry": "PNG/Black/2x/power.png",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-wall-ambient-assets.mjs",
+              "sha256": "cbfc126182d06d00a1492429fcbf8e39bdafd73cde2b23c8cbbec296130ce715"
+            },
+            "license": {
+              "path": "assets-source/company-wall-ambient-v1/original/game-icons/LICENSE.txt",
+              "sha256": "68a86b3a620be3366d6dc28a4a8ffb8d5de12e0b86b5199c86e51fc617e29a49"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback",
+            "pngjs 7.0.0"
+          ]
+        }
+      },
+      "result": {
+        "triangles": 720,
+        "meshesCount": 3,
+        "materialCount": 3,
+        "geometrySha256": "efb3605bd0960159952330fa6459df1fe5f8b5acc46ff0e64782746aca25ae8a",
+        "diffuserSha256": "8514b49340a0786b2853c6a5850ec15cbf228eeaf9b250182f4430309e2c35c8",
+        "envelope": {
+          "min": [
+            -0.19499999,
+            -0.1355,
+            0
+          ],
+          "max": [
+            0.19499999,
+            0.1355,
+            0.0395
+          ],
+          "dimensions": [
+            0.38999999,
+            0.271,
+            0.0395
+          ]
+        },
+        "wallContacts": [
+          {
+            "node": "studio-plaque",
+            "areaSquareMetres": 0.08277188,
+            "sample": [
+              0.04169766,
+              -0.08535621,
+              0
+            ]
+          }
+        ],
+        "emitted": {
+          "hit": [
+            0.00262,
+            -0.00264,
+            0.0395
+          ],
+          "frontNormal": [
+            0,
+            0,
+            1
+          ],
+          "lightToDiffuserDepthMetres": 0.0005,
+          "position": [
+            0.00262,
+            -0.00264,
+            0.04
+          ],
+          "target": [
+            0.00262,
+            -0.56264,
+            0.7
+          ],
+          "direction": [
+            0,
+            -0.64697745,
+            0.76250914
+          ]
+        }
+      }
+    }
+  ]
+}
