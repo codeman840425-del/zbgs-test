@@ -21,14 +21,27 @@ async function files(dir) {
   }
   return out;
 }
+async function exists(file) {
+  try {
+    await readFile(path.join(root, file));
+    return true;
+  } catch (error) {
+    if (error?.code === "ENOENT") return false;
+    throw error;
+  }
+}
 const inputs = [
   ...(await files("src")),
   ...(await files("scripts")),
   ...(await files("public/assets")),
-  "public/favicon.svg",
-  "index.html",
-  "foundation.html",
-  "vite.config.js",
+  ...(
+    await Promise.all([
+      "public/favicon.svg",
+      "index.html",
+      "foundation.html",
+      "vite.config.js",
+    ].map(async file => (await exists(file)) ? file : null))
+  ).filter(Boolean),
   "package.json",
   "package-lock.json",
 ].sort();
