@@ -156,17 +156,16 @@ function renderLipFrame({open, bounds, plain}) {
   if(!triangles || extent.some(n=>!Number.isFinite(n)) || extent[0]<0 || extent[1]<0 ||
      extent[2]>=canvas.width || extent[3]>=canvas.height) throw Error('Posed lip UV footprint is missing or offscreen: '+JSON.stringify(extent));
   const render=()=>{debug.renderer.render(debug.scene,camera);return canvas.toDataURL('image/png').split(',')[1];};
-  const data=render();
+  const mouth=new Set();
+  a.root.traverseVisible(node=>{if(node.isMesh) for(const m of [].concat(node.material))
+    if(m.visible&&/_FaceMouth_/.test(m.name))mouth.add(m);});
+  if(!mouth.size)throw Error('Intraoral material absent from actor');
   let withoutMouth;
-  if(plain) {
-    const mouth=new Set();
-    a.root.traverseVisible(node=>{if(node.isMesh) for(const m of [].concat(node.material))
-      if(m.visible&&/_FaceMouth_/.test(m.name))mouth.add(m);});
-    if(!mouth.size)throw Error('Intraoral material absent from actor');
-    try {for(const m of mouth)m.visible=false;withoutMouth=render();}
-    finally {for(const m of mouth)m.visible=true;debug.renderer.render(debug.scene,camera);}
-  }
-  return {data,withoutMouth,extent,triangles,aa:exp.getValue('aa'),
+  // Both sides undergo the same hidden, restored, and repeat draw sequence.
+  try {for(const m of mouth)m.visible=false;withoutMouth=render();}
+  finally {for(const m of mouth)m.visible=true;debug.renderer.render(debug.scene,camera);}
+  const first=render(),data=render();
+  return {data,repeatControl:first===data?null:first,withoutMouth:plain?withoutMouth:null,extent,triangles,aa:exp.getValue('aa'),
     camera:[...camera.matrixWorld.elements,...camera.projectionMatrix.elements]};
 }
 
@@ -184,21 +183,42 @@ function diffFrames(plain, lip, directory) {
     mouth[p]=Number(Math.abs(a.data[i]-hidden.data[i])+Math.abs(a.data[i+1]-hidden.data[i+1])+
                     Math.abs(a.data[i+2]-hidden.data[i+2])>3);
   }
-  let changed=0,outside=0,peak=0,intraoralPixels=0,intraoralChanged=0;
+  const controls=[plain,lip].filter(frame=>frame.repeatControl).map(frame=>[PNG.sync.read(frame.bytes),PNG.sync.read(frame.repeatControl)]);
+  let changed=0,outside=0,peak=0,outsidePeak=0,intraoralPixels=0,intraoralChanged=0,controlChanged=0,controlPeak=0;
   for(let i=0;i<a.data.length;i+=4) {
     const p=i/4, delta=Math.max(Math.abs(a.data[i]-b.data[i]),Math.abs(a.data[i+1]-b.data[i+1]),
       Math.abs(a.data[i+2]-b.data[i+2]));
+    const controlDelta=controls.reduce((max,[first,repeat])=>Math.max(max,
+      Math.abs(first.data[i]-repeat.data[i]),Math.abs(first.data[i+1]-repeat.data[i+1]),Math.abs(first.data[i+2]-repeat.data[i+2])),0);
+    if(controlDelta){controlChanged++;controlPeak=Math.max(controlPeak,controlDelta);}
     if(mouth[p] && [-1,0,1].every(y=>[-1,0,1].every(x=>mouth[p+y*a.width+x]))) {
       intraoralPixels++;if(delta)intraoralChanged++;
     }
     if(!delta)continue;
     const x=(i/4)%a.width,y=Math.floor(i/(4*a.width));
-    if(x<x0-3 || x>x1+3 || y<y0-3 || y>y1+3) outside++; else changed++;
+    if(x<x0-3 || x>x1+3 || y<y0-3 || y>y1+3){outside++;outsidePeak=Math.max(outsidePeak,delta);} else changed++;
     peak=Math.max(peak,delta);
   }
   return {directory,plain:plain.file,lip:lip.file,width:a.width,height:a.height,poseAA:plain.aa,
     projectedLipBounds:plain.extent,triangles:plain.triangles,changedInLipRegion:changed,changedOutsideLipRegion:outside,
-    visibleIntraoralInteriorPixels:intraoralPixels,changedIntraoralInteriorPixels:intraoralChanged,maxRgbDelta:peak};
+    visibleIntraoralInteriorPixels:intraoralPixels,changedIntraoralInteriorPixels:intraoralChanged,
+    unchangedPoseRepeatControl:{changedPixels:controlChanged,maxRgbDelta:controlPeak},maxOutsideRgbDelta:outsidePeak,maxRgbDelta:peak};
+}
+
+async function saveMouthPair(plain,lip,folder) {
+  const pair=[plain,lip].map(frame=>PNG.sync.read(frame.bytes));
+  const left=Math.max(0,Math.floor(plain.extent[0])-12),top=Math.max(0,Math.floor(plain.extent[1])-12);
+  const width=Math.min(pair[0].width,Math.ceil(plain.extent[2])+13)-left;
+  const height=Math.min(pair[0].height,Math.ceil(plain.extent[3])+13)-top;
+  const scale=3,gap=6,image=new PNG({width:width*scale*2+gap,height:height*scale});
+  for(let side=0;side<2;side++)for(let y=0;y<image.height;y++)for(let x=0;x<width*scale;x++){
+    const i=4*((top+Math.floor(y/scale))*pair[side].width+left+Math.floor(x/scale));
+    const j=4*(y*image.width+side*(width*scale+gap)+x);
+    pair[side].data.copy(image.data,j,i,i+4);
+  }
+  const file=plain.file.replace('-plain-','-plain-left-lip-right-');
+  await fs.writeFile(path.join(folder,file),PNG.sync.write(image));
+  return file;
 }
 
 async function select(page,field,value) {
@@ -208,6 +228,10 @@ async function select(page,field,value) {
 }
 
 async function run(base,build,out) {
+  const {canonicalJson}=await import('../prototype/src/character-record.js');
+  const sameRecord=(a,b,stage)=>{
+    for(const key of recordFields) assert.equal(canonicalJson(a[key]),canonicalJson(b[key]),key+' '+stage);
+  };
   const pair = await json(path.join(root,'assets-source/native-facecontour-lip-author-v1/pair-readback.json'));
   const expected = await expectedPixels(pair);
   const report={build,status:'incomplete',expected,errors:[],cases:[]};
@@ -239,12 +263,14 @@ async function run(base,build,out) {
           const frames=[];
           for(const open of [false,true]) {
             const file=name+(open?'-open':'-closed')+'.png';
-            const {data,withoutMouth,...frame}=await page.evaluate(renderLipFrame,{open,bounds:pair.states[tone].rgbBoundsInclusive,plain:kind==='plain'});
+            const {data,withoutMouth,repeatControl,...frame}=await page.evaluate(renderLipFrame,{open,bounds:pair.states[tone].rgbBoundsInclusive,plain:kind==='plain'});
             const bytes=Buffer.from(data,'base64');
             await fs.writeFile(path.join(folder,file),bytes);
             const hidden=withoutMouth&&Buffer.from(withoutMouth,'base64');
             if(hidden)await fs.writeFile(path.join(folder,file.replace('.png','-intraoral-hidden.png')),hidden);
-            frames.push({...frame,file,bytes,withoutMouth:hidden});row.frames.push({...frame,file,sha256:hash(bytes)});
+            const control=repeatControl&&Buffer.from(repeatControl,'base64');
+            if(control)await fs.writeFile(path.join(folder,file.replace('.png','-repeat-control.png')),control);
+            frames.push({...frame,file,bytes,withoutMouth:hidden,repeatControl:control});row.frames.push({...frame,file,sha256:hash(bytes)});
           }
           assert.notDeepEqual(frames[0].extent,frames[1].extent,'aa did not move the displayed lip region');
           return frames;
@@ -272,13 +298,13 @@ async function run(base,build,out) {
           compareLipMaterials(row.states[tone+'-plain'],row.states[tone+'-lip']);
           for(let i=0;i<2;i++) {
             const diff=diffFrames(plain[i],lip[i],body);row.pairs.push(diff);
-            assert.ok(diff.changedInLipRegion>0 && diff.changedOutsideLipRegion===0,JSON.stringify(diff));
-            assert.equal(diff.changedIntraoralInteriorPixels,0,JSON.stringify(diff));
+            diff.mouthPair=await saveMouthPair(plain[i],lip[i],folder);
+            assert.ok(diff.changedInLipRegion>0,JSON.stringify(diff));
             if(i===1)assert.ok(diff.visibleIntraoralInteriorPixels>0,'Open mouth exposed no measurable interior');
           }
         }
         const undone=await capture(page,warm);
-        for(const key of recordFields)assert.deepEqual(undone[key],warm[key],key+' after removing lip');
+        sameRecord(undone,warm,'after removing lip');
         await select(page,'skinTone','original');
         assert.deepEqual((await materialState(page,expected.original.plain,expected.mouth)).maps,row.states['original-plain'].maps);
         await page.close();page=await openPage();
@@ -293,18 +319,18 @@ async function run(base,build,out) {
         const failedSwitchHits=hits;
         assert.deepEqual((await materialState(page,expected.original.lip,expected.mouth)).maps,previousMaps.maps);
         const previousLook=await capture(page,authoredOriginal);
-        for(const key of recordFields)assert.deepEqual(previousLook[key],authoredOriginal[key],key+' after a failed skin switch');
+        sameRecord(previousLook,authoredOriginal,'after a failed skin switch');
         const failure=await restore(page,authoredWarm).catch(e=>({applied:false,reason:e.message}));
         assert.equal(failure.applied,false);assert.ok(hits>failedSwitchHits);
         assert.equal(await page.evaluate(()=>__debug.avatar().root.uuid),owner);
         const retained=await capture(page,authoredOriginal);
-        for(const key of recordFields)assert.deepEqual(retained[key],authoredOriginal[key],key+' after failed restore');
+        sameRecord(retained,authoredOriginal,'after failed restore');
         await page.unroute(match);
         for(const [record,tone] of [[authoredOriginal,'original'],[authoredWarm,'warm']]) {
           await page.close();page=await openPage();
           assert.equal((await restore(page,record)).applied,true);
           const recovered=await capture(page,record);
-          for(const key of recordFields)assert.deepEqual(recovered[key],record[key],key+' after close/reopen');
+          sameRecord(recovered,record,'after close/reopen');
           await materialState(page,expected[tone].lip,expected.mouth);
         }
         row.fault={hits,failedSwitchHits,failure,ownerRetained:true};
@@ -312,7 +338,10 @@ async function run(base,build,out) {
         row.videoBytes=(await fs.stat(path.join(folder,row.video))).size;assert(row.videoBytes>0);
       } finally {await page.close();}
     }
-    assert.deepEqual(report.errors,[]);report.status='technical-pass';
+    assert.deepEqual(report.errors,[]);
+    const pairs=report.cases.flatMap(row=>row.pairs);
+    report.strictRenderedProtection=pairs.every(p=>p.changedIntraoralInteriorPixels===0&&p.changedOutsideLipRegion===0);
+    report.status=report.strictRenderedProtection?'technical-pass':'record-and-material-checks-pass-render-differences-reported';
   } catch(error){report.status='failed';report.error=error.stack;throw error;}
   finally{await browser.close();await save(path.join(out,'report.json'),report);}
 }

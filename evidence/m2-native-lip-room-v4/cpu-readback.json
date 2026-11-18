@@ -1,0 +1,117 @@
+{
+  "schema": "native-lip-room-cpu-media-readback-v1",
+  "sourceCommit": "1b1d6189",
+  "build": "637b3f8bb4a3",
+  "roomStatus": "record-and-material-checks-pass-render-differences-reported",
+  "media": [
+    {
+      "body": "native-contour-roundness-a-v1",
+      "file": "native-contour-roundness-a-v1/warm-lip-speech-1x.webm",
+      "sha256": "1330bf715f4675e7e6136ecd2c9fc1e7431797957c31f6300a318bb3b022a967",
+      "decodedFrames": 182,
+      "firstPtsSeconds": 0.0,
+      "lastPtsSeconds": 6.04,
+      "dimensions": [
+        1040,
+        774
+      ],
+      "codec": "vp9",
+      "strictlyIncreasingPts": true
+    },
+    {
+      "body": "native-contour-cheek-b-v1",
+      "file": "native-contour-cheek-b-v1/warm-lip-speech-1x.webm",
+      "sha256": "dc66f2ae3187402230ad55faa21779e9e6a30d9a949623ec09f59516d48b41ed",
+      "decodedFrames": 182,
+      "firstPtsSeconds": 0.0,
+      "lastPtsSeconds": 6.038,
+      "dimensions": [
+        1040,
+        774
+      ],
+      "codec": "vp9",
+      "strictlyIncreasingPts": true
+    }
+  ],
+  "pairs": [
+    {
+      "body": "native-contour-roundness-a-v1",
+      "pair": "original-plain-closed.png",
+      "outsideChanged": 13,
+      "outsideAlsoChangedInNoEditControl": 13,
+      "outsideMax": 1,
+      "intraoralInterior": 0,
+      "intraoralChanged": 0
+    },
+    {
+      "body": "native-contour-roundness-a-v1",
+      "pair": "original-plain-open.png",
+      "outsideChanged": 0,
+      "outsideAlsoChangedInNoEditControl": 0,
+      "outsideMax": 0,
+      "intraoralInterior": 4249,
+      "intraoralChanged": 0
+    },
+    {
+      "body": "native-contour-roundness-a-v1",
+      "pair": "warm-plain-closed.png",
+      "outsideChanged": 5,
+      "outsideAlsoChangedInNoEditControl": 0,
+      "outsideMax": 1,
+      "intraoralInterior": 0,
+      "intraoralChanged": 0
+    },
+    {
+      "body": "native-contour-roundness-a-v1",
+      "pair": "warm-plain-open.png",
+      "outsideChanged": 5,
+      "outsideAlsoChangedInNoEditControl": 0,
+      "outsideMax": 1,
+      "intraoralInterior": 4278,
+      "intraoralChanged": 0
+    },
+    {
+      "body": "native-contour-cheek-b-v1",
+      "pair": "original-plain-closed.png",
+      "outsideChanged": 0,
+      "outsideAlsoChangedInNoEditControl": 0,
+      "outsideMax": 0,
+      "intraoralInterior": 0,
+      "intraoralChanged": 0
+    },
+    {
+      "body": "native-contour-cheek-b-v1",
+      "pair": "original-plain-open.png",
+      "outsideChanged": 5,
+      "outsideAlsoChangedInNoEditControl": 5,
+      "outsideMax": 1,
+      "intraoralInterior": 4243,
+      "intraoralChanged": 0
+    },
+    {
+      "body": "native-contour-cheek-b-v1",
+      "pair": "warm-plain-closed.png",
+      "outsideChanged": 14,
+      "outsideAlsoChangedInNoEditControl": 0,
+      "outsideMax": 1,
+      "intraoralInterior": 0,
+      "intraoralChanged": 0
+    },
+    {
+      "body": "native-contour-cheek-b-v1",
+      "pair": "warm-plain-open.png",
+      "outsideChanged": 16,
+      "outsideAlsoChangedInNoEditControl": 2,
+      "outsideMax": 1,
+      "intraoralInterior": 4263,
+      "intraoralChanged": 0
+    }
+  ],
+  "speechPlaybackRate": 1,
+  "speechHelperSha256": "320927551474ee557212db9378fd4621d6331b39dfb860525328603157e30658",
+  "notes": [
+    "Some views and no-edit controls show one-level differences away from the projected lip region. Only listed same-pixel overlaps were observed in these controls.",
+    "Visible FaceMouth interiors used a hidden-FaceMouth render and one-pixel erosion. Closed mouth presents no measurable interior.",
+    "Face and intraoral base and shade comparisons include every alpha and all opaque RGB values. Canvas readback can round partial-alpha RGB, which is excluded."
+  ]
+}

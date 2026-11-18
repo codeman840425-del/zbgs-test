@@ -53,6 +53,14 @@ if __name__ == '__main__':
                 media = ('original-dressed.png', 'warm-dressed.png', 'warm-speech-1x.webm', 'warm.json')
                 if file == 'index.html' or any(file == body + '/' + asset for body in bodies for asset in media):
                     return str(ROOT / 'evidence/m2-native-skin-room-v1' / file)
+            lip = '/reviews/native-lip-color/'
+            if config.get('nativeLipReview') and name.startswith(lip):
+                file = name[len(lip):] or 'index.html'
+                bodies = ('native-contour-roundness-a-v1', 'native-contour-cheek-b-v1')
+                media = ('warm-lip-speech-1x.webm', 'warm-lip-open.png',
+                         'original-plain-left-lip-right-open.png', 'warm-plain-left-lip-right-open.png')
+                if file == 'index.html' or any(file == body + '/' + asset for body in bodies for asset in media):
+                    return str(ROOT / 'evidence/m2-native-lip-room-v4' / file)
             files = {
                 review: 'index.html',
                 review + 'before-trial.mp4': 'before-trial.mp4',

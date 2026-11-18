@@ -1,6 +1,8 @@
 # 当前角色基础工程恢复点
 
 ## 固定入口与备份
+当前恢复点：4196 实际返回 `0d1ccbf3ff61`。已复核待正常启动的 `637b3f8bb4a3`（源码 `1b1d6189`），并在临时服务检查其唇妆入口和全部六个图片/录像链接。上次重启被自动审批拒绝。可直接打开 evidence/m2-native-lip-room-v4/index.html。两份女性角色从相同批改请求生成，独立消费包关闭重开通过，见 evidence/m2-native-lip-game-handoff-v1/README.md。下一项核实实际 GPU 上传与静态预算上界之间的差距，按实测选择共同资源复用方案。下文为历史恢复点。
+
 - F:/gamemake / feat/m1-foundation-room。4196 当前固定构建 `0d1ccbf3ff61`，源码 `e6062a06`，可回退 `ba8a7b36d01b`。固定发布见 delivery/appearance-workbench.json。4174 历史证据，4195 封存 M1。
 
 本轮已生成固定暖肤候选 `436562eeac4a`（独立源码 `4f43b6aa`），交付指针为下次启动准备好。最后读取实际运行的 4196 时仍为上列绿虹膜版，自动审批拒绝重启命令。当前可直接用 evidence/m2-native-skin-room-v1/index.html 查看暖肤对照。已有旧绿瞳、暖肤各两份完整角色在独立包关闭重开，本次预算与适用范围见 CAPABILITIES。下一项从已核实的 Overlay/Lip 唇妆原生输入验证口内保护与暖肤叠加，制作中沿用既有主菜单/冷开/导出方法。

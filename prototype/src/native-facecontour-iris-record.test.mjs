@@ -165,12 +165,20 @@ for(const name of ['contour-roundness-a','contour-cheek-b']){
       });
       return result;
     }
+    function sameMaps(material, current, previous) {
+      assert.deepEqual(current?.map(texture=>texture?.uuid),previous?.map(texture=>texture?.uuid),material.name);
+    }
+    function assertMaterialMaps(avatar, snapshot) {
+      const active=materialMaps(avatar);
+      assert.equal(active.size,snapshot.size);
+      for(const [material,maps] of snapshot)sameMaps(material,active.get(material),maps);
+    }
     function assertMaps(avatar,coveredBody,faceSha=face.authored.sha256) {
       const inspection=new Map([[face.materialName,faceSha],[eyeline.materialName,eyeline.authored.sha256],
         [body.materialName,coveredBody?body.coveredAuthored.sha256:body.authored.sha256]]);
       for(const [material,maps] of materialMaps(avatar)){
         const pin=inspection.get(material.name.replace(/ \(Outline\)$/,''));
-        if(pin)for(const texture of maps)assert.equal(texture.image.pixels,images.get(pin),material.name);
+        if(pin)for(const texture of maps)assert(texture.image.pixels===images.get(pin),material.name+' pixel hash '+pin);
       }
     }
     const before=materialMaps(attached);
@@ -179,8 +187,8 @@ for(const name of ['contour-roundness-a','contour-cheek-b']){
     assert.deepEqual(requests,[lip.url,originalLip.url]);
     for(const [material,maps] of materialMaps(attached)){
       if(material.name.replace(/ \(Outline\)$/,'')===face.materialName)
-        for(const texture of maps)assert.equal(texture.image.pixels,images.get(originalLip.sha256));
-      else assert.deepEqual(maps,before.get(material),material.name);
+        for(const texture of maps)assert(texture.image.pixels===images.get(originalLip.sha256),material.name);
+      else sameMaps(material,maps,before.get(material));
     }
     const lipOnly=await current.capture();
     assert.equal(lipOnly.appearanceRecipe.schema,NATIVE_LIP_COLOR_SCHEMA);
@@ -197,7 +205,7 @@ for(const name of ['contour-roundness-a','contour-cheek-b']){
     const failed=await attached.appearance.set({skinTone:'native-warm-v1'});
     assert.equal(failed.applied,false);
     assert.match(failed.reason,/503/);
-    assert.deepEqual(materialMaps(attached),beforeFailure);
+    assertMaterialMaps(attached,beforeFailure);
     assert.equal(attached.appearance.getState().skinTone,'original');
     assert.equal(attached.appearance.getState().lipColor,lip.lipId);
     assert(!requests.includes(face.authored.url));
@@ -226,7 +234,7 @@ for(const name of ['contour-roundness-a','contour-cheek-b']){
     assertMaps(attached,true);
     for(const [material,maps] of before)
       if(![face.materialName,eyeline.materialName,body.materialName].includes(material.name.replace(/ \(Outline\)$/,'')))
-        assert.deepEqual(materialMaps(attached).get(material),maps,material.name);
+        sameMaps(material,materialMaps(attached).get(material),maps);
     attached.setDebugBody(true);
     assert.equal(attached.getOutfitInfo().equipment.bodyTextureCoverage.covered,false);
     assertMaps(attached,false);
@@ -258,7 +266,7 @@ for(const name of ['contour-roundness-a','contour-cheek-b']){
     assertMaps(attached,true,warmLip.sha256);
     for(const [material,maps] of runtimeLipState)
       if(material.name.replace(/ \(Outline\)$/,'')!==face.materialName)
-        assert.deepEqual(materialMaps(attached).get(material),maps,material.name);
+        sameMaps(material,materialMaps(attached).get(material),maps);
     const greenWarmLip=await current.capture();
     assert.equal(admitAppearanceCandidate(current.controller,{...greenWarmLip.appearanceRecipe, lipColorManifestSha256:'a'.repeat(64)}).accepted,false);
     const checkpoint=materialMaps(attached);
@@ -269,18 +277,18 @@ for(const name of ['contour-roundness-a','contour-cheek-b']){
     };
     await assert.rejects(restoreRuntimeCharacterRecord(current.controller,record),/injected later outfit fault/);
     current.controller.prepareOutfit=prepareOutfit;
-    assert.deepEqual(materialMaps(attached),checkpoint);
+    assertMaterialMaps(attached,checkpoint);
     assert.equal(attached.appearance.getState().skinTone,'native-warm-v1');
     assert.equal(attached.appearance.getState().lipColor,lip.lipId);
 
     const stale=structuredClone(native.appearanceRecipe);
     stale.skinToneManifestSha256='a'.repeat(64);
     assert.equal(admitAppearanceCandidate(current.controller,stale).accepted,false);
-    assertMaps(attached,true);
+    assertMaps(attached,true,warmLip.sha256);
     assert.equal((await restoreRuntimeCharacterRecord(current.controller,record)).applied,true);
     const original=await current.capture();
     assert.equal(original.integrity.recipeSha256,record.integrity.recipeSha256);
     assert.deepEqual(original.resourceIdentities,record.resourceIdentities);
-    for(const [material,maps] of before)assert.deepEqual(materialMaps(attached).get(material),maps,material.name);
+    assertMaterialMaps(attached,before);
   });
 }

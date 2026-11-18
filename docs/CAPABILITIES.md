@@ -14,6 +14,9 @@
 
 ## 当前交付与阶段边界
 
+- 同配方批量改已有角色记录已通过两名女性 FaceContour 实例。请求支持 1–4 条；测试中第二条不兼容时整批无输出，原记录与已有目标文件保留。详见 evidence/m2-native-production-batch-edit-v1/summary.json。
+- 固定构建 `637b3f8bb4a3` 使用同款原生唇妆，在上述两体各自原肤与暖肤上保存和恢复。四组张口对照可见口内核心逐像素相同，唇区外最多 16 个像素差一个色阶，同姿态重复也有一级差异。两体独立游戏包重开通过。静态预算仍超，普通机未测；其他身体及肤色组合待验。证据见 evidence/m2-native-lip-room-v4 和 evidence/m2-native-lip-game-handoff-v1。
+
 2026-11-16有限M2 A、B的本次技术制作/回读范围已完成。A：原男女各基准及两套已有四域组合，6真实v5、36图、6条1×；近景局部可辨，房间辨识度不足。B：既有男短发对male-jaw的独立fit，源复做、真实加载、v6文件回读与正常片均完成。观看evidence/m2-character-presets-a-v1及evidence/m2-male-jaw-hair-runtime-v1。不称完整M2、脸型库或所有体型兼容。用户明确本阶段验证技术路线；具体造型和游戏镜头辨识度后置，撤销此前等待差异方向选择。历史有限样件不扩大通过范围；当前完整M2按P0–P6推进，M3未开工。
 
 - **4196 当前固定候选**以 `delivery/appearance-workbench.json` 为准。本轮 f82a7fc6de61 / source71081be 已发布并通过真实编辑、移动及12条对照影片播放检查；回滚ed2保留。历史fe5及其它旧构建证据保原身份，不能当作当前验收。当前备份以CURRENT及远端回执为准。
