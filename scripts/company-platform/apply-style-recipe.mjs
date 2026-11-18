@@ -99,6 +99,30 @@ export function applyStyleRecipe(document, recipe, options = {}) {
   return { document: result.document, operations, recipe: { id: recipe.id, version: recipe.version, name: recipe.name } };
 }
 
+export async function publishStyleRecipeResult(outputFile, outputBytes, manifestBytes) {
+  const manifestFile = `${outputFile}.style.json`;
+  const tempBase = `${outputFile}.tmp-${process.pid}-${Date.now()}`;
+  const tempOutput = `${tempBase}.json`;
+  const tempManifest = `${tempBase}.style.json`;
+  let outputRenamed = false;
+  try {
+    for (const file of [outputFile, manifestFile]) {
+      try { await fs.access(file); fail('style-output-exists', `Refusing to replace existing style output ${file}`); }
+      catch (error) { if (error.code !== 'ENOENT') throw error; }
+    }
+    await fs.writeFile(tempOutput, outputBytes, { flag: 'wx' });
+    await fs.writeFile(tempManifest, manifestBytes, { flag: 'wx' });
+    await fs.rename(tempOutput, outputFile);
+    outputRenamed = true;
+    await fs.rename(tempManifest, manifestFile);
+  } catch (error) {
+    await fs.rm(tempOutput, { force: true });
+    await fs.rm(tempManifest, { force: true });
+    if (outputRenamed) await fs.rm(outputFile, { force: true });
+    throw error;
+  }
+}
+
 if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) {
   const [layoutFile, recipeFile, outputFile] = process.argv.slice(2);
   if (!outputFile) fail('usage', 'Usage: node apply-style-recipe.mjs LAYOUT RECIPE OUTPUT');
@@ -106,8 +130,7 @@ if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) 
   const recipeBytes = await fs.readFile(recipeFile);
   const result = applyStyleRecipe(JSON.parse(layoutBytes), JSON.parse(recipeBytes));
   const outputBytes = Buffer.from(JSON.stringify(result.document, null, 2) + '\n');
-  await fs.writeFile(outputFile, outputBytes, { flag: 'wx' });
   const manifest = { schema: 'company-style-recipe-result@1', recipe: result.recipe, input: { path: layoutFile, sha256: hash(layoutBytes) }, output: { path: outputFile, sha256: hash(outputBytes) }, operations: result.operations.length };
-  await fs.writeFile(`${outputFile}.style.json`, JSON.stringify(manifest, null, 2) + '\n', { flag: 'wx' });
+  await publishStyleRecipeResult(outputFile, outputBytes, Buffer.from(JSON.stringify(manifest, null, 2) + '\n'));
   console.log(JSON.stringify(manifest));
 }
