@@ -528,3 +528,6 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 准入循环在上述修复后重新执行为 `evidence/m2-native-admission-cycle-v3/`：两项仍被拒绝，`acceptedForRuntime=[]`，记录批次明确标记 `mode=readiness-gated`、`acceptedCount=0`、`rejectedCount=2`，避免把“带 gate 检查但零准入”误标成 runtime-admitted。gate 字节与 v5 相同，说明本轮只修复身份/失败语义，没有放宽任何门。
 
 2026-11-18 共同适配审查继续收敛：`scripts/production/native_dynamic_motion_adapter.py` 对两项候选按精确 body/provenance SHA 核对 nodes、skins、humanoid、expressions 和 VRMC_springBone，生成可复用的 spring 结构指纹；动态发丝/头部 fit、正常速度完整记录、关闭重开和人工视觉仍单独列为 blocker，报告始终 `runtimeAdmissionGranted=false`。`scripts/qa-native-surface-texture-admission.py` 对两项 Body 材质、图像、PNG、UV、采样器、MASK alpha 和 coverage identity 的静态合同均通过，但 WebGL/runtime 与视觉门仍 blocked。两项审查均不修改模型或运行时，不清除批产准入任务。
+### 2026-11-18 男性候选来源纠正与运行证据
+
+`male-native-base-216`（VRoid 2.16）仍因来源元数据 `modification=prohibited`、`allowRedistribution=false` 只能做只读对照；该限制不适用于仓库另存的 `assets-source/foundation-male/Base_Male.vrm`。后者保留旧版 VRoid Base_Male CC0 来源、许可记录及可编辑 Blender 重建源，已在固定构建 `bda6fd250bb8` 完成男性记录消费的走路→坐下→坐稳→起身→离椅技术回放，证据 `evidence/m2-male-foundation-record-room-v1`，状态 `technical-pass-visual-candidate`。男性短裤记录使用 `equipment.index=2/role=shorts`；这只证明共用运行链和记录恢复，不清除动态、附件、预算、普通机或人工视觉准入。
