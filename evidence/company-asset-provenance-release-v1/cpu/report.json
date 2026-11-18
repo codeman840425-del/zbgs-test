@@ -1,0 +1,12 @@
+{
+  "status":"passed",
+  "checks":[
+    {"name":"catalog-build-provenance","resources":219,"result":"passed"},
+    {"name":"negative-provenance-hash","errorCode":"provenance-hash-mismatch","result":"rejected"},
+    {"name":"negative-asset-digest","errorCode":"asset-digest-mismatch","result":"rejected"},
+    {"name":"negative-mount-envelope","errorCode":"asset-mount-envelope-mismatch","result":"rejected"},
+    {"name":"negative-invalid-glb","errorCode":"invalid-glb-json","result":"rejected"}
+  ],
+  "catalogUnchangedAfterNegativeCases":true,
+  "limits":["CPU provenance and asset-library checks only.","No ordinary-PC performance or real-character C3 claim."]
+}
