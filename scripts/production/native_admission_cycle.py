@@ -62,6 +62,7 @@ def cycle(batch: Path, gate_output: Path, records_output: Path, **reports: Path 
         glasses_report=reports.get("glasses_report"),
         budget_report=reports.get("budget_report"),
         dynamic_trace=reports.get("dynamic_trace"),
+        runtime_budget_trace=reports.get("runtime_budget_trace"),
         budget_classification=reports.get("budget_classification"),
         surface_admission=reports.get("surface_admission"),
         glasses_candidate=reports.get("glasses_candidate"),
@@ -104,7 +105,7 @@ def main() -> int:
     parser.add_argument("--batch", type=Path, required=True)
     parser.add_argument("--gate-output", type=Path, required=True)
     parser.add_argument("--records-output", type=Path, required=True)
-    for name in ("runtime-report", "adapter-report", "microphone-report", "adaptation-report", "runtime-head-audit", "glasses-report", "budget-report", "dynamic-trace", "budget-classification", "surface-admission", "glasses-candidate", "microphone-candidate", "room-candidate"):
+    for name in ("runtime-report", "adapter-report", "microphone-report", "adaptation-report", "runtime-head-audit", "glasses-report", "budget-report", "dynamic-trace", "runtime-budget-trace", "budget-classification", "surface-admission", "glasses-candidate", "microphone-candidate", "room-candidate"):
         parser.add_argument(f"--{name}", dest=name.replace("-", "_"), type=Path)
     parser.add_argument("--summary", type=Path, required=True)
     args = parser.parse_args()
@@ -121,6 +122,7 @@ def main() -> int:
             glasses_report=args.glasses_report,
             budget_report=args.budget_report,
             dynamic_trace=args.dynamic_trace,
+            runtime_budget_trace=args.runtime_budget_trace,
             budget_classification=args.budget_classification,
             surface_admission=args.surface_admission,
             glasses_candidate=args.glasses_candidate,

@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from native_batch_gate import (CHECK_TO_ADAPTER, GateError, budget_classification_index,
                                dynamic_trace_index, evaluate, glasses_candidate_index,
                                microphone_candidate_index, room_candidate_index,
-                               surface_admission_index)
+                               runtime_budget_trace_index, surface_admission_index)
 
 
 class NativeBatchGateTests(unittest.TestCase):
@@ -68,6 +68,16 @@ class NativeBatchGateTests(unittest.TestCase):
             self.assertIn('ordinaryPC', row['unmeasuredLayers'])
             self.assertFalse(row['budgetAdmission'])
             self.assertEqual(row['scope'].split(';')[-1].strip(), 'no admission')
+
+    def test_runtime_budget_trace_binds_exact_records_without_admission(self):
+        indexed = runtime_budget_trace_index(Path('evidence/m2-native-budget-runtime-4196-v4/report.json'))
+        self.assertEqual(len(indexed), 2)
+        for row in indexed.values():
+            self.assertEqual(row['admission']['runtimeAdmission'], False)
+            self.assertGreaterEqual(len(row['cases']), 1)
+            for case in row['cases']:
+                self.assertEqual(case['released'], case['baseline'])
+                self.assertGreater(case['summary']['frame']['count'], 0)
 
     def test_surface_static_identity_is_attached_without_runtime_clear(self):
         indexed = surface_admission_index(Path('evidence/m2-native-surface-texture-admission-v1/REPORT.json'))

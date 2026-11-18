@@ -1,0 +1,40 @@
+{
+  "schema": "native-admission-cycle-v1",
+  "status": "blocked",
+  "gate": {
+    "path": "evidence/m2-native-admission-cycle-v21/gate.json",
+    "sha256": "478734d1c39c9c4bc65fba2d1d4c7b7ccb9454fe473f25a4d7a8889ca8b43a20",
+    "bytes": 191120
+  },
+  "acceptedForRuntime": [],
+  "recordBatch": {
+    "path": "evidence/m2-native-admission-cycle-v21/records",
+    "batchRequest": {
+      "schema": "native-record-batch-request-v1",
+      "mode": "readiness-gated",
+      "sourceCatalog": {
+        "path": "prototype/src/native-production-catalog.json",
+        "sha256": "dcff06ca06d783ac1af2e123741d057e2e0ec9da0a9f3aa60ed621dec35bff07"
+      },
+      "items": [
+        {
+          "bodyType": "native-contour-roundness-a-v1",
+          "status": "rejected",
+          "runtimeAdmission": "pending",
+          "omittedCapabilities": [],
+          "reason": "runtime admission pending for native-contour-roundness-a-v1"
+        },
+        {
+          "bodyType": "native-contour-cheek-b-v1",
+          "status": "rejected",
+          "runtimeAdmission": "pending",
+          "omittedCapabilities": [],
+          "reason": "runtime admission pending for native-contour-cheek-b-v1"
+        }
+      ],
+      "acceptedCount": 0,
+      "rejectedCount": 2
+    }
+  },
+  "scope": "Prepared native batch admission and deterministic record planning; no visual or target-PC acceptance"
+}

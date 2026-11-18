@@ -510,6 +510,87 @@ def dynamic_trace_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, An
     return result
 
 
+def runtime_budget_trace_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
+    """Attach exact-record runtime budget measurements without granting admission.
+
+    The browser trace proves loader lifecycle and sampled frame/update/render
+    costs for the pinned build. It does not prove GPU bytes, ordinary-PC
+    performance, visual acceptance, or a passed four-layer budget report.
+    """
+    path = path.resolve()
+    require(path.is_file() and path.is_relative_to(root),
+            "Runtime budget trace must be inside repository")
+    report = read_json(path)
+    require(report.get("schema") == "native-runtime-budget-trace-v1",
+            "Unsupported runtime budget trace")
+    require(report.get("status") == "measured-development-only",
+            "Runtime budget trace must remain development-only")
+    require(not report.get("errors"), "Runtime budget trace contains page errors")
+    input_records = (report.get("input") or {}).get("records")
+    require(isinstance(input_records, list) and len(input_records) >= 2,
+            "Runtime budget trace input identities are incomplete")
+    by_id: dict[str, dict[str, Any]] = {}
+    for item in input_records:
+        item_id = item.get("id")
+        body_sha = item.get("bodySha256")
+        record_sha = item.get("recordSha256")
+        require(isinstance(item_id, str) and item_id and item_id not in by_id,
+                "Runtime budget trace input id is invalid or duplicated")
+        require(isinstance(body_sha, str) and SHA.fullmatch(body_sha),
+                "Runtime budget trace body identity is incomplete")
+        require(isinstance(record_sha, str) and SHA.fullmatch(record_sha),
+                "Runtime budget trace record identity is incomplete")
+        by_id[item_id] = item
+    result: dict[str, dict[str, Any]] = {}
+    for case in report.get("cases", []):
+        case_inputs = case.get("inputs")
+        require(isinstance(case_inputs, list) and case_inputs,
+                "Runtime budget trace case has no input identities")
+        for item in case_inputs:
+            item_id = item.get("id")
+            require(item_id in by_id and item == by_id[item_id],
+                    "Runtime budget trace case identity differs from input")
+        loaded = case.get("loaded") or {}
+        released = case.get("released") or {}
+        baseline = case.get("baseline") or {}
+        for key in ("textures", "geometries", "programs", "drawCalls", "triangles"):
+            require(isinstance(loaded.get(key), (int, float)) and loaded[key] >= 0,
+                    f"Runtime budget trace loaded {key} is missing")
+            require(released.get(key) == baseline.get(key),
+                    f"Runtime budget trace did not return {key} to baseline")
+        summary = case.get("summary") or {}
+        for metric in ("frame", "update", "render"):
+            sample = summary.get(metric) or {}
+            require(isinstance(sample.get("count"), int) and sample["count"] > 0,
+                    f"Runtime budget trace {metric} has no samples")
+        for item in case_inputs:
+            body_sha = item["bodySha256"]
+            case_entry = {
+                "caseId": case.get("ids"),
+                "build": case.get("build"),
+                "loadMs": case.get("loadMs"),
+                "loaded": loaded,
+                "released": released,
+                "baseline": baseline,
+                "summary": summary,
+            }
+            if body_sha not in result:
+                result[body_sha] = {
+                    "report": pin(path),
+                    "bodySha256": body_sha,
+                    "recordSha256": item["recordSha256"],
+                    "cases": [case_entry],
+                    "scope": "development runtime lifecycle and sampled timing; no GPU/ordinary-PC or visual admission",
+                    "admission": {"classification": "diagnostic-only", "runtimeAdmission": False},
+                }
+            else:
+                require(result[body_sha]["recordSha256"] == item["recordSha256"],
+                        "Runtime budget trace record identity differs across cases")
+                result[body_sha]["cases"].append(case_entry)
+    require(result, "Runtime budget trace has no bodies")
+    return result
+
+
 def budget_classification_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
     """Attach four-layer budget classification without granting admission."""
     path = path.resolve()
@@ -732,6 +813,7 @@ def evaluate(batch_path: Path, root: Path = ROOT,
              glasses_report: Path | None = None,
              budget_report: Path | None = None,
              dynamic_trace: Path | None = None,
+             runtime_budget_trace: Path | None = None,
              budget_classification: Path | None = None,
              surface_admission: Path | None = None,
              glasses_candidate: Path | None = None,
@@ -752,6 +834,7 @@ def evaluate(batch_path: Path, root: Path = ROOT,
     glasses_by_body = glasses_admission_index(glasses_report, root) if glasses_report else {}
     budget_by_body = budget_admission_index(budget_report, root) if budget_report else {}
     dynamic_by_body = dynamic_trace_index(dynamic_trace, root) if dynamic_trace else {}
+    runtime_budget_by_body = runtime_budget_trace_index(runtime_budget_trace, root) if runtime_budget_trace else {}
     budget_classification_by_body = budget_classification_index(budget_classification, root) if budget_classification else {}
     surface_by_body = surface_admission_index(surface_admission, root) if surface_admission else {}
     glasses_candidate_by_body = glasses_candidate_index(glasses_candidate, root) if glasses_candidate else {}
@@ -782,6 +865,8 @@ def evaluate(batch_path: Path, root: Path = ROOT,
             row["budgetAdmissionEvidence"] = budget_by_body[body_sha]
         if body_sha in dynamic_by_body:
             row["dynamicRuntimeTrace"] = dynamic_by_body[body_sha]
+        if body_sha in runtime_budget_by_body:
+            row["runtimeBudgetTrace"] = runtime_budget_by_body[body_sha]
         if body_sha in budget_classification_by_body:
             row["budgetClassification"] = budget_classification_by_body[body_sha]
         if body_sha in surface_by_body:
@@ -852,6 +937,7 @@ def main() -> int:
     parser.add_argument("--glasses-report", type=Path)
     parser.add_argument("--budget-report", type=Path)
     parser.add_argument("--dynamic-trace", type=Path)
+    parser.add_argument("--runtime-budget-trace", type=Path)
     parser.add_argument("--budget-classification", type=Path)
     parser.add_argument("--surface-admission", type=Path)
     parser.add_argument("--glasses-candidate", type=Path)
@@ -863,6 +949,7 @@ def main() -> int:
                           microphone_report=args.microphone_report, adaptation_report=args.adaptation_report,
                           runtime_head_audit=args.runtime_head_audit, glasses_report=args.glasses_report,
                           budget_report=args.budget_report, dynamic_trace=args.dynamic_trace,
+                          runtime_budget_trace=args.runtime_budget_trace,
                           budget_classification=args.budget_classification,
                           surface_admission=args.surface_admission,
                           glasses_candidate=args.glasses_candidate,

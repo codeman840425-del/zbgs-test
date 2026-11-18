@@ -131,3 +131,7 @@
 2026-11-18 变体批量入口已接入生产链：`scripts/production/variant_batch.py` 将美术方的统一参数结果映射为精确 `styleId/bodyType/variantVersion` 请求，资源文件闭包和 runtime admission 任一不满足就逐项拒绝。当前代表矩阵四项均因 candidate 状态被拒绝，`evidence/m2-variant-batch-plan-v2/plan.json` 记录 0 accepted。该入口已经能作为未来随机组合的共同下游，不改变当前准入闸门，也不把候选资源变成游戏可用角色。
 2026-11-18 4196 已更新为批量准入预览构建 `31898f47ce75`，固定入口仍为 `http://127.0.0.1:4196/?body=female&workbench=appearance&view=inspect-face-front`。检查区现在显示每个基模的代表批量计划和可生成数量，当前女性与男性代表矩阵均为 candidate、可生成 0 项。该端口继续作为人类预览，不是游戏交付包。
 2026-11-18 批量入口新增配方身份校验：runtime-admitted 资源必须同时绑定 `recipeSha256`、body SHA、fit/coverage 和资源闭包，才会生成角色请求。代表批次重跑 `evidence/m2-variant-batch-plan-v3/plan.json` 仍被四项 candidate 逐项拒绝；当前准入结论不变。
+
+2026-11-18 运行时预算共同接缝：修复 `scripts/qa-record-budget-runtime.cjs` 对双记录输入的分组错误，并让报告记录精确 body/record SHA。固定 4196 构建 `31898f47ce75` 的两份 FaceContour 记录分别和双实例组合完成约 12 秒采样，单体为 48 textures/31 geometries/36 draw calls/79,690 triangles，双实例为 95/61/71/159,378；释放后均回到 `1/1/1/1` 基线，frame p95 约 6.2ms。证据 `evidence/m2-native-budget-runtime-4196-v4/report.json`，仅代表开发机 Chrome/RTX4090，不代表普通电脑或 GPU 字节预算。
+
+`native_batch_gate.py` 和 `native_admission_cycle.py` 新增 `--runtime-budget-trace`，按 body/record/build 身份附加该诊断证据并保持 `runtimeAdmission=false`。`evidence/m2-native-admission-cycle-v21/summary.json` 最新结果仍为 `blocked`，两个候选各保留 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture` 四项待办。
