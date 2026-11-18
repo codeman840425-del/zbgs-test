@@ -1,0 +1,127 @@
+{
+  "input": {
+    "floors": [
+      {
+        "id": "ground",
+        "name": "一层",
+        "rooms": [
+          {
+            "id": "live",
+            "name": "直播间",
+            "purpose": "streaming",
+            "stations": 1
+          },
+          {
+            "entry": [
+              0,
+              0,
+              0
+            ],
+            "id": "dance-training",
+            "name": "歌舞训练室",
+            "purpose": "training"
+          },
+          {
+            "id": "rest",
+            "name": "休息间",
+            "purpose": "rest",
+            "sofaVersion": 1
+          }
+        ]
+      }
+    ],
+    "id": "concept-dance-training-rental",
+    "name": "概念图二 · 整套房歌舞训练区",
+    "scale": "rental-home",
+    "spaceProfile": {
+      "id": "company-space-v2",
+      "version": 1
+    }
+  },
+  "key": "rental-training-room",
+  "operations": [
+    {
+      "finish": {
+        "resource": {
+          "id": "floor-offset-plank",
+          "version": 1
+        }
+      },
+      "id": "concept-dance-training-rental/ground/dance-training",
+      "surface": "floor",
+      "type": "set-surface-finish"
+    },
+    {
+      "id": "concept-dance-training-rental/ground/dance-training/mirror",
+      "parentId": "concept-dance-training-rental/ground/dance-training",
+      "resource": {
+        "id": "mirror-full",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.5,
+          1.4,
+          -1.9
+        ],
+        "yaw": 0
+      },
+      "type": "add-facility"
+    },
+    {
+      "id": "concept-dance-training-rental/ground/dance-training/background",
+      "parentId": "concept-dance-training-rental/ground/dance-training",
+      "resource": {
+        "id": "background-soft-panel",
+        "version": 1
+      },
+      "state": {
+        "visible": true
+      },
+      "transform": {
+        "position": [
+          0.35,
+          0,
+          1.65
+        ],
+        "yaw": 3.141592653589793
+      },
+      "type": "add-facility"
+    },
+    {
+      "id": "concept-dance-training-rental/ground/dance-training/rug",
+      "parentId": "concept-dance-training-rental/ground/dance-training",
+      "resource": {
+        "id": "rug-border",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.59,
+          0,
+          0.25
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "type": "add-facility"
+    }
+  ],
+  "trainingClearance": {
+    "activity": {
+      "clearHeight": 2.2,
+      "maxX": 1,
+      "maxZ": 1.25,
+      "minX": -1.25,
+      "minZ": -1.25
+    },
+    "entry": {
+      "clearHeight": 2.2,
+      "maxX": -1.15,
+      "maxZ": 0.5,
+      "minX": -2.25,
+      "minZ": -0.5,
+      "portalId": "concept-dance-training-rental/ground/portal-work-living"
+    },
+    "roomId": "concept-dance-training-rental/ground/dance-training"
+  }
+}

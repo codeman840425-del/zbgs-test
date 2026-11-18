@@ -1,0 +1,42 @@
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {spawnSync} from 'node:child_process';
+const [packageArg, outArg] = process.argv.slice(2);
+if (!packageArg || !outArg) throw Error('Usage: node verify-handoff.mjs PACKAGE NEW_RESULT_DIRECTORY');
+const root = path.resolve(packageArg), output = path.resolve(outArg);
+await fs.mkdir(output);
+const save = path.join(root, 'data/save.json');
+const bytes = await fs.readFile(save);
+const doc = JSON.parse(bytes).document;
+const constraint = JSON.parse(await fs.readFile(path.join(root, 'transfer-manifest.json'), 'utf8')).savedCompany.trainingClearance;
+const id = constraint.roomId+'/background';
+const scope = constraint.entry;
+const x = (scope.minX + scope.maxX)/2, z = (scope.minZ + scope.maxZ)/2;
+const run = (...args) => spawnSync(process.execPath, [path.join(root,'edit.mjs'), ...args], {cwd:root, encoding:'utf8'});
+function check(runResult, expected) {
+  const result = JSON.parse(runResult.status === 0 ? runResult.stdout : runResult.stderr);
+  assert.equal(runResult.status, expected ? 1 : 0, JSON.stringify(result));
+  if (expected) assert.equal(result.code,expected, JSON.stringify(result));
+  return result;
+}
+const forbidden = [{type:'move',id,transform:{position:[x,0,z],yaw:Math.PI/2}}];
+const invalidFile = path.join(output,'invalid.ops.json'), invalidOut = path.join(output,'invalid-result');
+await fs.writeFile(invalidFile, JSON.stringify(forbidden));
+const failed = check(run('apply',save,invalidFile,invalidOut),'training-clearance-obstructed');
+await assert.rejects(fs.stat(invalidOut), {code:'ENOENT'});
+assert.equal(failed.path,id);
+const tampered = structuredClone(doc);
+tampered.nodes.find(n=>n.id===id).transform = forbidden[0].transform;
+const imported = path.join(output,'invalid.layout.json'); await fs.writeFile(imported,JSON.stringify(tampered));
+const failedImport=check(run('validate',imported),'training-clearance-obstructed');
+const allowed = path.join(output,'valid.ops.json'), validOut = path.join(output,'valid-result');
+await fs.writeFile(allowed, JSON.stringify([{type:'set-state',id,state:{visible:false}}]));
+check(run('apply',save,allowed,validOut));
+check(run('validate',path.join(validOut,'save.json')));
+const edited=JSON.parse(await fs.readFile(path.join(validOut,'save.json'),'utf8')).document;
+assert.equal(edited.nodes.find(n=>n.id===id).state.visible,false);
+assert.deepEqual(await fs.readFile(save),bytes);
+console.log(JSON.stringify({status:'passed', source:doc.id, originalRevision:doc.revision, newRevision:edited.revision,
+  savedBytesSha256:createHash('sha256').update(bytes).digest('hex'), attemptedMove:forbidden, refused:failed, refusedImport:failedImport, invalidOutputCreated:false},null,2));

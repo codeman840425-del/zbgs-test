@@ -1,0 +1,514 @@
+{
+  "dependencies": {
+    "resources": [
+      {
+        "id": "background-soft-panel",
+        "sha256": "3b0b0c8de5edae107a3fa2e59a9a532885ba8c50ee60575d848cf3d5a76ebe8a",
+        "version": 1
+      },
+      {
+        "id": "chair",
+        "sha256": "85593a00831a465019d57cf167cb7728bea6eb8b4df921f637f6720247d48c07",
+        "version": 1
+      },
+      {
+        "id": "desk-microphone",
+        "sha256": "c519d0db034673cdc1d02de653ee8a5e6540d9aee355b7668a62629d2d27e853",
+        "version": 1
+      },
+      {
+        "id": "desk",
+        "sha256": "938b3904b32bb89d6fe18518b50619adeb93fe0b1e9408a4b1e3d400735163d8",
+        "version": 1
+      },
+      {
+        "id": "fill-light",
+        "sha256": "52a149c6017acf6ca35b5987c651870c353bc036f299e1fdbc1e037955d3bd4b",
+        "version": 1
+      },
+      {
+        "id": "floor-offset-plank",
+        "sha256": "a25970c816dc790248c977f521b3e3fc10319a50e56764dd12b43b2eb0d45926",
+        "version": 1
+      },
+      {
+        "id": "keyboard",
+        "sha256": "52423572c215536ef73c6daf96157912893f661000b9ca741dc35051a4b7d9d9",
+        "version": 1
+      },
+      {
+        "id": "lounge-sofa",
+        "sha256": "5b3f849b65c64498d407f4023fd18044fdb73518248f1adc2e24cacd803f5e0c",
+        "version": 1
+      },
+      {
+        "id": "mirror-full",
+        "sha256": "0895044535670b8a577fb12eae518b915024da5328efdac4ada52397ee21be84",
+        "version": 1
+      },
+      {
+        "id": "monitor",
+        "sha256": "cc761bf4e4fc786e1cccdfef1af1f4ec01a4f0049a3b142733091c0bf66f4fd0",
+        "version": 1
+      },
+      {
+        "id": "plant",
+        "sha256": "f0877f5dc9065d5d67ad4728c356625d4d30412044badefd4846e794b0b96765",
+        "version": 1
+      },
+      {
+        "id": "rug-border",
+        "sha256": "d466deee78b37a8300122f089a2a9b4b666148d5905e81da98edeff1b4d810ce",
+        "version": 1
+      }
+    ],
+    "templates": [
+      {
+        "id": "stream-station",
+        "sha256": "47dc0c9ae9e042c8e36a728022536ad2abbded2c7afebf314e8cf8105a74bdbc",
+        "version": 1
+      }
+    ]
+  },
+  "document": {
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "id": "concept-dance-training-rental",
+    "name": "概念图二 · 整套房歌舞训练区",
+    "nodes": [
+      {
+        "connections": [
+          {
+            "from": {
+              "edge": "east",
+              "offset": 0,
+              "regionId": "concept-dance-training-rental/ground/live",
+              "width": 1.4
+            },
+            "id": "concept-dance-training-rental/ground/portal-stream-living",
+            "to": {
+              "edge": "west",
+              "offset": 0,
+              "regionId": "concept-dance-training-rental/ground/living",
+              "width": 1.4
+            }
+          },
+          {
+            "from": {
+              "edge": "west",
+              "offset": 0,
+              "regionId": "concept-dance-training-rental/ground/dance-training",
+              "width": 1.4
+            },
+            "id": "concept-dance-training-rental/ground/portal-work-living",
+            "to": {
+              "edge": "east",
+              "offset": 0,
+              "regionId": "concept-dance-training-rental/ground/living",
+              "width": 1.4
+            }
+          },
+          {
+            "from": {
+              "edge": "north",
+              "offset": 0,
+              "regionId": "concept-dance-training-rental/ground/rest",
+              "width": 1.4
+            },
+            "id": "concept-dance-training-rental/ground/portal-rest-living",
+            "to": {
+              "edge": "south",
+              "offset": 0,
+              "regionId": "concept-dance-training-rental/ground/living",
+              "width": 1.4
+            }
+          }
+        ],
+        "id": "concept-dance-training-rental/ground",
+        "kind": "floor",
+        "name": "一层",
+        "parentId": "concept-dance-training-rental",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "bounds": {
+          "depth": 4,
+          "width": 4.5
+        },
+        "entry": {
+          "position": [
+            -1.8,
+            0,
+            1.5
+          ]
+        },
+        "id": "concept-dance-training-rental/ground/live",
+        "kind": "room",
+        "name": "直播间",
+        "parentId": "concept-dance-training-rental/ground",
+        "purpose": "streaming",
+        "transform": {
+          "position": [
+            -4.5,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "bounds": {
+          "depth": 4,
+          "width": 4.5
+        },
+        "entry": {
+          "position": [
+            0,
+            0,
+            0
+          ]
+        },
+        "finishes": {
+          "floor": {
+            "resource": {
+              "id": "floor-offset-plank",
+              "version": 1
+            }
+          }
+        },
+        "id": "concept-dance-training-rental/ground/dance-training",
+        "kind": "room",
+        "name": "歌舞训练室",
+        "parentId": "concept-dance-training-rental/ground",
+        "purpose": "training",
+        "transform": {
+          "position": [
+            4.5,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "bounds": {
+          "depth": 4,
+          "width": 4.5
+        },
+        "entry": {
+          "position": [
+            1.7,
+            0,
+            1.4
+          ]
+        },
+        "id": "concept-dance-training-rental/ground/rest",
+        "kind": "room",
+        "name": "休息间",
+        "parentId": "concept-dance-training-rental/ground",
+        "purpose": "rest",
+        "transform": {
+          "position": [
+            0,
+            0,
+            4
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "bounds": {
+          "depth": 4,
+          "width": 4.5
+        },
+        "entry": {
+          "position": [
+            -1.6,
+            0,
+            1.5
+          ]
+        },
+        "id": "concept-dance-training-rental/ground/living",
+        "kind": "area",
+        "name": "公共客厅",
+        "parentId": "concept-dance-training-rental/ground",
+        "publicRole": "living",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-dance-training-rental/ground/live/station-1",
+        "kind": "workstation",
+        "name": "concept-dance-training-rental/ground/live/station-1",
+        "parentId": "concept-dance-training-rental/ground/live",
+        "template": {
+          "id": "stream-station",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.5
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-dance-training-rental/ground/live/station-1/desk",
+        "kind": "facility",
+        "parentId": "concept-dance-training-rental/ground/live/station-1",
+        "partKey": "desk",
+        "resource": {
+          "id": "desk",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "concept-dance-training-rental/ground/live/station-1",
+        "transform": {
+          "position": [
+            0,
+            0,
+            -0.9
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-dance-training-rental/ground/live/station-1/monitor",
+        "kind": "facility",
+        "parentId": "concept-dance-training-rental/ground/live/station-1/desk",
+        "partKey": "monitor",
+        "resource": {
+          "id": "monitor",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "concept-dance-training-rental/ground/live/station-1",
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-dance-training-rental/ground/live/station-1/keyboard",
+        "kind": "facility",
+        "parentId": "concept-dance-training-rental/ground/live/station-1/desk",
+        "partKey": "keyboard",
+        "resource": {
+          "id": "keyboard",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "concept-dance-training-rental/ground/live/station-1",
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.21
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-dance-training-rental/ground/live/station-1/microphone",
+        "kind": "facility",
+        "parentId": "concept-dance-training-rental/ground/live/station-1/desk",
+        "partKey": "microphone",
+        "resource": {
+          "id": "desk-microphone",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "concept-dance-training-rental/ground/live/station-1",
+        "transform": {
+          "position": [
+            -0.8,
+            0.84,
+            0.18
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-dance-training-rental/ground/live/station-1/chair",
+        "kind": "facility",
+        "parentId": "concept-dance-training-rental/ground/live/station-1",
+        "partKey": "chair",
+        "resource": {
+          "id": "chair",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "concept-dance-training-rental/ground/live/station-1",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        }
+      },
+      {
+        "id": "concept-dance-training-rental/ground/live/station-1/fill-light",
+        "kind": "facility",
+        "parentId": "concept-dance-training-rental/ground/live/station-1",
+        "partKey": "fill-light",
+        "resource": {
+          "id": "fill-light",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "concept-dance-training-rental/ground/live/station-1",
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.15
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-dance-training-rental/ground/rest/sofa",
+        "kind": "facility",
+        "parentId": "concept-dance-training-rental/ground/rest",
+        "resource": {
+          "id": "lounge-sofa",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.55
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-dance-training-rental/ground/living/sofa",
+        "kind": "facility",
+        "parentId": "concept-dance-training-rental/ground/living",
+        "resource": {
+          "id": "lounge-sofa",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            0,
+            0,
+            -0.45
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-dance-training-rental/ground/living/plant",
+        "kind": "facility",
+        "parentId": "concept-dance-training-rental/ground/living",
+        "resource": {
+          "id": "plant",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            1.55,
+            0,
+            -1
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-dance-training-rental/ground/dance-training/mirror",
+        "kind": "facility",
+        "parentId": "concept-dance-training-rental/ground/dance-training",
+        "resource": {
+          "id": "mirror-full",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            -0.5,
+            1.4,
+            -1.9
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-dance-training-rental/ground/dance-training/background",
+        "kind": "facility",
+        "parentId": "concept-dance-training-rental/ground/dance-training",
+        "resource": {
+          "id": "background-soft-panel",
+          "version": 1
+        },
+        "state": {
+          "visible": true
+        },
+        "transform": {
+          "position": [
+            0.35,
+            0,
+            1.65
+          ],
+          "yaw": 3.141592653589793
+        }
+      },
+      {
+        "id": "concept-dance-training-rental/ground/dance-training/rug",
+        "kind": "facility",
+        "parentId": "concept-dance-training-rental/ground/dance-training",
+        "resource": {
+          "id": "rug-border",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            1.59,
+            0,
+            0.25
+          ],
+          "yaw": 1.5707963267948966
+        }
+      }
+    ],
+    "revision": 2,
+    "scale": "rental-home",
+    "schema": "company-layout",
+    "spaceProfile": {
+      "id": "company-space-v2",
+      "version": 1
+    },
+    "version": 1
+  },
+  "schema": "company-save",
+  "version": 1
+}

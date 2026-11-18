@@ -1,0 +1,15 @@
+训练房批产与移交
+
+固定源码 ce7ed09e1f998b5c9a90d9043f9a0c6b5c28796f，查看器版本 76854ce901e1。交付包 F:/gamemake-company-training-delivery-v1。本包变更在配方、生产检查和交付端编辑命令。查看器运行文件沿用已发布构建。
+在交付包目录打开 README.md，房间实际数据见 data/save.json。可通过公司预览的“文件 → 加载文件”打开。第二个完整输入见本证据目录 batch/upper-floor-training-room/save.json。
+
+在包内 source/prototype 执行 npm ci。然后从交付包根目录执行：
+node source/scripts/company-platform/batch.mjs source/scripts/company-platform/batch-inputs/dance-training-rooms.json NEW_TRAINING_OUTPUT
+node edit.mjs validate data/save.json
+node source/scripts/company-platform/test-training-clearance.mjs
+node source/scripts/company-platform/qa-dance-training-rooms.cjs viewer 76854ce901e1 NEW_TRAINING_OUTPUT source/scripts/company-platform/batch-inputs/dance-training-rooms.json NEW_QA_DIRECTORY --record
+可用本目录 verify-handoff.mjs 复查非法编辑不发布。
+
+西门通客厅的一层训练室活动区 2.25×2.50m，南门通走廊的二层训练室活动区 3.00×3.00m，两处保留 2.20m 净高和 1.00m 宽通道。每份输出含布局、全公司存档、原配方、包含实际木地板 GLB 的依赖清单。固定/独立批次 8 个文件逐字节一致，独立 npm 安装与重建后 469 个环境运行文件与固定查看器逐一相同。固定浏览器 5 项（含连续录制），独立浏览器 4 项，实测关后台后重新打开并比较背景设备状态。7.96 秒录像，1600×1000，25 fps。
+
+CPU 净空检查按当前静态设施状态、已登记阻挡与真实网格表面判断；非阻挡封闭网格的内部实心部分、动态运动扫掠、演员身体和衣物适配另行验证。样件用于空间制作与通路检查。软件渲染不作为普通电脑性能结论。
