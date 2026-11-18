@@ -88,12 +88,12 @@ Agent 可以在制作阶段编辑内部网格和骨骼组，但交付给运行�
 
 ## 统一参数到批量角色请求
 
-美术 Agent 的输出先落为资源矩阵行，再由 `scripts/production/variant_batch.py` 生成角色请求。最小组合键是 `bodyType + styleId + variantVersion`，请求还必须带稳定 `stableId`。同一身体和款式可以存在多个明确版本，版本缺失、重复或请求版本不匹配都会拒绝。矩阵行保存身体 SHA、参数配方 SHA、资源/fit/coverage 引用及对应哈希，候选行可以进入审查和预览，只有带 `admissionEvidence`、参数配方身份且状态为 `runtime-admitted` 的行才会生成 `character-production-request-v1`。
+美术 Agent 的输出先落为资源矩阵行，再由 `scripts/production/variant_batch.py` 生成角色请求。最小组合键是 `bodyType + styleId + variantVersion`，请求还必须带稳定 `stableId`。同一身体和款式可以存在多个明确版本，版本缺失、重复或请求版本不匹配都会拒绝。矩阵行保存身体 SHA、参数配方 SHA、资源/fit/coverage 引用及对应哈希，候选行可以进入审查和预览，正式生产要求匹配已审核的款式版本、身体与完整穿搭。显式诊断模式可以生成候选请求，单独保存在 `diagnostic-requests/`。
 
 概念图或美术预览先使用 `scripts/production/look_spec.py` 的 `zbgs-avatar-look-spec-v1` 作为输入边界。它要求明确身体变体、脸型、发型、颜色、装备角色、附件挂点和来源模式。`concept-reference` 只表示待制作的参考请求，`structured-asset` 必须携带精确身体 SHA、源配方与资源清单哈希；它不会从图片推断网格、权重或服装版型。规划结果会对每个装备按精确 `bodyType + styleId + variantVersion` 查表，并核对结构化资源的身体 SHA，缺失、错配或未准入时逐项拒绝，避免把“看起来相似”的概念图直接当成可运行角色。
 
 当前输入格式只携带一份装备清单哈希。同一文件中的多个条目可组成套装；跨文件组合、任一件身体或配方哈希错配会拒绝整套。命令行同时复算装备清单文件哈希。脸、发、各颜色和附件的待核项逐域返回，装备全部匹配时整套仍保留候选身份。可用 `evidence/m2-look-intake-v3` 对照两份真实输入。
 
-该入口是确定性批量生产接缝，不负责从概念图推断网格、权重或服装版型，也不根据相似名称跨身体 fallback。未来的随机角色只负责在已准入矩阵行中选择组合，再复用同一入口生成记录。当前代表矩阵的旧 M1 男女样件与两个真实原生参数 bodyType 共八项仍为 candidate，实际计划 `evidence/m2-native-variant-batch-v2/plan.json` 为 0 accepted，这是资源准入不足的真实结果。
+共用穿搭请求只填写一次 `styleId + variantVersion + outfitRole`，每个主播保留自己的身份和身体。平台展开该身体整套装备的槽位、资源 ID 和 SHA，游戏制作端再次匹配完整集合。代表矩阵现含十行；固定构建 7809b98bd700 上，男女两个既有基模生成并恢复了裤袜造型，缺少同款适配的原生男体被单独拒绝。正式放行数量和证据以 CAPABILITIES 为准。
 
 原生虹膜款式的重复生产输入见 scripts/production/native-facecontour-iris-batch-v1.json。每个身体条目提供身体与包来源的精确版本；native_palette_compatibility.py --stage、--publish、--check-published 依次生成、发布并回读。检查实际虹膜 UV、材质、图片及同图其他消费者后才复用作者款式。登记表随匹配结果生成，原色记录仍按原配方恢复。正式资源适用的许可与运行预算必须单独满足。

@@ -101,6 +101,17 @@ node scripts/character-production-cli.cjs --dist experiments/m2-native-skin-4f43
 
 一次请求使用一个后台浏览器，每项沿单条 D02 执行资源准备、编辑和游戏角色恢复。回读核对身份、修订、完整造型、装备、后发适配和资源散列。全部成功并关闭浏览器后，原子写入新数组。失败回执的 `itemIndex` 从 0 开始，`recordId` 指明角色，操作级错误保留 `editIndex` 与 `field`。此前项的诊断保存在证据目录，失败批次不发布数组。适配和资源可用性继续按选定固定构建的逐体登记判断。
 
+## 用共用穿搭配方新建角色
+
+在仓库根目录运行。实际样件 `shared-crew-socks-request.json` 只写一次款号、版本和穿搭要求，逐人指定身体与身份。规划器读取已登记的套装，按实际身体展开上衣、下装、鞋、袜的精确资源。生产端收到请求时再核对身体和完整装备集合，索引顺序变化时仍选中同一套。此次登记为候选，故下例显式使用诊断模式。
+
+```powershell
+python -B scripts/production/variant_batch.py assets-source/variant-matrix-v1/representative-matrix.json assets-source/variant-matrix-v1/shared-crew-socks-request.json --root . --output output/shared-socks-plan --diagnostic
+node scripts/character-production-cli.cjs --dist experiments/m2-shared-look-d02-v1/dist --request output/shared-socks-plan/diagnostic-requests/create-001.batch.json --out output/shared-socks-hosts.json --evidence output/shared-socks-create-review
+```
+
+每个 `creationBatches` 条目列出请求文件、校验摘要和稳定角色 ID。每组 1–4 人，成功结果可直接作为 `game-record-cli --records` 输入。缺少版型的身体在计划中单独拒绝。执行期间发生资源错误时，整组不写角色数组，回执指出失败项，可用单项请求重试。重跑请使用新的输出路径。省略 `--diagnostic` 后，当前袜装没有正式放行项。实际游戏回读和录像见 `evidence/m2-shared-look-batch-v2/`。
+
 ## 参数批产接缝：离线包准备
 
 ```powershell

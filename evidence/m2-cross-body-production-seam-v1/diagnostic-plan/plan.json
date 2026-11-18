@@ -1,0 +1,119 @@
+{
+  "schema": "zbgs-style-variant-batch-plan-v1",
+  "batchId": "cross-body-pants-socks-v1",
+  "mode": "technical-candidate",
+  "items": [
+    {
+      "status": "candidate",
+      "stableId": "pants-socks-female",
+      "selection": {
+        "styleId": "uniform-top-v1",
+        "variantVersion": "v1",
+        "bodySha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+        "recipeSha256": null,
+        "resourceManifest": "/assets/m1/equipment.json#m1-uniform-top",
+        "resourceManifestSha256": "6b2e784326566008668978932be6d6def603bd2c09f4e6732200a4195b905bea",
+        "fitManifest": "/assets/m1/equipment.json#m1-uniform-top.fitId",
+        "coverageManifest": "/assets/body-coverage-risk-v1/female-top.json",
+        "coverageManifestSha256": "800d528d1b05f43e1230571ed57acb443d5ac9c3467775867b0635aca0b97b07",
+        "admissionEvidence": null,
+        "outfit": {
+          "role": "pants-socks",
+          "equipment": [
+            {
+              "id": "m1-uniform-top",
+              "slot": "top",
+              "sha256": "27bcfe020828ad2603f618fabf7f21cf1b09f66035c8ecd740e78cfc3650b9d6"
+            },
+            {
+              "id": "m1-uniform-shoes",
+              "slot": "shoes",
+              "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+            },
+            {
+              "id": "m1-training-pants",
+              "slot": "bottom",
+              "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+            },
+            {
+              "id": "female-plain-crew-socks-v1",
+              "slot": "socks",
+              "sha256": "369d0b66dcc65f65a9bfd7cdcf16aa650d671207f679aec7b637cbac7d076ac4"
+            }
+          ]
+        }
+      },
+      "requestPin": {
+        "path": "diagnostic-requests/pants-socks-female.request.json",
+        "sha256": "25b110728479e6cef366fb913cdfe58c11b6c11b3be0d4226a86fd17901d8eec",
+        "bytes": 298
+      }
+    },
+    {
+      "status": "candidate",
+      "stableId": "pants-socks-male",
+      "selection": {
+        "styleId": "uniform-top-v1",
+        "variantVersion": "v1",
+        "bodySha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+        "recipeSha256": null,
+        "resourceManifest": "/assets/m1b/equipment.json#m1b-uniform-top",
+        "resourceManifestSha256": "baacba8b947cbbc4d4cb5658177e8449a95ff93b80555eedb62f2e0e576b70d2",
+        "fitManifest": "/assets/m1b/equipment.json#m1b-uniform-top.fitId",
+        "coverageManifest": "/assets/m2-garment-coverage-v1/coverage-mask.json",
+        "coverageManifestSha256": "9da63589879a129aacddded37d9dfcc60d7f32364a394c316737c9999f65bfc6",
+        "admissionEvidence": null,
+        "outfit": {
+          "role": "pants-socks",
+          "equipment": [
+            {
+              "id": "m1b-uniform-top",
+              "slot": "top",
+              "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c"
+            },
+            {
+              "id": "m1b-uniform-shoes",
+              "slot": "shoes",
+              "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f"
+            },
+            {
+              "id": "m1b-uniform-pants",
+              "slot": "bottom",
+              "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c"
+            },
+            {
+              "id": "male-plain-crew-socks-v1",
+              "slot": "socks",
+              "sha256": "072863568fba26e08f489f4a983f55b61889ee57c14257847e857ce0e24d9549"
+            }
+          ]
+        }
+      },
+      "requestPin": {
+        "path": "diagnostic-requests/pants-socks-male.request.json",
+        "sha256": "f1805b1a3ace1ac946b98ce8998e8cc601c6e9257deb0c35ecf42ee92f46e9c5",
+        "bytes": 290
+      }
+    },
+    {
+      "status": "rejected",
+      "reason": "No exact variant for uniform-top-v1/native-male-7586-v1/v1",
+      "stableId": "native-male-missing-variant"
+    }
+  ],
+  "acceptedCount": 0,
+  "candidateCount": 2,
+  "rejectedCount": 1,
+  "source": {
+    "matrix": {
+      "path": "assets-source/variant-matrix-v1/representative-matrix.json",
+      "sha256": "d68eec672bb3a84def9a40dbccf06dbe8735b52cdbf9d5b1873bf4da7248646e",
+      "bytes": 9586
+    },
+    "request": {
+      "path": "evidence/m2-cross-body-production-seam-v1/diagnostic-batch.json",
+      "sha256": "3f07f56da4a949f6bd70d017a7546ba3a3091c079b42627f4b7353d3e8a97ca8",
+      "bytes": 3275
+    }
+  }
+}

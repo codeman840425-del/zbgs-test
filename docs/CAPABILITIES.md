@@ -14,6 +14,8 @@
 
 ## 当前交付与阶段边界
 
+- 角色批量新建已在 `7809b98bd700` 实测。一份中筒袜配方在基础女、男两体各解析出四件对应装备，生成两份独立 rev1 记录。共用游戏包 44 文件，关页重开还原两人，房间走、坐、起、离位各约 17 秒。第三具原生男性缺匹配版型，明确拒绝；篡改第二人的袜子 SHA 后，整批未发布。女性源体长袜色块仍在，男性长裤遮住部分袜层，普通机、第三体和正式发布准入待验。见 `evidence/m2-shared-look-batch-v2/index.html`。
+
 - 双角色纹理复用。构建 `8b41452b51c7` 在两份女性 FaceContour 游戏记录上共享身体法线 GPU 句柄，角色各自保留独立材质和 Texture。双人总纹理计数从 100 到 99，两种卸载顺序均回到空场景的 1；卸载同伴前后与旧构建共六幅同姿势图逐像素一致。独立游戏包 56 文件、两人讲话及关闭重开已验。实际显存字节、普通机及其他材质待验。见 evidence/m2-body-normal-lifetime-after-v1、evidence/m2-native-lip-consumer-gpu-budget-v1。
 
 - 同配方批量改已有角色记录已通过两名女性 FaceContour 实例。请求支持 1–4 条；测试中第二条不兼容时整批无输出，原记录与已有目标文件保留。详见 evidence/m2-native-production-batch-edit-v1/summary.json。

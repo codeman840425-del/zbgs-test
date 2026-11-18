@@ -31,13 +31,14 @@ async function outputPaths(output,evidence){
  return{out,evidence:dir};
 }
 const BATCH_SCHEMA='character-production-batch-edit-v1';
+const BATCH_CREATE_SCHEMA='character-production-batch-create-v1';
 const SINGLE_BYTES=1024*1024;
 const MAX_BYTES=SINGLE_BYTES+4*512*1024;
 
 function parseRequest(bytes){
  if(bytes.length>MAX_BYTES)throw Error('Production request too large');
  const value=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(bytes));
- if(value?.schema!==BATCH_SCHEMA&&bytes.length>SINGLE_BYTES)throw Error('Single production request exceeds 1 MiB');
+ if(value?.schema!==BATCH_SCHEMA&&value?.schema!==BATCH_CREATE_SCHEMA&&bytes.length>SINGLE_BYTES)throw Error('Single production request exceeds 1 MiB');
  return value;
 }
 
@@ -64,7 +65,36 @@ async function batchEdits(input){
  }
  return input.records.map(record=>({schema:'character-production-request-v1',operation:'edit',record,edits:input.edits}));
 }
-module.exports={outputPaths,parseRequest,batchEdits,itemError,BATCH_SCHEMA};
+
+async function batchCreates(input){
+ const fail=(message,field)=>Object.assign(Error(message),{code:'invalid-batch-create',field});
+ if(input.schema!==BATCH_CREATE_SCHEMA||Object.keys(input).some(key=>!['schema','requests'].includes(key))||
+    !Array.isArray(input.requests)||input.requests.length<1||input.requests.length>4)
+  throw fail('Batch create requires 1–4 complete create requests','requests');
+ const {isSafeCharacterRecordId}=await import('../prototype/src/character-record.js');
+ const seen=new Set();
+ for(const [index,job] of input.requests.entries()){
+  const id=job?.identity?.id;
+  try{
+   if(job?.schema!=='character-production-request-v1'||job.operation!=='create'||
+      Object.keys(job).some(key=>!['schema','operation','identity','bodyType','nativeHairCenter','edits'].includes(key)))
+    throw fail('Expected a character-production-request-v1 create request','request');
+   if(Buffer.byteLength(JSON.stringify(job))>SINGLE_BYTES)throw fail('Single production request exceeds 1 MiB','request');
+   if(typeof job.bodyType!=='string'||!job.bodyType)throw fail('Create requires an explicit body','bodyType');
+   if(!isSafeCharacterRecordId(id)||id==='manifest'||seen.has(id))
+    throw fail('Invalid, duplicate or reserved game record identity','identity.id');
+   if(Object.keys(job.identity).some(key=>!['id','gender','name'].includes(key)))throw fail('Unsupported identity field','identity');
+   for(const [key,max] of [['name',160],['gender',40]]){
+    const value=job.identity[key];
+    if(typeof value!=='string'||!value.length||value.length>max)throw fail('Invalid identity '+key,'identity.'+key);
+   }
+   if(job.edits!==undefined&&(!Array.isArray(job.edits)||job.edits.length>32))throw fail('Invalid create edits','edits');
+   seen.add(id);
+  }catch(error){throw itemError(error,index,id);}
+ }
+ return input.requests;
+}
+module.exports={outputPaths,parseRequest,batchEdits,batchCreates,itemError,BATCH_SCHEMA,BATCH_CREATE_SCHEMA};
 
 if(require.main===module)(async()=>{
  const {values}=parseArgs({options:{dist:{type:'string'},request:{type:'string'},out:{type:'string'},evidence:{type:'string'}},strict:true,allowPositionals:false});

@@ -86,6 +86,10 @@ class VariantMatrixTests(unittest.TestCase):
             })
             data = {"schema": "zbgs-style-variant-matrix-v1", "styles": [{"styleId": "dress", "variants": [row]}]}
             self.assertEqual(validate_matrix_files(data, root), [])
+            row['fitManifestSha256'] = '0' * 64
+            self.assertTrue(any('fitManifest SHA' in error for error in validate_matrix_files(data, root)))
+            row['fitManifestSha256'] = row['resourceManifestSha256']
+            self.assertEqual(validate_matrix_files(data, root), [])
             resource.write_text('{"style":"changed"}\n', encoding='utf-8')
             self.assertTrue(any('resourceManifest SHA' in error for error in validate_matrix_files(data, root)))
 

@@ -1,0 +1,253 @@
+{
+  "schema": "skinned-style-registration-readback-v1",
+  "priorMatrixCommit": "919b8a547d06c07bdbcb060c0449cbd68945110d",
+  "sourceInputs": [
+    {
+      "path": "assets-source/m2-socks-layer-v1/spec.json",
+      "sha256": "bcf434347413b95afff04bc4d941c297db185bf5646c774f7294a70c5d52efdf"
+    },
+    {
+      "path": "prototype/public/assets/m2-socks-layer-v1/manifest.json",
+      "sha256": "f03003bb88b4b1f32d750ebf1edd773162e8f5e3a75488b9109fc09b00876f4f"
+    },
+    {
+      "path": "assets-source/m2-socks-layer-v1/generated/package-files.json",
+      "sha256": "401db1cfe5adcaf70e77cdb681df54f3a8ddddcf59e86f91d792c952e4635168"
+    }
+  ],
+  "matrix": "assets-source/variant-matrix-v1/representative-matrix.json",
+  "readback": {
+    "styleId": "plain-crew-socks-v1",
+    "status": "candidate",
+    "source": "assets-source/m2-socks-layer-v1/spec.json",
+    "publication": "prototype/public/assets/m2-socks-layer-v1/manifest.json",
+    "bodies": [
+      {
+        "bodyType": "female",
+        "member": "female-plain-crew-socks-v1",
+        "fitId": "female-original-plain-crew-socks-fit-v1",
+        "assetSha256": "369d0b66dcc65f65a9bfd7cdcf16aa650d671207f679aec7b637cbac7d076ac4",
+        "bones": 6,
+        "weightedVertices": 1132,
+        "preserveOriginalBody": true,
+        "bodyCoverageMasks": [],
+        "pairedWith": {
+          "shoes": [
+            {
+              "id": "m1-uniform-shoes",
+              "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+            }
+          ],
+          "lower": [
+            {
+              "id": "m1-training-pants",
+              "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+            }
+          ]
+        }
+      },
+      {
+        "bodyType": "male",
+        "member": "male-plain-crew-socks-v1",
+        "fitId": "male-original-plain-crew-socks-fit-v1",
+        "assetSha256": "072863568fba26e08f489f4a983f55b61889ee57c14257847e857ce0e24d9549",
+        "bones": 6,
+        "weightedVertices": 1132,
+        "preserveOriginalBody": true,
+        "bodyCoverageMasks": [],
+        "pairedWith": {
+          "shoes": [
+            {
+              "id": "m1b-uniform-shoes",
+              "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f"
+            }
+          ],
+          "lower": [
+            {
+              "id": "m1b-uniform-pants",
+              "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c"
+            },
+            {
+              "id": "m1b-uniform-shorts-v1",
+              "sha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "case": "first",
+      "sha256": "1b50ce12c04de3678c3a7889ba3419765cf8de5ec2df90fc9e65ea86eb460fc3"
+    },
+    {
+      "case": "repeat",
+      "sha256": "1b50ce12c04de3678c3a7889ba3419765cf8de5ec2df90fc9e65ea86eb460fc3"
+    },
+    {
+      "case": "reused",
+      "sha256": "1b50ce12c04de3678c3a7889ba3419765cf8de5ec2df90fc9e65ea86eb460fc3"
+    }
+  ],
+  "actualConsumerQuery": [
+    {
+      "body": "female",
+      "outfits": [
+        {
+          "index": 3,
+          "role": "pants-socks",
+          "equipment": [
+            {
+              "id": "m1-uniform-top",
+              "slot": "top",
+              "sha256": "27bcfe020828ad2603f618fabf7f21cf1b09f66035c8ecd740e78cfc3650b9d6"
+            },
+            {
+              "id": "m1-uniform-shoes",
+              "slot": "shoes",
+              "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+            },
+            {
+              "id": "m1-training-pants",
+              "slot": "bottom",
+              "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+            },
+            {
+              "id": "female-plain-crew-socks-v1",
+              "slot": "socks",
+              "sha256": "369d0b66dcc65f65a9bfd7cdcf16aa650d671207f679aec7b637cbac7d076ac4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "body": "male",
+      "outfits": [
+        {
+          "index": 6,
+          "role": "shorts-socks",
+          "equipment": [
+            {
+              "id": "m1b-uniform-top",
+              "slot": "top",
+              "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c"
+            },
+            {
+              "id": "m1b-uniform-shoes",
+              "slot": "shoes",
+              "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f"
+            },
+            {
+              "id": "m1b-uniform-shorts-v1",
+              "slot": "bottom",
+              "sha256": "c8a1afd0742cbb99302abc107673744751a8cfd77c6c89df039b068054a947d0"
+            },
+            {
+              "id": "male-plain-crew-socks-v1",
+              "slot": "socks",
+              "sha256": "072863568fba26e08f489f4a983f55b61889ee57c14257847e857ce0e24d9549"
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "role": "pants-socks",
+          "equipment": [
+            {
+              "id": "m1b-uniform-top",
+              "slot": "top",
+              "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c"
+            },
+            {
+              "id": "m1b-uniform-shoes",
+              "slot": "shoes",
+              "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f"
+            },
+            {
+              "id": "m1b-uniform-pants",
+              "slot": "bottom",
+              "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c"
+            },
+            {
+              "id": "male-plain-crew-socks-v1",
+              "slot": "socks",
+              "sha256": "072863568fba26e08f489f4a983f55b61889ee57c14257847e857ce0e24d9549"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "regressions": [
+    {
+      "command": [
+        "python",
+        "-B",
+        "scripts/production/test_register_equipment_style.py",
+        "-v"
+      ],
+      "exit": 0,
+      "result": [
+        "test_both_targets_and_idempotence (__main__.PublishedStyleTests.test_both_targets_and_idempotence) ... ok",
+        "test_published_asset_and_member_are_checked_against_sources (__main__.PublishedStyleTests.test_published_asset_and_member_are_checked_against_sources) ... ok",
+        "Ran 2 tests in 0.085s",
+        "OK"
+      ]
+    },
+    {
+      "command": [
+        "python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/production",
+        "-p",
+        "test_variant*.py",
+        "-q"
+      ],
+      "exit": 0,
+      "result": [
+        "Ran 21 tests in 0.026s",
+        "OK"
+      ]
+    },
+    {
+      "command": [
+        "python",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/production",
+        "-p",
+        "test_look_spec.py",
+        "-q"
+      ],
+      "exit": 0,
+      "result": [
+        "Ran 14 tests in 0.064s",
+        "OK"
+      ]
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        "prototype/src/character-production-query.test.mjs"
+      ],
+      "exit": 0,
+      "result": [
+        "ℹ tests 9",
+        "ℹ pass 9",
+        "ℹ fail 0"
+      ]
+    }
+  ],
+  "priorMatrixSha256": "8127d023e7ce87f79c309b39d7b30249740c58ae4b33dfa3f68316cf23db7334",
+  "scope": "Candidate source and CPU consumer query only; no GPU use or additional runtime admission."
+}

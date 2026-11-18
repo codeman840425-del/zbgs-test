@@ -132,7 +132,9 @@ def validate_matrix_files(data: dict, root: Path) -> list[str]:
                     errors.append(f'{label}: {key} SHA does not match {actual}')
             try:
                 fit_path = _resolve_reference(root, variant['fitManifest'])
-                fit_path.read_bytes()
+                actual = hashlib.sha256(fit_path.read_bytes()).hexdigest()
+                if 'fitManifestSha256' in variant and actual != variant['fitManifestSha256']:
+                    errors.append(f'{label}: fitManifest SHA does not match {actual}')
             except (OSError, ValueError) as error:
                 errors.append(f'{label}: fitManifest cannot be read: {error}')
             if variant['status'] == 'runtime-admitted':

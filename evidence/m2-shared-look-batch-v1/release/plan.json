@@ -1,0 +1,37 @@
+{
+  "schema": "zbgs-style-variant-batch-plan-v1",
+  "batchId": "shared-crew-socks-v1",
+  "mode": "readiness-gated",
+  "items": [
+    {
+      "status": "rejected",
+      "reason": "runtime admission pending for plain-crew-socks-v1/female",
+      "stableId": "pants-socks-female"
+    },
+    {
+      "status": "rejected",
+      "reason": "runtime admission pending for plain-crew-socks-v1/male",
+      "stableId": "pants-socks-male"
+    },
+    {
+      "status": "rejected",
+      "reason": "No exact variant for plain-crew-socks-v1/native-male-7586-v1/v1",
+      "stableId": "native-male-missing-variant"
+    }
+  ],
+  "acceptedCount": 0,
+  "rejectedCount": 3,
+  "source": {
+    "matrix": {
+      "path": "assets-source/variant-matrix-v1/representative-matrix.json",
+      "sha256": "29eb0d143cdac51cebac8bd1938d09b044596d2d75dbf1316b7a0ee5172f11f4",
+      "bytes": 11687
+    },
+    "request": {
+      "path": "assets-source/variant-matrix-v1/shared-crew-socks-request.json",
+      "sha256": "119639fa3e390890b67d3c66c8a2d2197515d2e668745f7c36d0c4893437518b",
+      "bytes": 586
+    }
+  },
+  "creationBatches": []
+}

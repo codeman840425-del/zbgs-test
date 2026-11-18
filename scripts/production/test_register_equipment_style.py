@@ -25,8 +25,13 @@ class PublishedStyleTests(unittest.TestCase):
         without = dict(current, styles=[s for s in current['styles'] if s['styleId'] != style['styleId']])
         self.assertEqual(register(without, style), current)
         self.assertEqual(register(current, style), current)
-        with self.assertRaisesRegex(ValueError, 'Existing style has different data'):
-            register(current, dict(style, variants=style['variants'][:1]))
+        female, male = style['variants']
+        partial = register(without, dict(style, variants=[female]))
+        self.assertEqual(register(partial, dict(style, variants=[male])),current)
+        self.assertEqual(register(current, dict(style, variants=[male])),current)
+        with self.assertRaisesRegex(ValueError, 'Existing variant has different data'):
+            register(current, dict(style, variants=[dict(male,fitManifestSha256='0'*64)]))
+        self.assertEqual(partial['styles'][-1]['variants'],[female])
 
     def test_published_asset_and_member_are_checked_against_sources(self):
         publication = json.loads((ROOT/PUBLICATION).read_bytes())

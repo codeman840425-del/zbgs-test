@@ -87,10 +87,19 @@ def build_style(root, spec_path, publication_path, label):
 
 def register(matrix, style):
     previous = [s for s in matrix['styles'] if s['styleId'] == style['styleId']]
-    if previous:
-        require(previous == [style], 'Existing style has different data; retain the original row')
-        return matrix
-    return dict(matrix, styles=[*matrix['styles'],style])
+    if not previous:
+        return dict(matrix, styles=[*matrix['styles'],style])
+    require(len(previous) == 1, 'Ambiguous existing style')
+    existing = previous[0]
+    metadata = lambda obj: {key:value for key,value in obj.items() if key != 'variants'}
+    require(metadata(existing) == metadata(style), 'Existing style metadata differs')
+    rows = {(row['bodyType'],row['variantVersion']):row for row in existing['variants']}
+    for row in style['variants']:
+        key = (row['bodyType'],row['variantVersion'])
+        require(key not in rows or rows[key] == row, 'Existing variant has different data; retain the original row')
+        rows[key] = row
+    combined = dict(existing, variants=list(rows.values()))
+    return dict(matrix, styles=[combined if s is existing else s for s in matrix['styles']])
 
 
 def main():
