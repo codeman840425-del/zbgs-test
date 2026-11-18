@@ -29,3 +29,9 @@
 在仓库根目录运行 `python -B assets-source/native-crew-template-v1/verify.py`。该命令核对来源、重建两次已记录的导出、从独立 OBJ 重导、重算三姿态四视角并逐文件核 SHA。依赖版本与原生研究模型的使用限制保存在 [source-lock.json](source-lock.json)。模板的 CC0 来源及现行原生模型作者、署名与使用条件分别记录，当前派生包仅作内部技术研究。
 
 单独运行 `python -B assets-source/native-crew-template-v1/make.py` 生成修正版 GLB、装备条目、fit、绑定和静态结果。运行 `python -B assets-source/native-crew-template-v1/pattern.py` 可直接读入可编辑 OBJ，逐字节复原同一 GLB。美术修改 OBJ 副本时保留左右对象、点和三角顺序，运行 `python -B assets-source/native-crew-template-v1/pattern.py --pattern 编辑副本.obj --output 新候选.glb`。编辑产生新资源身份，应以新网格重新做配对检查。
+
+## 核对与生成补充装备目录
+
+在仓库根目录运行 `python -B assets-source/native-crew-template-v1/publish.py`。默认核对来源锁、修正版 GLB 的每个字节、目标骨绑定、原鞋与短裤身份、已发布的补充目录和矩阵候选行。可用 `--entry`、`--fit`、`--source-lock` 指定来源，用 `--pairing-catalog` 和 `--pairing-sha256` 指定原装备目录的公共 URL 与哈希。
+
+重新生成时可运行 `python -B assets-source/native-crew-template-v1/publish.py --output experiments/native-crew-publication-check`。输出目录须为新目录，内含装备 GLB、`equipment.json` 和合并后的 `representative-matrix.json`。使用 `--matrix` 可以从尚未含此候选的矩阵补入该行。默认已登记候选的适配范围为原生 7586 男性短裤和原鞋，鞋侧穿出仍列在候选限制中。

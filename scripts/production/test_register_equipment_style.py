@@ -23,11 +23,19 @@ class PublishedStyleTests(unittest.TestCase):
             self.assertEqual(row['coverageManifest'], row['fitManifest']+'#bodyCoverageMasks')
         current = json.loads(MATRIX.read_bytes())
         without = dict(current, styles=[s for s in current['styles'] if s['styleId'] != style['styleId']])
-        self.assertEqual(register(without, style), current)
+        authored = register(without, style)
+        published = next(s for s in current['styles'] if s['styleId'] == style['styleId'])
+        beta_types = {row['bodyType'] for row in style['variants']}
+        self.assertEqual([r for r in published['variants'] if r['bodyType'] in beta_types],
+                         style['variants'])
+        for row in published['variants']:
+            if row['bodyType'] not in beta_types:
+                authored = register(authored, dict(style, variants=[row]))
+        self.assertEqual(authored, current)
         self.assertEqual(register(current, style), current)
         female, male = style['variants']
         partial = register(without, dict(style, variants=[female]))
-        self.assertEqual(register(partial, dict(style, variants=[male])),current)
+        self.assertEqual(register(partial, dict(style, variants=[male])), register(without, style))
         self.assertEqual(register(current, dict(style, variants=[male])),current)
         with self.assertRaisesRegex(ValueError, 'Existing variant has different data'):
             register(current, dict(style, variants=[dict(male,fitManifestSha256='0'*64)]))

@@ -8,12 +8,20 @@ const [base,folder,expectedFile]=process.argv.slice(2),out=path.resolve(folder);
  const report={status:'incomplete',browser:browser.version(),errors:[],checks:[],requests:[],failedAssetResponses:[],scope:'Two produced records restored by the shared game consumer; development machine.'};
  context.on('response',r=>{if(r.status()>=400)report.failedAssetResponses.push({url:r.url(),status:r.status()});});
  let page;const open=async(query='records=/records/manifest.json')=>{page=await context.newPage();page.on('pageerror',e=>report.errors.push(e.message));page.on('request',r=>report.requests.push(r.url()));await page.goto(base+'record-consumer.html?'+query);await page.waitForFunction(()=>window.__recordConsumer?.ready,null,{timeout:120000});};
- const verify=()=>page.evaluate(async()=>{const d=__recordConsumer,rows=[];for(const actor of d.actors.values()){
+ const {resolveGarmentMaterials}=await import('../prototype/src/garment-material-record.js');
+ const verify=async()=>{
+  const records=await page.evaluate(()=>__recordConsumer.records);
+  const materialRecords=Object.fromEntries(records.map(record=>{
+   const recipe=record.appearanceRecipe;
+   const resolved=resolveGarmentMaterials({profile:recipe.base},recipe,record.equipmentMaterials);
+   return [record.identity.id,resolved];
+  }));
+  return page.evaluate(async materialRecords=>{const d=__recordConsumer,rows=[];for(const actor of d.actors.values()){
   const expected=d.records.find(r=>r.identity.id===actor.identity.id),actual=await actor.capture();
   rows.push({id:actor.identity.id,sha:actor.recordSha256,expectedSha:expected.integrity.recordSha256,root:actor.avatar.root.uuid,
    body:actual.appearanceRecipe.base.bodyType,eyeColor:actual.appearanceRecipe.appearance.eyeColor,
-   look:JSON.stringify(actual.appearanceRecipe)===JSON.stringify(expected.appearanceRecipe),props:JSON.stringify(actual.liveAccessories)===JSON.stringify(expected.liveAccessories),materials:JSON.stringify(actual.equipmentMaterials)===JSON.stringify(expected.equipmentMaterials),hairCenter:JSON.stringify(actual.nativeHairCenter)===JSON.stringify(expected.nativeHairCenter)});
- }return rows;});
+   look:JSON.stringify(actual.appearanceRecipe)===JSON.stringify(expected.appearanceRecipe),props:JSON.stringify(actual.liveAccessories)===JSON.stringify(expected.liveAccessories),materials:JSON.stringify(actual.equipmentMaterials)===JSON.stringify(materialRecords[actor.identity.id].record),legacyMaterials:materialRecords[actor.identity.id].legacy,hairCenter:JSON.stringify(actual.nativeHairCenter)===JSON.stringify(expected.nativeHairCenter)});
+ }return rows;}, materialRecords);};
  const check=rows=>{assert.equal(rows.length,2);for(const row of rows)assert(row.look&&row.props&&row.materials&&row.hairCenter&&row.sha===row.expectedSha,JSON.stringify(row));assert.notEqual(rows[0].root,rows[1].root);
   if(expected)assert.deepEqual(rows.map(row=>[row.id,row.sha,row.body,row.eyeColor]),expected.map(r=>[r.identity.id,r.integrity.recordSha256,r.appearanceRecipe.base.bodyType,r.appearanceRecipe.appearance.eyeColor]));
  };

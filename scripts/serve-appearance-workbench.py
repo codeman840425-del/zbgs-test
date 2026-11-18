@@ -16,6 +16,10 @@ SHARED_LOOK_FILES = {
         'room-pants-socks-male/room-produced-1x.webm',
     )},
 }
+CREW_PREFIX = '/reviews/native-crew/'
+CREW_FILES = {'index.html', 'close/original.png', 'close/socks.png',
+              'room/room-produced.png', 'room/room-produced-1x.webm',
+              'game-restore/produced-pair.png', 'game-restore/produced-pair-1x.webm'}
 
 def make_server(config, *, verification=False):
     if config['port'] != 4196:
@@ -30,6 +34,11 @@ def make_server(config, *, verification=False):
     class Handler(SimpleHTTPRequestHandler):
         def send_head(self):
             name = urlsplit(self.path).path
+            if name == CREW_PREFIX.rstrip('/') or name.startswith(CREW_PREFIX):
+                member = name[len(CREW_PREFIX):] or 'index.html'
+                if not config.get('nativeCrewReview') or not name.startswith(CREW_PREFIX) or member not in CREW_FILES:
+                    self.send_error(404)
+                    return None
             if name == SHARED_LOOK_PREFIX.rstrip('/') or name.startswith(SHARED_LOOK_PREFIX):
                 if not config.get('sharedLookReview') or name not in SHARED_LOOK_FILES:
                     self.send_error(404)
@@ -39,6 +48,10 @@ def make_server(config, *, verification=False):
         def translate_path(self, path):
             # Review recordings stay outside the game build and its download budget.
             name = urlsplit(path).path
+            if config.get('nativeCrewReview') and name.startswith(CREW_PREFIX):
+                member = name[len(CREW_PREFIX):] or 'index.html'
+                if member in CREW_FILES:
+                    return str(ROOT / 'evidence/m2-native-short-socks-room-v1' / member)
             if name in SHARED_LOOK_FILES and config.get('sharedLookReview'):
                 return str(ROOT / 'evidence/m2-shared-look-batch-v2' / SHARED_LOOK_FILES[name])
             review = '/reviews/native-hair-motion/'
