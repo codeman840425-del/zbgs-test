@@ -23,6 +23,7 @@ import {createCableSample} from './cable-samples.js';
 import {resolveWorkstationLook,workstationLooks,workstationLookOperations} from './workstation-looks.js';
 export const appearanceBranches=[
  ['screen-partition','落地屏风'],
+ ['static-textile','沙发软装'],
  ['window-opening-and-glass','窗体与真实洞口'],
  ['window-cover','窗体覆盖（帘/卷帘/百叶）'],
  ['exterior-door-leaf','外部门扇'],
@@ -70,7 +71,8 @@ export function latestAppearanceVersions(resources){
 }
 export function appearanceCandidates(catalog,branch) {
  if(branch==='stream-station')return workstationLooks.map(({id,version,displayName})=>({id,version,displayName}));
- const selected=catalog.resources.filter(r=>(r.productionBranch||r.mountRole)===branch&&r.asset&&r.id!=='lounge-sofa');
+ const selected=catalog.resources.filter(r=>((r.productionBranch||r.mountRole)===branch ||
+   (branch==='sofa' && r.productionBranch==='sofa-textile-host')) && r.asset && r.id!=='lounge-sofa');
  if(branch==='sofa')selected.unshift(catalog.resources.find(r=>r.id==='lounge-sofa'&&r.version===1));
  return latestAppearanceVersions(selected.filter(Boolean)).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
 }
@@ -124,9 +126,18 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
  if(['storage-shelf','tabletop-ornament'].includes(branch))return createSupportSample(catalog,templates,{branch,index});
  const candidates=appearanceCandidates(catalog,branch),selected=candidates[index];
  if(!selected)throw Error(`No appearance ${branch}[${index}]`);
- const sampleId=branch==='camera-mount' ? `appearance-camera-mount-${selected.mount}` : `appearance-${branch}`;
+ const sampleId=branch==='camera-mount' ? `appearance-camera-mount-${selected.mount}` :
+   selected.productionBranch==='sofa-textile-host' ? 'appearance-sofa-textile-host' : `appearance-${branch}`;
  let doc=createCompany({id:sampleId,name:`${appearanceBranches.find(([key])=>key===branch)?.[1]} · ${selected.displayName||selected.name||selected.id}`,width:9,depth:7},catalog);
  const floor=doc.nodes[0],room=doc.nodes[1],area=`${doc.id}/public`;
+ if (branch==='static-textile') {
+   const host='sample/sofa', target=host+'/textile', resource={id:selected.id,version:selected.version};
+   doc=prepareCompanyChange(doc,[
+     {type:'add-facility',id:host,parentId:room.id,resource:{id:'sofa-textile-modular',version:1}},
+     {type:'add-facility',id:target,parentId:host,resource,attachment:{surfaceId:'textile-rest'}},
+   ],{catalog,templates}).document;
+   return {document:doc,target,branch,index,resource};
+ }
  if(branch==='camera-mount'){
    if(selected.mount==='desk-edge-clamp'){
      doc=prepareCompanyChange(doc,[{type:'add-workstation',id:'sample/station',parentId:room.id,

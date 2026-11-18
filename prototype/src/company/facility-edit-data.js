@@ -2,6 +2,7 @@ import {cameraDeskEdgePlacement, wallEnvelopeBottom} from './camera-mount-data.j
 import {floorPortalSides} from './exterior-entrance-data.js';
 import {CompanyError, deriveCompany} from './document.js';
 import {deriveCableConnections} from './cable-data.js';
+import {matchesTextileRest, supportYaw} from './support-data.js';
 
 const quarterTurns = [0, Math.PI / 2, Math.PI, Math.PI * 1.5];
 const EPS = 1e-8;
@@ -59,29 +60,15 @@ function target(id, parentId, label, position, yaw, mode, extra = {}) {
   return {id, parentId, label, position: [...position], yaw, mode, ...extra};
 }
 
-function fitsSurface(resource, surface, yaw = 0) {
-  const m = mounting(resource);
-  if (!m || !surface) return false;
-  const swapped = Math.abs(Math.sin(yaw)) > .5;
-  const halfX = (swapped ? m.depth : m.width) / 2;
-  const halfZ = (swapped ? m.width : m.depth) / 2;
-  return halfX <= surface.halfSize[0] + EPS && halfZ <= surface.halfSize[1] + EPS &&
-    m.height <= surface.clearanceHeight + EPS;
-}
-
-function surfaceYaw(resource, surface) {
-  if (fitsSurface(resource, surface, 0)) return 0;
-  if (fitsSurface(resource, surface, Math.PI / 2)) return Math.PI / 2;
-  return null;
-}
-
 function surfaceLabel(parentResource, surfaceId) {
+  if (parentResource.mountRole === 'sofa' && surfaceId === 'textile-rest') return '软装扶手';
   if (parentResource.mountRole === 'vanity-table') return '台面';
   return {lower: '下层板', middle: '中层板', top: '上层板', drawer: '抽屉承载面'}[surfaceId] || surfaceId;
 }
 
 function hostSupports(resource, parentResource, surfaceId) {
   if (!parentResource?.supportSurfaces?.some(surface => surface.id === surfaceId)) return false;
+  if (!matchesTextileRest(resource, parentResource, surfaceId)) return false;
   const role = resource.mountRole;
   if (role === 'makeup-mirror') return parentResource.mountRole === 'vanity-table' && surfaceId === 'top';
   if (role === 'makeup-storage') return parentResource.mountRole === 'vanity-table' && surfaceId === 'top';
@@ -91,7 +78,7 @@ function hostSupports(resource, parentResource, surfaceId) {
 }
 
 function targetForSupport(parent, parentResource, resource, surface) {
-  const yaw = hostSupports(resource, parentResource, surface.id) ? surfaceYaw(resource, surface) : null;
+  const yaw = hostSupports(resource, parentResource, surface.id) ? supportYaw(resource, surface) : null;
   if (yaw === null) return null;
   return target(`${parent.id}:surface:${surface.id}`, parent.id, `${parent.name || parent.id} · ${surfaceLabel(parentResource, surface.id)}`, [surface.center[0], surface.topY, surface.center[1]], yaw, 'support-surface', {
     attachment: {surfaceId: surface.id}, lockedAxes: ['y'], note: '位置受承载面和净空约束，旋转后仍须保持完整包络适配',
@@ -102,7 +89,7 @@ function deskTarget(parent, parentResource, resource) {
   const surface = parentResource.surface;
   if (!surface) return null;
   const m = mounting(resource);
-  const yaw = m ? surfaceYaw(resource, {center: [0, 0], halfSize: surface.halfSize, topY: surface.topY, clearanceHeight: .96}) : 0;
+  const yaw = m ? supportYaw(resource, {center: [0, 0], halfSize: surface.halfSize, topY: surface.topY, clearanceHeight: .96}) : 0;
   if (yaw === null) return null;
   return target(`${parent.id}:desktop`, parent.id, `${parent.name || parent.id} · 台面`, [0, surface.topY, 0], yaw, 'desk-surface', {
     lockedAxes: ['y'], note: '沿桌面移动，Y 固定在桌面承载高度',

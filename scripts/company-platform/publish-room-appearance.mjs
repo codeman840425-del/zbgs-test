@@ -52,9 +52,9 @@ async function publish(recipePath,check) {
   if (!recipePath.endsWith('.json')) fail('invalid-appearance-recipe',recipePath);
   const [originalPlan,originalCatalog,inputBytes] = await Promise.all([planPath,catalogPath,recipePath].map(regularFile));
   const plan = parse(originalPlan), previous = parse(originalCatalog), input = parse(inputBytes);
-  const family = {'company-desk-lamp-collection':'desk-lamp','company-screen-partition-collection':'screen-partition'}[input.schema];
+  const family = {'company-desk-lamp-collection':'desk-lamp','company-screen-partition-collection':'screen-partition','company-static-textile-collection':'static-textile'}[input.schema];
   if (typeof family !== 'string' || input.version !== 1 || !Array.isArray(input.designs) || !input.designs.length)
-    fail('invalid-appearance-recipe','Expected a version 1 desk-lamp or screen-partition recipe with designs');
+    fail('invalid-appearance-recipe','Expected a version 1 desk-lamp, screen-partition or static-textile recipe with designs');
   const base = 'assets-source/company-'+family+'-v1';
   const collectionPath = base+'/collection.json';
   if (plan.output !== catalogPath || !Array.isArray(plan.resources) ||
@@ -76,7 +76,9 @@ async function publish(recipePath,check) {
     if (previous.resources.some(r => r.id.toLowerCase() === design.id && r.productionBranch !== family))
       fail('appearance-id-conflict',design.id+' already belongs to a different family');
     if (design.source) {
-      const source = family === 'desk-lamp' ? input.archive : input.sources?.[design.source];
+      const member = input.sources?.[design.source];
+      const source = family === 'desk-lamp' ? input.archive :
+        family === 'static-textile' ? input.archives?.[member?.archive] : member;
       productionSource(source?.path);
       await regularFile(source.path);
     }

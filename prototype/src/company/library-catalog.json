@@ -29811,6 +29811,637 @@
         "sha256": "40ad1957c530d6da2ac2d924a7529be883a9e86a76e53f1bb19b87393d304f01",
         "bytes": 18036
       }
+    },
+    {
+      "id": "sofa-textile-modular",
+      "version": 1,
+      "displayName": "宽扶手双人沙发 · 模块款",
+      "category": "multi-use",
+      "mountRole": "sofa",
+      "productionBranch": "sofa-textile-host",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Ground centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0.16,
+          0
+        ],
+        "halfSize": [
+          1.26,
+          0.42
+        ],
+        "blocking": true
+      },
+      "supportSurfaces": [
+        {
+          "id": "textile-rest",
+          "center": [
+            1.18,
+            0
+          ],
+          "topY": 0.7,
+          "halfSize": [
+            0.22,
+            0.21
+          ],
+          "clearanceHeight": 0.15
+        }
+      ],
+      "supportNodes": {
+        "textile-rest": "textile-rest-arm"
+      },
+      "materialSlots": {
+        "fabric": [
+          "seat-left",
+          "seat-right",
+          "back-left",
+          "back-right",
+          "textile-rest-arm"
+        ],
+        "structure": [
+          "seat-support-left",
+          "back-support-left",
+          "seat-support-right",
+          "back-support-right",
+          "modular-plinth",
+          "modular-arm-left",
+          "modular-divider",
+          "modular-foot-left",
+          "modular-foot-right"
+        ]
+      },
+      "usePoints": [
+        {
+          "id": "left",
+          "position": [
+            -0.48,
+            0,
+            0.04
+          ],
+          "yaw": 0,
+          "seatHeight": 0.47,
+          "capacity": 1,
+          "clearance": {
+            "width": 0.92,
+            "depth": 1.11
+          },
+          "limitations": [
+            "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+            "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+            "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+          ],
+          "seatNodeId": "seat-left",
+          "backNodeId": "back-left",
+          "approach": [
+            -0.48,
+            0,
+            1.02
+          ],
+          "exit": [
+            -0.48,
+            0,
+            1.15
+          ]
+        },
+        {
+          "id": "right",
+          "position": [
+            0.48,
+            0,
+            0.04
+          ],
+          "yaw": 0,
+          "seatHeight": 0.47,
+          "capacity": 1,
+          "clearance": {
+            "width": 0.92,
+            "depth": 1.11
+          },
+          "limitations": [
+            "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+            "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+            "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+          ],
+          "seatNodeId": "seat-right",
+          "backNodeId": "back-right",
+          "approach": [
+            0.48,
+            0,
+            1.02
+          ],
+          "exit": [
+            0.48,
+            0,
+            1.15
+          ]
+        }
+      ],
+      "stateDefaults": {},
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/sofa-textile-host-v1/sofa-textile-modular/v1/model.glb",
+        "sha256": "c07cd045decb67fcaba32fe1188ae8fce9dc81810553fc3f773a13ffc0a86bfe",
+        "bytes": 498220
+      },
+      "provenance": {
+        "license": "Project-authored schematic geometry and solid-color materials. No external art assets.",
+        "sourceParameters": "assets-source/company-sofa-textile-host-v1/parameters.json",
+        "sourceParametersSha256": "0176b53392e33a632c24359bc0e15aca22e2227c8152265a62dc9c4453564af0",
+        "generator": "scripts/company-platform/build-sofa-textile-hosts.mjs",
+        "generatorSha256": "d863be006763f514fccd37b3354dd600646fc962e6d7f75396999154051937c7",
+        "sourceArtifactPath": "prototype/public/company-assets/seat-collection/sofa-modular/v1/model.glb",
+        "sourceArtifactSha256": "e56568c8748df03e2f838307394fccbfcfd1f20682a57839985eb117910f165a",
+        "originalResource": "prototype/public/company-assets/seat-collection/sofa-modular/v1/resource.json",
+        "originalResourceSha256": "d1d8e5a5e92d5611e38cc993dd5932313324e364cafc2b8fc1f86492338bbea5",
+        "method": "Keep both seat and back assemblies. Replace the right arm with one floor-bearing rounded upholstered arm taken from the seat material."
+      }
+    },
+    {
+      "id": "sofa-textile-arch",
+      "version": 1,
+      "displayName": "宽扶手双人沙发 · 拱背款",
+      "category": "multi-use",
+      "mountRole": "sofa",
+      "productionBranch": "sofa-textile-host",
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Ground centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0.16,
+          0
+        ],
+        "halfSize": [
+          1.26,
+          0.42
+        ],
+        "blocking": true
+      },
+      "supportSurfaces": [
+        {
+          "id": "textile-rest",
+          "center": [
+            1.18,
+            0
+          ],
+          "topY": 0.7,
+          "halfSize": [
+            0.22,
+            0.21
+          ],
+          "clearanceHeight": 0.15
+        }
+      ],
+      "supportNodes": {
+        "textile-rest": "textile-rest-arm"
+      },
+      "materialSlots": {
+        "fabric": [
+          "seat-left",
+          "seat-right",
+          "back-left",
+          "back-right",
+          "textile-rest-arm"
+        ],
+        "structure": [
+          "seat-support-left",
+          "back-support-left",
+          "seat-support-right",
+          "back-support-right",
+          "arch-base",
+          "arch-arm-left",
+          "arch-post-left",
+          "arch-shoulder-left",
+          "arch-post-right",
+          "arch-shoulder-right",
+          "arch-crossbar",
+          "arch-foot-left",
+          "arch-foot-right"
+        ]
+      },
+      "usePoints": [
+        {
+          "id": "left",
+          "position": [
+            -0.48,
+            0,
+            0.04
+          ],
+          "yaw": 0,
+          "seatHeight": 0.47,
+          "capacity": 1,
+          "clearance": {
+            "width": 0.92,
+            "depth": 1.11
+          },
+          "limitations": [
+            "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+            "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+            "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+          ],
+          "seatNodeId": "seat-left",
+          "backNodeId": "back-left",
+          "approach": [
+            -0.48,
+            0,
+            1.02
+          ],
+          "exit": [
+            -0.48,
+            0,
+            1.15
+          ]
+        },
+        {
+          "id": "right",
+          "position": [
+            0.48,
+            0,
+            0.04
+          ],
+          "yaw": 0,
+          "seatHeight": 0.47,
+          "capacity": 1,
+          "clearance": {
+            "width": 0.92,
+            "depth": 1.11
+          },
+          "limitations": [
+            "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+            "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+            "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+          ],
+          "seatNodeId": "seat-right",
+          "backNodeId": "back-right",
+          "approach": [
+            0.48,
+            0,
+            1.02
+          ],
+          "exit": [
+            0.48,
+            0,
+            1.15
+          ]
+        }
+      ],
+      "stateDefaults": {},
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/sofa-textile-host-v1/sofa-textile-arch/v1/model.glb",
+        "sha256": "b0652cd6c8586de8a5d2b4deae513a9048b2519732a2cd8c51cb94947e3ba03b",
+        "bytes": 513228
+      },
+      "provenance": {
+        "license": "Project-authored schematic geometry and solid-color materials. No external art assets.",
+        "sourceParameters": "assets-source/company-sofa-textile-host-v1/parameters.json",
+        "sourceParametersSha256": "0176b53392e33a632c24359bc0e15aca22e2227c8152265a62dc9c4453564af0",
+        "generator": "scripts/company-platform/build-sofa-textile-hosts.mjs",
+        "generatorSha256": "d863be006763f514fccd37b3354dd600646fc962e6d7f75396999154051937c7",
+        "sourceArtifactPath": "prototype/public/company-assets/seat-collection/sofa-arch/v1/model.glb",
+        "sourceArtifactSha256": "6a995fda57ad94c15431573e02894c2a8698a291d3c8fa0f177138a803105e0d",
+        "originalResource": "prototype/public/company-assets/seat-collection/sofa-arch/v1/resource.json",
+        "originalResourceSha256": "e05fe1e4b9c843490c31d2bfdbcd1aa6aba04a4361573066cb78233b04e27742",
+        "method": "Keep both seat and back assemblies. Replace the right arm with one floor-bearing rounded upholstered arm taken from the seat material."
+      }
+    },
+    {
+      "id": "static-textile-pillow",
+      "version": 1,
+      "displayName": "收放布艺 · 滚边抱枕",
+      "category": "decor",
+      "mountRole": "static-textile",
+      "productionBranch": "static-textile",
+      "mount": "support-surface",
+      "parent": "sofa",
+      "mounting": {
+        "origin": "bottom",
+        "width": 0.4,
+        "height": 0.15,
+        "depth": 0.36
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.2,
+          0.18
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "materialSlots": {
+        "fabric": [
+          "pillow-native-cushion"
+        ],
+        "trim": [
+          "pillow-piping",
+          "pillow-button"
+        ]
+      },
+      "provenance": {
+        "license": "CC0-1.0 source fabric geometry with project-authored adaptation",
+        "sourceDesign": "piped-cushion",
+        "tools": [
+          "Three.js 187",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-static-textile-v1/parameters.json",
+        "sourceParametersSha256": "304dd15b45a339f8186655d21021aac6bece6125325303e654bd91379554a960",
+        "functionalContractSource": "assets-source/company-static-textile-v1/contract.json",
+        "functionalContractSourceSha256": "520ff0aa8a3e78ec5f1286730b58e66a80cd218ccbd227d89b77635478534be1",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "environmentBranch": "static-textile",
+        "generator": "scripts/company-platform/build-static-textile-collection.mjs",
+        "generatorSha256": "d80facadf51f04065003f231bbdbc88a3d0668aaa8bffdf1e8318417cf4f2cdb",
+        "dependencies": {
+          "model": {
+            "path": "scripts/company-platform/build-static-textile-model.mjs",
+            "sha256": "618bba82afd98b59557dc458efaee2ef4361ad31b1d3c853d4e0701427a1022f"
+          },
+          "geometryValidation": {
+            "path": "scripts/company-platform/test-static-textile-geometry.mjs",
+            "sha256": "e7337aa9899ed7a67f1e3d56bf950870d541b536272e5cbdfa731deef973727b"
+          }
+        },
+        "sourceArtifactPath": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+        "sourceArtifactSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+        "sourceModelEntry": "Models/GLTF format/pillow.glb",
+        "sourceGlbSha256": "6fae7c190d0b676ef3efd35e5178cef21dffb5c80e1257d8b537ad424da0e5f6",
+        "sourcePrimitive": "carpet",
+        "sourceAuthor": "Kenney",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "sourceLicense": "CC0-1.0",
+        "sourceLicenseEntry": "License.txt",
+        "sourceLicenseSha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/static-textile-v1/static-textile-pillow/v1/model.glb",
+        "sha256": "a371bbab5a14767966528f2049aa530f94605e064b7c6ad6cd85475de6756ef7",
+        "bytes": 26560
+      }
+    },
+    {
+      "id": "static-textile-throw",
+      "version": 1,
+      "displayName": "收放布艺 · 流苏折叠搭毯",
+      "category": "decor",
+      "mountRole": "static-textile",
+      "productionBranch": "static-textile",
+      "mount": "support-surface",
+      "parent": "sofa",
+      "mounting": {
+        "origin": "bottom",
+        "width": 0.4,
+        "height": 0.15,
+        "depth": 0.36
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.2,
+          0.18
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "materialSlots": {
+        "fabric": [
+          "throw-folded-ribbon"
+        ],
+        "trim": [
+          "throw-woven-stripes",
+          "throw-fringe"
+        ]
+      },
+      "provenance": {
+        "license": "Project-authored geometry and materials",
+        "sourceDesign": "fringed-throw",
+        "tools": [
+          "Three.js 187",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-static-textile-v1/parameters.json",
+        "sourceParametersSha256": "304dd15b45a339f8186655d21021aac6bece6125325303e654bd91379554a960",
+        "functionalContractSource": "assets-source/company-static-textile-v1/contract.json",
+        "functionalContractSourceSha256": "520ff0aa8a3e78ec5f1286730b58e66a80cd218ccbd227d89b77635478534be1",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "environmentBranch": "static-textile",
+        "generator": "scripts/company-platform/build-static-textile-collection.mjs",
+        "generatorSha256": "d80facadf51f04065003f231bbdbc88a3d0668aaa8bffdf1e8318417cf4f2cdb",
+        "dependencies": {
+          "model": {
+            "path": "scripts/company-platform/build-static-textile-model.mjs",
+            "sha256": "618bba82afd98b59557dc458efaee2ef4361ad31b1d3c853d4e0701427a1022f"
+          },
+          "geometryValidation": {
+            "path": "scripts/company-platform/test-static-textile-geometry.mjs",
+            "sha256": "e7337aa9899ed7a67f1e3d56bf950870d541b536272e5cbdfa731deef973727b"
+          }
+        }
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/static-textile-v1/static-textile-throw/v1/model.glb",
+        "sha256": "7248bbdbac0f866dc7bf13dbdf6f84db5572fdcddb72d95760c5b24501860ccc",
+        "bytes": 39136
+      }
+    },
+    {
+      "id": "static-textile-sofa-cover",
+      "version": 1,
+      "displayName": "收放布艺 · 弹力褶边沙发罩",
+      "category": "decor",
+      "mountRole": "static-textile",
+      "productionBranch": "static-textile",
+      "mount": "support-surface",
+      "parent": "sofa",
+      "mounting": {
+        "origin": "bottom",
+        "width": 0.4,
+        "height": 0.15,
+        "depth": 0.36
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.2,
+          0.18
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "materialSlots": {
+        "fabric": [
+          "cover-compressed-layers",
+          "cover-native-outer-flap",
+          "cover-gathered-cuff"
+        ],
+        "trim": [
+          "cover-elastic-hem"
+        ]
+      },
+      "provenance": {
+        "license": "CC0-1.0 source fabric geometry with project-authored adaptation",
+        "sourceDesign": "gathered-cover",
+        "tools": [
+          "Three.js 187",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-static-textile-v1/parameters.json",
+        "sourceParametersSha256": "304dd15b45a339f8186655d21021aac6bece6125325303e654bd91379554a960",
+        "functionalContractSource": "assets-source/company-static-textile-v1/contract.json",
+        "functionalContractSourceSha256": "520ff0aa8a3e78ec5f1286730b58e66a80cd218ccbd227d89b77635478534be1",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "environmentBranch": "static-textile",
+        "generator": "scripts/company-platform/build-static-textile-collection.mjs",
+        "generatorSha256": "d80facadf51f04065003f231bbdbc88a3d0668aaa8bffdf1e8318417cf4f2cdb",
+        "dependencies": {
+          "model": {
+            "path": "scripts/company-platform/build-static-textile-model.mjs",
+            "sha256": "618bba82afd98b59557dc458efaee2ef4361ad31b1d3c853d4e0701427a1022f"
+          },
+          "geometryValidation": {
+            "path": "scripts/company-platform/test-static-textile-geometry.mjs",
+            "sha256": "e7337aa9899ed7a67f1e3d56bf950870d541b536272e5cbdfa731deef973727b"
+          }
+        },
+        "sourceArtifactPath": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+        "sourceArtifactSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+        "sourceModelEntry": "Models/GLTF format/tableCloth.glb",
+        "sourceGlbSha256": "64de52b5c4370724c29feefd68a65b157c55c88592e2096987bbce007ae80bcb",
+        "sourcePrimitive": "carpet",
+        "sourceAuthor": "Kenney",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "sourceLicense": "CC0-1.0",
+        "sourceLicenseEntry": "License.txt",
+        "sourceLicenseSha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/static-textile-v1/static-textile-sofa-cover/v1/model.glb",
+        "sha256": "fa5dc7129152e658cec4ca6a3481acd5680b3da1368138bc6e5876e824ab2ff3",
+        "bytes": 76324
+      }
+    },
+    {
+      "id": "static-textile-table-mat",
+      "version": 1,
+      "displayName": "收放布艺 · 半卷桌垫",
+      "category": "decor",
+      "mountRole": "static-textile",
+      "productionBranch": "static-textile",
+      "mount": "support-surface",
+      "parent": "sofa",
+      "mounting": {
+        "origin": "bottom",
+        "width": 0.4,
+        "height": 0.15,
+        "depth": 0.36
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.2,
+          0.18
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "materialSlots": {
+        "fabric": [
+          "mat-continuous-scroll"
+        ],
+        "trim": [
+          "mat-edge-binding",
+          "mat-inset-border"
+        ]
+      },
+      "provenance": {
+        "license": "Project-authored geometry and materials",
+        "sourceDesign": "rolled-mat",
+        "tools": [
+          "Three.js 187",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-static-textile-v1/parameters.json",
+        "sourceParametersSha256": "304dd15b45a339f8186655d21021aac6bece6125325303e654bd91379554a960",
+        "functionalContractSource": "assets-source/company-static-textile-v1/contract.json",
+        "functionalContractSourceSha256": "520ff0aa8a3e78ec5f1286730b58e66a80cd218ccbd227d89b77635478534be1",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "environmentBranch": "static-textile",
+        "generator": "scripts/company-platform/build-static-textile-collection.mjs",
+        "generatorSha256": "d80facadf51f04065003f231bbdbc88a3d0668aaa8bffdf1e8318417cf4f2cdb",
+        "dependencies": {
+          "model": {
+            "path": "scripts/company-platform/build-static-textile-model.mjs",
+            "sha256": "618bba82afd98b59557dc458efaee2ef4361ad31b1d3c853d4e0701427a1022f"
+          },
+          "geometryValidation": {
+            "path": "scripts/company-platform/test-static-textile-geometry.mjs",
+            "sha256": "e7337aa9899ed7a67f1e3d56bf950870d541b536272e5cbdfa731deef973727b"
+          }
+        }
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/static-textile-v1/static-textile-table-mat/v1/model.glb",
+        "sha256": "0ed836c92300f971bfe940833df5ea4575f8640493c56953ed58c824d7672645",
+        "bytes": 50760
+      }
     }
   ]
 }

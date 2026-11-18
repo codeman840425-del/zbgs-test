@@ -49,6 +49,16 @@ node scripts/company-platform/build-library.mjs --check
 
 在批次的设施 `resource` 或 `replace-resource` 操作里引用 `desk-lamp-a-frame@1`、`screen-partition-acoustic-narrow-tiles@2` 对应的 ID 和整数版本。运行批处理后，在 `source/prototype` 依次运行 `node scripts/build-company-id.mjs` 和 `node node_modules/vite/bin/vite.js build --config vite.company.config.js`，再用新构建和该批次房间生成交付包。
 
+## 布置沙发与软装
+
+在工作副本的 `source` 目录生成两间朝向不同的房间。输入把沙发写在房间的 `furniture` 中，把抱枕或搭毯作为它的子物件写在 `operations` 中。
+
+```text
+node scripts/company-platform/batch.mjs scripts/company-platform/batch-inputs/static-textile-rooms.json output/static-textile-rooms
+```
+
+选择宽扶手模块沙发或拱背沙发，设置子物件的 `parentId` 为沙发实例 ID，`attachment.surfaceId` 为 `textile-rest`。省略子物件的 `transform` 时，制作工具读取宿主承载面的中心、高度和可用朝向；显式给出时，按沙发的局部坐标检查是否完整落在扶手上。四款软装可原位替换。换成较窄的普通沙发需要重新布置空间。可编辑模型配方及其复产入口见 `assets-source/company-static-textile-v1/README.md`。
+
 ## 批量生成公司
 
 完整公司也可从同一个批次生成。到 `source` 目录执行：

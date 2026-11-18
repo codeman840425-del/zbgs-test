@@ -1,0 +1,153 @@
+{
+  "id": "sofa-textile-arch",
+  "version": 1,
+  "displayName": "宽扶手双人沙发 · 拱背款",
+  "category": "multi-use",
+  "mountRole": "sofa",
+  "productionBranch": "sofa-textile-host",
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Ground centre",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0.16,
+      0
+    ],
+    "halfSize": [
+      1.26,
+      0.42
+    ],
+    "blocking": true
+  },
+  "supportSurfaces": [
+    {
+      "id": "textile-rest",
+      "center": [
+        1.18,
+        0
+      ],
+      "topY": 0.7,
+      "halfSize": [
+        0.22,
+        0.21
+      ],
+      "clearanceHeight": 0.15
+    }
+  ],
+  "supportNodes": {
+    "textile-rest": "textile-rest-arm"
+  },
+  "materialSlots": {
+    "fabric": [
+      "seat-left",
+      "seat-right",
+      "back-left",
+      "back-right",
+      "textile-rest-arm"
+    ],
+    "structure": [
+      "seat-support-left",
+      "back-support-left",
+      "seat-support-right",
+      "back-support-right",
+      "arch-base",
+      "arch-arm-left",
+      "arch-post-left",
+      "arch-shoulder-left",
+      "arch-post-right",
+      "arch-shoulder-right",
+      "arch-crossbar",
+      "arch-foot-left",
+      "arch-foot-right"
+    ]
+  },
+  "usePoints": [
+    {
+      "id": "left",
+      "position": [
+        -0.48,
+        0,
+        0.04
+      ],
+      "yaw": 0,
+      "seatHeight": 0.47,
+      "capacity": 1,
+      "clearance": {
+        "width": 0.92,
+        "depth": 1.11
+      },
+      "limitations": [
+        "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+        "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+        "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+      ],
+      "seatNodeId": "seat-left",
+      "backNodeId": "back-left",
+      "approach": [
+        -0.48,
+        0,
+        1.02
+      ],
+      "exit": [
+        -0.48,
+        0,
+        1.15
+      ]
+    },
+    {
+      "id": "right",
+      "position": [
+        0.48,
+        0,
+        0.04
+      ],
+      "yaw": 0,
+      "seatHeight": 0.47,
+      "capacity": 1,
+      "clearance": {
+        "width": 0.92,
+        "depth": 1.11
+      },
+      "limitations": [
+        "Metres. Fixed 0.47m seat height. Static data preview only. Actual character usage awaits C3.",
+        "Clearance width is centred on use-point X. Depth extends forward from use-point Z through the exit point.",
+        "Declared allocation only. Character body clearance, reach, contact and approach/exit motion remain unverified."
+      ],
+      "seatNodeId": "seat-right",
+      "backNodeId": "back-right",
+      "approach": [
+        0.48,
+        0,
+        1.02
+      ],
+      "exit": [
+        0.48,
+        0,
+        1.15
+      ]
+    }
+  ],
+  "stateDefaults": {},
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/sofa-textile-host-v1/sofa-textile-arch/v1/model.glb",
+    "sha256": "b0652cd6c8586de8a5d2b4deae513a9048b2519732a2cd8c51cb94947e3ba03b",
+    "bytes": 513228
+  },
+  "provenance": {
+    "license": "Project-authored schematic geometry and solid-color materials. No external art assets.",
+    "sourceParameters": "assets-source/company-sofa-textile-host-v1/parameters.json",
+    "sourceParametersSha256": "0176b53392e33a632c24359bc0e15aca22e2227c8152265a62dc9c4453564af0",
+    "generator": "scripts/company-platform/build-sofa-textile-hosts.mjs",
+    "generatorSha256": "d863be006763f514fccd37b3354dd600646fc962e6d7f75396999154051937c7",
+    "sourceArtifactPath": "prototype/public/company-assets/seat-collection/sofa-arch/v1/model.glb",
+    "sourceArtifactSha256": "6a995fda57ad94c15431573e02894c2a8698a291d3c8fa0f177138a803105e0d",
+    "originalResource": "prototype/public/company-assets/seat-collection/sofa-arch/v1/resource.json",
+    "originalResourceSha256": "e05fe1e4b9c843490c31d2bfdbcd1aa6aba04a4361573066cb78233b04e27742",
+    "method": "Keep both seat and back assemblies. Replace the right arm with one floor-bearing rounded upholstered arm taken from the seat material."
+  }
+}

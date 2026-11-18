@@ -12,7 +12,36 @@ const pair = value => Array.isArray(value) && value.length === 2 && value.every(
 const ID = /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/;
 const EPS = 1e-6;
 
+export function supportYaw(resource, surface) {
+  const box = resource?.mounting;
+  if (!box || !surface || !(box.height <= surface.clearanceHeight + 1e-8)) return null;
+  const width = surface.halfSize[0] * 2, depth = surface.halfSize[1] * 2;
+  if (box.width <= width + 2e-8 && box.depth <= depth + 2e-8) return 0;
+  if (box.depth <= width + 2e-8 && box.width <= depth + 2e-8) return Math.PI / 2;
+  return null;
+}
+
+export function matchesTextileRest(child, parent, surfaceId) {
+  const rest = parent?.mountRole === 'sofa' && surfaceId === 'textile-rest';
+  return (child?.mountRole === 'static-textile') === rest;
+}
+
+// A layout recipe can name its parent and mounting surface without copying
+// dimensional data from a particular catalog version into the room.
+export function centeredSupportTransform(resource, parentResource, surfaceId, path, fail) {
+  const surface = parentResource?.supportSurfaces?.find(s => s.id === surfaceId);
+  if (!surface) fail('missing-support-surface', path, `Parent has no support surface ${surfaceId}`);
+  if (!matchesTextileRest(resource, parentResource, surfaceId))
+    fail('incompatible-textile-support', path, 'The selected support is incompatible with this textile or its host');
+  const yaw = supportYaw(resource, surface);
+  if (yaw === null) fail('invalid-support-fit', path, 'The item does not fit the selected surface at either orientation');
+  return {position:[surface.center[0], surface.topY, surface.center[1]], yaw};
+}
+
 export function validateSupportResource(resource, fail, path = resource.id) {
+  if ((resource.mountRole === 'static-textile' || resource.productionBranch === 'static-textile') &&
+      (resource.mountRole !== 'static-textile' || resource.mount !== 'support-surface' || resource.category !== 'decor'))
+    fail('invalid-textile-mount', path, 'A sofa textile must use the supported decorative textile adapter');
   if(resource.mount!=null&&!['desk-surface','floor-surface','wall','wall-opening','portal','portal-door','support-surface','information-surface','ceiling','parent-device-endpoints','window-cover','desk-edge-clamp'].includes(resource.mount))
     fail('unsupported-mount',path,'The mounting adapter is not supported');
   validateCameraMountResource(resource, fail, path);
@@ -37,6 +66,18 @@ export function validateSupportResource(resource, fail, path = resource.id) {
           !Number.isFinite(s.clearanceHeight) || s.clearanceHeight <= 0 || s.clearanceHeight > 2.8)
         fail('invalid-support-contract', path, 'Support IDs, plane, size and clearance must be finite and unique');
       ids.add(s.id);
+      if (resource.mountRole === 'sofa' && s.id === 'textile-rest') {
+        // A wide armrest stays beside the seats even behind the approach line.
+        // Project the entire support rectangle onto each seat's lateral axis.
+        if (!resource.usePoints?.length || resource.usePoints.some(point => {
+          if (!Array.isArray(point?.position) || point.position.length !== 3 || !point.position.every(Number.isFinite) ||
+              !Number.isFinite(point.yaw ?? 0) || !Number.isFinite(point.clearance?.width) || point.clearance.width <= 0) return true;
+          const yaw = point.yaw ?? 0, cx = Math.cos(yaw), cz = -Math.sin(yaw);
+          const offset = (s.center[0] - point.position[0]) * cx + (s.center[1] - point.position[2]) * cz;
+          const radius = s.halfSize[0] * Math.abs(cx) + s.halfSize[1] * Math.abs(cz);
+          return Math.abs(offset) - radius < point.clearance.width / 2 - EPS;
+        })) fail('textile-rest-over-seat', path, 'The sofa armrest must stay outside the lateral extent of every declared seat');
+      }
       if (typeof names[s.id] !== 'string' || !names[s.id])
         fail('invalid-support-contract', `${path}.${s.id}`, 'Each support requires a named actual mesh');
       const fp = resource.footprint;
@@ -84,6 +125,8 @@ export function validateSupportAttachments(nodes, resources, fail) {
     const parentResource = resources.get(`${parent.resource?.id}@${parent.resource?.version}`);
     const surface = parentResource?.supportSurfaces?.find(s => s.id === attachment.surfaceId);
     if (!surface) fail('missing-support-surface', node.id, `Parent has no support surface ${attachment.surfaceId}`);
+    if (!matchesTextileRest(resource, parentResource, surface.id))
+      fail('incompatible-textile-support', node.id, 'Sofa textiles require the textile-rest surface of a compatible sofa; this surface is reserved for textiles');
     const [x, y, z] = node.transform.position, m = resource.mounting;
     const swapped = Math.abs(Math.sin(node.transform.yaw)) > .5;
     const halfX = (swapped ? m.depth : m.width) / 2, halfZ = (swapped ? m.width : m.depth) / 2;

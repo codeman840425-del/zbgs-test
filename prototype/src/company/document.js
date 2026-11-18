@@ -6,7 +6,7 @@ import {companyScaleProfile,validateScaleProfile} from './scale-profile.js';
 // Company authoring data. Actor tasks and seat leases remain in the character platform.
 import {validateCeilingAttachments} from './ceiling-acoustic-data.js';
 import {compareFacilityFunction} from './appearance-contract.js';
-import {validateSupportResource, validateSupportAttachments,effectiveSupportTransform} from './support-data.js';
+import {validateSupportResource, validateSupportAttachments, effectiveSupportTransform, centeredSupportTransform} from './support-data.js';
 import {MAKEUP_STORAGE_PROFILE,validateMakeupStorageAttachments} from './makeup-storage-data.js';
 import {validateMakeupDrawerAttachments} from './makeup-drawer-data.js';
 import {validateMovingResource, validateFacilityState, movingFootprint} from './moving-parts.js';
@@ -485,6 +485,10 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
   const before = deriveCompany(document, catalog, templates), next = copy(document);
   if (!Array.isArray(operations) || !operations.length) fail('empty-change', 'operations', 'At least one operation is required');
   const { resources, combinations } = catalogMaps(catalog, templates), affected = new Set();
+  function centerOnParent(resource, parentId, surfaceId, id) {
+    const parent = next.nodes.find(node => node.id === parentId);
+    return centeredSupportTransform(resource, resources.get(key(parent?.resource)), surfaceId, id, fail);
+  }
   for (const op of operations) {
     if (op.type === 'add-workstation') { expandStation(next, op, combinations); continue; }
     if (op.type === 'add-room' || op.type === 'add-area') {
@@ -495,6 +499,9 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
     }
     if (op.type === 'add-facility') {
       const node = { id: op.id, kind: 'facility', parentId: op.parentId, resource: copy(op.resource), transform: copy(op.transform || identityTransform()), state: copy(op.state || {}) };
+      const resource = resources.get(key(op.resource));
+      if (op.transform === undefined && op.attachment?.surfaceId && resource?.mount === 'support-surface')
+        node.transform = centerOnParent(resource, op.parentId, op.attachment.surfaceId, op.id);
       if (op.appearance !== undefined) node.appearance = copy(op.appearance);
       if (op.attachment !== undefined) node.attachment = copy(op.attachment);
       if (op.cableLink !== undefined) node.cableLink = copy(op.cableLink);
@@ -542,7 +549,9 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
         fail('invalid-support-attachment', node.id, 'Only support-surface props can be reattached');
       node.parentId = op.parentId;
       node.attachment = {surfaceId: op.surfaceId};
-      node.transform = copy(op.transform);
+      node.transform = op.transform === undefined
+        ? centerOnParent(resources.get(key(node.resource)), op.parentId, op.surfaceId, node.id)
+        : copy(op.transform);
     }
     else if (op.type === 'set-room') {
       if (!['room', 'area'].includes(node.kind)) fail('invalid-operation', node.id, 'Room fields belong to a room or public area');

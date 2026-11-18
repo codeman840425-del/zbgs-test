@@ -1,0 +1,89 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "travel-studio",
+      "input": {
+        "id": "travel-studio",
+        "name": "直播会客间 · 旅行搭毯",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "scale": "single-room",
+        "floors": [
+          {
+            "id": "ground",
+            "rooms": [
+              {
+                "id": "lounge",
+                "name": "直播会客间",
+                "purpose": "streaming",
+                "furniture": [
+                  {
+                    "id": "sofa",
+                    "resource": {
+                      "id": "sofa-textile-modular",
+                      "version": 1
+                    },
+                    "transform": {
+                      "position": [
+                        1.08,
+                        0,
+                        -0.7
+                      ],
+                      "yaw": 0
+                    }
+                  },
+                  {
+                    "id": "plant",
+                    "resource": {
+                      "id": "plant",
+                      "version": 1
+                    },
+                    "transform": {
+                      "position": [
+                        2.4,
+                        0,
+                        1.8
+                      ],
+                      "yaw": 0
+                    }
+                  }
+                ],
+                "stations": [
+                  {
+                    "id": "station",
+                    "transform": {
+                      "position": [
+                        -1.45,
+                        0,
+                        -0.65
+                      ],
+                      "yaw": 0
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "add-facility",
+          "id": "travel-studio/ground/lounge/sofa/textile",
+          "parentId": "travel-studio/ground/lounge/sofa",
+          "resource": {
+            "id": "static-textile-travel-throw",
+            "version": 2
+          },
+          "attachment": {
+            "surfaceId": "textile-rest"
+          }
+        }
+      ]
+    }
+  ]
+}

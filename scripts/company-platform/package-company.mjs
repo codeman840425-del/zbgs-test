@@ -279,6 +279,12 @@ const extraFiles=[
   'scripts/company-platform/test-room-appearance-publication.mjs',
   'scripts/company-platform/qa-published-room-looks.cjs',
   'assets-source/company-screen-partition-v1/collection.json',
+  'scripts/company-platform/build-static-textile-model.mjs',
+  'scripts/company-platform/test-static-textile-geometry.mjs',
+  'scripts/company-platform/test-sofa-textile-hosts.mjs',
+  'scripts/company-platform/test-static-textile-rooms.mjs',
+  'scripts/company-platform/qa-static-textiles.cjs',
+  'scripts/company-platform/fixtures/static-textiles.json',
   'prototype/scripts/build-id.mjs',
 ];
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
