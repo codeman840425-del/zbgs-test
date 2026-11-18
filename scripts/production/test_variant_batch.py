@@ -1,7 +1,16 @@
+import hashlib
+import io
+import json
+import struct
+import subprocess
 import unittest
+from contextlib import redirect_stdout
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
-from variant_batch import SCHEMA, OUT_SCHEMA, plan
-from outfit_admission import binding_key, outfit_binding
+from variant_batch import FIXED_MATRIX, QUERY_SCRIPT, SCHEMA, OUT_SCHEMA, main, plan
+from outfit_admission import binding_key, evidence_pin, outfit_binding
 
 
 MEMBER = {"id": "female-uniform-item", "slot": "top", "sha256": "e" * 64}
@@ -70,10 +79,10 @@ class VariantBatchTests(unittest.TestCase):
         self.assertEqual(result["items"][0]["selection"]["styleId"], "uniform-top-v1")
 
     def test_candidate_is_rejected_without_fallback(self):
-        result = self.plan(matrix("candidate"), self.request("host-b"))
+        result = self.plan(matrix("candidate"), self.request("host-b"), admissions={})
         self.assertEqual(result["mode"], "readiness-gated")
         self.assertEqual(result["acceptedCount"], 0)
-        self.assertIn("runtime admission pending", result["items"][0]["reason"])
+        self.assertIn("Whole-outfit runtime admission evidence", result["items"][0]["reason"])
 
     def test_duplicate_stable_ids_are_isolated(self):
         request = self.request("host-c")
@@ -189,6 +198,150 @@ class VariantBatchTests(unittest.TestCase):
         result = self.plan(data,request,queries=query,admissions=reviewed)
         self.assertEqual(result["acceptedCount"],0)
         self.assertIn("Whole-outfit runtime admission evidence",result["items"][0]["reason"])
+
+    def test_candidate_without_a_parameter_recipe_cannot_use_a_receipt(self):
+        result = self.plan(matrix("candidate"), self.request())
+        self.assertEqual(result["acceptedCount"], 0)
+        self.assertIn("exact parameter recipe identity", result["items"][0]["reason"])
+
+    def test_receipt_cannot_override_explicit_rejection_or_static_budget(self):
+        data = matrix("candidate")
+        row = data["styles"][0]["variants"][0]
+        row["recipeSha256"] = "d" * 64
+        for status, budget_status, reason in (
+            ("candidate", "reject-static-over-budget", "static budget over limit"),
+            ("rejected", None, "variant explicitly rejected"),
+        ):
+            row.update(status=status, budgetStatus=budget_status)
+            result = self.plan(data, self.request())
+            self.assertEqual(result["acceptedCount"], 0)
+            self.assertIn(reason, result["items"][0]["reason"])
+        row["status"] = "candidate"
+        row["budgetStatus"] = "reject-static-over-budget"
+        result = self.plan(data, self.request(), diagnostic=True)
+        self.assertEqual((result["candidateCount"], result["acceptedCount"]), (1, 0))
+
+    def test_receipt_for_another_style_cannot_admit_candidate(self):
+        data = matrix("candidate")
+        style = data["styles"][0]
+        style["styleId"] = "another-style-v1"
+        style["variants"][0].update(recipeSha256="d" * 64, recipeSource="synthetic-author-recipe.json")
+        request = self.request()
+        request["items"][0]["styleId"] = style["styleId"]
+        result = self.plan(data, request, members={(style["styleId"], MATCH[1], MATCH[2]): MEMBER})
+        self.assertEqual(result["acceptedCount"], 0)
+        self.assertIn("exact body, version and equipment", result["items"][0]["reason"])
+
+    def test_cli_uses_synthetic_external_review_without_touching_fixed_candidate(self):
+        # No real catalogue, record, authority index or production asset is changed.
+        workspace = Path(__file__).resolve().parents[2]
+        with TemporaryDirectory(dir=workspace, prefix="synthetic-variant-batch-") as temp:
+            root = Path(temp).resolve()
+
+            def write(relative, value):
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes((json.dumps(value) + "\n").encode("utf-8"))
+                return path
+
+            def git(*args):
+                return subprocess.check_output(["git", "-C", str(root), *args], encoding="utf-8").strip()
+
+            data = matrix("candidate")
+            row = data["styles"][0]["variants"][0]
+            row["recipeSource"] = "synthetic-author-recipe.json"
+            row["recipeSha256"] = evidence_pin(write(row["recipeSource"], {"synthetic": True}))["sha256"]
+            inverse_bind = [1 if i % 5 == 0 else 0 for i in range(16)]
+            skin = json.dumps({
+                "asset": {"version": "2.0"}, "buffers": [{"byteLength": 64}],
+                "bufferViews": [{"buffer": 0, "byteLength": 64}],
+                "accessors": [{"bufferView": 0, "componentType": 5126, "count": 1, "type": "MAT4"}],
+                "nodes": [{"name": "test-bone"}], "skins": [{"inverseBindMatrices": 0, "joints": [0]}],
+            }).encode("utf-8")
+            skin += b" " * (-len(skin) % 4)
+            garment = root / "prototype/public/assets/body/test-garment.glb"
+            garment.parent.mkdir(parents=True)
+            garment.write_bytes(struct.pack("<4sII", b"glTF", 2, 28 + len(skin) + 64) +
+                                struct.pack("<I4s", len(skin), b"JSON") + skin +
+                                struct.pack("<I4s16f", 64, b"BIN\0", *inverse_bind))
+            garment_pin = evidence_pin(garment)
+            member = {**MEMBER, "sha256": garment_pin["sha256"]}
+            resource = write("prototype/public/assets/body/resource.json", {"schema": "zbgs-equipment-v1", "items": [{
+                **member, "compatibleAvatarSha256": row["bodySha256"], "preserveOriginalBody": True,
+                "requiresRawSkeleton": True, "url": "/assets/body/test-garment.glb", "bytes": garment_pin["bytes"],
+                "bindings": [{"sourceBone": "test-bone", "targetRawBone": "test-bone", "inverseBindMatrix": inverse_bind}],
+            }]})
+            manifest_ref = row["resourceManifest"] + "#" + member["id"]
+            manifest_sha = evidence_pin(resource)["sha256"]
+            row.update(resourceManifest=manifest_ref, resourceManifestSha256=manifest_sha,
+                       fitManifest=manifest_ref + ".bindings", fitManifestSha256=manifest_sha,
+                       coverageManifest=manifest_ref + ".preserveOriginalBody", coverageManifestSha256=manifest_sha)
+            fixed_matrix = write(FIXED_MATRIX, data)
+            matrix_bytes = fixed_matrix.read_bytes()
+            request_data = self.request()
+            request_data["items"][0]["outfit"]["equipment"] = [member]
+            request = write("synthetic-request.json", request_data)
+            query = root / QUERY_SCRIPT
+            query.parent.mkdir(parents=True)
+            query_data = self.query()[MATCH[1]]
+            query_data["outfits"][0]["equipment"] = [member]
+            query.write_text("console.log(JSON.stringify(" + json.dumps(query_data) + "));\n",
+                             encoding="utf-8")
+            git("init", "-q")
+            git("config", "core.autocrlf", "false")
+            git("add", ".")
+            git("-c", "user.name=Synthetic Fixture", "-c", "user.email=fixture@example.invalid",
+                "commit", "-qm", "Synthetic candidate fixture")
+            commit = git("rev-parse", "HEAD")
+            input_name = "../" + FIXED_MATRIX
+            source_sha = hashlib.sha256(input_name.encode() + b"\0" + matrix_bytes + b"\0").hexdigest()
+            build = write("synthetic-build-info.json", {"inputs": [input_name]})
+            binding = outfit_binding({**row, "styleId": MATCH[0]},
+                                     {"role": "configured", "equipment": [member]}, manifest_sha)
+            synthetic_index = {binding_key(binding): {
+                "runtime": {"sourceCommit": commit, "sourceDigest": source_sha, "buildId": source_sha[:12]},
+                "buildInfo": evidence_pin(build), "approval": {"syntheticTestOnly": True},
+            }}
+
+            def cli(output, index, matrix_input=fixed_matrix):
+                args = ["variant_batch.py", str(matrix_input), str(request), "--root", str(root),
+                        "--output", str(root / output)]
+                with patch("sys.argv", args), patch("variant_batch.load_reviewed_admissions", return_value=index), \
+                     redirect_stdout(io.StringIO()) as stdout:
+                    status = main()
+                return status, stdout.getvalue()
+
+            status, stdout = cli("before-review", {})
+            self.assertEqual(status, 0, stdout)
+            self.assertEqual(json.loads(stdout)["acceptedCount"], 0)
+            status, stdout = cli("after-review", synthetic_index)
+            self.assertEqual(status, 0, stdout)
+            result = json.loads(stdout)
+            self.assertEqual((result["acceptedCount"], result["rejectedCount"]), (1, 0))
+            self.assertIsNone(result["items"][0]["selection"]["admissionEvidence"])
+            self.assertEqual(result["items"][0]["selection"]["wholeOutfitAdmission"]["approval"],
+                             {"syntheticTestOnly": True})
+            batch = root / "after-review" / result["creationBatches"][0]["path"]
+            self.assertEqual(json.loads(batch.read_bytes())["requests"][0]["edits"][0]["selection"]["equipment"], [member])
+            # The normal D02 batch parser consumes the generated file without a browser.
+            parsed = subprocess.run(["node", "-e", """
+const fs = require('node:fs');
+const {batchCreates, parseRequest} = require('./scripts/character-production-cli.cjs');
+batchCreates(parseRequest(fs.readFileSync(process.argv[1])))
+  .then(jobs => process.stdout.write(JSON.stringify(jobs)))
+  .catch(error => { console.error(error.message); process.exitCode = 1; });
+""", str(batch)], cwd=workspace, text=True, encoding="utf-8", capture_output=True, check=True)
+            self.assertEqual(json.loads(parsed.stdout)[0]["edits"][0]["selection"]["equipment"], [member])
+            self.assertEqual(fixed_matrix.read_bytes(), matrix_bytes)
+            self.assertEqual(git("rev-parse", "HEAD"), commit)
+            status, stdout = cli("alternate", synthetic_index, write("alternate-matrix.json", data))
+            self.assertEqual(status, 1, stdout)
+            self.assertIn("compiled fixed matrix", stdout)
+            write(row["recipeSource"], {"synthetic": "changed"})
+            status, stdout = cli("changed-recipe", synthetic_index)
+            self.assertEqual(status, 1, stdout)
+            self.assertIn("recipeSource", stdout)
+            self.assertFalse((root / "changed-recipe").exists())
 
 
 if __name__ == "__main__":

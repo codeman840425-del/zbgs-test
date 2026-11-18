@@ -28,7 +28,10 @@ try:
  # empty no-checkout worktree stages every other path as deleted).
  run('read-attributes',['git','show',report['commit']+':.gitattributes'],work)
  shutil.copyfile(out/'read-attributes.stdout.log',work/'.gitattributes')
- run('sparse-checkout',['git','sparse-checkout','set','--cone','prototype'],work)
+ build_dirs=['prototype']
+ if '../assets-source/variant-matrix-v1/representative-matrix.json' in referenceInfo['inputs']:
+  build_dirs.append('assets-source/variant-matrix-v1')
+ run('sparse-checkout',['git','sparse-checkout','set','--cone',*build_dirs],work)
  run('checkout',['git','checkout','--detach',report['commit']],work)
  report['actualCommit']=run('actual-commit',['git','rev-parse','HEAD'],work)
  assert report['actualCommit']==report['commit']

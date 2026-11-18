@@ -1,7 +1,7 @@
-"""Plan deterministic game-character records from an admitted style matrix.
+"""Plan deterministic game-character records from a fixed style matrix.
 
-Production requests use an exact body-specific matrix row with runtime
-admission evidence and an explicitly pinned configured outfit. Diagnostic
+Production requests use an exact body-specific matrix row and a separately
+reviewed receipt for the complete configured outfit and fixed runtime. Diagnostic
 requests use the same outfit resolution and remain technical candidates.
 """
 from __future__ import annotations
@@ -11,6 +11,7 @@ import hashlib
 import json
 import re
 import subprocess
+import time
 from tempfile import TemporaryDirectory
 from pathlib import Path
 
@@ -23,6 +24,7 @@ OUT_SCHEMA = "zbgs-style-variant-batch-plan-v1"
 ID = re.compile(r"^[a-z][a-z0-9-]{1,95}$")
 SHA = re.compile(r"^[a-f0-9]{64}$")
 QUERY_SCRIPT = "scripts/production/variant_batch_query.mjs"
+FIXED_MATRIX = "assets-source/variant-matrix-v1/representative-matrix.json"
 
 
 def check(condition: bool, message: str) -> None:
@@ -132,6 +134,11 @@ def production_request(item, row, query, member):
             }}]}
 
 
+def eligible_variant(row, diagnostic):
+    return row.get("status") in {"candidate", "runtime-admitted"} and (
+        diagnostic or row.get("budgetStatus") != "reject-static-over-budget")
+
+
 def plan(matrix: dict, request: dict, *, queries=None, members=None, diagnostic=False,
          fit_shas=None, admissions=None, runtime_commit=None) -> dict:
     check(request.get("schema") == SCHEMA, "Invalid style variant batch request schema")
@@ -158,8 +165,10 @@ def plan(matrix: dict, request: dict, *, queries=None, members=None, diagnostic=
             check(isinstance(version, str) and ID.fullmatch(version), "Invalid variantVersion")
             row = rows.get((style_id, body_type, version))
             check(row is not None, f"No exact variant for {style_id}/{body_type}/{version}")
-            if row.get("status") != "runtime-admitted" and not (diagnostic and row.get("status") == "candidate"):
+            if not eligible_variant(row, diagnostic):
                 details = []
+                if row.get("status") == "rejected":
+                    details.append("variant explicitly rejected")
                 if row.get("budgetStatus") == "reject-static-over-budget":
                     details.append("static budget over limit")
                 blockers = row.get("admissionBlockers")
@@ -172,6 +181,13 @@ def plan(matrix: dict, request: dict, *, queries=None, members=None, diagnostic=
                       "runtime-admitted variant has no admission evidence")
                 check(SHA.fullmatch(str(row.get("recipeSha256") or "")),
                       "runtime-admitted variant has no parameter recipe identity")
+            if not diagnostic:
+                check(admissions, "Whole-outfit runtime admission evidence is required from the reviewed index")
+                check(SHA.fullmatch(str(row.get("recipeSha256") or "")),
+                      "Whole-outfit runtime admission requires an exact parameter recipe identity")
+                if row["status"] == "candidate":
+                    check(isinstance(row.get("recipeSource"), str) and bool(row["recipeSource"]),
+                          "Whole-outfit candidate requires its pinned parameter recipe source")
             for key in ("bodySha256", "resourceManifestSha256", "coverageManifestSha256"):
                 check(SHA.fullmatch(str(row.get(key) or "")), f"Invalid {key}")
             member = (members or {}).get(variant_key(item))
@@ -222,7 +238,7 @@ def plan(matrix: dict, request: dict, *, queries=None, members=None, diagnostic=
     }
 
 
-def resolve_runtime(matrix, request, root, diagnostic):
+def resolve_runtime(matrix, request, root, diagnostic, has_admissions):
     rows = matrix_rows(matrix)
     queries, members, fit_shas = {}, {}, {}
     for item in batch_items(request):
@@ -230,7 +246,9 @@ def resolve_runtime(matrix, request, root, diagnostic):
             continue
         key = variant_key(item)
         row = rows.get(key)
-        if not row or row["status"] not in ({"runtime-admitted", "candidate"} if diagnostic else {"runtime-admitted"}):
+        if not row or not eligible_variant(row, diagnostic):
+            continue
+        if not diagnostic and (not has_admissions or not SHA.fullmatch(str(row.get("recipeSha256") or ""))):
             continue
         try:
             members[key] = resource_member(row, root)
@@ -251,6 +269,20 @@ def resolve_runtime(matrix, request, root, diagnostic):
     return queries, members, fit_shas
 
 
+def publish_plan(package: Path, output: Path):
+    # Windows may briefly lock a just-written directory for indexing. Retry
+    # only the atomic rename, without recreating requests or replacing output.
+    for delay in (0.025, 0.05, 0.1, 0.2, None):
+        check(not output.exists(), "Output already exists")
+        try:
+            package.rename(output)
+            return
+        except PermissionError as error:
+            if delay is None or getattr(error, 'winerror', None) not in (5, 32, 33):
+                raise
+            time.sleep(delay)
+
+
 def run(matrix_path: Path, request_path: Path, output: Path, root: Path, diagnostic=False) -> dict:
     matrix = read_json(matrix_path)
     errors = validate_matrix_files(matrix, root)
@@ -258,12 +290,14 @@ def run(matrix_path: Path, request_path: Path, output: Path, root: Path, diagnos
     check(not output.exists(), "Output already exists")
     request = read_json(request_path)
     admissions = {} if diagnostic else load_reviewed_admissions()
+    if admissions:
+        check(matrix_path == (root / FIXED_MATRIX).resolve(), "Formal outfit planning requires the compiled fixed matrix")
     runtime_commit = source_commit(root) if admissions else None
     reviewed_builds = {approval["runtime"]["sourceDigest"]: approval for approval in admissions.values()
                        if approval["runtime"]["sourceCommit"] == runtime_commit}
     for approval in reviewed_builds.values():
         verify_runtime_source(root, approval)
-    queries, members, fit_shas = resolve_runtime(matrix, request, root, diagnostic)
+    queries, members, fit_shas = resolve_runtime(matrix, request, root, diagnostic, bool(admissions))
     if runtime_commit:
         check(source_commit(root) == runtime_commit, "Fixed outfit runtime source changed while planning")
     result = plan(matrix, request, queries=queries, members=members, diagnostic=diagnostic,
@@ -301,8 +335,7 @@ def run(matrix_path: Path, request_path: Path, output: Path, root: Path, diagnos
                 "sha256":hashlib.sha256(data).hexdigest(), "bytes":len(data),
             })
         (package / "plan.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        check(not output.exists(), "Output already exists")
-        package.rename(output)
+        publish_plan(package, output)
     return result
 
 
