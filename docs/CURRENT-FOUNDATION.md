@@ -128,3 +128,4 @@
 
 2026-11-18 发型合同缺口：概念图中的短发可复用现有精确身体行，中长发和双马尾需要独立资源包与 fit。当前多数发型包尚未闭合 `bodyType/provenance`，旧 implicit fit 不能作为跨身体批产依据。该审查不制作新模型，下一步优先补共同身份合同和候选准入，不回到单模型外观精修。
 2026-11-18 发型合同审计已落地为可重复检查：`scripts/production/qa-hairstyle-contract.mjs` 生成 `evidence/m2-hairstyle-contract-v1/report.json`，当前 27 条记录中 25 条显式闭合，2 条历史 implicit fit 被标记为迁移项。该审计只收紧未来批产输入，不制作新模型、不改变 `runtimeVariants` 或准入结果。下一批发型必须携带精确 `bodyType`、`fit`、资源哈希和来源闭包，中长发与双马尾仍需独立生产样件。
+2026-11-18 变体批量入口已接入生产链：`scripts/production/variant_batch.py` 将美术方的统一参数结果映射为精确 `styleId/bodyType/variantVersion` 请求，资源文件闭包和 runtime admission 任一不满足就逐项拒绝。当前代表矩阵四项均因 candidate 状态被拒绝，`evidence/m2-variant-batch-plan-v2/plan.json` 记录 0 accepted。该入口已经能作为未来随机组合的共同下游，不改变当前准入闸门，也不把候选资源变成游戏可用角色。
