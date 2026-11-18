@@ -23,7 +23,8 @@ const sourceFiles=[
   'prototype/src/company/workstation-looks.json',
   'prototype/src/company/persistence.js','prototype/src/company/library-catalog.json',
   'prototype/src/company/templates-extended.json','prototype/src/company/desktop-placement.js',
-  'prototype/src/company/render.js','scripts/company-platform/preflight-library-assets.mjs',
+  'prototype/src/company/render.js','prototype/src/company/asset-library.js',
+  'prototype/src/company/screen-state.js','scripts/company-platform/preflight-library-assets.mjs',
 ];
 const styleSourceFiles=[
   'scripts/company-platform/apply-style-recipe.mjs',

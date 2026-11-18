@@ -1,6 +1,7 @@
 import {validateCableRouteGeometry} from './cable-route-geometry.js';
 import {validateCablePortGeometry} from './cable-port-geometry.js';
 import * as THREE from 'three';
+import {screenMaterials} from './screen-state.js';
 import {validateWindowGeometry} from './window-geometry.js';
 import {validateWindowResource} from './window-data.js';
 import {validateWindowCoverResource,validateWindowCoverGeometry} from './window-cover-data.js';
@@ -179,6 +180,15 @@ async function releaseFailedParser(parser, json, pack) {
 
 function validateResource(pack, description) {
   pack.scene.updateMatrixWorld(true);
+  if (description.resource.display?.screen !== undefined) {
+    screenMaterials(description.resource, name => {
+      const matches = [];
+      pack.scene.traverse(node => {
+        if ((node.userData.name || node.name) === name) matches.push(node);
+      });
+      return matches.length === 1 ? matches[0] : null;
+    }, description.path);
+  }
   validateWindowGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
   validateWindowCoverGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
   validateCableRouteGeometry(pack.scene, description.resource, (code,path,message)=>{throw error(code,path,message);});

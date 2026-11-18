@@ -24,6 +24,17 @@ async function expectCode(label, resource, code) {
 await preflightLibraryAssets({root, resources: [original]});
 outcomes.push({label: 'valid-concept-texture', code: 'passed'});
 
+const catalog = JSON.parse(await fs.readFile(catalogPath,'utf8'));
+const screens = catalog.resources.filter(resource => resource.asset && resource.display?.screen);
+const monitor = screens.find(resource => resource.id === 'monitor-aurora');
+assert(monitor);
+await preflightLibraryAssets({root,resources:screens});
+outcomes.push({label:'registered-screen-bindings',code:'passed',count:screens.length});
+const screenWith = patch => ({...monitor,display:{...monitor.display,screen:{...monitor.display.screen,...patch}}});
+await expectCode('missing-screen-node',screenWith({nodes:['missing-imported-screen']}),'missing-display-mesh');
+await expectCode('duplicate-screen-target',screenWith({nodes:[...monitor.display.screen.nodes,...monitor.display.screen.nodes]}),'invalid-display-mapping');
+await expectCode('out-of-range-screen-emission',screenWith({onIntensity:20}),'invalid-display-mapping');
+
 await expectCode('digest-mismatch', {
   ...structuredClone(original),
   asset: {...original.asset, sha256: '0'.repeat(64)},

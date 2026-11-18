@@ -3,6 +3,7 @@ import {adaptCableGeometry,validateCableVisualPlacement} from './cable-render.js
 import {validateCeilingVisualPlacement,ceilingVisibleForRegion} from './ceiling-placement.js';
 import {installationGeometryFacilities,validateDesktopReservations} from './desktop-placement.js';
 import * as THREE from 'three';
+import {screenMaterials} from './screen-state.js';
 import {applyWindowState,validateWindowVisualPlacement} from './window-geometry.js';
 import {applyWindowCoverState} from './window-cover-data.js';
 import defaultCatalog from './facility-catalog.json' with {type:'json'};
@@ -226,20 +227,11 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         }
         // Imported models declare their display targets separately from fixed state semantics.
         const screen=entry.resource.display?.screen;
-        if(screen) {
-          if(!Array.isArray(screen.nodes)||!screen.nodes.length||
-            !Number.isFinite(screen.onIntensity)||screen.onIntensity<0||screen.onIntensity>10||
-            ![screen.onColor,screen.offColor,screen.emissive].every(c=>typeof c==='string'&&/^#[0-9a-fA-F]{6}$/.test(c)))
-            throw new CompanyError('invalid-display-mapping',entry.id,'Screen display requires named meshes, colors and a bounded emissive intensity');
-          for(const name of screen.nodes) {
-            const mesh=parts.get(name);
-            if(!mesh?.isMesh)throw new CompanyError('missing-display-mesh',`${entry.id}.${name}`,'Screen state target must resolve to a mesh');
-            for(const material of [mesh.material].flat()) {
-              if(!material?.emissive)throw new CompanyError('invalid-display-material',`${entry.id}.${name}`,'Screen target requires an emissive-capable material');
-              material.color.set(entry.state.on?screen.onColor:screen.offColor);
-              material.emissive.set(entry.state.on?screen.emissive:'#000000');
-              material.emissiveIntensity=entry.state.on?screen.onIntensity:0;
-            }
+        if (screen !== undefined) {
+          for (const material of screenMaterials(entry.resource,name=>parts.get(name),entry.id)) {
+            material.color.set(entry.state.on?screen.onColor:screen.offColor);
+            material.emissive.set(entry.state.on?screen.emissive:'#000000');
+            material.emissiveIntensity=entry.state.on?screen.onIntensity:0;
           }
         }
         // Other static display resources (for example a camera recording LED or
