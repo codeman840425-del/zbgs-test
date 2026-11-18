@@ -78,6 +78,12 @@ assert.equal(hidden.floorId, secondFloor.id);
 coordinates(hidden.samples[0].hit, [-5.96, .47, 5.98]);
 coordinates(hidden.samples[1].hit, [-5.96, .47, 6]);
 
+// A side-entry seat is valid only with its actual paired vanity table in the room.
+const vanity = fileURLToPath(new URL('../../prototype/src/company/examples/c1-vanity-display.json', import.meta.url));
+const pair = run(1, vanity).inputs[0].points.find(point => point.resource.id === 'vanity-chair-side-entry');
+assert.deepEqual(pair.failures, ['seat-height-mismatch']);
+near(pair.actualHeight, .475);
+
 const bad = createCompany({ id: 'seat-failures', width: 10, depth: 7 }, catalog);
 const [, room] = bad.nodes;
 bad.nodes.push(asset('chair', room, [-2, 0, 0]), asset('test-seat-narrow', room, [0, 0, 0]), asset('chair-ladder', room, [2, 0, 0]));

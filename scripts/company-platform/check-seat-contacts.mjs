@@ -6,7 +6,7 @@ import { Box3, Group, Matrix3, Raycaster, Vector3 } from '../../prototype/node_m
 import defaultCatalog from '../../prototype/src/company/library-catalog.json' with { type: 'json' };
 import defaultTemplates from '../../prototype/src/company/templates-extended.json' with { type: 'json' };
 import { createCompanyAssetLibrary } from '../../prototype/src/company/asset-library.js';
-import { CompanyError, composeTransform, createCompany, deriveCompany, identityTransform, pointInTransform } from '../../prototype/src/company/document.js';
+import { CompanyError, composeTransform, createCompany, deriveCompany, pointInTransform } from '../../prototype/src/company/document.js';
 import { decodeCompanySave } from '../../prototype/src/company/persistence.js';
 import { createCompanyScene } from '../../prototype/src/company/render.js';
 import { installNodeImageDecodeShim } from './preflight-library-assets.mjs';
@@ -21,7 +21,6 @@ const probes = [
 ];
 const down = new Vector3(0, -1, 0);
 const stageId = 'seat-audit-stage';
-const fixtureId = stageId + '/fixture';
 const hasSeatContact = point => point.seatHeight !== undefined || point.seatNodeId !== undefined;
 const finitePosition = position => Array.isArray(position) && position.length === 3 && position.every(Number.isFinite);
 const diagnostic = (error, location) => ({
@@ -52,40 +51,6 @@ function localAssetLibrary(publicDirectory) {
   });
 }
 
-async function stageFacility(entry, assetLibrary) {
-  const resource = { ...entry.resource, usePoints: (entry.resource.usePoints ?? []).filter(hasSeatContact) };
-  // Only stage this fixture. This keeps hidden floors independent of the active
-  // view and excludes unrelated materials, meshes, and use points from the rays.
-  // Both authored geometry and GLB follow the normal scene builder and state.
-  const catalog = { id: stageId, version: 1, resources: [resource] };
-  const document = createCompany({ id: stageId, width: 20, depth: 20 }, catalog);
-  document.nodes.push({
-    kind: 'facility', id: fixtureId, parentId: stageId + '/room-1',
-    resource: entry.node.resource, transform: identityTransform(), state: entry.node.state ?? {},
-    ...(entry.node.appearance === undefined ? {} : { appearance: entry.node.appearance }),
-  });
-  if (resource.asset) await assetLibrary.preload([resource]);
-  else if (!resource.node) fail('missing-seat-geometry', entry.id, 'Seat resource has neither GLB nor procedural geometry');
-  const scene = createCompanyScene(new Group(), document, { catalog, templates: { templates: [] }, assetLibrary });
-  const fixture = scene.root.getObjectByName(fixtureId);
-  fixture.position.fromArray(entry.world.position);
-  fixture.rotation.y = entry.world.yaw;
-  fixture.updateWorldMatrix(true, true);
-  return { fixture, dispose: () => scene.dispose() };
-}
-
-function seatMesh(fixture, nodeId, location) {
-  const matches = [];
-  fixture.traverse(object => {
-    if (object.name === nodeId || object.userData.name === nodeId) matches.push(object);
-  });
-  if (matches.length !== 1 || !matches[0].isMesh || !matches[0].geometry?.getAttribute('position')?.count) {
-    const code = matches.length > 1 ? 'ambiguous-seat-mesh' : 'missing-seat-mesh';
-    fail(code, location, 'Seat contact must resolve to one named mesh with actual positions', { seatNodeId: nodeId, matches: matches.length });
-  }
-  return matches[0];
-}
-
 function measure(mesh, expectedHeight, baseY, transform) {
   const bounds = new Box3().setFromObject(mesh, true);
   const matrix = new Matrix3().getNormalMatrix(mesh.matrixWorld);
@@ -114,7 +79,7 @@ function pointIdentity(entry, point) {
   };
 }
 
-function checkPoint(entry, point, fixture, info) {
+function checkPoint(entry, point, mesh, info) {
   const location = info.usePointId;
   if (typeof point.seatNodeId !== 'string' || !point.seatNodeId || !Number.isFinite(point.seatHeight) || point.seatHeight <= 0)
     fail('invalid-seat-metadata', location, 'Expected a seatNodeId and positive finite seatHeight');
@@ -123,7 +88,6 @@ function checkPoint(entry, point, fixture, info) {
     fail('invalid-seat-transform', location, 'Expected a finite facility-relative seat position and yaw');
   const baseY = entry.world.position[1];
   const transform = composeTransform(entry.world, { position, yaw });
-  const mesh = seatMesh(fixture, point.seatNodeId, location);
   const samples = measure(mesh, point.seatHeight, baseY, transform);
   const [centre] = samples;
   const failed = samples.filter(sample => sample.code);
@@ -137,24 +101,30 @@ function checkPoint(entry, point, fixture, info) {
 async function auditSeatContacts(document, { catalog, templates, assetLibrary }) {
   const derived = deriveCompany(document, catalog, templates);
   const results = [];
-  for (const entry of derived.facilities) {
-    const points = (entry.resource.usePoints ?? []).filter(hasSeatContact);
-    if (!points.length) continue;
-    let staged, preparationFailure;
-    try { staged = await stageFacility(entry, assetLibrary); }
-    catch (error) { preparationFailure = error; }
-    try {
-      for (const point of points) {
+  // Start in the overview so no mirror, decorative asset or visible floor is needed.
+  // Restore the complete document before asking the game's provider for its real mesh.
+  const seed = createCompany({id: stageId}, catalog);
+  const scene = createCompanyScene(new Group(), seed, {catalog, templates, assetLibrary});
+  try {
+    scene.setView({mode: 'building'});
+    scene.restore(JSON.stringify(document));
+    for (const entry of derived.facilities) {
+      for (const point of (entry.resource.usePoints ?? []).filter(hasSeatContact)) {
         const info = pointIdentity(entry, point);
+        let contact;
         try {
-          if (preparationFailure) throw preparationFailure;
-          results.push(checkPoint(entry, point, staged.fixture, info));
+          contact = await scene.retainUsePointContact(info.usePointId);
+          results.push(checkPoint(entry, point, contact.seat, info));
         } catch (error) {
-          results.push({ ...info, status: 'failed', actualHeight: null, error: null,
-            failures: [error.code || 'seat-audit-failed'], samples: [], diagnostic: diagnostic(error, info.usePointId) });
+          results.push({...info, status: 'failed', actualHeight: null, error: null,
+            failures: [error.code || 'seat-audit-failed'], samples: [], diagnostic: diagnostic(error, info.usePointId)});
+        } finally {
+          contact?.release();
         }
       }
-    } finally { staged?.dispose(); }
+    }
+  } finally {
+    scene.dispose();
   }
   return results;
 }
