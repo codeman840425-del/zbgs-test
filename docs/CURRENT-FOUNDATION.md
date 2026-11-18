@@ -2,6 +2,8 @@
 
 ## 固定入口与备份
 
+现用游戏制作交付单已切到含输出保护的工具 `2ae88304`，配套游戏仍锁 `cfca0dd1`／`fe2e58489bbb`。独立检出实际比对 508 个构建文件、38 个交付文件和两份旧签名记录；默认制作、生成与导出入口均已在真实命令行拒绝盘根输出。[现用交付单](../delivery/character-production-handoff.json) · [复算回执](../evidence/character-worktree-relocation-v1/operator-receiver.json)
+
 盘根复核：迁移清单 37/37 旧路径已消失，新路径均在主项目。公司工程和独立融合测试归属已区分。批产计划、角色记录与取证、游戏清单与打包、原生制作、注册报告和口部附件适配入口现检查真实输出位置。已在工程内重新生成一份角色，按原固定清单导出 38 文件包，两份记录在浏览器关闭重开后还原。[本次运行回执](../evidence/character-worktree-relocation-v1/production-path-regression.json)。盘根检查命令为 `python -B scripts/character-worktree.py audit`。制作时以工程内 `output/`、`experiments/`、`evidence/` 接收对应结果。
 
 当前角色包已完成固定构建 fbf65135f5eb 的嘴部同机位回放，结果见 [本机回看](../evidence/m2-native-mesh-room-v1/index.html)。4196 实测为 0d1ccbf3ff61；新旧游戏交付身份未更换。原生与第三方完整身体已有同一只读受理入口，接续同一资源的源端检查、独立装备适配与游戏记录消费；可用样件和缺口见 CAPABILITIES。整身正式准入及普通电脑实测仍缺。

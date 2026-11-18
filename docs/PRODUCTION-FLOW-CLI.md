@@ -24,7 +24,7 @@ node scripts/runtime-package/game-record-cli.mjs inventory --dist $dist --source
 node scripts/runtime-package/game-record-cli.mjs export --dist $dist --source-root $runtimeRoot --records $records --inventory "$runRoot/inventory.json" --out "$runRoot/game"
 ```
 
-诊断样件重新创建时，身份、最终外观、装备和资源引用一致；创建、更新时间和对应记录摘要随本次操作产生。用交付单中的两份已签记录导出才能逐字节比较固定双人包。接收方实际执行结果在 `evidence/m2-native-short-socks-room-v1/receiver.json`。运行游戏从输出目录的 `record-consumer.html?records=/records/manifest.json` 进入。
+诊断样件重新创建时，身份、最终外观、装备和资源引用一致；创建、更新时间和对应记录摘要随本次操作产生。用交付单中的两份已签记录导出才能逐字节比较固定双人包。当前接收方已用制作工具 `2ae88304` 和游戏 `cfca0dd1` 在两份独立检出完成复算。原交付可从交付单的 previousHandoff 查回。运行游戏从输出目录的 `record-consumer.html?records=/records/manifest.json` 进入。[固定制作方与游戏接收方实测](../evidence/character-worktree-relocation-v1/operator-receiver.json)
 
 当前能力状态只看 `docs/CAPABILITIES.md`。下面先说明旧 `flow.py` 的只读索引；文末的 `character-production-cli.cjs` 是实际执行制作/回读的独立入口，两者不能混为一谈。
 

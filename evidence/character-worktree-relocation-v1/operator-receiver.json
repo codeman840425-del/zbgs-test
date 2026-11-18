@@ -1,0 +1,89 @@
+{
+  "schema": "character-production-operator-receiver-v1",
+  "checkedAtUTC": "2026-11-18T20:18:35.588646+00:00",
+  "operatorCommit": "2ae8830430a6ce901c7e114c0523c6d49777f9d5",
+  "previousOperatorCommit": "25ff9b2ee7856ac3f38da9ed43652f0c5c689c75",
+  "runtime": {
+    "sourceCommit": "cfca0dd13af69418dc063d6715c43523184195f9",
+    "sourceDigest": "fe2e58489bbb6c6bf10f4d48e2d2242f14897637333de925bcdc1a16dd8eb7c0",
+    "buildId": "fe2e58489bbb",
+    "entry": "record-consumer.html",
+    "entryUrl": "record-consumer.html?records=/records/manifest.json"
+  },
+  "verifiedFromTwoCleanCheckouts": true,
+  "operatorCheckout": "experiments/worktrees/operator-receiver-2ae88304",
+  "runtimeCheckout": "experiments/worktrees/runtime-receiver-cfca0dd1",
+  "freshRuntimeBuild": {
+    "files": 508,
+    "byteIdentical": true,
+    "reference": "experiments/m2-native-sock-cfca0dd1/dist",
+    "actual": "experiments/worktrees/runtime-receiver-cfca0dd1/prototype/dist"
+  },
+  "samePlanBytes": true,
+  "sameRequestBytes": true,
+  "request": {
+    "path": "output/operator-receiver-2ae88304/plan/diagnostic-requests/create-001.batch.json",
+    "sha256": "e17e6d279c68ca3213a7d97148d82dab23f9fe921a513ae7a78bfc0f07d2a0ac",
+    "bytes": 1482
+  },
+  "batchCreated": {
+    "id": "native-crew-7586",
+    "revision": 1,
+    "hash": "7f11d924bc964895ed2b3b60a941169378bd647e139d97cbd951218275c2e288",
+    "consumerReadback": "completed"
+  },
+  "repeatRecordChangedFields": [
+    "createdAt",
+    "integrity",
+    "updatedAt"
+  ],
+  "selectedRecordIds": [
+    "native-male-7586-v1-record-a",
+    "native-crew-7586"
+  ],
+  "signedRecords": {
+    "path": "evidence/m2-native-short-socks-room-v1/records.json",
+    "sha256": "eeb4df1a8fc6ec1de7bac7c394f5028afb90d96e2b491e48a12b832b249e4ebe",
+    "bytes": 174336
+  },
+  "sameInventorySha256": "a8278dabdf7a2e7c58b2011f6d6d3425b5a096cfb71666fcc004c2fac1eaa9f9",
+  "inventory": {
+    "path": "output/operator-receiver-2ae88304/inventory.json",
+    "sha256": "a8278dabdf7a2e7c58b2011f6d6d3425b5a096cfb71666fcc004c2fac1eaa9f9",
+    "bytes": 212015
+  },
+  "byteIdenticalGamePackageFiles": 38,
+  "gamePackage": {
+    "files": 38,
+    "byteIdentical": true,
+    "reference": "output/receiver-25ff9b2e-game",
+    "actual": "output/operator-receiver-2ae88304/game"
+  },
+  "browserReport": {
+    "path": "output/operator-receiver-2ae88304/browser/report.json",
+    "sha256": "b7fb9d5a3f1e9a7107d5dbe7c56defdc147ed620b0be9bdeee8e3d8b813ca3b0",
+    "bytes": 280689
+  },
+  "outputBoundaryRejections": [
+    {
+      "tool": "scripts/production/variant_batch.py",
+      "output": "F:\\",
+      "exitCode": 1,
+      "message": "Output must be inside the production tool main checkout"
+    },
+    {
+      "tool": "scripts/character-production-cli.cjs",
+      "output": "F:\\",
+      "exitCode": 1,
+      "message": "{\"ok\":false,\"code\":\"outside-project\",\"reason\":\"Production output must be inside the project: F:\\\\\"}"
+    },
+    {
+      "tool": "scripts/runtime-package/game-record-cli.mjs",
+      "output": "F:\\",
+      "exitCode": 1,
+      "message": "{\"ok\":false,\"code\":\"outside-project\",\"reason\":\"Production output must be inside the project: F:\\\\\"}"
+    }
+  ],
+  "developmentMachineOnly": true,
+  "formalAdmission": false
+}
