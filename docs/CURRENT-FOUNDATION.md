@@ -97,3 +97,5 @@
 2026-11-18 表面共同接缝：native_batch_gate.py 与 native_admission_cycle.py 现在接收 native-surface-texture-admission-v1，按身体 SHA 附加精确 Body 图像/材质/UV/alpha 静态证据，同时保留 runtime 与 visual blocked 状态。v8 报告实际生成，两个候选仍未准入；23 项闸门/周期回归通过。
 
 2026-11-18 admission cycle v8a：用动态、预算分层、表面静态证据重跑完整准入周期。gate 与 deterministic record planner 均正常运行，两个候选均明确 rejected/runtime admission pending，未生成任何运行时角色请求。
+
+2026-11-18 头部附件证据接缝：native_batch_gate.py/admission_cycle.py 已统一附加眼镜 candidate-only 与麦克风 cpu-candidate-only 报告，均按身体 SHA 校验，站/坐加载状态、握持和口型资源身份可回溯，verified=false 且不会清除 headAttachments/handAndMicrophone。v11 报告和25项测试已完成。最新房间回归证据 m2-native-room-current-v3 在构建 c5ce1f7126ab 两体均 technical-pass-visual-candidate，页面错误为0。
