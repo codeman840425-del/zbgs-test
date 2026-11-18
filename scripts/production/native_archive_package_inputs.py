@@ -11,7 +11,7 @@ import native_removal_lineage as lineage
 import native_top_group_replay as replay
 from native_dependency_delta import compare_exports
 from native_import import exact_directory
-from production_paths import project_output
+from production_paths import project_output, publish_new_directory
 
 
 SCHEMA = "native-archive-package-input-v1"
@@ -142,7 +142,7 @@ def publish(directory, files, batch):
                 stream.write(raw)
         replay.runner.checked_recipe(batch, staged)
         try:
-            staged.rename(directory)
+            publish_new_directory(staged, directory)
         except FileExistsError:
             exact_directory(directory, files)
 

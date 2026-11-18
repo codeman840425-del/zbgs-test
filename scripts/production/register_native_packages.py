@@ -8,7 +8,6 @@ import io
 import json
 import os
 from pathlib import Path
-import shutil
 import subprocess
 import tempfile
 from contextlib import ExitStack
@@ -16,6 +15,7 @@ import numpy as np
 from PIL import Image
 import native_import as importer
 from native_body_package import GLB, skin
+from production_paths import publish_new_directory
 
 ROOT = importer.ROOT
 CATALOG = ROOT / 'prototype/src/native-production-catalog.json'
@@ -26,6 +26,23 @@ def pinned(ref):
     if importer.digest(data) != ref['sha256']:
         raise ValueError('Source provenance SHA differs: ' + ref['path'])
     return path, data
+
+
+def published_files(staged, item, prepared, *, native_removal):
+    if not native_removal:
+        return {p.relative_to(staged).as_posix(): p.read_bytes() for p in staged.rglob('*') if p.is_file()}
+    spec_raw = importer.confined(ROOT, item['spec']).read_bytes()
+    if importer.digest(spec_raw) != prepared['specSha256']:
+        raise ValueError('Source package changed before publication')
+    # Only the declared runtime closure ships. staging-manifest.json records the
+    # operator's input paths and remains in the verified staging directory.
+    files = {}
+    for name, (_, expected) in json.loads(spec_raw)['files'].items():
+        raw = importer.confined(staged, name).read_bytes()
+        if importer.digest(raw) != expected:
+            raise ValueError('Staged resource changed before publication: ' + name)
+        files[name] = raw
+    return files
 
 
 def coverage_entry(folder, staged, spec, native_file, lineage):
@@ -48,6 +65,7 @@ def coverage_entry(folder, staged, spec, native_file, lineage):
     if not changed or changed != lineage['changedCoverageAlphaPixels']:
         raise ValueError('Coverage alpha readback differs from source provenance')
     source_mask = manifest['sourceMaskLineage']
+    evidence = (folder / 'provenance.json').relative_to(ROOT).as_posix()
     if ('topRemovalRecipe' in lineage['inputs'] or 'topRemovalReadback' in lineage or 'groupId' in source_mask):
         from native_body_package import bindings_and_buffers
         from native_top_removal_fit import derive, runtime_lineage
@@ -64,12 +82,15 @@ def coverage_entry(folder, staged, spec, native_file, lineage):
         top, = [row for row in equipment['items'] if row['slot'] == 'top']
         glb = GLB(importer.confined(staged, top['url']))
         bindings_and_buffers(GLB(base_path), glb, top, expected_primitives=[r['primitive'] for r in proof['members']])
+        # This verified descriptor is installed with the package. The full authoring
+        # receipt stays offline and is pinned separately in the registration report.
+        evidence = f"prototype/public/assets/{spec['bodyType']}/manifest.json"
     return dict(avatarSha256=spec['bodySha256'],manifestSha256=importer.digest(manifest_bytes),
                 basePngSha256=manifest['basePngSha256'],maskedPngSha256=manifest['covered']['sha256'],
-                evidence=(folder/'provenance.json').relative_to(ROOT).as_posix())
+                evidence=evidence)
 
 
-def registration(item, prepared, group, *, prepared_root=None):
+def registration(item, prepared, group, *, prepared_root=None, source_receipts=None):
     spec_path = importer.confined(ROOT, item['spec'])
     spec_bytes = spec_path.read_bytes()
     if importer.digest(spec_bytes) != prepared['specSha256']:
@@ -79,7 +100,9 @@ def registration(item, prepared, group, *, prepared_root=None):
     source = json.loads((folder / 'profile-candidate.json').read_bytes())
     recipe_bytes = (folder / 'recipe.json').read_bytes()
     recipe = json.loads(recipe_bytes)
-    lineage = json.loads((folder / 'provenance.json').read_bytes())
+    provenance_path = importer.confined(folder, 'provenance.json')
+    provenance_bytes = provenance_path.read_bytes()
+    lineage = json.loads(provenance_bytes)
     native_file, _ = pinned(lineage['native'])
     batch_path, batch_bytes = pinned(lineage['inputs']['authoringBatch'])
     result_path, result_bytes = pinned(lineage['inputs']['authoringResult'])
@@ -107,7 +130,11 @@ def registration(item, prepared, group, *, prepared_root=None):
             or p['ids'] != ids or p['sourceFloorY'] != floor['rest'] or p['sourceRawFloorY'] != floor['raw']):
         raise ValueError('Profile does not match the prepared body, equipment, coverage or measured floor')
     addition = dict(bodyType=spec['bodyType'], group=group, sourceExportSha256=source['sourceExportSha256'], recipeSha256=source['recipeSha256'], profile=p)
-    return addition, coverage_entry(folder,staged,spec,native_file,lineage)
+    coverage = coverage_entry(folder,staged,spec,native_file,lineage)
+    if source_receipts is not None and 'topRemovalRecipe' in lineage['inputs']:
+        source_receipts.append(dict(bodyType=spec['bodyType'], path=provenance_path.relative_to(ROOT).as_posix(),
+                                    sha256=importer.digest(provenance_bytes)))
+    return addition, coverage
 
 
 def register(batch_path, group, report_path):
@@ -123,7 +150,9 @@ def register(batch_path, group, report_path):
     prepared = importer.execute(batch, ROOT, ROOT / 'output/native-production-registration')
     if not prepared['passed']:
         raise ValueError(json.dumps(prepared, ensure_ascii=False))
-    rows = [registration(item, proof, group) for item, proof in zip(batch['items'], prepared['items'], strict=True)]
+    source_receipts = []
+    rows = [registration(item, proof, group, source_receipts=source_receipts)
+            for item, proof in zip(batch['items'], prepared['items'], strict=True)]
     additions, admissions = zip(*rows)
     coverage_path = CATALOG.with_name('native-body-texture-coverage-admissions.json')
     lock = CATALOG.with_suffix('.lock')
@@ -161,21 +190,29 @@ def register(batch_path, group, report_path):
         report = dict(schema='native-package-registration-v1',bodyTypes=[r['bodyType'] for r in additions],catalogSha256=importer.digest(payload),prepared=prepared,status='source-candidate-registered-runtime-check-pending',fixedWorkbenchChanged=False)
         report['coverageAdmissions'] = list(admissions)
         report['coverageCatalogSha256'] = importer.digest(coverage_payload)
+        if source_receipts:
+            report['nativeRemovalSourceReceipts'] = source_receipts
         with ExitStack() as temps:
             staged_dirs = []
             public = ROOT / 'prototype/public/assets'
             scratch = Path(temps.enter_context(tempfile.TemporaryDirectory(prefix='.native-install-', dir=public.parent)))
-            for item in batch['items']:
+            checked_removals = {receipt['bodyType'] for receipt in source_receipts}
+            for item, proof in zip(batch['items'], prepared['items'], strict=True):
                 src = ROOT / 'output/native-production-registration' / item['package']
                 dest = public / item['package']
                 if report_path.is_relative_to(dest.resolve()):
                     raise ValueError('Report cannot be written inside a candidate package')
-                files = {p.relative_to(src).as_posix():p.read_bytes() for p in src.rglob('*') if p.is_file()}
+                files = published_files(src, item, proof, native_removal=item['package'] in checked_removals)
                 if dest.exists():
                     importer.exact_directory(dest, files)
                 else:
                     temp = scratch / item['package']
-                    shutil.copytree(src,temp)
+                    temp.mkdir()
+                    for name, raw in files.items():
+                        output = importer.confined(temp, name)
+                        output.parent.mkdir(parents=True, exist_ok=True)
+                        with output.open('xb') as stream:
+                            stream.write(raw)
                     importer.exact_directory(temp,files)
                     staged_dirs.append((temp,dest))
             report_tmp = Path(temps.enter_context(tempfile.TemporaryDirectory(dir=report_path.parent))) / 'receipt'
@@ -190,7 +227,7 @@ def register(batch_path, group, report_path):
                 raise ValueError('Catalog changed during registration')
             with ExitStack() as rollback:
                 for temp,dest in staged_dirs:
-                    os.rename(temp,dest)
+                    publish_new_directory(temp, dest)
                     rollback.callback(os.rename,dest,temp)
                 os.link(report_tmp,report_path)
                 rollback.callback(report_path.unlink)

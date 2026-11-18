@@ -10,7 +10,7 @@ class PlanPublicationTest(TestCase):
         package, output = mock.Mock(spec=Path), mock.Mock(spec=Path)
         package.rename.side_effect = [error, None]
         output.exists.return_value = False
-        with mock.patch('variant_batch.time.sleep') as wait:
+        with mock.patch('production_paths.time.sleep') as wait:
             publish_plan(package, output)
         self.assertEqual(package.rename.call_count, 2)
         wait.assert_called_once()
@@ -20,6 +20,18 @@ class PlanPublicationTest(TestCase):
         package, output = mock.Mock(spec=Path), mock.Mock(spec=Path)
         package.rename.side_effect = error
         output.exists.side_effect = [False, True]
-        with mock.patch('variant_batch.time.sleep'), self.assertRaisesRegex(ValueError, 'already exists'):
+        with mock.patch('production_paths.time.sleep'), self.assertRaisesRegex(ValueError, 'already exists'):
             publish_plan(package, output)
         package.rename.assert_called_once()
+
+    def test_long_lock_preserves_original_error(self):
+        error = PermissionError('Still locked')
+        error.winerror = 5
+        package, output = mock.Mock(spec=Path), mock.Mock(spec=Path)
+        package.rename.side_effect = error
+        output.exists.return_value = False
+        with mock.patch('production_paths.time.sleep') as wait, self.assertRaises(PermissionError) as result:
+            publish_plan(package, output)
+        self.assertIs(result.exception, error)
+        self.assertEqual(package.rename.call_count, 5)
+        self.assertEqual(wait.call_count, 4)

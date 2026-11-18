@@ -3,9 +3,24 @@ import os
 from pathlib import Path
 import re
 import subprocess
+import time
 
 
 DEVICE = re.compile(r"^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)", re.IGNORECASE)
+
+
+def publish_new_directory(staged, destination):
+    """Publish the prepared directory, retrying only a short Windows lock."""
+    for delay in (0.025, 0.05, 0.1, 0.2, None):
+        if destination.exists():
+            raise FileExistsError(destination)
+        try:
+            staged.rename(destination)
+            return
+        except PermissionError as error:
+            if delay is None or getattr(error, 'winerror', None) not in (5, 32, 33):
+                raise
+            time.sleep(delay)
 
 
 def main_checkout(script_file):

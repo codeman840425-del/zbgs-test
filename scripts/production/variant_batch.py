@@ -11,13 +11,12 @@ import hashlib
 import json
 import re
 import subprocess
-import time
 from tempfile import TemporaryDirectory
 from pathlib import Path
 
 from variant_matrix import validate_matrix_files, _resolve_reference
 from outfit_admission import binding_key, load_reviewed_admissions, outfit_binding, source_commit, verify_runtime_source
-from production_paths import project_output
+from production_paths import project_output, publish_new_directory
 
 
 SCHEMA = "zbgs-style-variant-batch-request-v1"
@@ -293,17 +292,10 @@ def resolve_runtime(matrix, request, root, diagnostic, has_admissions):
 
 
 def publish_plan(package: Path, output: Path):
-    # Windows may briefly lock a just-written directory for indexing. Retry
-    # only the atomic rename, without recreating requests or replacing output.
-    for delay in (0.025, 0.05, 0.1, 0.2, None):
-        check(not output.exists(), "Output already exists")
-        try:
-            package.rename(output)
-            return
-        except PermissionError as error:
-            if delay is None or getattr(error, 'winerror', None) not in (5, 32, 33):
-                raise
-            time.sleep(delay)
+    try:
+        publish_new_directory(package, output)
+    except FileExistsError as error:
+        raise ValueError("Output already exists") from error
 
 
 def run(matrix_path: Path, request_path: Path, output: Path, root: Path, diagnostic=False, *, input_root=None) -> dict:

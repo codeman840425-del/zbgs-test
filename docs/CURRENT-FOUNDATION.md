@@ -2,7 +2,9 @@
 
 ## 固定入口与备份
 
-最新私有受理构建 `9071184230a1` 已为一女一男重新登记来自同体去组实证的上衣和遮罩，批量创建两条新签名记录并完成独立冷开。现有正式交付与 4196 指针仍见下文。第 13 号已完成源制作和参数回执核验，缺该身体的去组导出。VRoid 正常历史、设置和应用缓存已有用户授权；本轮授权后的一次隐藏启动被执行工具拒绝，经查无进程、无 7811 监听。保留已固定请求，不循环启动。接续使用有权来源推进正式准入；设施接线需要同一场景持有真实接触句柄和租约并按同一时钟驱动人物。[来源、结果与复现入口](../evidence/m2-native-top-removal-intake-v1/README.md) · [精确启动阻碍](../evidence/m2-native-top-removal-intake-v1/native-launch.json)
+私有构建 `50f24f49772f` 已验证一女一男使用同一套制作流程。两个 Agent 工作目录各从原生档案生成整包，647 个构建输入和 534 个成品文件一致。着装遮罩在游戏包中引用本人的清单，带本机路径的制作回执单独保存。两条新签角色记录在独立浏览器中恢复了本人、上衣、短裤和鞋。历史构建 `9071184230a1` 可按原目录方式复现。正式交付及 4196 指针见下文。[本轮游戏回读和 1× 录像](../evidence/m2-native-top-removal-intake-v1/README.md)
+
+第 13 号已核实原制作和参数回执，仍缺该身体的原生去组导出。VRoid 的正常历史、设置和应用缓存已有用户授权；执行工具拒绝本次启动，复核时无进程及 7811 监听。请求已保存。接续使用分发许可明确的资源验证正式生产准入；正式设施还需在同一场景接通座位及其租约。[启动回执](../evidence/m2-native-top-removal-intake-v1/native-launch.json)
 
 游戏制作 Agent 取 [固定交付单](../delivery/character-production-handoff.json)。当前制作工具为 `54e8a24c`，游戏为 `80fb16b7 / 5859bd00da8b`。两条已签制服记录已在干净工具检出复核。交付单绑定静态预算、签名和 48 个游戏文件。两体均超静态预算，普通机未测。短发女体的发、眉、虹膜、唇共 8 张派生画布，固定游戏的两轮 Chrome 检查确认了切换复用与逐人释放。已登记的配色可以按同一材质规则重复核算。[独立交付回读](../evidence/m2-signed-hair-cache-budget-v1/verified-handoff.json) · [逐部件比对](../evidence/m2-signed-hair-cache-budget-v1/matched.json) · [当前双人 1× 录像](../evidence/m2-uniform-agent-handoff-v1/game/produced-pair-1x.webm)
 

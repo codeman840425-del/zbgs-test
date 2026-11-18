@@ -15,6 +15,29 @@ REPO = registrar.ROOT
 SOURCE = Path("assets-source/native-parameter-game-packages-v1")
 
 
+class PublishedFileTests(unittest.TestCase):
+    def test_removed_top_publishes_verified_runtime_bytes_only(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            stage = root / "stage"
+            stage.mkdir()
+            (stage / "top.glb").write_bytes(b"top")
+            (stage / "staging-manifest.json").write_text('{"source":"temporary/path"}')
+            spec = root / "spec.json"
+            spec.write_text(json.dumps({"files":{"top.glb":["input/top.glb", registrar.importer.digest(b"top")]}}))
+            ready = {"specSha256": registrar.importer.digest(spec.read_bytes())}
+            item = {"spec":"spec.json"}
+            with patch.object(registrar, "ROOT", root):
+                self.assertEqual(registrar.published_files(stage, item, ready, native_removal=True), {"top.glb": b"top"})
+                self.assertIn("staging-manifest.json", registrar.published_files(stage, item, ready, native_removal=False))
+                (stage / "top.glb").write_bytes(b"changed")
+                with self.assertRaisesRegex(ValueError, "resource changed"):
+                    registrar.published_files(stage, item, ready, native_removal=True)
+                spec.write_text("{}")
+                with self.assertRaisesRegex(ValueError, "Source package changed"):
+                    registrar.published_files(stage, item, ready, native_removal=True)
+
+
 class RegistrationReportPathTests(unittest.TestCase):
     def test_report_paths_cannot_escape_before_staging(self):
         with tempfile.TemporaryDirectory(dir=REPO / 'experiments') as directory:
