@@ -1,0 +1,7 @@
+公司预览构建输入合同 v1
+
+build-company-id 只把已登记的公司运行资源纳入构建身份。`prototype/src/company/library-catalog.json` 中带 asset 的资源目录及其同一资源目录文件属于允许输入；已登记分支根目录下的 collection/resource 清单也属于允许输入。其他新增 `prototype/public/company-assets` 文件必须先完成资源登记和目录更新，否则构建以 `unregistered-company-assets` 失败并保留原有 company-build-info.json。
+
+该检查只约束运行时输入身份，不把 assets-source、证据或制作缓存静默加入游戏构建。固定检出必须在检查通过后生成 build-info。登记、导出、浏览器预览和独立移交继续沿各自合同执行。
+
+失败时构建身份文件不写入。错误中列出未登记文件，agent 可以据此补充资源目录或移除误放的运行文件。通过时同一固定检出可重复生成相同 sourceDigest。

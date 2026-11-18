@@ -98,6 +98,7 @@ const extraFiles=[
   'scripts/company-platform/preflight-library-assets.mjs',
   'scripts/company-platform/test-library-asset-preflight.mjs',
   'docs/research/COMPANY-ASSET-PREFLIGHT-CONTRACT-v1.txt',
+  'docs/research/COMPANY-BUILD-INPUTS-CONTRACT-v1.txt',
   'scripts/company-platform/library-inputs.json','scripts/company-platform/build-sofa.mjs',
   'scripts/company-platform/build-timber-sofa.mjs',
   'scripts/company-platform/build-home-examples.mjs',
