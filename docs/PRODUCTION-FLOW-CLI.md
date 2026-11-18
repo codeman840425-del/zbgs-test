@@ -89,6 +89,18 @@ node scripts/character-record-transport.mjs export --root RECORD_STORE --id STAB
 
 任意1–4份已通过实际生产回读的记录可组成 JSON 数组，经 `game-record-cli.mjs inventory/export --records RECORDS.json` 输出独立包；两步使用同一数组与仓库审定运行时。入口 `record-consumer.html?records=/records/manifest.json`，最多同时两人，新增记录不改通用控制器或重新编译。没有随机生成或自动开放不兼容资源。
 
+### 对一组已有记录应用相同编辑
+
+`character-production-batch-edit-v1` 请求由 `schema`、`records`、`edits` 三个字段组成。`records` 按需要的交付顺序放入 1–4 份具有完整性散列、身份互异的完整角色记录。`edits` 放入 1–32 个与单条 edit 相同的操作，依次应用到每个角色。整个批量请求最大 3 MiB，单记录仍限 512 KiB。
+
+下面的请求已包含两份绿瞳 FaceContour 记录，共用的编辑为 `{"domain":"appearance","values":{"skinTone":"native-warm-v1"}}`。在仓库根目录执行即可生成可直接传给游戏打包入口 `--records` 的 JSON 数组。重复执行请使用新输出文件与新证据目录。
+
+```powershell
+node scripts/character-production-cli.cjs --dist experiments/m2-native-skin-4f43b6aa/dist --request evidence/m2-native-production-batch-edit-v1/requests/warm-two.json --out output/facecontour-batch-replay.json --evidence output/facecontour-batch-replay-evidence
+```
+
+一次请求使用一个后台浏览器，每项沿单条 D02 执行资源准备、编辑和游戏角色恢复。回读核对身份、修订、完整造型、装备、后发适配和资源散列。全部成功并关闭浏览器后，原子写入新数组。失败回执的 `itemIndex` 从 0 开始，`recordId` 指明角色，操作级错误保留 `editIndex` 与 `field`。此前项的诊断保存在证据目录，失败批次不发布数组。适配和资源可用性继续按选定固定构建的逐体登记判断。
+
 ## 参数批产接缝：离线包准备
 
 ```powershell

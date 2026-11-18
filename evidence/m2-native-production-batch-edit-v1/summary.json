@@ -1,0 +1,79 @@
+{
+  "schema": "character-production-batch-edit-readback-v1",
+  "build": {
+    "sourceCommit": "4f43b6aa72442e7f52ee81bfec9b90b694bdfb98",
+    "sourceDigest": "436562eeac4a7ef8295581044b8cbdb2bb7e059e6b885ad09de80794b9ba98b2",
+    "buildId": "436562eeac4a",
+    "entry": "record-consumer.html",
+    "entryUrl": "record-consumer.html?records=/records/manifest.json"
+  },
+  "publicOutput": {
+    "path": "evidence/m2-native-production-batch-edit-v1/results/warm-two.json",
+    "sha256": "6c396c946a3276b12d67e6ac954119aa976285d41bb3cdbe4738252340472399"
+  },
+  "jobs": [
+    {
+      "id": "batch-contour-roundness-a",
+      "previousRevision": 3,
+      "producedRevision": 4,
+      "inputRecordSha256": "49f46febebff97bb4500bf976f81cd8b88329dae2aff13887b93e35ec69f01a6",
+      "outputRecordSha256": "390fefb13a68752ed3f41dfd29a9eab8ce85efb870a360dfaea6f4b8505bcf5c",
+      "greenSource": {
+        "path": "evidence/m2-native-batch-iris-room-v2/native-contour-roundness-a-v1/green.json",
+        "sha256": "472342c87f42a92d976a809aa47dc343de2630baa9114202bc4d3228fed2b304"
+      },
+      "independentWarmComparison": {
+        "path": "evidence/m2-native-skin-room-v1/native-contour-roundness-a-v1/warm.json",
+        "sha256": "57ba0af4f6d496da86b1cfcd2603fa944496f9a736dd6cd5b5857484167f802f"
+      },
+      "matchedLookAndResourceFields": [
+        "appearanceRecipe",
+        "liveAccessories",
+        "equipmentMaterials",
+        "nativeHairCenter",
+        "resourceIdentities"
+      ]
+    },
+    {
+      "id": "batch-native-contour-cheek-b-v1-2fd63f7b90b2",
+      "previousRevision": 2,
+      "producedRevision": 3,
+      "inputRecordSha256": "54104c0e9df483e4a65a8a7163d4e9e169115f6c61d33b83dbfcbbf2aee4f80a",
+      "outputRecordSha256": "7c802edbc78b968edc72c31fad358d151166a5aa11981f98aa0b4e732f2516c3",
+      "greenSource": {
+        "path": "evidence/m2-native-batch-iris-room-v2/native-contour-cheek-b-v1/green.json",
+        "sha256": "837d8c417bc7e077b17de450a90f99edc61df5fe4a32656b23346ab3e1fac41e"
+      },
+      "independentWarmComparison": {
+        "path": "evidence/m2-native-skin-room-v1/native-contour-cheek-b-v1/warm.json",
+        "sha256": "030e32bef055f54fecea168719a720b8166ebf7dc41deb8c7c6f66bd26e676ed"
+      },
+      "matchedLookAndResourceFields": [
+        "appearanceRecipe",
+        "liveAccessories",
+        "equipmentMaterials",
+        "nativeHairCenter",
+        "resourceIdentities"
+      ]
+    }
+  ],
+  "gameInventory": {
+    "path": "evidence/m2-native-production-batch-edit-v1/results/game-inventory.json",
+    "sha256": "2ddfb08a80eb2956db880597fb622347eee4f2f8df141cd842502dd87d48e6ad"
+  },
+  "gameFiles": 57,
+  "rejectSecond": {
+    "failure": {
+      "code": "production-input",
+      "reason": "Value is not registered for this body",
+      "field": "skinTone",
+      "editIndex": 0,
+      "itemIndex": 1,
+      "recordId": "production-native-male-01"
+    },
+    "firstItemReadbackMatched": true,
+    "noOutputPublished": true,
+    "inputsMatchedOriginalRecords": true
+  },
+  "scope": "Sequential D02 technical record editing in one headless Chrome instance per request. Candidate resources on the fixed build; no whole-body admission or random generation."
+}
