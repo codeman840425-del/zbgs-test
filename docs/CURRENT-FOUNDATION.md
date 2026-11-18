@@ -101,3 +101,5 @@
 2026-11-18 头部附件证据接缝：native_batch_gate.py/admission_cycle.py 已统一附加眼镜 candidate-only 与麦克风 cpu-candidate-only 报告，均按身体 SHA 校验，站/坐加载状态、握持和口型资源身份可回溯，verified=false 且不会清除 headAttachments/handAndMicrophone。v11 报告和25项测试已完成。最新房间回归证据 m2-native-room-current-v3 在构建 c5ce1f7126ab 两体均 technical-pass-visual-candidate，页面错误为0。
 
 2026-11-18 复工后准入身份加固：候选表面、眼镜和麦克风证据除身体 SHA 外，现要求 bodyType 与批次 profile 精确一致。v12 闸门报告生成，25 项回归通过，两个候选仍未准入。
+
+2026-11-18 复工后房间证据接缝：准入闸门现在可读取当前构建的 room candidate 目录，校验 input record、bodyType、身体 SHA、record SHA、4项动作任务和页面错误，并按身体附加录像/回读证据。v13 报告两体均有4项任务，仍为 visual candidate，acceptedForRuntime=[]。26项回归通过。
