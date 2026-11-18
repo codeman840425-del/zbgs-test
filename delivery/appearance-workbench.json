@@ -1,15 +1,15 @@
 {
   "schema": "zbgs-appearance-workbench-v1",
-  "build": "1eede692231c",
-  "sourceDigest": "1eede692231c0cdc35d8e17017c0d3a3e9a2cb6cebaa68d456bde97f39aba777",
-  "sourceCommit": "31129ebfc9422793c118f5b2dd040b8b4e523e5e",
-  "directory": "experiments/worktrees/raw-male-source-outfit-v1/prototype/dist",
+  "build": "9d520a80d731",
+  "sourceDigest": "9d520a80d7310f24fe49d910ff87f5691d421867f54fc3ba6b1b09d1428d68dc",
+  "sourceCommit": "797516d2187abcc519edb850399f636b5d022cb4",
+  "directory": "experiments/worktrees/source-outfit-release-v2/prototype/dist",
   "port": 4196,
   "entry": "/?body=native-male-7586-v1&workbench=appearance&view=inspect-full-side",
   "status": "technical-candidate-native-variant-matrix-pending-runtime-admission-and-human-visual-review",
-  "previousWorkbench": "fbf65135f5eb",
-  "rollbackPointer": "delivery/history/appearance-workbench-fbf65135f5eb.json",
-  "evidence": "evidence/m2-raw-male-equipment-v1",
+  "previousWorkbench": "1eede692231c",
+  "rollbackPointer": "delivery/history/appearance-workbench-1eede692231c.json",
+  "evidence": "evidence/m2-source-outfit-release-v1",
   "retainedM1": {
     "port": 4195,
     "build": "77e46efb5441"
@@ -34,7 +34,8 @@
     "原生暖肤仅验证两份女性 FaceContour。穿衣／基础遮罩、录制及关闭恢复通过；普通电脑未测，静态预算超限。",
     "原生7586的袜面在鞋侧近景可见。该组合仍为诊断候选。",
     "同体双实例的法线贴图已测得实际分配下降。运输文件与完整身体静态预算仍超限。",
-    "该身体仅验证从同源提取的三件制服，独立服装基础色贴图与原材质着色有差异，普通电脑预算仍待验。"
+    "该身体仅验证从同源提取的三件制服，独立服装基础色贴图与原材质着色有差异，普通电脑预算仍待验。",
+    "精简男体与原版三件制服仍超单身体和上衣静态纹理预算，当前验证仅覆盖这套制服。"
   ],
   "newControls": [
     "freckles and blush",
@@ -73,9 +74,10 @@
     "两份 FaceContour 的肤色选项新增原生暖肤色，检查区提供同镜头半身和 1× 讲话对照。",
     "检查区新设男女裤装配袜的三段 1 倍速回放，录像构建 7809b98bd700。",
     "原生男性在外观中可选择原生短裤＋中筒袜（鞋侧穿出）。",
-    "男性外观分组新增原始 VRM0 制服候选，可在同一房间执行走、坐、起。"
+    "男性外观分组新增原始 VRM0 制服候选，可在同一房间执行走、坐、起。",
+    "男性外观分组可选同套制服的精简版。检查区有同镜头加载与正常速度动作对照。"
   ],
-  "rebuildEvidence": "evidence/m2-raw-male-equipment-v1/rebuild/report.json",
+  "rebuildEvidence": "evidence/m2-source-outfit-release-v1/rebuild-v2/report.json",
   "readySelector": "body.appearance-workbench",
   "readyCondition": "wait-for-body-appearance-workbench",
   "nativeHairRecordReview": true,
@@ -86,5 +88,6 @@
   "sharedLookReview": true,
   "nativeCrewReview": true,
   "nativeNormalReview": true,
-  "rawSourceOutfitReview": true
+  "rawSourceOutfitReview": true,
+  "sourceOutfitReleaseReview": true
 }

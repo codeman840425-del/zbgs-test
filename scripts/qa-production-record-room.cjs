@@ -14,10 +14,26 @@ const [base,recordFile,folder]=process.argv.slice(2);
   if(previewOverride)url.searchParams.set('nativeHairCenter',previewOverride);
   await page.goto(url.href);await page.waitForFunction(()=>window.__debug?.ready,null,{timeout:90000});report.build=await page.evaluate(()=>__debug.buildInfo);
   const loaded=await page.evaluate(record=>__debug.restoreCharacterRecord(record),record);assert.equal(loaded.applied,true);report.restored=loaded;
+  const cameraStart = await page.evaluate(() => {
+    __debug.setPlaybackRate(1); __debug.setPaused(false); __debug.camera('room');
+    return __debug.snapshot().simulationTime;
+  });
+  // The room preset interpolates for half a simulation second. A rendered frame
+  // alone can still be the previous close-up at the start of that transition.
+  await page.waitForFunction(start => {
+    const state = __debug.snapshot();
+    return state.camera.mode === 'room' && state.simulationTime - start >= 0.6;
+  }, cameraStart);
+  report.recordingCamera = await page.evaluate(async () => {
+    const before = __debug.snapshot().camera;
+    await new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
+    const after = __debug.snapshot().camera;
+    const stationary = ['position','target'].every(key =>
+      before[key].every((x, i) => Math.abs(x - after[key][i]) < 1e-6));
+    if (!stationary) throw Error('Room camera was still moving before recording');
+    return after;
+  });
   await page.evaluate(async()=>{
-    __debug.setPlaybackRate(1);__debug.setPaused(false);__debug.camera('room');
-    // captureStream can emit the previous view until the new camera has rendered.
-    await new Promise(done=>requestAnimationFrame(()=>requestAnimationFrame(done)));
     const stream=__debug.renderer.domElement.captureStream(30),chunks=[];
     const recorder=new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp9',videoBitsPerSecond:5000000});
     window.__roomProductionFilm={stream,chunks,recorder,done:new Promise(resolve=>recorder.onstop=resolve)};

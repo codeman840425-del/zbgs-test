@@ -4,6 +4,8 @@
 
 ## 一条生产记录
 
+可编辑源和发布派生体分开留存。若原身体内嵌的衣面已有完整的同源独立装备，按配方核对原始图元、骨架、绑定和贴图归属后，可在发布体省去对应重复数据。生产工具须给派生身体和装备目录登记独立摘要；共享同一 GLB 的多个身体各自保留 fit。旧角色记录继续指向旧身体。制服样件一键核验为 `python -B scripts/production/build_source_outfit_release.py --check`。[配方与重新生成](../evidence/m2-source-outfit-release-v1/body/README.md)
+
 每个候选都从不可变的 `template.sha256` 和一条显式 `recipe` 开始。recipe 至少包含参数组类型、参数键、单位/类型、已观察的允许值、导出设置、目标基模和资源版本。执行器必须在每次打开源文件后重新发现组 ID，设置参数，冷开回读非目标字段，并记录：
 
 - `recipeSha256`：最终参数及导出设置的身份；

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>分件制服 · 游戏回放对照</title>
+<style>
+body{max-width:1440px;margin:auto;padding:1rem 2vw;background:#f7f6f1;color:#213b38;font:16px/1.55 system-ui,sans-serif}
+h1{font-size:1.7rem}section{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,450px),1fr));gap:1rem}
+figure{margin:.75rem 0}video,img{display:block;width:100%;height:auto}figcaption{margin:.4rem 0;font-weight:600}
+button{font:inherit;padding:.45rem .9rem;border:1px solid #326b5d;background:#fff;color:#21483f;border-radius:.4rem;cursor:pointer}
+details img{max-width:780px}a{color:#215e52}code{font-size:.95em}
+</style>
+<main>
+<h1>分件制服 · 游戏回放对照</h1>
+<p>同一房间、镜头、路线和制服。两个角色依次行走、入座、起身、离开。可单独全屏观看。</p>
+<button type="button" id="both">从头同时播放 · 1 倍速</button><span role="status" id="notice"></span>
+<section>
+  <figure><figcaption>原身体与独立制服</figcaption><video controls muted playsinline preload="metadata" src="room-original-fixed/room-produced-1x.webm"></video></figure>
+  <figure><figcaption>精简身体与同一套独立制服</figcaption><video controls muted playsinline preload="metadata" src="room-fixed/room-produced-1x.webm"></video></figure>
+</section>
+<p>身体和上衣、裤、鞋四个文件实测冷载合计从 21,653,528 降至 18,097,200 字节。穿衣站姿和坐姿的正、侧面人物取样区逐像素相同。</p>
+<details><summary>查看固定姿势的近景对照</summary>
+  <figure><figcaption>站立正面，左原版、右精简版</figcaption><img loading="lazy" src="comparison-v2/standing-dressed-front-figure-source-left-release-right.png" alt="相同站姿与制服的左右对照"></figure>
+  <figure><figcaption>坐稳侧面，左原版、右精简版</figcaption><img loading="lazy" src="comparison-v2/seated-dressed-side-figure-source-left-release-right.png" alt="相同坐姿、椅面与鞋底的左右对照"></figure>
+</details>
+<p>固定构建 <code>9d520a80d731</code>。此处覆盖一套男制服和一把椅子。开发机浏览器完成验证，身体与上衣的静态纹理估算仍超过项目预算。<a href="comparison-v2/report.json">测量明细</a></p>
+</main>
+<script>
+const movies = [...document.querySelectorAll('video')];
+document.querySelector('#both').addEventListener('click', async () => {
+  const notice = document.querySelector('#notice');
+  notice.textContent = '';
+  try {
+    for (const movie of movies) { movie.pause(); movie.currentTime = 0; movie.playbackRate = 1; }
+    await Promise.all(movies.map(movie => movie.play()));
+  } catch {
+    for (const movie of movies) movie.pause();
+    notice.textContent = ' 未能同时播放，请使用各段录像的播放按钮。';
+  }
+});
+</script>
+</html>

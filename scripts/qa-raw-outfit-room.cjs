@@ -3,39 +3,8 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const assert = require('node:assert/strict');
 const {sampleRawSourceSurfaces} = require('./qa-raw-source-surfaces.cjs');
+const {seatedContact} = require('./qa-seated-outfit-contact.cjs');
 const {productionRoot, projectOutput} = require('./project-output.cjs');
-
-function seatedContact() {
-  const actor = __debug.avatar();
-  const state = __debug.snapshot();
-  const seat = __debug.scene.getObjectByName('RepresentativeChair').children[0];
-  seat.geometry.computeBoundingBox();
-  const box = seat.geometry.boundingBox;
-  const entries = Object.values(actor.getEquipmentRecipe(state.outfit));
-  const bottom = entries.find(item => item.slot === 'bottom').id;
-  const shoes = actor.config.ids.shoes;
-  const point = seat.position.clone();
-  const topY = seat.localToWorld(point.set(0, box.max.y, 0)).y;
-  let soleY = Infinity, gap = Infinity, count = 0;
-  actor.vrm.scene.traverse(mesh => {
-    const id = mesh.parent?.userData.equipmentId;
-    if (!mesh.isSkinnedMesh || !mesh.parent.visible || ![bottom,shoes].includes(id)) return;
-    for (let i = 0; i < mesh.geometry.attributes.position.count; i++) {
-      mesh.getVertexPosition(i, point);
-      const y = mesh.localToWorld(point).y;
-      if (id === shoes) soleY = Math.min(soleY, y);
-      else {
-        seat.worldToLocal(point);
-        if (point.x < box.min.x || point.x > box.max.x || point.z < box.min.z || point.z > box.max.z) continue;
-        count++;
-        gap = Math.min(gap, y - topY);
-      }
-    }
-  });
-  return {mode:state.mode, sitProgress:state.motion.sitProgress, seatTopY:topY,
-    garmentGapMetres:Number.isFinite(gap) ? gap : null, bottomVerticesOverSeat:count,
-    soleMinimumY:Number.isFinite(soleY) ? soleY : null};
-}
 
 async function main() {
   const [base, expectedBuild, recordPath, directory] = process.argv.slice(2);

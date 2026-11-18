@@ -24,9 +24,10 @@ NORMAL_REVIEW = '/reviews/native-body-cost/'
 RAW_OUTFIT_REVIEW = '/reviews/raw-source-outfit/'
 RAW_OUTFIT_FILES = {'index.html', 'room-1x/room-produced-1x.webm', 'posed-check/seated.png'}
 RELEASE_REVIEW = '/reviews/source-outfit-release/'
-RELEASE_FILES = {'index.html', 'room/room-produced-1x.webm', 'comparison/report.json',
-                 'comparison/standing-dressed-front-figure-source-left-release-right.png',
-                 'comparison/seated-dressed-side-figure-source-left-release-right.png'}
+RELEASE_FILES = {'index.html', 'room-fixed/room-produced-1x.webm', 'room-original-fixed/room-produced-1x.webm',
+                 'comparison-v2/report.json',
+                 'comparison-v2/standing-dressed-front-figure-source-left-release-right.png',
+                 'comparison-v2/seated-dressed-side-figure-source-left-release-right.png'}
 NORMAL_MEDIA = {
     **{'/reviews/m2-native-mesh-room-v1/' + f: 'm2-native-mesh-room-v1/' + f for f in (
         'index.html', 'pixel-boundaries/speech-1x.webm', 'pixel-boundaries/open-mouth.png',

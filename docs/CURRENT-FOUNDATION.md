@@ -2,6 +2,10 @@
 
 ## 固定入口与备份
 
+当前固定源码 `797516d2`，构建 `9d520a80d731`。精简制服包从配方到角色记录、独立游戏恢复已跑通，515 个固定构建文件在两份干净检出中相同。[观看旧新回放](../evidence/m2-source-outfit-release-v1/index.html) · [重建入口](../evidence/m2-source-outfit-release-v1/body/README.md)。4196 下次正常启动指针已归档上一版本并指向该构建，本轮实测在运行的进程仍报 `0d1ccbf3ff61`。游戏接收方可按[重建命令](../evidence/m2-source-outfit-release-v1/receiver-v2/README.md)取得本次双记录包。下一包用男女的独立上衣验证只降低指定不透明底图发布分辨率的适用范围，包括近景衣纹、房间动作、预算和失败拒绝。普通电脑仍缺设备。
+
+### 前一固定版本
+
 原始男体的三件独立制服已进入共用工厂、房间动作和关闭重开。候选源码 31129ebf，固定构建 1eede692231c，两个干净检出 513 个文件一致。脚本 `python -B scripts/production/raw_male_equipment.py --stage-runtime --check` 重算并核对整个游戏资源包。4196 现有进程最后核实仍为 0d1ccbf3ff61，下次正常启动指针已更新，先前指针已存档。当前可直接打开[本地回放](../evidence/m2-raw-male-equipment-v1/index.html)。实际适配、椅面误差和设备限制见 CAPABILITIES。本次独立接收小包使用新签原始男体和旧签原生袜装两份记录，37 个文件，在离开工作台后的浏览器首次进入／关闭重开均还原；见[接收证据](../evidence/m2-raw-male-equipment-v1/receiver/game/report.json)。正式生产交接指针仍锁此前交付版本。下一工作包针对原始身体与服装的重复资源，先复用已有预算与导出工具验证安全的发布派生物，保留源和原记录。
 
 现用游戏制作交付单已切到含输出保护的工具 `2ae88304`，配套游戏仍锁 `cfca0dd1`／`fe2e58489bbb`。独立检出实际比对 508 个构建文件、38 个交付文件和两份旧签名记录；默认制作、生成与导出入口均已在真实命令行拒绝盘根输出。[现用交付单](../delivery/character-production-handoff.json) · [复算回执](../evidence/character-worktree-relocation-v1/operator-receiver.json)
