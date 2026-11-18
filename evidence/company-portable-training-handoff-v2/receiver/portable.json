@@ -1,0 +1,1355 @@
+{
+  "status": "passed",
+  "source": "F:\\gamemake-company-platform-c1\\output\\named-training\\final-binding-package",
+  "operations": [
+    {
+      "label": "verify original sealed delivery",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\final-binding-package",
+        "bfef9d42d7b8621b18c36b0f7b59c53801651c39b9bf0572587edb23a1b2a6f5"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "e5a77d978335",
+        "manifestSha256": "bfef9d42d7b8621b18c36b0f7b59c53801651c39b9bf0572587edb23a1b2a6f5",
+        "declaredFiles": 1900,
+        "checkedFiles": 1900,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "prepare a receiver with no training aliases",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\viewer",
+        "e5a77d978335",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\data\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\ordinary-receiver",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\source"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "buildId": "e5a77d978335",
+        "companyId": "company-demo",
+        "rooms": [],
+        "files": 1888,
+        "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\ordinary-receiver"
+      }
+    },
+    {
+      "label": "prepare a receiver with no training aliases: verify sealed bytes",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\ordinary-receiver",
+        "79382269332f80527ba6fb6c0b06a046e36b60f103413339c7fd87f7014dda9a"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "e5a77d978335",
+        "manifestSha256": "79382269332f80527ba6fb6c0b06a046e36b60f103413339c7fd87f7014dda9a",
+        "declaredFiles": 1888,
+        "checkedFiles": 1888,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "ordinary current default still edits normally",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\ordinary-receiver\\data\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\ordinary-rename.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\ordinary-edit"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "company-demo",
+        "revision": 2,
+        "floors": [
+          "company-demo/floor-1"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\ordinary-edit"
+      }
+    },
+    {
+      "label": "ordinary detached input still validates",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\ordinary-detached\\renamed-ordinary.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "company-demo",
+        "revision": 2,
+        "floors": [
+          "company-demo/floor-1"
+        ]
+      }
+    },
+    {
+      "label": "ordinary classroom through the public batch tool",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\source\\scripts\\company-platform\\batch.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\classroom-input.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\classroom-batch"
+      ],
+      "exit": 0,
+      "response": "{\n  \"schema\": \"company-batch-run\",\n  \"version\": 1,\n  \"ok\": true,\n  \"results\": [\n    {\n      \"key\": \"ordinary-classroom\",\n      \"companyId\": \"cool-studios\",\n      \"status\": \"created\",\n      \"directory\": \"F:\\\\gamemake-company-platform-c1\\\\output\\\\named-training\\\\portable-qa\\\\final-portable-regression\\\\classroom-batch\\\\ordinary-classroom\",\n      \"files\": {\n        \"input.json\": {\n          \"bytes\": 3451,\n          \"sha256\": \"bfc50c03ad7a139b173183a2c83a23997f853396dc95eec659d9f811c13b6d1a\"\n        },\n        \"layout.json\": {\n          \"bytes\": 91699,\n          \"sha256\": \"666be0433c94056f3098be1d8b2539213e5e699e3def0f5042e088be3f00f9c5\"\n        },\n        \"save.json\": {\n          \"bytes\": 102474,\n          \"sha256\": \"41a0c1207b9eade95091ca2e537e3160321d591fa9a969425cffefb066ddd1e5\"\n        }\n      }\n    }\n  ]\n}"
+    },
+    {
+      "label": "authored ordinary classroom does not inherit a dance clearance",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\classroom-alone\\renamed-classroom.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "cool-studios",
+        "revision": 2,
+        "floors": [
+          "cool-studios/floor-alpha",
+          "cool-studios/floor-beta"
+        ]
+      }
+    },
+    {
+      "label": "rental-training-room/first legitimate edit",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\data\\rooms\\rental-training-room\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\initial.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\generation-1"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-rental",
+        "revision": 3,
+        "floors": [
+          "concept-dance-training-rental/ground"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\generation-1"
+      }
+    },
+    {
+      "label": "rental-training-room/standalone-before-reseal/activity",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\alone-before-reseal\\new-name-rental-training-room.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\rejected-standalone-before-reseal-activity"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "label": "rental-training-room/standalone-before-reseal/entry",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\alone-before-reseal\\new-name-rental-training-room.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\door.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\rejected-standalone-before-reseal-entry"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/background",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/background: Clearance intrusion in entry of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "label": "rental-training-room/old orphan without source",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\stripped\\historical-layout.json"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-origin-required",
+        "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\stripped\\historical-layout.json",
+        "message": "Restore this legacy training layout through its verified source package and --room KEY, or provide the original batch result."
+      }
+    },
+    {
+      "label": "rental-training-room/old orphan does not infer source by company identity",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\stripped\\historical-layout.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\orphan-edit"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-origin-required",
+        "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\stripped\\historical-layout.json",
+        "message": "Restore this legacy training layout through its verified source package and --room KEY, or provide the original batch result."
+      }
+    },
+    {
+      "label": "rental-training-room/cannot re-seal an orphan",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\viewer",
+        "e5a77d978335",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\data\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\orphan-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\source",
+        "--room",
+        "orphan",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\stripped\\historical-layout.json"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-origin-required",
+        "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\stripped\\historical-layout.json",
+        "message": "Restore this legacy training layout through its verified source package and --room KEY, or provide the original batch result."
+      }
+    },
+    {
+      "label": "rental-training-room/mismatched original alias",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\stripped\\historical-layout.json",
+        "--room",
+        "upper-floor-training-room"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-room-origin-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\stripped\\historical-layout.json",
+        "message": "Select the packaged room that owns this company layout."
+      }
+    },
+    {
+      "label": "rental-training-room/historical edited save without source",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\old-real-edit\\archived-alone.json"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-origin-required",
+        "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\old-real-edit\\archived-alone.json",
+        "message": "Restore this legacy training layout through its verified source package and --room KEY, or provide the original batch result."
+      }
+    },
+    {
+      "label": "rental-training-room/explicit source restores old file",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\old-real-edit\\archived-alone.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\next.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\recovered-legacy",
+        "--room",
+        "rental-training-room"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-rental",
+        "revision": 4,
+        "floors": [
+          "concept-dance-training-rental/ground"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\recovered-legacy"
+      }
+    },
+    {
+      "label": "rental-training-room/legacy-migrated/activity",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\legacy-detached\\edited-and-renamed.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\rejected-legacy-migrated-activity"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "label": "rental-training-room/legacy-migrated/entry",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\legacy-detached\\edited-and-renamed.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\door.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\rejected-legacy-migrated-entry"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/background",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/background: Clearance intrusion in entry of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "label": "rental-training-room/wrong source-pin",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\bad-source-pin\\portable.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\rejected-malformed-source-pin"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "invalid-training-binding",
+        "path": "document.trainingBinding",
+        "message": "The version, fields or source SHA-256 pin are invalid."
+      }
+    },
+    {
+      "label": "rental-training-room/wrong company",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\bad-company\\portable.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\rejected-malformed-company"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "invalid-training-binding",
+        "path": "document.trainingBinding",
+        "message": "The source declaration, company, room and clearance must match the stored binding."
+      }
+    },
+    {
+      "label": "rental-training-room/wrong room",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\bad-room\\portable.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\rejected-malformed-room"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "invalid-training-binding",
+        "path": "document.trainingBinding",
+        "message": "The source declaration, company, room and clearance must match the stored binding."
+      }
+    },
+    {
+      "label": "rental-training-room/wrong rule",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\bad-rule\\portable.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\rejected-malformed-rule"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "invalid-training-binding",
+        "path": "document.trainingBinding",
+        "message": "The source declaration, company, room and clearance must match the stored binding."
+      }
+    },
+    {
+      "label": "rental-training-room/internally consistent but wrong rule conflicts with selected source",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\wrong-rule-with-valid-hash\\portable.json",
+        "--room",
+        "rental-training-room"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-edit-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\wrong-rule-with-valid-hash\\portable.json",
+        "message": "The saved declaration disagrees with the selected package room."
+      }
+    },
+    {
+      "label": "upper-floor-training-room/first legitimate edit",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\data\\rooms\\upper-floor-training-room\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\initial.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\generation-1"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-company",
+        "revision": 3,
+        "floors": [
+          "concept-dance-training-company/floor-alpha",
+          "concept-dance-training-company/floor-beta"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\generation-1"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/standalone-before-reseal/activity",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\alone-before-reseal\\new-name-upper-floor-training-room.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\rejected-standalone-before-reseal-activity"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-company/floor-beta/beta-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-company/floor-beta/beta-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-company/floor-beta/beta-training"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/standalone-before-reseal/entry",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\alone-before-reseal\\new-name-upper-floor-training-room.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\door.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\rejected-standalone-before-reseal-entry"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-company/floor-beta/beta-training/background",
+        "message": "training-clearance-obstructed at concept-dance-training-company/floor-beta/beta-training/background: Clearance intrusion in entry of concept-dance-training-company/floor-beta/beta-training"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/old orphan without source",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\stripped\\historical-layout.json"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-origin-required",
+        "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\stripped\\historical-layout.json",
+        "message": "Restore this legacy training layout through its verified source package and --room KEY, or provide the original batch result."
+      }
+    },
+    {
+      "label": "upper-floor-training-room/old orphan does not infer source by company identity",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\stripped\\historical-layout.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\orphan-edit"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-origin-required",
+        "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\stripped\\historical-layout.json",
+        "message": "Restore this legacy training layout through its verified source package and --room KEY, or provide the original batch result."
+      }
+    },
+    {
+      "label": "upper-floor-training-room/cannot re-seal an orphan",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\viewer",
+        "e5a77d978335",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\data\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\orphan-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\named-training-portable-receiver-v2\\source",
+        "--room",
+        "orphan",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\stripped\\historical-layout.json"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-origin-required",
+        "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\stripped\\historical-layout.json",
+        "message": "Restore this legacy training layout through its verified source package and --room KEY, or provide the original batch result."
+      }
+    },
+    {
+      "label": "upper-floor-training-room/mismatched original alias",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\stripped\\historical-layout.json",
+        "--room",
+        "rental-training-room"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-room-origin-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\stripped\\historical-layout.json",
+        "message": "Select the packaged room that owns this company layout."
+      }
+    },
+    {
+      "label": "upper-floor-training-room/historical edited save without source",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\old-real-edit\\archived-alone.json"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-origin-required",
+        "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\old-real-edit\\archived-alone.json",
+        "message": "Restore this legacy training layout through its verified source package and --room KEY, or provide the original batch result."
+      }
+    },
+    {
+      "label": "upper-floor-training-room/explicit source restores old file",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\old-real-edit\\archived-alone.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\next.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\recovered-legacy",
+        "--room",
+        "upper-floor-training-room"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-company",
+        "revision": 4,
+        "floors": [
+          "concept-dance-training-company/floor-alpha",
+          "concept-dance-training-company/floor-beta"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\recovered-legacy"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/legacy-migrated/activity",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\legacy-detached\\edited-and-renamed.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\rejected-legacy-migrated-activity"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-company/floor-beta/beta-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-company/floor-beta/beta-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-company/floor-beta/beta-training"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/legacy-migrated/entry",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\legacy-detached\\edited-and-renamed.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\door.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\rejected-legacy-migrated-entry"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-company/floor-beta/beta-training/background",
+        "message": "training-clearance-obstructed at concept-dance-training-company/floor-beta/beta-training/background: Clearance intrusion in entry of concept-dance-training-company/floor-beta/beta-training"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/wrong source-pin",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\bad-source-pin\\portable.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\rejected-malformed-source-pin"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "invalid-training-binding",
+        "path": "document.trainingBinding",
+        "message": "The version, fields or source SHA-256 pin are invalid."
+      }
+    },
+    {
+      "label": "upper-floor-training-room/wrong company",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\bad-company\\portable.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\rejected-malformed-company"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "invalid-training-binding",
+        "path": "document.trainingBinding",
+        "message": "The source declaration, company, room and clearance must match the stored binding."
+      }
+    },
+    {
+      "label": "upper-floor-training-room/wrong room",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\bad-room\\portable.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\rejected-malformed-room"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "invalid-training-binding",
+        "path": "document.trainingBinding",
+        "message": "The source declaration, company, room and clearance must match the stored binding."
+      }
+    },
+    {
+      "label": "upper-floor-training-room/wrong rule",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\bad-rule\\portable.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\rejected-malformed-rule"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "invalid-training-binding",
+        "path": "document.trainingBinding",
+        "message": "The source declaration, company, room and clearance must match the stored binding."
+      }
+    },
+    {
+      "label": "upper-floor-training-room/internally consistent but wrong rule conflicts with selected source",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\wrong-rule-with-valid-hash\\portable.json",
+        "--room",
+        "upper-floor-training-room"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-edit-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\wrong-rule-with-valid-hash\\portable.json",
+        "message": "The saved declaration disagrees with the selected package room."
+      }
+    },
+    {
+      "label": "re-seal both renamed single-file saves using the independent receiver",
+      "entry": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\ordinary-receiver\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\ordinary-receiver\\viewer",
+        "e5a77d978335",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\ordinary-receiver\\data\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\renamed-reseal",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\ordinary-receiver\\source",
+        "--room",
+        "portable-rental",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\alone-before-reseal\\new-name-rental-training-room.json",
+        "--room",
+        "portable-upper",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\alone-before-reseal\\new-name-upper-floor-training-room.json",
+        "--room",
+        "ordinary-classroom",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\classroom-alone\\renamed-classroom.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "buildId": "e5a77d978335",
+        "companyId": "company-demo",
+        "rooms": [
+          "portable-rental",
+          "portable-upper",
+          "ordinary-classroom"
+        ],
+        "files": 1899,
+        "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\renamed-reseal"
+      }
+    },
+    {
+      "label": "re-seal both renamed single-file saves using the independent receiver: verify sealed bytes",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\renamed-reseal",
+        "75dcc523a7c5a25b99633a43e544a7587240caf2c6fdffce650c4dc12a8c62a5"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "e5a77d978335",
+        "manifestSha256": "75dcc523a7c5a25b99633a43e544a7587240caf2c6fdffce650c4dc12a8c62a5",
+        "declaredFiles": 1899,
+        "checkedFiles": 1899,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "re-sealed ordinary classroom still validates",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\renamed-reseal\\data\\rooms\\ordinary-classroom\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "cool-studios",
+        "revision": 2,
+        "floors": [
+          "cool-studios/floor-alpha",
+          "cool-studios/floor-beta"
+        ]
+      }
+    },
+    {
+      "label": "rental-training-room/re-sealed/activity",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\renamed-reseal\\data\\rooms\\portable-rental\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\rejected-re-sealed-activity"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "label": "rental-training-room/re-sealed/entry",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\renamed-reseal\\data\\rooms\\portable-rental\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\door.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\rejected-re-sealed-entry"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/background",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/background: Clearance intrusion in entry of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "label": "rental-training-room/second legitimate edit",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\renamed-reseal\\data\\rooms\\portable-rental\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\next.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\generation-2"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-rental",
+        "revision": 4,
+        "floors": [
+          "concept-dance-training-rental/ground"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\generation-2"
+      }
+    },
+    {
+      "label": "rental-training-room/third legitimate edit from a detached save",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\alone-generation-2\\only-file-edited-again.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\continue.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\generation-3"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-rental",
+        "revision": 5,
+        "floors": [
+          "concept-dance-training-rental/ground"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\generation-3"
+      }
+    },
+    {
+      "label": "rental-training-room/standalone-generation-3/activity",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\alone-generation-3\\edited-three-times.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\rejected-standalone-generation-3-activity"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "label": "rental-training-room/standalone-generation-3/entry",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\alone-generation-3\\edited-three-times.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\door.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\rejected-standalone-generation-3-entry"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/background",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/background: Clearance intrusion in entry of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "label": "rental-training-room/second training room leaves the rule scoped",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\alone-generation-3\\edited-three-times.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\second-training-purpose.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\extra-training-room"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-rental",
+        "revision": 6,
+        "floors": [
+          "concept-dance-training-rental/ground"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\extra-training-room"
+      }
+    },
+    {
+      "label": "rental-training-room/different-classroom/activity",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\extra-training-room\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\rejected-different-classroom-activity"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "label": "rental-training-room/different-classroom/entry",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\extra-training-room\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\door.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\rejected-different-classroom-entry"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-rental/ground/dance-training/background",
+        "message": "training-clearance-obstructed at concept-dance-training-rental/ground/dance-training/background: Clearance intrusion in entry of concept-dance-training-rental/ground/dance-training"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/re-sealed/activity",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\renamed-reseal\\data\\rooms\\portable-upper\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\rejected-re-sealed-activity"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-company/floor-beta/beta-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-company/floor-beta/beta-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-company/floor-beta/beta-training"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/re-sealed/entry",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\renamed-reseal\\data\\rooms\\portable-upper\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\door.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\rejected-re-sealed-entry"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-company/floor-beta/beta-training/background",
+        "message": "training-clearance-obstructed at concept-dance-training-company/floor-beta/beta-training/background: Clearance intrusion in entry of concept-dance-training-company/floor-beta/beta-training"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/second legitimate edit",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\renamed-reseal\\data\\rooms\\portable-upper\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\next.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\generation-2"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-company",
+        "revision": 4,
+        "floors": [
+          "concept-dance-training-company/floor-alpha",
+          "concept-dance-training-company/floor-beta"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\generation-2"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/third legitimate edit from a detached save",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\alone-generation-2\\only-file-edited-again.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\continue.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\generation-3"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-company",
+        "revision": 5,
+        "floors": [
+          "concept-dance-training-company/floor-alpha",
+          "concept-dance-training-company/floor-beta"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\generation-3"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/standalone-generation-3/activity",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\alone-generation-3\\edited-three-times.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\rejected-standalone-generation-3-activity"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-company/floor-beta/beta-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-company/floor-beta/beta-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-company/floor-beta/beta-training"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/standalone-generation-3/entry",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\alone-generation-3\\edited-three-times.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\door.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\rejected-standalone-generation-3-entry"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-company/floor-beta/beta-training/background",
+        "message": "training-clearance-obstructed at concept-dance-training-company/floor-beta/beta-training/background: Clearance intrusion in entry of concept-dance-training-company/floor-beta/beta-training"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/second training room leaves the rule scoped",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\alone-generation-3\\edited-three-times.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\second-training-purpose.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\extra-training-room"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "concept-dance-training-company",
+        "revision": 6,
+        "floors": [
+          "concept-dance-training-company/floor-alpha",
+          "concept-dance-training-company/floor-beta"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\extra-training-room"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/different-classroom/activity",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\extra-training-room\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\bonsai.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\rejected-different-classroom-activity"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-company/floor-beta/beta-training/test-bonsai",
+        "message": "training-clearance-obstructed at concept-dance-training-company/floor-beta/beta-training/test-bonsai: Clearance intrusion in activity of concept-dance-training-company/floor-beta/beta-training"
+      }
+    },
+    {
+      "label": "upper-floor-training-room/different-classroom/entry",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\extra-training-room\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\door.json",
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\rejected-different-classroom-entry"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "training-clearance-obstructed",
+        "path": "concept-dance-training-company/floor-beta/beta-training/background",
+        "message": "training-clearance-obstructed at concept-dance-training-company/floor-beta/beta-training/background: Clearance intrusion in entry of concept-dance-training-company/floor-beta/beta-training"
+      }
+    },
+    {
+      "label": "post-test sealed package verification",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\ordinary-receiver",
+        "79382269332f80527ba6fb6c0b06a046e36b60f103413339c7fd87f7014dda9a"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "e5a77d978335",
+        "manifestSha256": "79382269332f80527ba6fb6c0b06a046e36b60f103413339c7fd87f7014dda9a",
+        "declaredFiles": 1888,
+        "checkedFiles": 1888,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "post-test sealed package verification",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\renamed-reseal",
+        "75dcc523a7c5a25b99633a43e544a7587240caf2c6fdffce650c4dc12a8c62a5"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "e5a77d978335",
+        "manifestSha256": "75dcc523a7c5a25b99633a43e544a7587240caf2c6fdffce650c4dc12a8c62a5",
+        "declaredFiles": 1899,
+        "checkedFiles": 1899,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    }
+  ],
+  "rooms": [
+    {
+      "key": "rental-training-room",
+      "alias": "portable-rental",
+      "roomScope": {
+        "additionalRoom": "concept-dance-training-rental/ground/rest",
+        "ruleRoom": "concept-dance-training-rental/ground/dance-training",
+        "sha256": "beba81f85c4f771c43902360ed39f9eb642ddc6a417b31e09c5b9e41979bcc33"
+      },
+      "bonsai": {
+        "bonsaiSha256": "ae31a7de760b19a91128037733c1cf1f7e6306530cbe0bc6fe2110a42212d777",
+        "reviewerReference": "ae31a7de760b19a91128037733c1cf1f7e6306530cbe0bc6fe2110a42212d777",
+        "sameReviewBytes": true,
+        "id": "concept-dance-training-rental/ground/dance-training/test-bonsai",
+        "resource": {
+          "id": "plant-bonsai",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.25,
+            0,
+            -1.02
+          ],
+          "yaw": 0
+        }
+      },
+      "migration": {
+        "strippedOriginal": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\stripped\\historical-layout.json",
+        "recovered": "a2d2063bb223908bba4eb1e069f07f7f774c8e8fc785bc08ca4515b020c57f49",
+        "input": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\rental-training-room\\old-real-edit\\archived-alone.json"
+      },
+      "binding": {
+        "companyId": "concept-dance-training-rental",
+        "roomId": "concept-dance-training-rental/ground/dance-training",
+        "schema": "company-training-binding",
+        "source": {
+          "kind": "batch-input",
+          "sha256": "760fbcefcc4f22844d4c58d190a294dd41799c61ac16b2bafd3280f8fa35d163",
+          "text": "{\n  \"input\": {\n    \"floors\": [\n      {\n        \"id\": \"ground\",\n        \"name\": \"一层\",\n        \"rooms\": [\n          {\n            \"id\": \"live\",\n            \"name\": \"直播间\",\n            \"purpose\": \"streaming\",\n            \"stations\": 1\n          },\n          {\n            \"entry\": [\n              0,\n              0,\n              0\n            ],\n            \"id\": \"dance-training\",\n            \"name\": \"歌舞训练室\",\n            \"purpose\": \"training\"\n          },\n          {\n            \"id\": \"rest\",\n            \"name\": \"休息间\",\n            \"purpose\": \"rest\",\n            \"sofaVersion\": 1\n          }\n        ]\n      }\n    ],\n    \"id\": \"concept-dance-training-rental\",\n    \"name\": \"概念图二 · 整套房歌舞训练区\",\n    \"scale\": \"rental-home\",\n    \"spaceProfile\": {\n      \"id\": \"company-space-v2\",\n      \"version\": 1\n    }\n  },\n  \"key\": \"rental-training-room\",\n  \"operations\": [\n    {\n      \"finish\": {\n        \"resource\": {\n          \"id\": \"floor-offset-plank\",\n          \"version\": 1\n        }\n      },\n      \"id\": \"concept-dance-training-rental/ground/dance-training\",\n      \"surface\": \"floor\",\n      \"type\": \"set-surface-finish\"\n    },\n    {\n      \"id\": \"concept-dance-training-rental/ground/dance-training/mirror\",\n      \"parentId\": \"concept-dance-training-rental/ground/dance-training\",\n      \"resource\": {\n        \"id\": \"mirror-full\",\n        \"version\": 1\n      },\n      \"transform\": {\n        \"position\": [\n          -0.5,\n          1.4,\n          -1.9\n        ],\n        \"yaw\": 0\n      },\n      \"type\": \"add-facility\"\n    },\n    {\n      \"id\": \"concept-dance-training-rental/ground/dance-training/background\",\n      \"parentId\": \"concept-dance-training-rental/ground/dance-training\",\n      \"resource\": {\n        \"id\": \"background-soft-panel\",\n        \"version\": 1\n      },\n      \"state\": {\n        \"visible\": true\n      },\n      \"transform\": {\n        \"position\": [\n          0.35,\n          0,\n          1.65\n        ],\n        \"yaw\": 3.141592653589793\n      },\n      \"type\": \"add-facility\"\n    },\n    {\n      \"id\": \"concept-dance-training-rental/ground/dance-training/rug\",\n      \"parentId\": \"concept-dance-training-rental/ground/dance-training\",\n      \"resource\": {\n        \"id\": \"rug-border\",\n        \"version\": 1\n      },\n      \"transform\": {\n        \"position\": [\n          1.59,\n          0,\n          0.25\n        ],\n        \"yaw\": 1.5707963267948966\n      },\n      \"type\": \"add-facility\"\n    }\n  ],\n  \"trainingClearance\": {\n    \"activity\": {\n      \"clearHeight\": 2.2,\n      \"maxX\": 1,\n      \"maxZ\": 1.25,\n      \"minX\": -1.25,\n      \"minZ\": -1.25\n    },\n    \"entry\": {\n      \"clearHeight\": 2.2,\n      \"maxX\": -1.15,\n      \"maxZ\": 0.5,\n      \"minX\": -2.25,\n      \"minZ\": -0.5,\n      \"portalId\": \"concept-dance-training-rental/ground/portal-work-living\"\n    },\n    \"roomId\": \"concept-dance-training-rental/ground/dance-training\"\n  }\n}\n"
+        },
+        "trainingClearance": {
+          "activity": {
+            "clearHeight": 2.2,
+            "maxX": 1,
+            "maxZ": 1.25,
+            "minX": -1.25,
+            "minZ": -1.25
+          },
+          "entry": {
+            "clearHeight": 2.2,
+            "maxX": -1.15,
+            "maxZ": 0.5,
+            "minX": -2.25,
+            "minZ": -0.5,
+            "portalId": "concept-dance-training-rental/ground/portal-work-living"
+          },
+          "roomId": "concept-dance-training-rental/ground/dance-training"
+        },
+        "version": 1
+      },
+      "generations": [
+        {
+          "revision": 3,
+          "sha256": "f5b71672d449cee1edd6e3f4a8e4244b1d3141c30a74a993d8688b414cc25f80"
+        },
+        {
+          "revision": 4,
+          "sha256": "209a6c282276ec762c55ecc88fa191b04a67d5e2e97a7c8dbf10feec4ebd81aa"
+        },
+        {
+          "revision": 5,
+          "sha256": "953648c363a98b2f6ce37d74e530cf3cfe929c1670fa6eba9450e50cab49a763"
+        }
+      ]
+    },
+    {
+      "key": "upper-floor-training-room",
+      "alias": "portable-upper",
+      "roomScope": {
+        "additionalRoom": "concept-dance-training-company/floor-alpha/alpha-work",
+        "ruleRoom": "concept-dance-training-company/floor-beta/beta-training",
+        "sha256": "68108045a08948d864986998db61968a9c40802912aecbed6383d2343093b89c"
+      },
+      "bonsai": {
+        "bonsaiSha256": "39ee89aa52e94b5e6f53ae05741408eb268356226413d6652860af71e4837f8e",
+        "reviewerReference": "39ee89aa52e94b5e6f53ae05741408eb268356226413d6652860af71e4837f8e",
+        "sameReviewBytes": true,
+        "id": "concept-dance-training-company/floor-beta/beta-training/test-bonsai",
+        "resource": {
+          "id": "plant-bonsai",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            0.25,
+            0,
+            -1.02
+          ],
+          "yaw": 0
+        }
+      },
+      "migration": {
+        "strippedOriginal": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\stripped\\historical-layout.json",
+        "recovered": "9dfdc0f79e4e996c06ada8d43d7e8eb217174d11f91421d76832dfdc1f9d07cd",
+        "input": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\upper-floor-training-room\\old-real-edit\\archived-alone.json"
+      },
+      "binding": {
+        "companyId": "concept-dance-training-company",
+        "roomId": "concept-dance-training-company/floor-beta/beta-training",
+        "schema": "company-training-binding",
+        "source": {
+          "kind": "batch-input",
+          "sha256": "abc5e8963677d4a97b4072d9a320d80b5159d06109c5ab3e02808f4d6b7a580f",
+          "text": "{\n  \"input\": {\n    \"floors\": [\n      {\n        \"id\": \"floor-alpha\",\n        \"name\": \"直播层\",\n        \"rooms\": [\n          {\n            \"id\": \"alpha-stream\",\n            \"name\": \"双工位直播间\",\n            \"purpose\": \"streaming\",\n            \"stations\": 2\n          },\n          {\n            \"furniture\": \"desk-chair\",\n            \"id\": \"alpha-work\",\n            \"name\": \"工作间\",\n            \"purpose\": \"work\"\n          },\n          {\n            \"id\": \"alpha-rest\",\n            \"name\": \"休息间\",\n            \"purpose\": \"rest\",\n            \"sofaVersion\": 1\n          }\n        ]\n      },\n      {\n        \"id\": \"floor-beta\",\n        \"name\": \"训练层\",\n        \"rooms\": [\n          {\n            \"id\": \"beta-stream\",\n            \"name\": \"直播间\",\n            \"purpose\": \"streaming\",\n            \"stations\": 1\n          },\n          {\n            \"entry\": [\n              0,\n              0,\n              0\n            ],\n            \"id\": \"beta-training\",\n            \"name\": \"歌舞训练室\",\n            \"purpose\": \"training\"\n          },\n          {\n            \"id\": \"beta-rest\",\n            \"name\": \"休息间\",\n            \"purpose\": \"rest\",\n            \"sofaVersion\": 2\n          }\n        ]\n      }\n    ],\n    \"id\": \"concept-dance-training-company\",\n    \"name\": \"概念图二 · 两层公司歌舞训练区\",\n    \"scale\": \"building\",\n    \"spaceProfile\": {\n      \"id\": \"company-space-v2\",\n      \"version\": 1\n    }\n  },\n  \"key\": \"upper-floor-training-room\",\n  \"operations\": [\n    {\n      \"finish\": {\n        \"resource\": {\n          \"id\": \"floor-herringbone\",\n          \"version\": 1\n        }\n      },\n      \"id\": \"concept-dance-training-company/floor-beta/beta-training\",\n      \"surface\": \"floor\",\n      \"type\": \"set-surface-finish\"\n    },\n    {\n      \"id\": \"concept-dance-training-company/floor-beta/beta-training/mirror\",\n      \"parentId\": \"concept-dance-training-company/floor-beta/beta-training\",\n      \"resource\": {\n        \"id\": \"mirror-full\",\n        \"version\": 1\n      },\n      \"transform\": {\n        \"position\": [\n          -2.9,\n          1.4,\n          -0.3\n        ],\n        \"yaw\": 1.5707963267948966\n      },\n      \"type\": \"add-facility\"\n    },\n    {\n      \"id\": \"concept-dance-training-company/floor-beta/beta-training/background\",\n      \"parentId\": \"concept-dance-training-company/floor-beta/beta-training\",\n      \"resource\": {\n        \"id\": \"background-slat-panel\",\n        \"version\": 1\n      },\n      \"state\": {\n        \"visible\": true\n      },\n      \"transform\": {\n        \"position\": [\n          0,\n          0,\n          -2.65\n        ],\n        \"yaw\": 0\n      },\n      \"type\": \"add-facility\"\n    },\n    {\n      \"id\": \"concept-dance-training-company/floor-beta/beta-training/rug\",\n      \"parentId\": \"concept-dance-training-company/floor-beta/beta-training\",\n      \"resource\": {\n        \"id\": \"rug-inset\",\n        \"version\": 1\n      },\n      \"transform\": {\n        \"position\": [\n          2.18,\n          0,\n          0.1\n        ],\n        \"yaw\": 1.5707963267948966\n      },\n      \"type\": \"add-facility\"\n    }\n  ],\n  \"trainingClearance\": {\n    \"activity\": {\n      \"clearHeight\": 2.2,\n      \"maxX\": 1.5,\n      \"maxZ\": 1.5,\n      \"minX\": -1.5,\n      \"minZ\": -1.5\n    },\n    \"entry\": {\n      \"clearHeight\": 2.2,\n      \"maxX\": 0.5,\n      \"maxZ\": 3,\n      \"minX\": -0.5,\n      \"minZ\": 1.4,\n      \"portalId\": \"concept-dance-training-company/floor-beta/portal-beta-training\"\n    },\n    \"roomId\": \"concept-dance-training-company/floor-beta/beta-training\"\n  }\n}\n"
+        },
+        "trainingClearance": {
+          "activity": {
+            "clearHeight": 2.2,
+            "maxX": 1.5,
+            "maxZ": 1.5,
+            "minX": -1.5,
+            "minZ": -1.5
+          },
+          "entry": {
+            "clearHeight": 2.2,
+            "maxX": 0.5,
+            "maxZ": 3,
+            "minX": -0.5,
+            "minZ": 1.4,
+            "portalId": "concept-dance-training-company/floor-beta/portal-beta-training"
+          },
+          "roomId": "concept-dance-training-company/floor-beta/beta-training"
+        },
+        "version": 1
+      },
+      "generations": [
+        {
+          "revision": 3,
+          "sha256": "054147a622230c800942bf569e2546cd2a16be9b6940f37e89c58efb9de129df"
+        },
+        {
+          "revision": 4,
+          "sha256": "4872370e5fe33c305691f9bad679e4a30340a675cdc9010fdebdc37006a969fa"
+        },
+        {
+          "revision": 5,
+          "sha256": "c00cbea7308ae4d17fb26c0839b1481044f4434a718f643c1e0b55ff6f5a3959"
+        }
+      ]
+    }
+  ],
+  "sealedReceivers": [
+    {
+      "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\ordinary-receiver",
+      "manifestSha256": "79382269332f80527ba6fb6c0b06a046e36b60f103413339c7fd87f7014dda9a"
+    },
+    {
+      "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\renamed-reseal",
+      "manifestSha256": "75dcc523a7c5a25b99633a43e544a7587240caf2c6fdffce650c4dc12a8c62a5"
+    }
+  ],
+  "buildId": "e5a77d978335",
+  "originalManifestSha256": "bfef9d42d7b8621b18c36b0f7b59c53801651c39b9bf0572587edb23a1b2a6f5",
+  "ordinary": {
+    "id": "company-demo",
+    "revision": 2,
+    "sha256": "13d5c75ea0f0caced23d64733940cf3f936981398de834581010c22301fefda9"
+  },
+  "ordinaryClassroom": {
+    "path": "F:\\gamemake-company-platform-c1\\output\\named-training\\portable-qa\\final-portable-regression\\classroom-alone\\renamed-classroom.json",
+    "sha256": "41a0c1207b9eade95091ca2e537e3160321d591fa9a969425cffefb066ddd1e5",
+    "binding": {
+      "companyId": "cool-studios",
+      "roomId": null,
+      "schema": "company-training-binding",
+      "source": {
+        "kind": "batch-input",
+        "sha256": "bfc50c03ad7a139b173183a2c83a23997f853396dc95eec659d9f811c13b6d1a",
+        "text": "{\n  \"input\": {\n    \"floors\": [\n      {\n        \"id\": \"floor-alpha\",\n        \"name\": \"直播层\",\n        \"rooms\": [\n          {\n            \"id\": \"alpha-stream\",\n            \"name\": \"直播间\",\n            \"purpose\": \"streaming\",\n            \"stations\": 2\n          },\n          {\n            \"furniture\": \"desk-chair\",\n            \"id\": \"alpha-work\",\n            \"name\": \"工作间\",\n            \"purpose\": \"work\"\n          },\n          {\n            \"id\": \"alpha-rest\",\n            \"name\": \"休息间\",\n            \"purpose\": \"rest\",\n            \"sofaVersion\": 1\n          }\n        ]\n      },\n      {\n        \"id\": \"floor-beta\",\n        \"name\": \"训练层\",\n        \"rooms\": [\n          {\n            \"id\": \"beta-stream\",\n            \"name\": \"直播间\",\n            \"purpose\": \"streaming\",\n            \"stations\": 1\n          },\n          {\n            \"furniture\": \"desk-chair\",\n            \"id\": \"beta-training\",\n            \"name\": \"培训间\",\n            \"purpose\": \"training\"\n          },\n          {\n            \"id\": \"beta-rest\",\n            \"name\": \"休息间\",\n            \"purpose\": \"rest\",\n            \"sofaVersion\": 1\n          }\n        ]\n      }\n    ],\n    \"id\": \"cool-studios\",\n    \"name\": \"两层冷色直播公司\",\n    \"scale\": \"building\",\n    \"spaceProfile\": {\n      \"id\": \"company-space-v2\",\n      \"version\": 1\n    }\n  },\n  \"key\": \"ordinary-classroom\",\n  \"styleRecipe\": {\n    \"facilities\": {\n      \"default\": {\n        \"chair\": {\n          \"id\": \"chair-crossbeam\",\n          \"version\": 1\n        },\n        \"desk\": {\n          \"id\": \"desk-frame\",\n          \"version\": 1\n        },\n        \"desk-microphone\": {\n          \"id\": \"desk-microphone-capsule\",\n          \"version\": 1\n        },\n        \"door-frame\": {\n          \"id\": \"door-frame-crown\",\n          \"version\": 2\n        },\n        \"fill-light\": {\n          \"id\": \"fill-light-panel\",\n          \"version\": 1\n        },\n        \"floor-panel\": {\n          \"id\": \"floor-panel-herringbone\",\n          \"version\": 1\n        },\n        \"keyboard\": {\n          \"id\": \"keyboard-console\",\n          \"version\": 1\n        },\n        \"monitor\": {\n          \"id\": \"monitor-slate\",\n          \"version\": 1\n        },\n        \"plant\": {\n          \"id\": \"plant-bonsai\",\n          \"version\": 1\n        },\n        \"rug\": {\n          \"id\": \"rug-inset\",\n          \"version\": 1\n        },\n        \"sofa\": {\n          \"id\": \"sofa-modular\",\n          \"version\": 1\n        },\n        \"wall-art\": {\n          \"id\": \"wall-art-woven\",\n          \"version\": 1\n        },\n        \"wall-panel\": {\n          \"id\": \"wall-panel-ribbed\",\n          \"version\": 1\n        },\n        \"window-panel\": {\n          \"id\": \"window-panel-round\",\n          \"version\": 1\n        }\n      }\n    },\n    \"id\": \"cool-work-v1\",\n    \"name\": \"冷静制作间\",\n    \"surfaces\": {\n      \"default\": {\n        \"floor\": {\n          \"resource\": {\n            \"id\": \"floor-checker-tile\",\n            \"version\": 1\n          }\n        },\n        \"wall\": {\n          \"resource\": {\n            \"id\": \"wall-diamond-grid\",\n            \"version\": 1\n          }\n        }\n      },\n      \"purposes\": {\n        \"work\": {\n          \"floor\": {\n            \"resource\": {\n              \"id\": \"floor-terrazzo\",\n              \"version\": 1\n            }\n          },\n          \"wall\": {\n            \"resource\": {\n              \"id\": \"wall-arc-fan\",\n              \"version\": 1\n            }\n          }\n        }\n      }\n    },\n    \"version\": 1\n  }\n}\n"
+      },
+      "trainingClearance": null,
+      "version": 1
+    }
+  }
+}

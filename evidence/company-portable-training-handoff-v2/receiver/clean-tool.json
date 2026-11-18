@@ -1,0 +1,56 @@
+{
+  "checks": [
+    {
+      "args": [
+        "output/named-training/portable-fixed-package/source/scripts/company-platform/package-company.mjs",
+        "--help"
+      ],
+      "exit": 1,
+      "error": "  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);\r"
+    },
+    {
+      "args": [
+        "output/named-training/portable/dependency-boundary/clean/source/scripts/company-platform/package-company.mjs",
+        "--help"
+      ],
+      "exit": 0,
+      "summary": "node package-company.mjs FIXED_DIST BUILD_ID SAVE_OR_BATCH_RESULT OUT_NEW_DIR [--source FIXED_SOURCE_ROOT] [--seat-contacts] [--room KEY SAVE_OR_BATCH_RESULT]..."
+    },
+    {
+      "args": [
+        "output/named-training/portable/dependency-boundary/clean/source/scripts/company-platform/package-company.mjs",
+        "missing-dist",
+        "112233445566",
+        "missing-input",
+        "F:\\gamemake-company-platform-c1\\not-a-managed-output"
+      ],
+      "exit": 1,
+      "error": "  \"code\": \"outside-managed-package-directory\","
+    }
+  ],
+  "publishArgs": [
+    "output/named-training/portable/dependency-boundary/clean/source/scripts/company-platform/package-company.mjs",
+    "company-workspace/production-trials/named-training-portable-receiver-v2/viewer",
+    "e5a77d978335",
+    "output/named-training/portable-fixed-package/data/save.json",
+    "output/named-training/portable/dependency-boundary/derivative",
+    "--source",
+    "company-workspace/production-trials/named-training-portable-receiver-v2/source",
+    "--room",
+    "rental",
+    "output/named-training/portable-fixed-package/data/rooms/rental-training-room/save.json"
+  ],
+  "verify": {
+    "ok": true,
+    "build": "e5a77d978335",
+    "manifestSha256": "1a6211552710951432f6d8c925aedf41ca1e490733cf867936e4301cb007a533",
+    "declaredFiles": 1892,
+    "checkedFiles": 1892,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "ruleRoom": "concept-dance-training-rental/ground/dance-training",
+  "sourceSHA256": "760fbcefcc4f22844d4c58d190a294dd41799c61ac16b2bafd3280f8fa35d163",
+  "unchangedBinding": true
+}
