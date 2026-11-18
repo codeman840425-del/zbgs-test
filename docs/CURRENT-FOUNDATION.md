@@ -89,3 +89,5 @@
 - 副总工后续混合住宅包的固定版 QA 已通过 10 项，当前正在同一固定构建生成正常速度录像，并把混合住宅 QA/录像入口补入独立移交包。门框安装依赖真实外部门洞，门扇安装依赖门洞与门框，60880 仍是人类预览端口；角色 C3 等待该包固定移交字段后再接入。
 - 角色侧新增查询接缝审查提交 `dc6067e4`，确认源矩阵从 `assets-source` 到 Node/Vite 生产构建可重复，男女各返回两个 candidate 款式，`runtimeVariants` 仍为空。当前角色候选准入和公司设施联调都必须继续经过各自闸门，不以预览入口可见或样件可加载代替正式交付。
 - 角色侧随后在同一 4196 预览构建 `c5ce1f7126ab` 对两份精确记录完成动态开关诊断回放，覆盖走路、坐下、起身和离开，226/232 个采样均无页面错误。证据 `evidence/m2-native-dynamic-runtime-trace-v3a/summary.json`，仍为诊断候选，不能清除 `dynamicMotion` 或人工视觉/预算/普通电脑门。
+
+2026-11-18 动态共同适配接缝：native_batch_gate.py 新增 dynamic_trace_index，严格绑定两份新身体 SHA、记录 SHA、报告路径和构建，接入 v3a 真实走/坐/站/离开采样。证据现在显示在每个批产行中，但其 technical-pass-diagnostic-only 状态的 clears 为空，因此 dynamicMotion 仍待显式适配准入，acceptedForRuntime 仍为空。新增 gate v6 报告 evidence/m2-native-production-gate-v6/report.json，17 项闸门测试通过。

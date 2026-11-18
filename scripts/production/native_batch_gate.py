@@ -416,6 +416,59 @@ def budget_admission_index(path: Path, root: Path = ROOT) -> dict[str, dict[str,
     return result
 
 
+def dynamic_trace_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
+    """Attach exact-body dynamic traces while preserving their diagnostic status.
+
+    A trace records useful runtime observations, but it does not by itself
+    prove visual acceptance or grant fit reuse.  The gate keeps this evidence
+    visible and leaves ``dynamicMotion`` pending until an explicit adapter
+    admission report is supplied.
+    """
+    path = path.resolve()
+    require(path.is_file() and path.is_relative_to(root),
+            "Dynamic trace must be inside repository")
+    summary = read_json(path)
+    require(summary.get("schema") == "native-dynamic-runtime-trace-summary-v1",
+            "Unsupported dynamic trace summary")
+    require(summary.get("status") == "technical-pass-diagnostic-only",
+            "Dynamic trace summary must remain diagnostic-only")
+    result: dict[str, dict[str, Any]] = {}
+    for item in summary.get("bodies", []):
+        report_rel = item.get("path")
+        record_sha = item.get("recordSha256")
+        require(isinstance(report_rel, str) and report_rel,
+                "Dynamic trace report path is missing")
+        require(isinstance(record_sha, str) and SHA.fullmatch(record_sha),
+                "Dynamic trace record identity is incomplete")
+        report_path = path.parent / report_rel
+        require(report_path.is_file() and report_path.is_relative_to(root),
+                f"Dynamic trace report is missing: {report_path}")
+        report = read_json(report_path)
+        require(report.get("schema") == "native-dynamic-runtime-trace-v1",
+                "Unsupported dynamic trace report")
+        require(report.get("status") == "technical-pass-diagnostic-only",
+                "Dynamic trace report must remain diagnostic-only")
+        require(report.get("recordSha256") == record_sha,
+                "Dynamic trace summary/report record identity differs")
+        body_sha = item.get("bodySha256")
+        require(isinstance(body_sha, str) and SHA.fullmatch(body_sha),
+                "Dynamic trace body identity is incomplete")
+        require(body_sha not in result, "Duplicate dynamic trace body")
+        result[body_sha] = {
+            "report": pin(path),
+            "bodySha256": body_sha,
+            "recordSha256": record_sha,
+            "traceReport": pin(report_path),
+            "builds": item.get("builds", []),
+            "samples": item.get("samples"),
+            "status": summary.get("status"),
+            "scope": summary.get("scope"),
+            "clears": [],
+        }
+    require(result, "Dynamic trace summary has no bodies")
+    return result
+
+
 def evaluate(batch_path: Path, root: Path = ROOT,
              runtime_report: Path | None = None,
              adapter_report: Path | None = None,
@@ -423,7 +476,8 @@ def evaluate(batch_path: Path, root: Path = ROOT,
              adaptation_report: Path | None = None,
              runtime_head_audit: Path | None = None,
              glasses_report: Path | None = None,
-             budget_report: Path | None = None) -> dict[str, Any]:
+             budget_report: Path | None = None,
+             dynamic_trace: Path | None = None) -> dict[str, Any]:
     root = root.resolve()
     batch_path = batch_path.resolve()
     require(batch_path.is_file() and batch_path.is_relative_to(root), "Batch must be inside repository")
@@ -438,6 +492,7 @@ def evaluate(batch_path: Path, root: Path = ROOT,
     audit_by_body = runtime_head_audit_index(runtime_head_audit, root) if runtime_head_audit else {}
     glasses_by_body = glasses_admission_index(glasses_report, root) if glasses_report else {}
     budget_by_body = budget_admission_index(budget_report, root) if budget_report else {}
+    dynamic_by_body = dynamic_trace_index(dynamic_trace, root) if dynamic_trace else {}
     combined_adapter = dict(adapter_by_body)
     for evidence_map in (glasses_by_body, budget_by_body):
         for body_sha, evidence in evidence_map.items():
@@ -461,6 +516,8 @@ def evaluate(batch_path: Path, root: Path = ROOT,
             row["glassesAdmissionEvidence"] = glasses_by_body[body_sha]
         if body_sha in budget_by_body:
             row["budgetAdmissionEvidence"] = budget_by_body[body_sha]
+        if body_sha in dynamic_by_body:
+            row["dynamicRuntimeTrace"] = dynamic_by_body[body_sha]
     for row in rows:
         if row["bodyType"] in microphone_by_body:
             row["accessoryEvidence"] = {"microphone": microphone_by_body[row["bodyType"]]}
@@ -508,12 +565,13 @@ def main() -> int:
     parser.add_argument("--runtime-head-audit", type=Path)
     parser.add_argument("--glasses-report", type=Path)
     parser.add_argument("--budget-report", type=Path)
+    parser.add_argument("--dynamic-trace", type=Path)
     args = parser.parse_args()
     try:
         report = evaluate(args.batch, runtime_report=args.runtime_report, adapter_report=args.adapter_report,
                           microphone_report=args.microphone_report, adaptation_report=args.adaptation_report,
                           runtime_head_audit=args.runtime_head_audit, glasses_report=args.glasses_report,
-                          budget_report=args.budget_report)
+                          budget_report=args.budget_report, dynamic_trace=args.dynamic_trace)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
         print(json.dumps(report, ensure_ascii=False))

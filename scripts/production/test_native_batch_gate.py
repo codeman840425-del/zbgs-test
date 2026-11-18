@@ -5,10 +5,27 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from native_batch_gate import CHECK_TO_ADAPTER, GateError, evaluate
+from native_batch_gate import CHECK_TO_ADAPTER, GateError, dynamic_trace_index, evaluate
 
 
 class NativeBatchGateTests(unittest.TestCase):
+    def test_dynamic_trace_is_exact_body_diagnostic_evidence(self):
+        path = Path('evidence/m2-native-dynamic-runtime-trace-v3a/summary.json')
+        indexed = dynamic_trace_index(path)
+        self.assertEqual(len(indexed), 2)
+        for row in indexed.values():
+            self.assertEqual(row['status'], 'technical-pass-diagnostic-only')
+            self.assertEqual(row['clears'], [])
+            self.assertEqual(len(row['bodySha256']), 64)
+
+    def test_dynamic_trace_wrong_record_is_rejected(self):
+        source = json.loads(Path('evidence/m2-native-dynamic-runtime-trace-v3a/summary.json').read_text())
+        source['bodies'][0]['recordSha256'] = '0' * 64
+        with tempfile.TemporaryDirectory(dir=Path('output')) as temp:
+            path = Path(temp) / 'trace.json'
+            path.write_text(json.dumps(source), encoding='utf8')
+            with self.assertRaises(ValueError):
+                dynamic_trace_index(path)
     def test_adapter_tasks_are_explicit_and_no_runtime_auto_accept(self):
         report = evaluate(Path('assets-source/native-parameter-game-packages-v1/import-batch.json'))
         self.assertEqual(report['schema'], 'native-production-readiness-v1')
