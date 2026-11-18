@@ -534,7 +534,7 @@ def glasses_candidate_index(path: Path, root: Path = ROOT) -> dict[str, dict[str
     require(path.is_file() and path.is_relative_to(root),
             "Glasses candidate report must be inside repository")
     report = read_json(path)
-    require(report.get("schema") == "native-glasses-candidate-runtime-v1" and
+    require(report.get("schema") in ("native-glasses-candidate-runtime-v1", "native-glasses-candidate-chain-v1") and
             report.get("status") == "candidate-only",
             "Unsupported glasses candidate report")
     result: dict[str, dict[str, Any]] = {}
@@ -543,13 +543,37 @@ def glasses_candidate_index(path: Path, root: Path = ROOT) -> dict[str, dict[str
         require(isinstance(body_sha, str) and SHA.fullmatch(body_sha),
                 "Glasses candidate body identity is incomplete")
         require(body_sha not in result, "Duplicate glasses candidate body")
+        if report.get("schema") == "native-glasses-candidate-chain-v1":
+            snapshots = item.get("snapshots")
+            require(isinstance(snapshots, list) and snapshots,
+                    "Glasses candidate chain has no snapshots")
+            names = {row.get("name") for row in snapshots if isinstance(row, dict)}
+            require({"walking", "seated", "standing-again"} <= names,
+                    "Glasses candidate chain is incomplete")
+            close_reopen = item.get("closeReopen") is True
+            require(close_reopen, "Glasses candidate chain lacks fresh-page reload")
+            stand_applied = bool(item.get("fit"))
+            sit_applied = any(
+                row.get("name") == "seated" and
+                row.get("state", {}).get("accessories", {}).get("glasses", {}).get("loaded") is True
+                for row in snapshots if isinstance(row, dict)
+            )
+            chain = {"walking": True, "seated": sit_applied,
+                     "standingAgain": "standing-again" in names,
+                     "closeReopen": close_reopen,
+                     "build": item.get("build")}
+        else:
+            stand_applied = bool(item.get("stand", {}).get("result", {}).get("applied"))
+            sit_applied = item.get("sit", {}).get("state", {}).get("accessories", {}) \
+                .get("glasses", {}).get("loaded") is True
+            chain = None
         result[body_sha] = {
             "report": pin(path),
             "body": item.get("body"),
             "bodySha256": body_sha,
-            "standApplied": item.get("stand", {}).get("result", {}).get("applied"),
-            "sitApplied": item.get("sit", {}).get("state", {}).get("accessories", {})
-                .get("glasses", {}).get("loaded") is True,
+            "standApplied": stand_applied,
+            "sitApplied": sit_applied,
+            "chain": chain,
             "fitStatus": "fitted-candidate",
             "verified": False,
             "clears": [],

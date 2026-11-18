@@ -111,3 +111,7 @@
 同日 admission cycle v14：使用当前动态回放、表面静态审查、资源预算分类、头部附件/持麦候选和房间回放重新生成 `evidence/m2-native-admission-cycle-v14/`。两份候选的 `facialExpressions` 与 `handAndMicrophone` 已按精确 SHA 解析，剩余 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`，`acceptedForRuntime=[]`，记录规划仍明确拒绝未准入项。该结果修正了旧 v13a 汇总未带入最新证据的问题，不改变准入标准。
 
 旁车清单随后补齐运行时材质目标合同，包括 `materialName`、`materialIndex`、`imageIndex`、2048² 尺寸及 Body 的 MToon alpha/纹理索引合同。清单生成、精确解析、缺失目标拒绝和完整生产回归通过；仍是 `candidate-only`，未接入正式材质替换。
+
+2026-11-18 头部附件候选链回读：当前源码构建 `c5d7f7dca6f2` 对 `native-contour-roundness-a-v1` 与 `native-contour-cheek-b-v1` 完成眼镜启用、正常速度走路→坐下→起身、页面关闭重开后再次加载。两体均 0 页面错误，三段动作快照的眼镜加载状态为 true，`eyeBlinkCompatibility.available=true`。证据 `evidence/m2-native-batch-runtime-seam-v1/native-glasses-runtime-candidate-v4/report.json`，仍为 `candidate-only`，没有写入正式 fit registry，不清除 `headAttachments` 或人工视觉准入。
+
+2026-11-18 admission cycle v16：以 v4 头部附件候选链重新汇总，状态仍为 `adapter-work-required`，`acceptedForRuntime=[]`。四类未完成任务保持为 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`。v16 证明候选链已进入共同闸门，不代表眼镜或两份 FaceContour 身体已正式可用。

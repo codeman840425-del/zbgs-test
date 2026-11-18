@@ -58,6 +58,17 @@ class NativeBatchGateTests(unittest.TestCase):
             self.assertFalse(row['verified'])
             self.assertEqual(row['clears'], [])
 
+    def test_glasses_candidate_chain_attaches_full_candidate_without_fit_clear(self):
+        indexed = glasses_candidate_index(Path('evidence/m2-native-batch-runtime-seam-v1/native-glasses-runtime-candidate-v4/report.json'))
+        self.assertEqual(len(indexed), 2)
+        for row in indexed.values():
+            self.assertTrue(row['standApplied'])
+            self.assertTrue(row['sitApplied'])
+            self.assertTrue(row['chain']['closeReopen'])
+            self.assertEqual(row['chain']['walking'], True)
+            self.assertFalse(row['verified'])
+            self.assertEqual(row['clears'], [])
+
     def test_microphone_candidate_is_attached_without_browser_clear(self):
         indexed = microphone_candidate_index(Path('evidence/m2-native-batch-runtime-seam-v1/microphone-final-v1/result.json'))
         self.assertEqual(len(indexed), 2)

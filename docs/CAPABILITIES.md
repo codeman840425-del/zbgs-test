@@ -554,3 +554,7 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 2026-11-18 动态运行诊断回放：`scripts/qa-native-dynamic-runtime.cjs` 在 4196 预览构建 `c5ce1f7126ab` 对两份精确 FaceContour 记录完成走路、坐下、起身、离开及动态开关采样，分别得到 226/232 个样本，页面错误为空。证据 `evidence/m2-native-dynamic-runtime-trace-v3a/summary.json`，状态保持 `technical-pass-diagnostic-only`。该回放只证明当前记录可在共用运行链采样，未清除 `dynamicMotion`，也未通过人工视觉、预算或普通电脑准入。
 
 - 批产共同适配闸门新增动态回放证据接缝：精确身体/记录/构建身份可复核，诊断回放可追踪，仍不能替代动态适配准入或人工视觉确认。
+
+2026-11-18 头部附件候选链回读：`scripts/qa-native-glasses-candidate-chain.cjs` 在当前源码构建 `c5d7f7dca6f2` 对两份精确 FaceContour 身体完成正常速度走路、坐下、起身和新页面重载后的再次加载。两体均页面错误为0，walking/seated/standing-again 三个快照的 glasses loaded 为 true，眼部眨眼兼容状态可用。证据 `evidence/m2-native-batch-runtime-seam-v1/native-glasses-runtime-candidate-v4/report.json`，状态仍 `candidate-only`，未写正式 registry，未清除 `headAttachments` 或人工视觉门。
+
+同日 `evidence/m2-native-admission-cycle-v16/` 接入该候选链。批产闸门保持 `acceptedForRuntime=[]`，每项仍有 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture` 四类任务。该结果证明共同闸门能够消费完整候选链，不把候选运行证据升级为正式资源。
