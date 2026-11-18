@@ -135,3 +135,5 @@
 2026-11-18 运行时预算共同接缝：修复 `scripts/qa-record-budget-runtime.cjs` 对双记录输入的分组错误，并让报告记录精确 body/record SHA。固定 4196 构建 `31898f47ce75` 的两份 FaceContour 记录分别和双实例组合完成约 12 秒采样，单体为 48 textures/31 geometries/36 draw calls/79,690 triangles，双实例为 95/61/71/159,378；释放后均回到 `1/1/1/1` 基线，frame p95 约 6.2ms。证据 `evidence/m2-native-budget-runtime-4196-v4/report.json`，仅代表开发机 Chrome/RTX4090，不代表普通电脑或 GPU 字节预算。
 
 `native_batch_gate.py` 和 `native_admission_cycle.py` 新增 `--runtime-budget-trace`，按 body/record/build 身份附加该诊断证据并保持 `runtimeAdmission=false`。`evidence/m2-native-admission-cycle-v21/summary.json` 最新结果仍为 `blocked`，两个候选各保留 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture` 四项待办。
+
+2026-11-18 原生参数候选接入统一变体下游：矩阵现在同时登记旧 M1 男女样件和两个真实 FaceContour 原生参数包。新行携带精确 body SHA、参数配方 SHA、装备/coverage 闭包与候选状态，批次请求新增四条原生 bodyType 项。矩阵文件闭包校验通过，批量规划 `evidence/m2-native-variant-batch-v2/plan.json` 为 `readiness-gated`、0 accepted，避免将“已生成资源”误当成“可运行角色”。4196 尚未因这次数据增量重建，固定预览仍指向上一份确认构建。

@@ -178,6 +178,22 @@ test('exposes the configured style matrix per exact body while keeping candidate
   assert.deepEqual(male.runtimeVariants ?? [], []);
 });
 
+test('exposes native parameter packages as exact candidate variants without inheriting admission', async () => {
+  for (const entry of productionCatalog.entries) {
+    const query = queryCharacterProduction((await fixture(entry.bodyType)).controller);
+    assert.deepEqual(query.styleVariants.map(style => style.styleId), ['uniform-top-v1', 'lower-shorts-v1']);
+    for (const style of query.styleVariants) {
+      assert.equal(style.variants.length, 1);
+      assert.equal(style.variants[0].bodyType, entry.bodyType);
+      assert.equal(style.variants[0].bodySha256, entry.profile.sha256);
+      assert.equal(style.variants[0].recipeSha256, entry.recipeSha256);
+      assert.equal(style.variants[0].packageStatus, 'offline-prepared');
+      assert.equal(style.variants[0].status, 'candidate');
+    }
+    assert.deepEqual(query.runtimeVariants, []);
+  }
+});
+
 test('rejects missing and mismatched loaded body identities', async () => {
   assert.throws(() => queryCharacterProduction(null), {code:'unregistered-body'});
   const {controller} = await fixture('male');
