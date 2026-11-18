@@ -429,11 +429,10 @@ async function record(rooms) {
       await page.waitForTimeout(850);
     }
   }
-  const video = page.video();
+  const raw = await page.video().path();
   await close();
   const file = 'video/phone-rooms-normal.webm';
-  await video.saveAs(path.join(out, file));
-  await video.delete();
+  await fs.rename(raw, path.join(out, file));
   const { size } = await fs.stat(path.join(out, file));
   assert(size > 0);
   report.video = { file, bytes: size, playbackSpeed: 1 };
