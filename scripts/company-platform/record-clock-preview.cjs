@@ -2,8 +2,7 @@ const {chromium}=require('../../prototype/node_modules/playwright');
 const {serve}=require('./serve.cjs');
 const fs=require('node:fs/promises'),path=require('node:path'),{execFileSync}=require('node:child_process');
 const [dist,build,outArg]=process.argv.slice(2),out=path.resolve(outArg);
-const sourceCommit=execFileSync('git',['rev-parse','HEAD'],{cwd:path.resolve(dist),encoding:'utf8'}).trim();
-if(execFileSync('git',['status','--porcelain','--untracked-files=no'],{cwd:path.resolve(dist),encoding:'utf8'}).trim())throw Error('Recording requires clean fixed source');
+let sourceCommit='packaged-source';try{sourceCommit=execFileSync('git',['rev-parse','HEAD'],{cwd:path.resolve(dist),encoding:'utf8'}).trim();if(execFileSync('git',['status','--porcelain','--untracked-files=no'],{cwd:path.resolve(dist),encoding:'utf8'}).trim())throw Error('Recording requires clean fixed source');}catch(error){if(error?.message==='Recording requires clean fixed source')throw error;}
 const report={sourceCommit,build,playbackSpeed:1,steps:[],limits:['Software rendering, no ordinary-PC performance claim','Host time preview only; no business clock or role integration']};
 let server,browser,context,video;
 (async()=>{
