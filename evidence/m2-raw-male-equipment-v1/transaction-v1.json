@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "checks": [
+    "Actual reconstructed male body is rejected before garment download",
+    "Exact ab9a selects weighted exported garment bound to the live body",
+    "Wrong inverse bind, HTTP failure and same-length changed GLB keep the prior outfit",
+    "Prepared selection commits and rolls back without changing source mesh visibility",
+    "Double disposal detaches both loaded pieces once, and delayed load cannot reattach"
+  ],
+  "threeRevision": "187",
+  "testedModules": {
+    "equipment.js": "1018d7a58343de05e3110fb8d28137fca978799433b50c2529dd1089d7f59c2b",
+    "equipment-set.js": "a1609772aac60cbad459e3bfb182dfa8dc051a50b15a6f97401469ac3c4927c9",
+    "equipment-material-loader.js": "e7b79f1e4c4a716c404b5725b2af47eb7093945a3268249f4f13c4f7595c41c7"
+  },
+  "body": {
+    "path": "assets-source/foundation-male/Base_Male.vrm",
+    "sha256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c"
+  },
+  "wrongBody": {
+    "path": "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+    "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
+  },
+  "manifest": {
+    "path": "output/m2-raw-male-equipment-v1/equipment.json",
+    "sha256": "3365ea090208becdc8e40c93fd821017659fa3c778cf05acb9fa276ca43f4906"
+  },
+  "garment": {
+    "path": "output/m2-raw-male-equipment-v1/raw-male-ab9a-uniform-pants-v1.glb",
+    "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0",
+    "bytes": 819968,
+    "stats": {
+      "primitives": 1,
+      "verticesAcrossPrimitives": 1095,
+      "multiBoneVerticesAcrossPrimitives": 923,
+      "maxWeightSumError": 3.2014213502407074e-8,
+      "joints": 9,
+      "independentArmatureAttached": false
+    }
+  },
+  "destroyed": [
+    {
+      "geometries": 1,
+      "materials": 1,
+      "textures": 1,
+      "skeletons": 1
+    },
+    {
+      "geometries": 1,
+      "materials": 1,
+      "textures": 1,
+      "skeletons": 1
+    }
+  ],
+  "scope": "Node Three/VRM and production equipment adapter. HTTP routing, image decode and manifest aliases for negative cases are fixtures. No visual, pose, coverage or factory admission."
+}

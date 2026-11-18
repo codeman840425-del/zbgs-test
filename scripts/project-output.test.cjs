@@ -15,6 +15,8 @@ test('production record and game export reject an escaped path before reading in
   await assert.rejects(outputPaths(output, outside), {code:'outside-project'});
   await assert.rejects(outputPaths(path.join(root, '..', path.basename(outside))), {code:'outside-project'});
   for (const args of [
+    ['qa-production-record-room.cjs', 'http://127.0.0.1', 'missing', outside],
+    ['qa-raw-outfit-room.cjs', 'http://127.0.0.1', 'missing', 'missing', outside],
     ['character-production-cli.cjs', '--out', outside, '--request', 'missing', '--dist', 'missing'],
     ['runtime-package/game-record-cli.mjs', 'inventory', '--out', outside, '--dist', 'missing'],
     ['runtime-package/game-record-cli.mjs', 'export', '--out', outside, '--dist', 'missing', '--inventory', 'missing']
