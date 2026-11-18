@@ -28,6 +28,11 @@ class LayoutTest(unittest.TestCase):
             result = subprocess.run([sys.executable, str(tool), 'audit'], cwd=root, capture_output=True)
             self.assertEqual(result.returncode, 1)
             self.assertEqual(json.loads(result.stdout)['unexpectedWorktrees'], [str(stray.resolve())])
+            archive = Path(parent) / 'gamemake_preview.zip'
+            archive.touch()
+            result = subprocess.run([sys.executable, str(tool), 'audit'], cwd=root, capture_output=True)
+            self.assertEqual(result.returncode, 1)
+            self.assertEqual(json.loads(result.stdout)['unexpectedSiblings'], [archive.name])
 
 
 if __name__ == '__main__':

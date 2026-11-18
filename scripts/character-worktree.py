@@ -22,8 +22,8 @@ def audit():
     company_root = (ROOT.parent / 'gamemake-company-platform-c1').resolve()
     unexpected_worktrees = sorted(str(path) for path in worktrees
                                   if not path.is_relative_to(ROOT) and not path.is_relative_to(company_root))
-    siblings = sorted(p.name for p in ROOT.parent.iterdir()
-                      if p.name.lower().startswith('gamemake-') and p.is_dir())
+    prefixes = tuple(ROOT.name.casefold() + separator for separator in ('-', '_', '.'))
+    siblings = sorted(p.name for p in ROOT.parent.iterdir() if p.name.casefold().startswith(prefixes))
     company = [name for name in siblings if (ROOT.parent / name).resolve() == company_root]
     outside = [name for name in siblings if name not in company]
     print(json.dumps({'project':str(ROOT), 'unexpectedSiblings':outside,
