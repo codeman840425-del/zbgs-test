@@ -103,4 +103,6 @@ v4 同时修正了闸门本身的状态接缝：`bodyPackage` 和 `coverage` 不
 
 概念图或美术预览先使用 `scripts/production/look_spec.py` 的 `zbgs-avatar-look-spec-v1` 作为输入边界。它要求明确身体变体、脸型、发型、颜色、装备角色、附件挂点和来源模式。`concept-reference` 只表示待制作的参考请求，`structured-asset` 必须携带精确身体 SHA、源配方与资源清单哈希；它不会从图片推断网格、权重或服装版型。规划结果会对每个装备按精确 `bodyType + styleId + variantVersion` 查表，并核对结构化资源的身体 SHA，缺失、错配或未准入时逐项拒绝，避免把“看起来相似”的概念图直接当成可运行角色。
 
+当前输入格式只携带一份装备清单哈希。同一文件中的多个条目可组成套装；跨文件组合、任一件身体或配方哈希错配会拒绝整套。命令行同时复算装备清单文件哈希。脸、发、各颜色和附件的待核项逐域返回，装备全部匹配时整套仍保留候选身份。可用 `evidence/m2-look-intake-v3` 对照两份真实输入。
+
 该入口是确定性批量生产接缝，不负责从概念图推断网格、权重或服装版型，也不根据相似名称跨身体 fallback。未来的随机角色只负责在已准入矩阵行中选择组合，再复用同一入口生成记录。当前代表矩阵的旧 M1 男女样件与两个真实原生参数 bodyType 共八项仍为 candidate，实际计划 `evidence/m2-native-variant-batch-v2/plan.json` 为 0 accepted，这是资源准入不足的真实结果。

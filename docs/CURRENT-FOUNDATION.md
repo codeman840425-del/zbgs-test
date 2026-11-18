@@ -1,7 +1,9 @@
 # 当前角色基础工程恢复点
 
 ## 固定入口与备份
-- F:/gamemake / feat/m1-foundation-room。4196 build1084ddeae27a，source55d363fbb2fae96e3b2e571a4f00de825545f537；独立experiments/m2-production-release-v2/prototype/dist。delivery/appearance-workbench.json；回退65814指针在delivery/history。4174历史证据、4195封存M1，不加常驻端口。
+- F:/gamemake / feat/m1-foundation-room。4196 当前构建 `30b8750e69c3`，源码 `5b979355`。固定交付与回退 70bad 的路径见 delivery/appearance-workbench.json。4174 历史证据，4195 封存 M1。
+
+当前共同适配包已将女性两份原生记录的发束试验接入“检查”。观看 `http://127.0.0.1:4196/reviews/native-hair-motion/`。复现、正常速影片、采样、关闭重开与未通过范围见 evidence/m2-native-hair-fit-preview-v1。造型输入误放行已修正，见 PIPE-04。后续应将通过验收的动态适配版本纳入外观记录并验证缺件/错版本保旧，继续表面与资源预算的游戏运行验证。当前未扩大准入。
 - 固定4196所属D02发布增量de2928b319917953cc8304029b85820a1778b766保留；最新生产主包代码与源/证据提交65310018381d1d40d26ba1f93a296153ea8c7b7e已推送，git ls-remote逐字核实。后续恢复说明独立提交，不冒称4196已换构建。公司副总工dirty文件不stage，不用git add -A。
 
 ## 刚完成D02限定主包
