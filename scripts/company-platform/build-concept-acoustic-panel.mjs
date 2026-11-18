@@ -10,6 +10,7 @@ const sourceImagePath = 'assets-source/company-concept-acoustic-panel-v1/concept
 const modelPath = 'prototype/public/company-assets/concept-acoustic-panel-v1/concept-hex-panel/v1/model.glb';
 const resourcePath = 'prototype/public/company-assets/concept-acoustic-panel-v1/concept-hex-panel/v1/resource.json';
 const catalogPath = 'prototype/src/company/library-catalog.json';
+const collectionPath = 'assets-source/company-concept-acoustic-panel-v1/collection.json';
 const generatorPath = 'scripts/company-platform/build-concept-acoustic-panel.mjs';
 const imageHash = value => createHash('sha256').update(value).digest('hex');
 const align = value => Buffer.concat([value, Buffer.alloc((4 - value.length % 4) % 4)]);
@@ -40,6 +41,7 @@ function readGlbJson(bytes) {
 
 const sourceImage = await fs.readFile(path.join(root, sourceImagePath));
 const expectedImageHash = imageHash(sourceImage);
+const generatorHash = imageHash(await fs.readFile(path.join(root, generatorPath)));
 const bytes = makeGlb(sourceImage);
 const gltfJson = readGlbJson(bytes);
 assert.equal(gltfJson.images[0].mimeType, 'image/png');
@@ -47,12 +49,13 @@ assert.equal(gltfJson.materials[0].alphaMode, 'BLEND');
 assert.equal(gltfJson.accessors[0].min[0], -.44);
 assert.equal(gltfJson.accessors[0].max[0], .44);
 const bounds = { min: new THREE.Vector3(-.44, -.28, 0), max: new THREE.Vector3(.44, .28, 0) };
-const resource = { id: 'concept-acoustic-panel', displayName: '概念图生成·六边形吸音墙面', version: 1, category: 'decor', mountRole: 'wall-art', productionBranch: 'concept-wall-panel', mount: 'wall', mounting: { origin: 'center', width: .88, height: .56, depth: .001 }, coordinates: { units: 'metres', up: '+Y', forward: '+Z', origin: 'Wall contact centre; image plane front +Z', scale: 'Identity only' }, footprint: { center: [0, 0], halfSize: [.44, .28], blocking: false }, usePoints: [], stateDefaults: {}, materialSlots: { finish: ['concept-acoustic-panel-fabric'] }, provenance: { license: 'Project-authored generated image from a user-provided concept reference; retain project record and do not redistribute the reference image.', sourceImage: sourceImagePath, sourceImageSha256: expectedImageHash, generator: generatorPath, method: 'Concept reference isolate -> transparent PNG -> embedded GLB wall display plane', inputContract: 'wall-art@1', generatedBy: 'imagegen' }, asset: { format: 'glb', url: '/company-assets/concept-acoustic-panel-v1/concept-hex-panel/v1/model.glb', sha256: imageHash(bytes), bytes: bytes.length } };
+const resource = { id: 'concept-acoustic-panel', displayName: '概念图生成·六边形吸音墙面', version: 1, category: 'decor', mountRole: 'wall-art', productionBranch: 'concept-wall-panel', mount: 'wall', mounting: { origin: 'center', width: .88, height: .56, depth: .001 }, coordinates: { units: 'metres', up: '+Y', forward: '+Z', origin: 'Wall contact centre; image plane front +Z', scale: 'Identity only' }, footprint: { center: [0, 0], halfSize: [.44, .28], blocking: false }, usePoints: [], stateDefaults: {}, materialSlots: { finish: ['concept-acoustic-panel-fabric'] }, provenance: { license: 'Project-authored generated image from a user-provided concept reference; retain project record and do not redistribute the reference image.', sourceParameters: sourceImagePath, sourceParametersSha256: expectedImageHash, generator: generatorPath, generatorSha256: generatorHash, sourceImage: sourceImagePath, sourceImageSha256: expectedImageHash, method: 'Concept reference isolate -> transparent PNG -> embedded GLB wall display plane', inputContract: 'wall-art@1', generatedBy: 'imagegen' }, asset: { format: 'glb', url: '/company-assets/concept-acoustic-panel-v1/concept-hex-panel/v1/model.glb', sha256: imageHash(bytes), bytes: bytes.length } };
 const catalog = JSON.parse(await fs.readFile(path.join(root, catalogPath), 'utf8'));
 const existing = catalog.resources.findIndex(item => item.id === resource.id && item.version === resource.version);
 if (existing >= 0) catalog.resources[existing] = resource; else catalog.resources.push(resource);
 const checkMode = process.argv.includes('--check');
-const files = new Map([[modelPath, bytes], [resourcePath, Buffer.from(JSON.stringify(resource, null, 2) + '\n')], [catalogPath, Buffer.from(JSON.stringify(catalog, null, 2) + '\n')]]);
+const collection = { schema: 'company-concept-acoustic-panel-v1', resources: [{ id: resource.id, version: resource.version, resourcePath, modelPath, sourcePath: sourceImagePath, generator: generatorPath, sha256: resource.asset.sha256, bytes: resource.asset.bytes, contract: 'wall-art@1' }] };
+const files = new Map([[modelPath, bytes], [resourcePath, Buffer.from(JSON.stringify(resource, null, 2) + '\n')], [collectionPath, Buffer.from(JSON.stringify(collection, null, 2) + '\n')], [catalogPath, Buffer.from(JSON.stringify(catalog, null, 2) + '\n')]]);
 for (const [file, value] of files) { const target = path.join(root, file); if (checkMode) assert((await fs.readFile(target)).equals(value), `Output differs ${file}`); else { await fs.mkdir(path.dirname(target), { recursive: true }); await fs.writeFile(target, value); } }
 await fs.mkdir(path.join(root, 'evidence/company-concept-acoustic-panel-v1'), { recursive: true });
 const report = { status: 'passed', sourceImage: sourceImagePath, sourceImageSha256: expectedImageHash, resource: resource.asset, envelope: { min: bounds.min.toArray(), max: bounds.max.toArray() }, gltfJsonReadback: true, transparentMaterial: true, limitations: ['This is a wall display plane with an embedded generated PNG, not a volumetric acoustic simulation.', 'Visual human acceptance and ordinary-PC performance require separate checks.'] };
