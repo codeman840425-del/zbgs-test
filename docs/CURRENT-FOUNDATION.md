@@ -73,3 +73,4 @@
 
 2026-11-18 共同资源矩阵接入：`assets-source/variant-matrix-v1/representative-matrix.json` 以精确 `bodyType` 登记男女基础制服和露膝短裤的代表变体；`character-production-query.js` 同时返回候选 `styleVariants` 与仅含 `runtime-admitted` 的 `runtimeVariants`。当前四项仍为 candidate，运行时准入列表为空；Node 查询6项、生产回归50项和 Vite 构建通过。该接缝验证了同一参数/资源契约可被男女角色查询复用，但不替代逐身体动态、预算、表面与附件证据。提交 `c134f405`。
 复工后重新执行 `native_admission_cycle.py` 生成 `evidence/m2-native-admission-cycle-v5/summary.json`；结果仍为 `blocked`，`acceptedForRuntime=[]`。该结果是当前闸门的最新可复现状态，不是停工原因：剩余任务仍是动态、头部附件、预算和表面运行证据。
+预算交叉验证脚本 `scripts/production/qa_native_budget_gate.py` 已通过32项只读检查，确认两体静态超预算、普通电脑未测、KTX2 旁车未接运行时且准入列表为空。4196 工作台新增只读“生产资源矩阵”区，男女基础制服和露膝短裤按候选/正式准入状态展示。相关回归包含预算50项生产测试、变体6项查询测试和工作台事件7项检查；最新提交 `4b9eca78`。
