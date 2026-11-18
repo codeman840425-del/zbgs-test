@@ -95,6 +95,12 @@ function configuredStyleVariants(bodyType) {
   })).filter(style => style.variants.length);
 }
 
+function configuredRuntimeVariants(bodyType) {
+  return configuredStyleVariants(bodyType).flatMap(style => style.variants
+    .filter(variant => variant.status === 'runtime-admitted')
+    .map(variant => ({styleId: style.styleId, label: style.label, ...variant})));
+}
+
 /** Return a detached JSON snapshot of registered options for an already loaded body. */
 export function queryCharacterProduction(controller) {
   const actor = controller?.actor;
@@ -113,6 +119,7 @@ export function queryCharacterProduction(controller) {
     liveAccessories:liveAccessoryChoices(profile.sha256),
     outfits:configuredOutfits(actor.config, appearance),
     styleVariants:configuredStyleVariants(bodyType),
+    runtimeVariants:configuredRuntimeVariants(bodyType),
     limitations:[
       'Body entries identify registrations. Load the exact body to query its configured options.',
       'Apply candidates through runtime preparation to verify resource bytes, fit and commit eligibility.',
