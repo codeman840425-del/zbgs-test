@@ -14,6 +14,8 @@
 
 ## 当前交付与阶段边界
 
+- 双角色纹理复用。构建 `8b41452b51c7` 在两份女性 FaceContour 游戏记录上共享身体法线 GPU 句柄，角色各自保留独立材质和 Texture。双人总纹理计数从 100 到 99，两种卸载顺序均回到空场景的 1；卸载同伴前后与旧构建共六幅同姿势图逐像素一致。独立游戏包 56 文件、两人讲话及关闭重开已验。实际显存字节、普通机及其他材质待验。见 evidence/m2-body-normal-lifetime-after-v1、evidence/m2-native-lip-consumer-gpu-budget-v1。
+
 - 同配方批量改已有角色记录已通过两名女性 FaceContour 实例。请求支持 1–4 条；测试中第二条不兼容时整批无输出，原记录与已有目标文件保留。详见 evidence/m2-native-production-batch-edit-v1/summary.json。
 - 固定构建 `637b3f8bb4a3` 使用同款原生唇妆，在上述两体各自原肤与暖肤上保存和恢复。四组张口对照可见口内核心逐像素相同，唇区外最多 16 个像素差一个色阶，同姿态重复也有一级差异。两体独立游戏包重开通过。静态预算仍超，普通机未测；其他身体及肤色组合待验。证据见 evidence/m2-native-lip-room-v4 和 evidence/m2-native-lip-game-handoff-v1。
 

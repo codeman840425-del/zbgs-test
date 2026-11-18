@@ -26,6 +26,7 @@ async function main() {
     './game-record-production-iris-reviewed.json',
     './game-record-production-skin-reviewed.json',
     './game-record-production-lip-reviewed.json',
+    './game-record-production-shared-normal-reviewed.json',
   ]
     : ['./game-record-runtime-reviewed.json'];
   const {sourceDigest} = await readJson(path.join(options.get('--dist'), 'build-info.json'));
