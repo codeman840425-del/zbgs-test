@@ -2,6 +2,8 @@
 
 ## 固定入口与备份
 
+上衣发布派生已产出[一男一女两件 1024² 候选](../evidence/m2-garment-basecolor-release-v1/README.md)。下次直接复用这两件。先核新装备的精确清单和女性上衣覆盖，再用游戏正常加载入口核冷载是否还下载默认高分辨率上衣。
+
 当前固定源码 `797516d2`，构建 `9d520a80d731`。精简制服包从配方到角色记录、独立游戏恢复已跑通，515 个固定构建文件在两份干净检出中相同。[观看旧新回放](../evidence/m2-source-outfit-release-v1/index.html) · [重建入口](../evidence/m2-source-outfit-release-v1/body/README.md)。4196 下次正常启动指针已归档上一版本并指向该构建，本轮实测在运行的进程仍报 `0d1ccbf3ff61`。游戏接收方可按[重建命令](../evidence/m2-source-outfit-release-v1/receiver-v2/README.md)取得本次双记录包。下一包用男女的独立上衣验证只降低指定不透明底图发布分辨率的适用范围，包括近景衣纹、房间动作、预算和失败拒绝。普通电脑仍缺设备。
 
 ### 前一固定版本

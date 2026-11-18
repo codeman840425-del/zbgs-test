@@ -1,5 +1,7 @@
 # 角色系统能力清单（唯一当前状态依据）
 
+**制服发布贴图的生产端。** 一份配方对男性原始制服和女性 M1 制服各执行一次，仅把指定的 2048² 全不透明上衣底图派生为 1024²，并保留各自的领带、蒙皮和来源。两份新 GLB 分别为 743,232 和 765,288 B，各自静态纹理估算从 22,719,144 降至 5,941,928 B。实际游戏选装、服装覆盖、冷载收益、近景衣纹和普通机表现待测。这两份新上衣与下方已验证的全分辨率制服分开计量。[生产配方和运行方法](../evidence/m2-garment-basecolor-release-v1/README.md)
+
 **同源制服的发布资源可以去重。** 固定构建 `9d520a80d731` 使用原始男体和精简男体的独立装备清单。浏览器冷载身体、上衣、裤和鞋，从 21,653,528 B 降至 18,097,200 B（−16.42%）。穿衣站姿／坐姿正侧面四组人物取样区域逐像素一致；基础体站姿有 3 个像素的单通道最大差值为 1。坐稳时两体的裤面和鞋底高度差均为 0。旧签和新签在独立游戏包内可同时加载、关闭并恢复，三件 GLB 各存一份。两者仍受单身体和上衣静态纹理超限约束，普通机未测。该机制仅覆盖源中与独立装备完全对应的服装。获取和制作的原身体保留。[正常速度走坐回放](../evidence/m2-source-outfit-release-v1/index.html) · [浏览器测量](../evidence/m2-source-outfit-release-v1/comparison-v2/report.json) · [静态预算](../evidence/m2-source-outfit-release-v1/budget-v2/README.md) · [独立游戏接收](../evidence/m2-source-outfit-release-v1/receiver-v2/browser/report.json)
 
 **按模型结构定位服装。** 一份配方用节点、网格、图元、材质和蒙皮索引，从 CC0 男体原始文件和 Blender 重导出中找到同件制服长裤。两者都是 1,624 个三角形，九个同名骨骼的逆绑定矩阵全部不同。已有适配的重导出身体生成的独立裤装为 819,744 字节，与原游戏服装逐字节一致。在固定构建 1eede692231c，原始男体按自身绑定重建上衣（含领带）、长裤和平底鞋。签名记录在共用房间走、坐、起、离开后，关闭页面重开，身份、服装和资源记录一致。六段共 18 个姿态采样，独立裤面 1,095 个点和隐藏原裤最大世界坐标差小于 0.0001 毫米；坐稳时最低裤点在椅面下 2.06 毫米，鞋底在地面下 1.08 毫米。只覆盖这套同源服装和代表椅，服装着色保留基础色贴图，尚未复现源 MToon 全部通道。身体和上衣静态预算超限，普通电脑未测。[正常速度回放](../evidence/m2-raw-male-equipment-v1/index.html) · [姿态测量](../evidence/m2-raw-male-equipment-v1/posed-check/report.json) · [静态预算](../evidence/m2-raw-male-equipment-v1/budget/record-budget.json)。[选件配方](../evidence/m2-garment-source-map-v1/pants.json) · [实际网格、权重与导出证据](../evidence/m2-garment-source-map-v1/report.json)
