@@ -70,8 +70,15 @@ def plan(matrix: dict, request: dict) -> dict:
             check(isinstance(body_type, str) and ID.fullmatch(body_type), "Invalid bodyType")
             row = rows.get((style_id, body_type))
             check(row is not None, f"No exact variant for {style_id}/{body_type}")
-            check(row.get("status") == "runtime-admitted",
-                  f"runtime admission pending for {style_id}/{body_type}")
+            if row.get("status") != "runtime-admitted":
+                details = []
+                if row.get("budgetStatus") == "reject-static-over-budget":
+                    details.append("static budget over limit")
+                blockers = row.get("admissionBlockers")
+                if isinstance(blockers, list) and blockers:
+                    details.append("blockers: " + ", ".join(str(item) for item in blockers))
+                suffix = f" ({'; '.join(details)})" if details else ""
+                raise ValueError(f"runtime admission pending for {style_id}/{body_type}{suffix}")
             check(isinstance(row.get("admissionEvidence"), str) and row["admissionEvidence"],
                   "runtime-admitted variant has no admission evidence")
             check(SHA.fullmatch(str(row.get("recipeSha256") or "")),

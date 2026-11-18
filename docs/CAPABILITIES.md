@@ -588,3 +588,5 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 2026-11-18 准入原因进入人类预览：`appearance-workbench.js` 读取矩阵行的预算和 blocker 字段，4196 构建 `4e68cdef872c` 对两个 native body 的制服/短裤均显示静态预算超限及四类未完成项，页面错误0。该显示只改善诊断透明度，未改变 candidate 或 runtimeVariants。
 
 2026-11-18 批量准入安全规则：变体矩阵对超预算和未解决 blocker 增加不可晋级检查，候选仍可进入预览和诊断，正式运行行必须同时清除这些状态。`test_variant_matrix.py` 12 项通过。
+
+2026-11-18 批量角色记录前的拒绝可追踪性补强：代表矩阵的 native 行在 `variant_batch.py` 计划中逐项报告静态预算超限及 dynamic/head/runtime/surface blocker，仍不生成游戏请求。该结果为生产方定位卡点提供机器可读信息，不改变正式准入条件。

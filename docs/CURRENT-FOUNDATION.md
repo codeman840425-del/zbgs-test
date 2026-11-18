@@ -141,3 +141,5 @@
 2026-11-18 统一矩阵阻塞可见化：native FaceContour 候选在4196检查区现在显示 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture` 以及 `reject-static-over-budget`，避免把候选状态误读为可运行。新构建 `4e68cdef872c` 的两体查询和页面错误0，证据 `evidence/m2-native-variant-batch-v2/workbench-check.json`。
 
 2026-11-18 变体准入保护补强：`variant_matrix.py` 现在拒绝带 `reject-static-over-budget` 或未清空 `admissionBlockers` 的 runtime-admitted 行，并保留逐项候选诊断。12 项变体回归通过；该规则防止批量资源在预算/适配未完成时被标签误升为运行资源。
+
+2026-11-18 批量拒绝原因细化：`variant_batch.py` 对候选行仍保持 readiness-gated，但现在把已登记的静态预算超限和四类 blocker 写进每条拒绝原因。`evidence/m2-native-variant-batch-v4/plan.json` 八条均独立拒绝、0 accepted，失败不会跨体型 fallback。
