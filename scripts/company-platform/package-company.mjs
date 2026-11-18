@@ -415,7 +415,10 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   const runtimeInputs={catalog:runtimeImport('catalog'),templates:runtimeImport('templates')};
   const catalogBytes=await read(prototype,runtimeInputs.catalog),templateBytes=await read(prototype,runtimeInputs.templates);
   const catalog=decode(catalogBytes,runtimeInputs.catalog),templates=decode(templateBytes,runtimeInputs.templates);
-  const persistence=await import(pathToFileURL(path.join(prototype,'src/company/persistence.js')).href);
+  const loadRuntime=name=>import(pathToFileURL(path.join(prototype,'src/company',name)).href);
+  const [persistence,space,scale,documentTools]=await Promise.all([
+    loadRuntime('persistence.js'),loadRuntime('space.js'),loadRuntime('scale-v2.js'),loadRuntime('document.js')
+  ]);
   const hasDesktopReservations=catalog.resources.some(resource=>resource.mounting?.reserveDesktopArea===true);
   const seatCheckerPath = 'scripts/company-platform/check-seat-contacts.mjs';
   const seatCheckerFile = path.join(source, seatCheckerPath);
@@ -427,7 +430,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     fail('seat-contact-check-unavailable', seatCheckerPath, 'The requested fixed source has no seat geometry checker');
   if (seatContacts) await noLinks(seatCheckerFile);
   const seatContactReports = [];
-  const trainingContext = {catalog,templates};
+  const trainingContext={catalog,templates,createScaledCompany:space.createScaledCompany,
+    createCompanyScaleV2:scale.createCompanyScaleV2,prepareCompanyChange:documentTools.prepareCompanyChange};
   async function includeScene(input,prefix){
     let inputBytes,inputFiles=[],trainingSource,binding;
     let inputIsDirectory=(await fs.lstat(input)).isDirectory();

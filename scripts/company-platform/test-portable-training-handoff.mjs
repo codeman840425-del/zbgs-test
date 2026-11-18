@@ -6,6 +6,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { promisify } from 'node:util';
 import batch from './batch-inputs/dance-training-rooms.json' with { type: 'json' };
+import classroomRecipes from './batch-inputs/whole-company-styles-v1.json' with { type: 'json' };
 
 const [packageArg, workArg, outArg, legacyArg, ...extra] = process.argv.slice(2);
 if (!packageArg || !workArg || !outArg || extra.length) {
@@ -325,11 +326,10 @@ async function ordinaryDefault(receiver, directory) {
 async function ordinaryClassroom(receiver) {
   const request = path.join(out, 'classroom-input.json');
   const built = path.join(out, 'classroom-batch');
-  const id = 'portable-qa-classroom';
-  await writeJson(request, { schema: 'company-batch', version: 1, items: [{ key: 'ordinary-classroom', input: {
-    id, name: '普通课堂移交', scale: 'small-home', spaceProfile: { id: 'company-space-v2', version: 1 },
-    floors: [{ id: 'ground', name: '一层', rooms: [{ id: 'classroom', name: '课堂', purpose: 'training' }] }],
-  }, operations: [] }] });
+  const reference = classroomRecipes.items.find(item => item.key === 'cool-studios');
+  assert(reference && reference.trainingClearance === undefined, 'Use the established ordinary classroom recipe');
+  const id = reference.input.id;
+  await writeJson(request, { schema: 'company-batch', version: 1, items: [{ ...reference, key: 'ordinary-classroom' }] });
   const batchEntry = path.join(work, 'source', 'scripts', 'company-platform', 'batch.mjs');
   const { stdout } = await stage(process.execPath, [batchEntry, request, built], { cwd: work, timeout: 120000 });
   report.operations.push({ label: 'ordinary classroom through the public batch tool', entry: batchEntry,

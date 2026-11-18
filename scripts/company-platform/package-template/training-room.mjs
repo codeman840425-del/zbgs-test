@@ -2,9 +2,6 @@ import {createHash} from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {isDeepStrictEqual as equal} from 'node:util';
-import {createScaledCompany} from '../../../prototype/src/company/space.js';
-import {createCompanyScaleV2} from '../../../prototype/src/company/scale-v2.js';
-import {prepareCompanyChange} from '../../../prototype/src/company/document.js';
 
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const roomLayout = /^data\/rooms\/([a-z][a-z0-9-]{0,62})\/layout\.json$/;
@@ -17,7 +14,7 @@ function originalTrainingRooms(declaration, sha256, context) {
   if (!authoringRooms.has(context)) authoringRooms.set(context,new Map());
   const cache = authoringRooms.get(context);
   if (!cache.has(sha256)) {
-    const {catalog,templates} = context;
+    const {catalog,templates,createScaledCompany,createCompanyScaleV2,prepareCompanyChange} = context;
     const input = declaration.input;
     const create = input?.spaceProfile === undefined ? createScaledCompany : createCompanyScaleV2;
     try {

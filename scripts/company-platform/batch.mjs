@@ -122,7 +122,7 @@ async function prepare(item,sourceHashes){
   }
   const connections=inspectCompanyConnections(document,catalog,templates);
   const placement=inspectCompanyPlacement(document,catalog,templates);
-  const context={catalog,templates};
+  const context={catalog,templates,createScaledCompany,createCompanyScaleV2,prepareCompanyChange};
   const binding=bindingFromSource(document,'batch-input',jsonBytes(item),context);
   const constraint=bindTrainingDocument(document,binding,item.key,context);
   let trainingClearance;

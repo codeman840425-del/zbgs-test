@@ -22,10 +22,11 @@ try{
   const persistence=await load('persistence.js'),documentTools=await load('document.js');
   const bytes=await fs.readFile(input,'utf8'),raw=JSON.parse(bytes);
   let document=raw.schema==='company-save'?await persistence.decodeCompanySave(bytes,catalog,templates):documentTools.restoreCompany(bytes,catalog,templates);
-  const context={catalog,templates};
+  const [space,scale,placement]=await Promise.all([load('space.js'),load('scale-v2.js'),load('placement.js')]);
+  const context={catalog,templates,createScaledCompany:space.createScaledCompany,
+    createCompanyScaleV2:scale.createCompanyScaleV2,prepareCompanyChange:documentTools.prepareCompanyChange};
   const binding=await resolveTrainingBinding(root,manifest,input,document,bytes,selectedRoom,context);
   bindTrainingDocument(document,binding,input,context);
-  const space=await load('space.js'),placement=await load('placement.js');
   space.inspectCompanyConnections(document,catalog,templates);placement.inspectCompanyPlacement(document,catalog,templates);
   if(command==='apply'){
     if(!operations||!output)throw Error('Use apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY');
