@@ -1,0 +1,73 @@
+{
+  "status": "passed",
+  "schema": "company-style-recipe@1",
+  "checks": [
+    {
+      "name": "Warm recipe changes compatible resources while preserving facility identity, parent and transforms",
+      "passed": true,
+      "observed": {
+        "operations": 113,
+        "facilities": 86
+      }
+    },
+    {
+      "name": "Second layout accepts the same recipe mechanism with independent identities",
+      "passed": true,
+      "observed": {
+        "layout": "small-home-company",
+        "operations": 13
+      }
+    },
+    {
+      "name": "Small-home recipe resolves base facility resources instead of silently skipping them",
+      "passed": true,
+      "observed": {
+        "replacements": 8,
+        "changedIds": [
+          "station-1/desk",
+          "station-1/monitor",
+          "station-1/keyboard",
+          "station-1/microphone",
+          "station-1/chair",
+          "station-1/fill-light",
+          "lounge/sofa",
+          "home/plant"
+        ]
+      }
+    },
+    {
+      "name": "Unknown or incompatible resource fails before changing the input document",
+      "passed": true,
+      "observed": {
+        "code": "invalid-style-recipe"
+      }
+    },
+    {
+      "name": "Style result preserves the existing save and dependency pin chain",
+      "passed": true,
+      "observed": {
+        "bytes": 60109
+      }
+    },
+    {
+      "name": "Unsupported recipe version is rejected",
+      "passed": true,
+      "observed": {
+        "code": "invalid-style-recipe"
+      }
+    },
+    {
+      "name": "Style output and manifest publish as a pair and preserve an existing result on retry",
+      "passed": true,
+      "observed": {
+        "output": "F:\\gamemake-company-style-publish-fixed-v2\\evidence\\company-style-recipe-v1\\atomic-publish\\warm.json",
+        "preserved": true
+      }
+    }
+  ],
+  "limits": [
+    "Recipes reuse existing resource and surface contracts.",
+    "No player economy or real-character C3 behavior is included.",
+    "Browser and ordinary-PC performance require separate evidence."
+  ]
+}
