@@ -1,0 +1,106 @@
+{
+  "build": "4e44ef633437",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Four outlet/switch appearances render from the real wall-mounted GLBs",
+      "passed": true,
+      "observed": [
+        {
+          "resource": {
+            "id": "outlet-switch-outlet-single",
+            "version": 1
+          },
+          "frame": {
+            "colors": 2,
+            "renderer": 37446
+          },
+          "object": {
+            "target": "sample/object",
+            "meshes": 8
+          }
+        },
+        {
+          "resource": {
+            "id": "outlet-switch-outlet-multi",
+            "version": 1
+          },
+          "frame": {
+            "colors": 2,
+            "renderer": 37446
+          },
+          "object": {
+            "target": "sample/object",
+            "meshes": 9
+          }
+        },
+        {
+          "resource": {
+            "id": "outlet-switch-switch-rocker",
+            "version": 1
+          },
+          "frame": {
+            "colors": 2,
+            "renderer": 37446
+          },
+          "object": {
+            "target": "sample/object",
+            "meshes": 4
+          }
+        },
+        {
+          "resource": {
+            "id": "outlet-switch-control-panel",
+            "version": 1
+          },
+          "frame": {
+            "colors": 2,
+            "renderer": 37446
+          },
+          "object": {
+            "target": "sample/object",
+            "meshes": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "State on/off updates the imported status target and survives save/import/restart",
+      "passed": true,
+      "observed": {
+        "off": {
+          "color": "31413c",
+          "emissive": "000000",
+          "intensity": 0
+        },
+        "on": {
+          "color": "8de2b3",
+          "emissive": "62e6ae",
+          "intensity": 1.2
+        },
+        "restored": {
+          "on": true
+        }
+      }
+    },
+    {
+      "name": "Invalid status input preserves the current document and save",
+      "passed": true,
+      "observed": {
+        "code": "invalid-device-state"
+      }
+    },
+    {
+      "name": "Closed browser restores the selected state without page errors",
+      "passed": true,
+      "observed": {
+        "restored": true
+      }
+    }
+  ],
+  "limits": [
+    "Visual status is a display state only, not electrical simulation or character C3 usage.",
+    "SwiftShader browser render is not ordinary-PC performance evidence."
+  ],
+  "errors": []
+}

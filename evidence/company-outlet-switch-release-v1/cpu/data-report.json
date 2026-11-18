@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "scope": "Outlet/switch data, real GLB readback, wall placement, state and replacement",
+  "checks": [
+    {
+      "name": "Four real GLB resources share one wall/status contract",
+      "passed": true,
+      "observed": {
+        "ids": [
+          "outlet-switch-outlet-single",
+          "outlet-switch-outlet-multi",
+          "outlet-switch-switch-rocker",
+          "outlet-switch-control-panel"
+        ],
+        "distinctAssets": 4
+      }
+    },
+    {
+      "name": "Wall target placement produces a real facility and no blocking footprint",
+      "passed": true,
+      "observed": {
+        "facilityId": "outlet-switch-data/room-1/outlet-switch-outlet-single",
+        "target": "outlet-switch-data/room-1:wall:north",
+        "obstacles": 0
+      }
+    },
+    {
+      "name": "Boolean status accepts both states",
+      "passed": true,
+      "observed": {
+        "state": {
+          "on": true
+        }
+      }
+    },
+    {
+      "name": "Invalid state rejects and preserves the previous document",
+      "passed": true,
+      "observed": {
+        "code": "invalid-device-state"
+      }
+    },
+    {
+      "name": "All four appearances replace in place while retaining transform and status",
+      "passed": true,
+      "observed": {
+        "finalResource": {
+          "id": "outlet-switch-control-panel",
+          "version": 1
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Visual status is not electrical simulation",
+    "No cable communication or character C3 usage"
+  ]
+}
