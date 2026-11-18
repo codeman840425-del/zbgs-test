@@ -107,3 +107,5 @@
 2026-11-18 admission cycle v13a：房间候选目录已沿完整 admission cycle 传递，gate 能保留两体当前构建的4项动作回归、录像和记录身份，record planner 仍对两体返回 rejected/runtime admission pending。
 
 2026-11-18 复工旁车资源接缝：新增 `prototype/src/native-release-sidecar.js`，按 `bodyType` 与 `sourceModelSha256` 精确选择 FaceContour KTX2 候选，并在身份未登记时返回 PNG 回退。候选必须保持 `candidate-only` 且清单 `runtimeAdmission=false`，不会进入正式资源目录或改变 4196 默认材质路径。旁车解析测试3项、角色查询与生产回归59项通过，提交 `39da46fe` 已推送并核实远程分支。
+
+同日 admission cycle v14：使用当前动态回放、表面静态审查、资源预算分类、头部附件/持麦候选和房间回放重新生成 `evidence/m2-native-admission-cycle-v14/`。两份候选的 `facialExpressions` 与 `handAndMicrophone` 已按精确 SHA 解析，剩余 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture`，`acceptedForRuntime=[]`，记录规划仍明确拒绝未准入项。该结果修正了旧 v13a 汇总未带入最新证据的问题，不改变准入标准。
