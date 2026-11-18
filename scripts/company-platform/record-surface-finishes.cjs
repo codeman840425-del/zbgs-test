@@ -29,7 +29,7 @@ let server,browser,context,video;
       await step(`${type}-${i+1}`,`${type==='wall'?'整面墙纸':'完整地面'}：${choices[i].label}；家具位置与功能保留。`);
     }
   }
-  await page.locator('#finish-turn').click({force:true});await page.waitForFunction(()=>!document.getElementById('save').disabled);await step('10-direction','旋转地面铺装方向，不旋转或搬动家具。');
+  await page.evaluate(()=>document.getElementById('finish-turn')?.click());await page.waitForFunction(()=>!document.getElementById('save').disabled);await step('10-direction','旋转地面铺装方向，不旋转或搬动家具。');
   await page.evaluate(id=>company.showSpace('floor',id),ids.floors[1]);await step('11-second-floor','第二层沿用同一生产流程，完整保留自己的布局与饰面。');
   await page.evaluate(()=>company.save());const saved=await page.evaluate(()=>company.session.document);await fs.writeFile(path.join(out,'all-floors.company.json'),await page.evaluate(()=>company.export()));
   await page.reload();await page.waitForFunction(()=>window.company?.ready&&company.buildInfo);
