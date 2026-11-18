@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import native_body_package as package
 
@@ -11,6 +12,85 @@ import native_body_package as package
 def snapshot(folder):
     return {p.relative_to(folder).as_posix():(package.sha(p.read_bytes()),p.stat().st_mtime_ns)
             for p in sorted(folder.rglob("*")) if p.is_file()}
+
+
+class GarmentSelectionTests(unittest.TestCase):
+    """Authored selector fixtures use only project-local synthetic data."""
+
+    def setUp(self):
+        names = ["Fixture_Body_00_SKIN", "Fixture_Tops_01_CLOTH", "Fixture_Bottoms_01_CLOTH", "Fixture_Shoes_01_CLOTH"]
+        self.doc = {
+            'nodes': [{'name': 'Root', 'children': [1]}, {'name': 'Fixture Body', 'mesh': 0, 'skin': 0}],
+            'meshes': [{'primitives': [dict(material=i, indices=0, attributes={'POSITION': 1, 'JOINTS_0': 2, 'WEIGHTS_0': 3})
+                                       for i in range(len(names))]}],
+            'materials': [dict(name=name, extensions={'VRMC_materials_mtoon': {}}) for name in names],
+            'skins': [{}],
+        }
+        self.item = {'id': 'editable-selection-fixture'}
+        self.consumer = {'mesh': 0, 'primitive': 0, 'material': 0}
+        self.mapping = {slot: dict(node=1, mesh=0, skin=0, primitive=i, material=i)
+                        for i, slot in enumerate(('top', 'bottom', 'shoes'), start=1)}
+
+    def select(self):
+        return package.garment_selection(self.doc, self.consumer, self.item)
+
+    def assert_incompatible(self, *fragments):
+        with self.assertRaises(ValueError) as raised:
+            self.select()
+        message = str(raised.exception)
+        self.assertIn(self.item['id'], message)
+        for fragment in fragments:
+            self.assertIn(fragment, message)
+
+    def test_exact_three_slot_mapping_preserves_legacy_selection(self):
+        automatic = self.select()
+        self.assertEqual(automatic[2], [('top', 1, 'Tops'), ('bottom', 2, 'Bottoms'), ('shoes', 3, 'Shoes')])
+        self.item['garmentSelection'] = self.mapping
+        self.assertEqual(self.select(), automatic)
+
+    def test_missing_slot_includes_inspected_body_primitives(self):
+        self.doc['materials'][1]['name'] = 'Unassigned_CLOTH'
+        self.assert_incompatible("missing slot 'top'", "node[1] 'Fixture Body'",
+                                 'mesh[0] primitive[1] material[1]', 'Unassigned_CLOTH')
+
+    def test_multiple_candidates_list_both_primitives_even_with_an_explicit_map(self):
+        primitives = self.doc['meshes'][0]['primitives']
+        primitives.append(copy.deepcopy(primitives[1]))
+        self.item['garmentSelection'] = self.mapping
+        self.assert_incompatible("multiple candidates for slot 'top'", "node[1] 'Fixture Body'",
+                                 'mesh[0] primitive[1] material[1]', 'mesh[0] primitive[4] material[1]')
+
+    def test_same_primitive_cannot_claim_two_slots(self):
+        self.doc['materials'][1]['name'] = 'Fixture_Tops_Bottoms_CLOTH'
+        self.assert_incompatible('one primitive claims multiple slots: top, bottom', "node[1] 'Fixture Body'",
+                                 'mesh[0] primitive[1] material[1]')
+
+    def test_one_piece_rejects_even_when_all_three_standard_slots_exist(self):
+        extras = copy.deepcopy(self.doc['materials'][1])
+        extras['name'] = 'Fixture_OnePiece_01_CLOTH'
+        self.doc['materials'].append(extras)
+        primitives = self.doc['meshes'][0]['primitives']
+        primitives.append({**primitives[1], 'material': 4})
+        self.assert_incompatible('onePiece requires an explicit same-body donor', 'mesh[0] primitive[4] material[4]')
+
+    def test_separate_part_with_a_unique_slot_cannot_be_moved_onto_the_body(self):
+        shoes = self.doc['meshes'][0]['primitives'].pop()
+        self.doc['meshes'].append({'primitives': [shoes]})
+        self.doc['nodes'].append({'name': 'Separate Shoes', 'mesh': 1, 'skin': 0})
+        self.assert_incompatible("slot 'shoes' is outside", "node[2] 'Separate Shoes'", 'mesh[1] primitive[0] material[3]')
+
+    def test_recipe_rejects_same_primitive_wrong_anchor_and_unsupported_slots(self):
+        for field, mapping, fragments in (
+            ('duplicate', {**self.mapping, 'bottom': self.mapping['top']},
+             ('assigns the same primitive to multiple slots', 'mesh[0] primitive[1] material[1]')),
+            ('skin', {**self.mapping, 'top': {**self.mapping['top'], 'skin': 4}},
+             ("'top' differs from the verified primitive", 'skin[4]', 'skin[0]')),
+            ('onePiece', {**self.mapping, 'onePiece': self.mapping['top']},
+             ('requires exactly top, bottom and shoes', 'onePiece are unsupported')),
+        ):
+            with self.subTest(field=field):
+                self.item['garmentSelection'] = mapping
+                self.assert_incompatible(*fragments)
 
 
 class NativePackageTests(unittest.TestCase):
@@ -70,6 +150,22 @@ class NativePackageTests(unittest.TestCase):
         result = package.build(wrong,self.output)
         self.assertTrue(all(r["state"]=="failed" and "covered Body PNG differs" in r["reason"] for r in result["items"]))
         self.assertFalse(list(self.output.iterdir()))
+
+    def test_bad_garment_mapping_fails_before_packing_any_bytes(self):
+        config = copy.deepcopy(self.config)
+        config['items'] = [config['items'][0]]
+        item = config['items'][0]
+        selector = dict(node=131, mesh=1, skin=1, primitive=3, material=11)
+        item['garmentSelection'] = dict(top=selector, bottom=selector, shoes=selector)
+        with patch.object(Path, 'write_bytes', side_effect=AssertionError('wrote before garment preflight')) as write:
+            result = package.build(config, self.output)
+        write.assert_not_called()
+        self.assertFalse(result['passed'])
+        self.assertIn(f"Native body {item['id']!r}", result['items'][0]['reason'])
+        self.assertIn('assigns the same primitive to multiple slots', result['items'][0]['reason'])
+        self.assertIn('node[131]', result['items'][0]['reason'])
+        self.assertIn('mesh[1] primitive[3] material[11]', result['items'][0]['reason'])
+        self.assertEqual(list(self.output.iterdir()), [])
 
 
 if __name__ == "__main__":

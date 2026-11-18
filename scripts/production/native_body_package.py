@@ -19,6 +19,9 @@ sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT = ROOT / "assets-source/native-parameter-game-packages-v1"
 CONFIG = Path(__file__).with_name("native-body-package-v1.json")
+GARMENT_SLOTS = (("top", "Tops"), ("bottom", "Bottoms"), ("shoes", "Shoes"))
+GARMENT_SELECTOR_KEYS = {"node", "mesh", "skin", "primitive", "material"}
+ONE_PIECE = re.compile(r"(?<![a-z0-9])one[-_ ]?piece(?![a-z0-9])", re.IGNORECASE)
 
 
 def module(name, path):
@@ -71,6 +74,104 @@ def check_body_uv(reference, candidate):
                "Body indexed attribute differs: " + attr)
 
 
+def garment_selection(doc, consumer, item):
+    """Check the existing single-owner, three-primitive extraction contract."""
+    nodes, meshes, materials = (doc[key] for key in ("nodes", "meshes", "materials"))
+    body_mesh = consumer["mesh"]
+
+    def location(selector):
+        node, mesh, prim, material = (selector[key] for key in ("node", "mesh", "primitive", "material"))
+        node_name = nodes[node].get("name") if type(node) is int and 0 <= node < len(nodes) else None
+        material_name = materials[material].get("name") if type(material) is int and 0 <= material < len(materials) else None
+        skin_index = selector.get("skin")
+        return f"node[{node}] {node_name!r} mesh[{mesh}] primitive[{prim}] material[{material}] {material_name!r} skin[{skin_index}]"
+
+    def fail(reason, selectors):
+        raise ValueError(f"Native body {item['id']!r}: {reason}. " + " | ".join(map(location, selectors)))
+
+    owners_by_mesh = {}
+    for index, owner in enumerate(nodes):
+        if "mesh" in owner:
+            owners_by_mesh.setdefault(owner["mesh"], []).append(index)
+    owners = owners_by_mesh.get(body_mesh, [])
+    if len(owners) != 1:
+        fail("expected one Body mesh owner for three-slot extraction",
+             [dict(node=i, mesh=body_mesh, primitive=consumer["primitive"], material=consumer["material"])
+              for i in owners or [None]])
+    body_owner = owners[0]
+    node = nodes[body_owner]
+    found = {slot: [] for slot, _ in GARMENT_SLOTS}
+    inspected, unknown_clothes = [], []
+    for mesh, data in enumerate(meshes):
+        mesh_owners = owners_by_mesh.get(mesh, [])
+        for prim, primitive in enumerate(data["primitives"]):
+            material = primitive["material"]
+            name = materials[material]["name"]
+            selectors = [dict(node=i, mesh=mesh, skin=nodes[i].get("skin") if i is not None else None,
+                              primitive=prim, material=material) for i in mesh_owners or [None]]
+            if mesh == body_mesh:
+                inspected.extend(selectors)
+            matches = [slot for slot, token in GARMENT_SLOTS if f"_{token}_" in name]
+            if ONE_PIECE.search(name):
+                fail("onePiece requires an explicit same-body donor and coverage contract outside this extractor", selectors)
+            if len(matches) > 1:
+                fail("one primitive claims multiple slots: " + ", ".join(matches), selectors)
+            if matches:
+                found[matches[0]].extend(selectors)
+            elif "_CLOTH" in name:
+                unknown_clothes.extend(selectors)
+
+    selected = {}
+    for slot, _ in GARMENT_SLOTS:
+        candidates = found[slot]
+        if not candidates:
+            fail(f"missing slot {slot!r} on the Body mesh", inspected + [r for r in unknown_clothes if r["mesh"] != body_mesh])
+        if len(candidates) > 1:
+            fail(f"multiple candidates for slot {slot!r}. This extractor requires one primitive per slot", candidates)
+        selected[slot] = candidates[0]
+    if unknown_clothes:
+        fail("unmapped clothing primitive requires a supported slot and coverage contract", unknown_clothes)
+
+    if "garmentSelection" in item:
+        requested = item["garmentSelection"]
+        if not isinstance(requested, dict) or set(requested) != set(found):
+            fail("garmentSelection requires exactly top, bottom and shoes. Multi-part and onePiece are unsupported",
+                 selected.values())
+        claimed = set()
+        for slot, _ in GARMENT_SLOTS:
+            selector = requested[slot]
+            if (not isinstance(selector, dict) or set(selector) != GARMENT_SELECTOR_KEYS or
+                    any(type(index) is not int or index < 0 for index in selector.values())):
+                fail(f"invalid garmentSelection selector for slot {slot!r}. Expected one exact node/mesh/skin/primitive/material",
+                     [selected[slot]])
+            key = (selector["mesh"], selector["primitive"])
+            if key in claimed:
+                fail(f"garmentSelection assigns the same primitive to multiple slots at {slot!r}", [selector])
+            claimed.add(key)
+        for slot, selector in selected.items():
+            if requested[slot] != selector:
+                fail(f"garmentSelection for slot {slot!r} differs from the verified primitive", [requested[slot], selector])
+
+    selections, names = [], {}
+    for slot, token in GARMENT_SLOTS:
+        selector = selected[slot]
+        if selector["node"] != body_owner or selector["mesh"] != body_mesh:
+            fail(f"slot {slot!r} is outside the single skinned Body mesh. A separate part is unsupported", [selector])
+        skin_index = selector["skin"]
+        if (set(node) != {"name", "mesh", "skin"} or not node.get("name") or
+                type(skin_index) is not int or not 0 <= skin_index < len(doc.get("skins", []))):
+            fail(f"slot {slot!r} requires the original untransformed Body mesh node and one raw skin", [selector])
+        primitive = meshes[body_mesh]["primitives"][selector["primitive"]]
+        material = materials[selector["material"]]
+        if (primitive.get("mode", 4) != 4 or primitive.get("targets") or "indices" not in primitive or
+                not {"POSITION", "JOINTS_0", "WEIGHTS_0"} <= primitive.get("attributes", {}).keys() or
+                "VRMC_materials_mtoon" not in material.get("extensions", {})):
+            fail(f"slot {slot!r} requires an indexed, weighted MToon triangle primitive without morph targets", [selector])
+        selections.append((slot, selector["primitive"], token))
+        names[slot] = material["name"]
+    return body_owner, node, selections, names
+
+
 def bindings_and_buffers(body, garment, item):
     source_mesh = garment.doc["extras"]["sourceMesh"]
     node, = [n for n in body.doc["nodes"] if n.get("mesh") == source_mesh]
@@ -108,9 +209,10 @@ def create(config, common, item, dest, temp):
     editable = native.parent/row["editable"]["path"]
     verify(sha(editable.read_bytes()) == row["editable"]["sha256"], "Native editable SHA mismatch")
     original, baseline, donor = (GLB(p) for p in (native, paths["baseline"], paths["donor"]))
+    _, mat, masked, consumer = skin.body(original)
+    ni, node, selections, names = garment_selection(original.doc, consumer, item)
     check_body_uv(baseline, original)
     check_body_uv(donor, original)
-    _, mat, masked, consumer = skin.body(original)
     _, _, full, _ = skin.body(donor)
     verify(masked == paths["mask"].read_bytes() == skin.body(baseline)[2], "Native covered Body PNG differs from the verified top mask")
     a, b = [np.asarray(Image.open(io.BytesIO(data)).convert("RGBA")) for data in (full,masked)]
@@ -126,13 +228,6 @@ def create(config, common, item, dest, temp):
     for index in range(len(original.doc["accessors"])):
         verify(skin.same(original.acc(index), target.acc(index)), "Unmask changed accessor " + str(index))
     verify(skin.body(target)[2] == full, "Unmasked output has wrong body image")
-    ni, node = next((i,n) for i,n in enumerate(target.doc["nodes"]) if n.get("mesh") == consumer["mesh"])
-    base_mesh = target.doc["meshes"][node["mesh"]]
-    selections, names = [], {}
-    for slot, token in (("top","Tops"),("bottom","Bottoms"),("shoes","Shoes")):
-        index, = [j for j,p in enumerate(base_mesh["primitives"]) if "_"+token+"_" in target.doc["materials"][p["material"]]["name"]]
-        selections.append((slot,index,token))
-        names[slot] = target.doc["materials"][base_mesh["primitives"][index]["material"]]["name"]
     body_sha = sha(body_raw)
     package = "native-" + ident + "-v1"
     url_root = "/assets/" + package + "/"
