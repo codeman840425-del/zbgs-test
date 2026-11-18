@@ -34,12 +34,14 @@ class NativeAdmissionCycleTests(unittest.TestCase):
                     root / 'gate.json', root / 'records',
                     runtime_report=None, adapter_report=None, microphone_report=None,
                     adaptation_report=None, runtime_head_audit=None,
+                    dynamic_trace=cycle.ROOT / 'evidence/m2-native-dynamic-runtime-trace-v3a/summary.json',
                 )
             evaluate.assert_called_once()
             run.assert_called_once()
             self.assertEqual(result['status'], 'blocked')
             self.assertEqual(result['acceptedForRuntime'], [])
             self.assertEqual(json.loads((root / 'gate.json').read_text())['acceptedForRuntime'], [])
+            self.assertEqual(evaluate.call_args.kwargs['dynamic_trace'], cycle.ROOT / 'evidence/m2-native-dynamic-runtime-trace-v3a/summary.json')
 
     def test_refuses_existing_gate(self):
         with tempfile.TemporaryDirectory(dir=cycle.ROOT) as temp:
