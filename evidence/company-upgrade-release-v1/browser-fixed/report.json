@@ -1,0 +1,70 @@
+{
+  "checks": [
+    {
+      "name": "current editor exposes an explicit version target for a selected workstation",
+      "passed": true,
+      "observed": {
+        "stationId": "company-space-v2-parallel/ground/live/station-1",
+        "stationCount": 2,
+        "options": [
+          {
+            "value": "{\"id\":\"stream-station\",\"version\":1}",
+            "label": "stream-station · v1（当前）"
+          },
+          {
+            "value": "{\"id\":\"stream-station\",\"version\":2}",
+            "label": "stream-station · v2"
+          }
+        ]
+      }
+    },
+    {
+      "name": "upgrade preserves local state, identity, and only the selected workstation",
+      "passed": true,
+      "observed": {
+        "stationId": "company-space-v2-parallel/ground/live/station-1",
+        "from": {
+          "id": "stream-station",
+          "version": 1
+        },
+        "to": {
+          "id": "stream-station",
+          "version": 2
+        },
+        "retainedPartIds": [
+          "company-space-v2-parallel/ground/live/station-1/desk",
+          "company-space-v2-parallel/ground/live/station-1/monitor",
+          "company-space-v2-parallel/ground/live/station-1/keyboard",
+          "company-space-v2-parallel/ground/live/station-1/microphone",
+          "company-space-v2-parallel/ground/live/station-1/chair",
+          "company-space-v2-parallel/ground/live/station-1/fill-light"
+        ],
+        "preservedState": {
+          "id": "company-space-v2-parallel/ground/live/station-1/monitor",
+          "on": false
+        },
+        "otherStation": "company-space-v2-parallel/ground/live/station-2"
+      }
+    },
+    {
+      "name": "saved upgrade survives browser restart and invalid target keeps the saved document",
+      "passed": true,
+      "observed": {
+        "failure": {
+          "code": "missing-template-version",
+          "path": "company-space-v2-parallel/ground/live/station-1.template",
+          "message": "missing-template-version at company-space-v2-parallel/ground/live/station-1.template: stream-station@999"
+        },
+        "stationId": "company-space-v2-parallel/ground/live/station-1",
+        "template": {
+          "id": "stream-station",
+          "version": 2
+        }
+      }
+    }
+  ],
+  "scope": "Explicit workstation template upgrade in the real company editor. Software rendering; no character or ordinary-PC performance claim.",
+  "build": "96210ac9f301",
+  "status": "passed",
+  "errors": []
+}

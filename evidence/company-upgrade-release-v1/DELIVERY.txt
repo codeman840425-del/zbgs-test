@@ -1,0 +1,23 @@
+公司场景 C2-D 显式模板升级发布
+
+固定源码：F:/gamemake-company-upgrade-fixed-v2
+固定提交：09e625dee91e4eead36df340ba0397f6fd69c18c
+构建：96210ac9f301
+独立交付：F:/gamemake-company-upgrade-delivery-v2
+
+可重复验证（固定树或独立 source/prototype）：
+  npm ci
+  node scripts/build-company-id.mjs
+  npx vite build --config vite.company.config.js
+  node scripts/company-platform/qa-upgrade.mjs
+  node scripts/company-platform/test-scale-profile.mjs
+  node scripts/company-platform/test-scale-batch.mjs
+  node scripts/company-platform/qa-upgrade-preview.cjs prototype/dist-company OUT
+  node scripts/company-platform/record-upgrade-preview.cjs prototype/dist-company 96210ac9f301 OUT
+  node scripts/company-platform/qa-upgrade-handoff.cjs F:/gamemake-company-upgrade-delivery-v2 OUT
+
+结果：CPU 显式升级 8/8；规模配置 11/11；批量生成/重复/失败重试通过；固定浏览器 3/3；独立交付导入、重建、升级、保存和重启通过；固定/独立运行文件 443/443 字节一致；正常速度 1×录像已归档。
+
+规则：模板默认更新不改旧公司；升级只作用于明确选中的工位。兼容的局部位置、状态、外观、部件身份和父子关系保留；版本、功能、使用点、挂载面或归属不兼容时返回具体原因并保留原有效存档。
+
+限制：软件渲染不代表普通电脑性能；本包不含角色活动、占用联调或 C3 最终验收。共享 library-catalog --check 的历史输入回写缺口不属于本包功能失败，原日志沿墙架包保留。
