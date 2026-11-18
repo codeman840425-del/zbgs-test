@@ -62,13 +62,16 @@ test('returns detached JSON and preserves the existing appearance contract', asy
     assert.equal(query.appearance.geometry.mouthWidth.unit, 'ratio');
     assert.equal(query.appearance.surface.supported, true);
     assert(query.appearance.accessories);
+    const expectedStyleVariants = JSON.parse(JSON.stringify(query.styleVariants));
     query.appearance.defaultRecipe.appearance.hairStyle = 'edited by caller';
     query.outfits.find(set => set.index === 2).equipment.find(entry => entry.id === equipmentId).materials.recipes[0].id = 'edited by caller';
     query.liveAccessories.mic.choices[1].grip.id = 'edited by caller';
+    query.styleVariants[0].variants[0].limits.push('edited by caller');
     assert.equal(catalog.get(equipmentId).materialRecipes[0].id, originalRecipe);
     assert.deepEqual(state, {availableStyles:['original'], revision:2});
     assert.equal(controller.outfitRevision, 4);
     assert.deepEqual(queryCharacterProduction(controller).appearance, expectedAppearance);
+    assert.deepEqual(queryCharacterProduction(controller).styleVariants, expectedStyleVariants);
     assert.notEqual(queryCharacterProduction(controller).liveAccessories.mic.choices[1].grip.id, 'edited by caller');
   } finally {
     globalThis.fetch = fetch;

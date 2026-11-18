@@ -1,0 +1,73 @@
+{
+  "schema": "variant-query-runtime-seam-review-v1",
+  "status": "passed",
+  "scope": "read-only role-main seam review",
+  "source": {
+    "matrixPath": "assets-source/variant-matrix-v1/representative-matrix.json",
+    "matrixSha256": "13490b02dfc2c40b16be9d72a54114a45cedb205b81d6b91b4ccd3bbd5029391",
+    "queryPath": "prototype/src/character-production-query.js",
+    "querySha256": "d28ed4e59f013edbacc4f9f0d9b81bcec5d2baa5e6646bea54d68311402153b6",
+    "queryTestPath": "prototype/src/character-production-query.test.mjs",
+    "queryTestSha256": "183f8d9d9d3029ebdb57c1e73ba5491c21c796c8a87bc0fce57aadb6f547f57c",
+    "viteConfigPath": "prototype/vite.config.js",
+    "viteConfigSha256": "6d001bdcf1680782fe8daf89c76eadae1d14df4a9dd5f5407bb3f934f59df4be"
+  },
+  "matrix": {
+    "schema": "zbgs-style-variant-matrix-v1",
+    "matrixVersion": "representative-v1",
+    "styleCount": 2,
+    "variantCount": 4,
+    "statuses": ["candidate"],
+    "bodyTypes": ["female", "male"]
+  },
+  "pathCheck": {
+    "import": "../../assets-source/variant-matrix-v1/representative-matrix.json",
+    "nodeImport": "passed",
+    "viteProductionBundle": "passed",
+    "decision": "source import is suitable for the repository production build; no generated-copy change was needed",
+    "reason": "The repository production contract builds from the full checkout, Vite resolves the parent assets-source JSON, and the resulting dist is self-contained."
+  },
+  "runtimeQuery": {
+    "femaleStyleIds": ["uniform-top-v1", "lower-shorts-v1"],
+    "maleStyleIds": ["uniform-top-v1", "lower-shorts-v1"],
+    "femaleVariantStatuses": ["candidate", "candidate"],
+    "maleVariantStatuses": ["candidate", "candidate"],
+    "femaleRuntimeVariants": [],
+    "maleRuntimeVariants": [],
+    "detachedSnapshot": "covered by character-production-query.test.mjs"
+  },
+  "tests": [
+    {
+      "command": "node --test prototype/src/character-production-query.test.mjs",
+      "status": "passed",
+      "tests": 6
+    },
+    {
+      "command": "python -B scripts/production/variant_matrix.py assets-source/variant-matrix-v1/representative-matrix.json --body-type female",
+      "status": "passed",
+      "runtimeVariants": []
+    },
+    {
+      "command": "python -B scripts/production/variant_matrix.py assets-source/variant-matrix-v1/representative-matrix.json --body-type male",
+      "status": "passed",
+      "runtimeVariants": []
+    },
+    {
+      "command": "python -B -m unittest discover -s scripts/production -p test_variant_matrix.py -v",
+      "status": "passed",
+      "tests": 5
+    },
+    {
+      "command": "npm run build",
+      "cwd": "prototype",
+      "status": "passed",
+      "viteVersion": "7.3.8",
+      "buildId": "c5ce1f7126ab"
+    }
+  ],
+  "limitations": [
+    "All four matrix entries remain candidates and are excluded from runtime admission.",
+    "This seam review does not establish garment fit, motion, budget, surface, attachment, visual, or ordinary-PC acceptance."
+  ]
+}
+
