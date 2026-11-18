@@ -1,0 +1,45 @@
+{
+  "status": "passed-with-defects",
+  "sourceCommit": "fa520545",
+  "conceptAsset": {
+    "resource": "concept-acoustic-panel@1",
+    "sourceImageSha256": "72dbb49442c86aada9c15e82a138304e7ef786dabbb6ec6aab02f69388cbd35d",
+    "build": "b7710432b812",
+    "browserChecks": 3,
+    "normalSpeedVideoSha256": "2A3169357E4F599CDFD084918663DA1AEEFF0D9CCFBF7A072E1A2857A2DA9B42"
+  },
+  "styleRecipe": {
+    "cpuChecks": 6,
+    "browserChecks": 4,
+    "baseFacilityResolution": "fixed",
+    "outputByteHash": "fixed"
+  },
+  "defects": [
+    {
+      "severity": "P0",
+      "code": "catalog-stale",
+      "reproduction": "node scripts/company-platform/build-library.mjs --check",
+      "observed": "Registered catalog is stale",
+      "impact": "当前 catalog 不能作为可核验的登记输入"
+    },
+    {
+      "severity": "P1",
+      "code": "untracked-public-assets-change-build",
+      "reproduction": "主工作树构建 b7710432b812，fa520545 固定检出独立重建 0f31a0ea24bf",
+      "observed": "未跟踪 public 资产改变 build input 集合",
+      "impact": "预览构建与固定交付构建不能自动保持同一版本身份"
+    },
+    {
+      "severity": "P1",
+      "code": "legacy-provenance-undefined",
+      "reproduction": "node scripts/company-platform/package-company.mjs prototype/dist-company 0f31a0ea24bf prototype/src/company/examples/c1-concept-acoustic-panel.json F:/gamemake-company-ingress-delivery-v1 --source F:/gamemake-company-ingress-fixed-v1",
+      "observed": "unsafe-package-path with path undefined",
+      "impact": "独立交付在遇到旧 catalog 资源缺少 provenance.sourceParameters 时无法给出明确资源诊断"
+    }
+  ],
+  "limits": [
+    "浏览器检查使用 SwiftShader",
+    "概念图拆分样件是透明 PNG 墙面显示平面，不是体积吸音几何",
+    "未覆盖真实角色 C3、普通电脑性能和游戏内最终联调"
+  ]
+}
