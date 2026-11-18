@@ -37,6 +37,13 @@ REVIEWED_LIP_RUNTIME = {
     'native-skin-tone.js': '42687783b79ef12c8f5503297f5e3b7a85f3536a0ba406443761fe97308ff09c',
     'native-lip-color-contract.js': 'b794b1754dc5535b238f74e663207393d10001d2112a759cb3b3990c06467c21',
 }
+# cfca0dd1 adds a pinned equipment catalog and an uncovered optional sock rule.
+# The original mask allocation is unchanged, and the adapter loads the sock only when selected.
+REVIEWED_SUPPLEMENT_RUNTIME = {
+    'body-texture-coverage.js': '4dffaa50ff155246a89c998edb96f4b434b2cd4efdfd30d9dc41ba6120715315',
+    'm1-equipment.js': '48b1c6ee94f8c4daa015496b7f9016b9dee1e2d998d61cb72f9e184b033333a2',
+    'equipment.js': '1018d7a58343de05e3110fb8d28137fca978799433b50c2529dd1089d7f59c2b',
+}
 SKIN_IMAGE_PREFIX = 'Selected native skin tone PNG: '
 LIP_IMAGE_PREFIX = 'Selected native lip color PNG: '
 SKIN_IMAGE_USAGES = {
@@ -96,19 +103,36 @@ def model_roles(reasons, ear_selection):
     return list(dict.fromkeys(result))
 
 
+def require_implementation(condition, message):
+    if not condition:
+        raise UnsupportedBudget('unsupported-runtime-implementation', message)
+
+
+def runtime_source_sha(source, filename):
+    return sha(local(source, 'prototype/src/' + filename).read_bytes())
+
+
 def require_reviewed_source(source, filename):
-    relative = 'prototype/src/' + filename
-    require(sha(local(source, relative).read_bytes()) in
-            (REVIEWED_RUNTIME_SOURCE.get(filename), REVIEWED_SKIN_RUNTIME.get(filename), REVIEWED_LIP_RUNTIME.get(filename)),
-            'Unsupported runtime resource implementation: '+relative)
+    actual = runtime_source_sha(source, filename)
+    if filename == 'body-texture-coverage.js' and actual == REVIEWED_SUPPLEMENT_RUNTIME[filename]:
+        for dependency, expected in REVIEWED_SUPPLEMENT_RUNTIME.items():
+            require_implementation(runtime_source_sha(source, dependency) == expected,
+                                   'Unsupported runtime resource implementation: prototype/src/' + dependency)
+        return
+    require_implementation(actual in (REVIEWED_RUNTIME_SOURCE.get(filename), REVIEWED_SKIN_RUNTIME.get(filename),
+                                      REVIEWED_LIP_RUNTIME.get(filename)),
+                           'Unsupported runtime resource implementation: prototype/src/' + filename)
 
 
 def require_native_appearance_source(source, *, lip):
     reviewed = REVIEWED_LIP_RUNTIME if (source / 'prototype/src/native-lip-color-contract.js').is_file() else REVIEWED_SKIN_RUNTIME
     require(not lip or reviewed is REVIEWED_LIP_RUNTIME, 'Native lip color requires a reviewed lip runtime')
+    coverage = 'body-texture-coverage.js'
+    if reviewed is REVIEWED_LIP_RUNTIME and runtime_source_sha(source, coverage) == REVIEWED_SUPPLEMENT_RUNTIME[coverage]:
+        reviewed = {**reviewed, **REVIEWED_SUPPLEMENT_RUNTIME}
     for filename, expected in reviewed.items():
-        require(sha(local(source, 'prototype/src/' + filename).read_bytes()) == expected,
-                'Unsupported native skin tone resource implementation: ' + filename)
+        require_implementation(runtime_source_sha(source, filename) == expected,
+                               'Unsupported native skin tone resource implementation: ' + filename)
 
 
 def native_texture_binding(field, usage, width, height):
@@ -308,8 +332,8 @@ def material_cost(source, public, directory, models):
             continue
         for file, expected in {**RECIPE_SOURCE_PINS,
                                'prototype/src/material-recipes.js':REVIEWED_MATERIAL_RUNTIME_SHA}.items():
-            require(sha(local(source, file).read_bytes()) == expected,
-                    'Unsupported garment material implementation source: '+file)
+            require_implementation(sha(local(source, file).read_bytes()) == expected,
+                                   'Unsupported garment material implementation source: '+file)
         recipe = json.loads(checked_data(public, row))
         for identifier in bindings:
             require(any(model['id'] == identifier and model['selected'] for model in models),

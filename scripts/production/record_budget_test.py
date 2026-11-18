@@ -1,11 +1,19 @@
+from contextlib import redirect_stdout
+import io
 import json
 import pathlib
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
-from record_budget import LIP_IMAGE_PREFIX, ROOT, SKIN_IMAGE_PREFIX, image_cost, measure, model_roles, skin_cache
+from record_budget import (LIP_IMAGE_PREFIX, ROOT, SKIN_IMAGE_PREFIX, image_cost, main, measure,
+                           model_roles, runtime_source_sha, skin_cache)
+
+
+SOCK_RECORDS = ROOT / 'evidence/m2-native-short-socks-room-v1/records.json'
+SOCK_CATALOG = 'assets/native-crew-template-v1/equipment.json'
 
 
 class RecordBudgetTests(unittest.TestCase):
@@ -16,13 +24,21 @@ class RecordBudgetTests(unittest.TestCase):
         paths = [root / 'native-male-edited.json', root / 'native-female-created.json',
                  ROOT / 'prototype/public/assets/record-consumer-v1/male-material.json']
         cls.records = [json.loads(path.read_bytes()) for path in paths]
-        cls.temp = tempfile.TemporaryDirectory(prefix='gamemake-record-budget-')
+        cls.temp = tempfile.TemporaryDirectory(prefix='gamemake-record-budget-', dir=ROOT / 'experiments')
         cls.addClassCleanup(cls.temp.cleanup)
 
     def run_measure(self, records):
         path = pathlib.Path(self.temp.name) / 'input.json'
         path.write_text(json.dumps(records), encoding='utf-8')
         return measure(path, self.source, 'm2-technical-v1')
+
+    def run_cli(self, path):
+        stdout = io.StringIO()
+        argv = ['record_budget.py', 'measure', str(path), '--source-root', str(self.source),
+                '--budget-version', 'm2-technical-v1']
+        with patch.object(sys, 'argv', argv), redirect_stdout(stdout):
+            code = main()
+        return code, json.loads(stdout.getvalue())
 
     def test_exact_records_cover_models_material_and_standalone_textures(self):
         report = self.run_measure(self.records)
@@ -68,6 +84,63 @@ class RecordBudgetTests(unittest.TestCase):
         record['identity']['name'] += ' invalid'
         with self.assertRaisesRegex(ValueError, 'record-hash-mismatch'):
             self.run_measure(record)
+        code, result = self.run_cli(pathlib.Path(self.temp.name) / 'input.json')
+        self.assertEqual((code, result['status']), (2, 'invalid'))
+        self.assertIn('record-hash-mismatch', result['error'])
+        self.assertNotIn('records', result)
+
+    def test_supplement_keeps_body_cover_and_counts_only_the_selected_sock_glb(self):
+        if not (self.source / 'prototype/public' / SOCK_CATALOG).is_file():
+            self.skipTest('Selected historical runtime predates the sock supplement')
+        report = measure(SOCK_RECORDS, self.source, 'm2-technical-v1')
+        legacy, crew = report['records']
+        self.assertEqual(report['status'], 'over-budget')
+        self.assertEqual(report['ordinaryPCPerformance'], 'unmeasured')
+        self.assertEqual([row['status'] for row in report['records']], ['over-budget', 'over-budget'])
+        cover, = crew['standaloneImages']
+        self.assertEqual(legacy['standaloneImages'], [cover])
+        self.assertEqual((cover['usage'], cover['addedTextureObjectUpperBound'], cover['addedRgba8EstimateBytes']),
+                         ('native-body-coverage', 4, 64 * 1024**2))
+        for row in report['records']:
+            catalog, = [file for file in row['files'] if file['path'] == SOCK_CATALOG]
+            self.assertEqual((catalog['bytes'], catalog['reasons']), (6006, ['Additive body equipment catalog']))
+        legacy_models = {model['id']: model for model in legacy['models']}
+        crew_models = {model['id']: model for model in crew['models']}
+        sock, = [model for key, model in crew_models.items() if key not in legacy_models]
+        self.assertEqual(sock['id'], 'native-7586-template-plain-crew-socks-v1')
+        self.assertEqual((sock['class'], sock['selected'], sock['placements'], sock['assetExcesses']),
+                         ('garment', True, 1, []))
+        self.assertFalse(any(file['path'] == sock['path'] for file in legacy['files']))
+        selected_sock, = [file for file in crew['files'] if file['path'] == sock['path']]
+        self.assertEqual(selected_sock['reasons'], ['Selected outfit: ' + sock['id']])
+        metrics = sock['cost']['metrics']
+        self.assertEqual((metrics['fileBytes'], metrics['nodeTriangles'], metrics['textures'], metrics['rgba8MipBytes']),
+                         (85872, 2256, 0, 0))
+        removed = legacy_models.keys() - crew_models.keys()
+        self.assertEqual(removed, {'studio-glasses-v1', 'studio-microphone-v1'})
+        self.assertEqual(legacy_models['body']['assetExcesses'], crew_models['body']['assetExcesses'])
+        for section in ('selectedCost', 'startupAndSelectedCost'):
+            old, new = legacy[section]['totals'], crew[section]['totals']
+            self.assertEqual(new['fileBytes'] - old['fileBytes'], -74984)
+            self.assertEqual(new['placedNodeTriangles'] - old['placedNodeTriangles'], -4596)
+            self.assertEqual(new['textureObjects'], old['textureObjects'])
+            self.assertEqual(new['rgba8MipBytes'], old['rgba8MipBytes'])
+
+    def test_unreviewed_coverage_or_loader_reports_unsupported_without_estimate(self):
+        if not (self.source / 'prototype/public' / SOCK_CATALOG).is_file():
+            self.skipTest('Selected historical runtime predates the sock supplement')
+        for changed in ('body-texture-coverage.js', 'equipment.js'):
+            def replaced_hash(source, filename):
+                if filename == changed:
+                    return '0' * 64
+                return runtime_source_sha(source, filename)
+
+            with self.subTest(changed=changed), patch('record_budget.runtime_source_sha', side_effect=replaced_hash):
+                code, result = self.run_cli(SOCK_RECORDS)
+                self.assertEqual((code, result['status'], result['code']),
+                                 (2, 'unsupported', 'unsupported-runtime-implementation'))
+                self.assertIn('prototype/src/' + changed, result['error'])
+                self.assertNotIn('records', result)
 
     def test_ear_geometry_instances_follow_selected_side_count(self):
         reasons = ['Selected ears model']

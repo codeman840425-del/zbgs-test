@@ -1,6 +1,8 @@
 # 当前角色基础工程恢复点
 
 ## 固定入口与备份
+
+公司侧已给出供 C3 选择的固定场景构建 672695e1c4bd，详情在公司工程 evidence/company-screen-partition-release-v1/DELIVERY.md。角色与该场景的共同验收待做。角色预算最新实测在 evidence/m2-native-short-socks-room-v1/browser-budget/，静态超限细项在同目录上一级 selected-budget-verified.json。下一次从身体网格与贴图的已知超限项继续，复用已有资源发布调研及固定角色记录。
 本次批产交接固定工具 25ff9b2e、游戏源码 cfca0dd1、构建 fe2e58489bbb，入口见 delivery/character-production-handoff.json。接收方在两份独立干净检出中重建新角色，复算了相同的 38 文件游戏包。房间走坐起、旧新记录同屏及同机位鞋面近景在 evidence/m2-native-short-socks-room-v1/index.html。技术候选保留鞋侧露袜；真实整套准入仍为空。下一项优先核查同一批产工具在完整造型上的资源预算及适配拒绝。
 
 4196 最后实测仍为 0d1ccbf3ff61。已备好下次正常启动用的 fe2e58489bbb 和上一版回滚指针。历史男女共用配方录像仍在 evidence/m2-shared-look-batch-v2/index.html。角色工作树巡检和固定构建写入位置检查见 scripts/character-worktree.py 与 scripts/qa-fixed-rebuild.py。
