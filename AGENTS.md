@@ -1,5 +1,12 @@
 # 项目执行约定
 
+## 公司场景与设施平台的本机文件管理
+
+- 副总工的主目录为 `F:/gamemake-company-platform-c1`。派工时给出主目录内的输入、输出和证据路径，接手者沿用相同规则。
+- 可维护源码、配方和可复验证据沿用 `scripts/`、`assets-source/`、`prototype/`、`docs/`、`evidence/`。本机独立检出进 `company-workspace/worktrees/`，独立交付包进 `deliveries/`，试制和独立复产进 `production-trials/`，常驻预览进 `preview/`，单独交接的输入和回执进 `inputs-and-receipts/`；后四项也都位于 `company-workspace/` 下。短时验证使用项目内 `output/`。
+- 已有同一固定源码和构建优先复用。一次性验证结束清理自己创建且可重建的临时副本；未提交修改、唯一源素材、在用预览和回滚版本须保留。历史证据保留原始版本与路径，迁移时留新旧对照。Git 检出用 `git worktree move`，迁移后核 HEAD、嵌套检出和引用。
+- 本机路径用 `scripts/company-platform/local-workspace.ps1` 取得（例如 `-Kind deliveries -Name studio-v1`，返回可传给打包工具的绝对路径）。开包和收尾运行该脚本的 `-Check`；禁止将公司工作树、整包副本、散落脚本与临时输出写到盘符根目录。交付给其他 agent 的包内命令继续支持接收方自选工作目录。
+
 目标：保留 Phaser 经营、界面和场景，验证可维护的角色表现生产流程。
 
 ## 当前长目标优先约定（2026-11-16，取代下文历史有限M2范围）
