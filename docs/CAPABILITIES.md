@@ -526,3 +526,5 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 同日批产闸门可靠性增量：`native_batch_gate.py` 拒绝重复 body 类型、缺失 record SHA 及 runtime report 与 staged body SHA 不一致的证据；`native_record_batch.py` 在 readiness 模式比较 accepted body SHA 与 catalog SHA，并明确输出 `technical-candidate`/`runtime-admitted` 模式；`native_admission_cycle.py` 在记录规划失败时清理本轮新写入的 gate/部分记录目录，允许安全重试。46 项 native production 单测通过。上述修复只强化拒绝、幂等和恢复，不增加任何准入通过项；v5 两项 `acceptedForRuntime` 仍为空。
 
 准入循环在上述修复后重新执行为 `evidence/m2-native-admission-cycle-v3/`：两项仍被拒绝，`acceptedForRuntime=[]`，记录批次明确标记 `mode=readiness-gated`、`acceptedCount=0`、`rejectedCount=2`，避免把“带 gate 检查但零准入”误标成 runtime-admitted。gate 字节与 v5 相同，说明本轮只修复身份/失败语义，没有放宽任何门。
+
+2026-11-18 共同适配审查继续收敛：`scripts/production/native_dynamic_motion_adapter.py` 对两项候选按精确 body/provenance SHA 核对 nodes、skins、humanoid、expressions 和 VRMC_springBone，生成可复用的 spring 结构指纹；动态发丝/头部 fit、正常速度完整记录、关闭重开和人工视觉仍单独列为 blocker，报告始终 `runtimeAdmissionGranted=false`。`scripts/qa-native-surface-texture-admission.py` 对两项 Body 材质、图像、PNG、UV、采样器、MASK alpha 和 coverage identity 的静态合同均通过，但 WebGL/runtime 与视觉门仍 blocked。两项审查均不修改模型或运行时，不清除批产准入任务。

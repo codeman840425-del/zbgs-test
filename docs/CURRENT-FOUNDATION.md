@@ -67,3 +67,5 @@
 同日批产入口增强身份与回滚保护：runtime report 必须带 record SHA 且与 staged body SHA 精确一致；readiness 记录请求按 bodyType→body SHA 对照 catalog；记录规划失败会删除本轮新写入的 gate/partial output。`python -B -m unittest discover -s scripts/production -p "test_native*.py"` 当前 46 项通过。当前 v5 gate 仍 `acceptedForRuntime=[]`；可观看结果继续使用固定 `bda6fd250bb8` 的 `evidence/m2-native-admission-cycle-v1/index.html`，这是技术候选回放，不是准入版本。
 
 修复后的最新循环回执为 `evidence/m2-native-admission-cycle-v3/summary.json`：gate 仍 blocked，两个候选的 readiness 记录请求均拒绝，批次 `mode=readiness-gated`。这证明新失败语义已实际运行，未新增准入项；v1 的视频回放仍是当前可观看样件，v3 是最新流程证据。
+
+共同适配审查已增加两个可重复入口：`evidence/m2-native-dynamic-motion-adapter-v1/report.json` 证明两体共享 spring 结构可计算指纹，但逐身体动态/头部 fit 和视觉证据仍阻塞；`evidence/m2-native-surface-texture-admission-v1/REPORT.json` 证明两体 Body 静态材质/纹理合同通过，运行时 WebGL 与人工视觉仍阻塞。当前没有任何新候选被误标为 runtime admitted。

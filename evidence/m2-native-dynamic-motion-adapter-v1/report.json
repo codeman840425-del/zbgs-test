@@ -1,0 +1,88 @@
+{
+  "schema": "native-dynamic-motion-adapter-v1",
+  "status": "blocked",
+  "checks": [
+    "dynamicMotion"
+  ],
+  "runtimeAdmissionGranted": false,
+  "sourceAdaptation": {
+    "path": "evidence/m2-native-batch-adaptation-v1/adaptation-admissions.json",
+    "sha256": "a0806956cfdad46d6f2704a2bd0aceb149b39ffbb14b91fc9aed7adb7feaa636",
+    "bytes": 6501
+  },
+  "baseline": {
+    "path": "assets-source/native-vroid-geometry-production-v1/generated/female-geometry-baseline.vrm",
+    "sha256": "1924a88851d0fa6e786ba99b52c6007a9e0f090c799c8341af37fd3b67a49a2b"
+  },
+  "candidates": [
+    {
+      "id": "contour-roundness-a",
+      "bodySha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+      "sourceIdentity": {
+        "body": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-roundness-a/body.vrm",
+          "sha256": "825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547",
+          "bytes": 17127080
+        },
+        "baselineBody": {
+          "path": "assets-source/native-vroid-geometry-production-v1/generated/female-geometry-baseline.vrm",
+          "sha256": "1924a88851d0fa6e786ba99b52c6007a9e0f090c799c8341af37fd3b67a49a2b",
+          "bytes": 16315708
+        },
+        "springExtension": "VRMC_springBone",
+        "springStructureSha256": "da399ea4bea74c68a3d637b9811075287e15d878a2c23e810eaa92a207ac013b"
+      },
+      "reuse": {
+        "vrmHumanoidAndSkinStructure": "reusable",
+        "vrmSpringBoneStructure": "reusable",
+        "normalizedMotionSkeleton": "reusable",
+        "hairAndHeadAttachmentFit": "requires-exact-body-evidence"
+      },
+      "requiredEvidence": [
+        "per-body hair/head attachment fit and source/fit SHA",
+        "normal-speed dynamic playback with the exact record identity",
+        "close/reopen restore with the exact body and record SHA",
+        "human visual contact review"
+      ],
+      "runtimeEvidence": null,
+      "runtimeAdmission": "blocked"
+    },
+    {
+      "id": "contour-cheek-b",
+      "bodySha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+      "sourceIdentity": {
+        "body": {
+          "path": "assets-source/native-parameter-game-packages-v1/contour-cheek-b/body.vrm",
+          "sha256": "9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb",
+          "bytes": 17126644
+        },
+        "baselineBody": {
+          "path": "assets-source/native-vroid-geometry-production-v1/generated/female-geometry-baseline.vrm",
+          "sha256": "1924a88851d0fa6e786ba99b52c6007a9e0f090c799c8341af37fd3b67a49a2b",
+          "bytes": 16315708
+        },
+        "springExtension": "VRMC_springBone",
+        "springStructureSha256": "da399ea4bea74c68a3d637b9811075287e15d878a2c23e810eaa92a207ac013b"
+      },
+      "reuse": {
+        "vrmHumanoidAndSkinStructure": "reusable",
+        "vrmSpringBoneStructure": "reusable",
+        "normalizedMotionSkeleton": "reusable",
+        "hairAndHeadAttachmentFit": "requires-exact-body-evidence"
+      },
+      "requiredEvidence": [
+        "per-body hair/head attachment fit and source/fit SHA",
+        "normal-speed dynamic playback with the exact record identity",
+        "close/reopen restore with the exact body and record SHA",
+        "human visual contact review"
+      ],
+      "runtimeEvidence": null,
+      "runtimeAdmission": "blocked"
+    }
+  ],
+  "limits": [
+    "Structural VRM and spring reuse does not prove hair contact or natural motion.",
+    "This report never grants native production runtime admission.",
+    "A visual-candidate or stale/mismatched runtime report is diagnostic only."
+  ]
+}
