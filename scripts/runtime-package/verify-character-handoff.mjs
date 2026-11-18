@@ -101,7 +101,7 @@ export async function verifyPackage(packageRoot, inventory, inventoryBytes, file
   for (const row of inventory.files) await checkedBytes(packageRoot, row);
 }
 
-export function compareSignedLook(job, records) {
+export function compareSignedLook(job, records, selectedAppearance = {}) {
   const record = records.find(row => row.identity.id === job.identity.id);
   const outfit = record?.appearanceRecipe?.equipment;
   const selections = job.edits.filter(edit => edit.domain === 'outfit');
@@ -117,8 +117,11 @@ export function compareSignedLook(job, records) {
   equal({role:outfit.role,equipment:equipment.sort(byId)},
     {role:selection.role,equipment:[...selection.equipment].sort(byId)},
     'selection-mismatch','Signed outfit differs for ' + job.identity.id);
-  for (const edit of job.edits.filter(edit => edit.domain === 'appearance')) {
-    for (const [key,value] of Object.entries(edit.values)) {
+  // The planner omits a no-op edit when the author explicitly chose a default.
+  // Its saved selection still pins that appearance field in the delivered character.
+  const appearanceEdits = job.edits.filter(edit => edit.domain === 'appearance').map(edit => edit.values);
+  for (const values of [selectedAppearance, ...appearanceEdits]) {
+    for (const [key,value] of Object.entries(values)) {
       const actual = record.appearanceRecipe.appearance;
       requireValue(Object.hasOwn(actual,key) && isDeepStrictEqual(actual[key],value),
         'selection-mismatch','Signed appearance differs for ' + job.identity.id + ': ' + key);
@@ -138,7 +141,7 @@ export async function verifyPlannedInputs(handoffRoot,inputs,records,result) {
     !result.acceptedCount, 'plan-mismatch','Diagnostic planning failed: ' +
       result.items.filter(row => row.status !== 'candidate').map(row => row.reason).join(', '));
   const jobs = result.items.map(row => row.request);
-  for (const job of jobs) compareSignedLook(job, records);
+  for (const row of result.items) compareSignedLook(row.request, records, row.selection.appearance);
   if (!inputs.authoredPlan) {
     requireValue(!inputs.authoredRequests,'plan-mismatch','Authored requests require their plan');
     return;

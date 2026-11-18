@@ -68,6 +68,8 @@ test('real signed uniform records must match independent identity, outfit and ex
     assert.throws(() => compareSignedLook(job,far),{code:'selection-mismatch'});
     const sameLook = {...job,identity:{...job.identity,id:'a-different-actor'}};
     assert.throws(() => compareSignedLook(sameLook,near),{code:'selection-mismatch'});
+    compareSignedLook(job,near,{hairColor:'original'});
+    assert.throws(() => compareSignedLook(job,near,{hairColor:'changed'}),{code:'selection-mismatch'});
     job.edits.push({domain:'appearance',values:{hairColor:'original'}});
     compareSignedLook(job,near);
     job.edits.at(-1).values.hairColor = 'changed';
