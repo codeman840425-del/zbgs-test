@@ -336,7 +336,12 @@ export function bindAppearanceWorkbench({ controller }) {
   hairMotionReview.textContent = '入座时的发尾动态对照';
   hairMotionReview.target = '_blank';
   hairMotionReview.rel = 'noopener noreferrer';
-  previewInfo.append(hairMotionReview);
+  const surfaceReview = document.createElement('a');
+  surfaceReview.href = '/reviews/native-surfaces/';
+  surfaceReview.textContent = '房间光照下的脸部与服装';
+  surfaceReview.target = '_blank';
+  surfaceReview.rel = 'noopener noreferrer';
+  previewInfo.append(hairMotionReview, ' · ', surfaceReview);
   inspectionPage.prepend(previewInfo);
   const nativePreview=document.createElement('p');
   const nativeLink=document.createElement('a');
