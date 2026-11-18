@@ -25,9 +25,10 @@ const families = {
   'company-phone-static-collection': 'phone-static',
   'company-backdrop-fabric-collection': 'backdrop-fabric',
   'company-wall-ambient-collection': 'wall-ambient',
+  'company-desktop-plants-collection': 'desktop-plants',
 };
-const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs', 'wall-ambient':'build-wall-ambient.mjs'};
-const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric', 'wall-ambient':'ambient-led-and-neon'};
+const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs', 'wall-ambient':'build-wall-ambient.mjs', 'desktop-plants':'build-desktop-plants.mjs'};
+const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric', 'wall-ambient':'ambient-led-and-neon', 'desktop-plants':'plant-desktop-installation'};
 
 function belongsToFamily(resource,family) {
   return family === 'baseboard'
@@ -133,6 +134,7 @@ async function publish(recipePath,check) {
   for (const tool of pinnedTools) {
     if (hash(await regularFile(tool.path)) !== tool.sha256) fail('appearance-tool-pin-mismatch',tool.path);
   }
+  const perDesignSource = family === 'wall-ambient' || family === 'desktop-plants';
   const artwork = new Map();
   for (const design of input.designs) {
     if (!/^[a-z][a-z0-9-]{0,70}$/.test(design.id) || /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/.test(design.id) ||
@@ -146,7 +148,7 @@ async function publish(recipePath,check) {
         family === 'static-textile' ? input.archives?.[member?.archive] : member;
       productionSource(source?.path);
       const bytes = await regularFile(source.path);
-      if (family === 'wall-ambient') {
+      if (perDesignSource) {
         productionSource(source.licensePath);
         const license = await regularFile(source.licensePath);
         if (hash(bytes) !== source.sha256 || hash(license) !== source.licenseSha256)
@@ -199,7 +201,7 @@ async function publish(recipePath,check) {
       assert.equal(resource.id,entry.id); assert.equal(resource.version,entry.version);
       assert.equal(resource.provenance.sourceParameters,pinned); assert.equal(resource.provenance.sourceParametersSha256,digest);
       let expectedDependencies = reference.provenance.dependencies;
-      if (family === 'wall-ambient') {
+      if (perDesignSource) {
         const source = artwork.get(key);
         if (!source) fail('invalid-appearance-source','Missing original artwork for '+key);
         assert.equal(resource.provenance.sourceArtifactPath,source.path);

@@ -562,6 +562,12 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     supplemental.add('scripts/company-platform/test-phone-rooms.mjs');
     supplemental.add('scripts/company-platform/qa-phone-rooms.cjs');
   }
+  if (catalog.resources.some(resource => resource.productionBranch === 'plant-desktop-installation')) {
+    supplemental.add('docs/research/COMPANY-DESKTOP-PLANTS-PRODUCTION.md');
+    supplemental.add('scripts/company-platform/test-desktop-plant-assets.mjs');
+    supplemental.add('scripts/company-platform/test-desktop-plant-rooms.mjs');
+    supplemental.add('scripts/company-platform/qa-desktop-plant-rooms.cjs');
+  }
   if (catalog.resources.some(resource => resource.productionBranch === 'mouse-and-pad')) {
     supplemental.add('docs/research/COMPANY-MOUSE-PAD-PRODUCTION.md');
     supplemental.add('scripts/company-platform/test-mouse-pad-assets.mjs');
@@ -599,15 +605,17 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(!files.has(`viewer${asset.url}`))fail('missing-runtime-asset',name,'Viewer is missing a catalog GLB');
     assetDependencies.push({id:resource.id,version:resource.version,path:name,bytes:bytes.length,sha256:hash(bytes)});
     const entry=resource.provenance;
-    if (resource.productionBranch === 'ambient-led-and-neon') {
+    if (['ambient-led-and-neon','plant-desktop-installation'].includes(resource.productionBranch)) {
       for (const [field, dependency] of Object.entries(entry.dependencies)) {
         const target = dependency.path;
         relative(target);
-        if (!(target.startsWith('assets-source/company-') || target === 'scripts/company-platform/test-wall-ambient-assets.mjs'))
+        const geometryTest = resource.productionBranch === 'ambient-led-and-neon'
+          ? 'scripts/company-platform/test-wall-ambient-assets.mjs' : 'scripts/company-platform/test-desktop-plant-assets.mjs';
+        if (!(target.startsWith('assets-source/company-') || target === geometryTest))
           fail('unsafe-production-source', target, 'Expected an artwork source, license or geometry check');
         const bytes = await read(source,target);
         if (hash(bytes) !== dependency.sha256)
-          fail('production-source-hash-mismatch',target,'The referenced wall light production dependency has changed');
+          fail('production-source-hash-mismatch',target,'The referenced production dependency has changed');
         supplemental.add(target);
         provenance.push({resourceId:resource.id,version:resource.version,field,path:target,sha256:dependency.sha256});
       }

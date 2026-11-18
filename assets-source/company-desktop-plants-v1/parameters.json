@@ -1,0 +1,121 @@
+{
+  "schema": "company-desktop-plants-collection",
+  "version": 1,
+  "sources": {
+    "round-bowl": {
+      "path": "assets-source/company-desktop-plants-v1/original/furniture-kit/plantSmall1.glb",
+      "sha256": "2b9c022feb47be857b2c4fdc29f36522766ba9b70c578c31d7c05d71b4377d15",
+      "author": "Kenney",
+      "license": "CC0-1.0",
+      "licensePath": "assets-source/company-desktop-plants-v1/original/furniture-kit/License.txt",
+      "licenseSha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29",
+      "url": "https://kenney.nl/assets/furniture-kit",
+      "archiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+      "entry": "Models/GLTF format/plantSmall1.glb",
+      "potNode": "Mesh_plantSmall1"
+    },
+    "tapered-pot": {
+      "path": "assets-source/company-desktop-plants-v1/original/furniture-kit/pottedPlant.glb",
+      "sha256": "5b760eda2766f75fda36b2c5df652a1662f82981ef64cd8fa7fe7bcd386b3a15",
+      "author": "Kenney",
+      "license": "CC0-1.0",
+      "licensePath": "assets-source/company-desktop-plants-v1/original/furniture-kit/License.txt",
+      "licenseSha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29",
+      "url": "https://kenney.nl/assets/furniture-kit",
+      "archiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+      "entry": "Models/GLTF format/pottedPlant.glb",
+      "potNode": "Mesh_pottedPlant",
+      "soilNode": "Mesh_pottedPlant_1"
+    },
+    "faceted-bowl": {
+      "path": "assets-source/company-desktop-plants-v1/original/furniture-kit/plantSmall3.glb",
+      "sha256": "1aa38b1b22bd19fa4f9f3abd8c4cbf50da2d6fa721cf1f9aa4d80bb89b1bef94",
+      "author": "Kenney",
+      "license": "CC0-1.0",
+      "licensePath": "assets-source/company-desktop-plants-v1/original/furniture-kit/License.txt",
+      "licenseSha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29",
+      "url": "https://kenney.nl/assets/furniture-kit",
+      "archiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+      "entry": "Models/GLTF format/plantSmall3.glb",
+      "potNode": "Mesh_plantSmall3"
+    }
+  },
+  "designs": [
+    {
+      "id": "desktop-plant-bonsai",
+      "version": 1,
+      "displayName": "桌面绿植 · 弯干层冠盆景",
+      "form": "tiered-bonsai",
+      "source": "round-bowl",
+      "potScale": [2.12, 0.91, 1.63],
+      "finish": { "pot": "#526966", "soil": "#493528", "stems": "#765034", "foliage": "#456938", "accent": "#69864b" },
+      "shape": {
+        "scale": 1,
+        "trunk": [[0, 0, 0], [-0.021, 0.064, 0.012], [-0.052, 0.121, -0.001], [0.001, 0.167, -0.009], [0.028, 0.228, -0.025]],
+        "branches": [
+          { "from": 2, "bend": [-0.090, 0.142, 0.003], "tip": [-0.112, 0.151, 0.004], "spread": [0.113, 0.042, 0.091] },
+          { "from": 2, "bend": [-0.015, 0.154, 0.037], "tip": [0.059, 0.167, 0.049], "spread": [0.116, 0.045, 0.092] },
+          { "from": 3, "bend": [0.038, 0.183, -0.022], "tip": [0.094, 0.199, -0.032], "spread": [0.105, 0.038, 0.082] },
+          { "from": 3, "bend": [-0.023, 0.201, -0.043], "tip": [-0.045, 0.224, -0.044], "spread": [0.091, 0.034, 0.074] },
+          { "from": 4, "bend": [0.025, 0.252, -0.019], "tip": [0.012, 0.266, -0.012], "spread": [0.099, 0.037, 0.081] }
+        ]
+      }
+    },
+    {
+      "id": "desktop-plant-cactus",
+      "version": 1,
+      "displayName": "桌面绿植 · 双臂肋纹仙人掌",
+      "form": "ribbed-cactus",
+      "source": "round-bowl",
+      "potScale": [1.52, 1.48, 1.52],
+      "finish": { "pot": "#b77456", "soil": "#75543b", "stems": "#537948", "foliage": "#5e8a52", "accent": "#a88f5f" },
+      "shape": {
+        "scale": 1,
+        "ribs": 9,
+        "columns": [
+          { "radius": 0.036, "path": [[0, 0, 0], [0.003, 0.126, 0], [0.009, 0.229, -0.005], [0.013, 0.302, -0.005]] },
+          { "radius": 0.023, "path": [[-0.016, 0.087, 0], [-0.065, 0.100, 0.004], [-0.080, 0.152, 0.007], [-0.078, 0.213, 0.007]] },
+          { "radius": 0.025, "path": [[0.019, 0.153, 0.006], [0.068, 0.170, 0.010], [0.080, 0.207, 0.011], [0.081, 0.249, 0.009]] }
+        ]
+      }
+    },
+    {
+      "id": "desktop-plant-broadleaf",
+      "version": 1,
+      "displayName": "桌面绿植 · 扇展阔叶",
+      "form": "broadleaf-fan",
+      "source": "tapered-pot",
+      "potScale": [1.02, 0.55, 0.92],
+      "finish": { "pot": "#e3d6ba", "soil": "#4c3c30", "stems": "#65834b", "foliage": "#4c825d", "accent": "#7ca56c" },
+      "shape": {
+        "scale": 1,
+        "leaves": [
+          { "base": [0.014, 0.035, 0.028], "tip": [0.071, 0.103, 0.125], "width": 0.073, "arch": 0.030 },
+          { "base": [-0.014, 0.080, 0.024], "tip": [-0.108, 0.150, 0.090], "width": 0.080, "arch": 0.040 },
+          { "base": [0.041, 0.097, -0.014], "tip": [0.131, 0.159, -0.065], "width": 0.072, "arch": 0.038 },
+          { "base": [-0.027, 0.147, -0.010], "tip": [-0.108, 0.248, -0.053], "width": 0.071, "arch": 0.033 },
+          { "base": [0.035, 0.178, 0.011], "tip": [0.115, 0.254, 0.045], "width": 0.075, "arch": 0.041 },
+          { "base": [0.003, 0.195, -0.012], "tip": [0.015, 0.321, -0.083], "width": 0.074, "arch": 0.022 },
+          { "base": [-0.018, 0.106, -0.028], "tip": [-0.034, 0.193, -0.133], "width": 0.070, "arch": 0.039 }
+        ]
+      }
+    },
+    {
+      "id": "desktop-plant-succulent",
+      "version": 1,
+      "displayName": "桌面绿植 · 肉质莲座",
+      "form": "succulent-rosette",
+      "source": "faceted-bowl",
+      "potScale": [2.02, 0.94, 2.25],
+      "finish": { "pot": "#677179", "soil": "#614031", "stems": "#517864", "foliage": "#5f977e", "accent": "#8ab59b" },
+      "shape": {
+        "scale": 1,
+        "rings": [
+          { "count": 10, "length": 0.110, "rise": 0.034, "width": 0.038, "arch": 0.017, "start": 0.008, "phase": 0.06 },
+          { "count": 8, "length": 0.082, "rise": 0.055, "width": 0.033, "arch": 0.014, "start": 0.012, "phase": 0.31 },
+          { "count": 6, "length": 0.044, "rise": 0.074, "width": 0.024, "arch": 0.009, "start": 0.021, "phase": 0.12 }
+        ]
+      }
+    }
+  ]
+}

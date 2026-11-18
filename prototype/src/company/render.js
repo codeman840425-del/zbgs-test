@@ -1,5 +1,5 @@
 import {WALL_AMBIENT_ROLE,applyWallAmbientLight} from './wall-ambient.js';
-import {poseDeskLamp} from './desk-lamp.js';
+import {poseDeskLamp,poseDeskLampHead} from './desk-lamp.js';
 import {adaptCableGeometry,validateCableVisualPlacement} from './cable-render.js';
 import {validateCeilingVisualPlacement,ceilingVisibleForRegion} from './ceiling-placement.js';
 import {installationGeometryFacilities,validateDesktopReservations} from './desktop-placement.js';
@@ -84,8 +84,10 @@ export function validateCeilingDocumentAssets(derived,assetLibrary,entries=insta
     for(const f of entries){
       const root=new THREE.Group();temporary.set(f.id,{...f,root});
       if(f.resource.asset&&!assetLibrary)throw new CompanyError('asset-library-required',f.id,'Installation clearance requires actual geometry, including facilities on hidden floors');
-      const visual=f.resource.asset?assetLibrary.instantiate(f.resource).root:buildResource(f.resource.node,new Map(),f.state);
+      const instance=f.resource.asset?assetLibrary.instantiate(f.resource):null;
+      const visual=instance?.root??buildResource(f.resource.node,new Map(),f.state);
       root.add(visual);applyWindowState(visual,f.resource,f.state);
+      if(f.resource.mountRole==='desk-lamp')poseDeskLampHead(instance.nodes,f.state.angle);
       applyWindowCoverState(visual,f.resource,f.state);
       applyBackdropState(visual,f.resource,f.state);
       if(derived.cableConnections.has(f.id))adaptCableGeometry(visual,derived.cableConnections.get(f.id));

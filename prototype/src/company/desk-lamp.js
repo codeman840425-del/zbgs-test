@@ -106,9 +106,13 @@ export function validateDeskLampGeometry(scene,resource,fail,path=resource.id) {
   } finally {head.quaternion.copy(original);scene.updateWorldMatrix(true,true);}
 }
 
-export function poseDeskLamp(parts,fixture,light,angle) {
-  // The scene builder supplies a fresh instance at its authored neutral rotation for each candidate.
+// Both installation preflight and rendering start with the authored neutral pose.
+export function poseDeskLampHead(parts,angle) {
   parts.get(aim.pivot).rotateX(angle);
+}
+
+export function poseDeskLamp(parts,fixture,light,angle) {
+  poseDeskLampHead(parts,angle);
   const ray=beam(parts.get(aim.emitter),fixture);
   light.position.copy(ray.position);
   light.target.position.copy(ray.target);
