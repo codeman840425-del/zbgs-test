@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "valid": [
+    "monitor-aurora",
+    "monitor-ribbon",
+    "monitor-pillar",
+    "monitor-slate",
+    "fill-light-orbit",
+    "fill-light-wing",
+    "fill-light-column",
+    "fill-light-panel",
+    "monitor-aurora-usb"
+  ],
+  "control": {
+    "resources": 9
+  },
+  "rejections": [
+    {
+      "field": "nodes",
+      "code": "missing-display-mesh",
+      "path": "resources.monitor-aurora.absent-screen-for-negative-control"
+    },
+    {
+      "field": "nodes",
+      "code": "invalid-display-mapping",
+      "path": "resources.monitor-aurora"
+    },
+    {
+      "field": "onIntensity",
+      "code": "invalid-display-mapping",
+      "path": "resources.monitor-aurora"
+    }
+  ]
+}

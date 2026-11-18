@@ -1,0 +1,991 @@
+{
+  "status": "passed",
+  "variants": [
+    {
+      "resource": {
+        "id": "phone-static-portrait",
+        "version": 1,
+        "displayName": "竖屏手机 · 素描边机身",
+        "category": "dynamic",
+        "mountRole": "phone-static",
+        "productionBranch": "phone-static",
+        "mount": "desk-surface",
+        "parent": "desk.desktop",
+        "mounting": {
+          "origin": "bottom",
+          "width": 0.18,
+          "height": 0.19,
+          "depth": 0.11,
+          "reserveDesktopArea": true
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.09,
+            0.055
+          ],
+          "blocking": false
+        },
+        "usePoints": [],
+        "stateDefaults": {
+          "on": true
+        },
+        "stateSchema": {
+          "on": {
+            "type": "boolean"
+          }
+        },
+        "stateSemantics": {
+          "on": "phone-display-power-v1"
+        },
+        "display": {
+          "screen": {
+            "nodes": [
+              "phone-screen"
+            ],
+            "onColor": "#e0f1f3",
+            "offColor": "#000000",
+            "emissive": "#a6d8d9",
+            "onIntensity": 0.68
+          }
+        },
+        "materialSlots": {
+          "body": [
+            "phone-body-stock"
+          ],
+          "screen": [
+            "phone-screen"
+          ],
+          "support": [
+            "phone-case-foot",
+            "phone-case-rear-sill"
+          ]
+        },
+        "provenance": {
+          "license": "CC0-1.0 source mesh with project-authored materials, display and support",
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback",
+            "pngjs 7.0.0"
+          ],
+          "sourceParameters": "assets-source/company-phone-static-v1/parameters.json",
+          "sourceParametersSha256": "7a99c5e6a889150d1170c494c288d84669922baa0f0d49f0664cf34601125600",
+          "generator": "scripts/company-platform/build-phone-static.mjs",
+          "generatorSha256": "151d89d33fac731db7fdd52de08c0739960f89eceafd0addc9934d4f1ae3763e",
+          "functionalContractSource": "assets-source/company-phone-static-v1/contract.json",
+          "functionalContractSourceSha256": "30d96e4bf678434d379e7071f47217424963c89cb0ac141a7f76e30bf911be7d",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "phone-static",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-phone-static-assets.mjs",
+              "sha256": "c7c63e9b79da13555d2d52d7f1055cafb69ebb83c5cbcaace1a0f5c9fc54db86"
+            }
+          },
+          "sourceArtifactPath": "assets-source/company-phone-static-v1/original/grab3d/smartphone.glb",
+          "sourceArtifactSha256": "92ae6687a5c6412c0c577a908d177b767c5e94f27814a656be9b16029f7c5352",
+          "sourceUrl": "https://grab3d.com/models/electronics/smartphone/",
+          "sourceAuthor": "Grab3D",
+          "sourceLicense": "CC0-1.0",
+          "sourceLicensePath": "assets-source/company-phone-static-v1/original/grab3d/LICENSE.txt",
+          "sourceLicenseSha256": "01908a56d6cada52704b20c5094c2aa16c9d8be6f124349c986764067abfd921",
+          "sourceManifestPath": "assets-source/company-phone-static-v1/original/grab3d/manifest.json",
+          "sourceManifestSha256": "b031f915703ad2783f983cdf4854f52240ac3e448b1c89838857f4c8f6f53e0e",
+          "sourceNodes": [
+            "smartphone_body",
+            "smartphone_glass_1"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/phone-static-v1/phone-static-portrait/v1/model.glb",
+          "sha256": "9a24aa06b035d0687c7344731cf3143642cab1be4074fdcddb457f8e82227a3e",
+          "bytes": 405892
+        }
+      },
+      "geometry": {
+        "triangles": 4168,
+        "meshCount": 4,
+        "materialCount": 4,
+        "geometrySha256": "8cfcb309bd114c775852dde0f7278c9789b6daab46dca4817af759a6341b6b3d",
+        "contactAreaSquareMetres": 0.00114205,
+        "envelope": {
+          "min": [
+            -0.03595956,
+            0,
+            -0.0125
+          ],
+          "max": [
+            0.03595956,
+            0.15147124,
+            0.0115
+          ],
+          "size": [
+            0.07191911,
+            0.15147124,
+            0.024
+          ]
+        },
+        "deskRays": [
+          {
+            "node": "phone-case-foot",
+            "x": -0.00987817,
+            "z": 0.0032115,
+            "y": 0
+          }
+        ],
+        "screen": {
+          "dimensionsMetres": [
+            0.06790951,
+            0.1439017
+          ],
+          "orientation": "portrait",
+          "front": [
+            {
+              "point": [
+                -0.00022768,
+                0.07767134,
+                0.00434973
+              ],
+              "uv": [
+                0.5,
+                0.5
+              ],
+              "normal": [
+                -0.00877146,
+                -0.01068805,
+                0.99990441
+              ]
+            },
+            {
+              "point": [
+                -0.01924234,
+                0.07767134,
+                0.00418293
+              ],
+              "uv": [
+                0.22,
+                0.5
+              ],
+              "normal": [
+                -0.0087714,
+                -0.01068802,
+                0.99990441
+              ]
+            },
+            {
+              "point": [
+                0.01878698,
+                0.07767134,
+                0.00451653
+              ],
+              "uv": [
+                0.78,
+                0.50000001
+              ],
+              "normal": [
+                -0.00877142,
+                -0.01068803,
+                0.99990441
+              ]
+            },
+            {
+              "point": [
+                -0.00022768,
+                0.03737886,
+                0.00391904
+              ],
+              "uv": [
+                0.49999999,
+                0.77999999
+              ],
+              "normal": [
+                -0.0087714,
+                -0.01068802,
+                0.99990441
+              ]
+            },
+            {
+              "point": [
+                -0.00022768,
+                0.11796381,
+                0.00478042
+              ],
+              "uv": [
+                0.50000001,
+                0.22000001
+              ],
+              "normal": [
+                -0.00877142,
+                -0.01068803,
+                0.99990441
+              ]
+            }
+          ],
+          "rearHidesScreen": "phone-body-stock",
+          "image": {
+            "dimensionsPixels": [
+              80,
+              160
+            ],
+            "bytes": 812,
+            "sha256": "5ccb912c0d904e4ba42cf680e57154c4b9cbfa73d9ffbbaeba7fed1f23e67308",
+            "colorSpace": "sRGB"
+          }
+        }
+      },
+      "stock": [
+        {
+          "sourceNode": "smartphone_body",
+          "modelNode": "phone-body-stock",
+          "triangles": 3068,
+          "maxVertexErrorMetres": 6.4176846481302926e-9,
+          "surfaceUV": "original"
+        },
+        {
+          "sourceNode": "smartphone_glass_1",
+          "modelNode": "phone-screen",
+          "triangles": 500,
+          "maxVertexErrorMetres": 6.4176846481302926e-9,
+          "surfaceUV": "monitor-image-uv"
+        }
+      ]
+    },
+    {
+      "resource": {
+        "id": "phone-static-landscape",
+        "version": 1,
+        "displayName": "横屏手机 · 双低脚",
+        "category": "dynamic",
+        "mountRole": "phone-static",
+        "productionBranch": "phone-static",
+        "mount": "desk-surface",
+        "parent": "desk.desktop",
+        "mounting": {
+          "origin": "bottom",
+          "width": 0.18,
+          "height": 0.19,
+          "depth": 0.11,
+          "reserveDesktopArea": true
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.09,
+            0.055
+          ],
+          "blocking": false
+        },
+        "usePoints": [],
+        "stateDefaults": {
+          "on": true
+        },
+        "stateSchema": {
+          "on": {
+            "type": "boolean"
+          }
+        },
+        "stateSemantics": {
+          "on": "phone-display-power-v1"
+        },
+        "display": {
+          "screen": {
+            "nodes": [
+              "phone-screen"
+            ],
+            "onColor": "#e0f1f3",
+            "offColor": "#000000",
+            "emissive": "#a6d8d9",
+            "onIntensity": 0.68
+          }
+        },
+        "materialSlots": {
+          "body": [
+            "phone-body-authored",
+            "phone-speaker",
+            "phone-camera-island",
+            "phone-lens-1",
+            "phone-lens-2",
+            "phone-side-key"
+          ],
+          "screen": [
+            "phone-screen"
+          ],
+          "support": [
+            "phone-case-foot-left",
+            "phone-case-foot-right"
+          ]
+        },
+        "provenance": {
+          "license": "Project-authored model and screen content",
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback",
+            "pngjs 7.0.0"
+          ],
+          "sourceParameters": "assets-source/company-phone-static-v1/parameters.json",
+          "sourceParametersSha256": "7a99c5e6a889150d1170c494c288d84669922baa0f0d49f0664cf34601125600",
+          "generator": "scripts/company-platform/build-phone-static.mjs",
+          "generatorSha256": "151d89d33fac731db7fdd52de08c0739960f89eceafd0addc9934d4f1ae3763e",
+          "functionalContractSource": "assets-source/company-phone-static-v1/contract.json",
+          "functionalContractSourceSha256": "30d96e4bf678434d379e7071f47217424963c89cb0ac141a7f76e30bf911be7d",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "phone-static",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-phone-static-assets.mjs",
+              "sha256": "c7c63e9b79da13555d2d52d7f1055cafb69ebb83c5cbcaace1a0f5c9fc54db86"
+            }
+          }
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/phone-static-v1/phone-static-landscape/v1/model.glb",
+          "sha256": "aa3bbc33a897b47c2a6ec6c0c443b6390744707036a1e0bf355d1eee1506f06b",
+          "bytes": 195028
+        }
+      },
+      "geometry": {
+        "triangles": 1972,
+        "meshCount": 9,
+        "materialCount": 4,
+        "geometrySha256": "13e482c14abb563f69b199eb18a33cf360c111474a11c421f7f5771812d999d7",
+        "contactAreaSquareMetres": 0.00125872,
+        "envelope": {
+          "min": [
+            -0.0765,
+            0,
+            -0.0165
+          ],
+          "max": [
+            0.0765,
+            0.0821,
+            0.0125
+          ],
+          "size": [
+            0.153,
+            0.0821,
+            0.029
+          ]
+        },
+        "deskRays": [
+          {
+            "node": "phone-case-foot-left",
+            "x": -0.05318117,
+            "z": 0.00218117,
+            "y": 0
+          },
+          {
+            "node": "phone-case-foot-right",
+            "x": 0.04481883,
+            "z": 0.00218117,
+            "y": 0
+          }
+        ],
+        "screen": {
+          "dimensionsMetres": [
+            0.13699999,
+            0.067
+          ],
+          "orientation": "landscape",
+          "front": [
+            {
+              "point": [
+                0,
+                0.0426,
+                0.0074
+              ],
+              "uv": [
+                0.5,
+                0.49999999
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "point": [
+                -0.03836,
+                0.0426,
+                0.0074
+              ],
+              "uv": [
+                0.22,
+                0.49999999
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "point": [
+                0.03836,
+                0.0426,
+                0.0074
+              ],
+              "uv": [
+                0.78000001,
+                0.49999999
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "point": [
+                0,
+                0.02384,
+                0.0074
+              ],
+              "uv": [
+                0.50000001,
+                0.77999999
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "point": [
+                0,
+                0.06136,
+                0.0074
+              ],
+              "uv": [
+                0.5,
+                0.22
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            }
+          ],
+          "rearHidesScreen": "phone-body-authored",
+          "image": {
+            "dimensionsPixels": [
+              160,
+              80
+            ],
+            "bytes": 675,
+            "sha256": "c2183fe884a85b84fb7937a90a2ea39650b86e1c6ad68de7230b2b6c25cbc497",
+            "colorSpace": "sRGB"
+          }
+        }
+      }
+    },
+    {
+      "resource": {
+        "id": "phone-static-cradle",
+        "version": 1,
+        "displayName": "支座手机 · 楔形托台",
+        "category": "dynamic",
+        "mountRole": "phone-static",
+        "productionBranch": "phone-static",
+        "mount": "desk-surface",
+        "parent": "desk.desktop",
+        "mounting": {
+          "origin": "bottom",
+          "width": 0.18,
+          "height": 0.19,
+          "depth": 0.11,
+          "reserveDesktopArea": true
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.09,
+            0.055
+          ],
+          "blocking": false
+        },
+        "usePoints": [],
+        "stateDefaults": {
+          "on": true
+        },
+        "stateSchema": {
+          "on": {
+            "type": "boolean"
+          }
+        },
+        "stateSemantics": {
+          "on": "phone-display-power-v1"
+        },
+        "display": {
+          "screen": {
+            "nodes": [
+              "phone-screen"
+            ],
+            "onColor": "#e0f1f3",
+            "offColor": "#000000",
+            "emissive": "#a6d8d9",
+            "onIntensity": 0.68
+          }
+        },
+        "materialSlots": {
+          "body": [
+            "phone-body-authored",
+            "phone-speaker",
+            "phone-camera-island",
+            "phone-lens-1",
+            "phone-lens-2",
+            "phone-side-key"
+          ],
+          "screen": [
+            "phone-screen"
+          ],
+          "support": [
+            "phone-cradle-base",
+            "phone-cradle-wedge",
+            "phone-cradle-lip"
+          ]
+        },
+        "provenance": {
+          "license": "Project-authored model and screen content",
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback",
+            "pngjs 7.0.0"
+          ],
+          "sourceParameters": "assets-source/company-phone-static-v1/parameters.json",
+          "sourceParametersSha256": "7a99c5e6a889150d1170c494c288d84669922baa0f0d49f0664cf34601125600",
+          "generator": "scripts/company-platform/build-phone-static.mjs",
+          "generatorSha256": "151d89d33fac731db7fdd52de08c0739960f89eceafd0addc9934d4f1ae3763e",
+          "functionalContractSource": "assets-source/company-phone-static-v1/contract.json",
+          "functionalContractSourceSha256": "30d96e4bf678434d379e7071f47217424963c89cb0ac141a7f76e30bf911be7d",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "phone-static",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-phone-static-assets.mjs",
+              "sha256": "c7c63e9b79da13555d2d52d7f1055cafb69ebb83c5cbcaace1a0f5c9fc54db86"
+            }
+          }
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/phone-static-v1/phone-static-cradle/v1/model.glb",
+          "sha256": "10c7246f3d529473a8770e0a9bb02290260624bd42fb87b5cc2ca7651e622e2b",
+          "bytes": 197292
+        }
+      },
+      "geometry": {
+        "triangles": 1984,
+        "meshCount": 10,
+        "materialCount": 5,
+        "geometrySha256": "f737beb314078f28bc3fe377acd8ce67759d3614cbadc541e5c6b6dc55bab7a7",
+        "contactAreaSquareMetres": 0.0056,
+        "envelope": {
+          "min": [
+            -0.044,
+            0,
+            -0.046
+          ],
+          "max": [
+            0.044,
+            0.163,
+            0.032
+          ],
+          "size": [
+            0.088,
+            0.163,
+            0.078
+          ]
+        },
+        "deskRays": [
+          {
+            "node": "phone-cradle-base",
+            "x": -0.01333333,
+            "z": 0.00466667,
+            "y": 0
+          }
+        ],
+        "screen": {
+          "dimensionsMetres": [
+            0.063,
+            0.125
+          ],
+          "orientation": "portrait",
+          "front": [
+            {
+              "point": [
+                0,
+                0.0905,
+                0.0069
+              ],
+              "uv": [
+                0.5,
+                0.49999999
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "point": [
+                -0.01764,
+                0.0905,
+                0.0069
+              ],
+              "uv": [
+                0.22,
+                0.49999999
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "point": [
+                0.01764,
+                0.0905,
+                0.0069
+              ],
+              "uv": [
+                0.78000001,
+                0.5
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "point": [
+                0,
+                0.0555,
+                0.0069
+              ],
+              "uv": [
+                0.50000001,
+                0.77999999
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "point": [
+                0,
+                0.1255,
+                0.0069
+              ],
+              "uv": [
+                0.5,
+                0.21999999
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            }
+          ],
+          "rearHidesScreen": "phone-body-authored",
+          "image": {
+            "dimensionsPixels": [
+              80,
+              160
+            ],
+            "bytes": 812,
+            "sha256": "5ccb912c0d904e4ba42cf680e57154c4b9cbfa73d9ffbbaeba7fed1f23e67308",
+            "colorSpace": "sRGB"
+          }
+        }
+      }
+    },
+    {
+      "resource": {
+        "id": "phone-static-clamp",
+        "version": 1,
+        "displayName": "夹持手机 · 底座侧爪",
+        "category": "dynamic",
+        "mountRole": "phone-static",
+        "productionBranch": "phone-static",
+        "mount": "desk-surface",
+        "parent": "desk.desktop",
+        "mounting": {
+          "origin": "bottom",
+          "width": 0.18,
+          "height": 0.19,
+          "depth": 0.11,
+          "reserveDesktopArea": true
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.09,
+            0.055
+          ],
+          "blocking": false
+        },
+        "usePoints": [],
+        "stateDefaults": {
+          "on": true
+        },
+        "stateSchema": {
+          "on": {
+            "type": "boolean"
+          }
+        },
+        "stateSemantics": {
+          "on": "phone-display-power-v1"
+        },
+        "display": {
+          "screen": {
+            "nodes": [
+              "phone-screen"
+            ],
+            "onColor": "#e0f1f3",
+            "offColor": "#000000",
+            "emissive": "#a6d8d9",
+            "onIntensity": 0.68
+          }
+        },
+        "materialSlots": {
+          "body": [
+            "phone-body-authored",
+            "phone-speaker",
+            "phone-camera-island",
+            "phone-lens-1",
+            "phone-lens-2",
+            "phone-side-key"
+          ],
+          "screen": [
+            "phone-screen"
+          ],
+          "support": [
+            "phone-clamp-foot-left",
+            "phone-clamp-foot-right",
+            "phone-clamp-base",
+            "phone-clamp-post",
+            "phone-clamp-crossbar",
+            "phone-clamp-jaw-left",
+            "phone-clamp-jaw-right"
+          ]
+        },
+        "provenance": {
+          "license": "Project-authored model and screen content",
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback",
+            "pngjs 7.0.0"
+          ],
+          "sourceParameters": "assets-source/company-phone-static-v1/parameters.json",
+          "sourceParametersSha256": "7a99c5e6a889150d1170c494c288d84669922baa0f0d49f0664cf34601125600",
+          "generator": "scripts/company-platform/build-phone-static.mjs",
+          "generatorSha256": "151d89d33fac731db7fdd52de08c0739960f89eceafd0addc9934d4f1ae3763e",
+          "functionalContractSource": "assets-source/company-phone-static-v1/contract.json",
+          "functionalContractSourceSha256": "30d96e4bf678434d379e7071f47217424963c89cb0ac141a7f76e30bf911be7d",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "phone-static",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-phone-static-assets.mjs",
+              "sha256": "c7c63e9b79da13555d2d52d7f1055cafb69ebb83c5cbcaace1a0f5c9fc54db86"
+            }
+          }
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/phone-static-v1/phone-static-clamp/v1/model.glb",
+          "sha256": "5dc23dbaf4fd14ef3bc9be4f3aee07b70127d5cdcac37f63935e11a770699c1f",
+          "bytes": 343236
+        }
+      },
+      "geometry": {
+        "triangles": 3472,
+        "meshCount": 14,
+        "materialCount": 5,
+        "geometrySha256": "ac187d55148ce21f3ce5f22d2187ef0428df621bb2c17dc36206fc7c23a09a0a",
+        "contactAreaSquareMetres": 0.00256914,
+        "envelope": {
+          "min": [
+            -0.053,
+            0,
+            -0.0505
+          ],
+          "max": [
+            0.053,
+            0.177,
+            0.0425
+          ],
+          "size": [
+            0.106,
+            0.177,
+            0.093
+          ]
+        },
+        "deskRays": [
+          {
+            "node": "phone-clamp-foot-left",
+            "x": -0.03642333,
+            "z": 0.00542333,
+            "y": 0
+          },
+          {
+            "node": "phone-clamp-foot-right",
+            "x": 0.02957667,
+            "z": 0.00542333,
+            "y": 0
+          }
+        ],
+        "screen": {
+          "dimensionsMetres": [
+            0.064,
+            0.134
+          ],
+          "orientation": "portrait",
+          "front": [
+            {
+              "point": [
+                0,
+                0.102,
+                0.0079
+              ],
+              "uv": [
+                0.5,
+                0.50000001
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "point": [
+                -0.01792,
+                0.102,
+                0.0079
+              ],
+              "uv": [
+                0.22,
+                0.50000001
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "point": [
+                0.01792,
+                0.102,
+                0.0079
+              ],
+              "uv": [
+                0.78,
+                0.50000001
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "point": [
+                0,
+                0.06448,
+                0.0079
+              ],
+              "uv": [
+                0.5,
+                0.78000002
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            },
+            {
+              "point": [
+                0,
+                0.13952,
+                0.0079
+              ],
+              "uv": [
+                0.5,
+                0.22
+              ],
+              "normal": [
+                0,
+                0,
+                1
+              ]
+            }
+          ],
+          "rearHidesScreen": "phone-body-authored",
+          "image": {
+            "dimensionsPixels": [
+              80,
+              160
+            ],
+            "bytes": 812,
+            "sha256": "5ccb912c0d904e4ba42cf680e57154c4b9cbfa73d9ffbbaeba7fed1f23e67308",
+            "colorSpace": "sRGB"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "status": "failed",
+  "build": "0bf32ea27a92",
+  "rooms": [
+    {
+      "id": "phone-home",
+      "input": "F:\\gamemake-company-platform-c1\\output\\phone-static\\dev-rooms\\phone-home\\save.json",
+      "saveSha256": "fafce2f7f803a1e829b6bba0686f3eca370d6ee0710c954b009b11fb6e74edb8",
+      "initial": {
+        "ref": {
+          "id": "phone-static-portrait",
+          "version": 1
+        },
+        "on": true,
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/phone-static-v1/phone-static-portrait/v1/model.glb",
+          "sha256": "9a24aa06b035d0687c7344731cf3143642cab1be4074fdcddb457f8e82227a3e",
+          "bytes": 405892
+        },
+        "mounting": {
+          "origin": "bottom",
+          "width": 0.18,
+          "height": 0.19,
+          "depth": 0.11,
+          "reserveDesktopArea": true
+        },
+        "pose": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          -0.18000000000000005,
+          0.84,
+          -1.3399999999999999,
+          1
+        ],
+        "front": [
+          0,
+          0,
+          1
+        ],
+        "hit": {
+          "normal": [
+            -0.00877145736550979,
+            -0.01068804563334774,
+            0.9999044090392966
+          ],
+          "direction": 0.9999044090392966,
+          "facingCamera": 0.8900935424206744,
+          "triangle": 115
+        },
+        "materials": [
+          {
+            "color": "#e0f1f3",
+            "emissive": "#a6d8d9",
+            "intensity": 0.68
+          }
+        ],
+        "definition": {
+          "nodes": [
+            "phone-screen"
+          ],
+          "onColor": "#e0f1f3",
+          "offColor": "#000000",
+          "emissive": "#a6d8d9",
+          "onIntensity": 0.68
+        },
+        "meshes": [
+          "phone-body-stock",
+          "phone-screen",
+          "phone-case-foot",
+          "phone-case-rear-sill"
+        ],
+        "screenSize": [
+          0.06790950894355774,
+          0.14390169735997915,
+          0.009963462129235268
+        ],
+        "camera": [
+          0.8738471792745546,
+          6.938893903907228e-18,
+          -0.48620068621291,
+          0,
+          -0.12068542166448132,
+          0.9687033239285207,
+          -0.21690758218075695,
+          0,
+          0.4709842208307736,
+          0.2482214136810833,
+          0.8464986671688228,
+          0,
+          0.05999999999999994,
+          1.16,
+          -0.6499999999999999,
+          1
+        ],
+        "renderError": null
+      },
+      "looks": []
+    }
+  ],
+  "browserErrors": [],
+  "sourceDigest": "0bf32ea27a92cb10d477c6c8356074556823e65b687db06a8598b5d4ec4da6d8",
+  "failure": {
+    "stage": "phone-home: phone-static-landscape@1 power and cold reopen",
+    "message": "Screen pixels must visibly brighten when the actual power control is on",
+    "stack": "AssertionError [ERR_ASSERTION]: Screen pixels must visibly brighten when the actual power control is on\n    at compareFrames (F:\\gamemake-company-platform-c1\\scripts\\company-platform\\qa-phone-rooms.cjs:340:3)\n    at inspectRoom (F:\\gamemake-company-platform-c1\\scripts\\company-platform\\qa-phone-rooms.cjs:402:22)\n    at async run (F:\\gamemake-company-platform-c1\\scripts\\company-platform\\qa-phone-rooms.cjs:454:48)"
+  }
+}

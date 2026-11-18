@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "command": [
+    "node",
+    "source/scripts/company-platform/batch.mjs",
+    "receiver-invalid.json",
+    "phone-rooms-fifth",
+    "--only",
+    "phone-home"
+  ],
+  "returnCode": 1,
+  "error": {
+    "key": "phone-home",
+    "status": "failed",
+    "code": "invalid-device-state",
+    "path": "phone-home/ground/live/station-1/phone.state.on",
+    "message": "invalid-device-state at phone-home/ground/live/station-1/phone.state.on: Value must match the declared field type and range"
+  },
+  "before": {
+    "phone-rooms-fifth/phone-home/input.json": "8451d5ce475e7d81a697f89246639fd1d51b1e7c9d54d5643c6839ea963e9531",
+    "phone-rooms-fifth/phone-home/layout.json": "78d65058e90c8b2aa5944ca1c159af89810bc47e3a91b48323fef6c70d0213f8",
+    "phone-rooms-fifth/phone-home/report.json": "75fbe60949cf1cbca7b2b41276f261a43adf7d97fdb7d2bc5899e302d78cf62c",
+    "phone-rooms-fifth/phone-home/save.json": "fcefc73e541bcb518634b524779663242a7c57d0ef419323748ca56c28d66a39",
+    "phone-rooms-fifth/phone-rental/input.json": "9772e32d5cc66ca39c9ceee43994ac07d1a4969dd280e0d62f1707f8cf364433",
+    "phone-rooms-fifth/phone-rental/layout.json": "939b19190c31155b1caa1fbf83c372e4100590cbd120cdbbbab69f7f59fc5d5e",
+    "phone-rooms-fifth/phone-rental/report.json": "0dafacb56bc0848400f37a8c4d4002c1fe5bd477f51f22bfbd01792de6605e93",
+    "phone-rooms-fifth/phone-rental/save.json": "a1cdcc5fa44876717acaf8e4c284aa7c46421cd43a5162d7b1bee563fd849e25"
+  },
+  "after": {
+    "phone-rooms-fifth/phone-home/input.json": "8451d5ce475e7d81a697f89246639fd1d51b1e7c9d54d5643c6839ea963e9531",
+    "phone-rooms-fifth/phone-home/layout.json": "78d65058e90c8b2aa5944ca1c159af89810bc47e3a91b48323fef6c70d0213f8",
+    "phone-rooms-fifth/phone-home/report.json": "75fbe60949cf1cbca7b2b41276f261a43adf7d97fdb7d2bc5899e302d78cf62c",
+    "phone-rooms-fifth/phone-home/save.json": "fcefc73e541bcb518634b524779663242a7c57d0ef419323748ca56c28d66a39",
+    "phone-rooms-fifth/phone-rental/input.json": "9772e32d5cc66ca39c9ceee43994ac07d1a4969dd280e0d62f1707f8cf364433",
+    "phone-rooms-fifth/phone-rental/layout.json": "939b19190c31155b1caa1fbf83c372e4100590cbd120cdbbbab69f7f59fc5d5e",
+    "phone-rooms-fifth/phone-rental/report.json": "0dafacb56bc0848400f37a8c4d4002c1fe5bd477f51f22bfbd01792de6605e93",
+    "phone-rooms-fifth/phone-rental/save.json": "a1cdcc5fa44876717acaf8e4c284aa7c46421cd43a5162d7b1bee563fd849e25"
+  }
+}

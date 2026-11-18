@@ -1,0 +1,131 @@
+{
+  "status": "passed",
+  "pristine": {
+    "revisedSource": "cb5f98fd78d3bc7876e0d8e9349e06a28bf25378",
+    "oldManifest": "864b2465d1b2df75f84142563c089df408bc2ca6c6857c7c14918fc751c04fcf",
+    "finalManifest": "b988f1382f3cac3ed58d3ccc917dc1473175ce16ebcd0c9b1f12ef5c1b24e7f8",
+    "files": 1836,
+    "oldBuild": "0bf32ea27a92",
+    "finalBuild": "0bf32ea27a92",
+    "changes": [
+      {
+        "path": "source/scripts/company-platform/qa-phone-rooms.cjs",
+        "before": {
+          "bytes": 23853,
+          "path": "source/scripts/company-platform/qa-phone-rooms.cjs",
+          "scope": "editable-production-source",
+          "sha256": "003d425ba34804d8118c41c4dbe5cc7b36703bc8bc4c37756f656bf530172da1"
+        },
+        "after": {
+          "bytes": 23842,
+          "path": "source/scripts/company-platform/qa-phone-rooms.cjs",
+          "scope": "editable-production-source",
+          "sha256": "0706ab4e55a7a67725a26f4c6ffbfef370d72fd06c74a06d394e1e03da407828"
+        }
+      }
+    ],
+    "unchangedViewerFiles": 535,
+    "unchangedDataFiles": 23,
+    "pristineHashTrees": [
+      {
+        "key": "viewer",
+        "count": 535,
+        "treeSha256": "012da2dfd5a166fc188daf62e8989f28a6377debe1254fbb3c8e2ce175d91ad9"
+      },
+      {
+        "key": "phone-home",
+        "count": 4,
+        "treeSha256": "24c5929980bbb3b5c49e4cc7ce118b5d0ae73c0e9f9759013e07d4b70647c450"
+      },
+      {
+        "key": "phone-rental",
+        "count": 4,
+        "treeSha256": "439500c95b46d5918fa28ba49d5ca65461d2b89f758561cd178d182752992243"
+      }
+    ],
+    "offlineCiPackages": 35
+  },
+  "production": {
+    "resource": {
+      "id": "phone-static-compact-cradle",
+      "version": 2
+    },
+    "recipeSha256": "cc0e1f58d4e525c7aabf1bfa7d87b8065b4134344190adfd95b35fbbbcfd4723",
+    "glbSha256": "757d853906f55f5a15ef42f53f37498157144f6d02e3f05c692ad7d0af18877d",
+    "glbBytes": 197728,
+    "geometryFingerprint": "a1c037ba86e12b293308590211b6890ce0fac562470870e80356b2a3f22dbbbd",
+    "declarationSha256": "a9382d8b08eef70debc8803c2a755a21272d8ad7e129a9f9ac6258aa86560a56"
+  },
+  "derived": {
+    "directory": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\phone-receiver-v1\\published-phone-final",
+    "build": "d1e292b65407",
+    "sourceDigest": "d1e292b6540702a60f5597ad9c6a461bcfcbabbc7baaacc6dd983d3ad048c5ab",
+    "manifestSha256": "041818d5465c4a989560402cf4862f551caf21f7ee90045f1e1ae3e1009552f3",
+    "declaredFiles": 1838,
+    "finalQaSha": "0706ab4e55a7a67725a26f4c6ffbfef370d72fd06c74a06d394e1e03da407828",
+    "unchangedResourceDeclarations": 255,
+    "homeChanged": [
+      "phone-home/ground/live/station-1/phone.resource"
+    ],
+    "rentalSave": "a1cdcc5fa44876717acaf8e4c284aa7c46421cd43a5162d7b1bee563fd849e25"
+  },
+  "browser": {
+    "test": "browser-final-v2/report.json",
+    "lit": "browser-final-v2/01-lit.png",
+    "off": "browser-final-v2/02-off.png",
+    "restored": "browser-final-v2/03-restored-off.png",
+    "newChromiumContext": true,
+    "restoredWithoutDeliveryQuery": true,
+    "coldGLBSha256": "757d853906f55f5a15ef42f53f37498157144f6d02e3f05c692ad7d0af18877d",
+    "savedSha256": "d56d34e880fbc52f487a8d25a96d68ea65fb22dc4f39677a178214b2432110c0",
+    "screenPixels": [
+      {
+        "state": "01-lit",
+        "cropPixels": [
+          899,
+          553,
+          10,
+          14
+        ],
+        "luminanceMean": 156.01910285714283
+      },
+      {
+        "state": "02-off",
+        "cropPixels": [
+          899,
+          553,
+          10,
+          14
+        ],
+        "luminanceMean": 0.21108142857142864
+      },
+      {
+        "state": "03-restored-off",
+        "cropPixels": [
+          899,
+          553,
+          10,
+          14
+        ],
+        "luminanceMean": 0.21108142857142864
+      }
+    ]
+  },
+  "badInput": {
+    "operation": "set-state on=\"yes\"",
+    "error": {
+      "key": "phone-home",
+      "status": "failed",
+      "code": "invalid-device-state",
+      "path": "phone-home/ground/live/station-1/phone.state.on",
+      "message": "invalid-device-state at phone-home/ground/live/station-1/phone.state.on: Value must match the declared field type and range"
+    },
+    "unchangedBatchFiles": 8
+  },
+  "diagnostics": [
+    {
+      "path": "browser-final/report.json",
+      "reason": "Receiver test initially compared the canonical resource declaration digest with the GLB digest. They cover different bytes. Both digests were independently recomputed for this receipt."
+    }
+  ]
+}
