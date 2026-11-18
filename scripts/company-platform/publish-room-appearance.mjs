@@ -7,6 +7,7 @@ import {fileURLToPath} from 'node:url';
 import {isDeepStrictEqual, promisify} from 'node:util';
 import {buildLibrary, planPath, replaceIndex, withCatalogWriteLock} from './build-library.mjs';
 import {compareFacilityFunction} from '../../prototype/src/company/appearance-contract.js';
+import {createCompany, deriveCompany} from '../../prototype/src/company/document.js';
 
 const root = path.resolve(fileURLToPath(new URL('../../',import.meta.url)));
 const catalogPath = 'prototype/src/company/library-catalog.json';
@@ -15,12 +16,69 @@ const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const fail = (code,message) => {throw Object.assign(Error(message),{code});};
 const parse = bytes => JSON.parse(bytes.toString('utf8'));
 const run = promisify(execFile);
+const families = {
+  'company-desk-lamp-collection': 'desk-lamp',
+  'company-screen-partition-collection': 'screen-partition',
+  'company-static-textile-collection': 'static-textile',
+  'company-baseboard-collection': 'baseboard',
+};
+
+function belongsToFamily(resource,family) {
+  return family === 'baseboard'
+    ? resource?.kind === 'surface-finish' && resource.provenance?.environmentBranch === 'baseboard-and-edge' &&
+      isDeepStrictEqual(resource.finish?.allowedSurfaces,['baseboard'])
+    : resource?.productionBranch === family;
+}
+
+function validateFunction(reference,resource,family) {
+  assert(belongsToFamily(resource,family),'Resource does not belong to '+family);
+  assert(compareFacilityFunction(reference,resource).compatible,'Function or mounting differs from '+reference.id);
+  if (family === 'baseboard') {
+    // Use the normal room admission path for surface kind, materials and profile.
+    // Profile and tile scale are appearance choices within the common envelope.
+    const catalog = {id:'appearance-validation',version:1,resources:[resource]};
+    const document = createCompany({id:'appearance-validation'},catalog);
+    document.nodes[1].finishes = {baseboard:{resource:{id:resource.id,version:resource.version}}};
+    deriveCompany(document,catalog,{templates:[]});
+    if (!resource.finish.profile.some(([depth])=>depth === .02))
+      fail('invalid-surface-resource','Baseboard profile must reach its fixed 0.02 m depth');
+  }
+}
+
+function validateBaseboardTexture(model,resource,texture,entry) {
+  const invalid = () => fail('appearance-texture-mismatch',entry.texturePath);
+  if (hash(texture) !== entry.textureSha256 || !texture.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))
+    invalid();
+  if (model.length < 28 || model.readUInt32LE(0) !== 0x46546c67 || model.readUInt32LE(4) !== 2 ||
+      model.readUInt32LE(8) !== model.length || model.readUInt32LE(16) !== 0x4e4f534a)
+    invalid();
+  const jsonEnd = 20 + model.readUInt32LE(12);
+  if (jsonEnd+8 > model.length || model.readUInt32LE(jsonEnd+4) !== 0x004e4942 ||
+      jsonEnd+8+model.readUInt32LE(jsonEnd) !== model.length)
+    invalid();
+  const gltf = parse(model.subarray(20,jsonEnd));
+  const target = gltf.nodes?.find(node=>node.name === resource.finish.materialNode);
+  const primitive = gltf.meshes?.[target?.mesh]?.primitives?.[0];
+  const slot = gltf.materials?.[primitive?.material]?.pbrMetallicRoughness?.baseColorTexture;
+  const image = gltf.images?.[gltf.textures?.[slot?.index]?.source];
+  const view = gltf.bufferViews?.[image?.bufferView], offset = view?.byteOffset ?? 0;
+  if (primitive?.attributes?.TEXCOORD_0 === undefined || image?.mimeType !== 'image/png' ||
+      view?.buffer !== 0 || view.byteLength !== texture.length || !Number.isSafeInteger(offset) || offset < 0 ||
+      offset + view.byteLength > model.readUInt32LE(jsonEnd))
+    invalid();
+  const start = jsonEnd + 8 + offset;
+  if (!model.subarray(start,start+view.byteLength).equals(texture)) invalid();
+}
 
 async function regularFile(relative) {
   const absolute = path.join(root,relative);
   if (await fs.realpath(absolute) !== absolute || !(await fs.lstat(absolute)).isFile())
     fail('appearance-linked-path',relative);
   return fs.readFile(absolute);
+}
+async function matchesPublishedFile(relative,bytes) {
+  try {return (await regularFile(relative)).equals(bytes);}
+  catch (error) {if (error.code === 'ENOENT') return false; throw error;}
 }
 function productionSource(name) {
   if (typeof name !== 'string' || !/^assets-source\/company-[^/]+\//.test(name) ||
@@ -52,18 +110,18 @@ async function publish(recipePath,check) {
   if (!recipePath.endsWith('.json')) fail('invalid-appearance-recipe',recipePath);
   const [originalPlan,originalCatalog,inputBytes] = await Promise.all([planPath,catalogPath,recipePath].map(regularFile));
   const plan = parse(originalPlan), previous = parse(originalCatalog), input = parse(inputBytes);
-  const family = {'company-desk-lamp-collection':'desk-lamp','company-screen-partition-collection':'screen-partition','company-static-textile-collection':'static-textile'}[input.schema];
+  const family = families[input.schema];
   if (typeof family !== 'string' || input.version !== 1 || !Array.isArray(input.designs) || !input.designs.length)
-    fail('invalid-appearance-recipe','Expected a version 1 desk-lamp, screen-partition or static-textile recipe with designs');
+    fail('invalid-appearance-recipe','Expected a version 1 desk-lamp, screen-partition, static-textile or baseboard recipe with designs');
   const base = 'assets-source/company-'+family+'-v1';
   const collectionPath = base+'/collection.json';
-  if (plan.output !== catalogPath || !Array.isArray(plan.resources) ||
+  if (plan.output !== catalogPath || !Array.isArray(plan.resources) || !Array.isArray(plan.collections) ||
       plan.collections.filter(file => file === collectionPath).length !== 1)
     fail('invalid-appearance-plan',collectionPath);
   const defaults = parse(await regularFile(collectionPath));
   const reference = previous.resources.find(r => r.id === defaults.resources[0].id && r.version === defaults.resources[0].version);
-  assert.equal(reference?.productionBranch,family,'Missing registered functional reference');
-  const generator = 'scripts/company-platform/build-'+family+'-collection.mjs';
+  assert(belongsToFamily(reference,family),'Missing registered functional reference');
+  const generator = 'scripts/company-platform/'+(family === 'baseboard' ? 'build-baseboards.mjs' : 'build-'+family+'-collection.mjs');
   const pinnedTools = [{path:generator,sha256:reference.provenance.generatorSha256},
     ...Object.values(reference.provenance.dependencies || {})];
   for (const tool of pinnedTools) {
@@ -73,7 +131,7 @@ async function publish(recipePath,check) {
     if (!/^[a-z][a-z0-9-]{0,70}$/.test(design.id) || /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/.test(design.id) ||
         !Number.isSafeInteger(design.version) || design.version < 1)
       fail('invalid-appearance-identity',String(design.id));
-    if (previous.resources.some(r => r.id.toLowerCase() === design.id && r.productionBranch !== family))
+    if (previous.resources.some(r => r.id.toLowerCase() === design.id && !belongsToFamily(r,family)))
       fail('appearance-id-conflict',design.id+' already belongs to a different family');
     if (design.source) {
       const member = input.sources?.[design.source];
@@ -122,22 +180,31 @@ async function publish(recipePath,check) {
       assert.equal(resource.id,entry.id); assert.equal(resource.version,entry.version);
       assert.equal(resource.provenance.sourceParameters,pinned); assert.equal(resource.provenance.sourceParametersSha256,digest);
       assert.deepEqual(resource.provenance.dependencies,reference.provenance.dependencies);
-      assert.equal(resource.productionBranch,family); assert(compareFacilityFunction(reference,resource).compatible,'Function or mounting differs from '+reference.id);
+      validateFunction(reference,resource,family);
       assert.equal(resource.asset.url,entry.modelPath.slice('prototype/public'.length));
       assert.equal(resource.asset.sha256,hash(model)); assert.equal(resource.asset.bytes,model.length);
+      assert.equal(entry.sha256,resource.asset.sha256);
+      const files = [[entry.modelPath,model],[entry.resourcePath,sidecar]];
+      if (family === 'baseboard') {
+        assert.equal(entry.texturePath,dir+'/texture.png');
+        const texture = await fs.readFile(path.join(staged,entry.texturePath));
+        validateBaseboardTexture(model,resource,texture,entry);
+        files.push([entry.texturePath,texture]);
+      }
       const existing = previous.resources.find(r=>r.id===entry.id && r.version===entry.version);
       const registered = plan.resources.includes(entry.resourcePath) || defaults.resources.some(r=>r.resourcePath===entry.resourcePath);
       if (existing || registered) {
-        if (!registered || !isDeepStrictEqual(existing,resource) || !(await regularFile(entry.resourcePath)).equals(sidecar) ||
-            !(await regularFile(entry.modelPath)).equals(model)) fail('appearance-version-conflict',key);
+        if (!registered || !isDeepStrictEqual(existing,resource) ||
+            !(await Promise.all(files.map(([file,bytes])=>matchesPublishedFile(file,bytes)))).every(Boolean))
+          fail('appearance-version-conflict',key);
       } else {
         if (check) fail('appearance-unregistered',key);
         await ensureDirectory(dir,ownedDirs,true);
-        await writeNew(entry.modelPath,model,ownedFiles);
-        await writeNew(entry.resourcePath,sidecar,ownedFiles);
+        for (const [file,bytes] of files) await writeNew(file,bytes,ownedFiles);
         plan.resources.push(entry.resourcePath); additions.add(key);
       }
-      items.push({id:entry.id,version:entry.version,resourcePath:entry.resourcePath,sha256:entry.sha256,geometrySha256:entry.geometrySha256});
+      items.push({id:entry.id,version:entry.version,resourcePath:entry.resourcePath,sha256:entry.sha256,geometrySha256:entry.geometrySha256,
+        ...(family === 'baseboard' ? {texturePath:entry.texturePath,textureSha256:entry.textureSha256} : {})});
     }
     const next = await buildLibrary(plan);
     const old = {...next,resources:next.resources.filter(r=>!additions.has(r.id+'@'+r.version))};

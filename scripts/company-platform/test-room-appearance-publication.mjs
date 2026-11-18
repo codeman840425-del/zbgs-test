@@ -8,14 +8,19 @@ import {promisify} from 'node:util';
 import {createCompany} from '../../prototype/src/company/document.js';
 
 const project = path.resolve(fileURLToPath(new URL('../../',import.meta.url)));
-const output = path.join(project,'output');
+const [requestedOutput,...extra] = process.argv.slice(2);
+const output = path.resolve(project,requestedOutput ?? 'output');
+const relativeOutput = path.relative(path.join(project,'output'),output);
+assert(!extra.length && relativeOutput !== '..' && !relativeOutput.startsWith('..'+path.sep) && !path.isAbsolute(relativeOutput),
+  'Pass an optional report directory under the project output folder');
 await fs.mkdir(output,{recursive:true});
 const trial = await fs.mkdtemp(path.join(output,'appearance-publish-test-'));
 const toolDir = 'scripts/company-platform', planPath = toolDir+'/library-inputs.json', catalog = 'prototype/src/company/library-catalog.json';
 const author = 'assets-source/company-publication-trial';
 const lamp = author+'/lamp.json', screen = author+'/screen.json';
-const families = ['desk-lamp','screen-partition'];
+const families = ['desk-lamp','screen-partition','baseboard'];
 const base = f => 'assets-source/company-'+f+'-v1';
+const baseboard = base('baseboard')+'/examples/reveal-sage-v2.json';
 const resourceDir = (f,id,v=1) => 'prototype/public/company-assets/'+f+'-v1/'+id+'/v'+v;
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const read = name => fs.readFile(path.join(trial,name));
@@ -28,7 +33,7 @@ const missing = name => assert.rejects(read(name),{code:'ENOENT'});
 const checks = [];
 try {
   const tools = ['build-library','validate-resource-provenance','preflight-library-assets','publish-room-appearance',
-    'test-screen-partition-geometry','build-desk-lamp-collection','build-screen-partition-collection','batch','check-training-clearance'];
+    'test-screen-partition-geometry','build-desk-lamp-collection','build-screen-partition-collection','build-baseboards','batch','check-training-clearance'];
   const archive = 'assets-source/company-side-table-v1/original/furniture-kit-2.0.zip';
   const files = ['prototype/src/company','prototype/package.json','assets-source/company-environment-specs-v1/branches.json',archive,
     ...families.flatMap(f=>[base(f),'prototype/public/company-assets/'+f+'-v1']),...tools.map(t=>toolDir+'/'+t+'.mjs')];
@@ -59,26 +64,47 @@ try {
   for(const r of competitors) if(r.status==='rejected') assert.equal(JSON.parse(r.reason.stderr).code,'catalog-write-busy');
   const screenResult = await pub(screen,'--check');
   assert.equal(screenResult.status,'unchanged');
+  await rejected(pub(baseboard,'--check'),'appearance-unregistered');
+  const baseboardResult = await pub(baseboard);
+  assert.equal(baseboardResult.status,'published');
+  assert.equal(baseboardResult.family,'baseboard');
+  const [trim] = baseboardResult.items;
+  assert.equal(trim.id,'baseboard-reveal-sage');
+  assert.equal(trim.version,2);
+  const trimRef = {id:trim.id,version:trim.version};
+  assert.equal(digest(await read(trim.texturePath)),trim.textureSha256);
+  await run('build-baseboards','--output','output/direct-baseboard','--parameters',baseboardResult.sourceParameters);
+  for(const file of [trim.resourcePath,trim.texturePath,resourceDir('baseboard',trim.id,trim.version)+'/model.glb'])
+    assert((await read(file)).equals(await read('output/direct-baseboard/'+file)));
+  assert.equal((await pub(baseboard,'--check')).status,'unchanged');
+  assert.equal((await pub(baseboardResult.sourceParameters,'--check')).status,'unchanged');
   const registered = await data(catalog);
-  assert.deepEqual(registered.resources.filter(r=>![light.id,partition.id].includes(r.id)),baseline.resources);
+  assert.deepEqual(registered.resources.filter(r=>![light.id,partition.id,trim.id].includes(r.id)),baseline.resources);
+  const trimResource = registered.resources.find(r=>r.id===trim.id && r.version===trim.version);
+  const trimReference = registered.resources.find(r=>r.id==='baseboard-reveal' && r.version===1);
+  assert.deepEqual(trimResource.finish.allowedSurfaces,trimReference.finish.allowedSurfaces);
+  assert.notDeepEqual(trimResource.finish.profile,trimReference.finish.profile);
   const stable = await read(catalog), stablePlan = await read(planPath);
   assert.equal((await pub(lamp)).status,'unchanged'); assert.equal((await pub(screen)).status,'unchanged');
+  assert.equal((await pub(baseboard)).status,'unchanged');
   assert((await read(catalog)).equals(stable)); assert((await read(planPath)).equals(stablePlan));
   for(const [index,f] of families.entries()){
     assert.equal(digest(await read(base(f)+'/collection.json')),initialPins[index]);
-    await run('build-'+f+'-collection','--check');
+    await run(f==='baseboard'?'build-baseboards':'build-'+f+'-collection','--check');
   }
-  checks.push('Distinct fifth lamp and partition published with immutable inputs; repeat, concurrent writer and both original four-model checks passed');
+  checks.push('Fifth lamp, partition and baseboard published with immutable inputs; repeat, concurrent writer and all original four-model checks passed');
 
   const document = createCompany({id:'fifth-appearances'},registered);
   const room = document.nodes[1].id;
+  document.nodes[1].finishes = {baseboard:{resource:trimRef}};
   const item = (id,parentId,r,x,y) => ({id,kind:'facility',parentId,resource:{id:r,version:1},state:{},transform:{position:[x,y,0],yaw:0}});
   document.nodes.push(item('author-desk',room,'desk',-2,0),item('author-lamp','author-desk',light.id,0,.84),item('author-screen',room,partition.id,2,0));
   const batch = {schema:'company-batch',version:1,items:[{key:'trial',document}]};
   await write('batch.json',batch); await run('batch','batch.json','batch-output');
   const save = await data('batch-output/trial/save.json');
   for(const id of [light.id,partition.id]) assert(save.dependencies.resources.some(r=>r.id===id && r.version===1));
-  checks.push('Normal batch saved a room using both published IDs and pinned their catalog definitions');
+  assert(save.dependencies.resources.some(r=>r.id===trim.id && r.version===trim.version));
+  checks.push('Normal batch saved a room using all three published IDs and pinned their catalog definitions');
 
   const publishedModel = resourceDir(families[0],light.id)+'/model.glb';
   const oldModel = await read(publishedModel);
@@ -92,6 +118,41 @@ try {
   checks.push('Editing the original author draft and reusing a version is rejected; pinned recipe, model, plan and catalog reproduce');
 
   const invalid = author+'/invalid.json';
+  for(const file of [trim.resourcePath,trim.texturePath,resourceDir('baseboard',trim.id,trim.version)+'/model.glb']) {
+    const original = await read(file), changed = Buffer.concat([original,Buffer.from([1])]);
+    try {
+      await fs.writeFile(path.join(trial,file),changed);
+      await rejected(pub(baseboard,'--check'),'appearance-version-conflict');
+      assert((await read(file)).equals(changed));
+    } finally {await fs.writeFile(path.join(trial,file),original);}
+  }
+  const textureFile = path.join(trial,trim.texturePath), texture = await read(trim.texturePath);
+  await fs.unlink(textureFile);
+  try {
+    await rejected(pub(baseboard,'--check'),'appearance-version-conflict');
+    await missing(trim.texturePath);
+  } finally {await fs.writeFile(textureFile,texture,{flag:'wx'});}
+  const baseboardRecipe = await data(baseboard);
+  const oldTrim = structuredClone(baseboardRecipe.designs[0]);
+  oldTrim.profile[3][0] -= .001; oldTrim.profile[4][0] -= .001;
+  const pendingTrim = {...structuredClone(oldTrim),id:'baseboard-pending-texture'};
+  await write(invalid,{...baseboardRecipe,designs:[pendingTrim,oldTrim]});
+  await rejected(pub(invalid),'appearance-version-conflict');
+  await missing(resourceDir('baseboard',pendingTrim.id,pendingTrim.version));
+  await missing(author+'/recipe-'+digest(await read(invalid))+'.json');
+  const crossed = structuredClone(baseboardRecipe);
+  crossed.designs[0].profile.push(crossed.designs[0].profile[0]);
+  await write(invalid,crossed);
+  await rejected(pub(invalid),'appearance-generation-failed');
+  await missing(author+'/recipe-'+digest(await read(invalid))+'.json');
+  const otherFamily = structuredClone(baseboardRecipe);
+  otherFamily.designs[0].id = 'chair';
+  await write(invalid,otherFamily);
+  await rejected(pub(invalid),'appearance-id-conflict');
+  assert((await read(catalog)).equals(stable)); assert((await read(planPath)).equals(stablePlan));
+  assert.equal((await pub(baseboard,'--check')).status,'unchanged');
+  checks.push('Corrupt or missing artifacts, invalid profiles and cross-family identities are rejected; pending textures and source snapshots roll back');
+
   const broken = structuredClone(screenRecipe);
   broken.designs[0].parts.rows = 0;
   await write(invalid,broken);
@@ -132,10 +193,11 @@ try {
   const reopened = await decodeCompanySave(JSON.stringify(saved),await data(catalog),await data('prototype/src/company/templates-extended.json'));
   assert.deepEqual(reopened,saved.document);
   checks.push('The v1 room reopens with its original pins after the v2 registration');
-  const report = {status:'passed',checks,isolatedCatalog:{base:baseline.resources.length,afterTwo:registered.resources.length},
-    publications:[lampResult,screenResult,upgraded],batchSaveSha256:digest(await read('batch-output/trial/save.json'))};
-  await fs.writeFile(path.join(output,'room-appearance-publication-v1.json'),JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({status:'passed',checks:checks.length,receipt:'output/room-appearance-publication-v1.json'}));
+  const report = {status:'passed',checks,isolatedCatalog:{base:baseline.resources.length,afterPublications:registered.resources.length},
+    publications:[lampResult,screenResult,baseboardResult,upgraded],batchSaveSha256:digest(await read('batch-output/trial/save.json'))};
+  const receipt = path.join(output,'room-appearance-publication-v1.json');
+  await fs.writeFile(receipt,JSON.stringify(report,null,2)+'\n');
+  console.log(JSON.stringify({status:'passed',checks:checks.length,receipt:path.relative(project,receipt).split(path.sep).join('/')}));
 } finally {
   const actual = await fs.realpath(trial);
   assert.equal(path.dirname(actual),await fs.realpath(output)); assert(path.basename(actual).startsWith('appearance-publish-test-'));

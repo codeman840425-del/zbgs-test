@@ -10,6 +10,10 @@
 
 取源时采用工程现有的 Three.js。其三角剖分用于给二维截面的端面生成真实三角形，长边用沿墙米制坐标生成纹理映射。参考的许可和几何文档见 [Three.js r187 许可](https://github.com/mrdoob/three.js/blob/r187/LICENSE) 与 [Three.js ShapeUtils](https://threejs.org/docs/pages/ShapeUtils.html)。
 
+## 在独立工作副本中生产新款
+
+进入工作副本的 `source` 目录后，执行 `node scripts/company-platform/publish-room-appearance.mjs --publish assets-source/company-baseboard-v1/examples/reveal-sage-v2.json`。该命令按实际 GLB 与 PNG 核验素材、锁定配方并登记 `baseboard-reveal-sage@2`。把批次的饰面操作改为该 ID 和版本即可另产房间。再次执行时可用 `--check` 复核已登记的版本。
+
 ## 制作与复验
 
 在接收方源码工作副本执行 `node scripts/company-platform/batch.mjs scripts/company-platform/batch-inputs/baseboard-rooms.json ../my-baseboard-rooms`。两个输入分别包括带真实外门及抬高窗台的民房、旋转了 90° 且两侧各有独立饰面的出租屋。修改其中一间的 `set-surface-finish` 操作即可换款。以下实例替换一个房间的踢脚线，清除时将 `finish` 写为 `null`。

@@ -23,3 +23,12 @@ node scripts/company-platform/build-baseboards.mjs --output output/baseboard-ass
 ```
 
 要创建普通变体，复制设计配方，填写新 ID 和版本，调整截面或材料，使用同一生产入口预导。示例改变退槽高度、上口厚度和涂料，生成 `baseboard-reveal-sage@2`。独立试导生成 GLB、PNG、`resource.json` 和可接入资源库的 `collection.json`。已登记资源可用 `--check` 逐字节复产校验。CPU 检查覆盖端盖与轮廓、墙地接触、透明度、GLB 内外纹理一致和三种非法轮廓。
+
+完成试导后，从可写的制作副本运行现有房间饰面发布命令。发布时固定配方快照，一并登记 GLB、PNG 和资源描述。重复检查可传入原配方或发布结果中的 `sourceParameters` 快照路径。
+
+```powershell
+node scripts/company-platform/publish-room-appearance.mjs --publish assets-source/company-baseboard-v1/examples/reveal-sage-v2.json
+node scripts/company-platform/publish-room-appearance.mjs --check assets-source/company-baseboard-v1/examples/reveal-sage-v2.json
+```
+
+把发布结果中的资源 ID 和版本用于房间的 `baseboard` 饰面。调整已发布资源时填写新版本。发布器会保留旧版本，任一产物字节变化都会使原版本检查失败。
