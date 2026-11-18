@@ -93,3 +93,5 @@
 2026-11-18 动态共同适配接缝：native_batch_gate.py 新增 dynamic_trace_index，严格绑定两份新身体 SHA、记录 SHA、报告路径和构建，接入 v3a 真实走/坐/站/离开采样。证据现在显示在每个批产行中，但其 technical-pass-diagnostic-only 状态的 clears 为空，因此 dynamicMotion 仍待显式适配准入，acceptedForRuntime 仍为空。新增 gate v6 报告 evidence/m2-native-production-gate-v6/report.json，17 项闸门测试通过。
 
 2026-11-18 预算共同接缝：native_batch_gate.py 与 native_admission_cycle.py 现在可接收四层 budget-classification-v1 报告，按精确身体 SHA 展示 transport、decodeCanvas、gpu、ordinaryPC、资源超限和未测项。v7 报告已实际生成，两个候选仍为 acceptedForRuntime=[]，预算分类只作为诊断输入，不授予准入。22 项闸门/周期回归通过。
+
+2026-11-18 表面共同接缝：native_batch_gate.py 与 native_admission_cycle.py 现在接收 native-surface-texture-admission-v1，按身体 SHA 附加精确 Body 图像/材质/UV/alpha 静态证据，同时保留 runtime 与 visual blocked 状态。v8 报告实际生成，两个候选仍未准入；23 项闸门/周期回归通过。
