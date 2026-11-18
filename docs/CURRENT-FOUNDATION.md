@@ -76,3 +76,9 @@
 预算交叉验证脚本 `scripts/production/qa_native_budget_gate.py` 已通过32项只读检查，确认两体静态超预算、普通电脑未测、KTX2 旁车未接运行时且准入列表为空。4196 工作台新增只读“生产资源矩阵”区，男女基础制服和露膝短裤按候选/正式准入状态展示。相关回归包含预算50项生产测试、变体6项查询测试和工作台事件7项检查；最新提交 `4b9eca78`。
 头部附件主包继续推进：固定预览 `c0f83a22c2f0` 已重新采集两份新身体的站立/坐姿未适配眼镜几何，并生成 `native-glasses-candidate-v4/result.json`。两体均为 `cpu-candidate-only`，没有注册运行时 fit；正式准入仍需正常装备、动作、关闭重开和人工视觉证据。
 候选 fit 随后通过诊断参数 `glassesFit=candidate` 接入真实 Three.js/VRM 运行链。固定构建 `1cccc47bd39e` 的两体站立→坐稳回归均保持眼镜加载且页面无错误，证据 `evidence/m2-native-batch-runtime-seam-v1/native-glasses-runtime-candidate-v1/report.json`。该入口明确保持 candidate-only，不改变正式准入状态。
+
+## 2026-11-18 角色与公司平台同步边界
+- 已阅读副总工的公司平台启动说明及 C3 接缝记录。公司侧当前继续独立推进 C1/C2 设施资源、布局、保存恢复和生活小物生产包，最近工作包为边几与生活小物。该侧的灰盒房间、椅子使用点、请求终态和 seat lease 可复用，但现有主场景仍有写死房间/障碍、贪心路径和椅子布局预检缺口，必须继续标记为部分完成。
+- 角色侧与公司侧的稳定交接字段确定为 `facilityId`、`usePointId`、`floorId`、`roomId`、`layoutRevision`、坐标空间及世界变换。角色控制器、动作时钟和 seat lease 只保留一份，C3 联调不得复制人物控制逻辑。角色记录消费精确 `bodyType`、资源 SHA 与 fit 版本，设施记录消费精确使用点与布局版本。
+- 联合最小包安排为一份固定布局、一把椅子和男女各一个角色，验证接近、预约/占用、坐稳、取消、起身离位释放、双实例隔离、保存恢复和资源版本一致性。公司布局样件的可观看通过不等于通用设施系统完成，角色候选的 `runtime-admitted` 为空也不得被联调绕过。
+- 当前两侧共同技术卡点是版本化资源身份、按需加载/预算和跨实例状态恢复。角色侧两份 FaceContour 候选仍有 dynamicMotion、headAttachments、runtimeRecordAndBudget、surfaceAndTexture 四类待准入任务，静态资源约 17MB 且普通电脑未测。下一步优先完成共性适配与预算证据，再接一份固定公司布局，不回到单模型精修或大规模装修款式。
