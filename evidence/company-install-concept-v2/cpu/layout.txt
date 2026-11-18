@@ -1,0 +1,114 @@
+{
+  "ok": true,
+  "id": "concept-streaming-desk",
+  "revision": 1,
+  "capacity": {
+    "maximum": {
+      "floors": 1,
+      "rooms": 1,
+      "stations": 2
+    },
+    "installedStations": 1,
+    "businessRooms": 1,
+    "floors": 1
+  },
+  "usePointIds": [
+    "concept-streaming-desk/station/chair#seat"
+  ],
+  "placement": {
+    "rules": {
+      "scope": "C1/C2 static conservative placement and same-floor portal connectivity",
+      "envelopeRadius": 0.25,
+      "gridSpacing": 0.2,
+      "gridNeighbours": 4,
+      "obstacleExpansion": "conservative square",
+      "endpointConnectorMaximum": 0.4,
+      "roomRangeMetres": [
+        3,
+        20
+      ],
+      "supportedYaw": "quarter turns",
+      "occupancyState": "not produced",
+      "portalMinimumWidth": 0.6,
+      "portalTotalWidthMargin": 0.1,
+      "portalCrossingEnvelopeRadius": 0.3,
+      "portalInteriorInset": 0.35
+    },
+    "rooms": [
+      {
+        "id": "concept-streaming-desk/room-1",
+        "entry": [
+          2.3,
+          0,
+          1.5
+        ],
+        "entryWorld": [
+          2.3,
+          0,
+          1.5
+        ],
+        "entrySource": "default internal test origin, not a real door",
+        "grid": {
+          "columns": 27,
+          "rows": 19,
+          "reachableCells": 380
+        }
+      }
+    ],
+    "checkedPoints": [
+      {
+        "id": "concept-streaming-desk/station/chair#seat",
+        "facilityId": "concept-streaming-desk/station/chair",
+        "roomId": "concept-streaming-desk/room-1",
+        "capacity": 1,
+        "position": {
+          "local": [
+            -1.06,
+            0,
+            0.09999999999999998
+          ],
+          "world": [
+            -1.06,
+            0,
+            0.09999999999999998
+          ]
+        },
+        "approach": {
+          "local": [
+            -1.06,
+            0,
+            -0.5
+          ],
+          "world": [
+            -1.06,
+            0,
+            -0.5
+          ]
+        },
+        "exit": {
+          "local": [
+            -1.06,
+            0,
+            -0.55
+          ],
+          "world": [
+            -1.06,
+            0,
+            -0.55
+          ]
+        },
+        "approachConnected": true,
+        "exitConnected": true
+      }
+    ],
+    "checkedPortals": [],
+    "warnings": [
+      "C1/C2 static authoring reserve only. Radius 0.25m has no verified C3 character fit.",
+      "0.20m four-neighbour grid and square obstacle expansion are conservative. Narrow or diagonal feasible paths may be rejected.",
+      "Every grid edge, endpoint connector and portal crossing segment is checked continuously against expanded footprints.",
+      "Region boundaries are closed except for declared portals. Same-floor portal and grid connectivity is static conservative admission only.",
+      "Contact meshes, actual door hardware, stairs/lifts, vertical travel and real character navigation remain unverified."
+    ]
+  },
+  "scope": "Static authoring and conservative room passage checks only. Real character navigation, contact and use remain C3 validation."
+}

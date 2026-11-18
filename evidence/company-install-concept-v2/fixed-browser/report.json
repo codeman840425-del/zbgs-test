@@ -1,0 +1,873 @@
+{
+  "build": "fb48b2e64a8b",
+  "status": "passed",
+  "candidates": [
+    {
+      "instanceId": "company-space-v2-parallel/ground/live/camera-mount-desk-clamp",
+      "parentId": "company-space-v2-parallel/ground/live/station-1/desk",
+      "sceneParentId": "company-space-v2-parallel/ground/live/station-1/desk",
+      "resource": {
+        "id": "camera-mount-desk-clamp",
+        "version": 1,
+        "mount": "desk-edge-clamp",
+        "parent": "desk.edge",
+        "assetSha256": "4016001a068569a03e1bf29e65ec58ebe9bd6ebe2c76939e0abdab43fc718e9c"
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.5075
+        ],
+        "yaw": 0
+      },
+      "mounted": true,
+      "visualVisible": true,
+      "worldMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        -1.3,
+        0.84,
+        -1.9074999999999998,
+        1
+      ],
+      "geometryHash": "accd47f4127966933f37468a9ad4e8f46d2ced72bcc02228e2325d9a918f2f8b",
+      "meshCount": 11,
+      "targetId": "company-space-v2-parallel/ground/live/station-1/desk:camera-mount",
+      "screenshot": "camera-mount-desk-clamp.png"
+    },
+    {
+      "instanceId": "company-space-v2-parallel/ground/live/camera-mount-articulated-arm",
+      "parentId": "company-space-v2-parallel/ground/live/station-2/desk",
+      "sceneParentId": "company-space-v2-parallel/ground/live/station-2/desk",
+      "resource": {
+        "id": "camera-mount-articulated-arm",
+        "version": 1,
+        "mount": "desk-edge-clamp",
+        "parent": "desk.edge",
+        "assetSha256": "debd7d12b6431266ad755fd831eca8d12b84b689ca7c681988e45eac8c70507e"
+      },
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.5075
+        ],
+        "yaw": 0
+      },
+      "mounted": true,
+      "visualVisible": true,
+      "worldMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1.3,
+        0.84,
+        -1.9074999999999998,
+        1
+      ],
+      "geometryHash": "678e1b82c6af44efe937e78cd56519631b66bd24bc726b195d0624af505a3620",
+      "meshCount": 14,
+      "targetId": "company-space-v2-parallel/ground/live/station-2/desk:camera-mount",
+      "screenshot": "camera-mount-articulated-arm.png"
+    },
+    {
+      "instanceId": "company-space-v2-parallel/ground/live/camera-mount-tripod",
+      "parentId": "company-space-v2-parallel/ground/live",
+      "sceneParentId": "company-space-v2-parallel/ground/live",
+      "resource": {
+        "id": "camera-mount-tripod",
+        "version": 1,
+        "mount": "floor-surface",
+        "parent": "room.floor",
+        "assetSha256": "a61d4184e73fbf251b09894ab9841fd67b717bf0350bc50115342ab867859a37"
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "mounted": true,
+      "visualVisible": true,
+      "worldMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "geometryHash": "caed3d776341d298bd0e505c103104a2e7999f614a162877bd20962aab146824",
+      "meshCount": 13,
+      "targetId": "company-space-v2-parallel/ground/live:floor",
+      "screenshot": "camera-mount-tripod.png"
+    },
+    {
+      "instanceId": "company-space-v2-parallel/ground/live/camera-mount-wall-arm",
+      "parentId": "company-space-v2-parallel/ground/live",
+      "sceneParentId": "company-space-v2-parallel/ground/live",
+      "resource": {
+        "id": "camera-mount-wall-arm",
+        "version": 1,
+        "mount": "wall",
+        "parent": "room.wall",
+        "assetSha256": "6061dc14174640245565ebfa159a8bd1ad81ea76c907253ef6813f09072e68b4"
+      },
+      "transform": {
+        "position": [
+          0,
+          1.4,
+          -2.9
+        ],
+        "yaw": 0
+      },
+      "mounted": true,
+      "visualVisible": true,
+      "worldMatrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1.4,
+        -2.9,
+        1
+      ],
+      "geometryHash": "bfa92df24964749dca0f2b2cfffff90905967fa441a3d1eb4560223186c78651",
+      "meshCount": 12,
+      "targetId": "company-space-v2-parallel/ground/live:wall:north",
+      "screenshot": "camera-mount-wall-arm.png"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Four distinct camera GLBs installed through the company room add panel",
+      "status": "passed",
+      "documentId": "company-space-v2-parallel"
+    },
+    {
+      "name": "Compatible replacement in both directions preserves instance, parent, transform and mounted state",
+      "status": "passed",
+      "replacements": [
+        {
+          "choices": [
+            "camera-mount-articulated-arm@1",
+            "camera-mount-desk-clamp@1"
+          ],
+          "before": {
+            "instanceId": "company-space-v2-parallel/ground/live/camera-mount-desk-clamp",
+            "parentId": "company-space-v2-parallel/ground/live/station-1/desk",
+            "sceneParentId": "company-space-v2-parallel/ground/live/station-1/desk",
+            "resource": {
+              "id": "camera-mount-desk-clamp",
+              "version": 1,
+              "mount": "desk-edge-clamp",
+              "parent": "desk.edge",
+              "assetSha256": "4016001a068569a03e1bf29e65ec58ebe9bd6ebe2c76939e0abdab43fc718e9c"
+            },
+            "transform": {
+              "position": [
+                0,
+                0.84,
+                -0.5075
+              ],
+              "yaw": 0
+            },
+            "mounted": false,
+            "visualVisible": false,
+            "worldMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -1.3,
+              0.84,
+              -1.9074999999999998,
+              1
+            ],
+            "geometryHash": "accd47f4127966933f37468a9ad4e8f46d2ced72bcc02228e2325d9a918f2f8b",
+            "meshCount": 11
+          },
+          "after": {
+            "instanceId": "company-space-v2-parallel/ground/live/camera-mount-desk-clamp",
+            "parentId": "company-space-v2-parallel/ground/live/station-1/desk",
+            "sceneParentId": "company-space-v2-parallel/ground/live/station-1/desk",
+            "resource": {
+              "id": "camera-mount-articulated-arm",
+              "version": 1,
+              "mount": "desk-edge-clamp",
+              "parent": "desk.edge",
+              "assetSha256": "debd7d12b6431266ad755fd831eca8d12b84b689ca7c681988e45eac8c70507e"
+            },
+            "transform": {
+              "position": [
+                0,
+                0.84,
+                -0.5075
+              ],
+              "yaw": 0
+            },
+            "mounted": false,
+            "visualVisible": false,
+            "worldMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -1.3,
+              0.84,
+              -1.9074999999999998,
+              1
+            ],
+            "geometryHash": "678e1b82c6af44efe937e78cd56519631b66bd24bc726b195d0624af505a3620",
+            "meshCount": 14
+          }
+        },
+        {
+          "choices": [
+            "camera-mount-articulated-arm@1",
+            "camera-mount-desk-clamp@1"
+          ],
+          "before": {
+            "instanceId": "company-space-v2-parallel/ground/live/camera-mount-articulated-arm",
+            "parentId": "company-space-v2-parallel/ground/live/station-2/desk",
+            "sceneParentId": "company-space-v2-parallel/ground/live/station-2/desk",
+            "resource": {
+              "id": "camera-mount-articulated-arm",
+              "version": 1,
+              "mount": "desk-edge-clamp",
+              "parent": "desk.edge",
+              "assetSha256": "debd7d12b6431266ad755fd831eca8d12b84b689ca7c681988e45eac8c70507e"
+            },
+            "transform": {
+              "position": [
+                0,
+                0.84,
+                -0.5075
+              ],
+              "yaw": 0
+            },
+            "mounted": true,
+            "visualVisible": true,
+            "worldMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              1.3,
+              0.84,
+              -1.9074999999999998,
+              1
+            ],
+            "geometryHash": "678e1b82c6af44efe937e78cd56519631b66bd24bc726b195d0624af505a3620",
+            "meshCount": 14
+          },
+          "after": {
+            "instanceId": "company-space-v2-parallel/ground/live/camera-mount-articulated-arm",
+            "parentId": "company-space-v2-parallel/ground/live/station-2/desk",
+            "sceneParentId": "company-space-v2-parallel/ground/live/station-2/desk",
+            "resource": {
+              "id": "camera-mount-desk-clamp",
+              "version": 1,
+              "mount": "desk-edge-clamp",
+              "parent": "desk.edge",
+              "assetSha256": "4016001a068569a03e1bf29e65ec58ebe9bd6ebe2c76939e0abdab43fc718e9c"
+            },
+            "transform": {
+              "position": [
+                0,
+                0.84,
+                -0.5075
+              ],
+              "yaw": 0
+            },
+            "mounted": true,
+            "visualVisible": true,
+            "worldMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              1.3,
+              0.84,
+              -1.9074999999999998,
+              1
+            ],
+            "geometryHash": "accd47f4127966933f37468a9ad4e8f46d2ced72bcc02228e2325d9a918f2f8b",
+            "meshCount": 11
+          }
+        }
+      ]
+    },
+    {
+      "name": "Both desk and room movement carry the appropriate installed mounts",
+      "status": "passed",
+      "parentMoves": [
+        {
+          "parentId": "company-space-v2-parallel/ground/live/station-2",
+          "transform": {
+            "position": [
+              1.42,
+              0,
+              -0.42
+            ],
+            "yaw": 0
+          },
+          "movements": [
+            {
+              "instanceId": "company-space-v2-parallel/ground/live/camera-mount-desk-clamp",
+              "expected": [
+                0,
+                0,
+                0
+              ],
+              "actual": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "instanceId": "company-space-v2-parallel/ground/live/camera-mount-articulated-arm",
+              "expected": [
+                0.12,
+                0,
+                0.08
+              ],
+              "actual": [
+                0.11999999999999988,
+                0,
+                0.07999999999999963
+              ]
+            },
+            {
+              "instanceId": "company-space-v2-parallel/ground/live/camera-mount-tripod",
+              "expected": [
+                0,
+                0,
+                0
+              ],
+              "actual": [
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "instanceId": "company-space-v2-parallel/ground/live/camera-mount-wall-arm",
+              "expected": [
+                0,
+                0,
+                0
+              ],
+              "actual": [
+                0,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "parentId": "company-space-v2-parallel/ground/live",
+          "transform": {
+            "position": [
+              0.12,
+              0,
+              0.08
+            ],
+            "yaw": 0
+          },
+          "movements": [
+            {
+              "instanceId": "company-space-v2-parallel/ground/live/camera-mount-desk-clamp",
+              "expected": [
+                0.12,
+                0,
+                0.08
+              ],
+              "actual": [
+                0.11999999999999988,
+                0,
+                0.07999999999999963
+              ]
+            },
+            {
+              "instanceId": "company-space-v2-parallel/ground/live/camera-mount-articulated-arm",
+              "expected": [
+                0.12,
+                0,
+                0.08
+              ],
+              "actual": [
+                0.1200000000000001,
+                0,
+                0.08000000000000007
+              ]
+            },
+            {
+              "instanceId": "company-space-v2-parallel/ground/live/camera-mount-tripod",
+              "expected": [
+                0.12,
+                0,
+                0.08
+              ],
+              "actual": [
+                0.12,
+                0,
+                0.08
+              ]
+            },
+            {
+              "instanceId": "company-space-v2-parallel/ground/live/camera-mount-wall-arm",
+              "expected": [
+                0.12,
+                0,
+                0.08
+              ],
+              "actual": [
+                0.12,
+                0,
+                0.08000000000000007
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "All four imported scene visuals follow mounted state in both directions",
+      "status": "passed",
+      "visibility": [
+        {
+          "instanceId": "company-space-v2-parallel/ground/live/camera-mount-desk-clamp",
+          "off": {
+            "mounted": false,
+            "visualVisible": false
+          },
+          "on": {
+            "mounted": true,
+            "visualVisible": true
+          }
+        },
+        {
+          "instanceId": "company-space-v2-parallel/ground/live/camera-mount-articulated-arm",
+          "off": {
+            "mounted": false,
+            "visualVisible": false
+          },
+          "on": {
+            "mounted": true,
+            "visualVisible": true
+          }
+        },
+        {
+          "instanceId": "company-space-v2-parallel/ground/live/camera-mount-tripod",
+          "off": {
+            "mounted": false,
+            "visualVisible": false
+          },
+          "on": {
+            "mounted": true,
+            "visualVisible": true
+          }
+        },
+        {
+          "instanceId": "company-space-v2-parallel/ground/live/camera-mount-wall-arm",
+          "off": {
+            "mounted": false,
+            "visualVisible": false
+          },
+          "on": {
+            "mounted": true,
+            "visualVisible": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Incompatible appearances and invalid moves leave scene, document and persisted save intact",
+      "status": "passed",
+      "rejections": [
+        {
+          "operation": {
+            "type": "replace-resource",
+            "id": "company-space-v2-parallel/ground/live/camera-mount-desk-clamp",
+            "resource": {
+              "id": "camera-mount-tripod",
+              "version": 1
+            }
+          },
+          "code": "incompatible-replacement",
+          "documentUnchanged": true,
+          "storageUnchanged": true,
+          "sceneUnchanged": true
+        },
+        {
+          "operation": {
+            "type": "replace-resource",
+            "id": "company-space-v2-parallel/ground/live/camera-mount-desk-clamp",
+            "resource": {
+              "id": "camera-mount-wall-arm",
+              "version": 1
+            }
+          },
+          "code": "incompatible-replacement",
+          "documentUnchanged": true,
+          "storageUnchanged": true,
+          "sceneUnchanged": true
+        },
+        {
+          "operation": {
+            "type": "move",
+            "id": "company-space-v2-parallel/ground/live/camera-mount-desk-clamp",
+            "transform": {
+              "position": [
+                9,
+                0,
+                9
+              ],
+              "yaw": 0
+            }
+          },
+          "code": "invalid-camera-mount-fit",
+          "documentUnchanged": true,
+          "storageUnchanged": true,
+          "sceneUnchanged": true
+        },
+        {
+          "operation": {
+            "type": "move",
+            "id": "company-space-v2-parallel/ground/live/camera-mount-articulated-arm",
+            "transform": {
+              "position": [
+                9,
+                0,
+                9
+              ],
+              "yaw": 0
+            }
+          },
+          "code": "invalid-camera-mount-fit",
+          "documentUnchanged": true,
+          "storageUnchanged": true,
+          "sceneUnchanged": true
+        },
+        {
+          "operation": {
+            "type": "move",
+            "id": "company-space-v2-parallel/ground/live/camera-mount-tripod",
+            "transform": {
+              "position": [
+                9,
+                0,
+                9
+              ],
+              "yaw": 0
+            }
+          },
+          "code": "invalid-floor-fit",
+          "documentUnchanged": true,
+          "storageUnchanged": true,
+          "sceneUnchanged": true
+        },
+        {
+          "operation": {
+            "type": "move",
+            "id": "company-space-v2-parallel/ground/live/camera-mount-wall-arm",
+            "transform": {
+              "position": [
+                9,
+                0,
+                9
+              ],
+              "yaw": 0
+            }
+          },
+          "code": "invalid-wall-fit",
+          "documentUnchanged": true,
+          "storageUnchanged": true,
+          "sceneUnchanged": true
+        }
+      ]
+    },
+    {
+      "name": "Persistent Chromium profile reopened after shutdown and automatically restored the saved company",
+      "status": "passed",
+      "profile": "profile-uL2ZVc",
+      "documentId": "company-space-v2-parallel",
+      "revision": 19,
+      "documentSha256": "1324147d169882da944828e31f7a93f48891ad3573cb59bbc8d3f106203484f2",
+      "instances": [
+        {
+          "instanceId": "company-space-v2-parallel/ground/live/camera-mount-desk-clamp",
+          "parentId": "company-space-v2-parallel/ground/live/station-1/desk",
+          "sceneParentId": "company-space-v2-parallel/ground/live/station-1/desk",
+          "resource": {
+            "id": "camera-mount-articulated-arm",
+            "version": 1,
+            "mount": "desk-edge-clamp",
+            "parent": "desk.edge",
+            "assetSha256": "debd7d12b6431266ad755fd831eca8d12b84b689ca7c681988e45eac8c70507e"
+          },
+          "transform": {
+            "position": [
+              0,
+              0.84,
+              -0.5075
+            ],
+            "yaw": 0
+          },
+          "mounted": false,
+          "visualVisible": false,
+          "worldMatrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            -1.1800000000000002,
+            0.84,
+            -1.8275000000000001,
+            1
+          ],
+          "geometryHash": "678e1b82c6af44efe937e78cd56519631b66bd24bc726b195d0624af505a3620",
+          "meshCount": 14
+        },
+        {
+          "instanceId": "company-space-v2-parallel/ground/live/camera-mount-articulated-arm",
+          "parentId": "company-space-v2-parallel/ground/live/station-2/desk",
+          "sceneParentId": "company-space-v2-parallel/ground/live/station-2/desk",
+          "resource": {
+            "id": "camera-mount-desk-clamp",
+            "version": 1,
+            "mount": "desk-edge-clamp",
+            "parent": "desk.edge",
+            "assetSha256": "4016001a068569a03e1bf29e65ec58ebe9bd6ebe2c76939e0abdab43fc718e9c"
+          },
+          "transform": {
+            "position": [
+              0,
+              0.84,
+              -0.5075
+            ],
+            "yaw": 0
+          },
+          "mounted": true,
+          "visualVisible": true,
+          "worldMatrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1.54,
+            0.84,
+            -1.7475,
+            1
+          ],
+          "geometryHash": "accd47f4127966933f37468a9ad4e8f46d2ced72bcc02228e2325d9a918f2f8b",
+          "meshCount": 11
+        },
+        {
+          "instanceId": "company-space-v2-parallel/ground/live/camera-mount-tripod",
+          "parentId": "company-space-v2-parallel/ground/live",
+          "sceneParentId": "company-space-v2-parallel/ground/live",
+          "resource": {
+            "id": "camera-mount-tripod",
+            "version": 1,
+            "mount": "floor-surface",
+            "parent": "room.floor",
+            "assetSha256": "a61d4184e73fbf251b09894ab9841fd67b717bf0350bc50115342ab867859a37"
+          },
+          "transform": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0
+          },
+          "mounted": false,
+          "visualVisible": false,
+          "worldMatrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0.12,
+            0,
+            0.08,
+            1
+          ],
+          "geometryHash": "caed3d776341d298bd0e505c103104a2e7999f614a162877bd20962aab146824",
+          "meshCount": 13
+        },
+        {
+          "instanceId": "company-space-v2-parallel/ground/live/camera-mount-wall-arm",
+          "parentId": "company-space-v2-parallel/ground/live",
+          "sceneParentId": "company-space-v2-parallel/ground/live",
+          "resource": {
+            "id": "camera-mount-wall-arm",
+            "version": 1,
+            "mount": "wall",
+            "parent": "room.wall",
+            "assetSha256": "6061dc14174640245565ebfa159a8bd1ad81ea76c907253ef6813f09072e68b4"
+          },
+          "transform": {
+            "position": [
+              0,
+              1.4,
+              -2.9
+            ],
+            "yaw": 0
+          },
+          "mounted": true,
+          "visualVisible": true,
+          "worldMatrix": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0.12,
+            1.4,
+            -2.82,
+            1
+          ],
+          "geometryHash": "bfa92df24964749dca0f2b2cfffff90905967fa441a3d1eb4560223186c78651",
+          "meshCount": 12
+        }
+      ],
+      "screenshot": "restored.png"
+    },
+    {
+      "name": "Legacy clamp recovery requires explicit UI consent and save, and still rejects an incorrect pinned dependency",
+      "status": "passed",
+      "instanceId": "company-space-v2-parallel/ground/live/camera-mount-desk-clamp",
+      "from": [
+        0.2,
+        0.84,
+        -0.1
+      ],
+      "to": [
+        0.2,
+        0.84,
+        -0.5075
+      ],
+      "resource": {
+        "id": "camera-mount-articulated-arm",
+        "version": 1,
+        "mount": "desk-edge-clamp",
+        "parent": "desk.edge",
+        "assetSha256": "debd7d12b6431266ad755fd831eca8d12b84b689ca7c681988e45eac8c70507e"
+      },
+      "recoveryLabel": "将旧方案的 1 个桌夹对齐桌边并载入",
+      "rejection": "存档需要的素材版本与当前素材不一致。当前有效方案已保留。"
+    }
+  ],
+  "limits": [
+    "SwiftShader 浏览器预览。真实摄像机行为、推流、普通电脑性能和真实角色 C3 未在本次验证。"
+  ]
+}

@@ -1,0 +1,23 @@
+双屏工位与相机支架安装
+固定源码 732d7d92f66b470c6ea35d15a84ed9df966721a4
+构建 fb48b2e64a8b
+独立目录 F:/gamemake-company-camera-install-delivery-v2
+预览 http://127.0.0.1:62080/?layout=conceptStudio
+
+布局数据在 data/layout.json，带资源与模板摘要的存档在 data/save.json。布局引用 11 种已有模型，吸音板沿用从概念图制作的纹理资源。本次生产物是可编辑工位组合。角色行为和最终美术观感留待各自验收。
+
+在交付目录运行
+node edit.mjs validate data/save.json
+node source/scripts/company-platform/apply-style-recipe.mjs data/layout.json source/scripts/company-platform/style-recipes/warm-live.json warm-room.json
+node source/scripts/company-platform/apply-style-recipe.mjs data/layout.json source/scripts/company-platform/style-recipes/cool-work.json cool-room.json
+node edit.mjs validate warm-room.json
+node edit.mjs validate cool-room.json
+两次输出保留原公司及物品身份，用于同一布局外观比较。输出文件需使用新路径。人工预览可在文件菜单加载任一布局。
+
+在独立包 source/prototype 下运行 npm ci、node scripts/build-company-id.mjs、node node_modules/vite/bin/vite.js build --config vite.company.config.js，然后切换到 source 运行
+node scripts/company-platform/test-camera-mount-data.mjs
+node scripts/company-platform/build-library.mjs --check
+node scripts/company-platform/qa-camera-mount-preview.cjs prototype/dist-company fb48b2e64a8b NEW_BROWSER_OUTPUT
+node scripts/company-platform/record-camera-mount-preview.cjs prototype/dist-company fb48b2e64a8b NEW_RECORDING_OUTPUT
+
+桌夹和悬臂属于同一桌边安装规格，三脚架装在地面，墙臂装在墙上。仅前两者可直接互换。旧版桌夹的资源摘要仍须匹配，用户显式更新位置后可决定是否保存。软件渲染下完成安装、保存、重开及失败保旧验证。目标设备性能与人物实测待验证。
