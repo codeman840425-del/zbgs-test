@@ -44,7 +44,7 @@ export const appearanceBranches=[
  ['storage-shelf','多层开放架'],['tabletop-ornament','台面陈列摆件'],
  ['desk','桌子'],['chair','单人座椅'],['sofa','双人沙发'],['monitor','屏幕'],['fill-light','补光系统'],
  ['camera-device','摄像设备'],['background-display','直播背景'],['headphones-and-stand','耳机与耳机架'],['audio-control','音频控制设备'],['desktop-computer','桌面电脑'],['laptop-computer','笔记本电脑'],
- ['outlet-switch','墙面插座/开关'],
+ ['outlet-switch','墙面插座/开关'],['power-strip','桌面插排'],
  ['keyboard','键盘'],['desk-microphone','桌面麦克风'],['plant','绿植'],['wall-art','挂画'],
  ['floor-panel','地板模块'],['wall-panel','墙面模块'],['door-frame','开放门框'],['window-panel','窗饰模块'],['rug','地毯'],['stream-station','组合直播工位'],
 ];
@@ -57,7 +57,8 @@ const names={'chair-cantilever':'悬臂滑橇椅','chair-pedestal':'中心底盘
  'headphones-arc':'弧形头戴耳机','headphones-cushion':'软垫头戴耳机','headphones-dock':'桌面耳机架','headphones-in-ear':'入耳耳机收纳盒',
  'desktop-tower':'标准塔式主机','desktop-compact':'紧凑塔式主机','desktop-all-in-one':'一体式电脑','desktop-workstation':'工作站主机',
  'slim-laptop':'轻薄本','dual-screen-laptop':'双屏本','rugged-laptop':'加固型笔记本','tablet-laptop':'平板式笔记本',
- 'outlet-switch-outlet-single':'单插座面板','outlet-switch-outlet-multi':'多孔插座面板','outlet-switch-switch-rocker':'翘板开关面板','outlet-switch-control-panel':'墙面控制面板'};
+ 'outlet-switch-outlet-single':'单插座面板','outlet-switch-outlet-multi':'多孔插座面板','outlet-switch-switch-rocker':'翘板开关面板','outlet-switch-control-panel':'墙面控制面板',
+ 'power-strip-desk':'桌面插排','power-strip-underdesk':'桌下插排','power-strip-tower':'塔式插排','power-strip-usb':'USB插排'};
 // Catalog history stays available to saved documents; new authoring choices use one latest version per resource ID.
 export function latestAppearanceVersions(resources){
  const latest=new Map();for(const resource of resources)if(!latest.has(resource.id)||latest.get(resource.id).version<resource.version)latest.set(resource.id,resource);
@@ -68,6 +69,20 @@ export function appearanceCandidates(catalog,branch) {
  const selected=catalog.resources.filter(r=>(r.productionBranch||r.mountRole)===branch&&r.asset&&r.id!=='lounge-sofa');
  if(branch==='sofa')selected.unshift(catalog.resources.find(r=>r.id==='lounge-sofa'&&r.version===1));
  return latestAppearanceVersions(selected.filter(Boolean)).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
+}
+function createPowerStripSample(catalog,templates,{index=0}={}){
+ const strip=appearanceCandidates(catalog,'power-strip')[index],desk=catalog.resources.find(r=>r.id==='desk-trestle'&&r.version===1),monitor=catalog.resources.find(r=>r.id==='monitor-aurora-usb'&&r.version===1),keyboard=catalog.resources.find(r=>r.id==='keyboard-compact-usb'&&r.version===1),single=catalog.resources.find(r=>r.id==='cable-route-single-sleeve'&&r.version===1),dual=catalog.resources.find(r=>r.id==='cable-route-dual-sleeve'&&r.version===1);
+ if(!strip||!desk||!monitor||!keyboard||!single||!dual)throw Error('Power-strip sample requires desk, USB devices and cable resources');
+ let document=createCompany({id:'power-strip-demo',name:'桌面插排 · 四端点连接',width:6,depth:4},catalog);const room=document.nodes[1],parent='power-strip/desk',topY=desk.surface.topY;
+ document=prepareCompanyChange(document,[
+  {type:'add-facility',id:parent,parentId:room.id,resource:{id:desk.id,version:1},transform:{position:[0,0,0],yaw:0}},
+  {type:'add-facility',id:'power-strip/monitor',parentId:parent,resource:{id:monitor.id,version:monitor.version},transform:{position:[-.27,topY,-.4],yaw:0}},
+  {type:'add-facility',id:'power-strip/keyboard',parentId:parent,resource:{id:keyboard.id,version:keyboard.version},transform:{position:[-.03,topY,.26],yaw:0}},
+  {type:'add-facility',id:'power-strip/primary',parentId:parent,resource:{id:strip.id,version:strip.version},transform:{position:[0,topY,0],yaw:0},state:{on:false}},
+  {type:'add-facility',id:'power-strip/cable-monitor',parentId:parent,resource:{id:single.id,version:single.version},transform:identityTransform(),cableLink:{a:{deviceId:'power-strip/primary',portId:'usb-1'},b:{deviceId:'power-strip/monitor',portId:'usb'}}},
+  {type:'add-facility',id:'power-strip/cable-keyboard',parentId:parent,resource:{id:dual.id,version:dual.version},transform:identityTransform(),cableLink:{a:{deviceId:'power-strip/primary',portId:'usb-4'},b:{deviceId:'power-strip/keyboard',portId:'usb'}}},
+ ],{catalog,templates}).document;
+ return{document,target:'power-strip/primary',branch:'power-strip',index,resource:{id:strip.id,version:strip.version}};
 }
 export function createAppearanceSample(branch,index,catalog,templates,options={}) {
  if(branch==='window-opening-and-glass')return createWindowSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
@@ -84,6 +99,7 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
    return sample;
  }
  if(branch==='cable-route')return createCableSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
+ if(branch==='power-strip')return createPowerStripSample(catalog,templates,{index});
  if(branch==='ceiling-acoustic-baffle')return createCeilingAcousticSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
  if(branch==='wall-shelf')return createWallShelfSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
  if(branch==='side-table-life-items')return createSideTableLifeItemsSample(catalog,templates,{index,alternate:Boolean(options.alternate)});
@@ -118,7 +134,7 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
  else {
    const transforms={sofa:[[-2.8,0,1.7],0],chair:[[-2.8,0,1.7],0],'fill-light':[[-2.8,0,1.7],0],plant:[[3.4,0,1.8],0],'wall-art':[[0,1.4,-3.4],0],
      'wall-panel':[[-2,0,-3.4],0],'window-panel':[[2,1.4,-3.4],0],'door-frame':[[0,0,3.4],Math.PI],
-    'floor-panel':[[2,0,-1.5],0],rug:[[0,0,1.8],0], 'camera-device':[[.52,.84,-.02],0], 'desktop-computer':[[-.48,.84,.02],0], 'laptop-computer':[[.34,.84,.08],0], 'background-display':[[0,0,-2.6],0], 'headphones-and-stand':[[.72,.84,.05],0], 'audio-control':[[0,.84,.08],0], 'outlet-switch':[[0,1.35,-3.4],0]};
+     'floor-panel':[[2,0,-1.5],0],rug:[[0,0,1.8],0], 'camera-device':[[.52,.84,-.02],0], 'desktop-computer':[[-.48,.84,.02],0], 'laptop-computer':[[.34,.84,.08],0], 'background-display':[[0,0,-2.6],0], 'headphones-and-stand':[[.72,.84,.05],0], 'audio-control':[[0,.84,.08],0], 'outlet-switch':[[0,1.35,-3.4],0], 'power-strip':[[0,.84,.3],0]};
    const [position,yaw]=transforms[branch];target='sample/object';
    const deskMounted=['camera-device','desktop-computer','laptop-computer','headphones-and-stand','audio-control'].includes(branch);
    const parentId=deskMounted?`${station}/desk`:room.id;

@@ -1,0 +1,190 @@
+{
+  "id": "power-strip-usb",
+  "displayName": "USB插排",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "power-strip",
+  "productionBranch": "power-strip",
+  "mount": "desk-surface",
+  "mounting": {
+    "width": 0.35,
+    "height": 0.04,
+    "depth": 0.06,
+    "origin": "bottom"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Desk contact centre; visual power ports face -Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.175,
+      0.03
+    ],
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": false
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "on": "power-strip-power-display"
+  },
+  "materialSlots": {
+    "body": [
+      "strip-body"
+    ],
+    "accent": [
+      "strip-accent"
+    ],
+    "display": [
+      "status-led"
+    ]
+  },
+  "cablePorts": [
+    {
+      "id": "usb-1",
+      "connector": "usb-c-visual-v1",
+      "position": [
+        -0.12,
+        0.014,
+        -0.03
+      ],
+      "direction": [
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "id": "usb-2",
+      "connector": "usb-c-visual-v1",
+      "position": [
+        -0.04,
+        0.014,
+        -0.03
+      ],
+      "direction": [
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "id": "usb-3",
+      "connector": "usb-c-visual-v1",
+      "position": [
+        0.04,
+        0.014,
+        -0.03
+      ],
+      "direction": [
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "id": "usb-4",
+      "connector": "usb-c-visual-v1",
+      "position": [
+        0.12,
+        0.014,
+        0.03
+      ],
+      "direction": [
+        0,
+        0,
+        1
+      ]
+    }
+  ],
+  "cablePortNodes": {
+    "usb-1": {
+      "frame": [
+        "usb-1-frame-left",
+        "usb-1-frame-right",
+        "usb-1-frame-top",
+        "usb-1-frame-bottom"
+      ],
+      "backing": "strip-body"
+    },
+    "usb-2": {
+      "frame": [
+        "usb-2-frame-left",
+        "usb-2-frame-right",
+        "usb-2-frame-top",
+        "usb-2-frame-bottom"
+      ],
+      "backing": "strip-body"
+    },
+    "usb-3": {
+      "frame": [
+        "usb-3-frame-left",
+        "usb-3-frame-right",
+        "usb-3-frame-top",
+        "usb-3-frame-bottom"
+      ],
+      "backing": "strip-body"
+    },
+    "usb-4": {
+      "frame": [
+        "usb-4-frame-left",
+        "usb-4-frame-right",
+        "usb-4-frame-top",
+        "usb-4-frame-bottom"
+      ],
+      "backing": "strip-body"
+    }
+  },
+  "provenance": {
+    "license": "Project-authored procedural geometry. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "CylinderGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback",
+      "CPU cable-port geometry checks"
+    ],
+    "sourceParameters": "assets-source/company-power-strip-v1/parameters.json",
+    "sourceParametersSha256": "b2f336bc48e55423eedeb4824c808aa25cd6e47a8076b5b105cdd58c017cffe5",
+    "generator": "scripts/company-platform/build-power-strip-collection.mjs",
+    "generatorSha256": "a924111a75ff5605c497e4a8e223b80cedad2ddfcca64615a93f96c4ba91a696",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranch": "power-strip",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "designId": "power-strip-usb",
+    "method": "four-port procedural usb power strip"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/power-strip-v1/power-strip-usb/v1/model.glb",
+    "sha256": "71d4ea21d2f471de1c0c922bae02e433a1a042cd6452af702e7559644f90d560",
+    "bytes": 47800
+  },
+  "display": {
+    "status": {
+      "stateField": "on",
+      "nodes": [
+        "status-led"
+      ],
+      "onColor": "#63e6a5",
+      "offColor": "#273c35",
+      "emissive": "#63e6a5",
+      "onIntensity": 1.2
+    }
+  }
+}

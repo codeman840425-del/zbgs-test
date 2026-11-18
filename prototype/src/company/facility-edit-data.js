@@ -214,13 +214,16 @@ function cableTargets(region,derived,resource){
   const devices=derived.facilities.filter(f=>f.roomId===region.id&&f.resource.cablePorts),result=[];
   for(let i=0;i<devices.length;i++)for(let j=i+1;j<devices.length;j++){
     const a=devices[i],b=devices[j];if(a.node.parentId!==b.node.parentId)continue;
-    const cableLink={a:{deviceId:a.id,portId:'usb'},b:{deviceId:b.id,portId:'usb'}};
-    const id=`${a.id}:cable:${b.id}`,node={id,parentId:a.node.parentId,transform:{position:[0,0,0],yaw:0},cableLink};
-    try{deriveCableConnections({...derived,facilities:[...derived.facilities,{id,node,resource,state:{connected:true}}]},(code,path,message)=>{throw new CompanyError(code,path,message);});}
-    catch(error){if(error instanceof CompanyError)continue;throw error;}
-    result.push(target(id,node.parentId,`${a.resource.displayName||a.id} ↔ ${b.resource.displayName||b.id}`,[0,0,0],0,'parent-device-endpoints',{
-      cableLink,lockedAxes:['x','y','z','yaw'],note:'连接这两个空闲接口；线缆随设备定位，移动或复制请选所属桌子。',
-    }));
+    for(const portA of a.resource.cablePorts)for(const portB of b.resource.cablePorts){
+      if(portA.connector!==portB.connector)continue;
+      const cableLink={a:{deviceId:a.id,portId:portA.id},b:{deviceId:b.id,portId:portB.id}};
+      const id=`${a.id}:cable:${portA.id}:${b.id}:${portB.id}`,node={id,parentId:a.node.parentId,transform:{position:[0,0,0],yaw:0},cableLink};
+      try{deriveCableConnections({...derived,facilities:[...derived.facilities,{id,node,resource,state:{connected:true}}]},(code,path,message)=>{throw new CompanyError(code,path,message);});}
+      catch(error){if(error instanceof CompanyError)continue;throw error;}
+      result.push(target(id,node.parentId,`${a.resource.displayName||a.id} · ${portA.id} ↔ ${b.resource.displayName||b.id} · ${portB.id}`,[0,0,0],0,'parent-device-endpoints',{
+        cableLink,lockedAxes:['x','y','z','yaw'],note:'连接两个空闲视觉端点；线缆随所属桌子定位，移动或复制请选所属桌子。',
+      }));
+    }
   }
   return result;
 }

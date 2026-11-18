@@ -9,16 +9,20 @@ const EPS=1e-5;
 export function validateCableResource(r,fail,path=r.id){
   if(r.cablePorts!==undefined||r.cablePortNodes!==undefined){
     const ports=r.cablePorts;
-    if(r.mount!=='desk-surface'||!Array.isArray(ports)||ports.length!==1||!object(r.cablePortNodes))fail('invalid-cable-ports',path,'Static desk devices require one explicit visual connector');
+    const isPowerStrip=r.mountRole==='power-strip'&&r.productionBranch==='power-strip';
+    const expectedPortIds=isPowerStrip?['usb-1','usb-2','usb-3','usb-4']:['usb'];
+    if(r.mount!=='desk-surface'||!Array.isArray(ports)||ports.length!==expectedPortIds.length||!object(r.cablePortNodes))fail('invalid-cable-ports',path,isPowerStrip?'Power strips require four explicit visual connectors':'Static desk devices require one explicit visual connector');
     for(const p of ports){
-      if(!object(p)||Object.keys(p).some(k=>!['id','connector','position','direction'].includes(k))||p.id!=='usb'||p.connector!=='usb-c-visual-v1'||!vector(p.position)||!vector(p.direction)||
-        p.position.some(v=>Math.abs(v)>1)||Math.abs(p.position[1]-.014)>EPS||p.direction[1]!==0||Math.abs(p.direction[0])+Math.abs(p.direction[2])!==1||!p.direction.every(v=>[-1,0,1].includes(v)))
-        fail('invalid-cable-ports',path,'Expected the fixed horizontal visual USB connector contract');
+      const validId=isPowerStrip?expectedPortIds.includes(p?.id):p?.id==='usb';
+      const expectedY=.014;
+      if(!object(p)||Object.keys(p).some(k=>!['id','connector','position','direction'].includes(k))||!validId||p.connector!=='usb-c-visual-v1'||!vector(p.position)||!vector(p.direction)||
+        p.position.some(v=>Math.abs(v)>1)||Math.abs(p.position[1]-expectedY)>EPS||p.direction[1]!==0||Math.abs(p.direction[0])+Math.abs(p.direction[2])!==1||!p.direction.every(v=>[-1,0,1].includes(v)))
+        fail('invalid-cable-ports',path,isPowerStrip?'Expected four fixed horizontal visual power-strip connectors':'Expected the fixed horizontal visual USB connector contract');
       const binding=r.cablePortNodes[p.id];
       if(!object(binding)||!Array.isArray(binding.frame)||binding.frame.length!==4||new Set(binding.frame).size!==4||binding.frame.some(n=>typeof n!=='string'||!n)||typeof binding.backing!=='string'||!binding.backing)
         fail('invalid-cable-ports',path,'A connector requires four real frame meshes and a backing mesh');
     }
-    if(Object.keys(r.cablePortNodes).length!==1||r.movingParts)fail('invalid-cable-ports',path,'This connector profile is static');
+    if(JSON.stringify(Object.keys(r.cablePortNodes).sort())!==JSON.stringify(expectedPortIds)||r.movingParts)fail('invalid-cable-ports',path,'Connector mappings must match the fixed port list and remain static');
   }
   const isCable=r.mount==='parent-device-endpoints'||r.mountRole==='cable-route'||r.cableConnection!==undefined;
   if(!isCable)return;

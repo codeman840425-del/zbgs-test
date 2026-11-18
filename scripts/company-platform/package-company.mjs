@@ -206,6 +206,16 @@ const extraFiles=[
   'assets-source/company-outlet-switch-v1/parameters.json',
   'assets-source/company-outlet-switch-v1/designs.mjs',
   'assets-source/company-outlet-switch-v1/collection.json',
+  'docs/research/COMPANY-POWER-STRIP-CONTRACT-v1.txt',
+  'assets-source/company-environment-specs-v1/branches.json',
+  'assets-source/company-power-strip-v1/parameters.json',
+  'assets-source/company-power-strip-v1/designs.mjs',
+  'assets-source/company-power-strip-v1/collection.json',
+  'scripts/company-platform/build-power-strip-collection.mjs',
+  'scripts/company-platform/register-power-strip.mjs',
+  'scripts/company-platform/test-power-strip-data.mjs',
+  'scripts/company-platform/qa-power-strip-preview.cjs',
+  'scripts/company-platform/record-power-strip-preview.cjs',
   'prototype/scripts/build-id.mjs',
 ];
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "company-power-strip-v1",
+  "license": "Project-authored procedural geometry. No external art assets.",
+  "units": "metres",
+  "target": {
+    "mount": "desk-surface",
+    "mountRole": "power-strip",
+    "width": 0.35,
+    "height": 0.04,
+    "depth": 0.06,
+    "portIds": ["usb-1", "usb-2", "usb-3", "usb-4"],
+    "portConnector": "usb-c-visual-v1",
+    "portDirections": [[0, 0, -1], [0, 0, -1], [0, 0, -1], [0, 0, 1]],
+    "portY": 0.014,
+    "portZs": [-0.03, -0.03, -0.03, 0.03]
+  },
+  "sourceAssets": [
+    {"id": "power-strip-desk", "label": "桌面插排", "accent": "#7eb6d7", "style": "desk"},
+    {"id": "power-strip-underdesk", "label": "桌下插排", "accent": "#c69b6d", "style": "underdesk"},
+    {"id": "power-strip-tower", "label": "塔式插排", "accent": "#9e9ad8", "style": "tower"},
+    {"id": "power-strip-usb", "label": "USB插排", "accent": "#71c28d", "style": "usb"}
+  ],
+  "limitations": [
+    "Visual power endpoints only. No electrical simulation or USB communication.",
+    "Cables remain bounded visual links with explicit endpoint references."
+  ]
+}
