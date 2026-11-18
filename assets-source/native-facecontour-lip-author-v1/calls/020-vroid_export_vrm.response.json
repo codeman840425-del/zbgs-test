@@ -1,0 +1,73 @@
+{
+  "request": {
+    "method": "tools/call",
+    "params": {
+      "name": "vroid_export_vrm",
+      "arguments": {
+        "version": "1",
+        "title": "Native female parameter batch",
+        "author": "gamemake technical study",
+        "model_version": "facecontour-batch-v1",
+        "delete_transparent": false,
+        "hair_smoothness": 0,
+        "hair": 0,
+        "face": 0,
+        "body": 0,
+        "outfit": 0,
+        "material_mode": 0,
+        "texture_mode": 0,
+        "hair_bones": 0,
+        "leave": true,
+        "path": "F:\\gamemake\\assets-source\\native-facecontour-lip-author-v1\\generated\\original-lip.vrm"
+      }
+    }
+  },
+  "responses": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "protocolVersion": "2025-06-18",
+        "capabilities": {
+          "tools": {},
+          "prompts": {},
+          "resources": {}
+        },
+        "serverInfo": {
+          "name": "vroid-studio",
+          "version": "0.15.0"
+        },
+        "instructions": "VRoid Studio MCP. Tool names and arguments are English. Call vroid_help('overview') before a complex task; vroid_help supports lang=en|fr|ja|zh-CN. VRoid Studio must be running with the bridge loaded. Only one model can be open at a time. Call vroid_status first. Save before vroid_main_menu, vroid_open or vroid_create. For visual work, use vroid_screenshot. For preset discovery, use vroid_preset_cache_search before applying presets. For sequences, use vroid_batch (up to 200 sequential operations, no automatic rollback). Do not assume that one preset replaces only one slot: whole outfits can replace several slots; verify with vroid_list_groups. Thumbnail generation strips all clothes, underwear and hair except the tested item. An English Agent Reference is exposed as MCP resources: vroid://agent/reference (full), plus vroid://agent/start, face, hairstyle, body, outfit, accessories, look, physical, presets, tools, workflows and troubleshooting. Read only the section needed; tools/list stays the authoritative schema list. MCP prompts: start (open a working session), character (build a character from a description), export_vrm (full/balanced/light VRM export), help. Reply in the user's language; never overwrite the user's .vroid file or discard changes without asking."
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n \"ok\": true,\n \"path\": \"F:\\\\gamemake\\\\assets-source\\\\native-facecontour-lip-author-v1\\\\generated\\\\original-lip.vrm\",\n \"version\": \"1.0\",\n \"bytes\": 16322696,\n \"elapsedSec\": 7,\n \"leftExportScreen\": true,\n \"warnings\": [],\n \"settings\": {\n  \"meshErasure\": false,\n  \"hairCrossSection\": false,\n  \"hairSmoothness\": 0,\n  \"hair\": 0,\n  \"face\": 0,\n  \"body\": 0,\n  \"outfit\": 0,\n  \"hairBones\": 0,\n  \"combineHair\": true,\n  \"materialMode\": 0,\n  \"textureMode\": 0,\n  \"atlasResolution\": 0,\n  \"materialModes\": [\n   {\n    \"index\": 0,\n    \"name\": \"不删减\",\n    \"value\": \"None\"\n   },\n   {\n    \"index\": 1,\n    \"name\": \"2\",\n    \"value\": \"High\"\n   },\n   {\n    \"index\": 2,\n    \"name\": \"8\",\n    \"value\": \"Medium\"\n   },\n   {\n    \"index\": 3,\n    \"name\": \"12\",\n    \"value\": \"Low\"\n   }\n  ],\n  \"textureModes\": [\n   {\n    \"index\": 0,\n    \"name\": \"原创\",\n    \"value\": \"Original\"\n   },\n   {\n    \"index\": 1,\n    \"name\": \"缩小\",\n    \"value\": \"Shrinked\"\n   }\n  ],\n  \"atlasResolutions\": [\n   {\n    \"index\": 0,\n    \"name\": \"4096 × 4096\",\n    \"value\": \"Resolution_4K\"\n   },\n   {\n    \"index\": 1,\n    \"name\": \"2048 × 2048\",\n    \"value\": \"Resolution_2K\"\n   }\n  ],\n  \"vrm1Meta\": {\n   \"name\": \"Native female parameter batch\",\n   \"version\": \"facecontour-batch-v1\",\n   \"authors\": \"gamemake technical study\"\n  },\n  \"vrm0Meta\": {\n   \"title\": \"\",\n   \"version\": \"\",\n   \"author\": \"\"\n  }\n }\n}"
+          }
+        ],
+        "isError": false
+      }
+    }
+  ],
+  "wallSeconds": 26.065258700000413,
+  "exitCode": 0,
+  "stderr": "",
+  "images": [],
+  "ok": true,
+  "failures": [],
+  "rawStdout": {
+    "path": "020-vroid_export_vrm.response.json.stdout.bin",
+    "bytes": 3195,
+    "sha256": "b76b03070a97702d304215823aa2a043cfc48e965b9afb86c3963c5164968efa"
+  },
+  "rawStderr": {
+    "path": "020-vroid_export_vrm.response.json.stderr.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
