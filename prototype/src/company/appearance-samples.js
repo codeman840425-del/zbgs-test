@@ -20,6 +20,7 @@ import {createSideTableLifeItemsSample} from './side-table-life-items-samples.js
 import {createCeilingAcousticSample} from './ceiling-acoustic-samples.js';
 import {createWallShelfSample} from './wall-shelf-samples.js';
 import {createCableSample} from './cable-samples.js';
+import {resolveWorkstationLook,workstationLooks,workstationLookOperations} from './workstation-looks.js';
 export const appearanceBranches=[
  ['window-opening-and-glass','窗体与真实洞口'],
  ['window-cover','窗体覆盖（帘/卷帘/百叶）'],
@@ -67,7 +68,7 @@ export function latestAppearanceVersions(resources){
  return [...latest.values()];
 }
 export function appearanceCandidates(catalog,branch) {
- if(branch==='stream-station')return [0,1,2,3].map(i=>({id:`station-look-${i+1}`,version:1,displayName:['横梁与悬臂','双柱与转椅','侧柜与栅背','金属框与交叉椅'][i]}));
+ if(branch==='stream-station')return workstationLooks.map(({id,version,displayName})=>({id,version,displayName}));
  const selected=catalog.resources.filter(r=>(r.productionBranch||r.mountRole)===branch&&r.asset&&r.id!=='lounge-sofa');
  if(branch==='sofa')selected.unshift(catalog.resources.find(r=>r.id==='lounge-sofa'&&r.version===1));
  return latestAppearanceVersions(selected.filter(Boolean)).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
@@ -140,12 +141,16 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
  floor.connections=[{id:`${doc.id}/entry`,from:{regionId:room.id,edge:'south',offset:0,width:1.4},to:{regionId:area,edge:'north',offset:0,width:1.4}}];
  doc.nodes.push({id:area,kind:'area',parentId:floor.id,name:'公共入口',bounds:{width:9,depth:3},transform:{position:[0,0,5],yaw:0}});
  const station='sample/station',ops=[{type:'add-workstation',id:station,parentId:room.id,template:{id:'stream-station',version:1},transform:identityTransform()}];
+ if(branch==='stream-station'){
+   doc=prepareCompanyChange(doc,ops,{catalog,templates}).document;
+   const resource={id:selected.id,version:selected.version},recipe=resolveWorkstationLook(resource);
+   const replacements=workstationLookOperations(doc,station,recipe,catalog,templates);
+   if(replacements.length)doc=prepareCompanyChange(doc,replacements,{catalog,templates}).document;
+   return {document:doc,target:station,branch,index,resource};
+ }
  const partKeys={'desk':'desk','chair':'chair','monitor':'monitor','keyboard':'keyboard','desk-microphone':'microphone','fill-light':'fill-light'};
  let target;
- if(branch==='stream-station'){
-   for(const [key,part]of Object.entries(partKeys)){const resource=appearanceCandidates(catalog,key)[index];if(!resource)throw Error(`Incomplete workstation look: ${key}[${index}]`);ops.push({type:'replace-resource',id:`${station}/${part}`,resource:{id:resource.id,version:resource.version}});}
-   target=station;
- }else if(partKeys[branch]&&!['chair','fill-light'].includes(branch)){target=`${station}/${partKeys[branch]}`;ops.push({type:'replace-resource',id:target,resource:{id:selected.id,version:selected.version}});}
+ if(partKeys[branch]&&!['chair','fill-light'].includes(branch)){target=`${station}/${partKeys[branch]}`;ops.push({type:'replace-resource',id:target,resource:{id:selected.id,version:selected.version}});}
  else {
    const transforms={sofa:[[-2.8,0,1.7],0],chair:[[-2.8,0,1.7],0],'fill-light':[[-2.8,0,1.7],0],plant:[[3.4,0,1.8],0],'wall-art':[[0,1.4,-3.4],0],
      'wall-panel':[[-2,0,-3.4],0],'window-panel':[[2,1.4,-3.4],0],'door-frame':[[0,0,3.4],Math.PI],

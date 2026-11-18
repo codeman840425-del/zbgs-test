@@ -1,4 +1,5 @@
 import {latestAppearanceVersions} from './appearance-samples.js';
+import {workstationLooks,workstationLookOperations} from './workstation-looks.js';
 import {planEntranceAndFrame} from './entrance-authoring.js';
 import * as THREE from 'three';
 import {createPlacementInteraction} from './placement-interaction.js';
@@ -125,9 +126,27 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
     else if(doc.id.startsWith('appearance-'))mode='sample';
     const visible=doc.nodes.filter(n=>['facility','workstation','assembly'].includes(n.kind)&&derived.floorIds.get(n.id)===view.floorId&&(!region()||derived.roomIds.get(n.id)===region()));
     if(!visible.some(n=>n.id===selected))selected='';
-    options(el('edit-instance'),[{value:'',label:'选择场景里的物品'},...visible.map((n,i)=>({value:n.id,label:`${i+1} · ${nice(resource(n))||n.name||'组合工位'}`}))],selected);
+    let stationNumber=0;
+    const items=visible.map((n,i)=>{
+      if(n.kind==='workstation'){
+        stationNumber++;
+        return {value:n.id,label:n.name && n.name!==n.id ? n.name : `直播工位 ${stationNumber}`};
+      }
+      return {value:n.id,label:`${i+1} · ${nice(resource(n))||n.name||n.id}`};
+    });
+    options(el('edit-instance'),[{value:'',label:'选择场景里的物品'},...items],selected);
     const n=node(),r=resource(n),constraints=n?getFacilityEditConstraints(n,r):null;
     el('edit-empty').hidden=Boolean(n);el('edit-fields').hidden=!n;el('edit-focus').disabled=!n||isBusy()||view.mode==='building';outline.visible=false;
+    const stationLooks = n?.kind==='workstation'
+      ? workstationLooks.filter(look=>look.templates.some(t=>t.id===n.template.id && t.version===n.template.version))
+      : [];
+    const lookPanel = el('station-look-panel'), lookSelect = el('station-look');
+    lookPanel.hidden = stationLooks.length===0;
+    if(stationLooks.length && lookPanel.dataset.station!==n.id){
+      options(lookSelect,[{value:'',label:'选择一套造型'},...stationLooks.map(look=>({value:look.id,label:look.displayName}))],'');
+    }
+    lookPanel.dataset.station = n?.id||'';
+    el('apply-station-look').disabled = isBusy()||!lookSelect.value||view.mode==='building';
     const upgradePanel=el('template-upgrade-panel');
     if(n?.kind==='workstation'){
       const candidates=templates.templates.filter(t=>t.id===n.template?.id).sort((a,b)=>a.version-b.version);
@@ -238,6 +257,12 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
   el('edit-parent').onclick=()=>select(node().parentId);
   el('edit-remove').onclick=()=>execute('正在移除物品…',async()=>{await session.apply([{type:'remove',id:selected}]);selected='';cancel();});
   el('edit-copy').onclick=()=>arm({kind:'copy'});
+  el('station-look').onchange=()=>{el('apply-station-look').disabled=isBusy()||!el('station-look').value;};
+  el('apply-station-look').onclick=()=>execute('正在更换工位外观…',async()=>{
+    const look=workstationLooks.find(candidate=>candidate.id===el('station-look').value);
+    const operations=workstationLookOperations(session.document,selected,look,catalog,templates);
+    if(operations.length)await session.apply(operations);
+  });
   el('template-upgrade').onclick=()=>execute('正在检查并升级组合模板…',async()=>{
     const n=node();if(!n?.template)throw new CompanyError('invalid-operation','template-upgrade','Select a workstation');
     let target;try{target=JSON.parse(el('template-target').value);}catch{throw new CompanyError('missing-template-version',`${n.id}.template`,'Specify an exact target template');}

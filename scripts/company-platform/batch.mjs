@@ -8,6 +8,7 @@ import {CompanyError,deriveCompany,prepareCompanyChange} from '../../prototype/s
 import {createScaledCompany,inspectCompanyConnections} from '../../prototype/src/company/space.js';
 import {createCompanyScaleV2} from '../../prototype/src/company/scale-v2.js';
 import {inspectCompanyPlacement,inspectCompanyMotionSweep} from '../../prototype/src/company/placement.js';
+import {resolveWorkstationLook,workstationLookOperations} from '../../prototype/src/company/workstation-looks.js';
 import {encodeCompanySave} from '../../prototype/src/company/persistence.js';
 
 const workspace=new URL('../../',import.meta.url);
@@ -16,7 +17,8 @@ const sourceFiles=[
   'prototype/src/company/scale-profile.js','prototype/src/company/scale-v2.js',
   'prototype/src/company/document.js','prototype/src/company/placement.js',
   'prototype/src/company/moving-parts.js','prototype/src/company/support-data.js',
-  'prototype/src/company/appearance-contract.js',
+  'prototype/src/company/appearance-contract.js','prototype/src/company/workstation-looks.js',
+  'prototype/src/company/workstation-looks.json',
   'prototype/src/company/persistence.js','prototype/src/company/library-catalog.json',
   'prototype/src/company/templates-extended.json',
 ];
@@ -38,7 +40,7 @@ function validateBatch(batch,only){
   const keys=new Set(),ids=new Set();
   for(const [index,item]of batch.items.entries()){
     const location=`items[${index}]`;
-    if(!item||Object.keys(item).some(key=>!['key','input','document','operations'].includes(key))||
+    if(!item||Object.keys(item).some(key=>!['key','input','document','operations','stationLooks'].includes(key))||
         typeof item.key!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(item.key)||
         /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(item.key))
       fail('invalid-batch-key',location,'Use a portable nonempty directory key with letters, digits, underscore or hyphen');
@@ -85,6 +87,21 @@ async function prepare(item,sourceHashes){
     fail('invalid-batch-operations',`${item.key}.operations`,'Optional operations must be an array');
   let document=item.document?structuredClone(item.document):(item.input.spaceProfile!==undefined?createCompanyScaleV2:createScaledCompany)(item.input,catalog,templates);
   if(item.operations?.length){const previous=document;document=prepareCompanyChange(document,item.operations,{catalog,templates}).document;inspectCompanyMotionSweep(previous,document,catalog,templates);}
+  if(item.stationLooks!==undefined){
+    if(!Array.isArray(item.stationLooks))fail('invalid-station-looks',item.key,'stationLooks must be an array');
+    const assigned=new Set(), operations=[];
+    for(const [index,assignment] of item.stationLooks.entries()){
+      const field=`${item.key}.stationLooks[${index}]`;
+      if(!assignment || typeof assignment.stationId!=='string' || !assignment.stationId ||
+          Object.keys(assignment).some(key=>!['stationId','look'].includes(key)))
+        fail('invalid-station-look',field,'Provide stationId and a pinned look reference');
+      if(assigned.has(assignment.stationId))fail('duplicate-station-look',field,'Specify one look per workstation');
+      assigned.add(assignment.stationId);
+      const recipe=resolveWorkstationLook(assignment.look);
+      operations.push(...workstationLookOperations(document,assignment.stationId,recipe,catalog,templates));
+    }
+    if(operations.length)document=prepareCompanyChange(document,operations,{catalog,templates}).document;
+  }
   const connections=inspectCompanyConnections(document,catalog,templates);
   const placement=inspectCompanyPlacement(document,catalog,templates);
   const assetDependencies=[];

@@ -21,6 +21,16 @@ node edit.mjs apply data/save.json OPS.json NEW_RESULT_DIRECTORY
 
 OPS.json使用现有prepareCompanyChange操作。新目录包含完整layout.json与带依赖pin的save.json，可在预览里继续导入。该入口使用固定preview声明的完整catalog及templates，包括保存依赖的历史版本。原有source/scripts/company-platform/company.mjs、batch.mjs及其输入也保留，可在source目录执行。
 
+## 批量生成不同外观的工位
+
+在交付目录执行下面的命令，会生成四份具有独立公司身份的成品。每份包含可继续编辑的布局、带依赖版本的存档和验证报告。
+
+```text
+node source/scripts/company-platform/batch.mjs source/scripts/company-platform/batch-inputs/workstation-looks.json NEW_BATCH_DIRECTORY
+```
+
+输入中每项的 `stationLooks` 指定已有工位的实例 ID 和外观配方的 ID、版本。配方文件在 `source/prototype/src/company/workstation-looks.json`。换套装保留摆位和状态，额外安装的设备继续跟随原父级。单件调整可沿用前述 `edit.mjs apply`。要单独重试一项，在批量命令末尾加 `--only studio-set-1` 并使用对应项的 key。
+
 ## 修改源与重建
 
 ```text
