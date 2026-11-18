@@ -10,6 +10,7 @@ agent 将模型、纹理和资源描述接入公司素材库时，登记脚本�
 - 资源身份、坐标、资产字节数和 SHA-256、接触点、阻挡包络、纹理 UV、有限变换和实际网格必须符合现有 asset-library 合同。
 - 声明了 mounting 的资源必须满足实际模型包络和开口净空。已有分类专用几何检查继续由 asset-library 调用。
 - URL 只能解析到本地 prototype/public/company-assets，预检不能通过网络或登记目录外的文件补齐输入。
+- 资源来源的 sourceParameters、generator 以及存在的功能合同/环境分支文件必须能读取，声明的 SHA-256 必须与实际文件一致。
 
 失败语义
 

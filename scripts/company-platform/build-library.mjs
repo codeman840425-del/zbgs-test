@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {catalogMaps} from '../../prototype/src/company/document.js';
 import {preflightLibraryAssets} from './preflight-library-assets.mjs';
+import {validateResourceProvenance} from './validate-resource-provenance.mjs';
 const root=fileURLToPath(new URL('../..',import.meta.url));
 const plan=JSON.parse(await fs.readFile(new URL('./library-inputs.json',import.meta.url),'utf8'));
 const catalog=JSON.parse(await fs.readFile(path.join(root,plan.base),'utf8'));
@@ -14,6 +15,7 @@ for(const resource of catalog.resources){
   function scan(node){if(node.type==='mesh')materialSlots[node.id]=[node.id];for(const child of node.children||[])scan(child);}
   if(resource.node)scan(resource.node);
   resource.materialSlots=materialSlots;
+  await validateResourceProvenance({root,resource,label:`${resource.id}@${resource.version}`});
 }
 const resourcePaths=[...plan.resources];
 for(const collectionPath of plan.collections||[]) {
@@ -22,6 +24,7 @@ for(const collectionPath of plan.collections||[]) {
 }
 for(const name of resourcePaths){
   const resource=JSON.parse(await fs.readFile(path.join(root,name),'utf8'));
+  await validateResourceProvenance({root,resource,label:`${resource.id}@${resource.version}`});
   const asset=resource.asset,publicRoot=path.resolve(root,'prototype/public'),target=path.resolve(publicRoot,'.'+asset.url);
   if(!asset.url.startsWith('/company-assets/')||!target.startsWith(publicRoot+path.sep))throw Error(`Asset URL must stay inside company-assets: ${name}`);
   const bytes=await fs.readFile(target),hash=createHash('sha256').update(bytes).digest('hex');
@@ -39,6 +42,7 @@ for(const adapter of plan.adapters||[]) {
   if(catalog.resources.some(r=>r.id===adapter.id&&r.version===adapter.version))throw Error(`Duplicate adapter identity: ${adapter.id}`);
   const adapted={...structuredClone(source),id:adapter.id,version:adapter.version,mountRole:adapter.mountRole,usePoints:structuredClone(adapter.usePoints),
     provenance:{...structuredClone(source.provenance),functionalAdapter:{source:adapter.source,input:'scripts/company-platform/library-inputs.json',scope:'Explicit approach/exit adaptation; same source geometry, not a new appearance.'}}};
+  await validateResourceProvenance({root,resource:adapted,label:`${adapted.id}@${adapted.version}`});
   if(adapter.after){const afterIndex=catalog.resources.findIndex(resource=>`${resource.id}@${resource.version}`===adapter.after);if(afterIndex<0)throw Error(`Resource adapter insertion point missing: ${adapter.after}`);catalog.resources.splice(afterIndex+1,0,adapted);}else catalog.resources.push(adapted);
 }
 await preflightLibraryAssets({root,resources:catalog.resources});

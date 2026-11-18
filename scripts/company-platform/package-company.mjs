@@ -96,6 +96,7 @@ const extraFiles=[
   'scripts/company-platform/company.mjs','scripts/company-platform/batch.mjs',
   'scripts/company-platform/build-facility-catalog.mjs','scripts/company-platform/build-library.mjs',
   'scripts/company-platform/preflight-library-assets.mjs',
+  'scripts/company-platform/validate-resource-provenance.mjs',
   'scripts/company-platform/test-library-asset-preflight.mjs',
   'docs/research/COMPANY-ASSET-PREFLIGHT-CONTRACT-v1.txt',
   'docs/research/COMPANY-BUILD-INPUTS-CONTRACT-v1.txt',

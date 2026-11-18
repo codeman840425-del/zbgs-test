@@ -4,6 +4,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {preflightLibraryAssets} from './preflight-library-assets.mjs';
+import {validateResourceProvenance} from './validate-resource-provenance.mjs';
 
 const root = fileURLToPath(new URL('../..', import.meta.url));
 const resourcePath = path.join(root, 'prototype/public/company-assets/concept-acoustic-panel-v1/concept-hex-panel/v1/resource.json');
@@ -32,6 +33,16 @@ await expectCode('mount-envelope', {
   ...structuredClone(original),
   mounting: {...original.mounting, width: 0.01},
 }, 'asset-mount-envelope-mismatch');
+
+await assert.rejects(() => validateResourceProvenance({
+  root,
+  resource: {...structuredClone(original), provenance: {...original.provenance, generatorSha256: '0'.repeat(64)}},
+  label: 'concept-acoustic-panel@1',
+}), error => {
+  assert.match(error.message, /^provenance-hash-mismatch: concept-acoustic-panel@1\.generatorSha256$/);
+  outcomes.push({label: 'provenance-hash-mismatch', code: 'provenance-hash-mismatch'});
+  return true;
+});
 
 const fixtureDir = path.join(root, 'prototype/public/company-assets/_preflight-fixtures');
 await fs.mkdir(fixtureDir, {recursive: true});
