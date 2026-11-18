@@ -1,0 +1,206 @@
+{
+  "id": "rugged-laptop",
+  "displayName": "加固本",
+  "version": 1,
+  "category": "static",
+  "mountRole": "laptop-computer",
+  "productionBranch": "laptop-computer",
+  "mount": "desk-surface",
+  "parent": "desk.desktop",
+  "mounting": {
+    "width": 0.55,
+    "height": 0.04,
+    "depth": 0.38,
+    "origin": "desk contact plane centred under the asset"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Desk contact plane centred under the asset",
+    "front": "+Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.275,
+      0.19
+    ],
+    "contactPlaneY": 0,
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "open": true,
+    "on": false
+  },
+  "stateSchema": {
+    "open": {
+      "type": "boolean"
+    },
+    "on": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "open": "laptop-hinge-state",
+    "on": "laptop-display-power-state"
+  },
+  "materialSlots": {
+    "body": [
+      "laptop-body"
+    ],
+    "accent": [
+      "laptop-accent"
+    ],
+    "detail": [
+      "laptop-detail"
+    ],
+    "screen": [
+      "screen-surface"
+    ],
+    "status": [
+      "power-status"
+    ]
+  },
+  "powerStatusEndpoint": {
+    "id": "power-status",
+    "node": "power-status",
+    "stateField": "on",
+    "position": [
+      0,
+      0.031,
+      0.185
+    ],
+    "direction": [
+      0,
+      0,
+      1
+    ],
+    "visible": true
+  },
+  "cablePorts": [
+    {
+      "id": "usb",
+      "connector": "usb-c-visual-v1",
+      "position": [
+        0,
+        0.014,
+        -0.19
+      ],
+      "direction": [
+        0,
+        0,
+        -1
+      ]
+    }
+  ],
+  "cablePortNodes": {
+    "usb": {
+      "frame": [
+        "usb-frame-left",
+        "usb-frame-right",
+        "usb-frame-top",
+        "usb-frame-bottom"
+      ],
+      "backing": "power-port-back"
+    }
+  },
+  "provenance": {
+    "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "RoundedBoxGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-laptop-computer-v1/parameters.json",
+    "sourceParametersSha256": "8c74174a6700dd8aece7caa0fd96732562ec35aeb13e6e032ea4a1a62f7038b3",
+    "functionalContractSource": "assets-source/company-laptop-computer-v1/contracts/laptop-computer.json",
+    "functionalContractSourceSha256": "20a3e479dc23dba3b17870cee7f5d43b42c2195095dc1d571b4f9264e3bbc061",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranch": "laptop-computer",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "generator": "scripts/company-platform/build-laptop-computer-collection.mjs",
+    "generatorSha256": "6a64190dee6fc4234395ba01a096d42915df48f39e1cc4b28db6671195ccd965",
+    "designId": "rugged-laptop",
+    "method": "Rugged field notebook with corner guards, ribbed frame, high-contrast display and side I/O indicators."
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/laptop-computer-v1/laptop-computer/rugged-laptop/v1/model.glb",
+    "sha256": "8d4eb6080a748ce04de64f615e8a4fd855535bb7d5be9db90fed8ea33f959054",
+    "bytes": 508420
+  },
+  "checks": {
+    "meshCount": 25,
+    "triangles": 5100,
+    "nodeNames": [
+      "laptop-body",
+      "laptop-accent",
+      "laptop-detail",
+      "screen-surface",
+      "screen-bezel",
+      "power-status",
+      "hinge-left",
+      "hinge-right",
+      "power-port-back",
+      "usb-frame-left",
+      "usb-frame-right",
+      "usb-frame-top",
+      "usb-frame-bottom",
+      "rib--022",
+      "rib--011",
+      "rib-0",
+      "rib-011",
+      "rib-022",
+      "corner-guard--0245--0135",
+      "corner-guard--0245-016",
+      "corner-guard-0245--0135",
+      "corner-guard-0245-016",
+      "keyboard-deck",
+      "trackpad",
+      "side-status"
+    ],
+    "bounds": {
+      "min": [
+        -0.25999999046325684,
+        3.8743019036002746e-10,
+        -0.19000000002607703
+      ],
+      "max": [
+        0.2610000001899898,
+        0.03300000005215406,
+        0.18500000178813936
+      ]
+    },
+    "geometrySha256": "c9c07e672b99c2fda50e7c88a1eccde66ffd7bf2ea68c3769e32f67e82eaa32f",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true,
+    "cpuOnly": true
+  },
+  "display": {
+    "status": {
+      "stateField": "on",
+      "nodes": [
+        "power-status"
+      ],
+      "onColor": "#ffc56c",
+      "offColor": "#20252b",
+      "emissive": "#ffc56c",
+      "onIntensity": 1.2
+    },
+    "hinge": {
+      "stateField": "open",
+      "nodes": [
+        "hinge-left",
+        "hinge-right"
+      ]
+    }
+  }
+}

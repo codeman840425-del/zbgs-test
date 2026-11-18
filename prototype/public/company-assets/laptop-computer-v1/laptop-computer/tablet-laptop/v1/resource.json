@@ -1,0 +1,198 @@
+{
+  "id": "tablet-laptop",
+  "displayName": "二合一平板本",
+  "version": 1,
+  "category": "static",
+  "mountRole": "laptop-computer",
+  "productionBranch": "laptop-computer",
+  "mount": "desk-surface",
+  "parent": "desk.desktop",
+  "mounting": {
+    "width": 0.55,
+    "height": 0.04,
+    "depth": 0.38,
+    "origin": "desk contact plane centred under the asset"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Desk contact plane centred under the asset",
+    "front": "+Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.275,
+      0.19
+    ],
+    "contactPlaneY": 0,
+    "blocking": false
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "open": true,
+    "on": false
+  },
+  "stateSchema": {
+    "open": {
+      "type": "boolean"
+    },
+    "on": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "open": "laptop-hinge-state",
+    "on": "laptop-display-power-state"
+  },
+  "materialSlots": {
+    "body": [
+      "laptop-body"
+    ],
+    "accent": [
+      "laptop-accent"
+    ],
+    "detail": [
+      "laptop-detail"
+    ],
+    "screen": [
+      "screen-surface"
+    ],
+    "status": [
+      "power-status"
+    ]
+  },
+  "powerStatusEndpoint": {
+    "id": "power-status",
+    "node": "power-status",
+    "stateField": "on",
+    "position": [
+      0,
+      0.031,
+      0.185
+    ],
+    "direction": [
+      0,
+      0,
+      1
+    ],
+    "visible": true
+  },
+  "cablePorts": [
+    {
+      "id": "usb",
+      "connector": "usb-c-visual-v1",
+      "position": [
+        0,
+        0.014,
+        -0.19
+      ],
+      "direction": [
+        0,
+        0,
+        -1
+      ]
+    }
+  ],
+  "cablePortNodes": {
+    "usb": {
+      "frame": [
+        "usb-frame-left",
+        "usb-frame-right",
+        "usb-frame-top",
+        "usb-frame-bottom"
+      ],
+      "backing": "power-port-back"
+    }
+  },
+  "provenance": {
+    "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "RoundedBoxGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-laptop-computer-v1/parameters.json",
+    "sourceParametersSha256": "8c74174a6700dd8aece7caa0fd96732562ec35aeb13e6e032ea4a1a62f7038b3",
+    "functionalContractSource": "assets-source/company-laptop-computer-v1/contracts/laptop-computer.json",
+    "functionalContractSourceSha256": "20a3e479dc23dba3b17870cee7f5d43b42c2195095dc1d571b4f9264e3bbc061",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranch": "laptop-computer",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "generator": "scripts/company-platform/build-laptop-computer-collection.mjs",
+    "generatorSha256": "6a64190dee6fc4234395ba01a096d42915df48f39e1cc4b28db6671195ccd965",
+    "designId": "tablet-laptop",
+    "method": "Convertible tablet notebook with broad touch surface, detachable-looking keyboard strip and hinge rails."
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/laptop-computer-v1/laptop-computer/tablet-laptop/v1/model.glb",
+    "sha256": "935958b2d1194deac65872308bbc0419d9b8851d9c24b66f30dc6b9ee738232b",
+    "bytes": 124512
+  },
+  "checks": {
+    "meshCount": 17,
+    "triangles": 1164,
+    "nodeNames": [
+      "laptop-body",
+      "laptop-accent",
+      "laptop-detail",
+      "screen-surface",
+      "screen-bezel",
+      "power-status",
+      "hinge-left",
+      "hinge-right",
+      "power-port-back",
+      "usb-frame-left",
+      "usb-frame-right",
+      "usb-frame-top",
+      "usb-frame-bottom",
+      "touch-surface",
+      "keyboard-strip",
+      "hinge-rail-left",
+      "hinge-rail-right"
+    ],
+    "bounds": {
+      "min": [
+        -0.25999999046325684,
+        3.8743019036002746e-10,
+        -0.19000000002607703
+      ],
+      "max": [
+        0.25999999046325684,
+        0.03400000002607703,
+        0.18500000178813936
+      ]
+    },
+    "geometrySha256": "25f99b0e295d783883284fef3a123db7e7f06decf1592dbd18544656c45c9760",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true,
+    "cpuOnly": true
+  },
+  "display": {
+    "status": {
+      "stateField": "on",
+      "nodes": [
+        "power-status"
+      ],
+      "onColor": "#7ed7ff",
+      "offColor": "#20252b",
+      "emissive": "#7ed7ff",
+      "onIntensity": 1.2
+    },
+    "hinge": {
+      "stateField": "open",
+      "nodes": [
+        "hinge-left",
+        "hinge-right"
+      ]
+    }
+  }
+}

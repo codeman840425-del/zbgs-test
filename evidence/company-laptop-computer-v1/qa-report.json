@@ -1,0 +1,117 @@
+{
+  "status": "passed",
+  "schema": "company-laptop-computer-cpu-qa-v1",
+  "collection": "company-laptop-computer-v1",
+  "checks": [
+    {
+      "id": "slim-laptop",
+      "sha256": "850808c84677fdadf293328acbc226806da09052529ccbca814f109e39b7c305",
+      "geometrySha256": "81c1168c47a2c52951f797ff38e8c6b6b0030299578b0f44632c688df3a39729",
+      "nodeCount": 20,
+      "bounds": {
+        "min": [
+          -0.25999999046325684,
+          3.8743019036002746e-10,
+          -0.19000000002607703
+        ],
+        "max": [
+          0.25999999046325684,
+          0.03300000005215406,
+          0.18500000178813936
+        ]
+      },
+      "powerStatusNode": "power-status",
+      "hingeNodes": [
+        "hinge-left",
+        "hinge-right"
+      ],
+      "cpuOnly": true,
+      "gltfReadback": true
+    },
+    {
+      "id": "dual-screen-laptop",
+      "sha256": "ec319863971f918fbb22cb685a3767beb9cfb2439717548784943a8e74dd992e",
+      "geometrySha256": "af4fec21a0ed7bbc3879ed4b8b853b0df8cf6b267dc25fe3f91ff6a024d30d48",
+      "nodeCount": 18,
+      "bounds": {
+        "min": [
+          -0.25999999046325684,
+          3.8743019036002746e-10,
+          -0.19000000002607703
+        ],
+        "max": [
+          0.25999999046325684,
+          0.03300000005215406,
+          0.18500000178813936
+        ]
+      },
+      "powerStatusNode": "power-status",
+      "hingeNodes": [
+        "hinge-left",
+        "hinge-right"
+      ],
+      "cpuOnly": true,
+      "gltfReadback": true
+    },
+    {
+      "id": "rugged-laptop",
+      "sha256": "8d4eb6080a748ce04de64f615e8a4fd855535bb7d5be9db90fed8ea33f959054",
+      "geometrySha256": "c9c07e672b99c2fda50e7c88a1eccde66ffd7bf2ea68c3769e32f67e82eaa32f",
+      "nodeCount": 25,
+      "bounds": {
+        "min": [
+          -0.25999999046325684,
+          3.8743019036002746e-10,
+          -0.19000000002607703
+        ],
+        "max": [
+          0.2610000001899898,
+          0.03300000005215406,
+          0.18500000178813936
+        ]
+      },
+      "powerStatusNode": "power-status",
+      "hingeNodes": [
+        "hinge-left",
+        "hinge-right"
+      ],
+      "cpuOnly": true,
+      "gltfReadback": true
+    },
+    {
+      "id": "tablet-laptop",
+      "sha256": "935958b2d1194deac65872308bbc0419d9b8851d9c24b66f30dc6b9ee738232b",
+      "geometrySha256": "25f99b0e295d783883284fef3a123db7e7f06decf1592dbd18544656c45c9760",
+      "nodeCount": 17,
+      "bounds": {
+        "min": [
+          -0.25999999046325684,
+          3.8743019036002746e-10,
+          -0.19000000002607703
+        ],
+        "max": [
+          0.25999999046325684,
+          0.03400000002607703,
+          0.18500000178813936
+        ]
+      },
+      "powerStatusNode": "power-status",
+      "hingeNodes": [
+        "hinge-left",
+        "hinge-right"
+      ],
+      "cpuOnly": true,
+      "gltfReadback": true
+    }
+  ],
+  "assertions": [
+    "Four stable resource IDs and four distinct geometry hashes",
+    "Desk-surface mount, parent and fixed 0.55 × 0.04 × 0.38 m envelope read back from every resource",
+    "Every GLB is self-contained and readable by GLTFLoader on CPU",
+    "Visible power-status, screen-surface and hinge nodes are present in every GLB"
+  ],
+  "limitations": [
+    "No browser scene, save/restore or visual acceptance in this CPU-only package.",
+    "No operating-system behavior, cable routing or character use."
+  ]
+}

@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import * as THREE from '../../prototype/node_modules/three/build/three.module.js';
+import {GLTFLoader} from '../../prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js';
+globalThis.FileReader ??= class { readAsArrayBuffer(blob) { blob.arrayBuffer().then(result => { this.result=result; this.onloadend?.({target:this}); }).catch(error=>this.onerror?.(error)); } };
+const root=new URL('../../',import.meta.url), collection=JSON.parse(await fs.readFile(new URL('assets-source/company-laptop-computer-v1/collection.json',root)));
+assert.equal(collection.id,'company-laptop-computer-v1'); assert.equal(collection.resources.length,4); assert.equal(collection.verification.cpuOnly,true);
+const checks=[];
+for(const record of collection.resources){
+  const resource=JSON.parse(await fs.readFile(new URL(record.resourcePath,root))), bytes=await fs.readFile(new URL(record.modelPath,root));
+  assert.equal(record.sha256,createHash('sha256').update(bytes).digest('hex')); assert.equal(resource.mount,'desk-surface'); assert.equal(resource.parent,'desk.desktop'); assert.deepEqual(resource.mounting,{width:0.55,height:0.04,depth:0.38,origin:'desk contact plane centred under the asset'}); assert.equal(resource.powerStatusEndpoint.visible,true); assert.equal(resource.powerStatusEndpoint.node,'power-status');
+  const loaded=await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),''); const scene=loaded.scene; scene.updateMatrixWorld(true); const bounds=new THREE.Box3().setFromObject(scene), nodes=[], geometryHash=createHash('sha256');
+  scene.traverse(node=>{if(!node.isMesh)return; nodes.push(node.name); const p=node.geometry.getAttribute('position'); assert(p?.count); geometryHash.update(Buffer.from(p.array.buffer,p.array.byteOffset,p.array.byteLength));});
+  assert(bounds.min.y>=-0.000001&&bounds.max.y<=0.041); assert(bounds.min.x>=-0.276&&bounds.max.x<=0.276); assert(bounds.min.z>=-0.191&&bounds.max.z<=0.191); assert(nodes.includes('power-status')); assert(nodes.includes('screen-surface')); assert(nodes.includes('hinge-left')); assert(nodes.includes('hinge-right')); for(const names of Object.values(resource.materialSlots)) for(const name of names) assert(nodes.includes(name)); assert.equal(record.geometrySha256,geometryHash.digest('hex'));
+  checks.push({id:record.id,sha256:record.sha256,geometrySha256:record.geometrySha256,nodeCount:nodes.length,bounds:{min:bounds.min.toArray(),max:bounds.max.toArray()},powerStatusNode:'power-status',hingeNodes:['hinge-left','hinge-right'],cpuOnly:true,gltfReadback:true});
+}
+assert.equal(new Set(checks.map(item=>item.geometrySha256)).size,4); const report={status:'passed',schema:'company-laptop-computer-cpu-qa-v1',collection:collection.id,checks,assertions:['Four stable resource IDs and four distinct geometry hashes','Desk-surface mount, parent and fixed 0.55 × 0.04 × 0.38 m envelope read back from every resource','Every GLB is self-contained and readable by GLTFLoader on CPU','Visible power-status, screen-surface and hinge nodes are present in every GLB'],limitations:['No browser scene, save/restore or visual acceptance in this CPU-only package.','No operating-system behavior, cable routing or character use.']}; await fs.writeFile(new URL('evidence/company-laptop-computer-v1/qa-report.json',root),JSON.stringify(report,null,2)+'\n'); console.log(JSON.stringify({status:report.status,resources:checks.length,output:'evidence/company-laptop-computer-v1/qa-report.json'}));

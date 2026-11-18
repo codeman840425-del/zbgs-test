@@ -1,0 +1,81 @@
+{
+  "status": "passed",
+  "designId": "tablet-laptop",
+  "displayName": "二合一平板本",
+  "style": "Convertible tablet notebook with broad touch surface, detachable-looking keyboard strip and hinge rails.",
+  "sourceParameters": "assets-source/company-laptop-computer-v1/laptop-computer/tablet-laptop/parameters.json",
+  "sourceParametersSha256": "ff0c3da599874c42343f5344aea5374524f22c3934aa7e0538820ae7631cb3bd",
+  "functionalContract": {
+    "id": "laptop-computer@1",
+    "source": "assets-source/company-laptop-computer-v1/contracts/laptop-computer.json",
+    "sha256": "20a3e479dc23dba3b17870cee7f5d43b42c2195095dc1d571b4f9264e3bbc061",
+    "mount": "desk-surface",
+    "parent": "desk.desktop",
+    "powerStatusEndpoint": {
+      "id": "power-status",
+      "node": "power-status",
+      "stateField": "on",
+      "position": [
+        0,
+        0.031,
+        0.185
+      ],
+      "direction": [
+        0,
+        0,
+        1
+      ],
+      "visible": true
+    }
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/laptop-computer-v1/laptop-computer/tablet-laptop/v1/model.glb",
+    "sha256": "935958b2d1194deac65872308bbc0419d9b8851d9c24b66f30dc6b9ee738232b",
+    "bytes": 124512
+  },
+  "checks": {
+    "meshCount": 17,
+    "triangles": 1164,
+    "nodeNames": [
+      "laptop-body",
+      "laptop-accent",
+      "laptop-detail",
+      "screen-surface",
+      "screen-bezel",
+      "power-status",
+      "hinge-left",
+      "hinge-right",
+      "power-port-back",
+      "usb-frame-left",
+      "usb-frame-right",
+      "usb-frame-top",
+      "usb-frame-bottom",
+      "touch-surface",
+      "keyboard-strip",
+      "hinge-rail-left",
+      "hinge-rail-right"
+    ],
+    "bounds": {
+      "min": [
+        -0.25999999046325684,
+        3.8743019036002746e-10,
+        -0.19000000002607703
+      ],
+      "max": [
+        0.25999999046325684,
+        0.03400000002607703,
+        0.18500000178813936
+      ]
+    },
+    "geometrySha256": "25f99b0e295d783883284fef3a123db7e7f06decf1592dbd18544656c45c9760",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true,
+    "cpuOnly": true
+  },
+  "limitations": [
+    "CPU GLB export and GLTFLoader readback only.",
+    "No operating-system behavior, live hinge animation, cable routing or character use.",
+    "Fixed closed-installation envelope is verified."
+  ]
+}
