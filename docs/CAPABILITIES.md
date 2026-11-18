@@ -544,3 +544,5 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 2026-11-18 矩阵查询接缝复核：`character-production-query.js` 直接读取 `assets-source/variant-matrix-v1/representative-matrix.json`，Node/Vite 生产构建可重复，无需生成运行时副本。女性和男性查询各返回 `uniform-top-v1`、`lower-shorts-v1` 两个 `candidate` 款式，`runtimeVariants=[]`；深层数据脱离性回归通过，证据 `evidence/m2-variant-query-runtime-seam-v1/report.json`，提交 `dc6067e4`。这只证明统一资源矩阵可以被查询层消费，不证明服装、动作、预算、附件或视觉准入。
 
 2026-11-18 预览边界：4196 角色工作台和公司平台当前实际端口 60880 只用于人类观看、比较和验收。它们不等于游戏内交付，游戏交付仍以可加载场景/角色配置、资源、适配数据、状态及保存恢复链的版本化证据为准。副总工边几与生活小物包已在其独立分支发布，但真实角色 C3 联调仍待双方固定接口后进行。
+
+2026-11-18 动态运行诊断回放：`scripts/qa-native-dynamic-runtime.cjs` 在 4196 预览构建 `c5ce1f7126ab` 对两份精确 FaceContour 记录完成走路、坐下、起身、离开及动态开关采样，分别得到 226/232 个样本，页面错误为空。证据 `evidence/m2-native-dynamic-runtime-trace-v3a/summary.json`，状态保持 `technical-pass-diagnostic-only`。该回放只证明当前记录可在共用运行链采样，未清除 `dynamicMotion`，也未通过人工视觉、预算或普通电脑准入。
