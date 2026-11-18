@@ -74,7 +74,8 @@ assert(listenerCode.includes("events.off('appearance-state-changed'"));
 await check('actual workbench listener reads current actor, ignores stale identity and removes on disposal',()=>{
   const events=new EventEmitter(),actor={},other={},seen=[],messages=[],listeners=[];
   const c=vm.createContext({controller:{game:{events}},disposed:false,actor:()=>actor,
-    sync:()=>seen.push(actor),message:(...args)=>messages.push(args),listeners});
+    sync:()=>seen.push(actor),message:(...args)=>messages.push(args),listeners,
+    pendingSampleActor:null,sampleOperation:0,setBusy:()=>{}});
   vm.runInContext(listenerCode,c);
   events.emit('appearance-state-changed',{actor:other});assert.equal(seen.length,0);
   events.emit('appearance-state-changed',{actor});assert.equal(seen.length,1);
