@@ -579,6 +579,7 @@ def microphone_candidate_index(path: Path, root: Path = ROOT) -> dict[str, dict[
         result[body_sha] = {
             "report": pin(path),
             "bodySha256": body_sha,
+            "bodyType": item.get("id"),
             "presentation": item.get("microphone", {}).get("presentation"),
             "gripEntry": item.get("microphone", {}).get("gripEntry"),
             "status": "cpu-candidate-only",
@@ -649,11 +650,20 @@ def evaluate(batch_path: Path, root: Path = ROOT,
         if body_sha in budget_classification_by_body:
             row["budgetClassification"] = budget_classification_by_body[body_sha]
         if body_sha in surface_by_body:
-            row["surfaceAdmissionEvidence"] = surface_by_body[body_sha]
+            evidence = surface_by_body[body_sha]
+            require(evidence.get("bodyType") == row["bodyType"],
+                    f"Surface evidence body type differs: {row['bodyType']}")
+            row["surfaceAdmissionEvidence"] = evidence
         if body_sha in glasses_candidate_by_body:
-            row["glassesCandidateEvidence"] = glasses_candidate_by_body[body_sha]
+            evidence = glasses_candidate_by_body[body_sha]
+            require(evidence.get("body") == row["bodyType"],
+                    f"Glasses candidate body type differs: {row['bodyType']}")
+            row["glassesCandidateEvidence"] = evidence
         if body_sha in microphone_candidate_by_body:
-            row["microphoneCandidateEvidence"] = microphone_candidate_by_body[body_sha]
+            evidence = microphone_candidate_by_body[body_sha]
+            require(evidence.get("bodyType") == row["bodyType"],
+                    f"Microphone candidate body type differs: {row['bodyType']}")
+            row["microphoneCandidateEvidence"] = evidence
     for row in rows:
         if row["bodyType"] in microphone_by_body:
             row["accessoryEvidence"] = {"microphone": microphone_by_body[row["bodyType"]]}
