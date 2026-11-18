@@ -102,6 +102,11 @@ const extraFiles=[
   'docs/research/COMPANY-PLATFORM-COMPLETE-LONG-GOAL-v3-2026-11-16.txt',
   'docs/research/COMPANY-ENVIRONMENT-CATEGORY-RESEARCH-2026-11-16.txt',
   'docs/research/COMPANY-SPACE-DRESSING-RESEARCH-2026-11-16.txt',
+  'docs/research/COMPANY-CAMERA-BACKGROUND-CONTRACT-v1.txt',
+  'scripts/company-platform/build-camera-background-collection.mjs',
+  'scripts/company-platform/register-camera-background.mjs',
+  'scripts/company-platform/test-camera-background-data.mjs',
+  'scripts/company-platform/qa-camera-background.cjs',
 ];
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 class PackageError extends Error{constructor(code,location,message){super(message);this.code=code;this.path=location;}}
