@@ -1,8 +1,9 @@
 # 当前角色基础工程恢复点
 
 ## 固定入口与备份
-最新共用配方已有真实批量创建和游戏包结果。固定构建 `7809b98bd700`、源码 `c99ad1db`，复跑入口在 PRODUCTION-FLOW-CLI 的“用共用穿搭配方新建角色”。`evidence/m2-shared-look-batch-v2/index.html` 汇集三段正常速度录像。下一包针对被拒绝的 `native-male-7586-v1` 核查可复用的制作输入和匹配条件，沿用独立适配数据。4196 当前运行版本需单独读取 HTTP 构建标识。
-角色工作树已集中在 `experiments/worktrees/`，旧绝对路径按 `evidence/character-worktree-relocation-v1/paths.json` 查找。共享身体法线的游戏包构建 `8b41452b51c7`（源码 `7326b34e`）已独立重建、比较及双人关闭重开。下一个生产接口验证使用真实男女裤袜组合，详情见 `evidence/m2-cross-body-production-seam-v1/`；正式准入单独评定。以下为预览与历史恢复记录。
+共用配方已生成男女两份游戏记录，正常速度游戏回放汇集在 evidence/m2-shared-look-batch-v2/index.html（录像构建 7809b98bd700）。人类工作台候选 4a117f95ca1d 已在临时环回服务实测四具身体的检查入口和三个视频；实际常驻 4196 最后读取为 0d1ccbf3ff61，交付指针待正常启动。复算和源码见 PRODUCTION-FLOW-CLI。
+
+角色工作树已集中在 experiments/worktrees/，迁移映射见 evidence/character-worktree-relocation-v1/paths.json。巡检同时核对 Git 登记的实际路径。原生 7586 的独立袜尚未生成，拒绝证据见 assets-source/native-male-crew-socks-fit-v1/。已有参考三角的 UV 分片正反例见 experiments/uv-seam-import-v1/。以下为历史恢复记录。
 
 当前恢复点：4196 实际返回 `0d1ccbf3ff61`。已复核待正常启动的 `637b3f8bb4a3`（源码 `1b1d6189`），并在临时服务检查其唇妆入口和全部六个图片/录像链接。上次重启被自动审批拒绝。可直接打开 evidence/m2-native-lip-room-v4/index.html。两份女性角色从相同批改请求生成，独立消费包关闭重开通过，见 evidence/m2-native-lip-game-handoff-v1/README.md。下一项核实实际 GPU 上传与静态预算上界之间的差距，按实测选择共同资源复用方案。下文为历史恢复点。
 

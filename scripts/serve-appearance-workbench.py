@@ -17,8 +17,7 @@ SHARED_LOOK_FILES = {
     )},
 }
 
-if __name__ == '__main__':
-    config = json.loads((ROOT / 'delivery/appearance-workbench.json').read_text(encoding='utf-8'))
+def make_server(config, *, verification=False):
     if config['port'] != 4196:
         raise ValueError('The character workbench uses the fixed user entry 4196')
     folder = (ROOT / config['directory']).resolve()
@@ -110,5 +109,12 @@ if __name__ == '__main__':
         def log_message(self, *args):
             pass
 
-    print(f"Appearance {config['build']}: http://127.0.0.1:{config['port']}/?workbench=appearance", flush=True)
-    ThreadingHTTPServer(('127.0.0.1', config['port']), partial(Handler, directory=str(folder))).serve_forever()
+    return ThreadingHTTPServer(('127.0.0.1', 0 if verification else config['port']),
+                               partial(Handler, directory=str(folder)))
+
+
+if __name__ == '__main__':
+    config = json.loads((ROOT / 'delivery/appearance-workbench.json').read_text(encoding='utf-8'))
+    with make_server(config) as server:
+        print(f"Appearance {config['build']}: http://127.0.0.1:{server.server_port}/?workbench=appearance", flush=True)
+        server.serve_forever()
