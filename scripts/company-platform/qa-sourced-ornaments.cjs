@@ -6,22 +6,33 @@ const { chromium } = require('../../prototype/node_modules/playwright');
 const { serve } = require('./serve.cjs');
 
 const [dist, build, input, outArg, ...options] = process.argv.slice(2);
-if (!dist || !build || !input || !outArg || options.length > 1 || options.some(option => option !== '--record')) {
-  throw new Error('Usage: node qa-sourced-ornaments.cjs DIST BUILD LAYOUT_OR_SAVE OUT [--record]');
+const resourceOption = options.indexOf('--resources');
+const resourceList = resourceOption < 0 ? null : options[resourceOption + 1];
+const flags = resourceOption < 0 ? options : options.filter((_, index) => index !== resourceOption && index !== resourceOption + 1);
+if (!dist || !build || !input || !outArg || (resourceOption >= 0 && !resourceList) ||
+    flags.length > 1 || flags.some(option => option !== '--record')) {
+  throw new Error('Usage: node qa-sourced-ornaments.cjs DIST BUILD LAYOUT_OR_SAVE OUT [--resources ID[@VERSION],ID[@VERSION],...] [--record]');
 }
 const source = path.resolve(input);
 const out = path.resolve(outArg);
-const record = options.includes('--record');
+const record = flags.includes('--record');
 const viewport = { width: 1600, height: 1000 };
 const books = { id: 'tabletop-books-kenney', version: 1 };
 const plant = { id: 'tabletop-plant-kenney', version: 1 };
+const refKey = ref => ref.id + '@' + ref.version;
+const references = resourceList ? resourceList.split(',').map(value => {
+  const ref = value.trim().match(/^([a-z][a-z0-9-]{0,62})(?:@([1-9][0-9]*))?$/);
+  if (!ref || !Number.isSafeInteger(Number(ref[2] ?? 1))) throw new Error('Invalid ornament resource: ' + value);
+  return { id: ref[1], version: Number(ref[2] ?? 1) };
+}) : [books, plant];
+const referenceKeys = new Set(references.map(refKey));
+if (referenceKeys.size !== references.length) throw new Error('Each requested ornament resource must be distinct');
 const report = {
-  build, status: 'running', browser: 'Headless Chromium with SwiftShader',
+  build, resources: references, status: 'running', browser: 'Headless Chromium with SwiftShader',
   checks: [], browserErrors: [], video: { enabled: record, playbackSpeed: 1 },
 };
 let server, profile, context, page, responses, stage, expectedRejection;
 
-const refKey = ref => ref.id + '@' + ref.version;
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const node = (document, id) => document.nodes.find(item => item.id === id);
 const browserDocument = () => page.evaluate(() => company.session.document);
@@ -31,10 +42,12 @@ async function fixture() {
   const file = JSON.parse(await fs.readFile(source, 'utf8'));
   const document = file.schema === 'company-save' ? file.document : file;
   assert.equal(document.schema, 'company-layout');
+  const selectable = new Set([refKey(books), ...referenceKeys]);
   const ornaments = document.nodes.filter(item => (
-    item.kind === 'facility' && item.resource.id === books.id && item.resource.version === books.version
+    item.kind === 'facility' && item.attachment?.surfaceId === 'top' && selectable.has(refKey(item.resource)) &&
+    node(document, item.parentId)?.resource?.id === 'side-table-carved-round'
   ));
-  assert.equal(ornaments.length, 1, 'The supplied lounge must have one selected books instance');
+  assert.equal(ornaments.length, 1, 'The supplied lounge must have one matching ornament on the carved side table');
   const original = ornaments[0];
   const table = node(document, original.parentId);
   const room = node(document, table?.parentId);
@@ -133,8 +146,7 @@ async function pickOrnament(input) {
   await click('#tool-selection');
   await select('#edit-instance', input.original.id);
   const looks = await page.locator('#edit-look option').evaluateAll(nodes => nodes.map(option => option.value));
-  assert(looks.includes(refKey(books)));
-  assert(looks.includes(refKey(plant)));
+  for (const key of referenceKeys) assert(looks.includes(key), 'Missing compatible look in the inspector: ' + key);
 }
 
 async function inspectGeometry(input, ref) {
@@ -241,6 +253,17 @@ async function replace(input, ref) {
   assert.deepEqual(after, before, 'Only the selected resource reference and revision should change');
 }
 
+async function showLook(input, ref) {
+  if (await page.locator('#edit-look').inputValue() !== refKey(ref)) await replace(input, ref);
+  await click('#edit-focus');
+}
+
+function imageName(ref, number, suffix = '') {
+  const key = refKey(ref);
+  const name = key === refKey(books) ? 'books' : key === refKey(plant) ? 'plant' : ref.id + '-v' + ref.version;
+  return String(number).padStart(2, '0') + '-' + name + suffix + '.png';
+}
+
 async function save(input, ref) {
   const expected = await browserDocument();
   await click('#save');
@@ -312,46 +335,51 @@ async function run() {
   server = await serve(dist, build, { manifest: 'company-build-info.json', entry: 'company.html' });
   report.sourceDigest = server.info.sourceDigest;
   await openBrowser();
-  let bookGeometry, plantGeometry, bookSave, plantSave;
-  await check('Import the prior lounge with books on the carved side table', async () => {
-    await importFile(input);
-    await showRoom(input);
-    const overview = await screenshot('00-lounge.png');
-    await pickOrnament(input);
-    await click('#edit-focus');
-    bookGeometry = await inspectGeometry(input, books);
-    return { overview, image: await screenshot('01-books.png'), geometry: bookGeometry };
-  });
-  await check('Save and automatically restore the mounted books after Chromium restarts', async () => {
-    bookSave = await save(input, books);
-    await recover(input, bookSave);
-    const recovered = await inspectGeometry(input, books);
-    assert.deepEqual(recovered, bookGeometry);
-    return { geometry: recovered, pin: bookSave.pin };
-  });
-  await check('Apply the compatible plant look to the same instance', async () => {
-    await replace(input, plant);
-    await click('#edit-focus');
-    plantGeometry = await inspectGeometry(input, plant);
-    assert.notEqual(plantGeometry.asset.sha256, bookGeometry.asset.sha256);
-    assert.notEqual(plantGeometry.source.sourceGlbSha256, bookGeometry.source.sourceGlbSha256);
-    assert.notDeepEqual(plantGeometry.localBounds, bookGeometry.localBounds);
-    assert.deepEqual(plantGeometry.world, bookGeometry.world);
-    return { image: await screenshot('02-plant.png'), geometry: plantGeometry };
-  });
-  await check('Reject an off-table installation without changing the scene or saved bytes', async () => {
-    plantSave = await save(input, plant);
-    return { ...await refuseOverhang(input, plantSave), pin: plantSave.pin };
-  });
-  await check('Restart Chromium and automatically recover the same mounted plant', async () => {
-    await recover(input, plantSave);
-    const recovered = await inspectGeometry(input, plant);
-    assert.deepEqual(recovered, plantGeometry);
-    await click('#edit-focus');
-    return { geometry: recovered, image: await screenshot('03-plant-restored.png') };
-  });
+  const checked = [];
+  for (const [index, ref] of references.entries()) {
+    const key = refKey(ref);
+    const last = index === references.length - 1;
+    let geometry, saved;
+    await check('Mount ' + key + ' on the same carved side table', async () => {
+      let overview;
+      if (index === 0) {
+        await importFile(input);
+        await showRoom(input);
+        overview = await screenshot('00-lounge.png');
+        await pickOrnament(input);
+      }
+      await showLook(input, ref);
+      geometry = await inspectGeometry(input, ref);
+      for (const prior of checked) {
+        assert.notEqual(geometry.asset.sha256, prior.asset.sha256);
+        assert.notEqual(geometry.source.sourceGlbSha256, prior.source.sourceGlbSha256);
+        assert.notDeepEqual(geometry.localBounds, prior.localBounds);
+        assert.deepEqual(geometry.world, prior.world);
+      }
+      checked.push(geometry);
+      return { overview, image: await screenshot(imageName(ref, index + 1)), geometry };
+    });
+    if (last) {
+      await check('Reject an off-table installation without changing the scene or saved bytes', async () => {
+        saved = await save(input, ref);
+        return { ...await refuseOverhang(input, saved), pin: saved.pin };
+      });
+    }
+    await check('Save and automatically restore ' + key + ' after Chromium restarts', async () => {
+      if (!saved) saved = await save(input, ref);
+      await recover(input, saved);
+      const recovered = await inspectGeometry(input, ref);
+      assert.deepEqual(recovered, geometry);
+      let image;
+      if (last) {
+        await click('#edit-focus');
+        image = await screenshot(imageName(ref, index + 2, '-restored'));
+      }
+      return { geometry: recovered, pin: saved.pin, image };
+    });
+  }
   if (record) {
-    await check('Capture both ornaments in one normal-speed browser session', async () => {
+    await check('Capture all requested ornaments in one normal-speed browser session', async () => {
       await closeBrowser();
       profile = await fs.mkdtemp(path.join(out, 'recording-profile-'));
       await openBrowser(true);
@@ -359,11 +387,11 @@ async function run() {
       await showRoom(input);
       await page.waitForTimeout(1100);
       await pickOrnament(input);
-      await click('#edit-focus');
-      await page.waitForTimeout(1500);
-      await replace(input, plant);
-      await click('#edit-focus');
-      await page.waitForTimeout(1500);
+      for (const ref of references) {
+        await showLook(input, ref);
+        await renderedFrame();
+        await page.waitForTimeout(1500);
+      }
       const raw = await page.video().path();
       await closeBrowser();
       const file = path.join('video', 'sourced-ornaments-normal.webm');

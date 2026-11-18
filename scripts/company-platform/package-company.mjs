@@ -10,6 +10,7 @@ const extraFiles=[
   'scripts/company-platform/test-ornament-publication.mjs',
   'scripts/company-platform/adapt-tabletop-ornament.mjs',
   'scripts/company-platform/qa-sourced-ornaments.cjs',
+  'scripts/company-platform/test-four-sourced-ornaments.mjs',
   'assets-source/company-sourced-ornaments-v1/collection.json',
   'scripts/company-platform/describe-sourced-table.mjs',
   'scripts/company-platform/test-sourced-table-geometry.mjs',

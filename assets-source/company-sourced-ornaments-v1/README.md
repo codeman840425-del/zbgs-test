@@ -1,6 +1,6 @@
 # 桌面陈列摆件配方
 
-陈列书组与小盆栽来自 Kenney Furniture Kit 2.0。原 ZIP 的 `License.txt` 声明 CC0，可用于个人、教育和商业项目。两个配方各自固定原包、原 GLB 条目及原许可证的 SHA-256。ZIP 中同名 DAE 可导入编辑，制作以固定 GLB 为输入。[Kenney Furniture Kit](https://kenney.nl/assets/furniture-kit)
+书组、小盆栽、复古收音机与开口纸盒分别使用 Kenney Furniture Kit 2.0 的四个独立模型。原 ZIP 的 `License.txt` 声明 CC0，可用于个人、教育和商业项目。每份配方均固定原包、原 GLB 条目及原许可证的 SHA-256。ZIP 中同名 DAE 可导入编辑，制作以固定 GLB 为输入。收音机和纸盒使用静态陈列合同。[Kenney Furniture Kit](https://kenney.nl/assets/furniture-kit)
 
 配方声明资源身份、源路径、许可、坐标、填充比例与附加转向。`source.path` 相对于项目根。原包输入增加 `archiveEntry` 和 GLB 条目自己的 `modelSha256`，可同时声明 `licenseEntry` 和 `licenseSha256`。直接 GLB 输入使用文件路径与 `sha256`，省略 ZIP 条目字段。`metresPerUnit` 将源单位换算为米，`up` 与 `forward` 使用垂直的带符号坐标轴。`yawQuarterTurns` 为 0 至 3，`fill` 为 0 到 1 之间的正值。更换来源或尺寸时，复制配方，并使用新资源身份或版本发布。
 
