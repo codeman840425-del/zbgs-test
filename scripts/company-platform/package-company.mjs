@@ -532,6 +532,18 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   add('data/library-catalog.json',catalogBytes,'complete-catalog');
   add('data/templates.json',templateBytes,'complete-templates');
   const supplemental=new Set(extraFiles);
+  const plantValidator='scripts/company-platform/plant-editable-source.mjs';
+  const plantSourcePins=new Map();
+  let plantTools;
+  try {
+    await noLinks(path.join(source,plantValidator));
+    plantTools=await import(pathToFileURL(path.join(source,plantValidator)).href);
+    supplemental.add(plantValidator);
+  } catch(error) {
+    if(error.code!=='ENOENT')throw error;
+    const publisher=await read(source,'scripts/company-platform/publish-room-appearance.mjs');
+    if(publisher.includes('plant-editable-source.mjs'))fail('missing-production-tool',plantValidator,'The registered plant production toolchain requires its validator');
+  }
   const namedTrainingTest='scripts/company-platform/test-named-training-handoff.mjs';
   try{
     await noLinks(path.join(source,namedTrainingTest));
@@ -570,6 +582,13 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   }
   if (catalog.resources.some(resource => resource.productionBranch === 'plant-desktop-installation')) {
     supplemental.add('docs/research/COMPANY-DESKTOP-PLANTS-PRODUCTION.md');
+    if (plantTools) {
+      const toolchain=await plantTools.plantToolchain(source);
+      for(const tool of Object.values(toolchain))plantSourcePins.set(tool.path,tool.sha256);
+      supplemental.add(plantTools.plantProducer);
+      supplemental.add(plantTools.plantToolLock);
+      supplemental.add('scripts/company-platform/test-plant-editable-source.mjs');
+    }
     supplemental.add('scripts/company-platform/test-desktop-plant-assets.mjs');
     supplemental.add('scripts/company-platform/test-desktop-plant-rooms.mjs');
     supplemental.add('scripts/company-platform/qa-desktop-plant-rooms.cjs');
@@ -617,12 +636,22 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(!files.has(`viewer${asset.url}`))fail('missing-runtime-asset',name,'Viewer is missing a catalog GLB');
     assetDependencies.push({id:resource.id,version:resource.version,path:name,bytes:bytes.length,sha256:hash(bytes)});
     const entry=resource.provenance;
+    const plant = resource.productionBranch === 'plant-desktop-installation';
+    if (plant && plantTools) {
+      const recipe = decode(await read(source,entry.sourceParameters),entry.sourceParameters);
+      const pins = await plantTools.verifyPlantEditableProvenance(source,resource,recipe);
+      for (const pin of pins.values()) {
+        supplemental.add(pin.path);
+        plantSourcePins.set(pin.path,pin.sha256);
+      }
+    }
     if (geometryChecks.has(resource.productionBranch)) {
       for (const [field, dependency] of Object.entries(entry.dependencies)) {
         const target = dependency.path;
         relative(target);
         const geometryTest = 'scripts/company-platform/'+geometryChecks.get(resource.productionBranch);
-        if (!(target.startsWith('assets-source/company-') || target === geometryTest))
+        if (!(target.startsWith('assets-source/company-') || target === geometryTest ||
+          (plant && plantTools && ({geometryCompiler:plantTools.plantCompiler,editableSourceValidator:plantValidator,producerLock:plantTools.plantToolLock})[field]===target)))
           fail('unsafe-production-source', target, 'Expected an artwork source, license or geometry check');
         const bytes = await read(source,target);
         if (hash(bytes) !== dependency.sha256)
@@ -654,7 +683,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   const toolRoot=path.dirname(fileURLToPath(import.meta.url));
   const own=await fs.readFile(fileURLToPath(import.meta.url));add('source/scripts/company-platform/package-company.mjs',own,'packaging-tool');
   for(const name of await list(toolRoot,'package-template'))add(`source/scripts/company-platform/${name}`,await read(toolRoot,name),'packaging-template');
-  for(const name of [...supplemental].sort())if(!files.has(`source/${name}`))add(`source/${name}`,await read(source,name),'editable-production-source');
+  for(const name of [...supplemental].sort())if(!files.has(`source/${name}`)){
+    const bytes=await read(source,name);
+    if(plantSourcePins.has(name)&&hash(bytes)!==plantSourcePins.get(name))fail('production-source-hash-mismatch',name,'Plant input changed while preparing the package');
+    add(`source/${name}`,bytes,'editable-production-source');
+  }
   const readme=(await read(toolRoot,'package-template/README.template.md')).toString('utf8').replaceAll('{{BUILD_ID}}',buildId).replaceAll('{{SOURCE_DIGEST}}',info.sourceDigest);
   add('README.md',Buffer.from(readme,'utf8'),'handoff-instructions');add('serve.mjs',await read(toolRoot,'package-template/serve.mjs'),'local-http-viewer');
   add('edit.mjs',await read(toolRoot,'package-template/edit.mjs'),'standalone-data-editor');

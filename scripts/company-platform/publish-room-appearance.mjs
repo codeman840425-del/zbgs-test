@@ -6,6 +6,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {isDeepStrictEqual, promisify} from 'node:util';
 import {buildLibrary, planPath, replaceIndex, withCatalogWriteLock} from './build-library.mjs';
+import {editableSources,plantProducer,plantToolchain} from './plant-editable-source.mjs';
 import {compareFacilityFunction} from '../../prototype/src/company/appearance-contract.js';
 import {createCompany, deriveCompany} from '../../prototype/src/company/document.js';
 
@@ -138,6 +139,9 @@ async function publish(recipePath,check) {
   for (const tool of pinnedTools) {
     if (hash(await regularFile(tool.path)) !== tool.sha256) fail('appearance-tool-pin-mismatch',tool.path);
   }
+  const plant = family === 'desktop-plants';
+  const plantPins = plant ? await editableSources(root,input) : null;
+  const plantTools = plant ? await plantToolchain(root) : null;
   const perDesignSource = family === 'wall-ambient' || family === 'desktop-plants';
   const artwork = new Map();
   const designBranches = new Map();
@@ -163,7 +167,7 @@ async function publish(recipePath,check) {
         const license = await regularFile(source.licensePath);
         if (hash(bytes) !== source.sha256 || hash(license) !== source.licenseSha256)
           fail('appearance-source-pin-mismatch',source.path);
-        if (source.editable) {
+        if (!plant && source.editable) {
           productionSource(source.editable.path);
           if (hash(await regularFile(source.editable.path)) !== source.editable.sha256)
             fail('appearance-source-pin-mismatch',source.editable.path);
@@ -195,7 +199,7 @@ async function publish(recipePath,check) {
       if (check) fail('appearance-unregistered',recipePath);
       await writeNew(pinned,inputBytes,ownedFiles);
     }
-    try {await run(process.execPath,[generator,'--output',staged,'--parameters',pinned],{cwd:root,maxBuffer:8*1024*1024});}
+    try {await run(process.execPath,[plant ? plantProducer : generator,'--output',staged,'--parameters',pinned],{cwd:root,maxBuffer:8*1024*1024});}
     catch (error) {fail('appearance-generation-failed',error.stderr?.trim() || error.message);}
     const generated = parse(await fs.readFile(path.join(staged,collectionPath)));
     assert.equal(generated.sourceParameters,pinned);
@@ -223,7 +227,15 @@ async function publish(recipePath,check) {
         assert.equal(resource.provenance.sourceLicense,source.license);
         expectedDependencies = {...expectedDependencies,license:{path:source.licensePath,sha256:source.licenseSha256}};
         delete expectedDependencies.editableContour;
-        if (source.editable) expectedDependencies.editableContour = source.editable;
+        if (!plant && source.editable) expectedDependencies.editableContour = source.editable;
+        if (plant) {
+          const design=input.designs.find(d=>d.id===entry.id && d.version===entry.version);
+          const editable=plantPins.get(design.source);
+          if (editable) Object.assign(expectedDependencies,{editableSource:editable,geometryCompiler:plantTools.compiler,
+            editableSourceValidator:plantTools.validator,producerLock:plantTools.lock});
+          const producer=editable ? plantTools.producer : plantTools.compiler;
+          assert.equal(resource.provenance.generator,producer.path);assert.equal(resource.provenance.generatorSha256,producer.sha256);
+        }
       }
       assert.deepEqual(resource.provenance.dependencies,expectedDependencies);
       validateFunction(functionalReference,resource,family);
