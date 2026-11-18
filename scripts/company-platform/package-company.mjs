@@ -108,6 +108,10 @@ const extraFiles=[
   'scripts/company-platform/test-camera-background-data.mjs',
   'scripts/company-platform/qa-camera-background.cjs',
   'scripts/company-platform/serve.cjs',
+  'scripts/company-platform/build-headphones-collection.mjs',
+  'scripts/company-platform/register-headphones.mjs',
+  'scripts/company-platform/test-headphones-data.mjs',
+  'scripts/company-platform/qa-headphones.cjs',
   'prototype/scripts/build-id.mjs',
 ];
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
