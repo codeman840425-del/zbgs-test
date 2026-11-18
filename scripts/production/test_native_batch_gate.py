@@ -128,6 +128,54 @@ class NativeBatchGateTests(unittest.TestCase):
             self.assertEqual(row['runtimeHeadAuditEvidence']['budget']['status'], 'over-budget')
             self.assertTrue(row['adapterTasks'])
 
+    def test_exact_glasses_admission_clears_only_head_attachment(self):
+        batch = json.loads(Path('assets-source/native-parameter-game-packages-v1/import-batch.json').read_text(encoding='utf-8'))
+        catalog = json.loads(Path('prototype/src/native-production-catalog.json').read_text(encoding='utf-8'))
+        profiles = {row['bodyType']: row['profile']['sha256'] for row in catalog['entries']}
+        glasses = json.loads(Path('prototype/src/glasses-temple-fit-manifest.json').read_text(encoding='utf-8'))
+        accessory = json.loads(Path('prototype/public/assets/m1c/accessories.json').read_text(encoding='utf-8'))
+        accessory_sha = next(row['sha256'] for row in accessory['items'] if row['id'] == 'studio-glasses-v1')
+        candidates = []
+        for item in batch['items']:
+            spec = json.loads(Path(item['spec']).read_text(encoding='utf-8'))
+            entry = next(row for row in glasses['profiles'] if row['bodySHA256'] == spec['bodySha256'])
+            candidates.append({
+                'bodyType': spec['bodyType'], 'bodySha256': spec['bodySha256'],
+                'profileSha256': entry['sha256'], 'accessorySha256': accessory_sha,
+                'runtimeFit': 'passed', 'closeReopen': 'passed',
+            })
+        report = {'schema': 'native-glasses-admission-v1', 'status': 'passed', 'visualReview': 'passed',
+                  'scope': 'test-only exact glasses admission', 'candidates': candidates}
+        with tempfile.TemporaryDirectory(dir='output') as temp_dir:
+            report_path = Path(temp_dir) / 'glasses-admission.json'
+            report_path.write_text(json.dumps(report), encoding='utf-8')
+            result = evaluate(Path('assets-source/native-parameter-game-packages-v1/import-batch.json'),
+                              adapter_report=Path('evidence/m2-native-eye-admission-v9/adapter-regression.json'),
+                              glasses_report=report_path)
+        for row in result['items']:
+            checks = {item['check'] for item in row['adapterTasks']}
+            self.assertNotIn('headAttachments', checks)
+            self.assertNotIn('facialExpressions', checks)
+            self.assertEqual(row['resolvedChecks']['headAttachments']['status'], 'passed')
+            self.assertEqual(row['glassesAdmissionEvidence']['scope'], 'test-only exact glasses admission')
+            self.assertIn('dynamicMotion', checks)
+
+    def test_candidate_only_glasses_report_cannot_clear_head_attachment(self):
+        source = json.loads(Path('prototype/src/glasses-temple-fit-manifest.json').read_text(encoding='utf-8'))
+        accessory = json.loads(Path('prototype/public/assets/m1c/accessories.json').read_text(encoding='utf-8'))
+        accessory_sha = next(row['sha256'] for row in accessory['items'] if row['id'] == 'studio-glasses-v1')
+        profile = source['profiles'][0]
+        report = {'schema': 'native-glasses-admission-v1', 'status': 'candidate-only', 'visualReview': 'pending',
+                  'candidates': [{'bodyType': profile['body'], 'bodySha256': profile['bodySHA256'],
+                                 'profileSha256': profile['sha256'], 'accessorySha256': accessory_sha,
+                                 'runtimeFit': 'candidate', 'closeReopen': 'pending'}]}
+        with tempfile.TemporaryDirectory(dir='output') as temp_dir:
+            report_path = Path(temp_dir) / 'glasses-admission.json'
+            report_path.write_text(json.dumps(report), encoding='utf-8')
+            with self.assertRaises(GateError):
+                evaluate(Path('assets-source/native-parameter-game-packages-v1/import-batch.json'),
+                         glasses_report=report_path)
+
 
 if __name__ == '__main__':
     unittest.main()

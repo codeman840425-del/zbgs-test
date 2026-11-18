@@ -106,5 +106,10 @@ python -B scripts/production/native_admission_cycle.py `
   --adapter-report <adapter-report.json> `
   --microphone-report <microphone-registration.json> `
   --adaptation-report <adaptation-admissions.json> `
-  --runtime-head-audit <runtime-record-budget-head-attachment-audit.json>
+  --runtime-head-audit <runtime-record-budget-head-attachment-audit.json> `
+  --glasses-report <exact-glasses-admission.json>
 ```
+
+`--glasses-report` 是可选的强准入输入，必须是
+`native-glasses-admission-v1`，同时声明精确 body/profile/accessory SHA、正常运行、关闭重开和人工视觉检查均通过；candidate-only、`verified:false` 或 legacy
+捕获会被拒绝。它只清除对应身体的 `headAttachments`，不会放宽动态、表面、预算或普通电脑检查。

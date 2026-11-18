@@ -327,12 +327,57 @@ def accessory_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
     return result
 
 
+def glasses_admission_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
+    """Index an exact, human-reviewed glasses admission report.
+
+    A source fit or a ``verified:false`` runtime candidate is deliberately not
+    enough. The report must carry exact body/profile identities plus normal
+    runtime, close/reopen, and visual-review passes. This lane clears only
+    ``headAttachments`` for the matching body.
+    """
+    path = path.resolve()
+    require(path.is_file() and path.is_relative_to(root), "Glasses admission report must be inside repository")
+    report = read_json(path)
+    require(report.get("schema") == "native-glasses-admission-v1", "Unsupported glasses admission report")
+    require(report.get("status") == "passed" and report.get("visualReview") == "passed",
+            "Glasses admission is not a visual pass")
+    result: dict[str, dict[str, Any]] = {}
+    for item in report.get("candidates", []):
+        body_type = item.get("bodyType")
+        body_sha = item.get("bodySha256")
+        profile_sha = item.get("profileSha256")
+        accessory_sha = item.get("accessorySha256")
+        require(isinstance(body_type, str) and re.fullmatch(r"[a-z][a-z0-9-]{1,95}", body_type),
+                "Glasses admission body type is invalid")
+        require(isinstance(body_sha, str) and SHA.fullmatch(body_sha),
+                "Glasses admission body identity is incomplete")
+        require(isinstance(profile_sha, str) and SHA.fullmatch(profile_sha),
+                "Glasses admission profile identity is incomplete")
+        require(isinstance(accessory_sha, str) and SHA.fullmatch(accessory_sha),
+                "Glasses admission accessory identity is incomplete")
+        require(item.get("runtimeFit") == "passed" and item.get("closeReopen") == "passed",
+                "Glasses admission runtime evidence is incomplete")
+        require(body_sha not in result, "Duplicate glasses admission body")
+        result[body_sha] = {
+            "bodyType": body_type,
+            "bodySha256": body_sha,
+            "profileSha256": profile_sha,
+            "accessorySha256": accessory_sha,
+            "report": pin(path),
+            "scope": report.get("scope", "exact body glasses runtime and visual admission"),
+            "checks": ["headAttachments"],
+        }
+    require(result, "Glasses admission report has no candidates")
+    return result
+
+
 def evaluate(batch_path: Path, root: Path = ROOT,
              runtime_report: Path | None = None,
              adapter_report: Path | None = None,
              microphone_report: Path | None = None,
              adaptation_report: Path | None = None,
-             runtime_head_audit: Path | None = None) -> dict[str, Any]:
+             runtime_head_audit: Path | None = None,
+             glasses_report: Path | None = None) -> dict[str, Any]:
     root = root.resolve()
     batch_path = batch_path.resolve()
     require(batch_path.is_file() and batch_path.is_relative_to(root), "Batch must be inside repository")
@@ -345,13 +390,27 @@ def evaluate(batch_path: Path, root: Path = ROOT,
     microphone_by_body = accessory_index(microphone_report, root) if microphone_report else {}
     adaptation_by_body = candidate_adaptation_index(adaptation_report, root) if adaptation_report else {}
     audit_by_body = runtime_head_audit_index(runtime_head_audit, root) if runtime_head_audit else {}
-    rows = [package_item(batch, item, root, runtime_by_body, adapter_by_body) for item in items]
+    glasses_by_body = glasses_admission_index(glasses_report, root) if glasses_report else {}
+    combined_adapter = dict(adapter_by_body)
+    for body_sha, evidence in glasses_by_body.items():
+        if body_sha not in combined_adapter:
+            combined_adapter[body_sha] = evidence
+            continue
+        merged = dict(combined_adapter[body_sha])
+        merged["checks"] = list(dict.fromkeys([*merged.get("checks", []), *evidence.get("checks", [])]))
+        merged["additionalReports"] = [
+            evidence["report"],
+        ]
+        combined_adapter[body_sha] = merged
+    rows = [package_item(batch, item, root, runtime_by_body, combined_adapter) for item in items]
     for row in rows:
         body_sha = row.get("bodySha256")
         if body_sha in adaptation_by_body:
             row["candidateAdaptationEvidence"] = adaptation_by_body[body_sha]
         if body_sha in audit_by_body:
             row["runtimeHeadAuditEvidence"] = audit_by_body[body_sha]
+        if body_sha in glasses_by_body:
+            row["glassesAdmissionEvidence"] = glasses_by_body[body_sha]
     for row in rows:
         if row["bodyType"] in microphone_by_body:
             row["accessoryEvidence"] = {"microphone": microphone_by_body[row["bodyType"]]}
@@ -397,11 +456,12 @@ def main() -> int:
     parser.add_argument("--microphone-report", type=Path)
     parser.add_argument("--adaptation-report", type=Path)
     parser.add_argument("--runtime-head-audit", type=Path)
+    parser.add_argument("--glasses-report", type=Path)
     args = parser.parse_args()
     try:
         report = evaluate(args.batch, runtime_report=args.runtime_report, adapter_report=args.adapter_report,
                           microphone_report=args.microphone_report, adaptation_report=args.adaptation_report,
-                          runtime_head_audit=args.runtime_head_audit)
+                          runtime_head_audit=args.runtime_head_audit, glasses_report=args.glasses_report)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
         print(json.dumps(report, ensure_ascii=False))
