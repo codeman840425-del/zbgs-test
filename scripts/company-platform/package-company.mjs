@@ -329,20 +329,27 @@ async function list(root,folder=''){
 function decode(bytes,location){try{return JSON.parse(bytes.toString('utf8'));}catch(error){fail('invalid-package-json',location,error.message);}}
 async function assertMissing(file){try{await fs.lstat(file);}catch(error){if(error.code==='ENOENT')return;throw error;}fail('package-output-exists',file,'Output already exists and will not be overwritten');}
 
-// A managed developer checkout shares one local workspace with its fixed Git worktrees.
-// A received package has its own source tree and can be used at the recipient's chosen location.
-async function checkManagedOutput(output) {
-  const checkout = path.resolve(defaultSource);
-  const parent = path.dirname(checkout);
-  const isFixedTree = path.basename(parent) === 'worktrees' &&
-    path.basename(path.dirname(parent)) === 'company-workspace';
-  const project = isFixedTree ? path.resolve(parent, '../..') : checkout;
-  try {
-    if (!(await fs.stat(path.join(project, 'scripts', 'company-platform', 'local-workspace.ps1'))).isFile()) return;
-  } catch (error) {
-    if (error.code === 'ENOENT') return;
-    throw error;
+// Find the owning checkout even when this tool runs from a locally unpacked handoff.
+// A recipient outside the managed workspace can choose their own output directory.
+export async function checkManagedOutput(output, toolSource = defaultSource) {
+  const checkout = path.resolve(toolSource);
+  const candidates = [checkout];
+  for (let dir = checkout; dir !== path.dirname(dir); dir = path.dirname(dir)) {
+    if (['company-workspace', 'output'].includes(path.basename(dir).toLowerCase()))
+      candidates.unshift(path.dirname(dir));
   }
+  let project;
+  for (const candidate of candidates) {
+    try {
+      if ((await fs.stat(path.join(candidate, 'scripts', 'company-platform', 'local-workspace.ps1'))).isFile()) {
+        project = candidate;
+        break;
+      }
+    } catch (error) {
+      if (error.code !== 'ENOENT' && error.code !== 'ENOTDIR') throw error;
+    }
+  }
+  if (!project) return;
   const releases = path.join(project, 'company-workspace', 'deliveries');
   if (path.relative(releases, path.dirname(output)) === '') return;
   const managed = ['output', 'company-workspace/production-trials'].some(folder => {
