@@ -1,0 +1,75 @@
+{
+  "status": "passed",
+  "designId": "compact-tower",
+  "displayName": "紧凑小型主机",
+  "style": "Low rounded compact tower with a front stack, top carry handle and offset status button.",
+  "sourceParameters": "assets-source/company-desktop-computer-v1/desktop-computer/compact-tower/parameters.json",
+  "sourceParametersSha256": "24b1c3f41b1949d59539ecbe7bfab340354095a3195d2ce6bda38c465f3b8e59",
+  "functionalContract": {
+    "id": "desktop-computer@1",
+    "source": "assets-source/company-desktop-computer-v1/contracts/desktop-computer.json",
+    "sha256": "ea1a669ffa5f5c0d822e526cbd328b0298f6fae44cf8c4dba3972c1738aadee5",
+    "mount": "desk-surface",
+    "parent": "desk.desktop",
+    "powerStatusEndpoint": {
+      "id": "power-status",
+      "node": "power-status",
+      "stateField": "on",
+      "position": [
+        0,
+        0.12,
+        0.226
+      ],
+      "direction": [
+        0,
+        0,
+        1
+      ],
+      "visible": true
+    }
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/desktop-computer-v1/desktop-computer/compact-tower/v1/model.glb",
+    "sha256": "a6a228a07f25a448bc528d706c6dad9124f19617a03be24b4909fc46477960ee",
+    "bytes": 205876
+  },
+  "checks": {
+    "meshCount": 11,
+    "triangles": 2052,
+    "nodeNames": [
+      "computer-body",
+      "front-bay",
+      "drive-slot",
+      "drive-slot-lower",
+      "carry-handle",
+      "power-button",
+      "computer-accent",
+      "computer-detail",
+      "screen-surface",
+      "power-status",
+      "power-port-back"
+    ],
+    "bounds": {
+      "min": [
+        -0.0949999988079071,
+        -5.364418020903372e-9,
+        -0.2140000001899898
+      ],
+      "max": [
+        0.0949999988079071,
+        0.2939999996125698,
+        0.19600000005215407
+      ]
+    },
+    "geometrySha256": "c29695e40e45bbdc977f9def859f4df47b3f16362f188c91b546b361649606a3",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true,
+    "cpuOnly": true
+  },
+  "limitations": [
+    "CPU GLB export and GLTFLoader readback only.",
+    "No real computer behavior, operating-system UI, thermal simulation or cable routing.",
+    "Desk-surface parent integration remains pending against the historical room.floor branch record."
+  ]
+}

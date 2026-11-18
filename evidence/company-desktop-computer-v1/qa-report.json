@@ -1,0 +1,101 @@
+{
+  "status": "passed",
+  "schema": "company-desktop-computer-cpu-qa-v1",
+  "collection": "company-desktop-computer-v1",
+  "checks": [
+    {
+      "id": "desktop-tower",
+      "sha256": "6118ae36109027c45764eb967b4401ce6de34141f325c8432cf109342c31d557",
+      "geometrySha256": "b3d60a50211b7388b38eb4610a81f8964fc1512dbbca45c69ca37aa236f3aadc",
+      "nodeCount": 11,
+      "bounds": {
+        "min": [
+          -0.09000000357627869,
+          2.384185793236071e-9,
+          -0.2140000001899898
+        ],
+        "max": [
+          0.09000000357627869,
+          0.3799999976158142,
+          0.20100000002607704
+        ]
+      },
+      "powerStatusNode": "power-status",
+      "cpuOnly": true,
+      "gltfReadback": true
+    },
+    {
+      "id": "compact-tower",
+      "sha256": "a6a228a07f25a448bc528d706c6dad9124f19617a03be24b4909fc46477960ee",
+      "geometrySha256": "c29695e40e45bbdc977f9def859f4df47b3f16362f188c91b546b361649606a3",
+      "nodeCount": 11,
+      "bounds": {
+        "min": [
+          -0.0949999988079071,
+          -5.364418020903372e-9,
+          -0.2140000001899898
+        ],
+        "max": [
+          0.0949999988079071,
+          0.2939999996125698,
+          0.19600000005215407
+        ]
+      },
+      "powerStatusNode": "power-status",
+      "cpuOnly": true,
+      "gltfReadback": true
+    },
+    {
+      "id": "all-in-one",
+      "sha256": "41a626eda75390a6fe3c6dfa8b8ff47672632a0d6bf5929a401b37b3d2f06056",
+      "geometrySha256": "4a543ce2cee387be51078bcb790c369f28edc9f79454293b7d1a0deabf4b6deb",
+      "nodeCount": 9,
+      "bounds": {
+        "min": [
+          -0.10000000149011612,
+          -1.862645142292063e-10,
+          -0.2140000001899898
+        ],
+        "max": [
+          0.10000000149011612,
+          0.4099999982118607,
+          0.10999999940395355
+        ]
+      },
+      "powerStatusNode": "power-status",
+      "cpuOnly": true,
+      "gltfReadback": true
+    },
+    {
+      "id": "workstation-tower",
+      "sha256": "10ffe25fa172ccd1744af63dd40bd39439ed63c62187b7a9109fd7bf5776f6c8",
+      "geometrySha256": "59d38062e1bb369f7f736c7960ae0f94531bea0bb8e05b75bc2ebacd17f27560",
+      "nodeCount": 12,
+      "bounds": {
+        "min": [
+          -0.10200000005215407,
+          -2.980232227667301e-9,
+          -0.2240000001899898
+        ],
+        "max": [
+          0.09000000357627869,
+          0.4180000001899898,
+          0.22300000002607703
+        ]
+      },
+      "powerStatusNode": "power-status",
+      "cpuOnly": true,
+      "gltfReadback": true
+    }
+  ],
+  "assertions": [
+    "Four stable resource IDs and four distinct geometry hashes",
+    "Desk-surface mount, parent and fixed envelope read back from every resource",
+    "Every GLB is self-contained and readable by GLTFLoader on CPU",
+    "Visible power-status node and material slots are present in every GLB"
+  ],
+  "limitations": [
+    "No browser scene, save/restore or visual acceptance in this CPU-only package.",
+    "No real computer behavior, cable routing or character use."
+  ]
+}

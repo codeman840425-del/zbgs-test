@@ -1,0 +1,76 @@
+{
+  "status": "passed",
+  "designId": "workstation-tower",
+  "displayName": "工作站主机",
+  "style": "Deep workstation tower with an angular side shell, dual front fans and a top-mounted status bar.",
+  "sourceParameters": "assets-source/company-desktop-computer-v1/desktop-computer/workstation-tower/parameters.json",
+  "sourceParametersSha256": "84b09d33eb7c179c6f878a00295a22d4782c588178c70737fea686fa710610a7",
+  "functionalContract": {
+    "id": "desktop-computer@1",
+    "source": "assets-source/company-desktop-computer-v1/contracts/desktop-computer.json",
+    "sha256": "ea1a669ffa5f5c0d822e526cbd328b0298f6fae44cf8c4dba3972c1738aadee5",
+    "mount": "desk-surface",
+    "parent": "desk.desktop",
+    "powerStatusEndpoint": {
+      "id": "power-status",
+      "node": "power-status",
+      "stateField": "on",
+      "position": [
+        0,
+        0.12,
+        0.226
+      ],
+      "direction": [
+        0,
+        0,
+        1
+      ],
+      "visible": true
+    }
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/desktop-computer-v1/desktop-computer/workstation-tower/v1/model.glb",
+    "sha256": "10ffe25fa172ccd1744af63dd40bd39439ed63c62187b7a9109fd7bf5776f6c8",
+    "bytes": 124420
+  },
+  "checks": {
+    "meshCount": 12,
+    "triangles": 1272,
+    "nodeNames": [
+      "computer-body",
+      "side-panel",
+      "front-fan-012",
+      "front-fan-025",
+      "fan-cross-left",
+      "fan-cross-right",
+      "top-status-bar",
+      "computer-accent",
+      "computer-detail",
+      "screen-surface",
+      "power-status",
+      "power-port-back"
+    ],
+    "bounds": {
+      "min": [
+        -0.10200000005215407,
+        -2.980232227667301e-9,
+        -0.2240000001899898
+      ],
+      "max": [
+        0.09000000357627869,
+        0.4180000001899898,
+        0.22300000002607703
+      ]
+    },
+    "geometrySha256": "59d38062e1bb369f7f736c7960ae0f94531bea0bb8e05b75bc2ebacd17f27560",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true,
+    "cpuOnly": true
+  },
+  "limitations": [
+    "CPU GLB export and GLTFLoader readback only.",
+    "No real computer behavior, operating-system UI, thermal simulation or cable routing.",
+    "Desk-surface parent integration remains pending against the historical room.floor branch record."
+  ]
+}

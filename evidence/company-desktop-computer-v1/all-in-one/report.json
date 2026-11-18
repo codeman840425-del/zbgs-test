@@ -1,0 +1,73 @@
+{
+  "status": "passed",
+  "designId": "all-in-one",
+  "displayName": "一体式电脑",
+  "style": "Slim display slab on a cantilever stand, wide glass screen and front status indicator.",
+  "sourceParameters": "assets-source/company-desktop-computer-v1/desktop-computer/all-in-one/parameters.json",
+  "sourceParametersSha256": "8982be0ceae55bd60679426f0e39299890d5bda02f68d691a6e767801d9922a9",
+  "functionalContract": {
+    "id": "desktop-computer@1",
+    "source": "assets-source/company-desktop-computer-v1/contracts/desktop-computer.json",
+    "sha256": "ea1a669ffa5f5c0d822e526cbd328b0298f6fae44cf8c4dba3972c1738aadee5",
+    "mount": "desk-surface",
+    "parent": "desk.desktop",
+    "powerStatusEndpoint": {
+      "id": "power-status",
+      "node": "power-status",
+      "stateField": "on",
+      "position": [
+        0,
+        0.12,
+        0.226
+      ],
+      "direction": [
+        0,
+        0,
+        1
+      ],
+      "visible": true
+    }
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/desktop-computer-v1/desktop-computer/all-in-one/v1/model.glb",
+    "sha256": "41a626eda75390a6fe3c6dfa8b8ff47672632a0d6bf5929a401b37b3d2f06056",
+    "bytes": 202192
+  },
+  "checks": {
+    "meshCount": 9,
+    "triangles": 2028,
+    "nodeNames": [
+      "computer-body",
+      "screen-bezel",
+      "screen-surface",
+      "stand-neck",
+      "stand-base",
+      "computer-accent",
+      "computer-detail",
+      "power-status",
+      "power-port-back"
+    ],
+    "bounds": {
+      "min": [
+        -0.10000000149011612,
+        -1.862645142292063e-10,
+        -0.2140000001899898
+      ],
+      "max": [
+        0.10000000149011612,
+        0.4099999982118607,
+        0.10999999940395355
+      ]
+    },
+    "geometrySha256": "4a543ce2cee387be51078bcb790c369f28edc9f79454293b7d1a0deabf4b6deb",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true,
+    "cpuOnly": true
+  },
+  "limitations": [
+    "CPU GLB export and GLTFLoader readback only.",
+    "No real computer behavior, operating-system UI, thermal simulation or cable routing.",
+    "Desk-surface parent integration remains pending against the historical room.floor branch record."
+  ]
+}
