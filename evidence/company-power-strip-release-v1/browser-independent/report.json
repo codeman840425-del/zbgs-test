@@ -1,0 +1,182 @@
+{
+  "build": "44b4bae90be9",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Four power-strip appearances and two real device links render",
+      "passed": true,
+      "observed": [
+        {
+          "resource": {
+            "id": "power-strip-desk",
+            "version": 1
+          },
+          "frame": {
+            "colors": 9,
+            "renderer": 37446
+          },
+          "object": {
+            "target": "power-strip/primary",
+            "meshes": 23
+          }
+        },
+        {
+          "resource": {
+            "id": "power-strip-underdesk",
+            "version": 1
+          },
+          "frame": {
+            "colors": 9,
+            "renderer": 37446
+          },
+          "object": {
+            "target": "power-strip/primary",
+            "meshes": 21
+          }
+        },
+        {
+          "resource": {
+            "id": "power-strip-tower",
+            "version": 1
+          },
+          "frame": {
+            "colors": 9,
+            "renderer": 37446
+          },
+          "object": {
+            "target": "power-strip/primary",
+            "meshes": 23
+          }
+        },
+        {
+          "resource": {
+            "id": "power-strip-usb",
+            "version": 1
+          },
+          "frame": {
+            "colors": 9,
+            "renderer": 37446
+          },
+          "object": {
+            "target": "power-strip/primary",
+            "meshes": 23
+          }
+        }
+      ]
+    },
+    {
+      "name": "State and replacement keep endpoint graph",
+      "passed": true,
+      "observed": {
+        "beforeLinks": [
+          {
+            "a": {
+              "deviceId": "power-strip/primary",
+              "portId": "usb-1"
+            },
+            "b": {
+              "deviceId": "power-strip/monitor",
+              "portId": "usb"
+            }
+          },
+          {
+            "a": {
+              "deviceId": "power-strip/primary",
+              "portId": "usb-4"
+            },
+            "b": {
+              "deviceId": "power-strip/keyboard",
+              "portId": "usb"
+            }
+          }
+        ],
+        "afterLinks": [
+          {
+            "a": {
+              "deviceId": "power-strip/primary",
+              "portId": "usb-1"
+            },
+            "b": {
+              "deviceId": "power-strip/monitor",
+              "portId": "usb"
+            }
+          },
+          {
+            "a": {
+              "deviceId": "power-strip/primary",
+              "portId": "usb-4"
+            },
+            "b": {
+              "deviceId": "power-strip/keyboard",
+              "portId": "usb"
+            }
+          }
+        ],
+        "state": {
+          "on": true
+        },
+        "frame": {
+          "colors": 9,
+          "renderer": 37446
+        }
+      }
+    },
+    {
+      "name": "Whole desk movement preserves links and instance separation",
+      "passed": true,
+      "observed": {
+        "links": [
+          {
+            "id": "power-strip/cable-monitor",
+            "link": {
+              "a": {
+                "deviceId": "power-strip/primary",
+                "portId": "usb-1"
+              },
+              "b": {
+                "deviceId": "power-strip/monitor",
+                "portId": "usb"
+              }
+            }
+          },
+          {
+            "id": "power-strip/cable-keyboard",
+            "link": {
+              "a": {
+                "deviceId": "power-strip/primary",
+                "portId": "usb-4"
+              },
+              "b": {
+                "deviceId": "power-strip/keyboard",
+                "portId": "usb"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Invalid state preserves document and save",
+      "passed": true,
+      "observed": {
+        "code": "invalid-device-state"
+      }
+    },
+    {
+      "name": "Save and browser restart preserve the selected power-strip state",
+      "passed": true,
+      "observed": {
+        "restored": true,
+        "state": {
+          "on": true
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Four endpoints reuse the existing visual USB-link profile. This is not electrical simulation.",
+    "SwiftShader browser render is not ordinary-PC performance evidence.",
+    "No character C3 usage."
+  ],
+  "errors": []
+}

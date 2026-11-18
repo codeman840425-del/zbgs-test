@@ -1,0 +1,79 @@
+{
+  "status": "passed",
+  "scope": "Power-strip four-endpoint desk resource, visual state, device links, replacement and save/restore",
+  "checks": [
+    {
+      "name": "Four real appearances share one desk, state and four-endpoint contract",
+      "passed": true,
+      "observed": {
+        "ids": [
+          "power-strip-desk",
+          "power-strip-underdesk",
+          "power-strip-tower",
+          "power-strip-usb"
+        ],
+        "distinctAssets": 4
+      }
+    },
+    {
+      "name": "Each appearance loads with two real device links",
+      "passed": true,
+      "observed": {
+        "samples": [
+          {
+            "target": "power-strip/primary",
+            "routes": 2
+          },
+          {
+            "target": "power-strip/primary",
+            "routes": 2
+          },
+          {
+            "target": "power-strip/primary",
+            "routes": 2
+          },
+          {
+            "target": "power-strip/primary",
+            "routes": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "Boolean state accepts on and rejects invalid input while preserving old document",
+      "passed": true,
+      "observed": {
+        "invalidCode": "invalid-device-state"
+      }
+    },
+    {
+      "name": "Appearance replacement retains transform and both endpoint references",
+      "passed": true,
+      "observed": {
+        "finalResource": {
+          "id": "power-strip-usb",
+          "version": 1
+        }
+      }
+    },
+    {
+      "name": "A claimed fourth-port route cannot be duplicated",
+      "passed": true,
+      "observed": {
+        "code": "cable-port-in-use"
+      }
+    },
+    {
+      "name": "Save and decode preserves the four-port graph and state",
+      "passed": true,
+      "observed": {
+        "bytes": 4842
+      }
+    }
+  ],
+  "limits": [
+    "Visual endpoints reuse the existing USB visual-link profile",
+    "No electrical simulation or USB communication",
+    "No character C3 usage"
+  ]
+}
