@@ -1,0 +1,85 @@
+{
+  "status": "passed",
+  "buildId": "83d6a963ffa3",
+  "sourceDigest": "83d6a963ffa3a959c1039165aa0084c024fa5db93501f3b8d3ef1c1885cb0711",
+  "manifestSha256": "039fc6b6dea516cc01c8626303a417ebec7b034e1c7ffaf9890d124808849d96",
+  "manifestFileCount": 1609,
+  "manifestSizeAndHashMatchesForEveryFile": true,
+  "manifestHasExactPayloadFileSet": true,
+  "viewerFiles": 477,
+  "viewerComparison": {
+    "sourceRebuild": {
+      "fileCount": 477,
+      "identicalFileSetsAndAllBytes": true,
+      "directory": "ephemeral rebuild of delivered source/prototype"
+    },
+    "fixedTree": {
+      "fileCount": 477,
+      "identicalFileSetsAndAllBytes": true,
+      "directory": "F:\\gamemake-company-ornaments-fixed-v2\\prototype\\dist-company"
+    },
+    "independentAuthor": {
+      "fileCount": 477,
+      "identicalFileSetsAndAllBytes": true,
+      "directory": "F:\\gamemake-company-ornament-author-trial-v1\\author-result\\delivery\\viewer"
+    }
+  },
+  "inputs": {
+    "default": {
+      "source": "F:/gamemake-company-sourced-ornaments-layout-v1.json",
+      "sourceSha256": "e9f831a54ca02216baa4fa95a8b63fa3b85bf698b7b2d6bdbdf8655acbcce182",
+      "packaged": "data/save.json",
+      "savedSha256": "e8ab9167d283cbd3f6c4ca09a6606a2cb49716a16e0ec0292f20720f5cff2f3e",
+      "matchingDocument": true,
+      "resource": "tabletop-books-kenney@1",
+      "validator": {
+        "ok": true,
+        "id": "concept-lounge-rental",
+        "revision": 3,
+        "floors": [
+          "concept-lounge-rental/ground"
+        ]
+      }
+    },
+    "potted-plant": {
+      "source": "F:/gamemake-company-sourced-ornaments-plant-v1.json",
+      "sourceSha256": "4e85163f9f46b64218845a4127f29b43c3b5c15ce1335ad5ab653b53ffd33d96",
+      "packaged": "data/rooms/potted-plant/save.json",
+      "savedSha256": "186cd9bb9a20e6fa579d2db103f22ac9580d9b27adf1ad6316094d24a4523849",
+      "matchingDocument": true,
+      "resource": "tabletop-plant-kenney@1",
+      "validator": {
+        "ok": true,
+        "id": "concept-lounge-rental",
+        "revision": 4,
+        "floors": [
+          "concept-lounge-rental/ground"
+        ]
+      }
+    },
+    "radio": {
+      "source": "F:/gamemake-company-ornament-author-trial-v1/author-result/room/save.json",
+      "sourceSha256": "c1eb0ee6753bf900a99e038ecf7a29c4ab95cf6fc6dcc0a813e85d6656e0cdd5",
+      "packaged": "data/rooms/radio/save.json",
+      "savedSha256": "bdd892f4e4df1f23f9b807986cbb5a04825c6e5fa05012727685c35353f40378",
+      "matchingDocument": true,
+      "resource": "tabletop-radio-kenney@1",
+      "validator": {
+        "ok": true,
+        "id": "concept-lounge-rental",
+        "revision": 4,
+        "floors": [
+          "concept-lounge-rental/ground"
+        ]
+      }
+    }
+  },
+  "fixedTree": "F:\\gamemake-company-ornaments-fixed-v2",
+  "packageCommand": "node scripts/company-platform/package-company.mjs prototype/dist-company 83d6a963ffa3 F:/gamemake-company-sourced-ornaments-layout-v1.json F:/gamemake-company-ornaments-delivery-v2 --source . --room potted-plant F:/gamemake-company-sourced-ornaments-plant-v1.json --room radio F:/gamemake-company-ornament-author-trial-v1/author-result/room/save.json",
+  "rebuildCommands": [
+    "npm ci --offline --no-audit --no-fund",
+    "node scripts/build-company-id.mjs",
+    "node node_modules/vite/bin/vite.js build --config vite.company.config.js"
+  ],
+  "portsUsed": false
+}
