@@ -20,6 +20,15 @@ CREW_PREFIX = '/reviews/native-crew/'
 CREW_FILES = {'index.html', 'close/original.png', 'close/socks.png',
               'room/room-produced.png', 'room/room-produced-1x.webm',
               'game-restore/produced-pair.png', 'game-restore/produced-pair-1x.webm'}
+NORMAL_REVIEW = '/reviews/native-body-cost/'
+NORMAL_MEDIA = {
+    NORMAL_REVIEW: 'm2-native-body-cost-v1/index.html',
+    **{NORMAL_REVIEW + f: 'm2-native-body-cost-v1/' + f for f in (
+        'index.html', 'room/room-produced-1x.webm', 'game/produced-pair-1x.webm',
+        'old/0-face-1.png', 'new/0-face-1.png', 'comparison.json')},
+    '/reviews/m2-native-short-socks-room-v1/room/room-produced-1x.webm':
+        'm2-native-short-socks-room-v1/room/room-produced-1x.webm',
+}
 
 def make_server(config, *, verification=False):
     if config['port'] != 4196:
@@ -48,6 +57,8 @@ def make_server(config, *, verification=False):
         def translate_path(self, path):
             # Review recordings stay outside the game build and its download budget.
             name = urlsplit(path).path
+            if config.get('nativeNormalReview') and name in NORMAL_MEDIA:
+                return str(ROOT / 'evidence' / NORMAL_MEDIA[name])
             if config.get('nativeCrewReview') and name.startswith(CREW_PREFIX):
                 member = name[len(CREW_PREFIX):] or 'index.html'
                 if member in CREW_FILES:

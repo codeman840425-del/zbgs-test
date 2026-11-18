@@ -2,6 +2,10 @@
 
 ## 固定入口与备份
 
+最新候选源码 3058c41c，构建 fbf65135f5eb。双实例的单色脸法线和共享身体法线已在实际 WebGL2 核对，收益与剩余预算见 CAPABILITIES；同机位录像和回看入口为 evidence/m2-native-body-cost-v1/index.html。两次独立构建 508 文件一致，38 文件游戏包用原记录完成冷开恢复。4196 当前实测仍在 0d1ccbf3ff61，下次正常启动指针指向新候选，fe2e58489bbb 指针原字节归档。原生产工具交接仍固定在旧版。接续时优先验证已产出嘴部网格派生的实际讲话、剔除边界与身份适配；离线结果和重现脚本在 evidence/m2-native-body-cost-v1/mesh。静态整套准入及普通电脑实测仍缺。
+
+盘根巡检证实 37 个已迁移工作树的原路径都已消失。现用与旧版固定构建入口均拒绝越界工作树与报告，旧版入口增加盘根、路径回退和 Windows 目录联接回归。公司工程及融合测试独立保留。下列为此前发布记录。
+
 公司侧已给出供 C3 选择的固定场景构建 672695e1c4bd，详情在公司工程 evidence/company-screen-partition-release-v1/DELIVERY.md。角色与该场景的共同验收待做。角色预算最新实测在 evidence/m2-native-short-socks-room-v1/browser-budget/，静态超限细项在同目录上一级 selected-budget-verified.json。下一次从身体网格与贴图的已知超限项继续，复用已有资源发布调研及固定角色记录。
 本次批产交接固定工具 25ff9b2e、游戏源码 cfca0dd1、构建 fe2e58489bbb，入口见 delivery/character-production-handoff.json。接收方在两份独立干净检出中重建新角色，复算了相同的 38 文件游戏包。房间走坐起、旧新记录同屏及同机位鞋面近景在 evidence/m2-native-short-socks-room-v1/index.html。技术候选保留鞋侧露袜；真实整套准入仍为空。下一项优先核查同一批产工具在完整造型上的资源预算及适配拒绝。
 

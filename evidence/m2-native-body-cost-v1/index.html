@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>角色贴图优化前后对照</title>
+<style>
+body{font:16px/1.55 system-ui,sans-serif;background:#f6f5ef;color:#213b38;max-width:1440px;margin:auto;padding:1.5rem}h1,h2{line-height:1.22}h1{font-size:1.9rem}section{display:grid;grid-template-columns:1fr 1fr;gap:1rem}figure{margin:0}figcaption{margin:.4rem 0}video,img{display:block;width:100%;height:auto;background:#e4e6df}button{font:inherit;padding:.45em 1em;cursor:pointer}a{color:#036b60} @media(max-width:760px){section{grid-template-columns:1fr}}
+</style>
+<main><h1>同一造型，贴图优化前后</h1>
+<p>原生男性 7586，短裤和中筒袜。两份独立构建使用相同的角色记录、房间镜头与动作指令。录像按正常速度播放。</p>
+<button id="play" type="button">从头同时播放</button>
+<section><figure><figcaption>原版 · fe2e58489bbb</figcaption><video controls preload="metadata" playsinline src="../m2-native-short-socks-room-v1/room/room-produced-1x.webm"></video></figure>
+<figure><figcaption>新版 · fbf65135f5eb</figcaption><video controls preload="metadata" playsinline src="room/room-produced-1x.webm"></video></figure></section>
+<h2>同一姿势下的脸部光照</h2><section>
+<figure><a href="old/0-face-1.png"><img src="old/0-face-1.png" alt="原版游戏实际渲染脸部"></a><figcaption>原版，点击查看原尺寸</figcaption></figure>
+<figure><a href="new/0-face-1.png"><img src="new/0-face-1.png" alt="新版游戏实际渲染脸部"></a><figcaption>新版，点击查看原尺寸</figcaption></figure></section>
+<p>两人同屏时，脸部与身体法线贴图少分配 25,165,816 字节 RGBA8 纹素。两种退出顺序分别验证，十张固定姿势图逐像素一致。测量范围为开发机上的这两份记录。源 VRM 的下载大小和静态预算仍和原来相同。</p>
+<p><a href="game/produced-pair-1x.webm">独立游戏包双人录像</a> · <a href="comparison.json">逐帧与分配数据</a></p></main>
+<script>document.getElementById('play').onclick=async()=>{const videos=[...document.querySelectorAll('video')];for(const v of videos){v.currentTime=0;v.playbackRate=1;}await Promise.all(videos.map(v=>v.play()));};</script></html>

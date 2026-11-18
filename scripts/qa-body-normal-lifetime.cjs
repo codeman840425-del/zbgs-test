@@ -70,7 +70,7 @@ async function main() {
         });
         const handles = textures.map(t => renderer.properties.get(t).__webglTexture);
         if (!handles.every(h => h && gl.isTexture(h))) throw Error('Body normals were not drawn');
-        const storage = [], portraits = [];
+        const storage = [], portraits = [], faceHandles = [];
         if (expectedFaceSize) {
           for (const [i,actor] of actors.entries()) {
             const faces = new Set();
@@ -80,6 +80,8 @@ async function main() {
             });
             if (faces.size !== 1) throw Error('Expected one active face normal texture');
             const face = [...faces][0], faceHandle = renderer.properties.get(face).__webglTexture;
+            if (!faceHandle || !gl.isTexture(faceHandle)) throw Error('Face normal was not drawn');
+            faceHandles.push(faceHandle);
             storage.push({face:window.__qaAllocated2D.get(faceHandle), body:window.__qaAllocated2D.get(handles[i])});
             const close = camera.clone();
             const head = actor.avatar.vrm.humanoid.getRawBoneNode('head').getWorldPosition(close.position.clone());
@@ -104,7 +106,7 @@ async function main() {
           JSON.stringify(keptAppearance.equipmentMaterials) === JSON.stringify(materials[1-remove]);
         d.actors.delete(survivor.identity.id); survivor.dispose();
         await tick();
-        return {pair,before,after,portraits,storage,removed:departed.identity.id,baseline,loaded,
+        return {pair,before,after,portraits,storage,sameFaceHandle:expectedFaceSize ? faceHandles[0]===faceHandles[1] : null,removed:departed.identity.id,baseline,loaded,
           sameTexture:textures[0]===textures[1],sameHandle:handles[0]===handles[1],survived,removedStillLive,
           restored,finalReleased:handles.every(h=>!gl.isTexture(h)),released:renderer.info.memory.textures};
       }, {records, materials, build, remove, expectedFaceSize});
