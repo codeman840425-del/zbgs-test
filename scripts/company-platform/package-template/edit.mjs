@@ -25,12 +25,7 @@ try{
   const derived=documentTools.deriveCompany(document,catalog,templates);
   if(derived.facilities.some(f=>f.resource.mounting?.reserveDesktopArea===true)){
     const {preflightDesktopAreas}=await import('./source/scripts/company-platform/preflight-library-assets.mjs');
-    try{await preflightDesktopAreas(path.join(root,'source'),derived);}
-    catch(error){
-      if(error.code==='ERR_MODULE_NOT_FOUND' && /three/.test(error.message))
-        throw Object.assign(Error('Run npm ci in source/prototype of a working copy to check physical desktop clearance'),{code:'desktop-check-requires-dependencies'});
-      throw error;
-    }
+    await preflightDesktopAreas(path.join(root,'source'),derived);
   }
   const constraint=manifest.savedCompany?.trainingClearance;
   if(document.id===manifest.savedCompany?.id && constraint){
@@ -54,4 +49,9 @@ try{
     }finally{if(stage&&path.dirname(path.resolve(stage))===parent)await fs.rm(stage,{recursive:true,force:true});}
   }
   console.log(JSON.stringify({ok:true,id:document.id,revision:document.revision,floors:document.nodes.filter(node=>node.kind==='floor').map(node=>node.id),output},null,2));
-}catch(error){console.error(JSON.stringify({ok:false,code:error.code||'edit-error',path:error.path,message:error.message},null,2));process.exitCode=1;}
+}catch(error){
+  const missingThree=error.code==='ERR_MODULE_NOT_FOUND' && /Cannot find package 'three'/.test(error.message);
+  const code=missingThree?'edit-requires-dependencies':error.code||'edit-error';
+  const message=missingThree?'Install the locked editing dependencies in a working copy with npm ci --prefix source/prototype':error.message;
+  console.error(JSON.stringify({ok:false,code,path:error.path,message},null,2));process.exitCode=1;
+}
