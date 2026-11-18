@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>普通制服上衣纹理对照</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172524;
+      --muted: #445654;
+      --accent: #234c43;
+      --paper: #f4f6f3;
+      --surface: #fff;
+      --line: #a9b7b2;
+      --gutter: clamp(12px, 3vw, 36px);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font: 16px/1.55 system-ui, sans-serif; }
+    main { width: min(100%, 73rem); margin-inline: auto; padding: clamp(20px, 4vw, 48px) var(--gutter); }
+    h1, h2, p, figure { margin: 0; }
+    h1 { font-size: clamp(1.55rem, 4vw, 2.6rem); line-height: 1.2; }
+    h2 { font-size: 1.08rem; line-height: 1.35; }
+    header p, .still-heading p, footer, .film-link, #media-status { color: var(--muted); }
+    header p { margin-top: 8px; }
+    section { margin-top: 22px; }
+    button, a, input { -webkit-tap-highlight-color: #5d877d33; }
+    button { min-height: 44px; padding: 6px 13px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: inherit; font: inherit; cursor: pointer; }
+    button[aria-pressed="true"], #play { border-color: var(--accent); background: var(--accent); color: #fff; }
+    button:disabled { opacity: .65; cursor: default; }
+    a { color: var(--accent); text-underline-offset: .2em; }
+    :focus-visible { outline: 3px solid #1f6f5c; outline-offset: 3px; }
+    .selector, .transport, .scrub { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .selector { margin-top: 16px; }
+    .selector button { min-width: 78px; }
+    .films, .stills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(8px, 2vw, 20px); }
+    .films { margin-top: 10px; }
+    .films figure, .stills figure { overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+    figcaption { padding: 7px clamp(7px, 2vw, 14px); font-weight: 650; }
+    .films figcaption { font-size: clamp(.84rem, 2.5vw, 1rem); }
+    video, img { display: block; width: 100%; height: auto; }
+    video { aspect-ratio: 520 / 407; background: #1b2524; object-fit: contain; }
+    .film-link { display: flex; align-items: center; min-height: 44px; padding-inline: clamp(7px, 2vw, 14px); font-size: .88rem; }
+    .transport { margin-top: 12px; }
+    .scrub { flex: 1 1 14rem; flex-wrap: nowrap; }
+    .scrub input { flex: 1; min-width: 0; min-height: 44px; margin: 0; accent-color: var(--accent); }
+    output { font-size: .89rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    #media-status { margin-top: 4px; min-height: 1.55em; font-size: .9rem; }
+    .still-heading { margin-bottom: 10px; }
+    .still-heading p { margin-top: 4px; font-size: .9rem; }
+    .stills a { display: block; }
+    .stills a:focus-visible { outline-offset: -4px; }
+    .stills img { background: #e2eae6; }
+    footer { margin-top: 24px; padding-top: 12px; border-top: 1px solid var(--line); font-size: .9rem; }
+    @media (max-width: 38rem) {
+      .stills { grid-template-columns: minmax(0, 1fr); }
+      .scrub { flex-basis: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>普通制服上衣纹理对照</h1>
+      <p>比较男女样例在同一视角下的原版与派生版上衣。</p>
+      <div class="selector" role="group" aria-label="选择人物">
+        <button type="button" data-gender="male" aria-pressed="true">男体</button>
+        <button type="button" data-gender="female" aria-pressed="false">女体</button>
+      </div>
+    </header>
+
+    <section aria-labelledby="film-heading">
+      <h2 id="film-heading">同步回放 · 男体</h2>
+      <div class="films">
+        <figure>
+          <figcaption id="caption-near">原版 · 2048 × 2048</figcaption>
+          <video id="film-near" playsinline muted preload="metadata" aria-labelledby="caption-near"></video>
+          <a class="film-link" id="link-near" href="film-male-near/room-produced-1x.webm">打开原版短片</a>
+        </figure>
+        <figure>
+          <figcaption id="caption-far">派生 · 1024 × 1024</figcaption>
+          <video id="film-far" playsinline muted preload="metadata" aria-labelledby="caption-far"></video>
+          <a class="film-link" id="link-far" href="film-male-far/room-produced-1x.webm">打开派生短片</a>
+        </figure>
+      </div>
+      <div class="transport">
+        <button type="button" id="play" disabled>同步播放</button>
+        <button type="button" id="restart" disabled>从头播放</button>
+        <div class="scrub">
+          <input id="position" type="range" min="0" max="0" step="0.01" value="0" aria-label="两段短片的共同进度" disabled>
+          <output id="time" role="timer" for="position">0:00 / 0:00</output>
+        </div>
+      </div>
+      <p id="media-status" role="status"></p>
+    </section>
+
+    <section aria-labelledby="still-heading">
+      <div class="still-heading">
+        <h2 id="still-heading">同镜头静帧 · 男体</h2>
+        <p>左为原 2048，右为派生 1024。点击查看原尺寸对照。</p>
+      </div>
+      <div class="stills" id="stills"></div>
+    </section>
+
+    <footer>
+      本页只比较两种身体的普通制服上衣主色贴图及所示站姿、坐姿。画面供人工比对，普通电脑与 GPU 性能尚未测量。
+    </footer>
+  </main>
+  <script>
+    const people = {male: '男体', female: '女体'};
+    const views = [
+      ['standing', 'front', '站姿 · 正面'], ['standing', 'room', '站姿 · 房间'],
+      ['seated', 'front', '坐姿 · 正面'], ['seated', 'room', '坐姿 · 房间'],
+    ];
+    const byId = id => document.getElementById(id);
+    const films = [byId('film-near'), byId('film-far')];
+    const [near, far] = films;
+    const buttons = [...document.querySelectorAll('[data-gender]')];
+    const playButton = byId('play');
+    const restartButton = byId('restart');
+    const position = byId('position');
+    const status = byId('media-status');
+    const imageSizes = {
+      male: [[636, 380], [90, 78], [638, 383], [140, 86]],
+      female: [[524, 350], [84, 70], [524, 356], [116, 81]],
+    };
+    let duration = 0;
+    let playing = false;
+    let playback = 0;
+    let frame = 0;
+    let mediaRequest;
+    let videoUrls = [];
+
+    function timeText(seconds) {
+      const whole = Math.floor(seconds);
+      return Math.floor(whole / 60) + ':' + String(whole % 60).padStart(2, '0');
+    }
+
+    function renderTime(seconds) {
+      position.value = seconds;
+      position.setAttribute('aria-valuetext', timeText(seconds) + ' / ' + timeText(duration));
+      byId('time').value = timeText(seconds) + ' / ' + timeText(duration);
+    }
+
+    function setDuration(seconds) {
+      duration = seconds;
+      position.max = seconds;
+      playButton.disabled = restartButton.disabled = position.disabled = !seconds;
+      renderTime(Math.min(near.currentTime, seconds));
+    }
+
+    function pause() {
+      playback++;
+      playing = false;
+      cancelAnimationFrame(frame);
+      films.forEach(film => film.pause());
+      playButton.textContent = '同步播放';
+    }
+
+    function seek(seconds) {
+      const time = Math.max(0, Math.min(seconds, duration));
+      films.forEach(film => { film.currentTime = time; });
+      renderTime(time);
+    }
+
+    function finish() {
+      if (!playing) return;
+      pause();
+      seek(duration);
+    }
+
+    function sync() {
+      if (!playing) return;
+      const time = Math.min(near.currentTime, duration);
+      if (time >= duration - 0.02) {
+        finish();
+        return;
+      }
+      if (!near.seeking && !far.seeking && Math.abs(far.currentTime - time) > 0.09)
+        far.currentTime = time;
+      renderTime(time);
+      frame = requestAnimationFrame(sync);
+    }
+
+    async function play(fromStart = false) {
+      if (!duration) return;
+      pause();
+      const current = playback;
+      seek(fromStart || near.currentTime >= duration - 0.05 ? 0 : near.currentTime);
+      playing = true;
+      status.textContent = '';
+      playButton.textContent = '暂停同步回放';
+      try {
+        await Promise.all(films.map(film => film.play()));
+        if (playback === current) sync();
+      } catch {
+        if (playback !== current) return;
+        pause();
+        status.textContent = '无法同步播放，可打开单独短片查看。';
+      }
+    }
+
+    async function loadPerson(gender) {
+      pause();
+      setDuration(0);
+      mediaRequest?.abort();
+      const request = new AbortController();
+      mediaRequest = request;
+      for (const film of films) {
+        film.removeAttribute('src');
+        film.load();
+      }
+      videoUrls.forEach(url => URL.revokeObjectURL(url));
+      videoUrls = [];
+      status.textContent = '正在读取短片。';
+      for (const button of buttons) button.setAttribute('aria-pressed', button.dataset.gender === gender);
+      byId('film-heading').textContent = '同步回放 · ' + people[gender];
+      byId('still-heading').textContent = '同镜头静帧 · ' + people[gender];
+      const sources = ['near', 'far'].map(tier => {
+        const source = 'film-' + gender + '-' + tier + '/room-produced-1x.webm';
+        byId('link-' + tier).href = source;
+        return source;
+      });
+      byId('stills').replaceChildren(...views.map(([pose, camera, label], index) => {
+        const source = 'room/' + gender + '-' + pose + '-' + camera + '-near-left-far-right.png';
+        const figure = document.createElement('figure');
+        const caption = document.createElement('figcaption');
+        caption.textContent = label;
+        const link = document.createElement('a');
+        link.href = source;
+        const image = document.createElement('img');
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        [image.width, image.height] = imageSizes[gender][index];
+        image.src = source;
+        image.alt = people[gender] + ' ' + label + '，左为原 2048，右为派生 1024';
+        link.append(image);
+        figure.append(caption, link);
+        return figure;
+      }));
+      try {
+        // The local review server sends whole files. A Blob keeps both films
+        // seekable while file:// can use the browser's native file reader.
+        if (location.protocol !== 'file:') {
+          const blobs = await Promise.all(sources.map(async source => {
+            const response = await fetch(source, {signal: request.signal});
+            if (!response.ok) throw Error('Clip unavailable');
+            return response.blob();
+          }));
+          if (request.signal.aborted) return;
+          videoUrls = blobs.map(blob => URL.createObjectURL(blob));
+        }
+        films.forEach((film, index) => { film.src = videoUrls[index] ?? sources[index]; });
+      } catch {
+        if (request.signal.aborted) return;
+        request.abort();
+        status.textContent = '有短片无法读取。可查看静帧或打开单独短片。';
+      }
+    }
+
+    function mediaChanged() {
+      if (films.some(film => !film.hasAttribute('src'))) return;
+      if (films.some(film => film.error)) {
+        pause();
+        setDuration(0);
+        status.textContent = '有短片无法读取。可查看静帧或打开单独短片。';
+        return;
+      }
+      const common = Math.min(...films.map(film => film.duration));
+      if (Number.isFinite(common) && common > 0) {
+        setDuration(common);
+        status.textContent = '';
+      }
+    }
+
+    for (const film of films) {
+      film.addEventListener('loadedmetadata', mediaChanged);
+      film.addEventListener('durationchange', mediaChanged);
+      film.addEventListener('error', mediaChanged);
+      film.addEventListener('ended', finish);
+    }
+    for (const button of buttons) button.addEventListener('click', () => {
+      if (button.getAttribute('aria-pressed') !== 'true') loadPerson(button.dataset.gender);
+    });
+    playButton.addEventListener('click', () => playing ? pause() : play());
+    restartButton.addEventListener('click', () => play(true));
+    position.addEventListener('input', () => seek(Number(position.value)));
+    loadPerson('male');
+  </script>
+</body>
+</html>

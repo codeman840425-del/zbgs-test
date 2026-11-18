@@ -262,7 +262,7 @@ async function inspect(browser,{base,build,out,PNG},label,row) {
         const file=`${label}-${pose}-${view}-near-left-far-right.png`;
         await fs.writeFile(path.join(out,file),PNG.sync.write(comparison.pair),{flag:'wx'});
         result.comparisons[view]={file,poseAgreement,restorePoseAgreement,textureChange:comparison.stats,restoration:restoration.stats};
-        assert.equal(restoration.stats.changedPixels,0,'Restored near top pixels differ at matched pose');
+        result.comparisons[view].restoredPixelsExact=restoration.stats.changedPixels===0;
       }
     }
     for (const look of [looks.near,looks.far]) assert.ok(room.network.some(r=>r.url===look.top.url&&r.status===200),`No real 200 for ${look.top.id}`);
@@ -336,7 +336,16 @@ async function main() {
     for (const label of cases) await inspect(browser,{base,build,out,PNG},label,report.cases[label]={});
     const failureLabel=cases.includes('female')?'female':cases[0];
     await failureCase(browser,{base,build},failureLabel,report.expectedHttp503={case:failureLabel});
-    report.status='technical-comparison-captured-visual-review-pending';
+    // Collect every body, view and rollback case before reporting any pixel failure.
+    report.restorationFailures=[];
+    for(const [label,row] of Object.entries(report.cases))
+      for(const [pose,result] of Object.entries(row.poses))
+        for(const [view,pair] of Object.entries(result.comparisons))
+          if(!pair.restoredPixelsExact) report.restorationFailures.push({label,pose,view,...pair.restoration});
+    if(report.restorationFailures.length) {
+      report.status='runtime-checks-passed-restored-pixels-differ';
+      process.exitCode=1;
+    } else report.status='technical-comparison-captured-visual-review-pending';
   } catch(error) {report.failure=error.stack;process.exitCode=1;}
   finally {
     if (browser) await browser.close();

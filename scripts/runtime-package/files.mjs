@@ -105,16 +105,28 @@ export async function copyDeclaredFiles({inventory, dist, out, approvedGameRecor
     const build = JSON.parse(await readFile(path.join(stage, 'build-info.json'), 'utf8'));
     if (build.sourceDigest !== inventory.runtime.sourceDigest || build.shortId !== inventory.runtime.buildId)
       fail('build-identity-mismatch', 'Copied fixed build metadata differs');
-    // Do not overwrite an existing successful package, including one created
-    // concurrently while these bytes were being checked.
-    if (await lstat(destination).catch(error => {if (error.code === 'ENOENT') return null; throw error;}))
-      fail('output-conflict', `Output already exists: ${destination}`);
     await writeFile(path.join(stage, 'runtime-package.json'), jsonBytes(inventory), {flag:'wx'});
-    await rename(stage, destination);
+    await publishStagedDirectory(stage, destination);
     return {schema:'runtime-package-export-result-v1', files:inventory.files.length + 1,
       manifestSha256:digest(jsonBytes(inventory)), runtime:inventory.runtime};
   } catch (error) {
     await rm(stage, {recursive:true, force:true});
     throw error;
+  }
+}
+
+export async function publishStagedDirectory(stage, destination) {
+  for (let attempt = 0; ; attempt++) {
+    if (await lstat(destination).catch(error => {if (error.code === 'ENOENT') return null; throw error;}))
+      fail('output-conflict', `Output already exists: ${destination}`);
+    try {
+      await rename(stage, destination);
+      return;
+    } catch (error) {
+      // Windows can hold a completed stage briefly. Retry only its final rename.
+      if (process.platform !== 'win32' || attempt >= 4 || !['EPERM','EBUSY','EACCES'].includes(error.code))
+        throw error;
+      await new Promise(resolve => setTimeout(resolve, 100 * 2 ** attempt));
+    }
   }
 }

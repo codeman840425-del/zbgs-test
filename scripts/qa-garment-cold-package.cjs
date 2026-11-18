@@ -11,6 +11,7 @@ async function run(base, build, selectedFile, oppositeFile, directory) {
   const out = await projectOutput(directory, await productionRoot());
   const parse = async file => JSON.parse(await fs.readFile(file, 'utf8'));
   const [records, other] = await Promise.all([parse(selectedFile), parse(oppositeFile)]);
+  const {canonicalJson} = await import('../prototype/src/character-record.js');
   assert.equal(records.length, 2);
   const top = record => {
     const equipment = record.appearanceRecipe.equipment;
@@ -64,7 +65,7 @@ async function run(base, build, selectedFile, oppositeFile, directory) {
         for (const [index, record] of records.entries()) {
           const actor=state.actors.find(a=>a.id===record.identity.id), item=expected[index];
           assert(actor, record.identity.id);
-          assert.deepEqual(actor.recipe, record.appearanceRecipe);
+          assert.equal(canonicalJson(actor.recipe),canonicalJson(record.appearanceRecipe));
           assert.equal(actor.sha, record.integrity.recordSha256);
           assert.equal(actor.topId, item.id);
           assert(actor.activeTop.length && actor.activeTop.every(mesh=>mesh.shown), 'Selected top visibility');
@@ -82,7 +83,11 @@ async function run(base, build, selectedFile, oppositeFile, directory) {
         trace.forbiddenRequests=requests.filter(url=>forbidden.includes(url));
         trace.network=network.diagnostics();
         assert.deepEqual(trace.forbiddenRequests, []);
-        assert.deepEqual(trace.network.httpErrors, []);
+        // Chrome independently probes for a tab icon on the standalone document.
+        // Record the 404 while keeping every game and record request strict.
+        const tabIcon = new URL('/favicon.ico',base).href;
+        trace.browserIcon404 = trace.network.httpErrors.filter(e=>e.url===tabIcon && e.status===404);
+        assert.deepEqual(trace.network.httpErrors.filter(e=>e.url!==tabIcon || e.status!==404), []);
         assert.deepEqual(trace.network.failed, []);
         assert.deepEqual(errors, []);
         assert(requests.every(url => !/^https?:/.test(url) || new URL(url).origin === new URL(base).origin));

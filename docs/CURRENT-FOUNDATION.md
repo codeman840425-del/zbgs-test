@@ -4,9 +4,9 @@
 
 融合侧回报已复算。代表房间对未知座位的误成功已修复，独立固定检出为 `efb1c3aa / 992da68517e1`，4196 的制服回放发版指针单独保留。正式公司座位尚待按真实使用点、接触句柄和租约接通。[正式入口责任与接收条件](../evidence/character-seat-consumer-v1/REPORT.md) · [新原生角色同源受理边界](../evidence/m2-body-intake-v1/new-family-receiver.md) · [白衣袖口待归因](../evidence/m2-body-intake-v1/bo-appearance-review.md)。角色新增工作树统一在项目内，固定运行检出的命令为 `python -B scripts/character-worktree.py create 名称 提交 --runtime-only`。
 
-上衣发布派生已产出[一男一女两件 1024² 候选](../evidence/m2-garment-basecolor-release-v1/README.md)。下次直接复用这两件。先核新装备的精确清单和女性上衣覆盖，再用游戏正常加载入口核冷载是否还下载默认高分辨率上衣。
+最新固定源码 `80fb16b7`，构建 `5859bd00da8b`。男女制服双记录已通过批量创建、精确换装、游戏独立冷开和关闭恢复；520 件构建文件在两份工程内干净检出相同。4196 下次正常启动使用此候选，上一份 `9d520a80d731` 指针保存在 delivery/history。本轮运行中的 4196 仍报 `0d1ccbf3ff61`。可直接打开[本地录像](../evidence/m2-garment-texture-game-v1/index.html)。M2 尚在执行。下一项只读取两具身体超限的贴图与引用，核查有无可共同复用的无损发布方法；先复用现有法线和预算工具。源模型与正式交付指针分别保留。
 
-当前固定源码 `797516d2`，构建 `9d520a80d731`。精简制服包从配方到角色记录、独立游戏恢复已跑通，515 个固定构建文件在两份干净检出中相同。[观看旧新回放](../evidence/m2-source-outfit-release-v1/index.html) · [重建入口](../evidence/m2-source-outfit-release-v1/body/README.md)。4196 下次正常启动指针已归档上一版本并指向该构建，本轮实测在运行的进程仍报 `0d1ccbf3ff61`。游戏接收方可按[重建命令](../evidence/m2-source-outfit-release-v1/receiver-v2/README.md)取得本次双记录包。下一包用男女的独立上衣验证只降低指定不透明底图发布分辨率的适用范围，包括近景衣纹、房间动作、预算和失败拒绝。普通电脑仍缺设备。
+上次制服包源码 `797516d2`、构建 `9d520a80d731`。精简男体配方、独立装备和旧新记录均可复用。[上一版观看入口](../evidence/m2-source-outfit-release-v1/index.html) · [重新生成说明](../evidence/m2-source-outfit-release-v1/body/README.md)
 
 ### 前一固定版本
 

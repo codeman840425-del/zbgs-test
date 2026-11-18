@@ -2,7 +2,7 @@
 
 **显式座位请求。** 旧工作台收到沙发左座 ID 后在演示椅上报告完成。固定检出 `efb1c3aa`（构建 `992da68517e1`）的实际浏览器现在拒绝该未知 ID，保留原有有效座位任务，重试和 requestId 冲突保留原语义。公司侧真实左右座位的角色控制、接触、退出和开档恢复仍待接入正式消费者。旧新报告分别见[误占演示椅](../evidence/character-seat-consumer-v1/browser-original/report.json)和[修复后租约与任务](../evidence/character-seat-consumer-v1/browser-repaired/report.json)。
 
-**制服发布贴图的生产端。** 一份配方对男性原始制服和女性 M1 制服各执行一次，仅把指定的 2048² 全不透明上衣底图派生为 1024²，并保留各自的领带、蒙皮和来源。两份新 GLB 分别为 743,232 和 765,288 B，各自静态纹理估算从 22,719,144 降至 5,941,928 B。实际游戏选装、服装覆盖、冷载收益、近景衣纹和普通机表现待测。这两份新上衣与下方已验证的全分辨率制服分开计量。[生产配方和运行方法](../evidence/m2-garment-basecolor-release-v1/README.md)
+**男女制服派生、选择与游戏冷载。** 同一配方将两件上衣的全不透明 2048² 底图派生为 1024²。构建 `5859bd00da8b` 按稳定角色 ID 和确切装备生成、修改双角色记录。首次进入和关闭重开均实测只下载已选上衣，两人合计从 5,459,344 B 降至 1,508,520 B。女性两装均遮罩 252 面，轻量上衣加载失败保留原装。四条正常速度走坐起录像已读回。换回高清后，四个房间衣面取样区逐像素一致，三组近景仍有 2–3 像素出现单通道 1/255 差值。两件上衣达到单件纹理预算，两具身体仍超限，普通电脑未测。[同镜头回放](../evidence/m2-garment-texture-game-v1/index.html) · [生产、适用范围及浏览器证据](../evidence/m2-garment-texture-game-v1/README.md) · [实际游戏交付包](../evidence/m2-garment-texture-game-v1/receiver/README.md)
 
 **同源制服的发布资源可以去重。** 固定构建 `9d520a80d731` 使用原始男体和精简男体的独立装备清单。浏览器冷载身体、上衣、裤和鞋，从 21,653,528 B 降至 18,097,200 B（−16.42%）。穿衣站姿／坐姿正侧面四组人物取样区域逐像素一致；基础体站姿有 3 个像素的单通道最大差值为 1。坐稳时两体的裤面和鞋底高度差均为 0。旧签和新签在独立游戏包内可同时加载、关闭并恢复，三件 GLB 各存一份。两者仍受单身体和上衣静态纹理超限约束，普通机未测。该机制仅覆盖源中与独立装备完全对应的服装。获取和制作的原身体保留。[正常速度走坐回放](../evidence/m2-source-outfit-release-v1/index.html) · [浏览器测量](../evidence/m2-source-outfit-release-v1/comparison-v2/report.json) · [静态预算](../evidence/m2-source-outfit-release-v1/budget-v2/README.md) · [独立游戏接收](../evidence/m2-source-outfit-release-v1/receiver-v2/browser/report.json)
 
