@@ -1,0 +1,21 @@
+休息区三维素材接入与独立复产
+
+固定工具版本 d35a6976，游戏素材构建 366d44982df8，独立移交 F:/gamemake-company-lounge-delivery-v2。fa3fd5e6 首次冻结后仅修正验收脚本；固定运行资源保持相同。公开库保存 CC0 来源、适配器和配方。本地验收工作台另包含已授权本机使用的旧挂画素材，合并观看构建为 7078eeeb74c8。
+
+从 Poly Haven 的 Round Wooden Table 02 导入真实外部网格、原色/法线/金属粗糙度三张图，按固定安装与承载合同重做桌面可放置部分。原作者 Ulan Cabanilla，来源和 CC0 见 assets-source/company-sourced-side-table-v1/LICENSE.txt。两种休息室的沙发、地毯、边几和桌面小物各有独立身份。杯子与书分别挂在各自的桌面上。现有摆件和沙发沿原登记外观；整体观感仍由用户验收。
+
+制作者可以直接从独立交付包 README.md 的“制作新版圆几并布置休息区”执行，包含配方、登记、编辑、构建和再交付命令。固定树的基本复核命令如下。
+node scripts/company-platform/adapt-sourced-side-table.mjs --check
+node scripts/company-platform/test-sourced-table-geometry.mjs
+node scripts/company-platform/describe-sourced-table.mjs assets-source/company-sourced-side-table-v1/registration.json --check
+node scripts/company-platform/test-lounge-rooms.mjs NEW_BATCH_DIR
+node scripts/company-platform/qa-lounge-rooms.cjs prototype/dist-company 366d44982df8 NEW_BATCH_DIR NEW_QA_DIR --record
+
+固定与独立重建的 471 个运行文件完全一致。两房生成的 8 个批次文件都能字节复产。固定浏览器 7 项含正常速度录像，独立浏览器 6 项；另有真实接收方制作 46 厘米新版本、保杯并重开。详见 identity.json、consumer.json、consumer-hashes.json、two-layouts.json 和 fixed-v3/report.json。fixed 和 fixed-v2 保留测试脚本错误的报告，分别为错误地取到了子物茶杯的材质、在录制第二间房时重复关闭了已打开的操作面板。修正后沿用原模型与构建复验。
+
+当前本机观看地址
+http://127.0.0.1:62080/company.html?delivery=studio-lounge
+http://127.0.0.1:62080/company.html?delivery=rental-lounge&object=concept-lounge-rental%2Fground%2Flounge%2Fcup-table
+旧挂画链接已用浏览器复验，live-links.json 记录三个实际到达的场景。工作台回滚包为 F:/gamemake-company-studio-print-delivery-v2。
+
+适用范围为这套有来源、经适配的圆几系列及其真实承载；第二款来自同一原模的参数变化。不同源家具还须符合各自实际安装与接触规格。独立制作者使用 Codex；跨平台 agent、普通电脑性能、角色 C3 和最终人类观感仍待验证。

@@ -1,0 +1,46 @@
+{
+  "report": {
+    "triangles": 2474,
+    "meshes": 2,
+    "materialCount": 1,
+    "support": {
+      "checked": true,
+      "surfaces": [
+        {
+          "mesh": "side-table-top",
+          "triangles": 2,
+          "area": 0.06600000226497649,
+          "topY": 0.5
+        }
+      ],
+      "bottomY": 0
+    },
+    "topRadius": 0.26000003085914336,
+    "groundAreaByQuarter": [
+      0.0002579473593463111,
+      0.00025794738002887785,
+      0.00025794711761556455,
+      0.0002579471382985754
+    ],
+    "connectedParts": 17
+  },
+  "checks": [
+    {
+      "reason": "A duplicate support patch is rejected",
+      "code": "side-table-duplicate-top"
+    },
+    {
+      "reason": "An isolated body component is rejected",
+      "code": "side-table-detached"
+    },
+    {
+      "reason": "Loss of the actual wood texture is rejected",
+      "code": "side-table-source-material"
+    },
+    {
+      "reason": "Foot area disappearing from one quarter is rejected",
+      "code": "side-table-floor-support"
+    }
+  ],
+  "scope": "CPU triangle and material checks. Image decoding is verified in the browser."
+}
