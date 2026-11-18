@@ -36,6 +36,7 @@ class LookSpecTests(unittest.TestCase):
             validate(value)
         value["sourceAsset"] = {
             "assetId": "male-blazer-v1",
+            "bodySha256": "c" * 64,
             "recipeSha256": "a" * 64,
             "manifestSha256": "b" * 64,
         }
@@ -65,10 +66,26 @@ class LookSpecTests(unittest.TestCase):
 
     def test_admitted_row_can_be_runtime_ready(self):
         matrix = {"styles": [{"styleId": "uniform-top-v1", "variants": [{
-            "bodyType": "male", "variantVersion": "v1", "status": "runtime-admitted",
+            "bodyType": "male", "bodySha256": "c" * 64, "variantVersion": "v1", "status": "runtime-admitted",
         }]}]}
-        result = plan(matrix, spec())
+        value = spec(sourceMode="structured-asset", sourceAsset={
+            "assetId": "male-blazer-v1", "bodySha256": "c" * 64,
+            "recipeSha256": "a" * 64, "manifestSha256": "b" * 64,
+        })
+        result = plan(matrix, value)
         self.assertEqual(result["status"], "runtime-ready")
+
+    def test_structured_body_identity_mismatch_is_rejected(self):
+        matrix = {"styles": [{"styleId": "uniform-top-v1", "variants": [{
+            "bodyType": "male", "bodySha256": "d" * 64, "variantVersion": "v1", "status": "runtime-admitted",
+        }]}]}
+        value = spec(sourceMode="structured-asset", sourceAsset={
+            "assetId": "male-blazer-v1", "bodySha256": "c" * 64,
+            "recipeSha256": "a" * 64, "manifestSha256": "b" * 64,
+        })
+        result = plan(matrix, value)
+        self.assertEqual(result["status"], "rejected")
+        self.assertIn("body-identity-mismatch:uniform-top-v1/male/v1", result["blockers"])
 
 
 if __name__ == "__main__":

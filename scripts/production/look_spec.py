@@ -53,7 +53,7 @@ def validate(spec: dict) -> dict:
     else:
         source = spec.get("sourceAsset")
         check(isinstance(source, dict), "Structured assets require sourceAsset")
-        for key in ("recipeSha256", "manifestSha256"):
+        for key in ("bodySha256", "recipeSha256", "manifestSha256"):
             check(SHA.fullmatch(str(source.get(key) or "")), f"Invalid sourceAsset.{key}")
         identifier(source.get("assetId"), "sourceAsset.assetId")
 
@@ -141,6 +141,10 @@ def plan(matrix: dict, spec: dict) -> dict:
         row = rows.get(matrix_key(item["styleId"], normalized["bodyType"], item["variantVersion"]))
         if row is None:
             blockers.append(f"missing-exact-variant:{item['styleId']}/{normalized['bodyType']}/{item['variantVersion']}")
+            continue
+        source = normalized.get("sourceAsset")
+        if source and row.get("bodySha256") != source.get("bodySha256"):
+            blockers.append(f"body-identity-mismatch:{item['styleId']}/{normalized['bodyType']}/{item['variantVersion']}")
             continue
         resolved.append({
             "role": item["role"],
