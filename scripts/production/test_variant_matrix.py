@@ -42,6 +42,16 @@ class VariantMatrixTests(unittest.TestCase):
         del row["admissionEvidence"]
         self.assertTrue(validate_matrix({"schema": "zbgs-style-variant-matrix-v1", "styles": [{"styleId": "dress", "variants": [row]}]}))
 
+    def test_over_budget_candidate_cannot_be_promoted(self):
+        row = variant()
+        row["budgetStatus"] = "reject-static-over-budget"
+        self.assertTrue(validate_matrix({"schema": "zbgs-style-variant-matrix-v1", "styles": [{"styleId": "dress", "variants": [row]}]}))
+
+    def test_admission_blockers_cannot_be_promoted(self):
+        row = variant()
+        row["admissionBlockers"] = ["runtimeRecordAndBudget"]
+        self.assertTrue(validate_matrix({"schema": "zbgs-style-variant-matrix-v1", "styles": [{"styleId": "dress", "variants": [row]}]}))
+
     def test_duplicate_body_variant_is_rejected(self):
         self.assertTrue(validate_matrix({"schema": "zbgs-style-variant-matrix-v1", "styles": [{"styleId": "dress", "variants": [variant(), variant("female-v1", "candidate")]}]}))
 

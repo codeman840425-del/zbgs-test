@@ -586,3 +586,5 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 2026-11-18 4196 重新构建批量矩阵候选：源码构建 `2d5165c31b27`（提交 `2d7e185b`）实际加载两个 native FaceContour bodyType，检查区显示制服上衣与露膝短裤均为“候选，待准入”，`runtimeVariants=[]`。浏览器 Chrome 157、页面错误0；该构建仍不代表普通电脑性能或正式运行准入。
 
 2026-11-18 准入原因进入人类预览：`appearance-workbench.js` 读取矩阵行的预算和 blocker 字段，4196 构建 `4e68cdef872c` 对两个 native body 的制服/短裤均显示静态预算超限及四类未完成项，页面错误0。该显示只改善诊断透明度，未改变 candidate 或 runtimeVariants。
+
+2026-11-18 批量准入安全规则：变体矩阵对超预算和未解决 blocker 增加不可晋级检查，候选仍可进入预览和诊断，正式运行行必须同时清除这些状态。`test_variant_matrix.py` 12 项通过。

@@ -60,6 +60,14 @@ def validate_matrix(data: dict) -> list[str]:
                 errors.append(f"{sid}/{body}: invalid status {status!r}")
             if status == "runtime-admitted" and not variant.get("admissionEvidence"):
                 errors.append(f"{sid}/{body}: runtime-admitted requires admissionEvidence")
+            if status == "runtime-admitted" and variant.get("budgetStatus") == "reject-static-over-budget":
+                errors.append(f"{sid}/{body}: over-budget variant cannot be runtime-admitted")
+            blockers = variant.get("admissionBlockers")
+            if status == "runtime-admitted" and blockers:
+                if not isinstance(blockers, list) or any(not isinstance(item, str) or not item for item in blockers):
+                    errors.append(f"{sid}/{body}: admissionBlockers must be non-empty strings")
+                else:
+                    errors.append(f"{sid}/{body}: runtime-admitted variant still has admission blockers")
     return errors
 
 

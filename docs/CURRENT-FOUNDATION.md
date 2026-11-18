@@ -139,3 +139,5 @@
 2026-11-18 原生参数候选接入统一变体下游：矩阵现在同时登记旧 M1 男女样件和两个真实 FaceContour 原生参数包。新行携带精确 body SHA、参数配方 SHA、装备/coverage 闭包与候选状态，批次请求新增四条原生 bodyType 项。矩阵文件闭包校验通过，批量规划 `evidence/m2-native-variant-batch-v2/plan.json` 为 `readiness-gated`、0 accepted，避免将“已生成资源”误当成“可运行角色”。4196 已随这次数据增量重建为 `2d5165c31b27`，固定入口改为 `/?body=native-contour-roundness-a-v1&workbench=appearance&view=inspect-face-front`，仍只用于人类候选预览。
 
 2026-11-18 统一矩阵阻塞可见化：native FaceContour 候选在4196检查区现在显示 `dynamicMotion`、`headAttachments`、`runtimeRecordAndBudget`、`surfaceAndTexture` 以及 `reject-static-over-budget`，避免把候选状态误读为可运行。新构建 `4e68cdef872c` 的两体查询和页面错误0，证据 `evidence/m2-native-variant-batch-v2/workbench-check.json`。
+
+2026-11-18 变体准入保护补强：`variant_matrix.py` 现在拒绝带 `reject-static-over-budget` 或未清空 `admissionBlockers` 的 runtime-admitted 行，并保留逐项候选诊断。12 项变体回归通过；该规则防止批量资源在预算/适配未完成时被标签误升为运行资源。
