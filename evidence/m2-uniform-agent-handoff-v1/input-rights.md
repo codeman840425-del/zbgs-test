@@ -44,4 +44,4 @@
 
 本次对精确检出和 dist 做只读 inventory 试算。旧 `fe2e58489bbb` 拒绝新男近记录，原因是未知身体；拒绝新女远记录，原因是服装版型不兼容。新 `5859bd00da8b` 分别接受新近、远双记录，各 41 项 inventory；原总交付单两条短袜签名记录在新构建也通过资源解析，得 37 项。随后在新构建的独立包运行旧签名，两人首次进入和关闭重开均还原，详见[浏览器回执](previous-game/report.json)。旧操作器提交的评审索引没有 `5859bd00da8b`，当前索引已有该版本与旧版的独立条目。 [原记录复算回执](../character-worktree-relocation-v1/operator-receiver.json) · [当前评审索引](../../scripts/runtime-package/game-runtime-reviews.json)
 
-当前内部交付采用制作工具 `e8dc4eb2` 与游戏构建 `5859bd00da8b`。旧版短袜交付已归档。历史融合收件方尚未提供针对本次制服包的回执。两具身体的纹理预算仍超限。[现用交付单](../../delivery/character-production-handoff.json) · [本机接收回执](verified-handoff.json)
+当前内部交付采用制作工具 `27ebb18f` 与游戏构建 `5859bd00da8b`。旧版短袜交付已归档。历史融合收件方尚未提供针对本次制服包的回执。两具身体的纹理预算仍超限。[现用交付单](../../delivery/character-production-handoff.json) · [本机接收回执](guarded-operator.json)

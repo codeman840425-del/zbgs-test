@@ -30,9 +30,9 @@ node scripts/runtime-package/game-record-cli.mjs export --dist $dist --source-ro
 node scripts/runtime-package/verify-character-handoff.mjs --handoff-root $deliveryRoot --operator-root $operatorRoot --runtime-root $runtimeRoot --dist $dist --package "$runRoot/game"
 ```
 
-从包含交付单的检出根目录执行上例。当前制作工具为 `e8dc4eb2`，游戏为 `80fb16b7 / 5859bd00da8b`。两份检出的 `prototype` 均按锁文件安装依赖。稀疏游戏检出另取 `scripts` 和 `assets-source/garment-basecolor-release-v1` 以运行真实查询和读取衣物生产配方。分别使用工程内的临时、证据和交付目录。
+从包含交付单的检出根目录执行上例。当前制作工具为 `27ebb18f`，游戏为 `80fb16b7 / 5859bd00da8b`。两份检出的 `prototype` 均按锁文件安装依赖。稀疏游戏检出另取 `scripts` 和 `assets-source/garment-basecolor-release-v1` 以运行真实查询和读取衣物生产配方。分别使用工程内的临时、证据和交付目录。
 
-同款批次的每个 `items[]` 可在 `bodyType`、`identity` 旁提供 `appearance`。字段和值由固定游戏查询该身体，沿用现有注册的发型及配色。显式原色按该身体的缺省值还原。制作新记录会产生新的时间和签名；复算固定包时使用交付单中的已签记录。游戏团队通过 HTTP 提供导出目录，并从 `record-consumer.html?records=/records/manifest.json` 加载。历史短袜交付可通过 `previousHandoff` 找到。[男女批次输入](../assets-source/variant-matrix-v1/uniform-personal-appearance-request.json) · [接收核验](../evidence/m2-uniform-agent-handoff-v1/verified-handoff.json)
+同款批次的每个 `items[]` 可在 `bodyType`、`identity` 旁提供 `appearance`。字段和值由固定游戏查询该身体，沿用现有注册的发型及配色。显式原色按该身体的缺省值还原。制作新记录会产生新的时间和签名；复算固定包时使用交付单中的已签记录。游戏团队通过 HTTP 提供导出目录，并从 `record-consumer.html?records=/records/manifest.json` 加载。历史短袜交付可通过 `previousHandoff` 找到。[男女批次输入](../assets-source/variant-matrix-v1/uniform-personal-appearance-request.json) · [当前制作工具和固定包核验](../evidence/m2-uniform-agent-handoff-v1/guarded-operator.json)
 
 当前能力状态只看 `docs/CAPABILITIES.md`。下面先说明旧 `flow.py` 的只读索引；文末的 `character-production-cli.cjs` 是实际执行制作/回读的独立入口，两者不能混为一谈。
 
