@@ -77,7 +77,8 @@ for (const [index, look] of workstationLooks.entries()) {
 for (const [partKey, geometry] of geometriesByPart) assert.equal(geometry.size, 4, partKey);
 
 const upgradedSmallLayout = prepareTemplateUpgrade(smallLayout, findStation(smallLayout).id, {id: 'stream-station', version: 2}, context).document;
-for (const [layout, distinctPartId] of [[upgradedSmallLayout, false], [mixedLayout, true]]) {
+const ladderLayout = prepareTemplateUpgrade(smallLayout, findStation(smallLayout).id, {id: 'stream-station', version: 3}, context).document;
+for (const [layout, distinctPartId] of [[upgradedSmallLayout, false], [ladderLayout, false], [mixedLayout, true]]) {
   const document = customize(layout, distinctPartId);
   const stationId = findStation(document).id;
   const before = structuredClone(document);
@@ -144,4 +145,4 @@ const chairPoint = deriveCompany(smallLayout, catalog, templates).usePoints.find
 rejects(() => prepareCompanyChange(smallLayout, plan, {...context, isUsePointBusy: id => id === chairPoint.id}), 'facility-busy');
 assert.equal(await encodeCompanySave(smallLayout, catalog, templates), unchanged);
 
-console.log('Four pinned workstation looks passed geometry, two existing layouts, state, save/restore and atomic rejection checks.');
+console.log('Four pinned workstation looks passed geometry, station templates 1–3, state, save/restore and atomic rejection checks.');

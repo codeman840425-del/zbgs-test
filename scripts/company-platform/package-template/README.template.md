@@ -20,6 +20,12 @@ node serve.mjs
 
 保留这份验证通过的原包。后续命令在它的独立工作副本中执行。安装和重建会在工作副本产生 `source/prototype/node_modules/`、`source/prototype/public/company-build-info.json` 和 `source/prototype/dist-company/`。构建身份由 `build-company-id.mjs` 生成，Vite 将它复制进查看器。
 
+## 核对交给角色的座面
+
+在带有新版家具配方的工作副本中，从 `source` 目录运行 `node scripts/company-platform/batch.mjs scripts/company-platform/batch-inputs/seat-contact-rooms.json ../my-seat-rooms`。单工位和出租屋复用同一份 `furnishingVersion: 2` 默认家具规则，每次生成都会为工位椅和独立办公椅选用实测 0.470 m 的梯背椅。省略此版本字段的历史配方按原固定方案复产。
+
+含 `source/scripts/company-platform/check-seat-contacts.mjs` 的工作副本支持从实际坐面取样。在副本的 `source` 目录运行 `node scripts/company-platform/check-seat-contacts.mjs ../data/save.json`。新制角色联调包的打包命令加 `--seat-contacts`，可同时检查默认房间与全部附带房间，并把结果写入清单。详细范围和旧椅换款示例见 `source/docs/research/COMPANY-SEAT-CONTACT-CHECK.md`。
+
 ## 使用制作工具
 
 在工作副本根目录执行一次 `npm ci --prefix source/prototype`，再运行布局批处理、素材生产或 `edit.mjs`。制作端使用 `source/prototype/package-lock.json` 固定的依赖。只打开上面的预览时，运行 `node serve.mjs` 即可。

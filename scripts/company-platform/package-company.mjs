@@ -329,9 +329,10 @@ async function list(root,folder=''){
 function decode(bytes,location){try{return JSON.parse(bytes.toString('utf8'));}catch(error){fail('invalid-package-json',location,error.message);}}
 async function assertMissing(file){try{await fs.lstat(file);}catch(error){if(error.code==='ENOENT')return;throw error;}fail('package-output-exists',file,'Output already exists and will not be overwritten');}
 
-export async function packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot=defaultSource,rooms=[]}){
+export async function packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot=defaultSource,rooms=[],seatContacts=false}){
   if(!/^[a-f0-9]{12}$/.test(buildId||''))fail('invalid-package-build','buildId','Expected the explicit 12-hex company build identity');
   for(const [key,value]of Object.entries({distDirectory,inputPath,outputDirectory,sourceRoot}))if(typeof value!=='string'||!value)fail('invalid-package-argument',key,'Explicit input/output paths are required');
+  if (typeof seatContacts !== 'boolean') fail('invalid-package-argument', 'seatContacts', 'Expected true or false');
   const source=await noLinks(sourceRoot),dist=await noLinks(distDirectory),input=await noLinks(inputPath),output=path.resolve(outputDirectory);
   await assertMissing(output);
   try{await noLinks(path.dirname(output));}catch(error){if(error.code!=='ENOENT')throw error;}
@@ -380,6 +381,16 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   const catalogBytes=await read(prototype,runtimeInputs.catalog),templateBytes=await read(prototype,runtimeInputs.templates);
   const catalog=decode(catalogBytes,runtimeInputs.catalog),templates=decode(templateBytes,runtimeInputs.templates);
   const persistence=await import(pathToFileURL(path.join(prototype,'src/company/persistence.js')).href);
+  const seatCheckerPath = 'scripts/company-platform/check-seat-contacts.mjs';
+  const seatCheckerFile = path.join(source, seatCheckerPath);
+  const hasSeatChecker = await fs.stat(seatCheckerFile).then(stat => stat.isFile(), error => {
+    if (error.code === 'ENOENT') return false;
+    throw error;
+  });
+  if (seatContacts && !hasSeatChecker)
+    fail('seat-contact-check-unavailable', seatCheckerPath, 'The requested fixed source has no seat geometry checker');
+  if (seatContacts) await noLinks(seatCheckerFile);
+  const seatContactReports = [];
   async function includeScene(input,prefix){
     let inputBytes,inputFiles=[],trainingClearance;
     if((await fs.lstat(input)).isDirectory()){
@@ -418,6 +429,20 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       const {checkTrainingClearance}=await import(pathToFileURL(path.join(source,'scripts/company-platform/check-training-clearance.mjs')).href);
       await checkTrainingClearance(document,trainingClearance,{catalog,templates});
     }
+    if (seatContacts) {
+      const {inspectSeatContacts} = await import(pathToFileURL(seatCheckerFile).href);
+      const points = await inspectSeatContacts(document, {catalog, templates, publicDirectory: path.join(prototype, 'public')});
+      const failed = points.find(point => point.status !== 'passed');
+      if (failed) {
+        const detail = failed.diagnostic?.message ?? failed.failures.join(', ');
+        fail('seat-contact-check-failed', prefix + '/' + failed.usePointId,
+          detail + ' (expected ' + failed.expectedHeight + ' m, measured ' + failed.actualHeight + ' m)');
+      }
+      const report = {companyId: document.id, revision: document.revision, seatCount: points.length, points};
+      const reportPath = prefix + '/seat-contacts.json';
+      add(reportPath, json(report), 'measured-seat-contacts');
+      seatContactReports.push({path: reportPath, companyId: document.id, seatCount: points.length});
+    }
     add(prefix+'/save.json',json(saved),'complete-pinned-save');add(prefix+'/layout.json',json(document),'complete-editable-layout');
     return {saved,document,trainingClearance};
   }
@@ -431,6 +456,13 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   add('data/library-catalog.json',catalogBytes,'complete-catalog');
   add('data/templates.json',templateBytes,'complete-templates');
   const supplemental=new Set(extraFiles);
+  if (hasSeatChecker) {
+    supplemental.add(seatCheckerPath);
+    supplemental.add('scripts/company-platform/qa-seat-contact-rooms.cjs');
+    supplemental.add('scripts/company-platform/test-seat-contact-audit.mjs');
+    supplemental.add('scripts/company-platform/test-seat-contact-template.mjs');
+    supplemental.add('docs/research/COMPANY-SEAT-CONTACT-CHECK.md');
+  }
   for(const folder of ['scripts/company-platform/batch-inputs','scripts/company-platform/space-inputs','scripts/company-platform/space-v2-inputs','scripts/company-platform/surface-inputs'])for(const name of await list(source,folder)){
     if(!name.endsWith('.json'))fail('unsupported-production-input',name,'Production input folders must contain JSON only');supplemental.add(name);
   }
@@ -474,6 +506,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   const manifest={schema:'company-transfer',version:1,buildId,sourceDigest:info.sourceDigest,
     runtimeInputs,sourceVerification:{method:'SHA256 of each manifest path, NUL, original bytes, NUL in sorted input order',inputs:sourceFiles},
     savedCompany:{id:document.id,revision:document.revision,...(trainingClearance ? {trainingClearance}:{}),floors:document.nodes.filter(node=>node.kind==='floor').map(node=>node.id),dependencies:saved.dependencies},
+    ...(seatContacts ? {seatContactReports} : {}),
     assetDependencies,productionSources:provenance,runtimeFiles,
     files:[...files].sort(([a],[b])=>a.localeCompare(b)).map(([name,file])=>({path:name,scope:file.scope,bytes:file.bytes.length,sha256:hash(file.bytes)})),
     limits:['Fixed manifest source identity and exact packaged viewer bytes are verified. Rebuild equivalence and browser use require separate acceptance.',
@@ -499,18 +532,19 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
 
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
   const [distDirectory,buildId,inputPath,outputDirectory,...options]=process.argv.slice(2);
-  if(distDirectory==='--help')console.log('node package-company.mjs FIXED_DIST BUILD_ID SAVE_OR_BATCH_RESULT OUT_NEW_DIR [--source FIXED_SOURCE_ROOT] [--room KEY FOLDER]...');
+  if(distDirectory==='--help')console.log('node package-company.mjs FIXED_DIST BUILD_ID SAVE_OR_BATCH_RESULT OUT_NEW_DIR [--source FIXED_SOURCE_ROOT] [--seat-contacts] [--room KEY SAVE_OR_BATCH_RESULT]...');
   else {
     const run=async()=>{
-      let sourceRoot;
+      let sourceRoot, seatContacts = false;
       const rooms=[];
       while(options.length){
         const flag=options.shift();
         if(flag==='--source'&&!sourceRoot&&options[0])sourceRoot=options.shift();
+        else if(flag==='--seat-contacts'&&!seatContacts)seatContacts=true;
         else if(flag==='--room'&&options.length>=2)rooms.push({key:options.shift(),folder:options.shift()});
         else throw Error(`Invalid package option ${flag}`);
       }
-      const manifest=await packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot,rooms});
+      const manifest=await packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot,rooms,seatContacts});
       console.log(JSON.stringify({ok:true,buildId:manifest.buildId,companyId:manifest.savedCompany.id,rooms:rooms.map(room=>room.key),files:manifest.files.length,output:path.resolve(outputDirectory)},null,2));
     };
     run().catch(error=>{console.error(JSON.stringify({ok:false,code:error.code||'io-error',path:error.path,message:error.message},null,2));process.exitCode=1;});

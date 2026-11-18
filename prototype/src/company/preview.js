@@ -293,7 +293,8 @@ function sync(){
   element('makeup-intensity').value=String(makeupState?.intensity??5);
   const enabledMakeup=selectedMakeup&&session.scene.snapshot().lights.find(l=>l.id===selectedMakeup.id)?.intensity>0;
   element('makeup-status').textContent=!makeupState?'':!makeupState.on||makeupState.intensity===0?'补光已关闭；镜面仍可反射。':enabledMakeup?'镜前补光已开启。':'补光设置已保留，当前视图或灯光数量限制使它暂未点亮。';
-  element('upgrade').disabled=busy||!id||doc.nodes.find(n=>n.id===id)?.template.version===2;
+  const selectedTemplate=stations.find(station=>station.id===id)?.template;
+  element('upgrade').disabled=busy||selectedTemplate?.id!=='stream-station'||selectedTemplate.version!==1;
   element('building-view').disabled=busy||doc.scale!=='building';
   const building=view.mode==='building';element('building-stage').hidden=!building;stage.hidden=building;
   element('wall-view').disabled=busy||building;element('wall-view').value=wallMode;updateWallView();

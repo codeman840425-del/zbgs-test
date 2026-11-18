@@ -1,0 +1,71 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "contact-studio",
+      "input": {
+        "id": "contact-studio",
+        "name": "单工位直播间",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "furnishingVersion": 2,
+        "scale": "single-room",
+        "floors": [
+          {
+            "id": "ground",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "contact-rental",
+      "input": {
+        "id": "contact-rental",
+        "name": "带独立办公椅的出租屋",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "furnishingVersion": 2,
+        "scale": "rental-home",
+        "floors": [
+          {
+            "id": "ground",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              },
+              {
+                "id": "work",
+                "name": "工作间",
+                "purpose": "work",
+                "stations": 0,
+                "furniture": "desk-chair"
+              },
+              {
+                "id": "rest",
+                "name": "休息间",
+                "purpose": "rest",
+                "stations": 0
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

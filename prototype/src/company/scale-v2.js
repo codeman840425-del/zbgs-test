@@ -10,6 +10,11 @@ const ID = /^[A-Za-z0-9][A-Za-z0-9_.:/-]*$/;
 const PURPOSES = new Set(['streaming', 'work', 'rest', 'training']);
 const REQUIRED_ROOMS = { 'small-home': 1, 'single-room': 1, 'rental-home': 3, 'leased-floor': 16, building: 16 };
 const PUBLIC_ROLES = ['corridor', 'lobby', 'lift-access', 'stair-access', 'restroom-access'];
+// These defaults expand the authoring shorthand. Saves already pin each instance.
+const FURNISHINGS = {
+  1: { station: { id: 'stream-station', version: 1 }, chair: { id: 'chair', version: 1 } },
+  2: { station: { id: 'stream-station', version: 3 }, chair: { id: 'chair-ladder', version: 1 } },
+};
 const epsilon = 1e-7;
 
 const fail = (code, path, message, details = {}) => {
@@ -113,7 +118,7 @@ function addFullFloorRooms(document, floor, roomInputs, scale) {
 
 function defaultPurpose(index) { return ['streaming', 'work', 'rest', 'training'][index % 4]; }
 
-function stationOperations(room, roomInput, scale) {
+function stationOperations(room, roomInput, scale, furnishings) {
   let stations = roomInput.stations ?? (scale === 'single-room' && roomInput.purpose === 'streaming' ? 2 : 0);
   if (Array.isArray(stations)) {
     if (stations.length > 2 || (stations.length && roomInput.purpose !== 'streaming'))
@@ -124,16 +129,16 @@ function stationOperations(room, roomInput, scale) {
       if(entry.template!==undefined)knownFields(entry.template,['id','version'],`${room.id}.stations[${index}].template`);
       checkId(entry.id, `${room.id}.stations[${index}].id`);
       return { type: 'add-workstation', id: `${room.id}/${entry.id}`, parentId: room.id,
-        template: entry.template ?? { id: 'stream-station', version: 1 }, transform: entry.transform ?? transform([index ? 1.3 : -1.3, 0, -0.5]) };
+        template: entry.template ?? furnishings.station, transform: entry.transform ?? transform([index ? 1.3 : -1.3, 0, -0.5]) };
     });
   }
   if (!Number.isInteger(stations) || stations < 0 || stations > 2) fail('room-capacity', `${room.id}.stations`, 'Streaming workstations must be an integer from 0 to 2');
   if (stations && roomInput.purpose !== 'streaming') fail('room-capacity', room.id, 'Only streaming rooms may install workstations');
   return Array.from({ length: stations }, (_, index) => ({ type: 'add-workstation', id: `${room.id}/station-${index + 1}`,
-    parentId: room.id, template: { id: 'stream-station', version: 1 }, transform: transform([stations === 1 ? -0.75 : (index ? 1.3 : -1.3), 0, -0.5]) }));
+    parentId: room.id, template: furnishings.station, transform: transform([stations === 1 ? -0.75 : (index ? 1.3 : -1.3), 0, -0.5]) }));
 }
 
-function furnitureOperations(room, roomInput, scale) {
+function furnitureOperations(room, roomInput, scale, furnishings) {
   const operations = [];
   if (roomInput.sofaVersion !== undefined) {
     if (![1, 2].includes(roomInput.sofaVersion)) fail('invalid-room-content', `${room.id}.sofaVersion`, 'sofaVersion must be 1 or 2');
@@ -144,7 +149,7 @@ function furnitureOperations(room, roomInput, scale) {
   if (roomInput.furniture === 'desk-chair') {
     if (!['work', 'training'].includes(roomInput.purpose)) fail('invalid-room-content', room.id, 'desk-chair furniture requires work or training purpose');
     operations.push({ type: 'add-facility', id: `${room.id}/desk`, parentId: room.id, resource: { id: 'desk', version: 1 }, transform: transform([0, 0, -0.8]) });
-    operations.push({ type: 'add-facility', id: `${room.id}/chair`, parentId: room.id, resource: { id: 'chair', version: 1 }, transform: transform([0, 0, 0.65], Math.PI) });
+    operations.push({ type: 'add-facility', id: `${room.id}/chair`, parentId: room.id, resource: furnishings.chair, transform: transform([0, 0, 0.65], Math.PI) });
   }
   if (Array.isArray(roomInput.furniture)) for (const [index, item] of roomInput.furniture.entries()) {
     if (!item || typeof item !== 'object' || !item.id || !item.resource) fail('invalid-furniture', `${room.id}.furniture[${index}]`, 'Furniture needs id and resource');
@@ -196,7 +201,9 @@ function publicServiceOperations(areas, catalog) {
 
 function validateInput(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) fail('invalid-space-input', 'input', 'Expected a scale-v2 input object');
-  knownFields(input,['id','name','scale','spaceProfile','floors'],'input');
+  knownFields(input,['id','name','scale','spaceProfile','furnishingVersion','floors'],'input');
+  if (input.furnishingVersion !== undefined && ![1, 2].includes(input.furnishingVersion))
+    fail('unsupported-furnishing-version', 'input.furnishingVersion', 'Use furnishing version 1 or 2');
   for (const field of ['id', 'scale', 'floors']) if (!Object.hasOwn(input, field)) fail('invalid-space-input', `input.${field}`, 'Required field is missing');
   checkId(input.id, 'input.id'); text(input.name, 'input.name');
   if (input.spaceProfile !== undefined &&
@@ -231,6 +238,7 @@ function validateInput(input) {
 
 export function createCompanyScaleV2(input, catalog, templates) {
   validateInput(input);
+  const furnishings = FURNISHINGS[input.furnishingVersion ?? 1];
   const document = createCompany({ id: input.id, name: input.name ?? input.id }, catalog);
   document.spaceProfile = { ...COMPANY_SPACE_V2 };
   document.scale = input.scale;
@@ -251,8 +259,8 @@ export function createCompanyScaleV2(input, catalog, templates) {
     }else if(input.scale==='small-home')floor.exteriorEntrances=[{id:`${rooms[0].id}/exterior-entry`,regionId:rooms[0].id,edge:'south',offset:-1.2,width:1.4,height:2.2}];
     for (const [index, room] of rooms.entries()) {
       const roomInput = (floorInput.rooms ?? [])[index] ?? {};
-      operations.push(...stationOperations(room, { ...roomInput, purpose: room.purpose }, input.scale));
-      operations.push(...furnitureOperations(room, { ...roomInput, purpose: room.purpose }, input.scale));
+      operations.push(...stationOperations(room, { ...roomInput, purpose: room.purpose }, input.scale, furnishings));
+      operations.push(...furnitureOperations(room, { ...roomInput, purpose: room.purpose }, input.scale, furnishings));
     }
     if (input.scale === 'rental-home') {
       const living = document.nodes.find(node => node.id === `${floor.id}/living`);

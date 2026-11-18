@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
+import path from 'node:path';
+import {pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type: 'json'};
 import baseTemplates from '../../prototype/src/company/templates.json' with {type: 'json'};
@@ -55,12 +57,13 @@ function solo() {
 
 await check('new exact template version preserves every existing entry and old save defaults', async () => {
   assert.deepEqual(templates.templates.slice(0, baseTemplates.templates.length), baseTemplates.templates);
-  assert.equal(templates.templates.length, baseTemplates.templates.length + 1);
+  const versions = templates.templates.filter(item => item.id === target.id && item.version === target.version);
+  assert.equal(versions.length, 1);
   const raw = await fs.readFile(new URL(inputPaths[1], root), 'utf8');
   const extendedRaw = await fs.readFile(new URL(inputPaths[2], root), 'utf8');
   const closing = raw.match(/\r?\n  \]\r?\n\}\s*$/);
   assert(extendedRaw.startsWith(raw.slice(0, closing.index)));
-  const comparison = structuredClone(templates.templates.at(-1));
+  const comparison = structuredClone(versions[0]);
   comparison.version = 1;
   comparison.parts.find(p => p.key === 'desk').transform.position[2] = -.9;
   assert.deepEqual(comparison, baseTemplates.templates.find(t => t.id === target.id && t.version === 1));
@@ -214,7 +217,8 @@ await check('busy points, exact version references and failed placement cannot r
 
 const inputHashesUnchangedAtEnd = JSON.stringify(await hashInputs()) === JSON.stringify(inputHashes);
 const status = inputHashesUnchangedAtEnd && checks.every(c => c.status === 'passed') ? 'cpu-explicit-upgrade-passed' : 'failed';
-const output = new URL('../../evidence/company-upgrade-v1/', import.meta.url);
+const output = process.argv[2] ? pathToFileURL(path.resolve(process.argv[2]) + path.sep) :
+  new URL('../../evidence/company-upgrade-v1/', import.meta.url);
 await fs.mkdir(output, {recursive: true});
 await fs.writeFile(new URL('report.json', output), JSON.stringify({status, generatedAt: new Date().toISOString(), inputHashes, inputHashesUnchangedAtEnd, checks,
   requestedDispatch: {difficulty: 'complex', model: 'gpt-6.1-sol', reasoningEffort: 'high'}, verifiedRuntimeModelAndEffort: false, verifiedHostHookInterception: false,
