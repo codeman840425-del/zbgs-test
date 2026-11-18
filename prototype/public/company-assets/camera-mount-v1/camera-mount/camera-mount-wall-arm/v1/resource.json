@@ -1,0 +1,143 @@
+{
+  "id": "camera-mount-wall-arm",
+  "displayName": "墙臂",
+  "version": 1,
+  "category": "static",
+  "mountRole": "camera-mount",
+  "productionBranch": "camera-mount",
+  "mount": "wall",
+  "parent": "room.wall",
+  "mounting": {
+    "width": 0.8,
+    "height": 1.8,
+    "depth": 0.8,
+    "origin": "parent anchor plane centre",
+    "envelopeUnits": "metres",
+    "designEnvelope": {
+      "width": 0.8,
+      "height": 1.8,
+      "depth": 0.8
+    }
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "design-specific parent anchor; camera cradle faces +Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.4,
+      0.4
+    ],
+    "blocking": true,
+    "clearanceRequired": true
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "mounted": true
+  },
+  "stateSchema": {
+    "mounted": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "mounted": "static placement visibility only; no animation or device state"
+  },
+  "saveRestore": {
+    "savedFields": [
+      "resource.id",
+      "resource.version",
+      "parentId",
+      "transform.position",
+      "transform.quaternion",
+      "transform.scale",
+      "mounted"
+    ],
+    "restoreRule": "Reattach to the recorded parent and reject a missing parent or unsupported mount before scene mutation."
+  },
+  "materialSlots": {
+    "frame": [
+      "mount-frame"
+    ],
+    "trim": [
+      "mount-trim"
+    ],
+    "rubber": [
+      "mount-rubber"
+    ]
+  },
+  "mountDetails": {
+    "anchorNode": "mount-anchor",
+    "cradleNode": "camera-cradle",
+    "clearanceNode": "mount-clearance",
+    "clearance": "wall-clearance"
+  },
+  "provenance": {
+    "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "RoundedBoxGeometry",
+      "CylinderGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-camera-mount-v1/parameters.json",
+    "sourceParametersSha256": "0337a26800e3b67ef75ac0b5f8b10864d69182e1875894b272b73eaf9c4b8f64",
+    "functionalContractSource": "assets-source/company-camera-mount-v1/contracts/camera-mount.json",
+    "functionalContractSourceSha256": "50ae2c6b3c9fa55f9fc580a72296889950658f15fe8c2939a8b2a526773a3d50",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranch": "camera-mount",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "generator": "scripts/company-platform/build-camera-mount-collection.mjs",
+    "generatorSha256": "625050103d5388b00147a55303593ebc035aa5ed24b607cff512470bcf261390",
+    "designId": "camera-mount-wall-arm",
+    "method": "Wall plate and offset boom arm with a supported camera cradle, cable relief and clearance from the wall."
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/camera-mount-v1/camera-mount/camera-mount-wall-arm/v1/model.glb",
+    "sha256": "6061dc14174640245565ebfa159a8bd1ad81ea76c907253ef6813f09072e68b4",
+    "bytes": 132688
+  },
+  "checks": {
+    "meshCount": 12,
+    "triangles": 1432,
+    "nodeNames": [
+      "mount-frame",
+      "mount-clearance",
+      "wall-bolt-022",
+      "wall-bolt-058",
+      "mount-arm-lower",
+      "mount-arm-upper",
+      "mount-boom",
+      "mount-pivot",
+      "camera-cradle",
+      "mount-trim",
+      "mount-rubber",
+      "mount-anchor"
+    ],
+    "localBounds": {
+      "min": [
+        -0.17000000178813934,
+        0.16000000536441805,
+        -0.004500000894069673
+      ],
+      "max": [
+        0.17000000178813934,
+        0.639999994635582,
+        0.3540000000521541
+      ]
+    },
+    "geometrySha256": "aaa3f09d39be0d5cfe6359f8aa82eaa7fef0b9556af1ecbbe6c2fa138c3945e0",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true
+  }
+}

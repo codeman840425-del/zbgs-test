@@ -21,6 +21,8 @@ import {validateVanityGeometry} from './vanity-geometry.js';
 import {validateMakeupMirrorGeometry} from './makeup-mirror-geometry.js';
 import {validateMakeupStorageGeometry} from './makeup-storage-geometry.js';
 import {validateMakeupDrawerGeometry} from './makeup-drawer-geometry.js';
+import {isCameraMountResource} from './camera-mount-data.js';
+import {validateCameraMountGeometry} from './camera-mount-geometry.js';
 import {validateMakeupWallMirrorGeometry} from './makeup-wall-mirror-geometry.js';
 import {validateSideTableGeometry} from './side-table-geometry.js';
 import {validateSideTableLifeItemsGeometry} from './side-table-life-items-geometry.js';
@@ -190,6 +192,7 @@ function validateResource(pack, description) {
   validateWallShelfGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateMirrorGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateSupportGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
+  validateCameraMountGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateVanityGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   const movingGeometry=description.resource.movingProfile==='exterior-door-leaf-v1'?validateExteriorDoorLeafGeometry:
     description.resource.movingParts?.[0]?.kind==='slide'?validateSlidingPartGeometry:validateMovingPartGeometry;
@@ -211,8 +214,8 @@ function validateResource(pack, description) {
       throw error('asset-footprint-mismatch', `${description.path}.footprint`, 'Declared blocking footprint must enclose the default scene XZ bounds within 1mm');
   }
   if(description.mounting) {
-    const s=description.mounting,b=new THREE.Box3().setFromObject(pack.scene),wall=['wall','wall-opening','portal','portal-door','information-surface','window-cover'].includes(description.mount);
-    const lo=description.mount==='ceiling'&&s.origin==='top'?-s.height:wall&&s.origin==='center'?-s.height/2:0;
+    const s=description.mounting,b=new THREE.Box3().setFromObject(pack.scene),cameraMount=isCameraMountResource(description.resource),wall=!cameraMount&&['wall','wall-opening','portal','portal-door','information-surface','window-cover'].includes(description.mount);
+    const lo=description.mount==='ceiling'&&s.origin==='top'?-s.height:wall&&s.origin==='center'?-s.height/2:cameraMount?-.25:0;
     if(![s.width,s.height,s.depth].every(v=>Number.isFinite(v)&&v>0)||
       b.min.x < -s.width/2-.001||b.max.x > s.width/2+.001||b.min.y<lo-.001||b.max.y>lo+s.height+.001||
       b.min.z<(wall?0:-s.depth/2)-.001||b.max.z>(wall?s.depth:s.depth/2)+.001)

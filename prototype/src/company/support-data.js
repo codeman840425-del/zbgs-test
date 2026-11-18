@@ -6,14 +6,16 @@ import {MAKEUP_STORAGE_PROFILE,validateMakeupStorageResource} from './makeup-sto
 import {validateSideTableResource} from './side-table-data.js';
 import {validateSideTableLifeItemsResource} from './side-table-life-items-data.js';
 import {validateWallShelfResource} from './wall-shelf-data.js';
+import {validateCameraMountResource} from './camera-mount-data.js';
 const object = value => value && typeof value === 'object' && !Array.isArray(value);
 const pair = value => Array.isArray(value) && value.length === 2 && value.every(Number.isFinite);
 const ID = /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/;
 const EPS = 1e-6;
 
 export function validateSupportResource(resource, fail, path = resource.id) {
-  if(resource.mount!=null&&!['desk-surface','floor-surface','wall','wall-opening','portal','portal-door','support-surface','information-surface','ceiling','parent-device-endpoints','window-cover'].includes(resource.mount))
+  if(resource.mount!=null&&!['desk-surface','floor-surface','wall','wall-opening','portal','portal-door','support-surface','information-surface','ceiling','parent-device-endpoints','window-cover','desk-edge-clamp'].includes(resource.mount))
     fail('unsupported-mount',path,'The mounting adapter is not supported');
+  validateCameraMountResource(resource, fail, path);
   validateCableResource(resource,fail,path);
   validateCeilingAcousticResource(resource,fail,path);
   validateSideTableResource(resource,fail,path);

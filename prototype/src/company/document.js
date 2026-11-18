@@ -258,9 +258,33 @@ export function deriveCompany(document, catalog, templates) {
     if (node.appearance !== undefined) validateAppearance(node.appearance, resource, `${node.id}.appearance`);
     if (node.stationId && !stations.some(n => n.id === node.stationId)) fail('missing-station', node.id, node.stationId);
     const world = worlds.get(node.id), state = { ...resource.stateDefaults, ...node.state };
-    if (resource.footprint?.blocking && !['desk-surface','wall'].includes(resource.mount) &&
+    if (resource.footprint?.blocking && resource.mountRole !== 'camera-mount' && !['desk-surface','wall'].includes(resource.mount) &&
         Math.abs(world.position[1] - worlds.get(floorIds.get(node.id)).position[1]) > 1e-8)
       fail('unsupported-height', node.id, 'This ground facility must stay on its floor; use a declared mounting adapter for elevated placement');
+    if (resource.mountRole === 'camera-mount') {
+      const parent = nodes.get(node.parentId), spec = resource.mounting, [x, y, z] = node.transform.position;
+      if (resource.mount === 'desk-edge-clamp') {
+        const surface = resources.get(key(parent?.resource))?.surface;
+        if (parent?.kind !== 'facility' || resources.get(key(parent.resource))?.mountRole !== 'desk' || !surface)
+          fail('missing-mount-surface', node.id, 'A desk-edge camera mount requires a desk parent with a declared surface');
+        const fp = resource.footprint;
+        if (Math.abs(y - surface.topY) > .01 || Math.abs(x) + fp.halfSize[0] > surface.halfSize[0] + .001 || Math.abs(z) + fp.halfSize[1] > surface.halfSize[1] + .001)
+          fail('invalid-camera-mount-fit', node.id, 'Desk-edge camera mount must fit the complete desk clearance footprint');
+      } else if (resource.mount === 'floor-surface') {
+        const region = parent;
+        if (!['room', 'area'].includes(region?.kind) || Math.abs(y) > .001 || Math.abs(x) + spec.width / 2 > region.bounds.width / 2 - .1 + .001 || Math.abs(z) + spec.depth / 2 > region.bounds.depth / 2 - .1 + .001)
+          fail('invalid-camera-mount-fit', node.id, 'Floor camera mount must be grounded and fit inside the room');
+      } else if (resource.mount === 'wall') {
+        const region = parent, angle = ((node.transform.yaw % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+        if (!['room', 'area'].includes(region?.kind)) fail('missing-mount-region', node.id, 'Wall camera mount needs a room or area parent');
+        const edge = Math.abs(angle) < 1e-6 ? 'north' : Math.abs(angle - Math.PI / 2) < 1e-6 ? 'west' : Math.abs(angle - Math.PI) < 1e-6 ? 'south' : 'east';
+        const horizontal = edge === 'north' || edge === 'south', span = horizontal ? region.bounds.width : region.bounds.depth;
+        const along = horizontal ? x : z, normal = horizontal ? z : x;
+        const plane = (edge === 'north' || edge === 'west' ? -1 : 1) * ((horizontal ? region.bounds.depth : region.bounds.width) / 2 - .1);
+        if (Math.abs(normal - plane) > .001 || Math.abs(along) + spec.width / 2 > span / 2 - .1 || y - spec.height / 2 < -.001 || y + spec.height / 2 > 2.8 + .001)
+          fail('invalid-camera-mount-fit', node.id, 'Wall camera mount must match a wall plane and remain within the wall height and width');
+      }
+    }
     if (resource.mount === 'desk-surface') {
       const parent = nodes.get(node.parentId), surface = resources.get(key(parent?.resource))?.surface;
       if (!surface) fail('missing-mount-surface', node.id, 'This device requires a parent desk surface');
@@ -272,7 +296,7 @@ export function deriveCompany(document, catalog, templates) {
       if(node.parentId===undefined||!node.attachment||node.attachment.windowId!==node.parentId)
         fail('invalid-window-cover-attachment',node.id,'Window cover must declare attachment.windowId equal to its parent window');
     }
-    if (['wall','wall-opening','portal','portal-door','floor-surface'].includes(resource.mount)) {
+    if (resource.mountRole !== 'camera-mount' && ['wall','wall-opening','portal','portal-door','floor-surface'].includes(resource.mount)) {
       const region=nodes.get(node.parentId),spec=resource.mounting;
       if(!['room','area'].includes(region?.kind)||!spec||
         ![spec.width,spec.height,spec.depth].every(v=>Number.isFinite(v)&&v>0))
@@ -323,9 +347,9 @@ export function deriveCompany(document, catalog, templates) {
       const corners = [-1, 1].flatMap(x => [-1, 1].map(z => pointInTransform(world, [fp.center[0] + x * fp.halfSize[0], 0, fp.center[1] + z * fp.halfSize[1]])));
       const min = [Math.min(...corners.map(p => p[0])), Math.min(...corners.map(p => p[2]))];
       const max = [Math.max(...corners.map(p => p[0])), Math.max(...corners.map(p => p[2]))];
-      obstacles.push({ id: node.id, floorId: entry.floorId, min, max, corners, world, resource, footprint: fp });
+      obstacles.push({ id: node.id, node, floorId: entry.floorId, min, max, corners, world, resource, footprint: fp });
       const room = nodes.get(entry.roomId);
-      if (room && resource.mount!=='portal-door') for (const corner of corners) {
+      if (room && resource.mount!=='portal-door' && !(resource.mountRole === 'camera-mount' && resource.mount === 'wall')) for (const corner of corners) {
         const local = localPoint(worlds.get(room.id), corner);
         if (Math.abs(local[0]) > room.bounds.width / 2 + 1e-8 || Math.abs(local[2]) > room.bounds.depth / 2 + 1e-8)
           fail('outside-room', node.id, `Footprint lies outside ${room.id}`);
@@ -340,6 +364,7 @@ export function deriveCompany(document, catalog, templates) {
   }
   for (let i = 0; i < obstacles.length; i++) for (let j = i + 1; j < obstacles.length; j++) {
     const a = obstacles[i], b = obstacles[j];
+    if (a.node.parentId === b.id || b.node.parentId === a.id) continue;
     if (a.floorId === b.floorId && a.min[0] < b.max[0] - 1e-8 && a.max[0] > b.min[0] + 1e-8 && a.min[1] < b.max[1] - 1e-8 && a.max[1] > b.min[1] + 1e-8)
       fail('overlapping-facilities', a.id, `Blocking footprint overlaps ${b.id}`, { otherId: b.id });
   }

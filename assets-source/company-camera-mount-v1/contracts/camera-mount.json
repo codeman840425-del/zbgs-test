@@ -1,0 +1,50 @@
+{
+  "id": "camera-mount",
+  "version": 1,
+  "category": "static",
+  "mountRole": "camera-mount",
+  "productionBranch": "camera-mount",
+  "mount": "camera-mount",
+  "mounting": {
+    "width": 0.8,
+    "height": 1.8,
+    "depth": 0.8,
+    "origin": "parent anchor plane centre",
+    "envelopeUnits": "metres"
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "design-specific parent anchor; camera cradle faces +Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [0, 0],
+    "halfSize": [0.4, 0.4],
+    "blocking": true,
+    "clearanceRequired": true
+  },
+  "parentOptions": [
+    {"mount": "desk-edge-clamp", "parent": "desk.edge", "designs": ["camera-mount-desk-clamp", "camera-mount-articulated-arm"]},
+    {"mount": "floor-surface", "parent": "room.floor", "designs": ["camera-mount-tripod"]},
+    {"mount": "wall", "parent": "room.wall", "designs": ["camera-mount-wall-arm"]}
+  ],
+  "stateDefaults": {"mounted": true},
+  "stateSchema": {"mounted": {"type": "boolean"}},
+  "stateSemantics": {"mounted": "static placement visibility only; no animation or device state"},
+  "saveRestore": {
+    "savedFields": ["resource.id", "resource.version", "parentId", "transform.position", "transform.quaternion", "transform.scale", "mounted"],
+    "restoreRule": "Reattach to the recorded parent and reject a missing parent or unsupported mount before scene mutation."
+  },
+  "mountNodes": {
+    "anchor": "mount-anchor",
+    "cameraCradle": "camera-cradle",
+    "clearance": "mount-clearance"
+  },
+  "materialSlots": {
+    "frame": ["mount-frame"],
+    "trim": ["mount-trim"],
+    "rubber": ["mount-rubber"]
+  }
+}

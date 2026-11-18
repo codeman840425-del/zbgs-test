@@ -1,0 +1,144 @@
+{
+  "id": "camera-mount-tripod",
+  "displayName": "三脚架",
+  "version": 1,
+  "category": "static",
+  "mountRole": "camera-mount",
+  "productionBranch": "camera-mount",
+  "mount": "floor-surface",
+  "parent": "room.floor",
+  "mounting": {
+    "width": 0.8,
+    "height": 1.8,
+    "depth": 0.8,
+    "origin": "parent anchor plane centre",
+    "envelopeUnits": "metres",
+    "designEnvelope": {
+      "width": 0.8,
+      "height": 1.8,
+      "depth": 0.8
+    }
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "design-specific parent anchor; camera cradle faces +Z",
+    "scale": "Identity only"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.4,
+      0.4
+    ],
+    "blocking": true,
+    "clearanceRequired": true
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "mounted": true
+  },
+  "stateSchema": {
+    "mounted": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "mounted": "static placement visibility only; no animation or device state"
+  },
+  "saveRestore": {
+    "savedFields": [
+      "resource.id",
+      "resource.version",
+      "parentId",
+      "transform.position",
+      "transform.quaternion",
+      "transform.scale",
+      "mounted"
+    ],
+    "restoreRule": "Reattach to the recorded parent and reject a missing parent or unsupported mount before scene mutation."
+  },
+  "materialSlots": {
+    "frame": [
+      "mount-frame"
+    ],
+    "trim": [
+      "mount-trim"
+    ],
+    "rubber": [
+      "mount-rubber"
+    ]
+  },
+  "mountDetails": {
+    "anchorNode": "mount-anchor",
+    "cradleNode": "camera-cradle",
+    "clearanceNode": "mount-clearance",
+    "clearance": "tripod-footprint"
+  },
+  "provenance": {
+    "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+    "tools": [
+      "Three.js 187",
+      "BoxGeometry",
+      "RoundedBoxGeometry",
+      "CylinderGeometry",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "sourceParameters": "assets-source/company-camera-mount-v1/parameters.json",
+    "sourceParametersSha256": "0337a26800e3b67ef75ac0b5f8b10864d69182e1875894b272b73eaf9c4b8f64",
+    "functionalContractSource": "assets-source/company-camera-mount-v1/contracts/camera-mount.json",
+    "functionalContractSourceSha256": "50ae2c6b3c9fa55f9fc580a72296889950658f15fe8c2939a8b2a526773a3d50",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranch": "camera-mount",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "generator": "scripts/company-platform/build-camera-mount-collection.mjs",
+    "generatorSha256": "625050103d5388b00147a55303593ebc035aa5ed24b607cff512470bcf261390",
+    "designId": "camera-mount-tripod",
+    "method": "Floor-standing three-leg camera tripod with a telescoping centre column, spreader hub and rubber feet."
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/camera-mount-v1/camera-mount/camera-mount-tripod/v1/model.glb",
+    "sha256": "a61d4184e73fbf251b09894ab9841fd67b717bf0350bc50115342ab867859a37",
+    "bytes": 416120
+  },
+  "checks": {
+    "meshCount": 13,
+    "triangles": 4408,
+    "nodeNames": [
+      "mount-anchor",
+      "mount-clearance",
+      "mount-frame",
+      "mount-pivot",
+      "tripod-leg-left",
+      "tripod-leg-right",
+      "tripod-leg-back",
+      "tripod-foot-left",
+      "tripod-foot-right",
+      "tripod-foot-back",
+      "camera-cradle",
+      "mount-trim",
+      "mount-rubber"
+    ],
+    "localBounds": {
+      "min": [
+        -0.3399999991059303,
+        -5.2154064053566707e-11,
+        -0.35000000074505805
+      ],
+      "max": [
+        0.3399999991059303,
+        0.8825000008940697,
+        0.33000001311302185
+      ]
+    },
+    "geometrySha256": "b69681cb19c4b437de98f863ddc6a3390d7dde43ff99c36ba2759b825e6fef7f",
+    "repeatedExportByteIdentical": true,
+    "gltfReadback": true
+  }
+}

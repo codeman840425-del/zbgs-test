@@ -24313,6 +24313,580 @@
       }
     },
     {
+      "id": "camera-mount-desk-clamp",
+      "displayName": "桌夹",
+      "version": 1,
+      "category": "static",
+      "mountRole": "camera-mount",
+      "productionBranch": "camera-mount",
+      "mount": "desk-edge-clamp",
+      "parent": "desk.edge",
+      "mounting": {
+        "width": 0.8,
+        "height": 1.8,
+        "depth": 0.8,
+        "origin": "parent anchor plane centre",
+        "envelopeUnits": "metres",
+        "designEnvelope": {
+          "width": 0.8,
+          "height": 1.8,
+          "depth": 0.8
+        }
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "design-specific parent anchor; camera cradle faces +Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.4,
+          0.4
+        ],
+        "blocking": true,
+        "clearanceRequired": true
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "mounted": true
+      },
+      "stateSchema": {
+        "mounted": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "mounted": "static placement visibility only; no animation or device state"
+      },
+      "saveRestore": {
+        "savedFields": [
+          "resource.id",
+          "resource.version",
+          "parentId",
+          "transform.position",
+          "transform.quaternion",
+          "transform.scale",
+          "mounted"
+        ],
+        "restoreRule": "Reattach to the recorded parent and reject a missing parent or unsupported mount before scene mutation."
+      },
+      "materialSlots": {
+        "frame": [
+          "mount-frame"
+        ],
+        "trim": [
+          "mount-trim"
+        ],
+        "rubber": [
+          "mount-rubber"
+        ]
+      },
+      "mountDetails": {
+        "anchorNode": "mount-anchor",
+        "cradleNode": "camera-cradle",
+        "clearanceNode": "mount-clearance",
+        "clearance": "desk-edge-clearance"
+      },
+      "provenance": {
+        "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-camera-mount-v1/parameters.json",
+        "sourceParametersSha256": "0337a26800e3b67ef75ac0b5f8b10864d69182e1875894b272b73eaf9c4b8f64",
+        "functionalContractSource": "assets-source/company-camera-mount-v1/contracts/camera-mount.json",
+        "functionalContractSourceSha256": "50ae2c6b3c9fa55f9fc580a72296889950658f15fe8c2939a8b2a526773a3d50",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "camera-mount",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-camera-mount-collection.mjs",
+        "generatorSha256": "625050103d5388b00147a55303593ebc035aa5ed24b607cff512470bcf261390",
+        "designId": "camera-mount-desk-clamp",
+        "method": "Compact edge clamp with a broad pressure plate, captive screw, riser and camera cradle."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/camera-mount-v1/camera-mount/camera-mount-desk-clamp/v1/model.glb",
+        "sha256": "4016001a068569a03e1bf29e65ec58ebe9bd6ebe2c76939e0abdab43fc718e9c",
+        "bytes": 125680
+      },
+      "checks": {
+        "meshCount": 11,
+        "triangles": 1324,
+        "nodeNames": [
+          "mount-frame",
+          "mount-clearance",
+          "mount-clamp-jaw",
+          "mount-screw",
+          "mount-screw-knob",
+          "mount-riser",
+          "mount-pivot",
+          "camera-cradle",
+          "mount-trim",
+          "mount-rubber",
+          "mount-anchor"
+        ],
+        "localBounds": {
+          "min": [
+            -0.14000000059604645,
+            -0.21000000208616257,
+            -0.12999999940395354
+          ],
+          "max": [
+            0.14000000059604645,
+            0.38250000089406966,
+            0.17400000005215407
+          ]
+        },
+        "geometrySha256": "7565d6e8b1cc8fbf7c1dec3379f8b16d685c41495c88d69e2c04a460a029360e",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true
+      }
+    },
+    {
+      "id": "camera-mount-articulated-arm",
+      "displayName": "悬臂",
+      "version": 1,
+      "category": "static",
+      "mountRole": "camera-mount",
+      "productionBranch": "camera-mount",
+      "mount": "desk-edge-clamp",
+      "parent": "desk.edge",
+      "mounting": {
+        "width": 0.8,
+        "height": 1.8,
+        "depth": 0.8,
+        "origin": "parent anchor plane centre",
+        "envelopeUnits": "metres",
+        "designEnvelope": {
+          "width": 0.8,
+          "height": 1.8,
+          "depth": 0.8
+        }
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "design-specific parent anchor; camera cradle faces +Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.4,
+          0.4
+        ],
+        "blocking": true,
+        "clearanceRequired": true
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "mounted": true
+      },
+      "stateSchema": {
+        "mounted": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "mounted": "static placement visibility only; no animation or device state"
+      },
+      "saveRestore": {
+        "savedFields": [
+          "resource.id",
+          "resource.version",
+          "parentId",
+          "transform.position",
+          "transform.quaternion",
+          "transform.scale",
+          "mounted"
+        ],
+        "restoreRule": "Reattach to the recorded parent and reject a missing parent or unsupported mount before scene mutation."
+      },
+      "materialSlots": {
+        "frame": [
+          "mount-frame"
+        ],
+        "trim": [
+          "mount-trim"
+        ],
+        "rubber": [
+          "mount-rubber"
+        ]
+      },
+      "mountDetails": {
+        "anchorNode": "mount-anchor",
+        "cradleNode": "camera-cradle",
+        "clearanceNode": "mount-clearance",
+        "clearance": "desk-edge-clearance"
+      },
+      "provenance": {
+        "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-camera-mount-v1/parameters.json",
+        "sourceParametersSha256": "0337a26800e3b67ef75ac0b5f8b10864d69182e1875894b272b73eaf9c4b8f64",
+        "functionalContractSource": "assets-source/company-camera-mount-v1/contracts/camera-mount.json",
+        "functionalContractSourceSha256": "50ae2c6b3c9fa55f9fc580a72296889950658f15fe8c2939a8b2a526773a3d50",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "camera-mount",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-camera-mount-collection.mjs",
+        "generatorSha256": "625050103d5388b00147a55303593ebc035aa5ed24b607cff512470bcf261390",
+        "designId": "camera-mount-articulated-arm",
+        "method": "Two-link articulated boom with visible pivot discs, desk-edge clamp and forward camera cradle."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/camera-mount-v1/camera-mount/camera-mount-articulated-arm/v1/model.glb",
+        "sha256": "debd7d12b6431266ad755fd831eca8d12b84b689ca7c681988e45eac8c70507e",
+        "bytes": 144240
+      },
+      "checks": {
+        "meshCount": 14,
+        "triangles": 1600,
+        "nodeNames": [
+          "mount-frame",
+          "mount-clearance",
+          "mount-clamp-jaw",
+          "mount-screw",
+          "mount-screw-knob",
+          "mount-arm-lower",
+          "mount-pivot-lower",
+          "mount-pivot-mid",
+          "mount-arm-upper",
+          "mount-pivot-upper",
+          "camera-cradle",
+          "mount-trim",
+          "mount-rubber",
+          "mount-anchor"
+        ],
+        "localBounds": {
+          "min": [
+            -0.15000000596046448,
+            -0.18500000149011614,
+            -0.12999999940395354
+          ],
+          "max": [
+            0.15000000596046448,
+            0.8625000008940696,
+            0.24400000005215408
+          ]
+        },
+        "geometrySha256": "6918ed72e7ec0545c275cf8a1aa85e804aeb021146699b6a45d783f9f0f1b0a4",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true
+      }
+    },
+    {
+      "id": "camera-mount-tripod",
+      "displayName": "三脚架",
+      "version": 1,
+      "category": "static",
+      "mountRole": "camera-mount",
+      "productionBranch": "camera-mount",
+      "mount": "floor-surface",
+      "parent": "room.floor",
+      "mounting": {
+        "width": 0.8,
+        "height": 1.8,
+        "depth": 0.8,
+        "origin": "parent anchor plane centre",
+        "envelopeUnits": "metres",
+        "designEnvelope": {
+          "width": 0.8,
+          "height": 1.8,
+          "depth": 0.8
+        }
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "design-specific parent anchor; camera cradle faces +Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.4,
+          0.4
+        ],
+        "blocking": true,
+        "clearanceRequired": true
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "mounted": true
+      },
+      "stateSchema": {
+        "mounted": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "mounted": "static placement visibility only; no animation or device state"
+      },
+      "saveRestore": {
+        "savedFields": [
+          "resource.id",
+          "resource.version",
+          "parentId",
+          "transform.position",
+          "transform.quaternion",
+          "transform.scale",
+          "mounted"
+        ],
+        "restoreRule": "Reattach to the recorded parent and reject a missing parent or unsupported mount before scene mutation."
+      },
+      "materialSlots": {
+        "frame": [
+          "mount-frame"
+        ],
+        "trim": [
+          "mount-trim"
+        ],
+        "rubber": [
+          "mount-rubber"
+        ]
+      },
+      "mountDetails": {
+        "anchorNode": "mount-anchor",
+        "cradleNode": "camera-cradle",
+        "clearanceNode": "mount-clearance",
+        "clearance": "tripod-footprint"
+      },
+      "provenance": {
+        "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-camera-mount-v1/parameters.json",
+        "sourceParametersSha256": "0337a26800e3b67ef75ac0b5f8b10864d69182e1875894b272b73eaf9c4b8f64",
+        "functionalContractSource": "assets-source/company-camera-mount-v1/contracts/camera-mount.json",
+        "functionalContractSourceSha256": "50ae2c6b3c9fa55f9fc580a72296889950658f15fe8c2939a8b2a526773a3d50",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "camera-mount",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-camera-mount-collection.mjs",
+        "generatorSha256": "625050103d5388b00147a55303593ebc035aa5ed24b607cff512470bcf261390",
+        "designId": "camera-mount-tripod",
+        "method": "Floor-standing three-leg camera tripod with a telescoping centre column, spreader hub and rubber feet."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/camera-mount-v1/camera-mount/camera-mount-tripod/v1/model.glb",
+        "sha256": "a61d4184e73fbf251b09894ab9841fd67b717bf0350bc50115342ab867859a37",
+        "bytes": 416120
+      },
+      "checks": {
+        "meshCount": 13,
+        "triangles": 4408,
+        "nodeNames": [
+          "mount-anchor",
+          "mount-clearance",
+          "mount-frame",
+          "mount-pivot",
+          "tripod-leg-left",
+          "tripod-leg-right",
+          "tripod-leg-back",
+          "tripod-foot-left",
+          "tripod-foot-right",
+          "tripod-foot-back",
+          "camera-cradle",
+          "mount-trim",
+          "mount-rubber"
+        ],
+        "localBounds": {
+          "min": [
+            -0.3399999991059303,
+            -5.2154064053566707e-11,
+            -0.35000000074505805
+          ],
+          "max": [
+            0.3399999991059303,
+            0.8825000008940697,
+            0.33000001311302185
+          ]
+        },
+        "geometrySha256": "b69681cb19c4b437de98f863ddc6a3390d7dde43ff99c36ba2759b825e6fef7f",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true
+      }
+    },
+    {
+      "id": "camera-mount-wall-arm",
+      "displayName": "墙臂",
+      "version": 1,
+      "category": "static",
+      "mountRole": "camera-mount",
+      "productionBranch": "camera-mount",
+      "mount": "wall",
+      "parent": "room.wall",
+      "mounting": {
+        "width": 0.8,
+        "height": 1.8,
+        "depth": 0.8,
+        "origin": "parent anchor plane centre",
+        "envelopeUnits": "metres",
+        "designEnvelope": {
+          "width": 0.8,
+          "height": 1.8,
+          "depth": 0.8
+        }
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "design-specific parent anchor; camera cradle faces +Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.4,
+          0.4
+        ],
+        "blocking": true,
+        "clearanceRequired": true
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "mounted": true
+      },
+      "stateSchema": {
+        "mounted": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "mounted": "static placement visibility only; no animation or device state"
+      },
+      "saveRestore": {
+        "savedFields": [
+          "resource.id",
+          "resource.version",
+          "parentId",
+          "transform.position",
+          "transform.quaternion",
+          "transform.scale",
+          "mounted"
+        ],
+        "restoreRule": "Reattach to the recorded parent and reject a missing parent or unsupported mount before scene mutation."
+      },
+      "materialSlots": {
+        "frame": [
+          "mount-frame"
+        ],
+        "trim": [
+          "mount-trim"
+        ],
+        "rubber": [
+          "mount-rubber"
+        ]
+      },
+      "mountDetails": {
+        "anchorNode": "mount-anchor",
+        "cradleNode": "camera-cradle",
+        "clearanceNode": "mount-clearance",
+        "clearance": "wall-clearance"
+      },
+      "provenance": {
+        "license": "Project-authored parametric geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-camera-mount-v1/parameters.json",
+        "sourceParametersSha256": "0337a26800e3b67ef75ac0b5f8b10864d69182e1875894b272b73eaf9c4b8f64",
+        "functionalContractSource": "assets-source/company-camera-mount-v1/contracts/camera-mount.json",
+        "functionalContractSourceSha256": "50ae2c6b3c9fa55f9fc580a72296889950658f15fe8c2939a8b2a526773a3d50",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "camera-mount",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-camera-mount-collection.mjs",
+        "generatorSha256": "625050103d5388b00147a55303593ebc035aa5ed24b607cff512470bcf261390",
+        "designId": "camera-mount-wall-arm",
+        "method": "Wall plate and offset boom arm with a supported camera cradle, cable relief and clearance from the wall."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/camera-mount-v1/camera-mount/camera-mount-wall-arm/v1/model.glb",
+        "sha256": "6061dc14174640245565ebfa159a8bd1ad81ea76c907253ef6813f09072e68b4",
+        "bytes": 132688
+      },
+      "checks": {
+        "meshCount": 12,
+        "triangles": 1432,
+        "nodeNames": [
+          "mount-frame",
+          "mount-clearance",
+          "wall-bolt-022",
+          "wall-bolt-058",
+          "mount-arm-lower",
+          "mount-arm-upper",
+          "mount-boom",
+          "mount-pivot",
+          "camera-cradle",
+          "mount-trim",
+          "mount-rubber",
+          "mount-anchor"
+        ],
+        "localBounds": {
+          "min": [
+            -0.17000000178813934,
+            0.16000000536441805,
+            -0.004500000894069673
+          ],
+          "max": [
+            0.17000000178813934,
+            0.639999994635582,
+            0.3540000000521541
+          ]
+        },
+        "geometrySha256": "aaa3f09d39be0d5cfe6359f8aa82eaa7fef0b9556af1ecbbe6c2fa138c3945e0",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true
+      }
+    },
+    {
       "id": "headphones-arc",
       "displayName": "弧形头戴耳机",
       "version": 1,

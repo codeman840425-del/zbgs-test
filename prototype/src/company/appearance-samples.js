@@ -47,6 +47,7 @@ export const appearanceBranches=[
  ['outlet-switch','墙面插座/开关'],['power-strip','桌面插排'],
  ['keyboard','键盘'],['desk-microphone','桌面麦克风'],['plant','绿植'],['wall-art','挂画'],
  ['floor-panel','地板模块'],['wall-panel','墙面模块'],['door-frame','开放门框'],['window-panel','窗饰模块'],['rug','地毯'],['stream-station','组合直播工位'],
+ ['camera-mount','相机挂载'],
 ];
 const names={'chair-cantilever':'悬臂滑橇椅','chair-pedestal':'中心底盘椅','chair-ladder':'梯架靠背椅','chair-crossbeam':'交叉梁椅',
  'lounge-sofa':'软包双人沙发','timber-sofa':'开放木框双人沙发','sofa-modular':'模块软包双人沙发','sofa-arch':'拱架双人沙发',
@@ -122,6 +123,15 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
  if(!selected)throw Error(`No appearance ${branch}[${index}]`);
  let doc=createCompany({id:`appearance-${branch}`,name:`${appearanceBranches.find(([key])=>key===branch)?.[1]} · ${selected.displayName||selected.name||selected.id}`,width:9,depth:7},catalog);
  const floor=doc.nodes[0],room=doc.nodes[1],area=`${doc.id}/public`;
+ if(branch==='camera-mount'){
+   const station='sample/station',desk=`${station}/desk`,deskResource=catalog.resources.find(r=>r.id==='desk-trestle'&&r.version===1);
+   const ops=[{type:'add-workstation',id:station,parentId:room.id,template:{id:'stream-station',version:1},transform:identityTransform()}];
+   const position=selected.mount==='desk-edge-clamp'?[0,deskResource.surface.topY,-.1,0]:selected.mount==='floor-surface'?[2.6,0,1.5,0]:[0,1.4,-3.4,0];
+   const parentId=selected.mount==='desk-edge-clamp'?desk:room.id;
+   ops.push({type:'add-facility',id:'sample/object',parentId,resource:{id:selected.id,version:selected.version},transform:{position:position.slice(0,3),yaw:position[3]}});
+   doc=prepareCompanyChange(doc,ops,{catalog,templates}).document;
+   return {document:doc,target:'sample/object',branch,index,resource:{id:selected.id,version:selected.version}};
+ }
  floor.connections=[{id:`${doc.id}/entry`,from:{regionId:room.id,edge:'south',offset:0,width:1.4},to:{regionId:area,edge:'north',offset:0,width:1.4}}];
  doc.nodes.push({id:area,kind:'area',parentId:floor.id,name:'公共入口',bounds:{width:9,depth:3},transform:{position:[0,0,5],yaw:0}});
  const station='sample/station',ops=[{type:'add-workstation',id:station,parentId:room.id,template:{id:'stream-station',version:1},transform:identityTransform()}];
