@@ -1,0 +1,17 @@
+工位成套外观 · 固定验收
+源码 788bf28f24ad5501e66660d165959046be4531b6，构建 76854ce901e1。
+独立交付包 F:/gamemake-company-station-looks-delivery-v2。游戏或其他 agent 消费布局、带依赖的存档和已登记部件。人类可在 http://127.0.0.1:62080/?sample=stream-station&look=0 比较样件。
+正常房间操作：物品 → 当前房间物品 → 直播工位 → 成套更换工位外观 → 应用到所选工位。双屏房的副屏可另选并修改。套装只替换模板指定的六个部件，各部件沿用实例 ID、位置、状态和父子关系。
+
+在交付包目录批量复现
+node source/scripts/company-platform/batch.mjs source/scripts/company-platform/batch-inputs/workstation-looks.json NEW_OUTPUT_DIR
+node edit.mjs validate NEW_OUTPUT_DIR/studio-set-2/save.json
+
+source/prototype 内执行 npm ci、node scripts/build-company-id.mjs、node node_modules/vite/bin/vite.js build --config vite.company.config.js。然后在 source 内执行
+node scripts/company-platform/test-workstation-looks.mjs
+node scripts/company-platform/test-workstation-look-batch.mjs NEW_CPU_OUTPUT
+node scripts/company-platform/qa-workstation-looks.cjs prototype/dist-company 76854ce901e1 NEW_BROWSER_OUTPUT --record
+
+release/report.json 记录最终固定检出 11 项检查；delivery/report.json 记录独立包 10 项检查。release/video/workstation-looks-normal.webm 为 9.80 秒 25fps 正常播放连续录像。源构建、随包 viewer、随包源码重建的 469 项运行文件 SHA256 均一致。四份独立结果在民房和单间两种规模生成，错误版本单项拒绝、单项重试、再次全批字节一致。首次固定录像收尾由于 Chromium 已关闭无法再通过连接复制视频，故保留 fixed/report.json 原失败，在修正脚本的固定检出重新录制。
+
+真实角色 C3 和普通电脑性能另行验收。回滚构建 fb48b2e64a8b，文件在 F:/gamemake-company-camera-install-fixed-v2。
