@@ -150,7 +150,7 @@ test('lists exact body registrations and all outfits and material references fro
     }
   }
   assert.equal(registrations.length, 25 + productionCatalog.entries.length);
-  assert.equal(outfitCount, 41 + productionCatalog.entries.length);
+  assert.equal(outfitCount, 42 + productionCatalog.entries.length);
   assert.equal(checkedRecipes.size, 1);
 });
 

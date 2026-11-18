@@ -121,6 +121,21 @@ test('native male replacement hair, iris and eyebrow each bring their selected f
   ]);
 });
 
+test('native 7586 adds the independent sock model only to the selected shorts-socks record', async () => {
+  const body = 'native-male-7586-v1';
+  const original = await nativeRecord(body);
+  const recipe = structuredClone(original.appearanceRecipe);
+  recipe.equipment = (await template(body,1)).equipment;
+  const sock = recipe.equipment.resources.socks;
+  const worn = await collect(await recordFor(recipe,undefined,original.liveAccessories));
+  const plain = await collect(original);
+  const config = foundationProfile(body);
+  assert.equal(worn.result.outfitIndex,1);
+  contains(worn.files,[config.bodyTextureCoverage.url,config.manifestUrl,config.additionalEquipmentManifests[0].url,sock.url]);
+  contains(plain.files,[config.bodyTextureCoverage.url,config.manifestUrl,config.additionalEquipmentManifests[0].url]);
+  assert(!plain.files.has(sock.url));
+});
+
 test('old male outfit 4 requires explicit material selection and brings startup trousers', async () => {
   const historical = await json('scripts/runtime-package/fixtures/male-outer-shorts.json');
   const recipe = await template(historical.bodyType, historical.outfitIndex);

@@ -42,6 +42,12 @@ export async function createBodyTextureCoverage({body, avatarSha256, entries, de
       rule.covered === (rule.slot === 'top') && typeof rule.required === 'boolean', 'invalid equipment rule');
     rules.set(rule.id, rule);
   }
+  // Independent socks keep the original mask and its signed identity.
+  for (const rule of admission.optionalUncoveredEquipment ?? []) {
+    check(rule.slot === 'socks' && rule.covered === false && rule.required === false && !rules.has(rule.id),
+      'invalid extra uncovered equipment');
+    rules.set(rule.id, rule);
+  }
   const catalog = new Map();
   for (const entry of entries) {
     const rule = rules.get(entry.id);

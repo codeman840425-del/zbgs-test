@@ -168,7 +168,7 @@ async function addCoverage(io, contracts, config, catalog, entries) {
     mask.avatarSha256 === config.sha256 && mask.basePngSha256 === admission.basePngSha256 &&
     mask.covered?.sha256 === admission.maskedPngSha256, 'Native coverage identity differs');
   for (const id of Object.values(config.ids)) {
-    const rule = mask.equipment.find(row => row.id === id);
+    const rule = mask.equipment.find(row => row.id === id) ?? admission.optionalUncoveredEquipment?.find(row => row.id === id);
     const entry = catalog.byId.get(id);
     requireDependency(rule && entry && rule.sha256 === entry.sha256 && rule.slot === entry.slot,
       'Native coverage equipment identity differs: ' + id);
