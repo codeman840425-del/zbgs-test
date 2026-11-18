@@ -74,6 +74,8 @@ def plan(matrix: dict, request: dict) -> dict:
                   f"runtime admission pending for {style_id}/{body_type}")
             check(isinstance(row.get("admissionEvidence"), str) and row["admissionEvidence"],
                   "runtime-admitted variant has no admission evidence")
+            check(SHA.fullmatch(str(row.get("recipeSha256") or "")),
+                  "runtime-admitted variant has no parameter recipe identity")
             for key in ("bodySha256", "resourceManifestSha256", "coverageManifestSha256"):
                 check(SHA.fullmatch(str(row.get(key) or "")), f"Invalid {key}")
             version = item.get("variantVersion", row.get("variantVersion", "v1"))
@@ -90,6 +92,7 @@ def plan(matrix: dict, request: dict) -> dict:
                         "styleId": style_id,
                         "variantVersion": version,
                         "bodySha256": row["bodySha256"],
+                        "recipeSha256": row["recipeSha256"],
                         "resourceManifest": row["resourceManifest"],
                         "fitManifest": row["fitManifest"],
                         "coverageManifest": row["coverageManifest"],

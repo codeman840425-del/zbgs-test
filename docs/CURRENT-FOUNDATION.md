@@ -130,3 +130,4 @@
 2026-11-18 发型合同审计已落地为可重复检查：`scripts/production/qa-hairstyle-contract.mjs` 生成 `evidence/m2-hairstyle-contract-v1/report.json`，当前 27 条记录中 25 条显式闭合，2 条历史 implicit fit 被标记为迁移项。该审计只收紧未来批产输入，不制作新模型、不改变 `runtimeVariants` 或准入结果。下一批发型必须携带精确 `bodyType`、`fit`、资源哈希和来源闭包，中长发与双马尾仍需独立生产样件。
 2026-11-18 变体批量入口已接入生产链：`scripts/production/variant_batch.py` 将美术方的统一参数结果映射为精确 `styleId/bodyType/variantVersion` 请求，资源文件闭包和 runtime admission 任一不满足就逐项拒绝。当前代表矩阵四项均因 candidate 状态被拒绝，`evidence/m2-variant-batch-plan-v2/plan.json` 记录 0 accepted。该入口已经能作为未来随机组合的共同下游，不改变当前准入闸门，也不把候选资源变成游戏可用角色。
 2026-11-18 4196 已更新为批量准入预览构建 `31898f47ce75`，固定入口仍为 `http://127.0.0.1:4196/?body=female&workbench=appearance&view=inspect-face-front`。检查区现在显示每个基模的代表批量计划和可生成数量，当前女性与男性代表矩阵均为 candidate、可生成 0 项。该端口继续作为人类预览，不是游戏交付包。
+2026-11-18 批量入口新增配方身份校验：runtime-admitted 资源必须同时绑定 `recipeSha256`、body SHA、fit/coverage 和资源闭包，才会生成角色请求。代表批次重跑 `evidence/m2-variant-batch-plan-v3/plan.json` 仍被四项 candidate 逐项拒绝；当前准入结论不变。

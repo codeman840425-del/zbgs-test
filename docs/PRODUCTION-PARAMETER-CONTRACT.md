@@ -99,6 +99,6 @@ v4 同时修正了闸门本身的状态接缝：`bodyPackage` 和 `coverage` 不
 
 ## 统一参数到批量角色请求
 
-美术 Agent 的输出先落为资源矩阵行，再由 `scripts/production/variant_batch.py` 生成角色请求。最小组合键是 `bodyType + styleId + variantVersion`，请求还必须带稳定 `stableId`。矩阵行保存身体 SHA、资源/fit/coverage 引用及对应哈希，候选行可以进入审查和预览，只有带 `admissionEvidence` 且状态为 `runtime-admitted` 的行才会生成 `character-production-request-v1`。
+美术 Agent 的输出先落为资源矩阵行，再由 `scripts/production/variant_batch.py` 生成角色请求。最小组合键是 `bodyType + styleId + variantVersion`，请求还必须带稳定 `stableId`。矩阵行保存身体 SHA、参数配方 SHA、资源/fit/coverage 引用及对应哈希，候选行可以进入审查和预览，只有带 `admissionEvidence`、参数配方身份且状态为 `runtime-admitted` 的行才会生成 `character-production-request-v1`。
 
 该入口是确定性批量生产接缝，不负责从概念图推断网格、权重或服装版型，也不根据相似名称跨身体 fallback。未来的随机角色只负责在已准入矩阵行中选择组合，再复用同一入口生成记录。当前代表矩阵四项仍为 candidate，实际计划 `evidence/m2-variant-batch-plan-v2/plan.json` 为 0 accepted，这是资源准入不足的真实结果。

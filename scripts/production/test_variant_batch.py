@@ -16,6 +16,7 @@ def matrix(status="runtime-admitted"):
     }
     if status == "runtime-admitted":
         row["admissionEvidence"] = "/evidence/admission.json"
+        row["recipeSha256"] = "d" * 64
     return {"schema": "zbgs-style-variant-matrix-v1", "styles": [{
         "styleId": "uniform-top-v1", "label": "制服", "variants": [row]
     }]}
