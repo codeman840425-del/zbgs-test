@@ -31,7 +31,7 @@ async function shot(name){
 (async()=>{
   await fs.mkdir(out);report.harnessSha256=hash(await fs.readFile(__filename));server=await serve(dist,build,{manifest:'company-build-info.json',entry:'company.html'});await open();
   await page.evaluate(()=>company.load(company.layouts.mixed));
-  ({roomId,floorId}=await page.evaluate(()=>{const room=company.session.document.nodes.find(node=>node.kind==='room');return{roomId:room.id,floorId:room.parentId};}));await focus();
+  ({roomId,floorId}=await page.evaluate(()=>{const room=company.session.document.nodes.find(node=>node.kind==='room');return{roomId:room.id,floorId:room.parentId};}));await focus();await page.locator('#tool-finish').click();
   const before=await logical();
   for(const type of ['wall','floor'])await check(`Four ${type} designs replace real complete surfaces and survive separate browser-process restarts`,async()=>{
     const resources=await page.evaluate(type=>company.catalog.resources.filter(r=>r.kind==='surface-finish'&&r.finish.allowedSurfaces.includes(type)).map(r=>({id:r.id,version:r.version,sha256:r.asset.sha256})),type);
