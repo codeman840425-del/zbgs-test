@@ -518,3 +518,5 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 当前共同卡点进一步确认：资源预算两体均超静态门，GPU驻留与普通电脑未测；头部附件候选与现registry存在不同profile/source-capture身份，不能覆盖登记，且运行时 fit 仍 `verified:false`；动态头发、表面/纹理仍需逐身体运行证据。男性审计确认 authoring schema/执行器字段形状可复用，但女性观察值、身体包、装备和fit不能直接借用；男性仍缺非基线 FaceContour观察与导出候选。详见 `evidence/m2-native-batch-runtime-seam-v1/GLASSES-ADMISSION-AUDIT.md`、`MALE-RECIPE-REUSE-AUDIT.md`。
 
 准入流程新增 typed `native-glasses-admission-v1` 输入：只有精确 body/profile/accessory 身份、正常运行、关闭重开和人工视觉检查都标为 passed 的报告，才可清除对应身体的 `headAttachments`；candidate-only、legacy 或 `verified:false` 不能清除。当前没有这样的通过报告，因此现有两体的 `acceptedForRuntime` 仍为空。
+
+资源预算同步新增 typed `native-budget-admission-v1` 输入：transport、decode/Canvas、GPU 生命周期和 ordinary-PC 四层必须对同一 body/record 全部 passed，才可清除 `runtimeRecordAndBudget`。当前报告仍为静态估算/超预算且普通电脑未测，不满足该输入，不能写成资源准入通过。

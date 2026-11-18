@@ -371,13 +371,52 @@ def glasses_admission_index(path: Path, root: Path = ROOT) -> dict[str, dict[str
     return result
 
 
+def budget_admission_index(path: Path, root: Path = ROOT) -> dict[str, dict[str, Any]]:
+    """Index a four-layer resource-budget admission report."""
+    path = path.resolve()
+    require(path.is_file() and path.is_relative_to(root), "Budget admission report must be inside repository")
+    report = read_json(path)
+    require(report.get("schema") == "native-budget-admission-v1", "Unsupported budget admission report")
+    require(report.get("status") == "passed", "Budget admission is not a pass")
+    result: dict[str, dict[str, Any]] = {}
+    required_layers = ("transport", "decodeCanvas", "gpu", "ordinaryPC")
+    for item in report.get("candidates", []):
+        body_type = item.get("bodyType")
+        body_sha = item.get("bodySha256")
+        layers = item.get("layers")
+        require(isinstance(body_type, str) and re.fullmatch(r"[a-z][a-z0-9-]{1,95}", body_type),
+                "Budget admission body type is invalid")
+        require(isinstance(body_sha, str) and SHA.fullmatch(body_sha),
+                "Budget admission body identity is incomplete")
+        require(isinstance(layers, dict) and all(layers.get(layer) == "passed" for layer in required_layers),
+                "Budget admission requires all four resource layers")
+        require(isinstance(item.get("budgetVersion"), str) and item["budgetVersion"],
+                "Budget admission version is missing")
+        require(isinstance(item.get("recordSha256"), str) and SHA.fullmatch(item["recordSha256"]),
+                "Budget admission record identity is incomplete")
+        require(body_sha not in result, "Duplicate budget admission body")
+        result[body_sha] = {
+            "bodyType": body_type,
+            "bodySha256": body_sha,
+            "budgetVersion": item["budgetVersion"],
+            "recordSha256": item["recordSha256"],
+            "layers": dict(layers),
+            "report": pin(path),
+            "scope": report.get("scope", "exact body four-layer resource budget admission"),
+            "checks": ["runtimeRecordAndBudget"],
+        }
+    require(result, "Budget admission report has no candidates")
+    return result
+
+
 def evaluate(batch_path: Path, root: Path = ROOT,
              runtime_report: Path | None = None,
              adapter_report: Path | None = None,
              microphone_report: Path | None = None,
              adaptation_report: Path | None = None,
              runtime_head_audit: Path | None = None,
-             glasses_report: Path | None = None) -> dict[str, Any]:
+             glasses_report: Path | None = None,
+             budget_report: Path | None = None) -> dict[str, Any]:
     root = root.resolve()
     batch_path = batch_path.resolve()
     require(batch_path.is_file() and batch_path.is_relative_to(root), "Batch must be inside repository")
@@ -391,17 +430,19 @@ def evaluate(batch_path: Path, root: Path = ROOT,
     adaptation_by_body = candidate_adaptation_index(adaptation_report, root) if adaptation_report else {}
     audit_by_body = runtime_head_audit_index(runtime_head_audit, root) if runtime_head_audit else {}
     glasses_by_body = glasses_admission_index(glasses_report, root) if glasses_report else {}
+    budget_by_body = budget_admission_index(budget_report, root) if budget_report else {}
     combined_adapter = dict(adapter_by_body)
-    for body_sha, evidence in glasses_by_body.items():
-        if body_sha not in combined_adapter:
-            combined_adapter[body_sha] = evidence
-            continue
-        merged = dict(combined_adapter[body_sha])
-        merged["checks"] = list(dict.fromkeys([*merged.get("checks", []), *evidence.get("checks", [])]))
-        merged["additionalReports"] = [
-            evidence["report"],
-        ]
-        combined_adapter[body_sha] = merged
+    for evidence_map in (glasses_by_body, budget_by_body):
+        for body_sha, evidence in evidence_map.items():
+            if body_sha not in combined_adapter:
+                combined_adapter[body_sha] = evidence
+                continue
+            merged = dict(combined_adapter[body_sha])
+            merged["checks"] = list(dict.fromkeys([*merged.get("checks", []), *evidence.get("checks", [])]))
+            merged["additionalReports"] = [
+                *merged.get("additionalReports", []), evidence["report"],
+            ]
+            combined_adapter[body_sha] = merged
     rows = [package_item(batch, item, root, runtime_by_body, combined_adapter) for item in items]
     for row in rows:
         body_sha = row.get("bodySha256")
@@ -411,6 +452,8 @@ def evaluate(batch_path: Path, root: Path = ROOT,
             row["runtimeHeadAuditEvidence"] = audit_by_body[body_sha]
         if body_sha in glasses_by_body:
             row["glassesAdmissionEvidence"] = glasses_by_body[body_sha]
+        if body_sha in budget_by_body:
+            row["budgetAdmissionEvidence"] = budget_by_body[body_sha]
     for row in rows:
         if row["bodyType"] in microphone_by_body:
             row["accessoryEvidence"] = {"microphone": microphone_by_body[row["bodyType"]]}
@@ -457,11 +500,13 @@ def main() -> int:
     parser.add_argument("--adaptation-report", type=Path)
     parser.add_argument("--runtime-head-audit", type=Path)
     parser.add_argument("--glasses-report", type=Path)
+    parser.add_argument("--budget-report", type=Path)
     args = parser.parse_args()
     try:
         report = evaluate(args.batch, runtime_report=args.runtime_report, adapter_report=args.adapter_report,
                           microphone_report=args.microphone_report, adaptation_report=args.adaptation_report,
-                          runtime_head_audit=args.runtime_head_audit, glasses_report=args.glasses_report)
+                          runtime_head_audit=args.runtime_head_audit, glasses_report=args.glasses_report,
+                          budget_report=args.budget_report)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
         print(json.dumps(report, ensure_ascii=False))

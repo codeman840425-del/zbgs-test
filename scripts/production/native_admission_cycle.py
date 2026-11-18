@@ -59,6 +59,7 @@ def cycle(batch: Path, gate_output: Path, records_output: Path, **reports: Path 
         adaptation_report=reports.get("adaptation_report"),
         runtime_head_audit=reports.get("runtime_head_audit"),
         glasses_report=reports.get("glasses_report"),
+        budget_report=reports.get("budget_report"),
     )
     gate_ref = write_new(gate_output, gate)
 
@@ -89,7 +90,7 @@ def main() -> int:
     parser.add_argument("--batch", type=Path, required=True)
     parser.add_argument("--gate-output", type=Path, required=True)
     parser.add_argument("--records-output", type=Path, required=True)
-    for name in ("runtime-report", "adapter-report", "microphone-report", "adaptation-report", "runtime-head-audit", "glasses-report"):
+    for name in ("runtime-report", "adapter-report", "microphone-report", "adaptation-report", "runtime-head-audit", "glasses-report", "budget-report"):
         parser.add_argument(f"--{name}", dest=name.replace("-", "_"), type=Path)
     parser.add_argument("--summary", type=Path, required=True)
     args = parser.parse_args()
@@ -104,6 +105,7 @@ def main() -> int:
             adaptation_report=args.adaptation_report,
             runtime_head_audit=args.runtime_head_audit,
             glasses_report=args.glasses_report,
+            budget_report=args.budget_report,
         )
         summary_ref = write_new(args.summary, result)
         print(json.dumps({"status": result["status"], "acceptedForRuntime": result["acceptedForRuntime"], "summary": summary_ref}, ensure_ascii=False))

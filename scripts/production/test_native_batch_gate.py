@@ -176,6 +176,46 @@ class NativeBatchGateTests(unittest.TestCase):
                 evaluate(Path('assets-source/native-parameter-game-packages-v1/import-batch.json'),
                          glasses_report=report_path)
 
+    def test_four_layer_budget_admission_clears_only_budget_task(self):
+        batch = json.loads(Path('assets-source/native-parameter-game-packages-v1/import-batch.json').read_text(encoding='utf-8'))
+        candidates = []
+        for item in batch['items']:
+            spec = json.loads(Path(item['spec']).read_text(encoding='utf-8'))
+            candidates.append({
+                'bodyType': spec['bodyType'], 'bodySha256': spec['bodySha256'],
+                'budgetVersion': 'test-budget-v1', 'recordSha256': 'a' * 64,
+                'layers': {'transport': 'passed', 'decodeCanvas': 'passed',
+                           'gpu': 'passed', 'ordinaryPC': 'passed'},
+            })
+        report = {'schema': 'native-budget-admission-v1', 'status': 'passed',
+                  'scope': 'test-only four-layer budget admission', 'candidates': candidates}
+        with tempfile.TemporaryDirectory(dir='output') as temp_dir:
+            report_path = Path(temp_dir) / 'budget-admission.json'
+            report_path.write_text(json.dumps(report), encoding='utf-8')
+            result = evaluate(Path('assets-source/native-parameter-game-packages-v1/import-batch.json'),
+                              budget_report=report_path)
+        for row in result['items']:
+            checks = {item['check'] for item in row['adapterTasks']}
+            self.assertNotIn('runtimeRecordAndBudget', checks)
+            self.assertEqual(row['resolvedChecks']['runtimeRecordAndBudget']['status'], 'passed')
+            self.assertEqual(row['budgetAdmissionEvidence']['budgetVersion'], 'test-budget-v1')
+            self.assertIn('headAttachments', checks)
+
+    def test_budget_admission_requires_ordinary_pc_layer(self):
+        batch = json.loads(Path('assets-source/native-parameter-game-packages-v1/import-batch.json').read_text(encoding='utf-8'))
+        spec = json.loads(Path(batch['items'][0]['spec']).read_text(encoding='utf-8'))
+        report = {'schema': 'native-budget-admission-v1', 'status': 'passed', 'candidates': [{
+            'bodyType': spec['bodyType'], 'bodySha256': spec['bodySha256'],
+            'budgetVersion': 'test-budget-v1', 'recordSha256': 'b' * 64,
+            'layers': {'transport': 'passed', 'decodeCanvas': 'passed', 'gpu': 'passed', 'ordinaryPC': 'unmeasured'},
+        }]}
+        with tempfile.TemporaryDirectory(dir='output') as temp_dir:
+            report_path = Path(temp_dir) / 'budget-admission.json'
+            report_path.write_text(json.dumps(report), encoding='utf-8')
+            with self.assertRaises(GateError):
+                evaluate(Path('assets-source/native-parameter-game-packages-v1/import-batch.json'),
+                         budget_report=report_path)
+
 
 if __name__ == '__main__':
     unittest.main()

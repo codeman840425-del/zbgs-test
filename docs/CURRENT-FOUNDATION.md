@@ -59,4 +59,5 @@
 - 技术回放已在固定 `bda6fd250bb8` 上完成：`room-roundness-a` 与 `room-cheek-b` 各自走路、坐下、坐稳、起身、离椅均完成，供人工观看；不等同视觉通过、普通电脑通过或M2完成。
 - 下一步按共同机制推进：先解决头部附件的版本化证据与准入车道、动态头发逐身体运行检查、预算分层/发布派生方案和男性独立FaceContour观察；不覆盖冲突profile、不放宽超预算闸门、不重开封板裙装/30秒舞。
 - 闸门已增加可选 `native-glasses-admission-v1` 车道；它只接受精确身份和完整运行/恢复/人工视觉证据，不会把现有 `verified:false` 候选升级为通过。
+- 资源预算也增加 `native-budget-admission-v1` 车道；四层（传输、解码/Canvas、GPU、普通电脑）任一缺失或未测都不能清除预算 blocker。
 - 恢复命令：从仓库根运行 `python -B scripts/production/native_admission_cycle.py`，使用当前批次和现有证据路径生成新的、不可覆写的 gate/record 输出目录；新增配方先产生新证据目录，再更新准入报告。

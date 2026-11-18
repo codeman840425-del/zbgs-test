@@ -113,3 +113,5 @@ python -B scripts/production/native_admission_cycle.py `
 `--glasses-report` 是可选的强准入输入，必须是
 `native-glasses-admission-v1`，同时声明精确 body/profile/accessory SHA、正常运行、关闭重开和人工视觉检查均通过；candidate-only、`verified:false` 或 legacy
 捕获会被拒绝。它只清除对应身体的 `headAttachments`，不会放宽动态、表面、预算或普通电脑检查。
+
+`--budget-report` 同样是可选强准入输入，必须是 `native-budget-admission-v1`，并且同一 body/record 的 transport、decode/Canvas、GPU 生命周期和 ordinary-PC 四层均为 `passed`；当前静态超预算和未测普通电脑报告只能保留为 blocker。
