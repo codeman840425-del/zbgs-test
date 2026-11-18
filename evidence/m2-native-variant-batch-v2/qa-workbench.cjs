@@ -1,12 +1,12 @@
 const {chromium}=require('../../prototype/node_modules/playwright');
 const fs=require('node:fs/promises');
 
-const build='2d5165c31b27';
-const sourceCommit='2d7e185b';
 const port=4196;
 
 (async()=>{
-  const report={schema:'m2-native-variant-workbench-check-v1',build,sourceCommit,port,errors:[],cases:[]};
+  const buildInfo=await (await fetch(`http://127.0.0.1:${port}/build-info.json`)).json();
+  const report={schema:'m2-native-variant-workbench-check-v1',build:buildInfo.shortId,sourceDigest:buildInfo.sourceDigest,
+    sourceCommit:'edf429819897',port,errors:[],cases:[]};
   const browser=await chromium.launch({channel:'chrome',headless:true});
   try {
     for (const body of ['native-contour-roundness-a-v1','native-contour-cheek-b-v1']) {

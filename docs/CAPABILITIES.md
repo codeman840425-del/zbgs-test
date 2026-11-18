@@ -584,3 +584,5 @@ native_dependency_delta.py共用实际GLB差分核引用顶点、morph、骨/res
 2026-11-18 原生参数包接入共同变体矩阵：`assets-source/variant-matrix-v1/representative-matrix.json` 新增 `native-contour-roundness-a-v1` 与 `native-contour-cheek-b-v1` 两个精确女性 bodyType，并为制服上衣、露膝短裤分别登记同一套 `recipeSha256`、VRM/装备/coverage SHA 与嵌入式装备绑定。`representative-batch-request.json` 同步加入四条稳定批次请求，`variant_matrix.py --root` 实测通过，`evidence/m2-native-variant-batch-v2/plan.json` 逐项拒绝八条请求，原因均为 runtime admission pending。该增量把真实原生制作包接到统一下游，但没有把离线包、fit 或候选视觉证据升级为可发布资源。
 
 2026-11-18 4196 重新构建批量矩阵候选：源码构建 `2d5165c31b27`（提交 `2d7e185b`）实际加载两个 native FaceContour bodyType，检查区显示制服上衣与露膝短裤均为“候选，待准入”，`runtimeVariants=[]`。浏览器 Chrome 157、页面错误0；该构建仍不代表普通电脑性能或正式运行准入。
+
+2026-11-18 准入原因进入人类预览：`appearance-workbench.js` 读取矩阵行的预算和 blocker 字段，4196 构建 `4e68cdef872c` 对两个 native body 的制服/短裤均显示静态预算超限及四类未完成项，页面错误0。该显示只改善诊断透明度，未改变 candidate 或 runtimeVariants。
