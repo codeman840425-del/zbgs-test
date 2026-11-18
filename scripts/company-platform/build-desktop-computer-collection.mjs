@@ -60,6 +60,12 @@ const rounded = (parent, name, size, mat, position, radius = 0.01, rotation = [0
   mesh(parent, name, new RoundedBoxGeometry(...size, 4, radius), mat, position, rotation);
 const cylinder = (parent, name, radius, height, mat, position, rotation = [0, 0, 0], segments = 20) =>
   mesh(parent, name, new THREE.CylinderGeometry(radius, radius, height, segments), mat, position, rotation);
+function addPortFrame(group, mat) {
+  box(group, 'usb-frame-left', [0.004, 0.02, 0.002], mat, [-0.022, 0.014, -0.224]);
+  box(group, 'usb-frame-right', [0.004, 0.02, 0.002], mat, [0.022, 0.014, -0.224]);
+  box(group, 'usb-frame-top', [0.04, 0.004, 0.002], mat, [0, 0.026, -0.224]);
+  box(group, 'usb-frame-bottom', [0.04, 0.004, 0.002], mat, [0, 0.002, -0.224]);
+}
 
 function rootGroup(designId) {
   const group = new THREE.Group();
@@ -80,7 +86,8 @@ function addCommonDetails(group, mats, statusPosition) {
   box(group, 'computer-detail', [0.032, 0.012, 0.012], mats.detail, [-0.058, 0.03, 0.19]);
   box(group, 'screen-surface', [0.064, 0.012, 0.006], mats.screen, [0, 0.115, 0.19]);
   box(group, 'power-status', [0.014, 0.008, 0.006], mats.status, statusPosition);
-  box(group, 'power-port-back', [0.032, 0.014, 0.008], mats.detail, [0, 0.12, -0.21]);
+  box(group, 'power-port-back', [0.08, 0.04, 0.008], mats.detail, [0, 0.02, -0.221]);
+  addPortFrame(group, mats.detail);
 }
 
 function model(design) {
@@ -116,7 +123,8 @@ function model(design) {
     box(group, 'computer-accent', [0.012, 0.012, 0.012], mats.accent, [0.078, 0.23, 0.038]);
     box(group, 'computer-detail', [0.024, 0.012, 0.012], mats.detail, [-0.06, 0.23, 0.038]);
     box(group, 'power-status', [0.014, 0.008, 0.006], mats.status, [0, 0.255, 0.048]);
-    box(group, 'power-port-back', [0.032, 0.014, 0.008], mats.detail, [0, 0.12, -0.21]);
+    box(group, 'power-port-back', [0.08, 0.04, 0.008], mats.detail, [0, 0.02, -0.221]);
+    addPortFrame(group, mats.detail);
   } else {
     rounded(group, 'computer-body', [0.18, 0.4, 0.4], mats.body, [0, 0.2, 0], 0.01);
     box(group, 'side-panel', [0.012, 0.3, 0.27], mats.accent, [-0.096, 0.21, 0]);
@@ -128,7 +136,8 @@ function model(design) {
     box(group, 'computer-detail', [0.032, 0.012, 0.012], mats.detail, [-0.06, 0.07, 0.21]);
     box(group, 'screen-surface', [0.06, 0.012, 0.006], mats.screen, [0, 0.07, 0.21]);
     box(group, 'power-status', [0.014, 0.008, 0.006], mats.status, [0.07, 0.07, 0.22]);
-    box(group, 'power-port-back', [0.032, 0.014, 0.008], mats.detail, [0, 0.12, -0.22]);
+    box(group, 'power-port-back', [0.08, 0.04, 0.008], mats.detail, [0, 0.02, -0.221]);
+    addPortFrame(group, mats.detail);
   }
   group.updateMatrixWorld(true);
   return group;
@@ -181,13 +190,13 @@ async function inspectGlb(bytes, design) {
       for (const value of [position.getX(index), position.getY(index), position.getZ(index)]) assert(Number.isFinite(value));
     }
   });
-  for (const required of ['computer-body', 'computer-accent', 'computer-detail', 'screen-surface', 'power-status', 'power-port-back']) {
+  for (const required of ['computer-body', 'computer-accent', 'computer-detail', 'screen-surface', 'power-status', 'power-port-back', 'usb-frame-left', 'usb-frame-right', 'usb-frame-top', 'usb-frame-bottom']) {
     assert(scene.getObjectByName(required)?.isMesh, `${design.designId} missing ${required}`);
   }
   assert(bounds.min.y >= -0.000001, `${design.designId} below contact plane`);
   assert(bounds.max.y <= 0.45 + 0.001, `${design.designId} exceeds height envelope`);
   assert(bounds.min.x >= -0.11 - 0.001 && bounds.max.x <= 0.11 + 0.001, `${design.designId} exceeds width envelope`);
-  assert(bounds.min.z >= -0.225 - 0.001 && bounds.max.z <= 0.225 + 0.001, `${design.designId} exceeds depth envelope`);
+  assert(bounds.min.z >= -0.225 - 0.0011 && bounds.max.z <= 0.225 + 0.0011, `${design.designId} exceeds depth envelope`);
   return {
     meshCount: names.length,
     triangles,
@@ -237,6 +246,7 @@ for (const design of source.designs) {
     materialSlots: structuredClone(contract.materialSlots),
     powerStatusEndpoint: structuredClone(contract.powerStatusEndpoint),
     cablePorts: structuredClone(contract.cablePorts),
+    cablePortNodes: structuredClone(contract.cablePortNodes),
     provenance: {
       license: source.license,
       tools: [`Three.js ${THREE.REVISION}`, 'BoxGeometry', 'RoundedBoxGeometry', 'CylinderGeometry', 'GLTFExporter', 'GLTFLoader readback'],

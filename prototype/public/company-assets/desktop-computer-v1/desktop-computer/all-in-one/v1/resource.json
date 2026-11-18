@@ -31,7 +31,7 @@
       0.225
     ],
     "contactPlaneY": 0,
-    "blocking": true
+    "blocking": false
   },
   "usePoints": [],
   "stateDefaults": {
@@ -80,12 +80,12 @@
   },
   "cablePorts": [
     {
-      "id": "power",
-      "connector": "power-visual-v1",
+      "id": "usb",
+      "connector": "usb-c-visual-v1",
       "position": [
         0,
-        0.12,
-        -0.226
+        0.014,
+        -0.225
       ],
       "direction": [
         0,
@@ -94,6 +94,17 @@
       ]
     }
   ],
+  "cablePortNodes": {
+    "usb": {
+      "frame": [
+        "usb-frame-left",
+        "usb-frame-right",
+        "usb-frame-top",
+        "usb-frame-bottom"
+      ],
+      "backing": "power-port-back"
+    }
+  },
   "provenance": {
     "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
     "tools": [
@@ -107,24 +118,24 @@
     "sourceParameters": "assets-source/company-desktop-computer-v1/parameters.json",
     "sourceParametersSha256": "f3f99537f1ab52a431098e24fc7727006c14d1d96e1e21b882bd656381e4ece2",
     "functionalContractSource": "assets-source/company-desktop-computer-v1/contracts/desktop-computer.json",
-    "functionalContractSourceSha256": "ea1a669ffa5f5c0d822e526cbd328b0298f6fae44cf8c4dba3972c1738aadee5",
+    "functionalContractSourceSha256": "c2ecbd39a23049ddc615c8acc8d204f63ffcccfa5314cec463f6c3aa11b9e82c",
     "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
     "environmentBranch": "desktop-computer",
     "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
     "generator": "scripts/company-platform/build-desktop-computer-collection.mjs",
-    "generatorSha256": "fe03f184ad3f5a6e671ca78639d41b6e0d6fd3cf444eb45975eb65254a13dcc2",
+    "generatorSha256": "27ee721d1e940305fe02de6996551810d3d37cdc3edca8797a031947bb92a602",
     "designId": "all-in-one",
     "method": "Slim display slab on a cantilever stand, wide glass screen and front status indicator."
   },
   "asset": {
     "format": "glb",
     "url": "/company-assets/desktop-computer-v1/desktop-computer/all-in-one/v1/model.glb",
-    "sha256": "41a626eda75390a6fe3c6dfa8b8ff47672632a0d6bf5929a401b37b3d2f06056",
-    "bytes": 202192
+    "sha256": "70d78a509124ee961a5e0a7169625f073f9a693e215042e2a5f92f2dc4425bc4",
+    "bytes": 209528
   },
   "checks": {
-    "meshCount": 9,
-    "triangles": 2028,
+    "meshCount": 13,
+    "triangles": 2076,
     "nodeNames": [
       "computer-body",
       "screen-bezel",
@@ -134,13 +145,17 @@
       "computer-accent",
       "computer-detail",
       "power-status",
-      "power-port-back"
+      "power-port-back",
+      "usb-frame-left",
+      "usb-frame-right",
+      "usb-frame-top",
+      "usb-frame-bottom"
     ],
     "bounds": {
       "min": [
         -0.10000000149011612,
         -1.862645142292063e-10,
-        -0.2140000001899898
+        -0.2250000001899898
       ],
       "max": [
         0.10000000149011612,
@@ -148,7 +163,7 @@
         0.10999999940395355
       ]
     },
-    "geometrySha256": "4a543ce2cee387be51078bcb790c369f28edc9f79454293b7d1a0deabf4b6deb",
+    "geometrySha256": "0bb9540984d222b149341a782b42240752ff785aa1aff7bee66cfc8a12a4a241",
     "repeatedExportByteIdentical": true,
     "gltfReadback": true,
     "cpuOnly": true

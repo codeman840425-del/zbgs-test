@@ -31,7 +31,7 @@
       0.225
     ],
     "contactPlaneY": 0,
-    "blocking": true
+    "blocking": false
   },
   "usePoints": [],
   "stateDefaults": {
@@ -80,12 +80,12 @@
   },
   "cablePorts": [
     {
-      "id": "power",
-      "connector": "power-visual-v1",
+      "id": "usb",
+      "connector": "usb-c-visual-v1",
       "position": [
         0,
-        0.12,
-        -0.226
+        0.014,
+        -0.225
       ],
       "direction": [
         0,
@@ -94,6 +94,17 @@
       ]
     }
   ],
+  "cablePortNodes": {
+    "usb": {
+      "frame": [
+        "usb-frame-left",
+        "usb-frame-right",
+        "usb-frame-top",
+        "usb-frame-bottom"
+      ],
+      "backing": "power-port-back"
+    }
+  },
   "provenance": {
     "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
     "tools": [
@@ -107,24 +118,24 @@
     "sourceParameters": "assets-source/company-desktop-computer-v1/parameters.json",
     "sourceParametersSha256": "f3f99537f1ab52a431098e24fc7727006c14d1d96e1e21b882bd656381e4ece2",
     "functionalContractSource": "assets-source/company-desktop-computer-v1/contracts/desktop-computer.json",
-    "functionalContractSourceSha256": "ea1a669ffa5f5c0d822e526cbd328b0298f6fae44cf8c4dba3972c1738aadee5",
+    "functionalContractSourceSha256": "c2ecbd39a23049ddc615c8acc8d204f63ffcccfa5314cec463f6c3aa11b9e82c",
     "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
     "environmentBranch": "desktop-computer",
     "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
     "generator": "scripts/company-platform/build-desktop-computer-collection.mjs",
-    "generatorSha256": "fe03f184ad3f5a6e671ca78639d41b6e0d6fd3cf444eb45975eb65254a13dcc2",
+    "generatorSha256": "27ee721d1e940305fe02de6996551810d3d37cdc3edca8797a031947bb92a602",
     "designId": "compact-tower",
     "method": "Low rounded compact tower with a front stack, top carry handle and offset status button."
   },
   "asset": {
     "format": "glb",
     "url": "/company-assets/desktop-computer-v1/desktop-computer/compact-tower/v1/model.glb",
-    "sha256": "a6a228a07f25a448bc528d706c6dad9124f19617a03be24b4909fc46477960ee",
-    "bytes": 205876
+    "sha256": "1bb5feab68dcc95d8ea7cc00e675ab3c3f2defaf928273bb3db533799ec8639a",
+    "bytes": 213212
   },
   "checks": {
-    "meshCount": 11,
-    "triangles": 2052,
+    "meshCount": 15,
+    "triangles": 2100,
     "nodeNames": [
       "computer-body",
       "front-bay",
@@ -136,13 +147,17 @@
       "computer-detail",
       "screen-surface",
       "power-status",
-      "power-port-back"
+      "power-port-back",
+      "usb-frame-left",
+      "usb-frame-right",
+      "usb-frame-top",
+      "usb-frame-bottom"
     ],
     "bounds": {
       "min": [
         -0.0949999988079071,
         -5.364418020903372e-9,
-        -0.2140000001899898
+        -0.2250000001899898
       ],
       "max": [
         0.0949999988079071,
@@ -150,7 +165,7 @@
         0.19600000005215407
       ]
     },
-    "geometrySha256": "c29695e40e45bbdc977f9def859f4df47b3f16362f188c91b546b361649606a3",
+    "geometrySha256": "7334f2cb3d6d7af9582480279996d07eee30e612cdd3330bc2bd181db0ffe9c2",
     "repeatedExportByteIdentical": true,
     "gltfReadback": true,
     "cpuOnly": true

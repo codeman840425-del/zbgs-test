@@ -24,7 +24,7 @@
     "center": [0, 0],
     "halfSize": [0.11, 0.225],
     "contactPlaneY": 0,
-    "blocking": true
+    "blocking": false
   },
   "usePoints": [],
   "stateDefaults": {
@@ -55,12 +55,18 @@
   },
   "cablePorts": [
     {
-      "id": "power",
-      "connector": "power-visual-v1",
-      "position": [0, 0.12, -0.226],
+      "id": "usb",
+      "connector": "usb-c-visual-v1",
+      "position": [0, 0.014, -0.225],
       "direction": [0, 0, -1]
     }
   ],
+  "cablePortNodes": {
+    "usb": {
+      "frame": ["usb-frame-left", "usb-frame-right", "usb-frame-top", "usb-frame-bottom"],
+      "backing": "power-port-back"
+    }
+  },
   "requiredIndependentMechanisms": [
     "desk-surface contact and fixed envelope",
     "four real computer geometries",
@@ -69,7 +75,6 @@
   ],
   "limitations": [
     "Static display asset. No real computer behavior, operating-system UI or thermal simulation.",
-    "Cable endpoint is a visual contract only and does not create cable routing.",
-    "Environment branch currently records the historical desktop-computer parent as room.floor. This package intentionally uses the requested desk.desktop mount contract and requires parent integration to reconcile that branch entry."
+    "Cable endpoint is a visual contract only and does not create cable routing."
   ]
 }

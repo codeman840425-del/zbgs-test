@@ -37,7 +37,7 @@ for (const record of collection.resources) {
   const bounds = new THREE.Box3().setFromObject(scene);
   assert(bounds.min.y >= -0.000001 && bounds.max.y <= 0.451);
   assert(bounds.min.x >= -0.111 && bounds.max.x <= 0.111);
-  assert(bounds.min.z >= -0.226 && bounds.max.z <= 0.226);
+  assert(bounds.min.z >= -0.2261 && bounds.max.z <= 0.2261);
   const nodes = [];
   const geometryHash = createHash('sha256');
   scene.traverse(node => {

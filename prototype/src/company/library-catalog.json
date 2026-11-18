@@ -25351,6 +25351,745 @@
           "onIntensity": 1.2
         }
       }
+    },
+    {
+      "id": "desktop-tower",
+      "displayName": "标准塔式主机",
+      "version": 1,
+      "category": "static",
+      "mountRole": "desktop-computer",
+      "productionBranch": "desktop-computer",
+      "mount": "desk-surface",
+      "parent": "desk.desktop",
+      "mounting": {
+        "width": 0.22,
+        "height": 0.45,
+        "depth": 0.45,
+        "origin": "desk contact plane centred under the asset"
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Desk contact plane centred under the asset",
+        "front": "+Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.11,
+          0.225
+        ],
+        "contactPlaneY": 0,
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "on": false
+      },
+      "stateSchema": {
+        "on": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "on": "desktop-computer-power-state"
+      },
+      "materialSlots": {
+        "body": [
+          "computer-body"
+        ],
+        "accent": [
+          "computer-accent"
+        ],
+        "detail": [
+          "computer-detail"
+        ],
+        "screen": [
+          "screen-surface"
+        ],
+        "status": [
+          "power-status"
+        ]
+      },
+      "powerStatusEndpoint": {
+        "id": "power-status",
+        "node": "power-status",
+        "stateField": "on",
+        "position": [
+          0,
+          0.12,
+          0.226
+        ],
+        "direction": [
+          0,
+          0,
+          1
+        ],
+        "visible": true
+      },
+      "cablePorts": [
+        {
+          "id": "usb",
+          "connector": "usb-c-visual-v1",
+          "position": [
+            0,
+            0.014,
+            -0.225
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        }
+      ],
+      "cablePortNodes": {
+        "usb": {
+          "frame": [
+            "usb-frame-left",
+            "usb-frame-right",
+            "usb-frame-top",
+            "usb-frame-bottom"
+          ],
+          "backing": "power-port-back"
+        }
+      },
+      "provenance": {
+        "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-desktop-computer-v1/parameters.json",
+        "sourceParametersSha256": "f3f99537f1ab52a431098e24fc7727006c14d1d96e1e21b882bd656381e4ece2",
+        "functionalContractSource": "assets-source/company-desktop-computer-v1/contracts/desktop-computer.json",
+        "functionalContractSourceSha256": "c2ecbd39a23049ddc615c8acc8d204f63ffcccfa5314cec463f6c3aa11b9e82c",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "desktop-computer",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-desktop-computer-collection.mjs",
+        "generatorSha256": "27ee721d1e940305fe02de6996551810d3d37cdc3edca8797a031947bb92a602",
+        "designId": "desktop-tower",
+        "method": "Tall rectangular tower with a recessed front bay, horizontal vent slats and a front power button."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/desktop-computer-v1/desktop-computer/desktop-tower/v1/model.glb",
+        "sha256": "b582ccde01e1afcdc8ef92a3c5c3443b59d04bd465371c94d19a7d52256a68a5",
+        "bytes": 120876
+      },
+      "checks": {
+        "meshCount": 15,
+        "triangles": 1140,
+        "nodeNames": [
+          "computer-body",
+          "front-bay",
+          "vent-0075",
+          "vent-0095",
+          "vent-0115",
+          "power-button",
+          "computer-accent",
+          "computer-detail",
+          "screen-surface",
+          "power-status",
+          "power-port-back",
+          "usb-frame-left",
+          "usb-frame-right",
+          "usb-frame-top",
+          "usb-frame-bottom"
+        ],
+        "bounds": {
+          "min": [
+            -0.09000000357627869,
+            -9.499490256914545e-11,
+            -0.2250000001899898
+          ],
+          "max": [
+            0.09000000357627869,
+            0.3799999976158142,
+            0.20100000002607704
+          ]
+        },
+        "geometrySha256": "53b8de64d0d021aafcf51ce00a9834eb32db219cd33d6e1ea4af57f529d2efb6",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true,
+        "cpuOnly": true
+      },
+      "display": {
+        "status": {
+          "stateField": "on",
+          "nodes": [
+            "power-status"
+          ],
+          "onColor": "#76d8c5",
+          "offColor": "#20252b",
+          "emissive": "#76d8c5",
+          "onIntensity": 1.2
+        }
+      }
+    },
+    {
+      "id": "compact-tower",
+      "displayName": "紧凑小型主机",
+      "version": 1,
+      "category": "static",
+      "mountRole": "desktop-computer",
+      "productionBranch": "desktop-computer",
+      "mount": "desk-surface",
+      "parent": "desk.desktop",
+      "mounting": {
+        "width": 0.22,
+        "height": 0.45,
+        "depth": 0.45,
+        "origin": "desk contact plane centred under the asset"
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Desk contact plane centred under the asset",
+        "front": "+Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.11,
+          0.225
+        ],
+        "contactPlaneY": 0,
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "on": false
+      },
+      "stateSchema": {
+        "on": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "on": "desktop-computer-power-state"
+      },
+      "materialSlots": {
+        "body": [
+          "computer-body"
+        ],
+        "accent": [
+          "computer-accent"
+        ],
+        "detail": [
+          "computer-detail"
+        ],
+        "screen": [
+          "screen-surface"
+        ],
+        "status": [
+          "power-status"
+        ]
+      },
+      "powerStatusEndpoint": {
+        "id": "power-status",
+        "node": "power-status",
+        "stateField": "on",
+        "position": [
+          0,
+          0.12,
+          0.226
+        ],
+        "direction": [
+          0,
+          0,
+          1
+        ],
+        "visible": true
+      },
+      "cablePorts": [
+        {
+          "id": "usb",
+          "connector": "usb-c-visual-v1",
+          "position": [
+            0,
+            0.014,
+            -0.225
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        }
+      ],
+      "cablePortNodes": {
+        "usb": {
+          "frame": [
+            "usb-frame-left",
+            "usb-frame-right",
+            "usb-frame-top",
+            "usb-frame-bottom"
+          ],
+          "backing": "power-port-back"
+        }
+      },
+      "provenance": {
+        "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-desktop-computer-v1/parameters.json",
+        "sourceParametersSha256": "f3f99537f1ab52a431098e24fc7727006c14d1d96e1e21b882bd656381e4ece2",
+        "functionalContractSource": "assets-source/company-desktop-computer-v1/contracts/desktop-computer.json",
+        "functionalContractSourceSha256": "c2ecbd39a23049ddc615c8acc8d204f63ffcccfa5314cec463f6c3aa11b9e82c",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "desktop-computer",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-desktop-computer-collection.mjs",
+        "generatorSha256": "27ee721d1e940305fe02de6996551810d3d37cdc3edca8797a031947bb92a602",
+        "designId": "compact-tower",
+        "method": "Low rounded compact tower with a front stack, top carry handle and offset status button."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/desktop-computer-v1/desktop-computer/compact-tower/v1/model.glb",
+        "sha256": "1bb5feab68dcc95d8ea7cc00e675ab3c3f2defaf928273bb3db533799ec8639a",
+        "bytes": 213212
+      },
+      "checks": {
+        "meshCount": 15,
+        "triangles": 2100,
+        "nodeNames": [
+          "computer-body",
+          "front-bay",
+          "drive-slot",
+          "drive-slot-lower",
+          "carry-handle",
+          "power-button",
+          "computer-accent",
+          "computer-detail",
+          "screen-surface",
+          "power-status",
+          "power-port-back",
+          "usb-frame-left",
+          "usb-frame-right",
+          "usb-frame-top",
+          "usb-frame-bottom"
+        ],
+        "bounds": {
+          "min": [
+            -0.0949999988079071,
+            -5.364418020903372e-9,
+            -0.2250000001899898
+          ],
+          "max": [
+            0.0949999988079071,
+            0.2939999996125698,
+            0.19600000005215407
+          ]
+        },
+        "geometrySha256": "7334f2cb3d6d7af9582480279996d07eee30e612cdd3330bc2bd181db0ffe9c2",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true,
+        "cpuOnly": true
+      },
+      "display": {
+        "status": {
+          "stateField": "on",
+          "nodes": [
+            "power-status"
+          ],
+          "onColor": "#ffd071",
+          "offColor": "#20252b",
+          "emissive": "#ffd071",
+          "onIntensity": 1.2
+        }
+      }
+    },
+    {
+      "id": "all-in-one",
+      "displayName": "一体式电脑",
+      "version": 1,
+      "category": "static",
+      "mountRole": "desktop-computer",
+      "productionBranch": "desktop-computer",
+      "mount": "desk-surface",
+      "parent": "desk.desktop",
+      "mounting": {
+        "width": 0.22,
+        "height": 0.45,
+        "depth": 0.45,
+        "origin": "desk contact plane centred under the asset"
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Desk contact plane centred under the asset",
+        "front": "+Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.11,
+          0.225
+        ],
+        "contactPlaneY": 0,
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "on": false
+      },
+      "stateSchema": {
+        "on": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "on": "desktop-computer-power-state"
+      },
+      "materialSlots": {
+        "body": [
+          "computer-body"
+        ],
+        "accent": [
+          "computer-accent"
+        ],
+        "detail": [
+          "computer-detail"
+        ],
+        "screen": [
+          "screen-surface"
+        ],
+        "status": [
+          "power-status"
+        ]
+      },
+      "powerStatusEndpoint": {
+        "id": "power-status",
+        "node": "power-status",
+        "stateField": "on",
+        "position": [
+          0,
+          0.12,
+          0.226
+        ],
+        "direction": [
+          0,
+          0,
+          1
+        ],
+        "visible": true
+      },
+      "cablePorts": [
+        {
+          "id": "usb",
+          "connector": "usb-c-visual-v1",
+          "position": [
+            0,
+            0.014,
+            -0.225
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        }
+      ],
+      "cablePortNodes": {
+        "usb": {
+          "frame": [
+            "usb-frame-left",
+            "usb-frame-right",
+            "usb-frame-top",
+            "usb-frame-bottom"
+          ],
+          "backing": "power-port-back"
+        }
+      },
+      "provenance": {
+        "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-desktop-computer-v1/parameters.json",
+        "sourceParametersSha256": "f3f99537f1ab52a431098e24fc7727006c14d1d96e1e21b882bd656381e4ece2",
+        "functionalContractSource": "assets-source/company-desktop-computer-v1/contracts/desktop-computer.json",
+        "functionalContractSourceSha256": "c2ecbd39a23049ddc615c8acc8d204f63ffcccfa5314cec463f6c3aa11b9e82c",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "desktop-computer",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-desktop-computer-collection.mjs",
+        "generatorSha256": "27ee721d1e940305fe02de6996551810d3d37cdc3edca8797a031947bb92a602",
+        "designId": "all-in-one",
+        "method": "Slim display slab on a cantilever stand, wide glass screen and front status indicator."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/desktop-computer-v1/desktop-computer/all-in-one/v1/model.glb",
+        "sha256": "70d78a509124ee961a5e0a7169625f073f9a693e215042e2a5f92f2dc4425bc4",
+        "bytes": 209528
+      },
+      "checks": {
+        "meshCount": 13,
+        "triangles": 2076,
+        "nodeNames": [
+          "computer-body",
+          "screen-bezel",
+          "screen-surface",
+          "stand-neck",
+          "stand-base",
+          "computer-accent",
+          "computer-detail",
+          "power-status",
+          "power-port-back",
+          "usb-frame-left",
+          "usb-frame-right",
+          "usb-frame-top",
+          "usb-frame-bottom"
+        ],
+        "bounds": {
+          "min": [
+            -0.10000000149011612,
+            -1.862645142292063e-10,
+            -0.2250000001899898
+          ],
+          "max": [
+            0.10000000149011612,
+            0.4099999982118607,
+            0.10999999940395355
+          ]
+        },
+        "geometrySha256": "0bb9540984d222b149341a782b42240752ff785aa1aff7bee66cfc8a12a4a241",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true,
+        "cpuOnly": true
+      },
+      "display": {
+        "status": {
+          "stateField": "on",
+          "nodes": [
+            "power-status"
+          ],
+          "onColor": "#7bc8ff",
+          "offColor": "#20252b",
+          "emissive": "#7bc8ff",
+          "onIntensity": 1.2
+        }
+      }
+    },
+    {
+      "id": "workstation-tower",
+      "displayName": "工作站主机",
+      "version": 1,
+      "category": "static",
+      "mountRole": "desktop-computer",
+      "productionBranch": "desktop-computer",
+      "mount": "desk-surface",
+      "parent": "desk.desktop",
+      "mounting": {
+        "width": 0.22,
+        "height": 0.45,
+        "depth": 0.45,
+        "origin": "desk contact plane centred under the asset"
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Desk contact plane centred under the asset",
+        "front": "+Z",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.11,
+          0.225
+        ],
+        "contactPlaneY": 0,
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "on": false
+      },
+      "stateSchema": {
+        "on": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "on": "desktop-computer-power-state"
+      },
+      "materialSlots": {
+        "body": [
+          "computer-body"
+        ],
+        "accent": [
+          "computer-accent"
+        ],
+        "detail": [
+          "computer-detail"
+        ],
+        "screen": [
+          "screen-surface"
+        ],
+        "status": [
+          "power-status"
+        ]
+      },
+      "powerStatusEndpoint": {
+        "id": "power-status",
+        "node": "power-status",
+        "stateField": "on",
+        "position": [
+          0,
+          0.12,
+          0.226
+        ],
+        "direction": [
+          0,
+          0,
+          1
+        ],
+        "visible": true
+      },
+      "cablePorts": [
+        {
+          "id": "usb",
+          "connector": "usb-c-visual-v1",
+          "position": [
+            0,
+            0.014,
+            -0.225
+          ],
+          "direction": [
+            0,
+            0,
+            -1
+          ]
+        }
+      ],
+      "cablePortNodes": {
+        "usb": {
+          "frame": [
+            "usb-frame-left",
+            "usb-frame-right",
+            "usb-frame-top",
+            "usb-frame-bottom"
+          ],
+          "backing": "power-port-back"
+        }
+      },
+      "provenance": {
+        "license": "Project-authored procedural geometry and solid-color materials. No external art assets.",
+        "tools": [
+          "Three.js 187",
+          "BoxGeometry",
+          "RoundedBoxGeometry",
+          "CylinderGeometry",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ],
+        "sourceParameters": "assets-source/company-desktop-computer-v1/parameters.json",
+        "sourceParametersSha256": "f3f99537f1ab52a431098e24fc7727006c14d1d96e1e21b882bd656381e4ece2",
+        "functionalContractSource": "assets-source/company-desktop-computer-v1/contracts/desktop-computer.json",
+        "functionalContractSourceSha256": "c2ecbd39a23049ddc615c8acc8d204f63ffcccfa5314cec463f6c3aa11b9e82c",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranch": "desktop-computer",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "generator": "scripts/company-platform/build-desktop-computer-collection.mjs",
+        "generatorSha256": "27ee721d1e940305fe02de6996551810d3d37cdc3edca8797a031947bb92a602",
+        "designId": "workstation-tower",
+        "method": "Deep workstation tower with an angular side shell, dual front fans and a top-mounted status bar."
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/desktop-computer-v1/desktop-computer/workstation-tower/v1/model.glb",
+        "sha256": "120ae95737031a516a9338e11f9b576528c8736273c42690e4f76bef3f7b5db0",
+        "bytes": 131756
+      },
+      "checks": {
+        "meshCount": 16,
+        "triangles": 1320,
+        "nodeNames": [
+          "computer-body",
+          "side-panel",
+          "front-fan-012",
+          "front-fan-025",
+          "fan-cross-left",
+          "fan-cross-right",
+          "top-status-bar",
+          "computer-accent",
+          "computer-detail",
+          "screen-surface",
+          "power-status",
+          "power-port-back",
+          "usb-frame-left",
+          "usb-frame-right",
+          "usb-frame-top",
+          "usb-frame-bottom"
+        ],
+        "bounds": {
+          "min": [
+            -0.10200000005215407,
+            -2.980232227667301e-9,
+            -0.2250000001899898
+          ],
+          "max": [
+            0.09000000357627869,
+            0.4180000001899898,
+            0.22300000002607703
+          ]
+        },
+        "geometrySha256": "6cad1b7450bafd2554e727a501c6babd9da4bd57598685aa9130313e9772373b",
+        "repeatedExportByteIdentical": true,
+        "gltfReadback": true,
+        "cpuOnly": true
+      },
+      "display": {
+        "status": {
+          "stateField": "on",
+          "nodes": [
+            "power-status"
+          ],
+          "onColor": "#d1b8ff",
+          "offColor": "#20252b",
+          "emissive": "#d1b8ff",
+          "onIntensity": 1.2
+        }
+      }
     }
   ]
 }

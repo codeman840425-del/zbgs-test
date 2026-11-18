@@ -118,6 +118,13 @@ const extraFiles=[
   'scripts/company-platform/test-audio-control-data.mjs',
   'scripts/company-platform/qa-audio-control.cjs',
   'docs/research/COMPANY-AUDIO-CONTROL-CONTRACT-v1.txt',
+  'scripts/company-platform/build-desktop-computer-collection.mjs',
+  'scripts/company-platform/register-desktop-computer.mjs',
+  'scripts/company-platform/qa-desktop-computer.mjs',
+  'scripts/company-platform/qa-desktop-computer.cjs',
+  'assets-source/company-desktop-computer-v1/README.md',
+  'assets-source/company-desktop-computer-v1/parameters.json',
+  'assets-source/company-desktop-computer-v1/contracts/desktop-computer.json',
   'prototype/scripts/build-id.mjs',
 ];
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
