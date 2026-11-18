@@ -107,6 +107,7 @@ const extraFiles=[
   'scripts/company-platform/register-camera-background.mjs',
   'scripts/company-platform/test-camera-background-data.mjs',
   'scripts/company-platform/qa-camera-background.cjs',
+  'scripts/company-platform/serve.cjs',
   'prototype/scripts/build-id.mjs',
 ];
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
