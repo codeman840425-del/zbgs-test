@@ -167,6 +167,35 @@ export async function verifyPlannedInputs(handoffRoot,inputs,records,result) {
   'plan-mismatch','Actual creation batch differs from the operator diagnostic replay');
 }
 
+// Budget evidence belongs to these signed looks and to the reviewed game source.
+// The handoff remains diagnostic even when the static limits are met.
+export function readStaticBudget(report, pointer, records, configBytes) {
+  const match = (ok, why) => requireValue(ok, 'budget-mismatch', why);
+  match(report.schema === 'zbgs-character-record-budget-result-v1' &&
+    report.readOnly === true && report.inputSha256 === pointer.inputs.signedRecords.sha256 &&
+    report.sourceCommit === pointer.runtime.sourceCommit, 'Budget measured different records or runtime');
+  const version = JSON.parse(configBytes).version;
+  match(report.budgetVersion === version && report.budgetFileSha256 === digest(configBytes),
+    'Static limits differ from the operator configuration');
+  match(report.ordinaryPCPerformance === 'unmeasured' && Array.isArray(report.records) &&
+    report.records.length === records.length && records.length > 0, 'Incomplete record budget');
+  const rows = report.records.map((row, i) => {
+    const record = records[i];
+    match(row.id === record.identity.id && row.recordSha256 === record.integrity.recordSha256 &&
+      row.avatarSha256 === record.appearanceRecipe.base.sha256, 'Budget identity differs at row ' + i);
+    const scopes = [row.selectedCost, row.startupAndSelectedCost];
+    match(row.models?.length > 0 && row.models.every(m => Array.isArray(m.assetExcesses)) &&
+      scopes.every(s => Array.isArray(s?.aggregateExcesses)), 'Missing per-model or aggregate budget checks');
+    const over = row.models.some(m => m.assetExcesses.length) || scopes.some(s => s.aggregateExcesses.length);
+    match(row.status === (over ? 'over-budget' : 'within-static-limits'), 'Record budget result contradicts its limits');
+    return {id:row.id, recordSha256:row.recordSha256, status:row.status};
+  });
+  match(report.status === (rows.some(r => r.status === 'over-budget') ? 'over-budget' : 'within-static-limits'),
+    'Batch budget result contradicts its records');
+  return {status:report.status, budgetVersion:version, ordinaryPCPerformance:report.ordinaryPCPerformance,
+    evidenceSha256:pointer.staticBudgetEvidence.sha256, records:rows};
+}
+
 export async function verifyHandoff({handoffRoot=here, handoff='delivery/character-production-handoff.json',
   operatorRoot,runtimeRoot,dist,packageRoot}) {
   const boundary = await projectOutputs.productionRoot();
@@ -194,8 +223,15 @@ export async function verifyHandoff({handoffRoot=here, handoff='delivery/charact
   requireValue(jsonBytes(inventory).equals(inventoryBytes),'inventory-mismatch','Signed records and runtime produce a different inventory');
   await verifyPackage(packageRoot,inventory,inventoryBytes,pointer.fixedGamePackage.files);
   await verifyPlan({operatorRoot,runtimeRoot,handoffRoot,inputs,records});
+  let staticBudget;
+  if (Object.hasOwn(pointer,'staticBudgetEvidence')) {
+    const report = JSON.parse(await pinned(handoffRoot,pointer.staticBudgetEvidence));
+    const config = await readFile(await trackedFile(operatorRoot,'scripts/production/asset-budgets-v1.json'));
+    staticBudget = readStaticBudget(report,pointer,records,config);
+  }
   return {schema:'character-production-handoff-readback-v1',status:'verified',handoffStatus:pointer.status,
     formalAdmission:false,operatorCommit:commit,runtime:inventory.runtime,files:pointer.fixedGamePackage.files,
+    ...(staticBudget ? {staticBudget} : {}),
     inventorySha256:digest(inventoryBytes),records:inventory.records.map(({id,revision,recordSha256}) => ({id,revision,recordSha256}))};
 }
 

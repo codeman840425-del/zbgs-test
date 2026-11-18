@@ -12,6 +12,8 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+
+from budget_classification_report import MEASURED_STATUSES, classification_static_failures
 import sys
 
 
@@ -35,36 +37,34 @@ def check(condition: bool, label: str, issues: list[str], passed: list[str]) -> 
 
 def _classification_decision(record: dict) -> dict:
     """Turn diagnostic layers into an explicit, non-admission decision."""
-    failures: list[str] = []
-    gates = record.get("resourceGates", {})
-    if gates.get("body") == "failed":
-        failures.append("body")
-    for group in ("garments", "accessories"):
-        for identifier, status in (gates.get(group) or {}).items():
-            if status == "failed":
-                failures.append(f"{group}.{identifier}")
-    unmeasured = []
-    if (record.get("gpu") or {}).get("status") == "unmeasured":
-        unmeasured.append("gpu")
-    if (record.get("ordinaryPC") or {}).get("status") == "unmeasured":
-        unmeasured.append("ordinaryPC")
+    failures = classification_static_failures(record)
+    gates = record.get("resourceGates") or {}
+    budget_status = record.get("staticBudgetStatus")
+    unavailable = (budget_status is not None and budget_status not in MEASURED_STATUSES
+                   or gates.get("body") not in {"failed", "passed-static"})
+    unmeasured = [layer for layer in ("gpu", "ordinaryPC")
+                  if (record.get(layer) or {}).get("status") in (None, "unmeasured")]
     if failures:
         decision = "reject-static-over-budget"
+        reason = "Static limits reject this record"
+    elif unavailable:
+        decision = "hold-unavailable-static-budget"
+        reason = "Static budget is missing or unsupported"
     elif unmeasured:
         decision = "hold-unmeasured-resource-layer"
+        reason = "GPU and/or ordinary-PC evidence is unmeasured"
     else:
         decision = "candidate-pending-explicit-admission"
+        reason = "Classification is diagnostic and requires a separate four-layer admission report"
     return {
         "bodyType": record.get("bodyType"),
         "bodySha256": record.get("bodySha256"),
+        **{key: record[key] for key in ("recordId", "revision", "recordSha256", "staticBudgetStatus") if key in record},
         "decision": decision,
         "staticFailures": failures,
         "unmeasuredLayers": unmeasured,
         "budgetAdmission": False,
-        "reason": "Static limits reject this record" if failures else (
-            "GPU and/or ordinary-PC evidence is unmeasured" if unmeasured else
-            "Classification is diagnostic and requires a separate four-layer admission report"
-        ),
+        "reason": reason,
     }
 
 
@@ -167,17 +167,18 @@ def verify(gate_path: Path, sidecar_path: Path, deterministic_path: Path,
               "budget classification remains blocked", issues, passed)
         check(isinstance(classification_records, list) and len(classification_records) == len(expected_ids),
               "budget classification contains the pinned body pair", issues, passed)
-        classification_by_type = {
-            row.get("bodyType"): row for row in classification_records
-            if isinstance(row, dict)
-        }
+        if not isinstance(classification_records, list):
+            classification_records = []
+        candidates = [row for row in classification_records if isinstance(row, dict)]
         sidecar_by_type = {
             row.get("bodyType"): row for row in samples if isinstance(row, dict)
         }
         for body_type, body_sha in {
             f"native-{key}-v1": value for key, value in expected_ids.items()
         }.items():
-            record = classification_by_type.get(body_type)
+            matches = [row for row in candidates if row.get("bodyType") == body_type
+                       and row.get("bodySha256") == body_sha]
+            record = matches[0] if len(matches) == 1 else None
             sample = sidecar_by_type.get(body_type)
             check(isinstance(record, dict) and record.get("bodySha256") == body_sha,
                   f"classification identity for {body_type}", issues, passed)
@@ -190,7 +191,7 @@ def verify(gate_path: Path, sidecar_path: Path, deterministic_path: Path,
                       f"{body_type} ordinary-PC layer is explicitly unmeasured", issues, passed)
                 check(decision["decision"] == "reject-static-over-budget",
                       f"{body_type} static over-budget decision rejects the record", issues, passed)
-        check(len(classification_by_type) == len(classification_records),
+        check(len({row.get("bodyType") for row in candidates}) == len(classification_records),
               "budget classification body types are unique", issues, passed)
 
     return {

@@ -1,4 +1,5 @@
 from contextlib import redirect_stdout
+from copy import deepcopy
 import io
 import json
 import pathlib
@@ -8,12 +9,126 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from record_budget import (LIP_IMAGE_PREFIX, ROOT, SKIN_IMAGE_PREFIX, image_cost, main, measure,
-                           model_roles, runtime_source_sha, skin_cache)
+from asset_budget import AssetCost
+from record_budget import (LIP_IMAGE_PREFIX, ROOT, SKIN_IMAGE_PREFIX, UnsupportedBudget, collected_records,
+                           image_cost, legacy_texture_groups, main, measure, model_roles,
+                           runtime_source_sha, skin_cache)
 
 
 SOCK_RECORDS = ROOT / 'evidence/m2-native-short-socks-room-v1/records.json'
 SOCK_CATALOG = 'assets/native-crew-template-v1/equipment.json'
+SIGNED_LOOKS = ROOT / 'evidence/m2-uniform-agent-handoff-v1/records.json'
+FIXED_LEGACY = ROOT / 'experiments/worktrees/garment-80fb16b7'
+
+
+class ReviewedLegacyAppearanceTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        if not (FIXED_LEGACY / 'prototype/src/character-appearance.js').is_file():
+            raise unittest.SkipTest('Exact 5859 source worktree is unavailable')
+        cls.source = FIXED_LEGACY
+        cls.public = cls.source / 'prototype/public'
+
+    def measure(self, input_file=SIGNED_LOOKS):
+        return measure(input_file, self.source, 'm2-technical-v1')
+
+    def test_signed_case_has_aligned_distinct_texture_and_pixel_bounds(self):
+        report = self.measure()
+        female, male = report['records']
+        self.assertFalse(report['runtimeAdmission'])
+        self.assertEqual(report['accountingMode'], 'reviewed-legacy-appearance-cache-v1')
+        self.assertNotIn('reviewedLegacyAppearanceCache', male)
+        cache = female['reviewedLegacyAppearanceCache']
+        self.assertEqual(cache['runtimeReconciliation'], 'not-linked')
+        self.assertEqual(cache['recordSha256'], female['recordSha256'])
+        self.assertEqual(cache['skinTone']['additionalTextureObjects'], 0)
+        for role, width, height, mib in [('hair',1024,1024,8), ('brow',1024,256,2),
+                                         ('iris',1024,512,4), ('lips',1024,1024,8)]:
+            group = cache['groups'][role]
+            with self.subTest(role=role):
+                self.assertEqual((group['width'], group['height'], group['distinctDerivedTextures']), (width,height,2))
+                self.assertFalse(group['generateMipmaps'])
+                self.assertEqual(group['logicalTextureRgba8Bytes'], mib * 1024**2)
+                self.assertEqual(group['derivedCanvasRgba8Bytes'], mib * 1024**2)
+                persisted = mib * 1024**2 if role in ('iris','lips') else 0
+                self.assertEqual(group['retainedImageDataBytes'], persisted)
+                self.assertEqual(group['retainedOriginalPixelArrayBytes'], persisted)
+        self.assertEqual(cache['totals']['retainedPixelPayloadUpperBoundBytes'], 46 * 1024**2)
+        self.assertEqual(cache['totals']['transientImageDataAllocationBytes'], 10 * 1024**2)
+        self.assertEqual({row['usage'] for row in female['standaloneImages']}, {'legacy-facial-palette-reference'})
+        self.assertEqual(sum(row['addedTextureObjectUpperBound'] for row in female['standaloneImages']), 0)
+        counts = female['selectedCost']['totals']
+        self.assertEqual(counts['textureObjects'] - counts['textures'], 8)
+        self.assertEqual(counts['rgba8MipBytes'] - sum(row['cost']['metrics']['rgba8MipBytes'] for row in female['models'] if row['selected']),
+                         22 * 1024**2)
+
+    def test_exact_family_can_resign_and_actor_totals_do_not_deduplicate_cache(self):
+        # Create new valid envelopes through the repository path. No integrity
+        # or appearance admission fixture is patched in the ensuing estimator.
+        script = """
+import {readFileSync} from 'node:fs';
+import {createCharacterRecord} from './prototype/src/character-record.js';
+import {deriveCharacterResourceIdentities} from './prototype/src/character-runtime-record.js';
+const [record] = JSON.parse(readFileSync(process.argv[1]));
+async function make(id, edit = () => {}) {
+  const appearanceRecipe = structuredClone(record.appearanceRecipe);
+  edit(appearanceRecipe);
+  const {liveAccessories, equipmentMaterials, provenance} = record;
+  const resourceIdentities = deriveCharacterResourceIdentities(appearanceRecipe,liveAccessories,equipmentMaterials);
+  return createCharacterRecord({identity:{...record.identity,id}, appearanceRecipe,liveAccessories,
+    equipmentMaterials,provenance,resourceIdentities,now:record.createdAt},{validateResources:()=>({status:'pending'})});
+}
+const alias = await make('cache-alias-female');
+const otherColor = await make('cache-brown-female', recipe => { recipe.appearance.hairColor='brown'; });
+const unknown = await make('cache-unreviewed-female', recipe => {
+  recipe.appearance.hairStyle='original'; recipe.hairAssetSha256=null; recipe.hairFit=null;
+});
+console.log(JSON.stringify({sameFamily:[record,alias,otherColor],unknown}));
+"""
+        result = subprocess.run(['node', '--input-type=module', '-e', script, str(SIGNED_LOOKS)], cwd=self.source,
+                                capture_output=True, encoding='utf-8', check=True)
+        records = json.loads(result.stdout)
+        with tempfile.TemporaryDirectory(dir=ROOT/'experiments', prefix='appearance-cache-records-') as temp:
+            path = pathlib.Path(temp) / 'input.json'
+            path.write_text(json.dumps(records['sameFamily']), encoding='utf-8')
+            report = self.measure(path)
+            rows = report['records']
+            self.assertEqual(len({row['recordSha256'] for row in rows}), 3)
+            self.assertEqual(len({row['closureSourceBytes'] for row in rows}), 1)
+            self.assertEqual(report['closureUnionSourceBytes'], rows[0]['closureSourceBytes'])
+            self.assertEqual(report['sumAcrossSelectedActors']['textureObjects'], 3 * rows[0]['selectedCost']['totals']['textureObjects'])
+            self.assertEqual([row['reviewedLegacyAppearanceCache']['totals']['distinctDerivedTextures'] for row in rows], [8,8,8])
+            path.write_text(json.dumps(records['unknown']), encoding='utf-8')
+            with self.assertRaisesRegex(UnsupportedBudget, 'hair resource family is outside') as unknown:
+                self.measure(path)
+            self.assertEqual(unknown.exception.code, 'unsupported-hair-color-budget')
+
+    def test_unknown_path_and_loader_cannot_create_partial_estimates(self):
+        actual = collected_records(self.source, SIGNED_LOOKS)
+        for label, test in [('Selected hairstyle model','cache resource path'), ('Facial palette mask: iris','legacy palette input')]:
+            with self.subTest(label=label):
+                fixture = deepcopy(actual)
+                row = next(row for row in fixture['records'][0]['files'] if label in row['reasons'])
+                row['path'] = 'assets/missing-test-identity.png'
+                with patch('record_budget.collected_records', return_value=fixture):
+                    with self.assertRaisesRegex(UnsupportedBudget, test):
+                        self.measure()
+        with patch.dict('record_budget.REVIEWED_LEGACY_CACHE_SOURCE', {'src/facial-palette.js': '0'*64}):
+            with self.assertRaisesRegex(UnsupportedBudget, 'cache implementation.*facial-palette'):
+                self.measure()
+
+    def test_unreviewed_material_dimensions_format_and_sampler_refuse(self):
+        look = json.loads(SIGNED_LOOKS.read_bytes())[0]['appearanceRecipe']['appearance']
+        body = AssetCost(self.public/'assets/foundation/base-female-roundtrip.vrm')
+        for case, data, key, value, reason in (
+            ('name', body.doc['materials'][5], 'name', 'Unknown_HAIR', 'source hair or brow'),
+            ('format', body.doc['images'][9], 'mimeType', 'image/jpeg', 'source encoding'),
+            ('mips', body.doc['samplers'][0], 'minFilter', 9987, 'sampler or mip policy'),
+            ('dimensions', body.doc['images'][9], 'bufferView', body.doc['images'][16]['bufferView'], 'format or dimensions'),
+        ):
+            with self.subTest(case=case), patch.dict(data, {key:value}):
+                with self.assertRaisesRegex(UnsupportedBudget, reason):
+                    legacy_texture_groups(body, look)
 
 
 class RecordBudgetTests(unittest.TestCase):
@@ -44,6 +159,7 @@ class RecordBudgetTests(unittest.TestCase):
         report = self.run_measure(self.records)
         self.assertEqual(report['status'], 'over-budget')
         self.assertEqual(report['ordinaryPCPerformance'], 'unmeasured')
+        self.assertNotIn('accountingMode', report)
         self.assertIn('bone data textures', report['textureEstimateScope']['unmodeledRendererAllocations'])
         self.assertIn('morph data array textures', report['textureEstimateScope']['unmodeledRendererAllocations'])
         male, female, old = report['records']
@@ -148,7 +264,7 @@ class RecordBudgetTests(unittest.TestCase):
         self.assertEqual(model_roles(reasons, 'right'), [('accessory', 'ears', 1)])
 
     def test_native_skin_keeps_four_linear_images_per_actor(self):
-        public = ROOT / 'prototype/public'
+        public = self.source / 'prototype/public'
         package = public / 'assets/native-skin-tone-package-v1'
         entries = json.loads((package / 'registry.json').read_bytes())['entries']
         self.assertEqual({row['bodyType'] for row in entries},
@@ -163,7 +279,7 @@ class RecordBudgetTests(unittest.TestCase):
                 path = descriptor['url'].lstrip('/')
                 row = {'path':path, 'sha256':descriptor['sha256'], 'bytes':(public/path).stat().st_size,
                        'reasons':[SKIN_IMAGE_PREFIX + field]}
-                image = image_cost(ROOT, public, row, 'PNG')
+                image = image_cost(self.source, public, row, 'PNG')
                 binding, = image['nativeSkinBindings']
                 self.assertEqual(binding['field'], field)
                 self.assertEqual(image['addedRgba8EstimateBytes'], 4 * image['width'] * image['height'] * 4)
@@ -178,8 +294,8 @@ class RecordBudgetTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'four distinct fields'):
                 skin_cache([*images[:-1], images[0]])
             with self.assertRaisesRegex(ValueError, 'Unsupported native skin tone image roles'):
-                image_cost(ROOT, public, {**row, 'reasons':[SKIN_IMAGE_PREFIX + 'unknown']}, 'PNG')
-            with tempfile.TemporaryDirectory() as workspace:
+                image_cost(self.source, public, {**row, 'reasons':[SKIN_IMAGE_PREFIX + 'unknown']}, 'PNG')
+            with tempfile.TemporaryDirectory(dir=ROOT/'experiments', prefix='cache-budget-runtime-source-') as workspace:
                 modified_root = pathlib.Path(workspace)
                 implementation = modified_root / 'prototype/src/character-appearance.js'
                 implementation.parent.mkdir(parents=True)

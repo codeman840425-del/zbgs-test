@@ -178,8 +178,11 @@ async function main() {
   const runtime=path.join(root,'experiments/worktrees/garment-80fb16b7-repeat');
   const pkg=path.join(root,'output/m2-uniform-agent-handoff-v1/game');
   const from = file => import(pathToFileURL(file).href);
-  const {verifyHandoff}=await from(path.join(operator,'scripts/runtime-package/verify-character-handoff.mjs'));
-  const readback=await verifyHandoff({handoffRoot:root,operatorRoot:operator,runtimeRoot:runtime,
+  const {verifyHandoff,pinned}=await from(path.join(operator,'scripts/runtime-package/verify-character-handoff.mjs'));
+  const handoff={path:'delivery/history/character-production-handoff-27ebb18f.json',bytes:3360,
+    sha256:'52bd22385ec5523a23c7423407e9d57e4459d12b947c823dc4acbbaf20a5c04b'};
+  await pinned(root,handoff);
+  const readback=await verifyHandoff({handoffRoot:root,handoff:handoff.path,operatorRoot:operator,runtimeRoot:runtime,
     dist:path.join(runtime,'prototype/dist'),packageRoot:pkg});
   assert.equal(readback.inventorySha256,'4f1fdc5c85dbb428996a0efd6c3f2a9bb7546ebf3fdce560ec2508e245a404cb');
   const {checkedBytes}=await from(path.join(operator,'scripts/runtime-package/files.mjs'));
@@ -200,7 +203,7 @@ async function main() {
   const origin='http://127.0.0.1', errors=[], requested=new Set();
   const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json',
     '.png':'image/png','.svg':'image/svg+xml'};
-  const report={schema:'signed-hair-cache-lifecycle-v1',readback,peer:{id:peer.identity.id,recordSha256:peer.integrity.recordSha256,
+  const report={schema:'signed-hair-cache-lifecycle-v1',handoff,readback,peer:{id:peer.identity.id,recordSha256:peer.integrity.recordSha256,
     recipeSha256:peer.integrity.recipeSha256,purpose:'Deterministic second identity for the same signed look. QA only.'},
     runnerSha256:createHash('sha256').update(await fs.readFile(__filename)).digest('hex'),errors,
     limits:['Developer Chrome session; Three texture and WebGL handle identities are observable, allocated VRAM bytes are not.',

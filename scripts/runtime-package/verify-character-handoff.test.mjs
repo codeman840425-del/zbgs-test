@@ -4,7 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 import {fileURLToPath} from 'node:url';
 import {digest,jsonBytes} from './files.mjs';
-import {compareSignedLook,pinned,registeredReview,verifyPackage,verifyPlannedInputs} from './verify-character-handoff.mjs';
+import {compareSignedLook,pinned,readStaticBudget,registeredReview,verifyPackage,verifyPlannedInputs} from './verify-character-handoff.mjs';
 
 const root = fileURLToPath(new URL('../../',import.meta.url));
 const ref = (name,bytes) => ({path:name,bytes:bytes.length,sha256:digest(bytes)});
@@ -55,6 +55,30 @@ test('complete physical game package requires the exact manifest, bytes and all 
 
 test('unregistered runtime digest cannot pass the named external-record build registry',async () => {
   await assert.rejects(registeredReview(root,{sourceDigest:'0'.repeat(64)}),{code:'unsupported-build'});
+});
+
+test('a verified handoff keeps the exact signed record budget and its over-limit result', async () => {
+  const base = path.join(root,'evidence/m2-native-short-socks-room-v1');
+  const [recordBytes, reportBytes, config] = await Promise.all([
+    readFile(path.join(base,'records.json')), readFile(path.join(base,'selected-budget-verified.json')),
+    readFile(path.join(root,'scripts/production/asset-budgets-v1.json')),
+  ]);
+  const records = JSON.parse(recordBytes), report = JSON.parse(reportBytes);
+  const pointer = {runtime:{sourceCommit:report.sourceCommit}, inputs:{signedRecords:{sha256:digest(recordBytes)}},
+    staticBudgetEvidence:{sha256:digest(reportBytes)}};
+  const read = (value, rows = records) => readStaticBudget(value,pointer,rows,config);
+  const result = read(report);
+  assert.equal(result.status,'over-budget');
+  assert.equal(result.ordinaryPCPerformance,'unmeasured');
+  assert.deepEqual(result.records.map(r => r.recordSha256),records.map(r => r.integrity.recordSha256));
+  for (const changed of [{...report,inputSha256:'0'.repeat(64)}, {...report,status:'within-static-limits'},
+    {...report,budgetFileSha256:'0'.repeat(64)}, {...report,records:report.records.slice(1)}]) {
+    assert.throws(() => read(changed),{code:'budget-mismatch'});
+  }
+  assert.throws(() => read(report,[...records].reverse()),{code:'budget-mismatch'});
+  const wrong = structuredClone(report);
+  wrong.records[0].status = 'within-static-limits';
+  assert.throws(() => read(wrong),{code:'budget-mismatch'});
 });
 
 test('real signed uniform records must match independent identity, outfit and explicit appearance',async () => {

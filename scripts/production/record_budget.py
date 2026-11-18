@@ -10,7 +10,7 @@ import sys
 
 from PIL import Image
 
-from asset_budget import ROOT, budget_config, check, local, require
+from asset_budget import AssetCost, ROOT, budget_config, check, local, ref, require
 from selected_look_budget import AGGREGATE_LIMITS, RECIPE_SOURCE_PINS, aggregate, mip_bytes
 
 
@@ -43,6 +43,29 @@ REVIEWED_SUPPLEMENT_RUNTIME = {
     'body-texture-coverage.js': '4dffaa50ff155246a89c998edb96f4b434b2cd4efdfd30d9dc41ba6120715315',
     'm1-equipment.js': '48b1c6ee94f8c4daa015496b7f9016b9dee1e2d998d61cb72f9e184b033333a2',
     'equipment.js': '1018d7a58343de05e3110fb8d28137fca978799433b50c2529dd1089d7f59c2b',
+}
+REVIEWED_LEGACY_CACHE_SOURCE = {
+    'src/character-appearance.js': REVIEWED_LIP_RUNTIME['character-appearance.js'],
+    'src/facial-palette.js': 'bd62fd6360f5d18955969e5c7162693cdf176b5b25c8f0a96426d6e4e2132bea',
+    'src/facial-palette-contract.js': '4cb1e2b3d197390df3543d135cfdad1ad5d5c5527cc675d6ec5c4eaaa8ae70ac',
+    'src/hairstyle-catalog.js': '44eddc0f90a3e742ed5dd08814af400ce5221af99e5842c9ad38463ddf93b92f',
+    'src/hair-fit-contract.js': 'b9af4047b62a50fa459088d30f9ae674137b0e2d286b62534c0f62c3ee722a4d',
+    'src/native-palette-catalog.js': '6e0769fc2f6c992dad647bb5695188ec3f3d4018c21666dcf322d08cb9a1f993',
+    'src/native-skin-tone-contract.js': 'd1e8647b50299f6717b9491bd24de341a1428c5bb26272780654bc7502c3e0fc',
+    'src/native-lip-color-contract.js': REVIEWED_LIP_RUNTIME['native-lip-color-contract.js'],
+    'src/foundation-avatar.js': 'f642605891f4f516881671d67b2cb02857454c269db4850aafb777a4744376c8',
+    'src/surface-layers.js': '513b97967ae07428dda6d67387a4de61800d5c72adae640f90bd97b137b77714',
+    'package-lock.json': '190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7',
+}
+REVIEWED_LEGACY_BODY_SHA = '027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95'
+REVIEWED_LEGACY_BOB_SHA = '3dcf01957d8ab72dfc128c6950f0e9600c2c7b801ea774a612058dc4b5d68110'
+# Two distinct original Texture wrappers per part in the reviewed VRM0 loader.
+# Their source PNG is shared, while each derived wrapper gets a new Source.
+REVIEWED_LEGACY_TEXTURES = {
+    'hair': ('F00_000_HairBack_00_HAIR', 9, (1024,1024), '1be9a663f784c4db3c89f8b07319d4b8311f61a9bfd3100f8954e5f539a11c47'),
+    'brow': ('F00_000_00_FaceBrow_00_FACE', 16, (1024,256), 'd43b5654776cf2eb8e9a9e9e2b4818effc02bb1db8ac760e3a208e64f641654f'),
+    'iris': ('F00_000_00_EyeIris_00_EYE', 17, (1024,512), '7fd6bbe509f0535f895e28981767587c036dd3492c8af45c3ddddba753ad2e79'),
+    'lips': ('F00_000_00_Face_00_SKIN', 19, (1024,1024), 'e7ee87522375c3034196d7bb7ea22bff33247e45ce91f378b53c903a03db9554'),
 }
 SKIN_IMAGE_PREFIX = 'Selected native skin tone PNG: '
 LIP_IMAGE_PREFIX = 'Selected native lip color PNG: '
@@ -181,7 +204,7 @@ def hair_physics(source, public, record, model, metrics):
             'environmentColliderObjectsPerProxy':metrics['springJoints']}
 
 
-def image_cost(source, public, row, enc_format):
+def image_cost(source, public, row, enc_format, *, legacy_references=()):
     data = checked_data(public, row)
     with Image.open(io.BytesIO(data)) as image:
         require(image.format == enc_format and not getattr(image, 'is_animated', False),
@@ -217,6 +240,8 @@ def image_cost(source, public, row, enc_format):
         usage, object_limit, per_object = 'native-palette-color', 4, mip_bytes(width, height)
     elif any(label.startswith('Selected native palette source PNG: ') for label in reason):
         usage, object_limit, per_object = 'native-palette-reference', 0, 0
+    elif row['path'] in legacy_references:
+        usage, object_limit, per_object = 'legacy-facial-palette-reference', 0, 0
     elif all(label.startswith('External glTF resource of ') for label in reason):
         usage, object_limit, per_object = 'gltf-image-counted-in-model', 0, 0
     else:
@@ -237,6 +262,136 @@ def skin_cache(images):
     return {**summarize_native_bindings(bindings),
             'lifetime':'All four fields remain allocated after switching outfit or resetting to original until actor disposal.',
             'accounting':'Texture upper bounds are included in actor totals. Decoded ImageBitmap RGBA8 equivalents are separate.'}
+
+
+def require_legacy_cache(condition, message):
+    if not condition:
+        raise UnsupportedBudget('unsupported-reviewed-appearance-cache', message)
+
+
+def legacy_texture_groups(body, appearance):
+    doc = body.doc
+    participating = {m['name'] for m in doc['materials'] if '_HAIR' in m['name'] or '_FaceBrow_' in m['name']}
+    require_legacy_cache(participating == {REVIEWED_LEGACY_TEXTURES[k][0] for k in ('hair', 'brow')},
+                         'Unreviewed source hair or brow materials')
+    material_properties = doc['extensions']['VRM']['materialProperties']
+    groups = {}
+    for role, (name, index, (width, height), digest) in REVIEWED_LEGACY_TEXTURES.items():
+        matches = [i for i, material in enumerate(doc['materials']) if material['name'] == name]
+        require_legacy_cache(len(matches) == 1, 'Missing or ambiguous appearance material: '+name)
+        material = doc['materials'][matches[0]]
+        properties = ref(material_properties, matches[0], 'VRM0 material properties')
+        require_legacy_cache(properties['name'] == name and properties['shader'] == 'VRM/MToon' and
+                             properties['textureProperties'].get('_MainTex') == index and
+                             properties['textureProperties'].get('_ShadeTexture') == index and
+                             material['pbrMetallicRoughness']['baseColorTexture']['index'] == index,
+                             'Unreviewed base or shade texture binding: '+name)
+        texture = ref(doc['textures'], index, 'Appearance source texture')
+        sampler = ref(doc['samplers'], texture['sampler'], 'Appearance source sampler')
+        require_legacy_cache(sampler.get('minFilter') == sampler.get('magFilter') == 9729 and not texture.get('extensions'),
+                             'Unreviewed appearance sampler or mip policy: '+name)
+        image = ref(doc['images'], texture['source'], 'Appearance source image')
+        require_legacy_cache(image.get('mimeType') == 'image/png' and 'bufferView' in image and 'uri' not in image,
+                             'Unreviewed appearance source encoding: '+name)
+        raw = body.view_bytes(image['bufferView'])
+        with Image.open(io.BytesIO(raw)) as decoded:
+            require_legacy_cache(decoded.format == 'PNG' and decoded.mode == 'RGBA' and decoded.size == (width,height) and
+                                 not getattr(decoded, 'is_animated', False) and sha(raw) == digest,
+                                 'Unreviewed appearance image identity, format or dimensions: '+name)
+            decoded.verify()
+        field = {'hair':'hairColor', 'brow':'hairColor', 'iris':'eyeColor', 'lips':'lipColor'}[role]
+        count = 0 if appearance[field] == 'original' else 2
+        canvas = count * width * height * 4
+        palette = role in {'iris', 'lips'}
+        groups[role] = {'materialName':name, 'sourceTextureIndex':index, 'sourceImageSha256':digest,
+                        'width':width, 'height':height, 'field':field, 'selection':appearance[field],
+                        'format':'RGBA8-equivalent', 'generateMipmaps':False, 'minFilter':'linear',
+                        'distinctDerivedTextures':count, 'logicalTextureRgba8Bytes':canvas,
+                        'derivedCanvasRgba8Bytes':canvas, 'retainedImageDataBytes':canvas if palette else 0,
+                        'retainedOriginalPixelArrayBytes':canvas if palette else 0,
+                        'transientImageDataAllocationBytes':0 if palette else canvas}
+    return groups
+
+
+def legacy_palette_references(public, files, appearance, avatar_sha, groups):
+    if appearance['eyeColor'] == appearance['lipColor'] == 'original':
+        return []
+    reason = 'Selected facial palette manifest'
+    manifest_row = [row for row in files if reason in row['reasons']]
+    require_legacy_cache(len(manifest_row) == 1 and
+                         manifest_row[0]['sha256'] == '2eff13c1d3837c4f8f76b7d97007b219059c212c1031d77e27a2f824715af321',
+                         'Unreviewed legacy facial palette manifest')
+    manifest = json.loads(checked_data(public, manifest_row[0]))
+    parts, = [row['parts'] for row in manifest['variants'] if row['avatarSha256'] == avatar_sha]
+    paths = []
+    for role in ('iris', 'lips'):
+        group = groups[role]
+        part = parts[role]
+        size = [group['width'], group['height']]
+        require_legacy_cache(part['materialName'] == group['materialName'] and part['mapSize'] == size and
+                             part['sourceMapSha256'] == group['sourceImageSha256'], 'Legacy palette source mismatch: '+role)
+        references = [(part['maskUrl'], part['maskSha256'], 'Facial palette mask: '+role, 'L')]
+        if role == 'iris':
+            references.append((part['neutralMapUrl'], part['neutralMapSha256'], 'Facial palette iris neutral map', 'RGBA'))
+        for url, digest, label, mode in references:
+            relative = url.removeprefix('/')
+            rows = [row for row in files if row['path'] == relative and row['reasons'] == [label]]
+            require_legacy_cache(len(rows) == 1 and rows[0]['sha256'] == digest, 'Missing or changed legacy palette input: '+relative)
+            with Image.open(io.BytesIO(checked_data(public, rows[0]))) as decoded:
+                require_legacy_cache(decoded.format == 'PNG' and decoded.mode == mode and list(decoded.size) == size and
+                                     not getattr(decoded, 'is_animated', False), 'Legacy palette input format or dimensions differ: '+relative)
+                decoded.verify()
+            paths.append(relative)
+    return paths
+
+
+def matches_legacy_appearance_family(recipe):
+    appearance = recipe['appearance']
+    return (recipe['base'] == {'bodyType':'female','sha256':REVIEWED_LEGACY_BODY_SHA} and
+            recipe.get('hairAssetSha256') == REVIEWED_LEGACY_BOB_SHA and
+            not recipe.get('surface', {}).get('layers') and
+            not recipe.get('skinToneManifestSha256') and not recipe.get('lipColorManifestSha256') and
+            appearance.get('eyebrowColor', 'original') == 'original')
+
+
+def reviewed_legacy_appearance_cache(source, public, record, recipe):
+    appearance = recipe['appearance']
+    for filename, expected in REVIEWED_LEGACY_CACHE_SOURCE.items():
+        require_implementation(sha(local(source, 'prototype/'+filename).read_bytes()) == expected,
+                               'Unsupported legacy appearance cache implementation: prototype/'+filename)
+    files = record['files']
+    selected = {}
+    for label, path, expected in (
+        ('Exact foundation body', 'assets/foundation/base-female-roundtrip.vrm', REVIEWED_LEGACY_BODY_SHA),
+        ('Selected hairstyle model', 'assets/m2-hairstyle-v1/female-bob.glb', REVIEWED_LEGACY_BOB_SHA),
+        ('Selected hairstyle manifest', 'assets/m2-hairstyle-v1/manifest.json',
+         '98bc1b0874658a22f696834eb622e03aff92f499d41943d285c825a4fe7ee908'),
+    ):
+        rows = [row for row in files if label in row['reasons']]
+        require_legacy_cache(len(rows) == 1 and rows[0]['path'] == path and rows[0]['sha256'] == expected,
+                             'Unreviewed legacy cache resource path or identity: '+label)
+        selected[label] = rows[0]
+    manifest = json.loads(checked_data(public, selected['Selected hairstyle manifest']))
+    require_legacy_cache(manifest.get('schema') == 'character-hairstyle-v1' and manifest['physics'] == 'rigid' and
+                         manifest['id'] == appearance['hairStyle'] and manifest['sha256'] == REVIEWED_LEGACY_BOB_SHA and
+                         manifest['sourceMaterial'] == REVIEWED_LEGACY_TEXTURES['hair'][0],
+                         'Unreviewed hairstyle material cloning contract')
+    asset = AssetCost(local(public, selected['Exact foundation body']['path']))
+    require_legacy_cache(sha(asset.raw) == REVIEWED_LEGACY_BODY_SHA, 'Legacy body changed after collection')
+    groups = legacy_texture_groups(asset, appearance)
+    references = legacy_palette_references(public, files, appearance, recipe['base']['sha256'], groups)
+    totals = {key:sum(part[key] for part in groups.values()) for key in (
+        'distinctDerivedTextures', 'logicalTextureRgba8Bytes', 'derivedCanvasRgba8Bytes',
+        'retainedImageDataBytes', 'retainedOriginalPixelArrayBytes', 'transientImageDataAllocationBytes',
+    )}
+    totals['retainedPixelPayloadUpperBoundBytes'] = sum(totals[key] for key in (
+        'derivedCanvasRgba8Bytes', 'retainedImageDataBytes', 'retainedOriginalPixelArrayBytes'))
+    return {'schema':'reviewed-legacy-appearance-cache-v1', 'recordSha256':record['recordSha256'],
+            'scope':'fresh-actor-pixel-payload-static-diagnostic-only', 'runtimeReconciliation':'not-linked',
+            'runtimeAdmission':False, 'groups':groups, 'totals':totals, 'paletteReferencePaths':references,
+            'skinTone':{'selection':appearance['skinTone'], 'additionalTextureObjects':0, 'materialFactorsOnly':True},
+            'sharing':'Bob and hidden original hair use the same original map keys within an actor. Base and shade keys are distinct. Face outline reuses the face keys. Derived Sources are actor-local.',
+            'excluded':'Mask-analysis scratch, index/weight arrays, native renderer allocations, prior palette visits and actual CPU heap/VRAM are not measured.'}
 
 
 def pinned_appearance_manifest(public, entry, package, schema):
@@ -345,7 +500,7 @@ def material_cost(source, public, directory, models):
     return recipes
 
 
-def totals_for(rows, images, *, final):
+def totals_for(rows, images, *, final, appearance_cache=None):
     totals = aggregate(rows)
     totals['placedNodeTriangles'] = sum(row['placements'] * row['cost']['metrics']['nodeTriangles'] for row in rows)
     totals['standaloneEncodedImageBytes'] = sum(row['encodedBytes'] for row in images)
@@ -354,19 +509,28 @@ def totals_for(rows, images, *, final):
     totals['fileBytes'] += totals['externalImageBytes'] + totals['mergedExternalImageBytes']
     totals['textureObjects'] = totals['textures'] + sum(row['addedTextureObjectUpperBound'] for row in images)
     totals['rgba8MipBytes'] += sum(row['addedRgba8EstimateBytes'] for row in images)
+    if appearance_cache:
+        totals['textureObjects'] += appearance_cache['totals']['distinctDerivedTextures']
+        totals['rgba8MipBytes'] += appearance_cache['totals']['logicalTextureRgba8Bytes']
     return {'scope':'selected-look' if final else 'startup-and-selected-models',
             'totals':totals,
             'aggregateExcesses':[{'metric':metric, 'actual':totals[metric], 'limit':AGGREGATE_LIMITS[metric]}
                                  for metric in AGGREGATE_METRICS if totals[metric] > AGGREGATE_LIMITS[metric]]}
 
 
-def measure_record(source, record, config):
-    if record['hairColor'] != 'original':
+def measure_record(source, record, config, recipe):
+    public = source / 'prototype/public'
+    appearance_cache = None
+    uses_hair_cache = record['hairColor'] != 'original'
+    uses_legacy_palette = any('Selected facial palette manifest' in row['reasons'] for row in record['files'])
+    if (uses_hair_cache or uses_legacy_palette) and matches_legacy_appearance_family(recipe):
+        appearance_cache = reviewed_legacy_appearance_cache(source, public, record, recipe)
+    elif uses_hair_cache:
         raise UnsupportedBudget('unsupported-hair-color-budget',
                                 f"{record['id']} uses {record['hairColor']} hair color. This preset allocates "
                                 "derived Canvas/Texture cache entries for hair and eyebrow maps. "
-                                "A cost model for those entries is unavailable.")
-    public = source / 'prototype/public'
+                                "The hair resource family is outside the reviewed static model.")
+    palette_references = appearance_cache['paletteReferencePaths'] if appearance_cache else ()
     models, images = [], []
     for row in record['files']:
         relative = row['path']
@@ -394,7 +558,7 @@ def measure_record(source, record, config):
         elif relative.startswith('assets/motion/'):
             continue
         elif suffix in IMAGE_FORMATS:
-            images.append(image_cost(source, public, row, IMAGE_FORMATS[suffix]))
+            images.append(image_cost(source, public, row, IMAGE_FORMATS[suffix], legacy_references=palette_references))
         else:
             require(suffix == '.json', 'Unsupported resource budget format: '+relative)
             checked_data(public, row)
@@ -410,13 +574,14 @@ def measure_record(source, record, config):
     if not native_appearance:
         require(bool(skin) == any('Selected native skin tone manifest' in row['reasons'] for row in record['files']),
                 'Native skin tone manifest and budgeted bindings disagree')
-    visible = totals_for(selected, images, final=True)
-    resident = totals_for(models, images, final=False)
+    visible = totals_for(selected, images, final=True, appearance_cache=appearance_cache)
+    resident = totals_for(models, images, final=False, appearance_cache=appearance_cache)
     status = 'over-budget' if visible['aggregateExcesses'] or resident['aggregateExcesses'] or any(
         model['assetExcesses'] for model in models) else 'within-static-limits'
     return {**record, 'status':status, 'models':models, 'standaloneImages':images, 'materialRecipes':materials,
             **({'nativeSkinToneCache':skin} if skin else {}),
             **({'nativeAppearanceTextureCache':native_appearance} if native_appearance else {}),
+            **({'reviewedLegacyAppearanceCache':appearance_cache} if appearance_cache else {}),
             'selectedCost':visible, 'startupAndSelectedCost':resident,
             'closureSourceBytes':sum(row['bytes'] for row in record['files'])}
 
@@ -424,7 +589,13 @@ def measure_record(source, record, config):
 def measure(input_file, source, version):
     config = budget_config(BUDGET, version)
     collected = collected_records(source, input_file)
-    records = [measure_record(source, row, config) for row in collected['records']]
+    raw = input_file.read_bytes()
+    require(sha(raw) == collected['inputSha256'], 'Record input changed after dependency collection')
+    data = json.loads(raw)
+    input_records = data if isinstance(data, list) else [data]
+    recipes = {record['integrity']['recordSha256']: record['appearanceRecipe'] for record in input_records}
+    records = [measure_record(source, row, config, recipes[row['recordSha256']]) for row in collected['records']]
+    measured_legacy = any('reviewedLegacyAppearanceCache' in row for row in records)
     shared_files = {}
     for record in records:
         for row in record['files']:
@@ -439,6 +610,7 @@ def measure(input_file, source, version):
         'budgetFileSha256':sha(BUDGET.read_bytes()),
         'status':'over-budget' if any(row['status'] == 'over-budget' for row in records) else 'within-static-limits',
         'ordinaryPCPerformance':'unmeasured', 'temporaryAggregateLimits':AGGREGATE_LIMITS,
+        **({'accountingMode':'reviewed-legacy-appearance-cache-v1', 'runtimeAdmission':False} if measured_legacy else {}),
         'textureEstimateScope':{
             'metrics':['textureObjects', 'rgba8MipBytes'],
             'included':['image textures declared by measured models', 'supported derived image textures'],
