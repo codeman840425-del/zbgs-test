@@ -17,6 +17,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[2]
 SHA = re.compile(r"^[0-9a-f]{64}$")
 SCHEMA = "native-production-readiness-v1"
+AGGREGATE_SCHEMA = "native-production-readiness-aggregate-v1"
 
 REQUIRED_LANES = (
     "authoring",
@@ -905,14 +906,36 @@ def evaluate(batch_path: Path, root: Path = ROOT,
                 row["blockers"].append(f"pending adapter checks require exact evidence before fit reuse: {pending_checks}")
     ids = [row["id"] for row in rows]
     require(len(ids) == len(set(ids)), "Duplicate batch item")
+    accepted = []
+    accepted_body_types = set()
+    for row in rows:
+        if row["adapterTasks"] or not all(row["lanes"].get(lane) == "verified" for lane in REQUIRED_LANES):
+            continue
+        body_type = row["bodyType"]
+        require(body_type not in accepted_body_types, f"Readiness report has duplicate accepted body type: {body_type}")
+        accepted_body_types.add(body_type)
+        accepted.append(row["id"])
+    if not accepted:
+        aggregate = "blocked"
+    elif len(accepted) == len(rows):
+        aggregate = "ready"
+    else:
+        aggregate = "partial"
     return {
         "schema": SCHEMA,
         "batch": pin(batch_path),
         "items": rows,
-        "acceptedForRuntime": [row["id"] for row in rows
-                                if not row["adapterTasks"] and all(row["lanes"].get(lane) == "verified"
-                                                                    for lane in REQUIRED_LANES)],
+        "acceptedForRuntime": accepted,
+        # Kept for older readers of production-readiness-v1.
         "status": "adapter-work-required",
+        "aggregateOutcome": {
+            "schema": AGGREGATE_SCHEMA,
+            "scope": "batch-runtime-admission",
+            "status": aggregate,
+            "itemCount": len(rows),
+            "acceptedCount": len(accepted),
+            "unacceptedCount": len(rows) - len(accepted),
+        },
         "summary": {
             "items": len(rows),
             "reusableCheckCount": sum(len(row["reusableChecks"]) for row in rows),

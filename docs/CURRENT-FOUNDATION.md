@@ -2,9 +2,11 @@
 
 ## 固定入口与备份
 
+最新衔接。角色侧已只读复核云岚的同源供体、双冷开和实际装备，同时保留正式发行守卫与设施接线缺口。新批次汇总可供外部 agent 读取，准入仍按逐项精确身体。男女正式制服的 45 张身体图已逐张复算；无损 PNG 重编码可减少传输载荷，但无法消除纹理预算超限。不要把元数据缩略图的静态上界写成 GPU 实际分配。下一步优先把可复用的身体输入与现有接收包做固定审定，先用已具分发许可的输入验证；云岚源授权范围见接收记录。[批次字段](../evidence/m2-native-batch-aggregate-v1/README.md) · [真实新身体与正式运行边界](../evidence/m2-body-intake-v1/yun-receiver-followup.md) · [逐图依据](../evidence/m2-uniform-body-texture-intake-v1/README.md)
+
 融合侧回报已复算。代表房间对未知座位的误成功已修复，独立固定检出为 `efb1c3aa / 992da68517e1`，4196 的制服回放发版指针单独保留。正式公司座位尚待按真实使用点、接触句柄和租约接通。[正式入口责任与接收条件](../evidence/character-seat-consumer-v1/REPORT.md) · [新原生角色同源受理边界](../evidence/m2-body-intake-v1/new-family-receiver.md) · [白衣袖口待归因](../evidence/m2-body-intake-v1/bo-appearance-review.md)。角色新增工作树统一在项目内，固定运行检出的命令为 `python -B scripts/character-worktree.py create 名称 提交 --runtime-only`。
 
-最新固定源码 `80fb16b7`，构建 `5859bd00da8b`。男女制服双记录已通过批量创建、精确换装、游戏独立冷开和关闭恢复；520 件构建文件在两份工程内干净检出相同。4196 下次正常启动使用此候选，上一份 `9d520a80d731` 指针保存在 delivery/history。本轮运行中的 4196 仍报 `0d1ccbf3ff61`。可直接打开[本地录像](../evidence/m2-garment-texture-game-v1/index.html)。M2 尚在执行。下一项只读取两具身体超限的贴图与引用，核查有无可共同复用的无损发布方法；先复用现有法线和预算工具。源模型与正式交付指针分别保留。
+最新固定源码 `80fb16b7`，构建 `5859bd00da8b`。男女制服双记录已通过批量创建、精确换装、游戏独立冷开和关闭恢复；520 件构建文件在两份工程内干净检出相同。4196 下次正常启动使用此候选，上一份 `9d520a80d731` 指针保存在 delivery/history。本轮运行中的 4196 仍报 `0d1ccbf3ff61`。可直接打开[本地录像](../evidence/m2-garment-texture-game-v1/index.html)。M2 尚在执行。该包后的逐图核查及当前接续事项见上段。源模型与正式交付指针分别保留。
 
 上次制服包源码 `797516d2`、构建 `9d520a80d731`。精简男体配方、独立装备和旧新记录均可复用。[上一版观看入口](../evidence/m2-source-outfit-release-v1/index.html) · [重新生成说明](../evidence/m2-source-outfit-release-v1/body/README.md)
 

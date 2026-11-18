@@ -3,10 +3,10 @@ const path = require('node:path');
 const fs = require('node:fs/promises');
 const {pathToFileURL} = require('node:url');
 const {productionRoot, projectOutput} = require('./project-output.cjs');
-const {chromium} = require('../prototype/node_modules/playwright');
 
 async function run(base, output) {
   const root=await productionRoot(), destination=await projectOutput(output, root);
+  const {chromium} = require('../prototype/node_modules/playwright');
   const local=pathToFileURL(path.join(root,'evidence/m2-garment-texture-game-v1/index.html')).href;
   const browser=await chromium.launch({channel:'chrome', headless:true});
   const report={status:'incomplete',browser:browser.version(),checks:[]};

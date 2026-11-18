@@ -1,5 +1,7 @@
 # 角色系统能力清单（唯一当前状态依据）
 
+**批次汇总与新身体接收。** 新 gate 的 `aggregateOutcome` 按所有必需阶段及待适配项区分整批通过、部分通过与阻塞，旧消费者仍按精确准入集合工作。云岚在融合测试固定构建 `102344d95ee2` 的两个独立 Chrome 中均加载了同一签名记录、身体及三件装备，各推进 121 帧。其正式发行构建仍未审定，原素材使用字段、五项预算超限及真实设施请求缺口已分开记录。当前正式消费者尚不能用角色行为接口坐入该环境的真实座位。[批次合同回归](../evidence/m2-native-batch-aggregate-v1/README.md) · [云岚核查](../evidence/m2-body-intake-v1/yun-receiver-followup.md)
+
 **显式座位请求。** 旧工作台收到沙发左座 ID 后在演示椅上报告完成。固定检出 `efb1c3aa`（构建 `992da68517e1`）的实际浏览器现在拒绝该未知 ID，保留原有有效座位任务，重试和 requestId 冲突保留原语义。公司侧真实左右座位的角色控制、接触、退出和开档恢复仍待接入正式消费者。旧新报告分别见[误占演示椅](../evidence/character-seat-consumer-v1/browser-original/report.json)和[修复后租约与任务](../evidence/character-seat-consumer-v1/browser-repaired/report.json)。
 
 **男女制服派生、选择与游戏冷载。** 同一配方将两件上衣的全不透明 2048² 底图派生为 1024²。构建 `5859bd00da8b` 按稳定角色 ID 和确切装备生成、修改双角色记录。首次进入和关闭重开均实测只下载已选上衣，两人合计从 5,459,344 B 降至 1,508,520 B。女性两装均遮罩 252 面，轻量上衣加载失败保留原装。四条正常速度走坐起录像已读回。换回高清后，四个房间衣面取样区逐像素一致，三组近景仍有 2–3 像素出现单通道 1/255 差值。两件上衣达到单件纹理预算，两具身体仍超限，普通电脑未测。[同镜头回放](../evidence/m2-garment-texture-game-v1/index.html) · [生产、适用范围及浏览器证据](../evidence/m2-garment-texture-game-v1/README.md) · [实际游戏交付包](../evidence/m2-garment-texture-game-v1/receiver/README.md)

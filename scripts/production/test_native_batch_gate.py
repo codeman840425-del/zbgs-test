@@ -1,15 +1,128 @@
 import sys
 import json
 import shutil
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from native_batch_gate import (CHECK_TO_ADAPTER, GateError, budget_classification_index,
+from native_admission_cycle import cycle
+from native_batch_gate import (CHECK_TO_ADAPTER, ROOT, GateError, budget_classification_index,
                                dynamic_trace_index, evaluate, glasses_candidate_index,
                                microphone_candidate_index, room_candidate_index,
                                runtime_budget_trace_index, surface_admission_index)
+
+
+class NativeBatchAggregateTests(unittest.TestCase):
+    batch = ROOT / 'assets-source/native-parameter-game-packages-v1/import-batch.json'
+    runtime = ROOT / 'evidence/m2-native-record-plan-v4/runtime/dual-restore/report.json'
+
+    def setUp(self):
+        self.folder = Path(self.enterContext(tempfile.TemporaryDirectory(
+            dir=ROOT / 'output', prefix='native-batch-aggregate-test-')))
+        self.batch_data = json.loads(self.batch.read_bytes())
+        self.runtime_data = json.loads(self.runtime.read_bytes())
+        self.ids = [row['id'] for row in self.batch_data['items']]
+
+    def write_fixture(self, name, data):
+        path = self.folder / name
+        path.write_text(json.dumps(data), encoding='utf-8')
+        return path
+
+    def adapter_fixture(self, name, count):
+        return self.write_fixture(name, {
+            'schema': 'native-batch-aggregate-unit-test-fixture-v1',
+            'scope': 'Synthetic positive flags for regression only',
+            'status': 'passed',
+            'checks': list(CHECK_TO_ADAPTER),
+            'native': [{'bodyType': row['body']['bodyType'], 'sourceSha256': row['body']['sha256']}
+                       for row in self.runtime_data['inputs'][:count]],
+        })
+
+    def test_aggregate_follows_accepted_items_and_cycle_retains_its_any_ready_status(self):
+        one_adapter = self.adapter_fixture('one-adapter.json', 1)
+        all_adapters = self.adapter_fixture('all-adapters.json', 2)
+        one_runtime = self.write_fixture('one-runtime.json', {
+            **self.runtime_data, 'inputs': self.runtime_data['inputs'][:1],
+        })
+        for case, runtime, adapter, expected, accepted, runtime_ready in (
+            ('all', self.runtime, all_adapters, 'ready', self.ids, 2),
+            ('adapter-pending', self.runtime, one_adapter, 'partial', self.ids[:1], 2),
+            ('runtime-lane-pending', one_runtime, all_adapters, 'partial', self.ids[:1], 1),
+            ('runtime-only', self.runtime, None, 'blocked', [], 2),
+            ('none', None, None, 'blocked', [], 0),
+        ):
+            with self.subTest(case=case):
+                output = self.folder / case
+                gate_path = output / 'gate.json'
+                records = output / 'records'
+                result = cycle(self.batch, gate_path, records, runtime_report=runtime, adapter_report=adapter)
+                gate = json.loads(gate_path.read_bytes())
+                self.assertEqual(gate['schema'], 'native-production-readiness-v1')
+                self.assertEqual(gate['status'], 'adapter-work-required')
+                self.assertEqual(gate['summary']['runtimeReadyCount'], runtime_ready)
+                self.assertEqual(gate['acceptedForRuntime'], accepted)
+                self.assertEqual(gate['aggregateOutcome'], {
+                    'schema': 'native-production-readiness-aggregate-v1',
+                    'scope': 'batch-runtime-admission',
+                    'status': expected,
+                    'itemCount': 2,
+                    'acceptedCount': len(accepted),
+                    'unacceptedCount': 2 - len(accepted),
+                })
+                self.assertEqual(result['status'], 'ready' if accepted else 'blocked')
+                self.assertEqual(result['acceptedForRuntime'], accepted)
+                self.assertEqual(result['recordBatch']['batchRequest']['acceptedCount'], len(accepted))
+                self.assertEqual({path.name for path in records.glob('*.request.json')},
+                                 {row['bodyType'] + '.request.json'
+                                  for row in gate['items'] if row['id'] in accepted})
+
+    def test_invalid_or_duplicate_batch_does_not_emit_an_aggregate_report(self):
+        original = self.batch_data['items'][0]
+        duplicate_id = self.write_fixture('duplicate-id.json', {
+            **self.batch_data, 'items': [original, original],
+        })
+        duplicate_type = self.write_fixture('duplicate-type.json', {
+            **self.batch_data, 'items': [original, {**original, 'id': 'body-alias'}],
+        })
+        duplicate_runtime = self.write_fixture('duplicate-runtime.json', {
+            **self.runtime_data, 'inputs': self.runtime_data['inputs'] + self.runtime_data['inputs'][:1],
+        })
+        spec = ROOT / original['spec']
+        clone = self.folder / 'altered-package'
+        shutil.copytree(spec.parent, clone)
+        spec_data = json.loads(spec.read_bytes())
+        spec_data['files']['manifest.json'][1] = '0' * 64
+        (clone / spec.name).write_text(json.dumps(spec_data), encoding='utf-8')
+        bad_package = self.write_fixture('bad-package.json', {
+            **self.batch_data, 'items': [{**original, 'spec': (clone / spec.name).relative_to(ROOT).as_posix()}],
+        })
+        all_adapters = self.adapter_fixture('all-adapters.json', 2)
+        for case, batch, runtime, error in (
+            ('duplicate-id', duplicate_id, self.runtime, 'Duplicate batch item'),
+            ('duplicate-admitted-type', duplicate_type, self.runtime, 'duplicate accepted body type'),
+            ('duplicate-runtime-type', self.batch, duplicate_runtime, 'Runtime report has duplicate body type'),
+            ('bad-package', bad_package, self.runtime, 'Package file pin differs: manifest.json'),
+        ):
+            with self.subTest(case=case):
+                output = self.folder / (case + '-gate.json')
+                command = subprocess.run(
+                    [sys.executable, '-B', '-X', 'utf8', str(ROOT / 'scripts/production/native_batch_gate.py'),
+                     '--batch', str(batch), '--runtime-report', str(runtime),
+                     '--adapter-report', str(all_adapters), '--output', str(output)],
+                    cwd=ROOT, capture_output=True, encoding='utf-8', check=False,
+                )
+                self.assertEqual(command.returncode, 1)
+                self.assertIn(error, command.stdout + command.stderr)
+                self.assertFalse(output.exists())
+        pending = evaluate(duplicate_type, runtime_report=self.runtime)
+        self.assertEqual(pending['aggregateOutcome']['status'], 'blocked')
+        with self.assertRaisesRegex(GateError, 'duplicate accepted body type'):
+            cycle(duplicate_type, self.folder / 'duplicate-cycle-gate.json', self.folder / 'duplicate-cycle-records',
+                  runtime_report=self.runtime, adapter_report=all_adapters)
+        self.assertFalse((self.folder / 'duplicate-cycle-gate.json').exists())
+        self.assertFalse((self.folder / 'duplicate-cycle-records').exists())
 
 
 class NativeBatchGateTests(unittest.TestCase):

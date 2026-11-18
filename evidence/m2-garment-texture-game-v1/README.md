@@ -15,6 +15,8 @@
 
 ## 重新执行
 
+本机 RTX 4090 单独测试了原上衣与轻量上衣。每种条件各一次、持续讲话 12 秒，男／女／双实例的稳态纹理对象分别为 39／37／75，卸载均回到空场景的 1 个对象。双实例两版帧间隔 p95 均约 6.2 ms；单人原／轻量样本中最长间隔分别达 60.6／54.6 ms。结果只代表本机这组短测。完整分位数、加载和释放见[原套装](runtime-budget-near/report.json)、[轻量套装](runtime-budget-far/report.json)。
+
 在工程根目录创建新的工程内输出目录。用 `python -B scripts/character-worktree.py create 新名称 80fb16b7 --runtime-only` 建立固定运行检出，在该检出的 `prototype` 安装锁定依赖并构建。用 `python -B scripts/production/garment_basecolor_runtime.py --check` 复算生产资源和精确蒙皮适配，再按下列顺序调用现有生产脚本。浏览器测量与录屏逐个运行。
 
 1. `python -B scripts/production/garment_texture_requests.py create --out 新目录/create.json` 生成双角色批次。用 `node scripts/character-production-cli.cjs --dist 固定构建目录 --request 新目录/create.json --out 新目录/records-near.json` 取得签名记录。

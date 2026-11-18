@@ -1,8 +1,10 @@
 // Bounded real-loader cost sampling, separate from recording and static RGBA estimates.
-const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
-const [base,recordFile,folder,inspectBuild]=process.argv.slice(2),out=path.resolve(folder);
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const [base,recordFile,folder,inspectBuild]=process.argv.slice(2);
 (async()=>{
+ const out=await projectOutput(folder,await productionRoot());
+  const {chromium}=require('../prototype/node_modules/playwright');
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const records=JSON.parse(await fs.readFile(recordFile,'utf8'));
  if(!Array.isArray(records)||records.length<2)throw Error('Budget input requires at least two records');

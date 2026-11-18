@@ -10,7 +10,7 @@ import native_admission_cycle as cycle
 class NativeAdmissionCycleTests(unittest.TestCase):
     def test_confined_rejects_external_path(self):
         with self.assertRaises(ValueError):
-            cycle.confined(Path(tempfile.gettempdir()) / 'outside-cycle.json')
+            cycle.confined(cycle.ROOT.parent / 'outside-cycle.json')
 
     def test_blocked_gate_still_writes_record_plan_without_requests(self):
         gate = {
