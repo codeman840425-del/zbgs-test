@@ -15,6 +15,7 @@ import { validateForearmProfile } from "./forearm-envelope-projection.js";
 import { validateJointHandProfile } from "./joint-hand-workspace.mjs";
 import { createNativeHairCenterFitPlugin, NATIVE_HAIR_CENTER_FIT_ID, supportsNativeHairCenterFit } from "./native-hair-center-fit.js";
 import { validateNativeHairCenterPin } from "./native-hair-center-record.js";
+import { shareBodyNormalSource } from "./shared-body-normal-source.js";
 
 // Each actor owns its prewarm variants. Geometry UUID is deliberately omitted:
 // a new clone with identical layouts/material versions reuses the same program.
@@ -169,7 +170,32 @@ export async function loadFoundationAvatar({
   };
   const faceWarmup=createFaceGeometryWarmup(renderer,scene);
   const releaseFaceWarmup=()=>faceWarmup.dispose();
+  let releaseBodyNormal;
+  function disposeAvatar() {
+    try {
+      releaseFaceWarmup();
+      facialGeometry?.dispose();
+      faceRenderCompaction?.dispose();
+      appearance?.dispose();
+      livePresentation?.dispose();
+      rigidAccessories?.dispose();
+      headwear?.dispose();
+      equipment?.dispose();
+    } finally {
+      try {
+        root.removeFromParent();
+        for (const [mesh, material] of sourceMaterials) mesh.material = material;
+        for (const materials of bodyMaterials.values()) materials.forEach(m => m.dispose());
+        VRMUtils.deepDispose(vrm.scene);
+      } finally {
+        // Three releases each actor's texture/GL reference. The last lease
+        // separately closes the shared ImageBitmap after actor disposal.
+        releaseBodyNormal?.();
+      }
+    }
+  }
   try {
+  releaseBodyNormal = shareBodyNormalSource(renderer, gltf, sha256);
   vrm.scene.traverse((mesh) => {
     if (!mesh.isMesh) return;
     mesh.frustumCulled = false;
@@ -381,20 +407,7 @@ export async function loadFoundationAvatar({
       rigidAccessories: rigidAccessories.getState(),
       headwear: headwear.getState(),
     }),
-    dispose: () => {
-      releaseFaceWarmup();
-      facialGeometry.dispose();
-      faceRenderCompaction?.dispose();
-      appearance.dispose();
-      livePresentation.dispose();
-      rigidAccessories.dispose();
-      headwear.dispose();
-      equipment.dispose();
-      root.removeFromParent();
-      for (const [mesh, material] of sourceMaterials) mesh.material = material;
-      for (const materials of bodyMaterials.values()) materials.forEach(m => m.dispose());
-      VRMUtils.deepDispose(vrm.scene);
-    },
+    dispose: disposeAvatar,
     getOutfitInfo: () => ({
       index: outfit,
       name: `新人体 · ${config.outfits.find((o) => o.index === outfit).label}`,
@@ -405,21 +418,7 @@ export async function loadFoundationAvatar({
     }),
   };
   } catch (error) {
-    releaseFaceWarmup();
-    facialGeometry?.dispose();
-    faceRenderCompaction?.dispose();
-    appearance?.dispose();
-    // The factory has not returned an avatar yet; callers cannot dispose it.
-    // Release partially built equipment and the VRM here, including failures
-    // before createM1Equipment returns (manifest/network/identity errors).
-    livePresentation?.dispose();
-    rigidAccessories?.dispose();
-    headwear?.dispose();
-    equipment?.dispose();
-    root.removeFromParent();
-    for (const [mesh, material] of sourceMaterials) mesh.material = material;
-    for (const materials of bodyMaterials.values()) materials.forEach(m => m.dispose());
-    VRMUtils.deepDispose(vrm.scene);
+    disposeAvatar();
     throw error;
   }
 }

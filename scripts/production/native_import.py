@@ -37,7 +37,7 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def body_image(raw, coverage):
+def embedded_glb(raw):
     if struct.unpack_from('<4sII', raw) != (b'glTF', 2, len(raw)):
         raise ValueError('Invalid body GLB')
     size, kind = struct.unpack_from('<I4s', raw, 12)
@@ -47,7 +47,11 @@ def body_image(raw, coverage):
     count, kind = struct.unpack_from('<I4s', raw, 20 + size)
     if kind != b'BIN\0' or 28 + size + count != len(raw):
         raise ValueError('Invalid embedded GLB binary')
-    binary = raw[28 + size:]
+    return doc, raw[28 + size:]
+
+
+def body_image(raw, coverage):
+    doc, binary = embedded_glb(raw)
     mats = [m for m in doc['materials'] if m.get('name') == coverage['materialName']]
     if len(mats) != 1:
         raise ValueError('Coverage body material is not unique')
