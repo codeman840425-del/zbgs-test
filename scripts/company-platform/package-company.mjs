@@ -329,11 +329,33 @@ async function list(root,folder=''){
 function decode(bytes,location){try{return JSON.parse(bytes.toString('utf8'));}catch(error){fail('invalid-package-json',location,error.message);}}
 async function assertMissing(file){try{await fs.lstat(file);}catch(error){if(error.code==='ENOENT')return;throw error;}fail('package-output-exists',file,'Output already exists and will not be overwritten');}
 
+// A managed developer checkout shares one local workspace with its fixed Git worktrees.
+// A received package has its own source tree and can be used at the recipient's chosen location.
+async function checkManagedOutput(output) {
+  const checkout = path.resolve(defaultSource);
+  const parent = path.dirname(checkout);
+  const isFixedTree = path.basename(parent) === 'worktrees' &&
+    path.basename(path.dirname(parent)) === 'company-workspace';
+  const project = isFixedTree ? path.resolve(parent, '../..') : checkout;
+  try {
+    if (!(await fs.stat(path.join(project, 'scripts', 'company-platform', 'local-workspace.ps1'))).isFile()) return;
+  } catch (error) {
+    if (error.code === 'ENOENT') return;
+    throw error;
+  }
+  const location = path.relative(project, output);
+  if (path.isAbsolute(location) || location.startsWith('..' + path.sep) || !location.includes(path.sep))
+    fail('outside-managed-package-directory', output,
+      '请使用主目录下的 output、company-workspace/production-trials 或 company-workspace/deliveries 子目录。');
+}
+
 export async function packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot=defaultSource,rooms=[],seatContacts=false}){
   if(!/^[a-f0-9]{12}$/.test(buildId||''))fail('invalid-package-build','buildId','Expected the explicit 12-hex company build identity');
   for(const [key,value]of Object.entries({distDirectory,inputPath,outputDirectory,sourceRoot}))if(typeof value!=='string'||!value)fail('invalid-package-argument',key,'Explicit input/output paths are required');
   if (typeof seatContacts !== 'boolean') fail('invalid-package-argument', 'seatContacts', 'Expected true or false');
-  const source=await noLinks(sourceRoot),dist=await noLinks(distDirectory),input=await noLinks(inputPath),output=path.resolve(outputDirectory);
+  const output = path.resolve(outputDirectory);
+  await checkManagedOutput(output);
+  const source=await noLinks(sourceRoot),dist=await noLinks(distDirectory),input=await noLinks(inputPath);
   await assertMissing(output);
   try{await noLinks(path.dirname(output));}catch(error){if(error.code!=='ENOENT')throw error;}
   const prototype=path.join(source,'prototype'),infoBytes=await read(dist,'company-build-info.json'),info=decode(infoBytes,'company-build-info.json');
