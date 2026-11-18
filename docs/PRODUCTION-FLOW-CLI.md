@@ -83,6 +83,8 @@ node scripts/character-record-transport.mjs export --root RECORD_STORE --id STAB
 
 编辑在独立候选上执行，成功保留身份与来源并增加修订；失败销毁候选，不改已显示人物与原文件。create/edit/validate 都真实加载资源，记录结果再经消费入口回读。query 是登记能力，不能代表每个组合已经视觉通过。旧 flow.py 的源模型制作、VRoid 导出仍是上游步骤，本入口只组合和调用已有合法资产/变形接口，不凭空生成新网格。
 
+两份 FaceContour 原生女性候选可在 `query.nativeHairCenter.choices` 中查询精确的后发动态适配版本。制作方选用时，将返回的完整对象原样放入 `create` 或 `edit` 请求的顶层 `nativeHairCenter`。未填写时，新建采用模型原动态，编辑沿用原记录；编辑时显式传 `null` 可恢复模型原动态。记录同时绑定身体、弹簧配置和适配配方的散列。读取其他身体的版本、过期版本或数据损坏时应检查错误和输入清单。此项仍处于技术候选阶段。
+
 输出必须是新文件且位于 evidence 目录之外；必要浏览器关闭和证据写入结束后原子发布。文件传输层复用 CAS、锁和完整性检查，但单独 import/export 返回 resourceValidation=pending，不冒充运行验证。候选动画仍须房间完整动作检查。
 
 任意1–4份已通过实际生产回读的记录可组成 JSON 数组，经 `game-record-cli.mjs inventory/export --records RECORDS.json` 输出独立包；两步使用同一数组与仓库审定运行时。入口 `record-consumer.html?records=/records/manifest.json`，最多同时两人，新增记录不改通用控制器或重新编译。没有随机生成或自动开放不兼容资源。

@@ -8,6 +8,7 @@ import {queryCharacterProduction} from './character-production-query.js';
 import {FOUNDATION_PROFILES, foundationProfile} from './foundation-profiles.js';
 import {MICROPHONE_PRESENTATION_FITS} from './microphone-presentation-fits.js';
 import {outfitSelection} from './outfit-selection.js';
+import {validateNativeHairCenterPin} from './native-hair-center-record.js';
 
 const publicFile = url => new URL('../public' + url, import.meta.url);
 const json = async url => JSON.parse(await readFile(publicFile(url)));
@@ -207,4 +208,15 @@ test('rejects missing and mismatched loaded body identities', async () => {
   assert.throws(() => queryCharacterProduction(controller), {code:'unregistered-body'});
   controller.actor.profile.bodyType = 'unregistered-body';
   assert.throws(() => queryCharacterProduction(controller), {code:'unregistered-body'});
+});
+
+test('offers the exact optional hair fit only for its two registered bodies', async () => {
+  const supported = new Set(['native-contour-roundness-a-v1','native-contour-cheek-b-v1']);
+  for (const bodyType of Object.keys(FOUNDATION_PROFILES)) {
+    const {body,nativeHairCenter} = queryCharacterProduction((await fixture(bodyType)).controller);
+    assert.equal(nativeHairCenter.default,null);
+    if (!supported.has(bodyType)) { assert.deepEqual(nativeHairCenter.choices,[]); continue; }
+    assert.equal(nativeHairCenter.choices.length,1);
+    assert.deepEqual(await validateNativeHairCenterPin(nativeHairCenter.choices[0],body),nativeHairCenter.choices[0]);
+  }
 });

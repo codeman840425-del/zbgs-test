@@ -32,7 +32,7 @@ async function collect(source, input) {
     await envelope.validateCharacterRecord(record, {validationCallback:() => ({status:'pending'})});
     if (identities.has(record.identity.id)) fail('duplicate-identity', 'Duplicate stable record identity: ' + record.identity.id);
     identities.add(record.identity.id);
-    const derived = runtime.deriveCharacterResourceIdentities(record.appearanceRecipe, record.liveAccessories, record.equipmentMaterials);
+    const derived = runtime.deriveCharacterResourceIdentities(record.appearanceRecipe, record.liveAccessories, record.equipmentMaterials, record.nativeHairCenter);
     if (envelope.canonicalJson(derived) !== envelope.canonicalJson(record.resourceIdentities))
       fail('record-identity-mismatch', 'Resource identities differ from the saved look: ' + record.identity.id);
   }

@@ -11,6 +11,8 @@ test('stable identity and request shape reject before any resource request',asyn
   await assert.rejects(performCharacterProduction({...create,edits:null}),error=>error.field==='edits');
   await assert.rejects(performCharacterProduction({...create,identity:{...create.identity,name:''}}),error=>error.field==='identity.name');
   await assert.rejects(performCharacterProduction({...create,unsupported:true}),error=>error.field==='request.unsupported');
+  await assert.rejects(performCharacterProduction({...create,nativeHairCenter:{id:'stale'}}),/Native hair center fit/);
+  await assert.rejects(performCharacterProduction({schema:create.schema,operation:'query',bodyType:create.bodyType,nativeHairCenter:null}),error=>error.field==='nativeHairCenter');
   await assert.rejects(performCharacterProduction({schema:create.schema,operation:'query',bodyType:create.bodyType,edits:[{domain:'outfit',index:0}]}),error=>error.field==='edits');
   assert.equal(requests,0);
  }finally{globalThis.fetch=previous;}

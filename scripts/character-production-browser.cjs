@@ -23,7 +23,7 @@ const [base,requestFile,outputArg,expectedDigest,evidenceArg]=process.argv.slice
    report.loaded=await page.evaluate(record=>__recordConsumer.selectGroup(0,[record]),result.record);
    assert.equal(report.loaded.items[0].status,'completed',JSON.stringify(report.loaded));
    const readback=await page.evaluate(()=>[...__recordConsumer.actors.values()][0].capture());
-   for(const key of ['appearanceRecipe','liveAccessories'])assert.equal(canonicalJson(readback[key]),canonicalJson(result.record[key]),key);
+   for(const key of ['appearanceRecipe','liveAccessories','nativeHairCenter'])assert.equal(canonicalJson(readback[key]),canonicalJson(result.record[key]),key);
    if(result.record.equipmentMaterials)assert.equal(canonicalJson(readback.equipmentMaterials),canonicalJson(result.record.equipmentMaterials));
    else assert(readback.equipmentMaterials.selections.every(row=>row.selection===null));
    if(evidence){

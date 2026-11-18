@@ -12,7 +12,7 @@ import { createSeatLeases } from "./seat-lease.js";
 import { bindAppearanceWorkbench } from "./appearance-workbench.js";
 import { exportAppearanceRecipe, importAppearanceRecipe } from "./appearance-recipe.js";
 import {captureRuntimeCharacterRecord,restoreRuntimeCharacterRecord,parseRuntimeCharacterRecord,characterLookRevision} from './character-runtime-record.js';
-import {validateCharacterRecord} from './character-record.js';
+import {canonicalJson,validateCharacterRecord} from './character-record.js';
 import {queryAppearanceCandidates,admitAppearanceCandidate} from './appearance-candidates.js';
 import "./style.css";
 
@@ -2149,18 +2149,20 @@ function syncFoundationControls(a) {
   }
   document.querySelector("#foundation-legend").textContent = `${a.config.label}：同一房间与控制器，当前基模独立验证。`;
 }
-function bindFoundationControls(a) {
-  if (!a.config) return;
-  syncFoundationControls(a);
-  controller.game.events.on('appearance-state-changed',({actor}={})=>{
-    if(actor!==controller.actor)return;
-    for(const [kind,label] of [['mic','麦克风'],['glasses','眼镜']]){
+function syncLiveAccessoryButtons(actor) {
+  for(const [kind,label] of [['mic','麦克风'],['glasses','眼镜']]){
       const state=actor.livePresentation.getState().accessories[kind];
       const button=document.querySelector(`[data-accessory-kind="${kind}"]`);
       const status=document.querySelector(`[data-accessory-status="${kind}"]`);
       if(button)button.textContent=(state.requested?'卸下':'装备')+label;
       if(status)status.textContent=state.error??'';
-    }
+  }
+}
+function bindFoundationControls(a) {
+  if (!a.config) return;
+  syncFoundationControls(a);
+  controller.game.events.on('appearance-state-changed',({actor}={})=>{
+    if(actor===controller.actor)syncLiveAccessoryButtons(actor);
   });
   const row = document.createElement("div"); row.className = "debug-row foundation-actions";
   for (const [bodyType, label] of [["female", "女性候选"], ["male", "男性候选"]]) {
@@ -2218,6 +2220,15 @@ function bindFoundationControls(a) {
 }
 let bodySelectionGeneration = 0;
 const bodySelection = {loading:false, requested:null, error:null};
+// Spring bindings are established when the VRM loads. A different binding on
+// the same body needs the same staged replacement as a different body.
+function matchesRecordBody(actor, bodyType, record) {
+  if (actor.profile.bodyType !== bodyType) return false;
+  if (!record) return true;
+  const desired = record.nativeHairCenter ?? null;
+  return (actor.nativeHairCenterFit ?? null) === (desired?.id ?? null) &&
+    canonicalJson(actor.nativeHairCenter ?? null) === canonicalJson(desired);
+}
 async function restoreWorkbenchCharacterRecord(input) {
   if(!ready||!avatar?.config)return{applied:false,reason:'人物尚未准备好'};
   const request=++bodySelectionGeneration;
@@ -2233,7 +2244,7 @@ async function restoreWorkbenchCharacterRecord(input) {
     if(!sourceIsCurrent())return{applied:false,cancelled:true};
     const bodyType=record.appearanceRecipe?.base?.bodyType;
     if(typeof bodyType!=='string')throw Error('角色记录缺少身体类型');
-    if(avatar.profile.bodyType===bodyType){
+    if(matchesRecordBody(avatar,bodyType,record)){
       return await restoreRuntimeCharacterRecord(controller,record,{isCurrent:()=>request===bodySelectionGeneration});
     }
     const result=await switchFoundationBody(bodyType,{record,request,isCurrent:sourceIsCurrent});
@@ -2249,7 +2260,7 @@ async function switchFoundationBody(bodyType,options={}) {
   let recordRestoreDetails={};
   if (!ready || !avatar?.config) return {applied:false,reason:'人物尚未准备好'};
   bodySelection.requested = bodyType; bodySelection.error = null;
-  if (avatar.profile.bodyType === bodyType) { bodySelection.loading = false; return {applied:true,bodyType}; }
+  if (matchesRecordBody(avatar,bodyType,record)) { bodySelection.loading = false; return {applied:true,bodyType}; }
   bodySelection.loading = true;
   const renderContext = createRenderContextGuard(renderer);
   let nextAvatar, nextMotion, committed = false;
@@ -2257,7 +2268,8 @@ async function switchFoundationBody(bodyType,options={}) {
   try {
     renderContext.check();
     // Prepare completely off-scene; the current avatar remains usable on failure.
-    nextAvatar = await loadFoundationAvatar({scene:world,renderer,bodyType,attachToScene:false});
+    nextAvatar = await loadFoundationAvatar({scene:world,renderer,bodyType,attachToScene:false,
+      ...(record ? {nativeHairCenter:record.nativeHairCenter ?? null} : {})});
     if (!current()) return {applied:false,cancelled:true};
     nextAvatar.root.position.copy(avatar.root.position);
     const clips = await loadRetargetedMotions(nextAvatar.vrm,{avatarSha256:nextAvatar.profile.sha256,targetFloorY:nextAvatar.root.getWorldPosition(new THREE.Vector3()).y});
@@ -2357,10 +2369,7 @@ async function switchFoundationBody(bodyType,options={}) {
     finish('舞蹈界面更新失败', () => populateDanceSelect(document.querySelector('select[aria-label="舞蹈样件"]')));
     finish('附件界面更新失败', () => {
       document.querySelector('#speaking-button').textContent = '讲话演示';
-      for (const [kind,label] of [['mic','麦克风'],['glasses','眼镜']]) {
-        document.querySelector(`[data-accessory-kind="${kind}"]`).textContent = '装备'+label;
-        document.querySelector(`[data-accessory-status="${kind}"]`).textContent = '';
-      }
+      syncLiveAccessoryButtons(avatar);
     });
     finish('骨骼辅助更新失败', () => createDebugHelpers());
     finish('调试界面更新失败', () => syncInspectionUI());

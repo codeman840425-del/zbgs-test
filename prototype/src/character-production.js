@@ -1,9 +1,10 @@
 import {foundationProfile} from './foundation-profiles.js';
-import {captureRuntimeCharacterRecord} from './character-runtime-record.js';
+import {captureRuntimeCharacterRecord,deriveCharacterResourceIdentities} from './character-runtime-record.js';
 import {resolveFacialGeometrySelection} from './facial-geometry-selection.js';
 import {queryAppearanceCandidates} from './appearance-candidates.js';
 import {queryCharacterProduction} from './character-production-query.js';
-import {isSafeCharacterRecordId} from './character-record.js';
+import {canonicalJson,isSafeCharacterRecordId,updateCharacterRecord} from './character-record.js';
+import {validateNativeHairCenterPin} from './native-hair-center-record.js';
 
 const object=value=>value&&typeof value==='object'&&!Array.isArray(value);
 function fail(message,field){throw Object.assign(new Error(message),{code:'production-input',field});}
@@ -12,6 +13,18 @@ function keys(value,allowed,field){
  for(const key of Object.keys(value))if(!allowed.includes(key))fail('Unsupported field '+key,field+'.'+key);
 }
 function applied(result){if(!result?.applied)throw Object.assign(new Error(result?.reason||'Resource preparation did not apply'),{code:result?.cancelled?'production-cancelled':'production-preparation'});}
+
+// A spring fit is selected at VRM parse time. Prepare the requested revision
+// off-scene and retain the original envelope for the final capture/CAS.
+async function prepareHairEdit(record, pin){
+ const identities = row => deriveCharacterResourceIdentities(row.appearanceRecipe,row.liveAccessories,row.equipmentMaterials,row.nativeHairCenter);
+ const validateResources = row => {
+  if(canonicalJson(row.resourceIdentities)!==canonicalJson(identities(row)))throw Error('Source resource identities differ from recorded look');
+  return {status:'pending'};
+ };
+ return updateCharacterRecord(record,{nativeHairCenter:pin,resourceIdentities:identities({...record,nativeHairCenter:pin})},
+  {expectedRevision:record.revision,now:record.updatedAt},{validateResources});
+}
 
 // A production edit is made on a disposable candidate. Ordinary game actors,
 // saved records and business state never become partially edited on failure.
@@ -76,7 +89,7 @@ async function edit(controller,operation){
  */
 export async function performCharacterProduction(input,{scene,renderer,signal,isCurrent=()=>true}={}){
  const request=structuredClone(input);
- keys(request,['schema','operation','bodyType','identity','record','edits'],'request');
+ keys(request,['schema','operation','bodyType','identity','record','edits','nativeHairCenter'],'request');
  if(request.schema!=='character-production-request-v1'||!['query','create','edit','validate'].includes(request.operation))fail('Unknown production operation/schema','request');
  if(['query','create'].includes(request.operation)){
   if(typeof request.bodyType!=='string'||request.record!==undefined)fail('Query/create requires an explicit body and no source record','bodyType');
@@ -88,6 +101,14 @@ export async function performCharacterProduction(input,{scene,renderer,signal,is
   for(const [key,max] of [['name',160],['gender',40]])if(typeof request.identity[key]!=='string'||!request.identity[key].length||request.identity[key].length>max)fail('Invalid identity '+key,'identity.'+key);
  }
  if(request.operation!=='create'&&request.identity!==undefined)fail('Identity belongs only to create','identity');
+ const selectsFit=Object.hasOwn(request,'nativeHairCenter');
+ if(selectsFit){
+  if(!['create','edit'].includes(request.operation))fail('Hair fit selection belongs only to create/edit','nativeHairCenter');
+  if(request.nativeHairCenter!==null){
+   const base=request.record?.appearanceRecipe?.base??{bodyType:request.bodyType,sha256:foundationProfile(request.bodyType).sha256};
+   await validateNativeHairCenterPin(request.nativeHairCenter,base);
+  }
+ }
  const operations=request.edits===undefined?[]:request.edits;
  if(!Array.isArray(operations)||operations.length>32||(['query','validate'].includes(request.operation)&&operations.length))fail('Invalid edits for operation','edits');
  const current=()=>!signal?.aborted&&isCurrent();
@@ -100,12 +121,14 @@ export async function performCharacterProduction(input,{scene,renderer,signal,is
   const {createRecordAppearanceController,prepareRecordedCharacter}=await import('./character-record-consumer.js');
   guard();
   if(request.record){
-   instance=await prepareRecordedCharacter(request.record,{scene,renderer,signal,isCurrent:current});
+   const source=selectsFit?await prepareHairEdit(request.record,request.nativeHairCenter??undefined):request.record;
+   guard();
+   instance=await prepareRecordedCharacter(source,{scene,renderer,signal,isCurrent:current});
    avatar=instance.avatar;controller=instance.controller;
   }else{
    const {loadFoundationAvatar}=await import('./foundation-avatar.js');
    guard();
-   avatar=await loadFoundationAvatar({scene,renderer,bodyType:request.bodyType,attachToScene:false});
+   avatar=await loadFoundationAvatar({scene,renderer,bodyType:request.bodyType,attachToScene:false,nativeHairCenter:request.nativeHairCenter??null});
    controller=createRecordAppearanceController(avatar);
   }
   guard();

@@ -7,8 +7,9 @@ const [base,recordFile,folder]=process.argv.slice(2),out=path.resolve(folder);
  const task=async(id,kind,payload={})=>{await page.evaluate(request=>__debug.request(request),{requestId:id,kind,payload});await page.waitForFunction(id=>['completed','failed','cancelled'].includes(__debug.tasks().get(id)?.state),id,{timeout:45000});const value=await page.evaluate(id=>__debug.tasks().get(id),id);assert.equal(value.state,'completed',JSON.stringify(value));report.tasks.push(value);};
  try{
   const url=new URL(base);url.searchParams.set('workbench','appearance');url.searchParams.set('body',record.appearanceRecipe.base.bodyType);
-  const expectedFit=process.env.QA_NATIVE_HAIR_CENTER;
-  if(expectedFit)url.searchParams.set('nativeHairCenter',expectedFit);
+  const previewOverride=process.env.QA_NATIVE_HAIR_CENTER;
+  const expectedFit=record.nativeHairCenter?.id ?? previewOverride;
+  if(previewOverride)url.searchParams.set('nativeHairCenter',previewOverride);
   await page.goto(url.href);await page.waitForFunction(()=>window.__debug?.ready,null,{timeout:90000});report.build=await page.evaluate(()=>__debug.buildInfo);
   const loaded=await page.evaluate(record=>__debug.restoreCharacterRecord(record),record);assert.equal(loaded.applied,true);report.restored=loaded;
   await page.evaluate(()=>{__debug.setPlaybackRate(1);__debug.setPaused(false);__debug.camera('room');const stream=__debug.renderer.domElement.captureStream(30),chunks=[],recorder=new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp9',videoBitsPerSecond:5000000});window.__roomProductionFilm={stream,chunks,recorder,done:new Promise(resolve=>recorder.onstop=resolve)};recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};recorder.start();});
@@ -18,6 +19,7 @@ const [base,recordFile,folder]=process.argv.slice(2),out=path.resolve(folder);
   const final=await page.evaluate(identity=>__debug.captureCharacterRecord({identity}),record.identity);for(const key of ['appearanceRecipe','liveAccessories','equipmentMaterials'])assert.equal(canonicalJson(final[key]),canonicalJson(record[key]),key);
   if(expectedFit){
     assert.equal(await page.evaluate(()=>__debug.avatar().nativeHairCenterFit),expectedFit);
+    if(record.nativeHairCenter)assert.deepEqual(final.nativeHairCenter,record.nativeHairCenter);
     const fresh=await browser.newPage();
     try {
       fresh.on('pageerror',error=>report.errors.push(error.message));
@@ -28,7 +30,10 @@ const [base,recordFile,folder]=process.argv.slice(2),out=path.resolve(folder);
       assert.equal(fit,expectedFit);
       const reread=await fresh.evaluate(identity=>__debug.captureCharacterRecord({identity}),record.identity);
       for(const key of ['appearanceRecipe','liveAccessories','equipmentMaterials'])assert.equal(canonicalJson(reread[key]),canonicalJson(final[key]),key);
-      report.previewFitAfterFreshRestore=fit;
+      if(record.nativeHairCenter){
+        assert.deepEqual(reread.nativeHairCenter,record.nativeHairCenter);
+        report.savedFitAfterFreshRestore=reread.nativeHairCenter;
+      }else report.previewFitAfterFreshRestore=fit;
     }finally{await fresh.close();}
   }
   assert.equal(report.errors.length,0,JSON.stringify(report.errors));report.status='technical-pass-visual-candidate';

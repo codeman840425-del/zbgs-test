@@ -4,6 +4,8 @@ import accessoryManifest from '../public/assets/m1c/accessories.json' with {type
 import gripManifest from '../public/assets/m1c/grips/manifest.json' with {type:'json'};
 import templeManifest from './glasses-temple-fit-manifest.json' with {type:'json'};
 import {MICROPHONE_PRESENTATION_FITS} from './microphone-presentation-fits.js';
+import {supportsNativeHairCenterFit} from './native-hair-center-fit.js';
+import {createNativeHairCenterPin} from './native-hair-center-record.js';
 import variantMatrix from '../../assets-source/variant-matrix-v1/representative-matrix.json' with {type:'json'};
 
 const SHA256 = /^[a-f0-9]{64}$/;
@@ -116,6 +118,8 @@ export function queryCharacterProduction(controller) {
     body:bodyRegistration(bodyType, profile),
     bodies:Object.entries(FOUNDATION_PROFILES).map(([type, entry]) => bodyRegistration(type, entry)),
     appearance,
+    nativeHairCenter:{default:null, choices:supportsNativeHairCenterFit(bodyType,profile.sha256)
+      ? [createNativeHairCenterPin(bodyType,profile.sha256)] : []},
     liveAccessories:liveAccessoryChoices(profile.sha256),
     outfits:configuredOutfits(actor.config, appearance),
     styleVariants:configuredStyleVariants(bodyType),

@@ -14,6 +14,7 @@ import { prepareFaceShadowPrograms, waitFaceShadowJob } from "./face-shadow-prep
 import { validateForearmProfile } from "./forearm-envelope-projection.js";
 import { validateJointHandProfile } from "./joint-hand-workspace.mjs";
 import { createNativeHairCenterFitPlugin, NATIVE_HAIR_CENTER_FIT_ID, supportsNativeHairCenterFit } from "./native-hair-center-fit.js";
+import { validateNativeHairCenterPin } from "./native-hair-center-record.js";
 
 // Each actor owns its prewarm variants. Geometry UUID is deliberately omitted:
 // a new clone with identical layouts/material versions reuses the same program.
@@ -84,8 +85,21 @@ export function createFaceGeometryWarmup(renderer,scene) {
   };
 }
 
-export async function loadFoundationAvatar({ scene, renderer, bodyType = "female", attachToScene = true }) {
+export async function loadFoundationAvatar({
+  scene, renderer, bodyType = "female", attachToScene = true, nativeHairCenter: requestedHairCenter,
+}) {
   const config = foundationProfile(bodyType), url = config.url;
+  const nativeHairCenter = requestedHairCenter == null
+    ? undefined : Object.freeze(structuredClone(requestedHairCenter));
+  if (nativeHairCenter !== undefined) await validateNativeHairCenterPin(nativeHairCenter, {bodyType, sha256: config.sha256});
+  let nativeHairCenterFit = nativeHairCenter?.id ?? null;
+  // Existing workbench diagnostics opt in through the URL. Record callers
+  // pass their pin or null so importing an old record always uses its source fit.
+  if (requestedHairCenter === undefined) {
+    const preview = new URLSearchParams(globalThis.location?.search);
+    if (preview.get('workbench') === 'appearance' && preview.get('nativeHairCenter') === NATIVE_HAIR_CENTER_FIT_ID &&
+        supportsNativeHairCenterFit(bodyType, config.sha256)) nativeHairCenterFit = NATIVE_HAIR_CENTER_FIT_ID;
+  }
   const sourceBodyDisplay = config.baseBodyDisplay === 'source-with-hair';
   if(config.baseBodyDisplay && !sourceBodyDisplay)throw Error('Unknown base-body display policy');
   for (const look of config.outfits) outfitSelection(config, look.index);
@@ -120,10 +134,6 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
     if (!validateJointHandProfile(jointHandCollision, sha256)) throw new Error("Joint-hand body identity/schema mismatch");
   }
   const loader = new GLTFLoader();
-  const preview = new URLSearchParams(globalThis.location?.search);
-  const nativeHairCenterFit = preview.get('workbench') === 'appearance' &&
-    preview.get('nativeHairCenter') === NATIVE_HAIR_CENTER_FIT_ID && supportsNativeHairCenterFit(bodyType, sha256)
-    ? NATIVE_HAIR_CENTER_FIT_ID : null;
   if (nativeHairCenterFit) {
     loader.register(parser => createNativeHairCenterFitPlugin(parser, {bodyType, bodySha256:sha256}));
   }
@@ -291,6 +301,7 @@ export async function loadFoundationAvatar({ scene, renderer, bodyType = "female
   return {
     vrm,
     nativeHairCenterFit,
+    get nativeHairCenter() { return nativeHairCenter; },
     root,
     profile,
     config,

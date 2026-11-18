@@ -3,11 +3,12 @@ import {captureAppearanceRecipe,validateAppearanceRecipe,applyAppearanceRecipe} 
 import {admitAppearanceCandidate} from './appearance-candidates.js';
 import {captureLiveAccessories,validateLiveAccessories} from './live-accessory-record.js';
 import {captureGarmentMaterials,resolveGarmentMaterials,garmentMaterialRevision} from './garment-material-record.js';
+import {nativeHairCenterResourceIdentities} from './native-hair-center-record.js';
 
 // These records preserve a final look, not animation time, business progress,
 // speaking state or camera. Stable identity is independent of the body type.
-export function deriveCharacterResourceIdentities(appearanceRecipe,liveAccessories,equipmentMaterials){
- const result=[];
+export function deriveCharacterResourceIdentities(appearanceRecipe,liveAccessories,equipmentMaterials,nativeHairCenter){
+ const result=nativeHairCenterResourceIdentities(nativeHairCenter);
  const visit=(value,path)=>{
   if(!value||typeof value!=='object')return;
   for(const key of Object.keys(value).sort()){
@@ -20,16 +21,23 @@ export function deriveCharacterResourceIdentities(appearanceRecipe,liveAccessori
  return result.sort((a,b)=>a.id.localeCompare(b.id));
 }
 function validateLoadedRecord(controller,record){
+ if(canonicalJson(record.nativeHairCenter)!==canonicalJson(controller.actor.nativeHairCenter) ||
+    (record.nativeHairCenter?.id??null)!==(controller.actor.nativeHairCenterFit??null))
+  throw Error('角色记录的发束动态适配与当前加载的人物不一致，请重新加载人物');
  const admission=admitAppearanceCandidate(controller,record.appearanceRecipe);
  if(!admission.accepted)throw Error('角色配方未准入：'+JSON.stringify(admission.issues??admission));
  validateAppearanceRecipe(controller,record.appearanceRecipe);
  validateLiveAccessories(controller.actor,record.liveAccessories);
  resolveGarmentMaterials(controller.actor,record.appearanceRecipe,record.equipmentMaterials);
- const actual=deriveCharacterResourceIdentities(record.appearanceRecipe,record.liveAccessories,record.equipmentMaterials);
+ const actual=deriveCharacterResourceIdentities(record.appearanceRecipe,record.liveAccessories,record.equipmentMaterials,record.nativeHairCenter);
  if(canonicalJson(record.resourceIdentities)!==canonicalJson(actual))throw Error('角色资源清单与最终造型不一致');
  return{status:'pending',scope:'registered identities only; actual resource bytes and fit metadata checked during restore'};
 }
-function capture(controller){const appearanceRecipe=captureAppearanceRecipe(controller);return{appearanceRecipe,liveAccessories:captureLiveAccessories(controller.actor),equipmentMaterials:captureGarmentMaterials(controller.actor,appearanceRecipe)};}
+function capture(controller){
+ const actor=controller.actor,appearanceRecipe=captureAppearanceRecipe(controller);
+ return{appearanceRecipe,liveAccessories:captureLiveAccessories(actor),equipmentMaterials:captureGarmentMaterials(actor,appearanceRecipe),
+  nativeHairCenter:actor.nativeHairCenter===undefined?undefined:structuredClone(actor.nativeHairCenter)};
+}
 const restoreEpochs=new WeakMap();
 export function characterLookRevision(controller,targetRecipe){
  const actor=controller.actor;
@@ -46,7 +54,7 @@ export async function captureRuntimeCharacterRecord(controller,{identity,previou
  const validateResources=record=>prior&&record.integrity.recordSha256===prior.integrity.recordSha256
   ?{status:'pending',scope:'historical envelope; new current resources validated separately'}
   :validateLoadedRecord(controller,record);
- const resourceIdentities=deriveCharacterResourceIdentities(look.appearanceRecipe,look.liveAccessories,look.equipmentMaterials);
+ const resourceIdentities=deriveCharacterResourceIdentities(look.appearanceRecipe,look.liveAccessories,look.equipmentMaterials,look.nativeHairCenter);
  const record=prior?await updateCharacterRecord(prior,{...look,resourceIdentities},{expectedRevision},{validateResources}):
   await createCharacterRecord({identity,...look,resourceIdentities,provenance:{producer,sourceRefs}},{validateResources});
  if(controller.actor!==actor||stamp!==characterLookRevision(controller)||canonicalJson(look)!==canonicalJson(capture(controller)))throw Error('保存期间人物或造型已改变，请重试');

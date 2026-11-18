@@ -199,7 +199,7 @@ export async function createGameRecordInventory({dist, sourceRoot, reviewed, rec
     if (id !== entry.id || recordSha256 !== entry.recordSha256 || recordIds.has(id))
       fail('record-identity-mismatch', 'Record manifest identity differs: ' + relative);
     recordIds.add(id);
-    const derived = runtime.deriveCharacterResourceIdentities(record.appearanceRecipe, record.liveAccessories, record.equipmentMaterials);
+    const derived = runtime.deriveCharacterResourceIdentities(record.appearanceRecipe, record.liveAccessories, record.equipmentMaterials, record.nativeHairCenter);
     if (envelope.canonicalJson(derived) !== envelope.canonicalJson(record.resourceIdentities))
       fail('record-identity-mismatch', 'Record resources differ from the saved look: ' + relative);
     const selected = await collectRecordResources({record, sourceRoot, add});

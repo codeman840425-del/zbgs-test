@@ -8,7 +8,7 @@ export const CHARACTER_RECORD_MAX_BYTES = 512 * 1024;
 export const CHARACTER_RECORD_ID_RE = /^[a-z0-9][a-z0-9._-]{1,95}$/;
 const WINDOWS_DEVICE_ID_RE = /^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\..*)?$/i;
 const SHA_RE = /^[a-f0-9]{64}$/;
-const ALLOWED_ROOT = ['schema', 'identity', 'revision', 'createdAt', 'updatedAt', 'appearanceRecipe', 'provenance', 'integrity', 'resourceIdentities', 'liveAccessories', 'equipmentMaterials'];
+const ALLOWED_ROOT = ['schema', 'identity', 'revision', 'createdAt', 'updatedAt', 'appearanceRecipe', 'provenance', 'integrity', 'resourceIdentities', 'liveAccessories', 'equipmentMaterials', 'nativeHairCenter'];
 
 function fail(code, message, field = undefined) {
   const error = new Error(message);
@@ -119,14 +119,22 @@ export async function validateCharacterRecord(record, { validationCallback } = {
   if (recipeSha256 !== record.integrity.recipeSha256) fail('recipe-hash-mismatch', 'appearanceRecipe hash does not match', 'integrity.recipeSha256');
   const recordSha256 = await sha256Hex(hashPayload(record));
   if (recordSha256 !== record.integrity.recordSha256) fail('record-hash-mismatch', 'record hash does not match', 'integrity.recordSha256');
+  const hairResources = record.resourceIdentities?.filter(item => item.id.startsWith('nativeHairCenter/')) ?? [];
+  if (Object.hasOwn(record, 'nativeHairCenter') || hairResources.length) {
+    const {validateNativeHairCenterPin, nativeHairCenterResourceIdentities} = await import('./native-hair-center-record.js');
+    await validateNativeHairCenterPin(record.nativeHairCenter, record.appearanceRecipe.base);
+    const expected = nativeHairCenterResourceIdentities(record.nativeHairCenter);
+    if (canonicalJson(hairResources) !== canonicalJson(expected)) fail('invalid-resource-identity', 'Native hair center resource identities do not match the fit pin', 'resourceIdentities');
+  }
   const validation = await validationCallback(structuredClone(record));
   if (!validation || !['passed', 'pending'].includes(validation.status)) fail('resource-validation-failed', 'Resource validation callback did not return passed or pending');
   return { valid: true, resourceValidation: validation.status, recordSha256, recipeSha256 };
 }
 
-export async function createCharacterRecord({ identity, appearanceRecipe, provenance, resourceIdentities, liveAccessories, equipmentMaterials, now = new Date().toISOString(), idFactory = () => globalThis.crypto?.randomUUID?.() ?? fail('crypto-unavailable', 'WebCrypto randomUUID is required') }, { validateResources } = {}) {
+export async function createCharacterRecord({ identity, appearanceRecipe, provenance, resourceIdentities, liveAccessories, equipmentMaterials, nativeHairCenter, now = new Date().toISOString(), idFactory = () => globalThis.crypto?.randomUUID?.() ?? fail('crypto-unavailable', 'WebCrypto randomUUID is required') }, { validateResources } = {}) {
   const id = identity?.id ?? idFactory();
   const record = { schema: CHARACTER_RECORD_SCHEMA, identity: { ...identity, id }, revision: 1, createdAt: now, updatedAt: now, appearanceRecipe: structuredClone(appearanceRecipe), provenance: structuredClone(provenance), integrity: { version: CHARACTER_RECORD_VERSION, recipeSha256: await sha256Hex(canonicalJson(appearanceRecipe)), recordSha256: '' }, ...(resourceIdentities === undefined ? {} : { resourceIdentities: structuredClone(resourceIdentities) }), ...(liveAccessories === undefined ? {} : {liveAccessories: structuredClone(liveAccessories)}), ...(equipmentMaterials === undefined ? {} : {equipmentMaterials: structuredClone(equipmentMaterials)}) };
+  if (nativeHairCenter !== undefined) record.nativeHairCenter = structuredClone(nativeHairCenter);
   record.integrity.recordSha256 = await sha256Hex(hashPayload(record));
   await checkLimits(record);
   await validateCharacterRecord(record, { validationCallback: validateResources });
@@ -137,6 +145,7 @@ export async function updateCharacterRecord(previous, patch, { expectedRevision 
   await validateCharacterRecord(previous, { validationCallback: validateResources });
   if (previous.revision !== expectedRevision) fail('revision-conflict', 'record revision does not match expectedRevision');
   const next = { ...structuredClone(previous), ...structuredClone(patch), identity: structuredClone(previous.identity), revision: previous.revision + 1, createdAt: previous.createdAt, updatedAt: now };
+  if (Object.hasOwn(patch, 'nativeHairCenter') && patch.nativeHairCenter === undefined) delete next.nativeHairCenter;
   const recipe = patch.appearanceRecipe ?? previous.appearanceRecipe;
   next.appearanceRecipe = structuredClone(recipe);
   next.integrity = { version: CHARACTER_RECORD_VERSION, recipeSha256: await sha256Hex(canonicalJson(next.appearanceRecipe)), recordSha256: '' };

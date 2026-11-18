@@ -55,7 +55,10 @@ export async function prepareRecordedCharacter(input, {
     finally { try { motion?.dispose(); } finally { avatar?.dispose(); } }
   };
   try {
-    avatar = await loadFoundationAvatar({scene, renderer, bodyType: base.bodyType, attachToScene: false});
+    avatar = await loadFoundationAvatar({
+      scene, renderer, bodyType: base.bodyType, attachToScene: false,
+      nativeHairCenter: record.nativeHairCenter ?? null,
+    });
     ensureCurrent();
     avatar.root.position.fromArray(worldPosition);
     const clips = await loadRetargetedMotions(avatar.vrm, {

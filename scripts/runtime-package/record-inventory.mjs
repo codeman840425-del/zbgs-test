@@ -22,7 +22,7 @@ export async function createRecordInventory({record,dist,sourceRoot}){
  const module=file=>import(pathToFileURL(path.join(sourceRoot,'prototype/src',file)).href);
  const [envelope,runtime]=await Promise.all([module('character-record.js'),module('character-runtime-record.js')]);
  await envelope.validateCharacterRecord(record,{validationCallback:()=>({status:'pending'})});
- const derived=runtime.deriveCharacterResourceIdentities(record.appearanceRecipe,record.liveAccessories,record.equipmentMaterials);
+ const derived=runtime.deriveCharacterResourceIdentities(record.appearanceRecipe,record.liveAccessories,record.equipmentMaterials,record.nativeHairCenter);
  if(envelope.canonicalJson(derived)!==envelope.canonicalJson(record.resourceIdentities))fail('record-identity-mismatch','Record resource identities differ from its look');
  const files=new Map();
  const sourceRef=sourcePath=>({sourceCommit:reviewed.sourceCommit,sourcePath});
