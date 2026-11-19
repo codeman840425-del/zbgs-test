@@ -1,0 +1,390 @@
+{
+  "ok": true,
+  "tests": [
+    {
+      "name": "original-hotel",
+      "clear": {
+        "host": {
+          "portalId": "interview-hotel/guest-floor/portal-interview-suite",
+          "fromRegion": "interview-hotel/guest-floor/corridor-2",
+          "threshold": [
+            0,
+            3
+          ],
+          "approach": [
+            [
+              0,
+              0
+            ],
+            [
+              -3,
+              0
+            ],
+            [
+              -3,
+              -1.25
+            ]
+          ],
+          "inside": [
+            [
+              0,
+              2.75
+            ],
+            [
+              0,
+              2.25
+            ],
+            [
+              0.34,
+              2.25
+            ]
+          ]
+        },
+        "guest": {
+          "portalId": "interview-hotel/guest-floor/portal-interview-suite",
+          "fromRegion": "interview-hotel/guest-floor/corridor-2",
+          "threshold": [
+            0,
+            3
+          ],
+          "approach": [
+            [
+              0,
+              0
+            ],
+            [
+              -3,
+              0
+            ],
+            [
+              -3,
+              -1.25
+            ]
+          ],
+          "inside": [
+            [
+              0,
+              2.75
+            ],
+            [
+              0,
+              2.25
+            ],
+            [
+              -0.34,
+              2.25
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "name": "full-panel-outside-sole-door",
+      "blocked": "interview-hotel/guest-floor/corridor-2/test-corridor-threshold"
+    },
+    {
+      "name": "remove-panel-restores-original-paths"
+    },
+    {
+      "name": "partially-obstructed-door-left-lane",
+      "access": {
+        "host": {
+          "portalId": "interview-hotel/guest-floor/portal-interview-suite",
+          "fromRegion": "interview-hotel/guest-floor/corridor-2",
+          "threshold": [
+            -0.45,
+            3
+          ],
+          "approach": [
+            [
+              0,
+              0
+            ],
+            [
+              -3.45,
+              0
+            ],
+            [
+              -3.45,
+              -1.25
+            ]
+          ],
+          "inside": [
+            [
+              -0.45,
+              2.75
+            ],
+            [
+              -0.45,
+              2.25
+            ],
+            [
+              0.34,
+              2.25
+            ]
+          ]
+        },
+        "guest": {
+          "portalId": "interview-hotel/guest-floor/portal-interview-suite",
+          "fromRegion": "interview-hotel/guest-floor/corridor-2",
+          "threshold": [
+            -0.45,
+            3
+          ],
+          "approach": [
+            [
+              0,
+              0
+            ],
+            [
+              -3.45,
+              0
+            ],
+            [
+              -3.45,
+              -1.25
+            ]
+          ],
+          "inside": [
+            [
+              -0.45,
+              2.75
+            ],
+            [
+              -0.45,
+              2.25
+            ],
+            [
+              -0.34,
+              2.25
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "name": "detour-around-panel-in-corridor",
+      "access": {
+        "host": {
+          "portalId": "interview-hotel/guest-floor/portal-interview-suite",
+          "fromRegion": "interview-hotel/guest-floor/corridor-2",
+          "threshold": [
+            0,
+            3
+          ],
+          "approach": [
+            [
+              0,
+              0
+            ],
+            [
+              -1.55,
+              0
+            ],
+            [
+              -1.55,
+              -1.05
+            ],
+            [
+              -3,
+              -1.05
+            ],
+            [
+              -3,
+              -1.25
+            ]
+          ],
+          "inside": [
+            [
+              0,
+              2.75
+            ],
+            [
+              0,
+              2.25
+            ],
+            [
+              0.34,
+              2.25
+            ]
+          ]
+        },
+        "guest": {
+          "portalId": "interview-hotel/guest-floor/portal-interview-suite",
+          "fromRegion": "interview-hotel/guest-floor/corridor-2",
+          "threshold": [
+            0,
+            3
+          ],
+          "approach": [
+            [
+              0,
+              0
+            ],
+            [
+              -1.55,
+              0
+            ],
+            [
+              -1.55,
+              -1.05
+            ],
+            [
+              -3,
+              -1.05
+            ],
+            [
+              -3,
+              -1.25
+            ]
+          ],
+          "inside": [
+            [
+              0,
+              2.75
+            ],
+            [
+              0,
+              2.25
+            ],
+            [
+              -0.34,
+              2.25
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "name": "translated-rotated-floor-rejects-same-panel"
+    },
+    {
+      "name": "second-public-door-remains-reachable",
+      "access": {
+        "host": {
+          "portalId": "interview-hotel/guest-floor/alternate-interview-door",
+          "fromRegion": "interview-hotel/guest-floor/corridor-2",
+          "threshold": [
+            2,
+            3
+          ],
+          "approach": [
+            [
+              0,
+              0
+            ],
+            [
+              -1,
+              0
+            ],
+            [
+              -1,
+              -1.25
+            ]
+          ],
+          "inside": [
+            [
+              2,
+              2.75
+            ],
+            [
+              2,
+              2.25
+            ],
+            [
+              0.34,
+              2.25
+            ]
+          ]
+        },
+        "guest": {
+          "portalId": "interview-hotel/guest-floor/alternate-interview-door",
+          "fromRegion": "interview-hotel/guest-floor/corridor-2",
+          "threshold": [
+            2,
+            3
+          ],
+          "approach": [
+            [
+              0,
+              0
+            ],
+            [
+              -1,
+              0
+            ],
+            [
+              -1,
+              -1.25
+            ]
+          ],
+          "inside": [
+            [
+              2,
+              2.75
+            ],
+            [
+              2,
+              2.25
+            ],
+            [
+              -0.34,
+              2.25
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "name": "north-exterior-without-invented-corridor",
+      "access": {
+        "host": {
+          "portalId": "interview-studio/ground/entry",
+          "fromRegion": null,
+          "threshold": [
+            0,
+            -3
+          ],
+          "approach": [],
+          "inside": [
+            [
+              0,
+              -2.75
+            ],
+            [
+              0,
+              -2.3
+            ],
+            [
+              -0.34,
+              -2.3
+            ]
+          ]
+        },
+        "guest": {
+          "portalId": "interview-studio/ground/entry",
+          "fromRegion": null,
+          "threshold": [
+            0,
+            -3
+          ],
+          "approach": [],
+          "inside": [
+            [
+              0,
+              -2.75
+            ],
+            [
+              0,
+              -2.3
+            ],
+            [
+              0.34,
+              -2.3
+            ]
+          ]
+        }
+      }
+    }
+  ]
+}

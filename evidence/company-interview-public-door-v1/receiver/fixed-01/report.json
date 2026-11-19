@@ -1,0 +1,472 @@
+{
+  "status": "passed",
+  "mode": "fixed",
+  "commands": [
+    {
+      "name": "original-before",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-package\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-package",
+        "4bf35661762b6eba34e18a7fdcc3bf7843f74a90d173f35ad86c7b21441501fc"
+      ],
+      "exit": 0,
+      "milliseconds": 967,
+      "stdout": "logs/original-before.stdout.json",
+      "stderr": "logs/original-before.stderr.json",
+      "receipt": {
+        "ok": true,
+        "build": "4ed3d907dc9d",
+        "manifestSha256": "4bf35661762b6eba34e18a7fdcc3bf7843f74a90d173f35ad86c7b21441501fc",
+        "declaredFiles": 2069,
+        "checkedFiles": 2069,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "name": "batch-positive",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\source\\scripts\\company-platform\\batch-inputs\\interview-rooms.json",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\batch-good"
+      ],
+      "exit": 0,
+      "milliseconds": 897,
+      "stdout": "logs/batch-positive.stdout.json",
+      "stderr": "logs/batch-positive.stderr.json",
+      "receipt": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": true,
+        "results": [
+          {
+            "key": "interview-studio",
+            "companyId": "interview-studio",
+            "status": "created",
+            "directory": "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\batch-good\\interview-studio",
+            "files": {
+              "input.json": {
+                "bytes": 6352,
+                "sha256": "a251f9ac15cad07701cf729c74cbc88a1894e18cfdde9c8c96e0badfeab45a50"
+              },
+              "layout.json": {
+                "bytes": 6771,
+                "sha256": "a149e3ce01019faf0dbbd732d86eac5b566b865dc2eedac52d19286a620b3644"
+              },
+              "save.json": {
+                "bytes": 9466,
+                "sha256": "597dfd6ae3717b39198855bcc10c5138dd45b8e9ce62ed8d4f15eec046452953"
+              }
+            }
+          },
+          {
+            "key": "interview-hotel",
+            "companyId": "interview-hotel",
+            "status": "created",
+            "directory": "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\batch-good\\interview-hotel",
+            "files": {
+              "input.json": {
+                "bytes": 6995,
+                "sha256": "8dc662db16f6cbe2645d0ae4b76d0244f90020ff883ec0cc639df9243f590306"
+              },
+              "layout.json": {
+                "bytes": 36566,
+                "sha256": "af22945bd4eb05ff336c5970daae2381c086cef7a28e7e56a4bda406a1e7649b"
+              },
+              "save.json": {
+                "bytes": 42109,
+                "sha256": "cda7c5d1c03648d32805fcd064bbfc40490157734707d8a4c080564691c9631a"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "validate-original-interview-studio",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\data\\rooms\\interview-studio\\save.json"
+      ],
+      "exit": 0,
+      "milliseconds": 550,
+      "stdout": "logs/validate-original-interview-studio.stdout.json",
+      "stderr": "logs/validate-original-interview-studio.stderr.json",
+      "receipt": {
+        "ok": true,
+        "id": "interview-studio",
+        "revision": 1,
+        "floors": [
+          "interview-studio/ground"
+        ]
+      }
+    },
+    {
+      "name": "validate-original-interview-hotel",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\data\\rooms\\interview-hotel\\save.json"
+      ],
+      "exit": 0,
+      "milliseconds": 598,
+      "stdout": "logs/validate-original-interview-hotel.stdout.json",
+      "stderr": "logs/validate-original-interview-hotel.stderr.json",
+      "receipt": {
+        "ok": true,
+        "id": "interview-hotel",
+        "revision": 2,
+        "floors": [
+          "interview-hotel/guest-floor"
+        ]
+      }
+    },
+    {
+      "name": "batch-only-rejects-fresh",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\inputs\\obstructed-batch.json",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\batch-obstructed",
+        "--only",
+        "interview-hotel"
+      ],
+      "exit": 1,
+      "milliseconds": 569,
+      "stdout": "logs/batch-only-rejects-fresh.stdout.json",
+      "stderr": "logs/batch-only-rejects-fresh.stderr.json",
+      "receipt": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": false,
+        "results": [
+          {
+            "key": "interview-hotel",
+            "status": "failed",
+            "code": "room-door-unreachable",
+            "path": "interview-hotel/guest-floor/portal-interview-suite",
+            "message": "room-door-unreachable at interview-hotel/guest-floor/portal-interview-suite: No clear physical route from a connected entrance to every authored indoor route."
+          }
+        ]
+      }
+    },
+    {
+      "name": "batch-only-rejects-over-existing",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\inputs\\obstructed-batch.json",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\batch-good",
+        "--only",
+        "interview-hotel"
+      ],
+      "exit": 1,
+      "milliseconds": 580,
+      "stdout": "logs/batch-only-rejects-over-existing.stdout.json",
+      "stderr": "logs/batch-only-rejects-over-existing.stderr.json",
+      "receipt": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": false,
+        "results": [
+          {
+            "key": "interview-hotel",
+            "status": "failed",
+            "code": "room-door-unreachable",
+            "path": "interview-hotel/guest-floor/portal-interview-suite",
+            "message": "room-door-unreachable at interview-hotel/guest-floor/portal-interview-suite: No clear physical route from a connected entrance to every authored indoor route."
+          }
+        ]
+      }
+    },
+    {
+      "name": "edit-apply-rejects-blocker",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\data\\rooms\\interview-hotel\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\inputs\\corridor-blocker.json",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\obstructed-edit"
+      ],
+      "exit": 1,
+      "milliseconds": 581,
+      "stdout": "logs/edit-apply-rejects-blocker.stdout.json",
+      "stderr": "logs/edit-apply-rejects-blocker.stderr.json",
+      "receipt": {
+        "ok": false,
+        "code": "room-door-unreachable",
+        "path": "interview-hotel/guest-floor/portal-interview-suite",
+        "message": "room-door-unreachable at interview-hotel/guest-floor/portal-interview-suite: No clear physical route from a connected entrance to every authored indoor route."
+      }
+    },
+    {
+      "name": "edit-validate-rejects-obstructed-save",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\legacy-v1-02\\obstructed-edit\\save.json"
+      ],
+      "exit": 1,
+      "milliseconds": 589,
+      "stdout": "logs/edit-validate-rejects-obstructed-save.stdout.json",
+      "stderr": "logs/edit-validate-rejects-obstructed-save.stderr.json",
+      "receipt": {
+        "ok": false,
+        "code": "room-door-unreachable",
+        "path": "interview-hotel/guest-floor/portal-interview-suite",
+        "message": "room-door-unreachable at interview-hotel/guest-floor/portal-interview-suite: No clear physical route from a connected entrance to every authored indoor route."
+      }
+    },
+    {
+      "name": "package-rejects-obstructed-default",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\source\\scripts\\company-platform\\package-company.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-package\\viewer",
+        "4ed3d907dc9d",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\legacy-v1-02\\obstructed-edit\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\obstructed-default-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\source"
+      ],
+      "exit": 1,
+      "milliseconds": 6417,
+      "stdout": "logs/package-rejects-obstructed-default.stdout.json",
+      "stderr": "logs/package-rejects-obstructed-default.stderr.json",
+      "receipt": {
+        "ok": false,
+        "code": "room-door-unreachable",
+        "path": "interview-hotel/guest-floor/portal-interview-suite",
+        "message": "room-door-unreachable at interview-hotel/guest-floor/portal-interview-suite: No clear physical route from a connected entrance to every authored indoor route."
+      }
+    },
+    {
+      "name": "package-rejects-obstructed-additional",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\source\\scripts\\company-platform\\package-company.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-package\\viewer",
+        "4ed3d907dc9d",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\data\\rooms\\interview-studio\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\obstructed-additional-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\source",
+        "--room",
+        "interview-hotel",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\legacy-v1-02\\obstructed-edit\\save.json"
+      ],
+      "exit": 1,
+      "milliseconds": 5918,
+      "stdout": "logs/package-rejects-obstructed-additional.stdout.json",
+      "stderr": "logs/package-rejects-obstructed-additional.stderr.json",
+      "receipt": {
+        "ok": false,
+        "code": "room-door-unreachable",
+        "path": "interview-hotel/guest-floor/portal-interview-suite",
+        "message": "room-door-unreachable at interview-hotel/guest-floor/portal-interview-suite: No clear physical route from a connected entrance to every authored indoor route."
+      }
+    },
+    {
+      "name": "edit-remove-blocker",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\legacy-v1-02\\obstructed-edit\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\inputs\\remove-one-panel.json",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\recovered-hotel"
+      ],
+      "exit": 0,
+      "milliseconds": 641,
+      "stdout": "logs/edit-remove-blocker.stdout.json",
+      "stderr": "logs/edit-remove-blocker.stderr.json",
+      "receipt": {
+        "ok": true,
+        "id": "interview-hotel",
+        "revision": 4,
+        "floors": [
+          "interview-hotel/guest-floor"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\recovered-hotel"
+      }
+    },
+    {
+      "name": "edit-validate-recovered",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\recovered-hotel\\save.json"
+      ],
+      "exit": 0,
+      "milliseconds": 564,
+      "stdout": "logs/edit-validate-recovered.stdout.json",
+      "stderr": "logs/edit-validate-recovered.stderr.json",
+      "receipt": {
+        "ok": true,
+        "id": "interview-hotel",
+        "revision": 4,
+        "floors": [
+          "interview-hotel/guest-floor"
+        ]
+      }
+    },
+    {
+      "name": "package-recovered-hotel-and-original-studio",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\source\\scripts\\company-platform\\package-company.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-package\\viewer",
+        "4ed3d907dc9d",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\recovered-hotel\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\recovered-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\source",
+        "--room",
+        "interview-studio",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\working-copy\\data\\rooms\\interview-studio\\save.json"
+      ],
+      "exit": 0,
+      "milliseconds": 16557,
+      "stdout": "logs/package-recovered-hotel-and-original-studio.stdout.json",
+      "stderr": "logs/package-recovered-hotel-and-original-studio.stderr.json",
+      "receipt": {
+        "ok": true,
+        "buildId": "4ed3d907dc9d",
+        "companyId": "interview-hotel",
+        "rooms": [
+          "interview-studio"
+        ],
+        "files": 2054,
+        "output": "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\recovered-package"
+      }
+    },
+    {
+      "name": "verify-recovered-package",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\recovered-package\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\recovered-package",
+        "02c3a94b39528c6d62036280b92669e70b8379f5dd4bd5e87eb21df5a36ee022"
+      ],
+      "exit": 0,
+      "milliseconds": 1395,
+      "stdout": "logs/verify-recovered-package.stdout.json",
+      "stderr": "logs/verify-recovered-package.stderr.json",
+      "receipt": {
+        "ok": true,
+        "build": "4ed3d907dc9d",
+        "manifestSha256": "02c3a94b39528c6d62036280b92669e70b8379f5dd4bd5e87eb21df5a36ee022",
+        "declaredFiles": 2054,
+        "checkedFiles": 2054,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "name": "original-after",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-package\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-package",
+        "4bf35661762b6eba34e18a7fdcc3bf7843f74a90d173f35ad86c7b21441501fc"
+      ],
+      "exit": 0,
+      "milliseconds": 879,
+      "stdout": "logs/original-after.stdout.json",
+      "stderr": "logs/original-after.stderr.json",
+      "receipt": {
+        "ok": true,
+        "build": "4ed3d907dc9d",
+        "manifestSha256": "4bf35661762b6eba34e18a7fdcc3bf7843f74a90d173f35ad86c7b21441501fc",
+        "declaredFiles": 2069,
+        "checkedFiles": 2069,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    }
+  ],
+  "checks": {
+    "originalBefore": {
+      "ok": true,
+      "build": "4ed3d907dc9d",
+      "manifestSha256": "4bf35661762b6eba34e18a7fdcc3bf7843f74a90d173f35ad86c7b21441501fc",
+      "declaredFiles": 2069,
+      "checkedFiles": 2069,
+      "extraFiles": 0,
+      "changedFiles": 0,
+      "missingFiles": 0
+    },
+    "validSeeds": {
+      "studio": {
+        "input.json": "a251f9ac15cad07701cf729c74cbc88a1894e18cfdde9c8c96e0badfeab45a50",
+        "layout.json": "a149e3ce01019faf0dbbd732d86eac5b566b865dc2eedac52d19286a620b3644",
+        "save.json": "597dfd6ae3717b39198855bcc10c5138dd45b8e9ce62ed8d4f15eec046452953",
+        "report.json": "24f7f11ce12bc5f494843c774e21f7aad391659c3d84755a60642d2cf397a542"
+      },
+      "hotel": {
+        "input.json": "8dc662db16f6cbe2645d0ae4b76d0244f90020ff883ec0cc639df9243f590306",
+        "layout.json": "af22945bd4eb05ff336c5970daae2381c086cef7a28e7e56a4bda406a1e7649b",
+        "save.json": "cda7c5d1c03648d32805fcd064bbfc40490157734707d8a4c080564691c9631a",
+        "report.json": "a518a8d8efd1d8a1322091d6a5b4e3ed4bc64659936c74016bf12a66cf3d40b8"
+      }
+    },
+    "obstructedSource": {
+      "path": "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\legacy-v1-02\\obstructed-edit\\save.json",
+      "sha256": "218d4d86583be8f4b027615cfc61329725c785edfef8337110bc5952fa4833ce",
+      "revision": 3
+    },
+    "failurePreservedOld": true,
+    "repaired": {
+      "directory": "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-01\\recovered-package",
+      "saveSha256": "add895c99901728a83e6e23943d7a8cd4932e4a531898fb0b65d2b6416da4b6c",
+      "publishedSha256": "489be3e0a52780773cfb2b8de79314e1a18658a7ce0dd47953566c3d59d024aa",
+      "revision": 4,
+      "manifest": {
+        "ok": true,
+        "build": "4ed3d907dc9d",
+        "manifestSha256": "02c3a94b39528c6d62036280b92669e70b8379f5dd4bd5e87eb21df5a36ee022",
+        "declaredFiles": 2054,
+        "checkedFiles": 2054,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    "originalAfter": {
+      "ok": true,
+      "build": "4ed3d907dc9d",
+      "manifestSha256": "4bf35661762b6eba34e18a7fdcc3bf7843f74a90d173f35ad86c7b21441501fc",
+      "declaredFiles": 2069,
+      "checkedFiles": 2069,
+      "extraFiles": 0,
+      "changedFiles": 0,
+      "missingFiles": 0
+    }
+  },
+  "package": {
+    "path": "F:\\gamemake-company-platform-c1\\output\\interview-corridor\\receiver\\fixed-package",
+    "build": "4ed3d907dc9d",
+    "manifestSha256": "4bf35661762b6eba34e18a7fdcc3bf7843f74a90d173f35ad86c7b21441501fc"
+  },
+  "dependencies": {
+    "prototype": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\interview-receiver-v1\\validated\\mother\\source\\prototype",
+    "lockSha256": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b",
+    "three": "0.187.0"
+  },
+  "fixture": {
+    "sha256": "f9d5c370d2b487b36a138a9cbfaf372dd406523bdd6ab574b4211a667dff50ff",
+    "operation": {
+      "type": "add-facility",
+      "id": "interview-hotel/guest-floor/corridor-2/test-corridor-threshold",
+      "parentId": "interview-hotel/guest-floor/corridor-2",
+      "resource": {
+        "id": "background-grid-panel",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -3,
+          0,
+          -1.3
+        ],
+        "yaw": 0
+      }
+    }
+  }
+}
