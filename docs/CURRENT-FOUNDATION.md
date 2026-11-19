@@ -2,6 +2,8 @@
 
 ## 固定入口与备份
 
+制服角色主线现已扩到男女两条独立记录。固定游戏源码 `553906db`、构建 `b37d45ef0fe4`；共用登记入口支持按基模复算并检查实际发布文件。原上衣和轻量上衣各导出 34 个文件的双人包，两包均经首次加载和关闭重开。轻量上衣通过本次静态预算。该增量供内部制作与集成，普通电脑实测及公开发行授权仍待核。4196 的在线版本、下次启动版本及回退指针见下方。可直接打开[女性作品的同期 1 倍速对照](../evidence/m2-female-uniform-texture-game-v1/index.html)。[接收记录与复建流程](../evidence/m2-female-uniform-texture-game-v1/README.md)
+
 盘根巡检已覆盖 HTTP 压缩、浏览器录屏、失败回执和固定重建的 npm 缓存。定位到的旧压缩入口已修复，使用实际入口指定 F 盘根时会在创建文件前拒绝。工程内的正常流程完成 18 次浏览器访问，原先迁移的 37 个工作树仍在主工程内。[根目录复查与回归](../evidence/character-worktree-relocation-v1/production-output-audit-v3.json)
 
 当前 1K 制服男体已完成单人独立游戏包。游戏源 `4636fe86`，构建 `f4966554bcfc`，两份干净检出的 522 个文件完全一致。制作端可使用已签男体的原上衣／1K 上衣记录重建实包，双人交付单仍指向原男女制服。1K 套装通过静态门槛，普通机待测。4196 的下次启动指针已写入，旧指针保存在 delivery/history；现有进程仍提供 `0d1ccbf3ff61`，本轮重新启动该进程的请求被自动审批拒绝。可直接打开[两段 1 倍速录像对照](../evidence/m2-cc0-body-release-game-v1/index.html)。下一项是核对女性身体贴图、遮罩和染色画布，按具体依赖选取能复用的处理。[制作与回读](../evidence/m2-cc0-body-release-game-v1/README.md) · [盘根及工作树归属](../evidence/character-worktree-relocation-v1/root-review.json)

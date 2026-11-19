@@ -1,0 +1,66 @@
+{
+  "schema": "female-uniform-fixed-game-rebuild-v1",
+  "status": "technical-build-review-pass",
+  "sourceCommit": "553906dbac9d1ca5e2464e004ff5ef23d71ede0c",
+  "sourceDigest": "b37d45ef0fe4e437a284003e179e37b47b0eef1603aae5b86d48d31045568181",
+  "buildId": "b37d45ef0fe4",
+  "cleanBuilds": [
+    {
+      "worktree": "experiments/worktrees/female-uniform-553906db",
+      "sourceCommit": "553906dbac9d1ca5e2464e004ff5ef23d71ede0c",
+      "buildId": "b37d45ef0fe4",
+      "sourceDigest": "b37d45ef0fe4e437a284003e179e37b47b0eef1603aae5b86d48d31045568181",
+      "lockSha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7",
+      "dependenciesFrom": "experiments/worktrees/garment-80fb16b7/prototype",
+      "npmVersion": "11.6.2",
+      "nodeVersion": "v24.13.0",
+      "gitClean": true
+    },
+    {
+      "worktree": "experiments/worktrees/female-uniform-553906db-repeat",
+      "sourceCommit": "553906dbac9d1ca5e2464e004ff5ef23d71ede0c",
+      "buildId": "b37d45ef0fe4",
+      "sourceDigest": "b37d45ef0fe4e437a284003e179e37b47b0eef1603aae5b86d48d31045568181",
+      "lockSha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7",
+      "dependenciesFrom": "experiments/worktrees/garment-80fb16b7/prototype",
+      "npmVersion": "11.6.2",
+      "nodeVersion": "v24.13.0",
+      "gitClean": true
+    }
+  ],
+  "comparison": {
+    "distFiles": 526,
+    "distBytes": 742787820,
+    "inventorySha256": "f8dd5bd4533c19ceb2a1308c4061896e753dcaa795a2061561cafd4ecfac4065",
+    "distDifference": [],
+    "sourceInputCount": 639,
+    "sourceDigest": "b37d45ef0fe4e437a284003e179e37b47b0eef1603aae5b86d48d31045568181",
+    "inventoryPath": "output/m2-female-uniform-fixed-build/dist-inventory.json"
+  },
+  "review": {
+    "path": "scripts/runtime-package/game-record-female-uniform-texture-reviewed.json",
+    "sha256": "3b62f2d7c37b2a8fdaf3ed60daadfa7a850a584fe980b040c22efa691585df8d",
+    "compiledEntryClosureFiles": 11,
+    "indexSection": "externalRecords",
+    "existingIndexEntriesPreserved": true
+  },
+  "reproduction": {
+    "checkouts": [
+      {
+        "command": "python -B scripts/character-worktree.py create female-uniform-553906db 553906dbac9d1ca5e2464e004ff5ef23d71ede0c --runtime-only",
+        "buildCwd": "experiments/worktrees/female-uniform-553906db/prototype",
+        "build": "npm run build"
+      },
+      {
+        "command": "python -B scripts/character-worktree.py create female-uniform-553906db-repeat 553906dbac9d1ca5e2464e004ff5ef23d71ede0c --runtime-only",
+        "buildCwd": "experiments/worktrees/female-uniform-553906db-repeat/prototype",
+        "build": "npm run build"
+      }
+    ],
+    "dependencyMethod": "Independent copies of the existing project node_modules after exact package-lock equality; no install or network",
+    "tempAndNpmCache": "Separate directories below output/m2-female-uniform-fixed-build for the two builds",
+    "reviewCommand": "node scripts/runtime-package/review-game-runtime.mjs experiments/worktrees/female-uniform-553906db/prototype/dist experiments/worktrees/female-uniform-553906db-repeat/prototype/dist experiments/worktrees/female-uniform-553906db-repeat NEW_REVIEW_FILE",
+    "distInventoryDigest": "SHA-256 of compact, sorted-key JSON mapping each POSIX path to [file byte count, SHA-256]"
+  },
+  "scope": "Technical rebuild and external-record runtime closure only."
+}
