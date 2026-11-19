@@ -1,0 +1,175 @@
+{
+  "steps": [
+    {
+      "label": "independent source and locked Three/Python renderer byte rebuild",
+      "status": 0,
+      "expectedRefusal": false
+    },
+    {
+      "label": "same signed ID/version refusal",
+      "status": 1,
+      "expectedRefusal": true,
+      "reason": "AssertionError [ERR_ASSERTION]: Edit a signed design under a new ID/version."
+    },
+    {
+      "label": "disk root refusal",
+      "status": 1,
+      "expectedRefusal": true,
+      "reason": "AssertionError [ERR_ASSERTION]: Trial must stay inside project outputs"
+    },
+    {
+      "label": "path traversal refusal",
+      "status": 1,
+      "expectedRefusal": true,
+      "reason": "AssertionError [ERR_ASSERTION]: Path traversal in trial destination"
+    },
+    {
+      "label": "Windows junction into source refused",
+      "status": 1,
+      "expectedRefusal": true,
+      "reason": "AssertionError [ERR_ASSERTION]: Linked path: F:\\gamemake-company-platform-c1\\output\\public-wayfinding-v1\\production\\independent-SyzDWI\\junction"
+    },
+    {
+      "label": "unavailable font glyph refused",
+      "status": 1,
+      "expectedRefusal": true,
+      "reason": "    validate(not missing, \"Missing Noto glyphs: \" + repr(missing))\r"
+    },
+    {
+      "label": "retry identical output from explicit second recipe",
+      "status": 0,
+      "expectedRefusal": false
+    }
+  ],
+  "assets": [
+    {
+      "id": "wayfinding-arrivals",
+      "version": 1,
+      "meaning": "arrivals",
+      "title": "来宾签到",
+      "sourceAuthor": "Company Studio 环境制作组",
+      "face": {
+        "vertices": 4,
+        "triangles": 2,
+        "image": [
+          1100,
+          700
+        ]
+      },
+      "oldContentReplaceable": true,
+      "visibleFalseThenTrue": true,
+      "restoredParent": "public-meeting-boardroom-floor/ground/meeting/board",
+      "glbSha256": "7a8fe4bca360e37bd328c1e8d556d01d71a8fa6b768371cb01386fd2e60d7d36",
+      "pngSha256": "a3b4693e11e4cf0925e967271bd0ac01d596fe1cce416cc6b20d653153316557",
+      "titleThumbInkHeight": 27,
+      "titleContrast": 12.226
+    },
+    {
+      "id": "wayfinding-training",
+      "version": 1,
+      "meaning": "training",
+      "title": "培训报到",
+      "sourceAuthor": "Company Studio 环境制作组",
+      "face": {
+        "vertices": 4,
+        "triangles": 2,
+        "image": [
+          1100,
+          700
+        ]
+      },
+      "oldContentReplaceable": true,
+      "visibleFalseThenTrue": true,
+      "restoredParent": "public-meeting-boardroom-floor/ground/meeting/board",
+      "glbSha256": "c7889f001899131ecd9c7797808e3b4f1f092f0d2c456caccdd0d361495d1791",
+      "pngSha256": "e29b4a238aa97c51faede5049943c559d576d9ea1d961e0d30bae1d41e993d55",
+      "titleThumbInkHeight": 31,
+      "titleContrast": 11.503
+    },
+    {
+      "id": "wayfinding-lift",
+      "version": 1,
+      "meaning": "lift",
+      "title": "电梯",
+      "sourceAuthor": "Company Studio 环境制作组",
+      "face": {
+        "vertices": 4,
+        "triangles": 2,
+        "image": [
+          1100,
+          700
+        ]
+      },
+      "oldContentReplaceable": true,
+      "visibleFalseThenTrue": true,
+      "restoredParent": "public-meeting-boardroom-floor/ground/meeting/board",
+      "glbSha256": "dde26913beb78a0e12f5e0b272ce5e6d207aa4035cb1bb3f019969914579aefc",
+      "pngSha256": "11a486e4379a02a1c86d27465d31b9ebc820e4736215bbd9b9e7dcb58fbbb5a7",
+      "titleThumbInkHeight": 39,
+      "titleContrast": 10.525
+    },
+    {
+      "id": "wayfinding-stairs",
+      "version": 1,
+      "meaning": "stairs",
+      "title": "楼梯",
+      "sourceAuthor": "Company Studio 环境制作组",
+      "face": {
+        "vertices": 4,
+        "triangles": 2,
+        "image": [
+          1100,
+          700
+        ]
+      },
+      "oldContentReplaceable": true,
+      "visibleFalseThenTrue": true,
+      "restoredParent": "public-meeting-boardroom-floor/ground/meeting/board",
+      "glbSha256": "ee07e7e6facc5a94195fb941887b490ab7504bf3588c8df31db70ed78bd63a52",
+      "pngSha256": "bfb0ea12bdfaecd93f51643941d2dc6782ce135881e0ccb182b90bd0bb27a777",
+      "titleThumbInkHeight": 37,
+      "titleContrast": 10.642
+    },
+    {
+      "id": "wayfinding-training",
+      "version": 2,
+      "meaning": "training",
+      "title": "新人报到",
+      "sourceAuthor": "Company Studio 环境制作组",
+      "face": {
+        "vertices": 4,
+        "triangles": 2,
+        "image": [
+          1100,
+          700
+        ]
+      },
+      "oldContentReplaceable": true,
+      "visibleFalseThenTrue": true,
+      "restoredParent": "public-meeting-boardroom-floor/ground/meeting/board",
+      "glbSha256": "977a985c09ac7fbbd847fe8f919d43c0737e92ce5051448f35f44cc60c9159ad",
+      "pngSha256": "8edac28721ce9edcfe3fbff6aa0f80f693c5986be9720bf79593f0458178a328",
+      "titleThumbInkHeight": 31,
+      "titleContrast": 11.503
+    }
+  ],
+  "stockSourceSha256": "145185d46bb36edf9f89ab741f391b8cd46bee8111dcf4eb07e397357335cd8a",
+  "status": "passed",
+  "independentInput": "output/public-wayfinding-v1/production/independent-SyzDWI/source",
+  "stockBytesBeforeAndAfter": {
+    "assets-source/company-wayfinding-v1/collection.json": "5f2e652a112175253b2abab967fe553f275b088ca53816cc8c8d105a1c9cc3e2",
+    "prototype/public/company-assets/wayfinding-v1/wayfinding-arrivals/v1/model.glb": "7a8fe4bca360e37bd328c1e8d556d01d71a8fa6b768371cb01386fd2e60d7d36",
+    "prototype/public/company-assets/wayfinding-v1/wayfinding-arrivals/v1/resource.json": "63f37e0c67cbbd3f3e2a9e4bcb369778a9b1bfdcbdac1309efbe9dd16a194553",
+    "prototype/public/company-assets/wayfinding-v1/wayfinding-arrivals/v1/texture.png": "a3b4693e11e4cf0925e967271bd0ac01d596fe1cce416cc6b20d653153316557",
+    "prototype/public/company-assets/wayfinding-v1/wayfinding-training/v1/model.glb": "c7889f001899131ecd9c7797808e3b4f1f092f0d2c456caccdd0d361495d1791",
+    "prototype/public/company-assets/wayfinding-v1/wayfinding-training/v1/resource.json": "060eb2d136b4e44f30ee8fedc1542ceaef26634edb64a4b4128748dda9d62bc8",
+    "prototype/public/company-assets/wayfinding-v1/wayfinding-training/v1/texture.png": "e29b4a238aa97c51faede5049943c559d576d9ea1d961e0d30bae1d41e993d55",
+    "prototype/public/company-assets/wayfinding-v1/wayfinding-lift/v1/model.glb": "dde26913beb78a0e12f5e0b272ce5e6d207aa4035cb1bb3f019969914579aefc",
+    "prototype/public/company-assets/wayfinding-v1/wayfinding-lift/v1/resource.json": "bae39e57f6805df8c7edb90325fb3e4f81590965a16db2e923cd8e8911891241",
+    "prototype/public/company-assets/wayfinding-v1/wayfinding-lift/v1/texture.png": "11a486e4379a02a1c86d27465d31b9ebc820e4736215bbd9b9e7dcb58fbbb5a7",
+    "prototype/public/company-assets/wayfinding-v1/wayfinding-stairs/v1/model.glb": "ee07e7e6facc5a94195fb941887b490ab7504bf3588c8df31db70ed78bd63a52",
+    "prototype/public/company-assets/wayfinding-v1/wayfinding-stairs/v1/resource.json": "45f4ffdc29465212c844b37fafc7c9bf324b62053d8ff316c5a595b69277849e",
+    "prototype/public/company-assets/wayfinding-v1/wayfinding-stairs/v1/texture.png": "bfb0ea12bdfaecd93f51643941d2dc6782ce135881e0ccb182b90bd0bb27a777"
+  },
+  "v2Trial": "output/public-wayfinding-v1/production/independent-SyzDWI/new-output"
+}
