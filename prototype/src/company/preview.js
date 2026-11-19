@@ -206,6 +206,12 @@ function setView(name){
       if(inward.lengthSq()>.01){inward.normalize();offset.set(inward.x,.7,inward.z).normalize();}
     }
   }
+  const storage=name==='room'&&view.mode==='room'&&doc.publicStorageRooms?.find(rule=>rule.regionId===view.roomId);
+  const cabinet=storage && session.scene.root.getObjectByName(storage.cabinetId);
+  if(cabinet){
+    const front=cabinet.getWorldDirection(new THREE.Vector3());
+    offset.set(front.x+.5*front.z,.9,front.z-.5*front.x).normalize();
+  }
   const meeting=name==='room'&&view.mode==='room'&&doc.meetingRooms?.find(rule=>rule.regionId===view.roomId);
   if(meeting){
     const board=session.scene.root.getObjectByName(meeting.boardId);

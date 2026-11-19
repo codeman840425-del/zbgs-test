@@ -4,7 +4,8 @@ export const BASE_ROOM_AREA=18;
 export const MAX_CONFIGURED_FLOORS=20;
 export const REQUIRED_PUBLIC_ROLES=['corridor','lobby','lift-access','stair-access','restroom-access'];
 export const ATTACHED_PUBLIC_ROLE='meeting-training';
-export const PUBLIC_ROLES=[...REQUIRED_PUBLIC_ROLES,'living',ATTACHED_PUBLIC_ROLE];
+export const ATTACHED_PUBLIC_ROLES=[ATTACHED_PUBLIC_ROLE,'storage-cleaning'];
+export const PUBLIC_ROLES=[...REQUIRED_PUBLIC_ROLES,'living',...ATTACHED_PUBLIC_ROLES];
 export const supportsAttachedPublicArea=scale=>scale==='leased-floor'||scale==='building';
 
 export function validatePublicAreaOpening(bounds,side,path,fail){
@@ -21,11 +22,11 @@ export function validatePublicAreaOpening(bounds,side,path,fail){
 function validateAttachedPublicArea(area,document,profile,floors,floorIds,fail){
   const floor=floors.find(item=>item.id===floorIds.get(area.id));
   if(!profile||!supportsAttachedPublicArea(document.scale)||area.kind!=='area'||!floor||area.parentId!==floor.id)
-    fail('invalid-public-area-placement',area.id,'A meeting-training region must be a public area directly on a configured full floor');
+    fail('invalid-public-area-placement',area.id,'An attached public region must belong directly to a configured full floor');
   const connections=(Array.isArray(floor.connections)?floor.connections:[]).filter(
     connection=>connection?.from?.regionId===area.id||connection?.to?.regionId===area.id);
   if(connections.length!==1)
-    fail('invalid-public-area-connection',area.id,'A meeting-training area requires one doorway to an existing same-floor public area');
+    fail('invalid-public-area-connection',area.id,'An attached public area requires one doorway to an existing same-floor public area');
   const {from,to}=connections[0], [own,other]=from?.regionId===area.id?[from,to]:[to,from];
   const host=document.nodes.find(node=>node.id===other?.regionId);
   if(host?.kind!=='area'||host.parentId!==floor.id||!REQUIRED_PUBLIC_ROLES.includes(host.publicRole))
@@ -47,7 +48,7 @@ export function companyScaleProfile(document,fail){
 }
 export function validateScaleProfile(document,{floors,rooms,floorIds},fail){
   const profile=companyScaleProfile(document,fail);
-  for(const area of document.nodes.filter(node=>node.publicRole===ATTACHED_PUBLIC_ROLE))
+  for(const area of document.nodes.filter(node=>ATTACHED_PUBLIC_ROLES.includes(node.publicRole)))
     validateAttachedPublicArea(area,document,profile,floors,floorIds,fail);
   if(!profile)return;
   for(const floor of floors){

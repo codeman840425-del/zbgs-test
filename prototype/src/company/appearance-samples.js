@@ -49,7 +49,7 @@ export const appearanceBranches=[
  ['analog-clock','挂墙指针钟'],['digital-clock','挂墙数字钟'],
  ['hinged-cabinet','单扇开合柜'],
  ['sliding-drawer-cabinet','单抽屉收纳柜'],
- ['storage-shelf','多层开放架'],['tabletop-ornament','台面陈列摆件'],
+ ['storage-cleaning-shelf','层板清洁耗材'],['storage-shelf','多层开放架'],['tabletop-ornament','台面陈列摆件'],
  ['cart-and-equipment-storage','器材推车'],
  ['desk','桌子'],['chair','单人座椅'],['meeting-chair-side-entry','桌边会议椅'],['sofa','双人沙发'],['monitor','屏幕'],['fill-light','补光系统'],['desk-lamp','桌面台灯'],
  ['ambient-led-and-neon','墙挂氛围灯'],['plant-desktop-installation','桌面盆栽'],
@@ -132,6 +132,11 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
  if(['analog-clock','digital-clock'].includes(branch))return createClockSample(catalog,templates,{branch,index});
  if(branch==='hinged-cabinet')return createHingedSample(catalog,templates,{index});
  if(branch==='sliding-drawer-cabinet')return createSlidingSample(catalog,templates,{index});
+ if(branch==='storage-cleaning-shelf'){
+   const load=appearanceCandidates(catalog,branch)[index];
+   if(!load)throw Error('Unsupported storage load appearance');
+   return createSupportSample(catalog,templates,{branch,index,propResource:load,alternate:Boolean(options.alternate)});
+ }
  if(['storage-shelf','tabletop-ornament'].includes(branch))return createSupportSample(catalog,templates,{branch,index});
  const candidates=appearanceCandidates(catalog,branch),selected=candidates[index];
  if(!selected)throw Error(`No appearance ${branch}[${index}]`);

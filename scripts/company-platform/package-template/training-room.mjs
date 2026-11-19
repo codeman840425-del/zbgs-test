@@ -164,6 +164,7 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
     scope.teaStations = layout.teaStations;
     scope.publicWashrooms = layout.publicWashrooms;
     scope.meetingRooms = layout.meetingRooms;
+    scope.publicStorageRooms = layout.publicStorageRooms;
     scope.vocalSlots = editableVocalBinding(layout);
     candidates.push(scope);
   }
@@ -185,6 +186,10 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
   if (possible.some(scope=>scope.teaStations!==undefined) &&
       !possible.some(scope=>equal(scope.teaStations,document.teaStations)))
     fail('tea-station-binding-mismatch',input,'The tea station declaration differs from the selected saved room.');
+  if (possible.some(scope=>!equal(scope.publicStorageRooms,possible[0].publicStorageRooms)))
+    fail('ambiguous-storage-room',input,'Select the original storage room with --room KEY.');
+  if (possible.length && !equal(possible[0].publicStorageRooms,document.publicStorageRooms))
+    fail('storage-room-binding-mismatch',input,'The storage fixtures, loads, service positions or entry differ from the selected room declaration.');
   if (possible.some(scope=>!equal(scope.meetingRooms,possible[0].meetingRooms)))
     fail('ambiguous-meeting-room',input,'Select the original meeting room with --room KEY.');
   if (possible.length && !equal(possible[0].meetingRooms,document.meetingRooms))

@@ -1,0 +1,34 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "public-storage-floor",
+      "input": {"id":"public-storage-floor","name":"整层公共储物清洁间","scale":"leased-floor","spaceProfile":{"id":"company-space-v2","version":1},"floors":[{"id":"ground","name":"一层","publicAreas":[{"id":"stock","name":"公共储物清洁间","role":"storage-cleaning","width":4.5,"depth":4,"connect":{"areaId":"lobby","edge":"west","offset":0,"width":1.4}}]}]},
+      "operations": [
+        {"type":"add-facility","id":"public-storage-floor/ground/stock/rack","parentId":"public-storage-floor/ground/stock","name":"耗材层架","resource":{"id":"support-shelf-frame-posts","version":1},"transform":{"position":[-1.1,0,-1.72],"yaw":0}},
+        {"type":"add-facility","id":"public-storage-floor/ground/stock/rack/box","parentId":"public-storage-floor/ground/stock/rack","name":"开盖耗材盒","resource":{"id":"cleaning-load-open-carton","version":1},"transform":{"position":[0,1.05,0],"yaw":0},"attachment":{"surfaceId":"middle"}},
+        {"type":"add-facility","id":"public-storage-floor/ground/stock/cabinet","parentId":"public-storage-floor/ground/stock","name":"清洁工具柜","resource":{"id":"hinged-cabinet-flat-panel","version":1},"transform":{"position":[0.65,0,-1.62],"yaw":0},"state":{"openFraction":0}},
+        {"type":"add-facility","id":"public-storage-floor/ground/stock/cart","parentId":"public-storage-floor/ground/stock","name":"备品推车","resource":{"id":"equipment-cart-open","version":1},"transform":{"position":[-1.85,0,0.9],"yaw":1.5707963267948966}},
+        {"type":"add-facility","id":"public-storage-floor/ground/stock/cart/box","parentId":"public-storage-floor/ground/stock/cart","name":"分隔清洁提篮","resource":{"id":"cleaning-load-caddy","version":1},"attachment":{"surfaceId":"lower"},"transform":{"position":[0,0.3,0],"yaw":0}}
+      ],
+      "publicStorageRooms": [
+        {"regionId":"public-storage-floor/ground/stock","portalId":"public-storage-floor/ground/portal-stock","rackId":"public-storage-floor/ground/stock/rack","cabinetId":"public-storage-floor/ground/stock/cabinet","cartId":"public-storage-floor/ground/stock/cart","picks":[{"hostId":"public-storage-floor/ground/stock/rack","surfaceId":"middle","loadId":"public-storage-floor/ground/stock/rack/box"},{"hostId":"public-storage-floor/ground/stock/cart","surfaceId":"lower","loadId":"public-storage-floor/ground/stock/cart/box"}],"cabinetService":[1.43,-0.97]}
+      ]
+    },
+    {
+      "key": "public-storage-building",
+      "input": {"id":"public-storage-building","name":"大楼二层公共储物清洁间","scale":"building","spaceProfile":{"id":"company-space-v2","version":1},"floors":[{"id":"ground","name":"一层"},{"id":"upper","name":"二层","publicAreas":[{"id":"stock","name":"公共储物清洁间","role":"storage-cleaning","width":4,"depth":4.5,"connect":{"areaId":"restroom-access","edge":"west","offset":0,"width":1.4}}]}]},
+      "operations": [
+        {"type":"add-facility","id":"public-storage-building/upper/stock/rack","parentId":"public-storage-building/upper/stock","name":"耗材层架","resource":{"id":"support-shelf-sideboards","version":1},"transform":{"position":[1.1,0,1.97],"yaw":3.141592653589793}},
+        {"type":"add-facility","id":"public-storage-building/upper/stock/rack/box","parentId":"public-storage-building/upper/stock/rack","name":"补货纸箱","resource":{"id":"cleaning-load-sealed-carton","version":1},"transform":{"position":[0,1.05,0],"yaw":0},"attachment":{"surfaceId":"middle"}},
+        {"type":"add-facility","id":"public-storage-building/upper/stock/cabinet","parentId":"public-storage-building/upper/stock","name":"清洁工具柜","resource":{"id":"hinged-cabinet-slatted","version":1},"transform":{"position":[-0.65,0,1.87],"yaw":3.141592653589793},"state":{"openFraction":0.5}},
+        {"type":"add-facility","id":"public-storage-building/upper/stock/cart","parentId":"public-storage-building/upper/stock","name":"备品推车","resource":{"id":"equipment-cart-tool","version":1},"transform":{"position":[-1.55,0,-1.1],"yaw":1.5707963267948966}},
+        {"type":"add-facility","id":"public-storage-building/upper/stock/cart/box","parentId":"public-storage-building/upper/stock/cart","name":"毛巾周转盘","resource":{"id":"cleaning-load-linen-tray","version":1},"attachment":{"surfaceId":"upper"},"transform":{"position":[0,0.82,0],"yaw":0}}
+      ],
+      "publicStorageRooms": [
+        {"regionId":"public-storage-building/upper/stock","portalId":"public-storage-building/upper/portal-stock","rackId":"public-storage-building/upper/stock/rack","cabinetId":"public-storage-building/upper/stock/cabinet","cartId":"public-storage-building/upper/stock/cart","picks":[{"hostId":"public-storage-building/upper/stock/rack","surfaceId":"middle","loadId":"public-storage-building/upper/stock/rack/box"},{"hostId":"public-storage-building/upper/stock/cart","surfaceId":"upper","loadId":"public-storage-building/upper/stock/cart/box"}],"cabinetService":[-1.43,1.22]}
+      ]
+    }
+  ]
+}

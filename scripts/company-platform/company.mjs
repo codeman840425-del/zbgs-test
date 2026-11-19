@@ -18,12 +18,18 @@ async function checkMeeting(document,derived) {
   const {checkMeetingRooms}=await import('./check-meeting-room.mjs');
   return checkMeetingRooms(document,{catalog,templates,derived});
 }
+async function checkStorage(document,derived) {
+  if (!Object.hasOwn(document,'publicStorageRooms') && !document.nodes.some(node=>node.publicRole==='storage-cleaning')) return [];
+  const {checkPublicStorageRooms}=await import('./check-public-storage.mjs');
+  return checkPublicStorageRooms(document,{catalog,templates,derived});
+}
 async function write(file, document) {
   await checkManagedOutput(path.resolve(file),undefined,{allowDelivery:false});
   inspectCompanyPlacement(document,catalog,templates);
   const derived=deriveCompany(document,catalog,templates);
   await checkWashroom(document,derived);
   await checkMeeting(document,derived);
+  await checkStorage(document,derived);
   const bytes=serializeCompany(document,catalog,templates);
   const parent=path.dirname(path.resolve(file));
   if(parent!==path.parse(parent).root)await fs.mkdir(parent,{recursive:true});
@@ -48,7 +54,8 @@ try {
     const placement=inspectCompanyPlacement(document,catalog,templates);
     const publicWashrooms=await checkWashroom(document,derived);
     const meetingRooms=await checkMeeting(document,derived);
-    console.log(JSON.stringify({ok:true,id:document.id,revision:document.revision,capacity:derived.capacity,usePointIds:derived.usePoints.map(p=>p.id),placement,...(publicWashrooms.length?{publicWashrooms}:{}),...(meetingRooms.length?{meetingRooms}:{}),scope:'Static authoring and conservative room passage checks only. Real character navigation, contact and use remain C3 validation.'},null,2));
+    const publicStorageRooms=await checkStorage(document,derived);
+    console.log(JSON.stringify({ok:true,id:document.id,revision:document.revision,capacity:derived.capacity,usePointIds:derived.usePoints.map(p=>p.id),placement,...(publicWashrooms.length?{publicWashrooms}:{}),...(meetingRooms.length?{meetingRooms}:{}),...(publicStorageRooms.length?{publicStorageRooms}:{}),scope:'Static authoring and conservative room passage checks only. Real character navigation, contact and use remain C3 validation.'},null,2));
   } else if (command==='apply' && input && operations && output) {
     const previous=await read(input), ops=JSON.parse(await fs.readFile(operations,'utf8'));
     const next=prepareCompanyChange(previous,ops,{catalog,templates}).document;

@@ -57,7 +57,7 @@ function validateBatch(batch,only){
   const keys=new Set(),ids=new Set();
   for(const [index,item]of batch.items.entries()){
     const location=`items[${index}]`;
-    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance','productShowcases','interviewRooms','singingRooms','teaStations','publicWashrooms','meetingRooms'].includes(key))||
+    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance','productShowcases','interviewRooms','singingRooms','teaStations','publicWashrooms','meetingRooms','publicStorageRooms'].includes(key))||
         typeof item.key!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(item.key)||
         /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(item.key))
       fail('invalid-batch-key',location,'Use a portable nonempty directory key with letters, digits, underscore or hyphen');
@@ -166,7 +166,14 @@ async function prepare(item,sourceHashes){
   if (Object.hasOwn(item,'teaStations')) document.teaStations = structuredClone(item.teaStations);
   if (Object.hasOwn(item,'publicWashrooms')) document.publicWashrooms = structuredClone(item.publicWashrooms);
   if (Object.hasOwn(item,'meetingRooms')) document.meetingRooms=structuredClone(item.meetingRooms);
+  if (Object.hasOwn(item,'publicStorageRooms')) document.publicStorageRooms=structuredClone(item.publicStorageRooms);
   const derived=deriveCompany(document,catalog,templates);
+  let publicStorageRooms;
+  if (Object.hasOwn(document,'publicStorageRooms') || document.nodes.some(node=>node.publicRole==='storage-cleaning')) {
+    Object.assign(sourceHashes,await sources(['scripts/company-platform/check-public-storage.mjs','prototype/src/company/public-storage.js']));
+    const {checkPublicStorageRooms}=await import('./check-public-storage.mjs');
+    publicStorageRooms=await checkPublicStorageRooms(document,{catalog,templates,derived});
+  }
   let meetingRooms;
   if (Object.hasOwn(document,'meetingRooms') || document.nodes.some(node=>node.publicRole==='meeting-training')) {
     Object.assign(sourceHashes,await sources(['scripts/company-platform/check-meeting-room.mjs','prototype/src/company/meeting-room.js']));
@@ -210,7 +217,8 @@ async function prepare(item,sourceHashes){
     files:Object.fromEntries(Object.entries(files).map(([name,bytes])=>[name,{bytes:bytes.length,sha256:hash(bytes)}])),
     checks:{connections,placement,...(trainingClearance ? {trainingClearance} : {}),...(productShowcases ? {productShowcases} : {}),
       ...(interviewRooms ? {interviewRooms} : {}),...(singingRooms ? {singingRooms} : {}),...(teaStations?.length ? {teaStations} : {}),
-      ...(publicWashrooms?.length ? {publicWashrooms} : {}),...(meetingRooms?.length ? {meetingRooms} : {})},
+      ...(publicWashrooms?.length ? {publicWashrooms} : {}),...(meetingRooms?.length ? {meetingRooms} : {}),
+      ...(publicStorageRooms?.length ? {publicStorageRooms} : {})},
     scope:'Complete deterministic authoring result. Static geometry and placement admission only; rendering and character usage require their own evidence.'};
   files['report.json']=jsonBytes(report);
   return {files,report};

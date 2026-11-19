@@ -1,7 +1,7 @@
 import { createCompany, identityTransform, prepareCompanyChange } from './document.js';
 import { inspectCompanyConnections } from './space.js';
 import { inspectCompanyPlacement } from './placement.js';
-import { ATTACHED_PUBLIC_ROLE, COMPANY_SPACE_V2, MAX_CONFIGURED_FLOORS, REQUIRED_PUBLIC_ROLES,
+import { ATTACHED_PUBLIC_ROLES, COMPANY_SPACE_V2, MAX_CONFIGURED_FLOORS, REQUIRED_PUBLIC_ROLES,
   supportsAttachedPublicArea, validatePublicAreaOpening } from './scale-profile.js';
 
 // The v2 scale grammar keeps the old rectangular authoring primitives. A room
@@ -10,7 +10,7 @@ import { ATTACHED_PUBLIC_ROLE, COMPANY_SPACE_V2, MAX_CONFIGURED_FLOORS, REQUIRED
 const ID = /^[A-Za-z0-9][A-Za-z0-9_.:/-]*$/;
 const PURPOSES = new Set(['streaming', 'work', 'rest', 'training']);
 const REQUIRED_ROOMS = { 'small-home': 1, 'single-room': 1, 'rental-home': 3, 'leased-floor': 16, building: 16 };
-const PUBLIC_ROLES = [...REQUIRED_PUBLIC_ROLES, ATTACHED_PUBLIC_ROLE];
+const PUBLIC_ROLES = [...REQUIRED_PUBLIC_ROLES, ...ATTACHED_PUBLIC_ROLES];
 const PUBLIC_AREA_ID = /^[A-Za-z0-9][A-Za-z0-9_.-]*$/;
 const PUBLIC_AREA_EDGES = {
   north: { opposite:'south', normal:2, tangent:0, size:'depth', sign:-1 },
@@ -280,8 +280,8 @@ function validateInput(input) {
       if (typeof area.id !== 'string' || !PUBLIC_AREA_ID.test(area.id))
         fail('invalid-id', path+'.id', 'Use a stable short ID for this area');
       text(area.name, path+'.name');
-      if (area.role !== ATTACHED_PUBLIC_ROLE)
-        fail('unsupported-public-role', path+'.role', 'Use the meeting-training role for an attached public area');
+      if (!ATTACHED_PUBLIC_ROLES.includes(area.role))
+        fail('unsupported-public-role', path+'.role', 'Use meeting-training or storage-cleaning for this public area');
       if (![area.width,area.depth].every(dimension => Number.isFinite(dimension) && dimension >= 3 && dimension <= 20))
         fail('invalid-public-area-size', path, 'Use rectangular width and depth from 3 to 20 metres');
       knownFields(area.connect, ['areaId','edge','offset','width'], path+'.connect');

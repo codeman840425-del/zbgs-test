@@ -249,6 +249,46 @@ export async function verifyWashroomDispenserSources(root,resource,recipe) {
   return new Map(Object.entries(pins));
 }
 
+export async function verifyCleaningLoadSources(root, resource, recipe) {
+  const base = 'assets-source/company-cleaning-loads-v1/';
+  const generator = 'scripts/company-platform/build-cleaning-loads.mjs';
+  const p = resource.provenance;
+  const mismatch = at => { throw Object.assign(Error('cleaning-load-source-mismatch: ' + at), {code:'cleaning-load-source-mismatch',path:at}); };
+  const design = recipe.designs?.find(d => d.id === resource.id && d.version === resource.version);
+  if (recipe.schema !== 'company-cleaning-loads' || recipe.version !== 1 || !design || design.kind !== p.sourceDesign ||
+      p.generator !== generator || p.functionalContractSource !== base+'contract.json' ||
+      resource.productionBranch !== 'storage-cleaning-shelf' || resource.mountRole !== 'storage-cleaning-shelf') mismatch(resource.id);
+  const generatorPath = path.resolve(root, generator);
+  if (await fs.realpath(generatorPath) !== generatorPath) mismatch(generator);
+  const generatorHash = digest(await fs.readFile(generatorPath));
+  const contractBytes = await readProductionFile(root, p.functionalContractSource);
+  const contract = JSON.parse(contractBytes);
+  if (contract.schema !== 'cleaning-load-installation' || contract.version !== 1 || contract.environmentBranch !== resource.productionBranch ||
+      generatorHash !== p.generatorSha256 || digest(contractBytes) !== p.functionalContractSourceSha256) mismatch(resource.id);
+  for (const [field,value] of Object.entries(contract.resource)) if (!isDeepStrictEqual(resource[field],value)) mismatch(resource.id+'.'+field);
+  const sourceRecord = base+'original/sources.json', recordBytes = await readProductionFile(root, sourceRecord);
+  const record = JSON.parse(recordBytes);
+  const carton = new Map([['open-carton','cardboardBoxOpen'],['sealed-carton','cardboardBoxClosed']]).get(design.kind);
+  const source = carton ? record : record.projectAuthored;
+  const licensePath = base+'original/'+(carton ? 'Kenney-License.txt' : 'PROJECT-SOURCE.txt');
+  if (source.licensePath !== licensePath || digest(await readProductionFile(root, licensePath)) !== source.licenseSha256) mismatch(licensePath);
+  const pins = {generator:{path:generator,sha256:generatorHash},contract:{path:p.functionalContractSource,sha256:digest(contractBytes)},
+    sourceRecord:{path:sourceRecord,sha256:digest(recordBytes)},license:{path:licensePath,sha256:source.licenseSha256}};
+  if (carton) {
+    const original = record.originalModels[carton], originalPath = base+'original/'+carton+'.glb';
+    if (record.author !== 'Kenney' || record.license !== 'CC0-1.0' || record.page !== 'https://kenney.nl/assets/furniture-kit' ||
+        original?.path !== originalPath || original.member !== 'Models/GLTF format/'+carton+'.glb' ||
+        p.source !== record.page || p.license !== record.license || p.sourceArtifactPath !== originalPath ||
+        p.sourceArtifactSha256 !== original.sha256) mismatch(resource.id);
+    const originalBytes = await readProductionFile(root, originalPath);
+    if (digest(originalBytes) !== original.sha256 || originalBytes.length !== original.bytes) mismatch(originalPath);
+    pins.originalModel = {path:originalPath,sha256:original.sha256};
+  } else if (!['caddy','linen-tray'].includes(design.kind) || !source.kinds.includes(design.kind) ||
+      p.license !== 'Project-authored' || p.source !== licensePath || p.sourceArtifactPath || p.sourceArtifactSha256) mismatch(resource.id);
+  if (!isDeepStrictEqual(pins,p.dependencies)) mismatch(resource.id+'.dependencies');
+  return new Map(Object.entries(pins));
+}
+
 export async function verifyPrintedSignSources(root,resource,recipe) {
   const p=resource.provenance, source='assets-source/company-information-v1/';
   const pins=new Map();
@@ -360,6 +400,8 @@ export async function validateResourceProvenance({root, resource, label = resour
       await verifyWallHvacSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='cart-and-equipment-storage')
       await verifyEquipmentCartSources(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && (resource.productionBranch==='storage-cleaning-shelf' || resource.mountRole==='storage-cleaning-shelf'))
+      await verifyCleaningLoadSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.mountRole==='public-washbasin')
       await verifyWashbasinSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.mountRole==='washroom-dispenser')

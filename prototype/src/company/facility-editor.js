@@ -19,6 +19,11 @@ function options(select,rows,value){
 }
 
 export const roomEditMessages={
+  'storage-support-contact':'请把耗材平放到所选层板上，让盒底贴住板面',
+  'storage-pick-blocked':'耗材取不出来，请清空层板前方或调整层架、推车的朝向',
+  'storage-door-sweep':'柜门打开时会碰到物件，请移开门前物件',
+  'storage-cabinet-service':'请在柜门正面留出可开柜取物的站位',
+  'storage-entry':'请留出从公共门口到层架、推车和柜门的通路',
   'meeting-presenter-position':'请把讲位留在图文板正面的一侧，使讲解者可以面向座位',
   'meeting-board-visibility':'有座位看不清图文，请检查板面朝向并移开视线中的遮挡物',
   'meeting-presenter-occludes':'讲位挡住了板上的图文，请将讲位移到板面侧边',
