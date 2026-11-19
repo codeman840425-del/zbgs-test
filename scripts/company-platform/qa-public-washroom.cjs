@@ -208,7 +208,7 @@ async function enter(room){
 }
 async function select(room,role,focus=true){
   await page.locator('#tool-selection').click();
-  const locator=page.locator('#edit-instance'),id=room.rule.roles[role];
+  const locator=page.locator('#edit-instance'),id=role==='content'?room.content:room.rule.roles[role];
   await locator.selectOption(id);
   if(focus)await page.locator('#edit-focus').click();
   assert.equal(await locator.inputValue(),id);
@@ -307,12 +307,12 @@ async function view(room,role,name){
   return status;
 }
 async function orbitFromFocus(room,role){
-  await select(room,role);
+  await select(room,role==='sign'?'content':role);
   const gesture=await page.evaluate(async({ids,area,threshold,role,threeUrl})=>{
     const {Vector3,Box3}=await import(threeUrl);
     const {camera,renderer,session:{scene}}=company;
     const object=role=>scene.root.getObjectByName(ids[role]);
-    const center=new Box3().setFromObject(object(role)).getCenter(new Vector3());
+    const center=new Box3().setFromObject(object(role==='sign'?'content':role)).getCenter(new Vector3());
     const direction=camera.position.clone().sub(center);
     const normal=object('basin').getWorldDirection(new Vector3()).add(object('dispenser').getWorldDirection(new Vector3()));
     const target=role==='sign'?scene.root.getObjectByName(area).localToWorld(new Vector3(...threshold)).sub(center):normal;
@@ -324,7 +324,7 @@ async function orbitFromFocus(room,role){
     const dy=role==='sign'?(polar(direction)-polar(target))*rect.height/(2*Math.PI):0;
     const distance=role==='sign'?target.length():4.8;
     return {x:rect.x+rect.width/2-dx/2,y:rect.y+rect.height/2-dy/2,dx,dy,zoom:100*Math.log(direction.length()/distance)/Math.log(.95)};
-  },{ids:room.rule.roles,area:room.area,threshold:room.threshold,role,threeUrl});
+  },{ids:{...room.rule.roles,content:room.content},area:room.area,threshold:room.threshold,role,threeUrl});
   await page.mouse.move(gesture.x,gesture.y);await page.mouse.down();
   await page.mouse.move(gesture.x+gesture.dx,gesture.y+gesture.dy,{steps:8});await page.mouse.up();
   await page.mouse.wheel(0,gesture.zoom);
@@ -374,8 +374,10 @@ async function rejectUnreachable(room,saved){
   const original=before.nodes.find(n=>n.id===room.rule.roles.dispenser).transform;
   const upper=room.document.scale==='building',axis=upper?'z':'x',coordinate=upper?-.96:1.6;
   const target=original.position.slice();target[upper?2:0]=coordinate;
-  const details=page.locator('#placement-tools');
-  if(!await details.evaluate(n=>n.open))await details.locator('summary').click();
+  for(const selector of ['#placement-tools','#placement-tools > details']){
+    const details=page.locator(selector);
+    if(!await details.evaluate(n=>n.open))await details.locator(':scope > summary').click();
+  }
   await page.locator('#edit-'+axis).fill(String(coordinate));
   const start=report.browserErrors.length;
   const [rejection]=await Promise.all([page.waitForEvent('console',e=>e.type()==='error'),page.locator('#edit-position').click()]);
@@ -419,9 +421,13 @@ async function exercise(room,profile,roomIndex,previous){
     assert.deepEqual(structure(cold),structure(warm));
     await select(room,'dispenser');assert.equal(await page.locator('#edit-look').inputValue(),d+'@1');
     result.rounds.push({basin:b,dispenser:d,warm,cold,detail:detail.records.dispenser,saveSha256:sha(saved)});
+    if(i===0){
+      result.rejected=await rejectUnreachable(room,saved);
+      await close();await open(profile);await nativeOpen(room,false);
+      assert.deepEqual(await current(),JSON.parse(saved).document);await enter(room);
+    }
   }
   for(const role of ['basin','dispenser'])assert.equal(new Set(result.rounds.map(row=>row.warm.records[role].geometrySha256)).size,4);
-  result.rejected=await rejectUnreachable(room,saved);
   await close();return {id:room.alias,text:saved};
 }
 async function tour(all){
