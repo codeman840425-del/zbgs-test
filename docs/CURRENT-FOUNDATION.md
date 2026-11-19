@@ -1,5 +1,7 @@
 # 当前角色基础工程恢复点
 
+两具轻量制服的原发眼镜配方已完成签出、导出、独立游戏重开和失败重试。固定源码 `fdbe4548`，构建 `60c87f62e8b0`。工程的独立包、构建和浏览器暂存均在主目录内。下一包让美术 Agent 用现成的两个 1K 上衣版型从标准款式目录制作角色，保留历史片段摘要并验证同键冲突、重复导入和正式准入。[双人原速与房间动作](../evidence/m2-uniform-lite-glasses-game-v1/index.html) · [复建](../evidence/m2-uniform-lite-glasses-game-v1/README.md)
+
 轻量制服已在固定 `da9cae25 / 08253a07fc73` 复验发型与眼镜的双向约束。原发专用镜腿和 bob 的组合被拒，卸镜换发、切回原发重新佩戴成功。生产侧读取最终造型来回读签名及组包。下一步用同一受限条件试制男女两份可签的技术角色，再量实际独立包和同屏成本。[固定对照](../evidence/m2-uniform-glasses-head-v1/README.md) · [批次输入](../assets-source/variant-matrix-v1/uniform-lite-glasses-request.json)
 
 1K 制服眼镜候选已从固定源码 `925cc082` 构建为 `4540a27be60e`，女、男均已从原签名恢复后在诊断入口实际佩戴。现有眼镜采集、动作链和旧预览工具都把输出及专用浏览器暂存限制在角色工程内。下个生产判断以原发侧面镜腿、透明发片和可见耳部的实际表现为据，再决定是否登记这两个确切组合并签出戴眼镜的角色。游戏交付单和人工预览各自保留原发布身份。[实际画面、输入与限制](../evidence/m2-uniform-live-fit-intake-v1/index.html) · [工作树及路径审计](../evidence/character-worktree-relocation-v1/root-review.json)
