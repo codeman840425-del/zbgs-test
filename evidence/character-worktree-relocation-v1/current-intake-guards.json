@@ -1,0 +1,48 @@
+{
+  "schema": "current-intake-write-boundary-verification-v1",
+  "cwd": "F:/",
+  "mode": "CPU only; approved browser executable pinned by the normal helper, with a launch test double",
+  "entrySha256": {
+    "scripts/qa-record-image-lifecycle.cjs": "12d660cc5c2aaf4f092741c9d623fe92ea6eaa46dac5dbd38102b028a0392448",
+    "scripts/qa-rule-stream-lifecycle.cjs": "fc0a032a2a34375bd603a414e79e08c260f546aa9700183107bbbac8520683f5",
+    "evidence/m2-rule-strict-cdp-content-v1/game/check-cold.cjs": "ad5de0737d93b70bd257bb7f9374488b43ba8275883a95aab3061baaa514f6c5",
+    "evidence/m2-rule-strict-cdp-content-v1/game/check-cold-02676251.cjs": "02676251909c4bd3c5c2cf08fc8b21dfd6d8151c7ef5b7c32c2077684a214165",
+    "scripts/production/verify_record_room.py": "15b4290d7735245cbf1534ccf845beb71d205d7bc9e32b7d92501bf5e456ab04"
+  },
+  "realEntryBoundaryChecks": {
+    "entries": 4,
+    "destinationsPerEntry": ["existing drive root", "absolute project path followed by parent traversal", "project fixture junction to existing drive root"],
+    "rejectedBeforeInput": 12,
+    "outsideSentinelsCreated": 0,
+    "defaultOutputs": "The three Node entries require a supplied evidence directory. Python uses stdout when --out is omitted.",
+    "strictRecordFilenamePreflight": {
+      "invalidIds": ["bad/name", "NUL", "ending."],
+      "rejectedBeforeEvidenceCreation": 3,
+      "fix": "Validate each record with isSafeCharacterRecordId and resolve final paths within the newly created evidence directory before screenshot, video and receipt writes."
+    }
+  },
+  "browserFailureAndRetry": {
+    "newEntryRuns": 6,
+    "failure": "CPU launch failure in checked scratch",
+    "eachFreshDestinationAfterCleanup": ["report.json"],
+    "childEnvironmentChecked": ["TEMP", "TMP", "TMPDIR", "downloadsPath", "tracesDir"],
+    "realPlaywrightOrBrowserLaunched": false,
+    "fixtureCorrection": "An initial unapproved mock browser deployment was rejected before launch. The passing tests use the existing approved deployment and replace only Playwright launch."
+  },
+  "roomVerifier": {
+    "fixedRoot": "F:/gamemake/experiments/worktrees/formal-room-a-4becd8e4",
+    "sourceCommit": "4becd8e49fb668f34b27a316f5e03ae6ec6e7e58",
+    "sourceDigest": "f90136db446c1f3c6a45b2e75bbbf9848d767422c079cb444a207bb69f399f45",
+    "original": "First record extracted from evidence/m2-rule-batch-delivery-v1/records.json into an experiments/ temporary directory",
+    "id": "public-batch-a",
+    "report": "evidence/m2-rule-formal-room-v1/public-batch-a/report.json",
+    "checks": ["default stdout with no files added", "published bytes equal stdout", "idempotent identical receipt", "different existing receipt retained with exit 1", "source evidence directory names, sizes and modification times unchanged", "no staged files after completion"],
+    "conflictError": "verify_record_room.py: Existing receipt differs",
+    "writes": "When requested, NamedTemporaryFile is opened in the checked receipt parent and unlinked in finally. Record validation uses stdin with Node compile cache disabled. Python source was read only."
+  },
+  "commandsFromDriveRoot": [
+    "node --test F:/gamemake/scripts/qa-current-intake-output.test.cjs",
+    "node --test --test-name-pattern 'browser QA keeps launch|junction cannot redirect|fixed check|fixed-check|sequential|cleanup' F:/gamemake/scripts/project-output.test.cjs F:/gamemake/scripts/run-fixed-check.test.cjs"
+  ],
+  "testResults": {"newPassing": 3, "newSkipped": 0, "sharedPassing": 3, "sharedSkipped": 0}
+}

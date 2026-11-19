@@ -8,17 +8,19 @@ const url = 'http://127.0.0.1/assets/body.vrm';
 const content = Buffer.from('a simulated body');
 const pin = {bytes:content.length,sha256:createHash('sha256').update(content).digest('hex')};
 
-async function fixture() {
+async function fixture(contentMode=false) {
   const session = new EventEmitter();
   const bodyReads = [];
   const bodies = new Map();
   session.send = async (method, params) => {
+    if(method==='Network.streamResourceContent')return {bufferedData:''};
     if (method!=='Network.getResponseBody') return;
     bodyReads.push(params.requestId);
     if (!bodies.has(params.requestId)) throw Error('body evicted from the inspector');
     return {body:bodies.get(params.requestId).toString('base64'),base64Encoded:true};
   };
-  const network = await observeNetwork({newCDPSession:async()=>session},{});
+  const network = await observeNetwork({newCDPSession:async()=>session},{},
+    contentMode?new Map([[url,{url,...pin}]]):undefined);
   const begin = id => {
     session.emit('Network.requestWillBeSent',{requestId:id,request:{url,method:'GET'},initiator:{type:'script'}});
     session.emit('Network.responseReceived',{requestId:id,response:{url,status:200,protocol:'http/1.1',
@@ -53,6 +55,57 @@ test('two responses to one URL preserve a missing finish and an independently me
   finish('1');
   assert.equal(network.diagnostics([url]).requestLifecycle[0].events.at(-1).event,'finish');
   assert.equal(measurement.row.transfer.length,1);
+});
+
+test('strict supplement verifies both channels for each original and reselected ID without refetch',async()=>{
+  const {network,session,begin,finish,bodyReads}=await fixture(true);
+  function stream(id,bytes=content){
+    begin(id);session.emit('Network.dataReceived',{requestId:id,dataLength:bytes.length,data:bytes.toString('base64')});
+  }
+  stream('first');finish('first');
+  const measured=measureAttempts(url,pin,await network.readAttempts(url));
+  assert.equal(measured.row.transfer.length,1);
+  network.stage('reselect');
+  stream('later');finish('later');
+  stream('evicted');finish('evicted',null);
+  stream('bad-original');finish('bad-original',Buffer.alloc(content.length));
+  stream('bad-stream',Buffer.alloc(content.length));finish('bad-stream');
+  stream('abort');session.emit('Network.loadingFailed',{requestId:'abort',errorText:'net::ERR_ABORTED',canceled:true});
+  stream('no-transfer');finish('no-transfer',content,0);
+  const receipt=await network.auditContent();
+  assert.deepEqual(bodyReads,['first','later','evicted','bad-original','bad-stream','no-transfer']);
+  assert.equal(receipt.status,'failed');assert.equal(receipt.requests,7);assert.equal(receipt.passed,2);
+  assert.equal(receipt.attempts[1].content.sha256,pin.sha256);
+  assert.equal(receipt.attempts[1].original.sha256,pin.sha256);
+  assert.match(receipt.attempts[2].error,/evicted/);assert.equal(receipt.attempts[2].content.sha256,pin.sha256);
+  assert.match(receipt.attempts[3].error,/original CDP body/);
+  assert.match(receipt.attempts[4].error,/digest mismatch/);
+  assert.match(receipt.attempts[5].error,/loadingFailed/);
+  assert.match(receipt.attempts[6].error,/Missing measured transfer/);
+  stream('after-audit');finish('after-audit');
+  assert.match(network.contentSummary().attempts.at(-1).error,/missing original read/);
+});
+
+test('per-session reservations fail closed and release completed body buffers before the next ID',async()=>{
+  const {observePinnedRequests}=require('./qa-cdp-content.cjs');
+  const session=new EventEmitter();
+  session.send=async()=>({bufferedData:''});
+  const pins=new Map([[url,{url,...pin}]]);
+  const sampler=observePinnedRequests(session,pins,{maxBytes:pin.bytes,maxActive:1,maxRequests:3});
+  const emit=(name,id,fields)=>session.emit('Network.'+name,{requestId:id,...fields});
+  const request=id=>emit('requestWillBeSent',id,{request:{method:'GET',url}});
+  request('1');request('2');
+  emit('responseReceived','1',{response:{url,status:200,headers:{'Content-Length':String(pin.bytes)}}});
+  emit('dataReceived','1',{dataLength:pin.bytes,data:content.toString('base64')});
+  emit('loadingFinished','1',{encodedDataLength:pin.bytes+10});
+  await new Promise(setImmediate);
+  request('3');request('4');
+  const r=sampler.summary();
+  assert.equal(r.peakActive,1);assert.equal(r.peakReservedBytes,pin.bytes);
+  assert.equal(r.firstExcessId,'4');assert.equal(r.overflow,1);
+  assert.equal(r.attempts[0].content.status,'pinned-content-observed');
+  assert.match(r.attempts[1].error,/storage limit/);
+  assert.match(r.attempts[2].error,/missing original read/);
 });
 
 test('late finish is observed, while a terminal cancellation is a real failure',async()=>{

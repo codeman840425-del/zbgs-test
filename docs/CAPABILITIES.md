@@ -1,5 +1,11 @@
 # 角色系统能力清单（唯一当前状态依据）
 
+**同两份参数角色原签可在固定普通游戏中反复加载、释放和恢复。** 构建 `241ce1c278f0` 的两个新浏览器进程各完成两轮装卸。每个进程解码的 92 张私有位图都恰好关闭一次；两种移除顺序共四次实际重传留下角色的纹理，同帧像素一致。修复前 `f90136db446c` 同条件各 92 张、显式关闭 0 张。25 个角色及动作数据文件逐字节一致。当前版两人分别走近、坐稳、起身、离开并在关闭重开后恢复原签。静态检查和开发机 1440×1000 单人 A、单人 B、双人三组各 12 秒采样也锁定当前构建。纹理对象计数、帧间隔和关闭时点均有实测；目标普通电脑、物理显存峰值、整套美术及权属尚待验。[动作、资源和重建](../evidence/m2-rule-image-lifecycle-v1/README.md) · [逐人正式动作回执](../evidence/m2-rule-image-lifecycle-v1/two-rooms.json)
+
+**接收方可以直接验证自己的角色记录。** 通用工具核对原签、固定检出全部编译输入、装备、四个房间任务及录像文件。在 `f90136db446c` 实际接受工程内两份原签和接收方两份自选参数原签。从 F 盘根运行时，10 种错配或输出错误被拒绝，修正后可在同一目的地重试。[入口](../scripts/production/verify_record_room.py) · [四条实报](../evidence/m2-rule-formal-intake-v1/four-records.json) · [拒绝与重试](../evidence/m2-rule-formal-intake-v1/checks.json)
+
+在另一次制作侧观察中，两份旧盲包共 116 笔请求有成功网络终态、传输字节及完整正文摘要。新增逐块取证取得 27 笔，另 89 笔发送命令时已下载完，两包的合取检查均未通过。接收方原严格回执仍为 0/2。它们对应旧包和各自观察条件。[两种检查逐项结果](../evidence/m2-rule-strict-cdp-content-v1/README.md)
+
 **两条外置原签在新候选完成了单人房间动作核验。** 构建 `f90136db446c` 首次进房即按发布清单加载各自身体和三件装备。每人独立完成走近、坐稳、起立和走离，实际释放座位，重新开页后恢复。缺请求号、错构建、错记录、错装备共八项拒绝。普通游戏包也用同两条原签完成两个新浏览器进程的双人回读。旧构建 `60e3934ddd8a` 的整套正式批准数仍为 **0/2**，新候选尚无整套批准。[逐人 1× 录像与复跑](../evidence/m2-rule-formal-room-v1/README.md) · [普通游戏实录](../evidence/m2-rule-formal-room-v1/ordinary-cold/dual-external-cold-1x.webm) · [旧版审核](../evidence/m2-rule-batch-delivery-v1/formal/README.md)
 
 冻结普通包在开发机 CfT 145 分别对 A、B、A+B 采样 12 秒，离场后可见角色纹理句柄均失效。普通机性能、实际显存字节、解码峰值和严格传输仍缺合格证据。受控试验分别更换为 pipeTo 和受限 Blob 后，完整身体在页面内读满并通过 SHA，严格网络检查仍失败，保留产品原读取器。[实测设备与逐帧数据](../evidence/m2-rule-record-cost-v1/README.md) · [请求时序](../evidence/m2-rule-stream-lifecycle-v1/README.md) · [第二次对照](../evidence/m2-rule-framed-read-v1/README.md)

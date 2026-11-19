@@ -39,6 +39,27 @@ function summarize(trace, phases) {
     explicitImageDecodeCalls:trace.events.filter(e => e.type === 'image-decode-start').length};
 }
 
+// Applies to this two-actor outfit path, where every decoded image is used
+// by a visible material. A cache of deliberately retained assets would need
+// a separate ownership contract before running the same assertion.
+function verifyRelease(trace, phases) {
+  assert(trace.hooks.createImageBitmap && trace.hooks.imageBitmapClose && trace.droppedEvents === 0);
+  assert.equal(trace.counts['bitmap-error'],0);
+  const decoded = trace.events.filter(e => e.type === 'bitmap-end');
+  const closes = trace.events.filter(e => e.type === 'bitmap-close');
+  const observedOwners = new Set(phases.flatMap(phase => phase.actors.flatMap(actor => actor.images.map(image => image.id))));
+  assert.deepEqual(new Set(decoded.map(e => e.imageId)), observedOwners, 'Unattributed bitmap ownership');
+  for (const e of closes) assert(observedOwners.has(e.imageId) && e.closeCount === 1, 'Unknown or repeated close');
+  for (const sample of phases) {
+    const inUse = new Set(sample.actors.flatMap(actor => actor.images.map(image => image.id)));
+    const finished = decoded.filter(e => e.atMs <= sample.time).map(e => e.imageId);
+    const retired = new Set(closes.filter(e => e.atMs <= sample.time).map(e => e.imageId));
+    assert.deepEqual(retired,new Set(finished.filter(id => !inUse.has(id))), 'Wrong image release set at '+sample.phase);
+  }
+  assert.equal(closes.length,decoded.length);
+  return {decoded:decoded.length,closedExactlyOnce:closes.length,phases:phases.length};
+}
+
 // Runs in the page. Keep identifiers and dimensions, never a reference to an image.
 function readScene(phase) {
   const consumer = window.__recordConsumer, probe = window.__imageDecodeProbe, actors = [];
@@ -62,12 +83,15 @@ function readScene(phase) {
   return {phase, time:performance.now(), actors, rendererTextures:consumer.renderer.info.memory.textures};
 }
 
-async function collect(out, options, ordinary, records) {
+async function collect(out, options, ordinary, records, requireRelease, row) {
   const session = await launchQABrowser(out, options);
+  row.browser = session.receipt;
+  let page;
   try {
     const context = await session.browser.newContext({serviceWorkers:'block',viewport:{width:1440,height:1000}});
     await context.addInitScript(installDecodeProbe);
-    const page = await context.newPage(), errors = [];
+    page = await context.newPage();
+    const errors = row.errors = [];
     page.on('pageerror', error => errors.push(error.message));
     const cdp = await context.newCDPSession(page);
     await cdp.send('Network.enable');
@@ -76,7 +100,7 @@ async function collect(out, options, ordinary, records) {
     await page.waitForFunction(() => window.__recordConsumer?.ready, null, {timeout:90000});
     assert.equal(await page.evaluate(() => __recordConsumer.buildInfo.sourceDigest), ordinary.runtime.sourceDigest);
     assert.deepEqual(await page.evaluate(() => __recordConsumer.records), records);
-    const phases = [], ids = ordinary.actors.map(actor => actor.id);
+    const phases = row.phases, ids = ordinary.actors.map(actor => actor.id);
     async function capture(phase, expected) {
       await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
       const sample = await page.evaluate(readScene,phase);
@@ -96,6 +120,13 @@ async function collect(out, options, ordinary, records) {
         return __recordConsumer.removeActor(id);
       },{id,phase}));
     }
+    async function verifyUpload() {
+      if (!requireRelease) return;
+      const {verifySurvivorUpload} = require('./qa-surviving-actor-upload.cjs');
+      const result = await page.evaluate(verifySurvivorUpload);
+      row.uploadChecks.push(result);
+      assert.equal(result.status,'verified',result.failure);
+    }
     const coldPhase = await page.evaluate(() => __imageDecodeProbe.snapshot().events.find(e => e.type === 'bitmap-start')?.label);
     assert(typeof coldPhase === 'string','No cold decode events');
     await capture(coldPhase,ids);
@@ -103,6 +134,7 @@ async function collect(out, options, ordinary, records) {
     await capture('remove-first',[ids[1]]);
     const peer = phases[0].actors.find(a => a.id === ids[1]);
     assert.deepEqual(phases[1].actors[0],peer,'Removing one actor changed the survivor');
+    await verifyUpload();
     await remove(ids[1],'empty');
     await capture('empty',[]);
     const states = await page.evaluate(async() => {
@@ -116,38 +148,53 @@ async function collect(out, options, ordinary, records) {
     await remove(ids[1],'remove-second-first');
     await capture('remove-second-first',[ids[0]]);
     assert.deepEqual(phases.at(-1).actors[0],phases[3].actors.find(a => a.id === ids[0]));
+    await verifyUpload();
     await remove(ids[0],'final-empty');
     await capture('final-empty',[]);
-    const trace = await page.evaluate(() => __imageDecodeProbe.snapshot());
-    const summary = summarize(trace,phases);
+    row.trace = await page.evaluate(() => __imageDecodeProbe.snapshot());
+    row.summary = summarize(row.trace,phases);
+    if (requireRelease) row.release = verifyRelease(row.trace,phases);
     assert.deepEqual(errors,[]);
     await context.close();
-    return {browser:session.receipt, phases, trace, summary};
-  } finally { await session.close(); }
+  } finally {
+    try {
+      if (page && !page.isClosed() && !row.trace) {
+        row.trace = await page.evaluate(() => window.__imageDecodeProbe?.snapshot()).catch(() => null);
+      }
+    } finally { await session.close(); }
+  }
 }
 
 async function main(args) {
-  const {base,recordFile,folder,inspectBuild,manifestSha,launchOptions} = parseArgs(args);
+  const releaseFlags = args.filter(arg => arg === '--require-release');
+  assert(releaseFlags.length <= 1);
+  const requireRelease = releaseFlags.length === 1;
+  const {base,recordFile,folder,inspectBuild,manifestSha,launchOptions} = parseArgs(args.filter(arg => arg !== '--require-release'));
   assert(manifestSha && launchOptions.browserConfig, 'An exact package and approved browser are required');
   const root = await productionRoot(), out = await projectOutput(folder,root);
   const records = JSON.parse(await fs.readFile(recordFile,'utf8'));
   const ordinary = await ordinaryInput(base,manifestSha,inspectBuild,records);
-  const reportPath = await projectOutput(path.join(out,'report.json'),root);
+  const reportPath = path.join(out,'report.json');
+  assert.equal(await projectOutput(out,root),out);
   await fs.mkdir(out,{recursive:false});
   const report = {schema:'ordinary-record-image-lifecycle-v1',status:'incomplete',manifestSha,
-    runtime:ordinary.runtime, inputs:ordinary.actors, runs:[],
+    runtime:ordinary.runtime, inputs:ordinary.actors, requireRelease, runs:[],
     scope:'Main window, two fresh browser processes. Decoder promises include queueing. Explicit close and logical RGBA8 equivalents do not measure GC or physical memory.'};
   try {
-    for (let i=0;i<2;i++) report.runs.push(await collect(out,launchOptions,ordinary,records));
+    for (let i=0;i<2;i++) {
+      const row = {phases:[],uploadChecks:[]};
+      report.runs.push(row);
+      await collect(out,launchOptions,ordinary,records,requireRelease,row);
+    }
     assert.deepEqual(report.runs[0].summary.observed.map(r => [r.visibleBitmaps,r.completedThroughSample,r.explicitlyClosedThroughSample]),
       report.runs[1].summary.observed.map(r => [r.visibleBitmaps,r.completedThroughSample,r.explicitlyClosedThroughSample]));
     report.status='measured-development-only';
   } catch (error) {
     report.failure=error.stack;
     throw error;
-  } finally { await fs.writeFile(reportPath,JSON.stringify(report,null,2)+'\n',{flag:'wx'}); }
+  } finally { await fs.writeFile(await projectOutput(reportPath,out),JSON.stringify(report,null,2)+'\n',{flag:'wx'}); }
   console.log(JSON.stringify({status:report.status,phases:report.runs[0].summary.observed}));
 }
 
 if (require.main === module) main(process.argv.slice(2)).catch(error => { console.error(error);process.exitCode=1; });
-module.exports={summarize};
+module.exports={summarize,verifyRelease};

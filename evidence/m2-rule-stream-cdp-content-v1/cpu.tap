@@ -1,0 +1,154 @@
+TAP version 13
+# Subtest: two responses to one URL preserve a missing finish and an independently measured second request
+ok 1 - two responses to one URL preserve a missing finish and an independently measured second request
+  ---
+  duration_ms: 1012.9924
+  type: 'test'
+  ...
+# Subtest: late finish is observed, while a terminal cancellation is a real failure
+ok 2 - late finish is observed, while a terminal cancellation is a real failure
+  ---
+  duration_ms: 29.9135
+  type: 'test'
+  ...
+# Subtest: CDP body eviction cannot create measured bytes and available bad bytes remain a hard failure
+ok 3 - CDP body eviction cannot create measured bytes and available bad bytes remain a hard failure
+  ---
+  duration_ms: 0.4813
+  type: 'test'
+  ...
+# Subtest: ordered prefix and suffix remain distinct when command reply comes first
+ok 4 - ordered prefix and suffix remain distinct when command reply comes first
+  ---
+  duration_ms: 5.4854
+  type: 'test'
+  ...
+# Subtest: ordered prefix and suffix remain distinct when command reply comes last
+ok 5 - ordered prefix and suffix remain distinct when command reply comes last
+  ---
+  duration_ms: 0.56
+  type: 'test'
+  ...
+# Subtest: wrong digest produces a rejected sample
+ok 6 - wrong digest produces a rejected sample
+  ---
+  duration_ms: 0.5242
+  type: 'test'
+  ...
+# Subtest: missing prefix produces a rejected sample
+ok 7 - missing prefix produces a rejected sample
+  ---
+  duration_ms: 0.229
+  type: 'test'
+  ...
+# Subtest: overlapping prefix produces a rejected sample
+ok 8 - overlapping prefix produces a rejected sample
+  ---
+  duration_ms: 0.2183
+  type: 'test'
+  ...
+# Subtest: duplicate suffix produces a rejected sample
+ok 9 - duplicate suffix produces a rejected sample
+  ---
+  duration_ms: 0.1477
+  type: 'test'
+  ...
+# Subtest: gap after streamed bytes produces a rejected sample
+ok 10 - gap after streamed bytes produces a rejected sample
+  ---
+  duration_ms: 0.1491
+  type: 'test'
+  ...
+# Subtest: malformed base64 produces a rejected sample
+ok 11 - malformed base64 produces a rejected sample
+  ---
+  duration_ms: 0.1901
+  type: 'test'
+  ...
+# Subtest: incorrect frame size produces a rejected sample
+ok 12 - incorrect frame size produces a rejected sample
+  ---
+  duration_ms: 0.1621
+  type: 'test'
+  ...
+# Subtest: redirect produces a rejected sample
+ok 13 - redirect produces a rejected sample
+  ---
+  duration_ms: 0.2038
+  type: 'test'
+  ...
+# Subtest: cached response produces a rejected sample
+ok 14 - cached response produces a rejected sample
+  ---
+  duration_ms: 0.1583
+  type: 'test'
+  ...
+# Subtest: unsupported protocol command produces a rejected sample
+ok 15 - unsupported protocol command produces a rejected sample
+  ---
+  duration_ms: 0.1307
+  type: 'test'
+  ...
+# Subtest: no terminal produces a rejected sample
+ok 16 - no terminal produces a rejected sample
+  ---
+  duration_ms: 19.9348
+  type: 'test'
+  ...
+# Subtest: no reply produces a rejected sample
+ok 17 - no reply produces a rejected sample
+  ---
+  duration_ms: 13.1565
+  type: 'test'
+  ...
+# Subtest: wrong framing prevents sending the sampling command
+ok 18 - wrong framing prevents sending the sampling command
+  ---
+  duration_ms: 0.2615
+  type: 'test'
+  ...
+# Subtest: only the external file pinned by the selected package record is eligible
+ok 19 - only the external file pinned by the selected package record is eligible
+  ---
+  duration_ms: 3.8968
+  type: 'test'
+  ...
+# Subtest: a complete body alone cannot identify the registration reader
+ok 20 - a complete body alone cannot identify the registration reader
+  ---
+  duration_ms: 0.2136
+  type: 'test'
+  ...
+# Subtest: page hooks observe native EOF, lock release, explicit cancel and abort as separate events
+ok 21 - page hooks observe native EOF, lock release, explicit cancel and abort as separate events
+  ---
+  duration_ms: 17.0946
+  type: 'test'
+  ...
+# Subtest: same CDP ID retains each chunk, raw HTTP and canceled terminal without inferring a page abort
+ok 22 - same CDP ID retains each chunk, raw HTTP and canceled terminal without inferring a page abort
+  ---
+  duration_ms: 0.8288
+  type: 'test'
+  ...
+# Subtest: only a unique two-way timing window gives a candidate and never claims direct ID
+ok 23 - only a unique two-way timing window gives a candidate and never claims direct ID
+  ---
+  duration_ms: 0.3042
+  type: 'test'
+  ...
+# Subtest: business observation requires the signed actor attached with the pinned body and visible outfit
+ok 24 - business observation requires the signed actor attached with the pinned body and visible outfit
+  ---
+  duration_ms: 0.7482
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1148.7709

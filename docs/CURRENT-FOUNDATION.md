@@ -1,8 +1,12 @@
 # 当前角色基础工程恢复点
 
+当前普通游戏候选源码 `bc42048f`，固定构建 `241ce1c278f0`。同两份原签已在这个构建完成逐人走坐起、双人回读、离场图像释放、静态预算和开发机采样。4196 实际服务的工作台仍为 `9ce414f65f55`。离线可直接观看[角色 A](../evidence/m2-rule-image-lifecycle-v1/public-batch-a/room-produced-1x.webm)、[角色 B](../evidence/m2-rule-image-lifecycle-v1/public-batch-b/room-produced-1x.webm)及[双人普通游戏](../evidence/m2-rule-image-lifecycle-v1/game-cold/dual-external-cold-1x.webm)。[固定包、运行证据和重建步骤](../evidence/m2-rule-image-lifecycle-v1/README.md)
+
+阶段一的接收工具现在可按原签核任意角色 ID 的房间回执。融合方两份自选参数和本工程两份样本在前版 `f90136db446c` 均可逐条复核。持续处理精确装扮的来源与准入；下一次接收方差异验证应锁定 `241ce1c278f0`。普通电脑、人工观感和权属结论分别保留。旧盲包的严格传输观察已结束，两包的新增合取均失败。[四份原签](../evidence/m2-rule-formal-intake-v1/four-records.json) · [逐请求结论](../evidence/m2-rule-strict-cdp-content-v1/README.md)
+
 新房间候选源码 `4becd8e4`，构建 `f90136db446c`。两份工程内独立检出重建的 555 个文件一致。两名已签角色均完成逐人房间动作、释放座椅和再开回读，37 文件普通包已完成双人冷开。本次变更只作用于显式启用发布身体清单的房间/制作入口。[逐人录像和重建](../evidence/m2-rule-formal-room-v1/README.md)
 
-固定版本审查命令已接入盘根巡检，跨项目的工作树、意外同名前缀目录或路径异常会在写入审查文件前终止。可从 `F:\` 启动 `node --test F:/gamemake/scripts/runtime-package/review-game-runtime.test.mjs` 和 `node --test F:/gamemake/scripts/project-output.test.cjs` 重放失败清理。[发布入口](../scripts/runtime-package/review-game-runtime.mjs)
+固定版本审查命令已接入盘根巡检，跨项目的工作树、意外同名前缀目录或路径异常会在写入审查文件前终止。四个本批入口从盘根实跑，盘根、路径回退、Windows 目录联接共 12 次在读取输入前拒绝。严格冷开入口还先校验角色 ID，再核截图、录像和报告的最终落点。[盘根实跑及重复启动故障回收](../evidence/character-worktree-relocation-v1/current-intake-guards.json) · [发布入口](../scripts/runtime-package/review-game-runtime.mjs)
 
 参数生产阶段已收到融合独立回执。接收方自选的两个下颌权重均在冻结游戏 `60e3934ddd8a` 完成签发、冷开和座椅使用，严格网络检查为 0/2。本工程现可用一份批次同时制作、签发和打包两个角色。两份独立固定检出用同一对已签记录导出 37 个逐字节相同的文件，三件共用制服各装一份。两个全新浏览器均能逐人招手、移除并回读；33.76 秒房间录像覆盖两人先后走入、坐稳、离开和释放座位。[观看本批与重放](../evidence/m2-rule-batch-delivery-v1/README.md) · [独立接收结果](../evidence/m2-rule-batch-delivery-v1/receiver/received.json)
 

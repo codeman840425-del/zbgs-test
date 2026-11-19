@@ -88,4 +88,35 @@ async function oldSurvivor(page,selection) {
       liveAccessories:captured.liveAccessories};
   },{fresh:selection.fresh.identity.id,old:selection.old.identity.id});
 }
-module.exports={publishedInputs,publication,oldSurvivor};
+
+// These pins are known before navigation. At runtime the strict caller compares
+// this set to the URLs independently selected by the published index and actors.
+function strictContentPins(origin,files,signed,selection,motionSha){
+  assert(selection,'content observation needs a published pair');
+  const paths=new Set(['/records/manifest.json']);
+  for(const r of signed){
+    const {base,equipment}=r.appearanceRecipe;
+    const body='/assets/'+base.bodyType+'/body.vrm';
+    assert.equal(files.get(body)?.sha256,base.sha256);
+    paths.add(body).add(equipment.manifestUrl).add('/records/'+r.identity.id+'.json');
+    for(const item of Object.values(equipment.resources)){
+      const url=new URL(item.url,new URL(equipment.manifestUrl,origin));
+      assert.equal(url.origin,origin.origin);
+      assert.equal(files.get(url.pathname)?.sha256,item.sha256);
+      paths.add(url.pathname);
+    }
+  }
+  const folder='/character-data/'+selection.fresh.appearanceRecipe.base.bodyType+'/';
+  for(const name of ['index','profile','recipe','fit'])paths.add(folder+name+'.json');
+  assert.equal(files.get(folder+'index.json')?.sha256,selection.indexSha256);
+  const motion=[...files].filter(([,file])=>file.sha256===motionSha);
+  assert.equal(motion.length,1);
+  paths.add(motion[0][0]);
+  return new Map([...paths].map(path=>{
+    const file=files.get(path);
+    assert(file,'No manifest pin for '+path);
+    const url=new URL(path,origin).href;
+    return [url,{url,bytes:file.bytes,sha256:file.sha256}];
+  }));
+}
+module.exports={publishedInputs,publication,oldSurvivor,strictContentPins};

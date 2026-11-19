@@ -6,6 +6,7 @@ const {productionRoot, projectOutput} = require('./project-output.cjs');
 const {browserConfigArgs} = require('./qa-browser-config-args.cjs');
 const {launchQABrowser} = require('./qa-browser-workspace.cjs');
 const {observeNetwork} = require('./qa-cold-assets.cjs');
+const {validateContentPin,observeContent}=require('./qa-cdp-content.cjs');
 
 // Playwright serializes this function into the page before the game modules load.
 function observePage({urls}) {
@@ -106,7 +107,7 @@ function observePage({urls}) {
   });
 }
 
-async function observeTransfer(context, page, urls) {
+async function observeTransfer(context, page, urls, contentPin) {
   const cdp = await context.newCDPSession(page);
   const observer = await observeNetwork({newCDPSession:async () => cdp}, page);
   const wanted = new Set(urls), byId = new Map();
@@ -118,8 +119,10 @@ async function observeTransfer(context, page, urls) {
     byId.get(requestId)?.dataReceived.push({timestamp,dataLength,encodedDataLength});
   });
   observer.stage('initial-registration-and-restore');
-  return () => observer.diagnostics(urls).requestLifecycle.filter(row => byId.has(row.requestId))
+  const snapshot=() => observer.diagnostics(urls).requestLifecycle.filter(row => byId.has(row.requestId))
     .map(row => ({...row, ...byId.get(row.requestId)}));
+  if(contentPin)snapshot.content=observeContent(cdp,contentPin);
+  return snapshot;
 }
 
 function associateAttempts(network, {timeOriginMs, operations}) {
@@ -180,13 +183,46 @@ function checkSelection(game, pack, assets) {
   }
 }
 
+function contentSelection(recordId,pack,origin){
+  const matches=pack.records.filter(r=>r.id===recordId);
+  assert.equal(matches.length,1,'expected one packaged record');
+  const {bodyType,avatarSha256}=matches[0];
+  assert(/^rule-body-[a-f0-9]{20}$/.test(bodyType) && bodyType==='rule-body-'+avatarSha256.slice(0,20));
+  const pathname='assets/'+bodyType+'/body.vrm';
+  const files=pack.files.filter(f=>f.path===pathname);
+  assert.equal(files.length,1,'expected one body file');
+  const [{bytes,sha256}]=files;
+  assert.equal(sha256,avatarSha256);
+  assert(files[0].provenance?.some(p=>p.packPath===pathname && /^[a-f0-9]{64}$/.test(p.indexSha256)),
+    'expected an externally published body');
+  return validateContentPin({recordId,url:new URL(pathname,origin).href,bytes,sha256});
+}
+
+function identifyRegistration(sample,page,associations){
+  const match=associations?.find(row=>row.requestId===sample.requestId);
+  const op=page?.operations.find(row=>row.operationId===match?.candidateOperationIds[0]);
+  const actor=page?.game?.actors.find(a=>a.id===sample.pin.recordId);
+  const reads=op?.events.filter(e=>e.event==='reader-read')??[];
+  if(match?.correlation==='unique-url-method-time-candidate' && op?.url===sample.pin.url && op.method==='GET' &&
+    op.events.some(e=>e.event==='get-reader' && e.mode==='default') &&
+    reads.at(-1)?.done && reads.reduce((total,e)=>total+e.bytes,0)===sample.pin.bytes &&
+    actor?.attached && actor.body.sha256===sample.pin.sha256){
+    sample.registration={correlation:match.correlation,pageOperationId:op.operationId,directPageRequestId:'unobserved'};
+  }else{
+    sample.registration={correlation:match?.correlation??'unobserved',directPageRequestId:'unobserved'};
+    sample.status='rejected';
+    sample.error??='selected request cannot be uniquely associated with the signed actor registration reader';
+  }
+}
+
 async function run(base, manifestSha, ...args) {
   const {remaining,launchOptions}=browserConfigArgs(args);
-  const [output]=remaining;
-  assert(remaining.length===1 && /^[0-9a-f]{64}$/.test(manifestSha),
-    'Usage via run-fixed-check: PACKAGE_MANIFEST_SHA NEW_EVIDENCE_DIR [--browser-config PATH]');
+  const [output,option,recordId]=remaining;
+  assert((remaining.length===1 || (remaining.length===3 && option==='--cdp-content-record' && recordId)) &&
+    /^[0-9a-f]{64}$/.test(manifestSha),
+    'Usage via run-fixed-check: PACKAGE_MANIFEST_SHA NEW_EVIDENCE_DIR [--cdp-content-record RECORD_ID] [--browser-config PATH]');
   const root = await productionRoot(), out = await projectOutput(output,root);
-  const destination = await projectOutput(path.join(out,'report.json'),root);
+  const destination = path.join(out,'report.json');
   const origin = new URL(base);
   assert(origin.protocol==='http:' && origin.hostname==='127.0.0.1');
   const response = await fetch(new URL('runtime-package.json',origin),{redirect:'error'});
@@ -194,11 +230,13 @@ async function run(base, manifestSha, ...args) {
   const bytes = Buffer.from(await response.arrayBuffer());
   assert.equal(createHash('sha256').update(bytes).digest('hex'),manifestSha);
   const pack = JSON.parse(bytes), assets = new Map(pack.files.map(file=>['/'+file.path,file]));
+  const contentPin=recordId?contentSelection(recordId,pack,origin):undefined;
   const urls = [...assets.keys()].filter(url=>url.startsWith('/assets/') && /\.(vrm|glb)$/.test(url))
     .map(url=>new URL(url,origin).href);
   const entry = new URL(pack.runtime.entryUrl,origin);
   assert(entry.origin===origin.origin && entry.pathname==='/record-consumer.html');
   assert(urls.length>0);
+  assert.equal(await projectOutput(out,root),out);
   await fs.mkdir(out);
   const report = {schema:'rule-stream-lifecycle-v1', status:'incomplete', manifestSha, build:pack.runtime.sourceDigest,
     networkIntegrity:'not-evaluated', pageErrors:[], close:[], pagehide:{status:'unobserved'}};
@@ -210,7 +248,7 @@ async function run(base, manifestSha, ...args) {
     page = await context.newPage();
     page.on('pageerror', error=>report.pageErrors.push(error.message));
     page.on('close', ()=>report.close.push({event:'page-close-observed', nodeEpochMs:Date.now()}));
-    transfers = await observeTransfer(context,page,urls);
+    transfers = await observeTransfer(context,page,urls,contentPin);
     await page.exposeBinding('__qaStreamPagehide', ({frame}, snapshot) => {
       if (frame===page.mainFrame()) report.pagehide={status:'observed',...snapshot};
     });
@@ -228,6 +266,7 @@ async function run(base, manifestSha, ...args) {
     if (page && !page.isClosed() && !report.page) report.page=await page.evaluate(pageSnapshot).catch(()=>undefined);
   } finally {
     try {
+      if(transfers?.content)report.cdpContent=await transfers.content();
       if (page && !page.isClosed()) {
         report.close.push({event:'diagnostic-page-close-call', nodeEpochMs:Date.now()});
         await page.close();
@@ -235,11 +274,15 @@ async function run(base, manifestSha, ...args) {
     } finally {
       if (transfers) report.network=transfers();
       if (report.page && report.network) report.associations=associateAttempts(report.network,report.page);
+      if(report.cdpContent){
+        identifyRegistration(report.cdpContent,report.page,report.associations);
+        if(report.cdpContent.status==='rejected')process.exitCode ||= 2;
+      }
       try { await session?.close(); }
-      finally { await fs.writeFile(destination,JSON.stringify(report,null,2)+'\n',{flag:'wx'}); }
+      finally { await fs.writeFile(await projectOutput(destination,out),JSON.stringify(report,null,2)+'\n',{flag:'wx'}); }
     }
   }
 }
 
 if (require.main===module) run(...process.argv.slice(2)).catch(error=>{console.error(error);process.exitCode=1;});
-module.exports = {observePage, observeTransfer, associateAttempts, checkSelection};
+module.exports = {observePage, observeTransfer, associateAttempts, checkSelection,contentSelection,identifyRegistration};

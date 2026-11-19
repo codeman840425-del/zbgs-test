@@ -291,8 +291,8 @@ def source_commit(root):
     return git("rev-parse","HEAD")
 
 
-def verify_runtime_source(root, approval):
-    build = json.loads(pinned_file(approval["buildInfo"]).read_bytes())
+def verify_runtime_source(root, approval, *, evidence_root=ROOT):
+    build = json.loads(pinned_file(approval["buildInfo"], evidence_root).read_bytes())
     inputs = build.get("inputs")
     require(isinstance(inputs,list) and inputs and all(isinstance(name,str) for name in inputs) and
             len(set(inputs)) == len(inputs), "Fixed build source inventory is missing or duplicated")

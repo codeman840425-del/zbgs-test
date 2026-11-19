@@ -7,12 +7,13 @@ const headerPins = headers => Object.fromEntries(Object.entries(headers ?? {})
   .map(([key,value]) => [key.toLowerCase(),value]).filter(([key]) => measuredHeaders.has(key)));
 const measurementUnavailable = message => Object.assign(Error(message), {kind:'measurement-unavailable'});
 
-async function observeNetwork(context, page) {
+async function observeNetwork(context, page, contentPins) {
   const session = await context.newCDPSession(page);
   await session.send('Network.enable', {maxTotalBufferSize: 96 * 1024 * 1024, maxResourceBufferSize: 32 * 1024 * 1024});
   await session.send('Network.setCacheDisabled', {cacheDisabled: true});
   await session.send('Network.setBypassServiceWorker', {bypass: true});
   const responses = [], finished = new Map(), cached = new Set(), failed = [], chains = new Map();
+  const content=contentPins && require('./qa-cdp-content.cjs').observePinnedRequests(session,contentPins);
   let phase = 'before-navigation';
   function event(id, detail) {
     if (!chains.has(id)) chains.set(id, []);
@@ -53,7 +54,15 @@ async function observeNetwork(context, page) {
       throw Object.assign(error,{url,requestId,lifecycle:chains.get(requestId)?.slice()});
     }
   }
-  async function readResponse({requestId, response}) {
+  const readResponse=content?readWithContent:readOriginal;
+  async function readWithContent(row) {
+    try{
+      const result=await readOriginal(row);
+      content.noteOriginal(row.requestId,result);
+      return result;
+    }catch(error){content.noteOriginal(row.requestId,undefined,error);throw error;}
+  }
+  async function readOriginal({requestId, response}) {
     const url = response.url;
     assert.equal(response.status, 200, `Unexpected status for ${url}`);
     assert.ok(!cached.has(requestId) && !response.fromDiskCache && !response.fromServiceWorker && !response.fromPrefetchCache,
@@ -107,7 +116,14 @@ async function observeNetwork(context, page) {
     }
     return attempts;
   }
-  return {read, readAttempts, stage: value => {phase=value;}, diagnostics: (selectedUrls=[]) => ({
+  return {read, readAttempts,...(content?{
+    contentSummary:content.summary,
+    auditContent:()=>content.audit(async requestId=>{
+      const matches=responses.filter(row=>row.requestId===requestId);
+      assert.equal(matches.length,1,'Expected one response for request ID '+requestId);
+      await readResponse(matches[0]);
+    }),
+  }:{}),stage: value => {phase=value;}, diagnostics: (selectedUrls=[]) => ({
     httpErrors:responses.filter(row => row.response.status >= 400).map(({response}) => ({url:response.url, status:response.status})),
     failed:failed.map(({requestId, type, errorText, canceled}) => ({requestId, type, errorText, canceled,
       url:chains.get(requestId)?.findLast(e=>e.event==='request')?.url ?? null})),
