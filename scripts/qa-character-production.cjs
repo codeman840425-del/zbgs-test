@@ -1,14 +1,19 @@
-const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
-const [base,outArg]=process.argv.slice(2),out=path.resolve(outArg);
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
+const [base,outArg]=process.argv.slice(2);
 (async()=>{
+ const out=await projectOutput(outArg,await productionRoot());
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
- const browser=await chromium.launch({channel:'chrome',headless:true}),page=await browser.newPage({viewport:{width:1440,height:1000}});
- const report={status:'incomplete',checks:[],errors:[]};page.on('pageerror',e=>report.errors.push(e.message));
+ const report={status:'incomplete',checks:[],errors:[]};
+ let session,page;
  const request=(operation,values)=>({schema:'character-production-request-v1',operation,...values});
  const production=r=>page.evaluate(async r=>{try{return await __recordConsumer.production(r);}catch(e){return{ok:false,code:e.code,reason:e.message,field:e.field,editIndex:e.editIndex};}},r);
  const capture=()=>page.evaluate(async()=>{const actor=[...__recordConsumer.actors.values()][0];return{root:actor.avatar.root.uuid,record:await actor.capture(),children:__recordConsumer.scene.children.length};});
  try{
+  session=await launchQABrowser(out,{channel:'chrome'});
+  page=await session.browser.newPage({viewport:{width:1440,height:1000}});
+  page.on('pageerror',e=>report.errors.push(e.message));
   await page.goto(base+'record-consumer.html?production=1');await page.waitForFunction(()=>window.__recordConsumer?.ready,null,{timeout:60000});report.build=await page.evaluate(()=>__recordConsumer.buildInfo);
   for(const bodyType of ['native-female-face-v1','native-male-7586-v1','male']){
    const result=await production(request('query',{bodyType}));assert(result.ok);assert.equal(result.query.liveAccessories.mic.status,'registered');assert.equal(result.query.liveAccessories.glasses.status,'registered');report.checks.push({query:bodyType,outfits:result.query.outfits.length});
@@ -33,6 +38,9 @@ const [base,outArg]=process.argv.slice(2),out=path.resolve(outArg);
   const newer=await production(request('query',{bodyType:'native-female-face-v1'}));assert(newer.ok);release();
   const stale=await page.evaluate(()=>window.__oldProduction);assert.equal(stale.ok,false);assert.equal(stale.code,'production-cancelled');await page.unroute('**/assets/foundation/base-male-roundtrip.vrm');assert.equal((await capture()).root,before.root);report.checks.push('new request cancels an actual pending model load; late result never replaces visible actor');
   await page.screenshot({path:path.join(out,'original-retained.png')});assert.equal(report.errors.length,0,JSON.stringify(report.errors));report.status='passed';
- }catch(e){report.failure=String(e.stack||e);process.exitCode=1;await page.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});}
- finally{await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:report.status,failure:report.failure,checks:report.checks}));}
-})();
+ }catch(e){report.failure=String(e.stack||e);process.exitCode=1;await page?.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});}
+ finally{
+  try{await session?.close();}
+  finally{await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:report.status,failure:report.failure,checks:report.checks}));}
+ }
+})().catch(error=>{console.error(error);process.exitCode=1;});

@@ -1,0 +1,62 @@
+{
+  "checks": [
+    {
+      "script": "scripts/qa-character-production.cjs",
+      "exitCode": 1,
+      "reason": "Error: Production output must be inside the project: F:\\"
+    },
+    {
+      "script": "scripts/qa-production-media.cjs",
+      "exitCode": 1,
+      "reason": "Error: Production output must be inside the project: F:\\"
+    },
+    {
+      "script": "scripts/qa-character-cross-body.cjs",
+      "exitCode": 1,
+      "reason": "Error: Production output must be inside the project: F:\\"
+    },
+    {
+      "script": "scripts/qa-character-record-ui.cjs",
+      "exitCode": 1,
+      "reason": "Error: Production output must be inside the project: F:\\"
+    }
+  ],
+  "rootTopLevelChanges": [],
+  "gitAudit": {
+    "project": "F:\\gamemake",
+    "unexpectedSiblings": [],
+    "unexpectedWorktrees": [],
+    "companyOwnedSiblings": [
+      "gamemake-company-platform-c1"
+    ],
+    "independentFusionTests": [
+      "gamemake-test"
+    ]
+  },
+  "inProjectBrowser": {
+    "entry": "scripts/qa-character-production.cjs",
+    "sourceBuild": "3b64a5dad472",
+    "status": "passed",
+    "checks": [
+      {
+        "query": "native-female-face-v1",
+        "outfits": 1
+      },
+      {
+        "query": "native-male-7586-v1",
+        "outfits": 2
+      },
+      {
+        "query": "male",
+        "outfits": 7
+      },
+      "late invalid edit discards candidate and leaves visible original unchanged",
+      "real edit preserves identity/provenance and advances one revision; validation keeps record exact",
+      "null edits and absent stable ID reject",
+      "material reset is captured with exact garment identity",
+      "new request cancels an actual pending model load; late result never replaces visible actor"
+    ],
+    "reportSha256": "e27389f6d958928b02f6525b26191f49772e5eb92e316310e11ca30b88f01fd4",
+    "browserScratchAfterJob": []
+  }
+}

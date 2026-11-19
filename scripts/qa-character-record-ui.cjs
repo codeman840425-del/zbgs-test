@@ -1,16 +1,20 @@
 // Actual workbench record controls, not a separate model viewer.
-const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
 const [base,outArg]=process.argv.slice(2),key='zbgs:character-records:v1';
 (async()=>{
- const out=path.resolve(outArg);await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
+ const out=await projectOutput(outArg,await productionRoot());
+ await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const report={status:'incomplete',checks:[],errors:[],scope:'Real record UI, selected native female/male, not all visual or body compatibility'};
- const browser=await chromium.launch({channel:'chrome',headless:true});
- const context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});let page;
+ let session,context,page;
  const id=s=>'#appearance-character-record-'+s;
  const open=async body=>{page=await context.newPage();page.on('pageerror',e=>report.errors.push(String(e)));await page.goto(base+'?workbench=appearance&body='+body);await page.waitForFunction(()=>__debug?.ready,null,{timeout:90000});await page.locator('#appearance-character-records summary').click();};
  const saved=async()=>{await page.waitForFunction(()=>/已保存|已更新/.test(document.querySelector('#appearance-character-record-note').textContent));return page.evaluate(k=>JSON.parse(localStorage.getItem(k)).records,key);};
  try{
+  session=await launchQABrowser(out,{channel:'chrome'});
+  const {browser}=session;
+  context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});
   await open('native-female-face-v1');report.build=await page.evaluate(()=>__debug.buildInfo.shortId);report.browser=browser.version();
   await page.locator('[data-workbench-tab="actions"]').click();
   for(const kind of ['mic','glasses']){await page.locator(`[data-accessory-kind="${kind}"]`).click();await page.waitForFunction(k=>__debug.avatar().livePresentation.getState().accessories[k].loaded,kind);}
@@ -60,5 +64,8 @@ const [base,outArg]=process.argv.slice(2),key='zbgs:character-records:v1';
   assert.equal(await page.evaluate(k=>localStorage.getItem(k),key),'broken-index');report.checks.push('malformed local index fails closed');
   assert.deepEqual(report.errors,[]);report.status='technical-pass-visual-pending';
  }catch(e){report.status='failed';report.failure=String(e.stack||e);process.exitCode=1;await page?.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});}
- finally{await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));}
-})();
+ finally{
+  try{await session?.close();}
+  finally{await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));}
+ }
+})().catch(error=>{console.error(error);process.exitCode=1;});

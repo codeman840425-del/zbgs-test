@@ -1,11 +1,12 @@
 // Cross-body runtime-record checks for the fixed browser build.
 // The script is driven by scripts/run-fixed-check.cjs and intentionally does
 // not reuse the full same-body record regression.
-const { chromium } = require('../prototype/node_modules/playwright');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const assert = require('node:assert/strict');
+const { productionRoot, projectOutput } = require('./project-output.cjs');
+const { launchQABrowser } = require('./qa-browser-workspace.cjs');
 
 const [baseURL, outputDir] = process.argv.slice(2);
 if (!baseURL || !outputDir) throw Error('Usage: node scripts/qa-character-cross-body.cjs <baseURL> <outputDir>');
@@ -147,20 +148,21 @@ async function waitHit(route){
 }
 
 async function main() {
-  const out = path.resolve(outputDir);
+  const out = await projectOutput(outputDir, await productionRoot());
   await fs.mkdir(out, { recursive: false });
   await fs.copyFile(__filename, path.join(out, 'executed-script.cjs'));
-  const femaleRecord = JSON.parse(await fs.readFile(femaleRecordPath, 'utf8'));
-  const maleRecord = JSON.parse(await fs.readFile(maleRecordPath, 'utf8'));
   const report = {
     status: 'incomplete',
     scope: 'Cross-body character-record restore and cancellation only; existing same-body full regression is not repeated.',
     fixtures: [femaleRecordPath, maleRecordPath],
     cases: [],
   };
-  const browser = await chromium.launch({ channel: 'chrome', headless: true });
-  let page;
+  let session, page;
   try {
+    const femaleRecord = JSON.parse(await fs.readFile(femaleRecordPath, 'utf8'));
+    const maleRecord = JSON.parse(await fs.readFile(maleRecordPath, 'utf8'));
+    session = await launchQABrowser(out, { channel: 'chrome' });
+    const { browser } = session;
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     page = await context.newPage();
     const pageErrors = [];
@@ -313,9 +315,11 @@ async function main() {
     process.exitCode = 1;
     try { await page?.context()?.close(); } catch {}
   } finally {
-    await browser.close();
-    await fs.writeFile(path.join(out, 'report.json'), JSON.stringify(report, null, 2) + '\n');
-    console.log(JSON.stringify({ status: report.status, cases: report.cases.length, failure: report.failure || null }));
+    try { await session?.close(); }
+    finally {
+      await fs.writeFile(path.join(out, 'report.json'), JSON.stringify(report, null, 2) + '\n');
+      console.log(JSON.stringify({ status: report.status, cases: report.cases.length, failure: report.failure || null }));
+    }
   }
 }
 
