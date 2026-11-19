@@ -92,16 +92,33 @@ def next_catalog(previous, profile):
 
 def register(group, *, root=ROOT, stage=None, check=False):
     producer = PRODUCERS[group]
-    catalog = checked(root / CATALOG)
-    public = catalog.parent.parent / 'public'
-    dest = checked(public / producer.ASSET_URL.lstrip('/'))
-    for name in RUNTIME_FILES[group]:
-        checked(dest / name)
-    key = digest(os.path.normcase(str(catalog)).encode())
-    lock = checked(main_checkout(__file__) / 'output/texture-outfit-locks' / (key + '.lock'))
+    profile_destinations(root, producer.ASSET_URL, RUNTIME_FILES[group])
     stage = Path(stage or STAGES[group]).absolute()
     profile, files = load_candidate(group, stage)
     require(set(files) == set(RUNTIME_FILES[group]), 'Unexpected public package files')
+    return install_profile(root, profile, files, producer.ASSET_URL, check)
+
+
+def profile_destinations(root, asset_url, names):
+    catalog = checked(root / CATALOG)
+    public = catalog.parent.parent / 'public'
+    require(asset_url.startswith('/assets/'), 'Invalid source profile URL')
+    dest = checked(confined(public, asset_url[1:]))
+    require(dest == public / asset_url[1:], 'Redirected profile package')
+    for name in names:
+        require(Path(name).name == name and name not in ('.', '..'), 'Invalid package filename')
+        checked(dest / name)
+    return catalog, public, dest
+
+
+def install_profile(root, profile, files, asset_url, check=False):
+    """Publish a producer-verified immutable package before exposing its catalog entry."""
+    catalog, public, dest = profile_destinations(root, asset_url, files)
+    require(profile['url'] == asset_url + '/body.vrm' and profile['manifestUrl'] == asset_url + '/equipment.json'
+            and profile['sha256'] == digest(files['body.vrm'])
+            and profile['manifestSha256'] == digest(files['equipment.json']), 'Invalid source profile identities')
+    key = digest(os.path.normcase(str(catalog)).encode())
+    lock = checked(main_checkout(__file__) / 'output/texture-outfit-locks' / (key + '.lock'))
     items = json.loads(files['equipment.json'])['items']
     for item in items:
         require(item['url'].startswith('/assets/'), 'Expected project garment URL')

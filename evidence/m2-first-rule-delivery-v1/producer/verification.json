@@ -1,0 +1,192 @@
+{
+  "schema": "shape-endpoint-production-replay-v1",
+  "status": "producer-only",
+  "python": "3.13.11",
+  "numpy": "2.4.2",
+  "runFrom": "F:/",
+  "inputs": {
+    "candidateRecipe": {
+      "path": "assets-source/rule-body-recipe-v1/candidate.json",
+      "sha256": "5ed846bfcd3b9bba3a6ac293ed1eca2033c21f827a27cdcaf477a0d644bf76ed"
+    },
+    "controlRecipe": {
+      "path": "assets-source/rule-body-recipe-v1/control.json",
+      "sha256": "75d42903eb1ccc6b18777f6672885dcc223ff10524f1a204a1b216d449ef7778"
+    },
+    "template": {
+      "path": "assets-source/rule-body-recipe-v1/template.json",
+      "sha256": "b16bcf65656083085032d534bab3285bf401608905b784e86fff4eaa79978ad7"
+    },
+    "generator": {
+      "path": "scripts/production/rule_body_producer.py",
+      "sha256": "cd83d7280041383c9e3b4307c9471848a189557a8455d8d16e47c8f013f8f8fd"
+    },
+    "tests": {
+      "path": "scripts/production/test_rule_body_producer.py",
+      "sha256": "97f5c3ac4dcdaf87eb564851779aa772f08459deb147db3e02cd3152908507fc"
+    }
+  },
+  "outputs": {
+    "candidate": {
+      "bodySha256": "0beabf44f27c0618b0fff7ce21c637206786a6c00ac940778e596396df0c8c0f",
+      "byteLength": 12141256,
+      "receiptSha256": "0960647e2d4ddf8a552a0d753fa645431777d2f52147b21607f116eb331338fc"
+    },
+    "replay": {
+      "bodySha256": "0beabf44f27c0618b0fff7ce21c637206786a6c00ac940778e596396df0c8c0f",
+      "byteLength": 12141256,
+      "receiptSha256": "0960647e2d4ddf8a552a0d753fa645431777d2f52147b21607f116eb331338fc"
+    },
+    "control": {
+      "bodySha256": "c6ce7efc3da17fe50ea1ee353c9274bc5caaaf935d11985c64da0665f847b6bd",
+      "byteLength": 12141256,
+      "receiptSha256": "adcd003eff83df6e5ddbfc2cdc751dcb4908946f1a0b509375073141090e121f"
+    }
+  },
+  "independentProcessesExactBody": true,
+  "differentWeightDifferentGeometry": true,
+  "neutralMeshReadback": [
+    {
+      "mesh": "Face.baked",
+      "primitives": [
+        {
+          "material": "M00_000_00_FaceBrow_00_FACE",
+          "referencedVertices": 110,
+          "changedReferencedVertices": 0,
+          "maxDisplacementM": 0.0,
+          "maxRestTriangleTurnDegrees": 1e-06,
+          "invertedPreviouslyValidTriangles": 0
+        },
+        {
+          "material": "M00_000_00_FaceMouth_00_FACE",
+          "referencedVertices": 384,
+          "changedReferencedVertices": 0,
+          "maxDisplacementM": 0.0,
+          "maxRestTriangleTurnDegrees": 1e-06,
+          "invertedPreviouslyValidTriangles": 0
+        },
+        {
+          "material": "M00_000_00_EyeIris_00_EYE",
+          "referencedVertices": 122,
+          "changedReferencedVertices": 0,
+          "maxDisplacementM": 0.0,
+          "maxRestTriangleTurnDegrees": 1e-06,
+          "invertedPreviouslyValidTriangles": 0
+        },
+        {
+          "material": "M00_000_00_EyeHighlight_00_EYE",
+          "referencedVertices": 122,
+          "changedReferencedVertices": 0,
+          "maxDisplacementM": 0.0,
+          "maxRestTriangleTurnDegrees": 1e-06,
+          "invertedPreviouslyValidTriangles": 0
+        },
+        {
+          "material": "M00_000_00_EyeWhite_00_EYE",
+          "referencedVertices": 74,
+          "changedReferencedVertices": 0,
+          "maxDisplacementM": 0.0,
+          "maxRestTriangleTurnDegrees": 1e-06,
+          "invertedPreviouslyValidTriangles": 0
+        },
+        {
+          "material": "M00_000_00_Face_00_SKIN",
+          "referencedVertices": 596,
+          "changedReferencedVertices": 98,
+          "maxDisplacementM": 0.0014411766165420012,
+          "maxRestTriangleTurnDegrees": 5.821466,
+          "invertedPreviouslyValidTriangles": 0
+        },
+        {
+          "material": "M00_000_00_FaceEyelash_00_FACE",
+          "referencedVertices": 150,
+          "changedReferencedVertices": 0,
+          "maxDisplacementM": 0.0,
+          "maxRestTriangleTurnDegrees": 1e-06,
+          "invertedPreviouslyValidTriangles": 0
+        },
+        {
+          "material": "M00_000_00_FaceEyeline_00_FACE",
+          "referencedVertices": 260,
+          "changedReferencedVertices": 0,
+          "maxDisplacementM": 0.0,
+          "maxRestTriangleTurnDegrees": 1e-06,
+          "invertedPreviouslyValidTriangles": 0
+        },
+        {
+          "material": "M00_000_00_Face_00_SKIN",
+          "referencedVertices": 188,
+          "changedReferencedVertices": 0,
+          "maxDisplacementM": 0.0,
+          "maxRestTriangleTurnDegrees": 1e-06,
+          "invertedPreviouslyValidTriangles": 0
+        },
+        {
+          "material": "M00_000_00_EyeExtra_01_EYE",
+          "referencedVertices": 50,
+          "changedReferencedVertices": 0,
+          "maxDisplacementM": 0.0,
+          "maxRestTriangleTurnDegrees": 1e-06,
+          "invertedPreviouslyValidTriangles": 0
+        }
+      ]
+    },
+    {
+      "mesh": "Body.baked",
+      "primitives": [
+        {
+          "material": "M00_001_01_Body_00_SKIN",
+          "referencedVertices": 2233,
+          "changedReferencedVertices": 0,
+          "maxDisplacementM": 0.0,
+          "maxRestTriangleTurnDegrees": 1e-06,
+          "invertedPreviouslyValidTriangles": 0
+        },
+        {
+          "material": "M00_001_01_Body_00_SKIN",
+          "referencedVertices": 508,
+          "changedReferencedVertices": 0,
+          "maxDisplacementM": 0.0,
+          "maxRestTriangleTurnDegrees": 1e-06,
+          "invertedPreviouslyValidTriangles": 0
+        },
+        {
+          "material": "M00_001_01_Body_00_SKIN",
+          "referencedVertices": 1580,
+          "changedReferencedVertices": 0,
+          "maxDisplacementM": 0.0,
+          "maxRestTriangleTurnDegrees": 1e-06,
+          "invertedPreviouslyValidTriangles": 0
+        },
+        {
+          "material": "M00_001_01_Body_00_SKIN",
+          "referencedVertices": 145,
+          "changedReferencedVertices": 0,
+          "maxDisplacementM": 0.0,
+          "maxRestTriangleTurnDegrees": 1e-06,
+          "invertedPreviouslyValidTriangles": 0
+        },
+        {
+          "material": "M00_000_HairBack_00_HAIR",
+          "referencedVertices": 249,
+          "changedReferencedVertices": 0,
+          "maxDisplacementM": 0.0,
+          "maxRestTriangleTurnDegrees": 1e-06,
+          "invertedPreviouslyValidTriangles": 0
+        }
+      ]
+    }
+  ],
+  "tests": {
+    "command": "python -B F:/gamemake/scripts/production/test_rule_body_producer.py -v",
+    "testCount": 3,
+    "passed": 3,
+    "checks": [
+      "expected authored positions at consumer vertices from independent accessor reader",
+      "all other glTF accessors and image bytes, rig and expression definitions",
+      "weight zero returns literal source",
+      "separate git input repository, wrong digest and invalid coefficients rejected before writing, successful retry, conflict keeps old valid package",
+      "drive absolute, parent traversal and existing junction rejected before target creation"
+    ]
+  }
+}
