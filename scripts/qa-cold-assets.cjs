@@ -5,16 +5,38 @@ async function observeNetwork(context, page) {
   await session.send('Network.enable', {maxTotalBufferSize: 96 * 1024 * 1024, maxResourceBufferSize: 32 * 1024 * 1024});
   await session.send('Network.setCacheDisabled', {cacheDisabled: true});
   await session.send('Network.setBypassServiceWorker', {bypass: true});
-  const responses = [], finished = new Map(), cached = new Set(), failed = [];
-  session.on('Network.responseReceived', row => responses.push(row));
-  session.on('Network.loadingFinished', row => finished.set(row.requestId, row));
+  const responses = [], finished = new Map(), cached = new Set(), failed = [], chains = new Map();
+  let phase = 'before-navigation';
+  function event(id, detail) {
+    if (!chains.has(id)) chains.set(id, []);
+    chains.get(id).push({phase, observedAt:Date.now(), ...detail});
+  }
+  session.on('Network.requestWillBeSent', ({requestId, request, timestamp, initiator, type, redirectResponse}) =>
+    event(requestId, {event:'request', url:request.url, method:request.method, timestamp, type, initiator,
+      ...(redirectResponse ? {redirectFrom:{url:redirectResponse.url,status:redirectResponse.status}} : {})}));
+  session.on('Network.responseReceived', row => {
+    responses.push(row);
+    event(row.requestId, {event:'response', url:row.response.url, status:row.response.status, timestamp:row.timestamp,
+      type:row.type, protocol:row.response.protocol, fromDiskCache:row.response.fromDiskCache,
+      fromServiceWorker:row.response.fromServiceWorker});
+  });
+  session.on('Network.loadingFinished', row => {
+    finished.set(row.requestId, row);
+    event(row.requestId, {event:'finish', timestamp:row.timestamp, encodedDataLength:row.encodedDataLength});
+  });
   session.on('Network.requestServedFromCache', row => cached.add(row.requestId));
-  session.on('Network.loadingFailed', row => failed.push(row));
+  session.on('Network.loadingFailed', row => {
+    failed.push(row);
+    event(row.requestId, {event:'fail', ...row});
+  });
 
   async function read(url) {
     const matches = responses.filter(row => row.response.url === url);
     assert.equal(matches.length, 1, `Expected one cold response for ${url}, got ${matches.length}`);
-    const [{requestId, response}] = matches;
+    return readResponse(matches[0]);
+  }
+  async function readResponse({requestId, response}) {
+    const url = response.url;
     const done = finished.get(requestId);
     assert.equal(response.status, 200, `Unexpected status for ${url}`);
     assert.ok(done && !failed.some(row => row.requestId === requestId), `Incomplete network response for ${url}`);
@@ -27,11 +49,26 @@ async function observeNetwork(context, page) {
     const bytes = Buffer.from(body.body, body.base64Encoded ? 'base64' : 'utf8');
     if (headers['content-length'] !== undefined) assert.equal(bytes.length, Number(headers['content-length']), url);
     assert.ok(bytes.length > 0 && done.encodedDataLength >= bytes.length, `Missing measured transfer bytes for ${url}`);
-    return {bytes, status:response.status, protocol:response.protocol, contentEncoding, transferBytes:done.encodedDataLength};
+    return {requestId, bytes, status:response.status, protocol:response.protocol, contentEncoding, transferBytes:done.encodedDataLength};
   }
-  return {read, diagnostics: () => ({
+  const lifecycle = () => [...chains].map(([requestId,events])=>({requestId,events}));
+  async function readAttempts(url) {
+    const attempts = [];
+    for (const {requestId, events} of lifecycle().filter(r=>r.events.some(e=>e.event==='request' && e.url===url))) {
+      try {
+        assert.equal(events.filter(e=>e.event==='request').length, 1, 'Redirected motion request');
+        const response = responses.find(r=>r.requestId===requestId && r.response.url===url);
+        assert(response, 'No response for this request ID');
+        attempts.push(await readResponse(response));
+      } catch (error) { attempts.push({requestId, error:error.message}); }
+    }
+    return attempts;
+  }
+  return {read, readAttempts, stage: value => {phase=value;}, diagnostics: () => ({
     httpErrors:responses.filter(row => row.response.status >= 400).map(({response}) => ({url:response.url, status:response.status})),
-    failed:failed.map(({requestId, type, errorText, canceled}) => ({requestId, type, errorText, canceled})),
+    failed:failed.map(({requestId, type, errorText, canceled}) => ({requestId, type, errorText, canceled,
+      url:chains.get(requestId)?.findLast(e=>e.event==='request')?.url ?? null})),
+    requestLifecycle:lifecycle().filter(r=>r.events.some(e=>e.event==='fail' || e.url?.includes('/assets/motion/'))),
   })};
 }
 

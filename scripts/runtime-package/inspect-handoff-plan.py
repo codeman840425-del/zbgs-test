@@ -5,6 +5,14 @@ import sys
 
 
 def main():
+    if len(sys.argv) == 3 and sys.argv[1] == '--budget-limits':
+        operator = Path(sys.argv[2])
+        sys.path.insert(0, str(operator / 'scripts' / 'production'))
+        from selected_look_budget import AGGREGATE_LIMITS
+
+        print(json.dumps(AGGREGATE_LIMITS))
+        return
+
     operator, runtime, delivery, matrix_path, request_path = map(Path, sys.argv[1:])
     sys.path.insert(0, str(operator / "scripts" / "production"))
     import variant_batch as planner

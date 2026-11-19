@@ -129,11 +129,14 @@ export function compareSignedLook(job, records, selectedAppearance = {}) {
   }
 }
 
+function inspectOperator(args) {
+  const script = fileURLToPath(new URL('./inspect-handoff-plan.py', import.meta.url));
+  return JSON.parse(execFileSync('python', ['-I','-B','-X','utf8',script,...args],
+    {encoding:'utf8', windowsHide:true, maxBuffer:4*1024*1024}));
+}
 async function verifyPlan({operatorRoot,runtimeRoot,handoffRoot,inputs,records}) {
   const paths = [inputs.variantMatrix.path, inputs.candidateRequest.path].map(p => path.join(handoffRoot, p));
-  const script = fileURLToPath(new URL('./inspect-handoff-plan.py', import.meta.url));
-  const result = JSON.parse(execFileSync('python', ['-I','-B','-X','utf8',script,operatorRoot,runtimeRoot,handoffRoot,...paths],
-    {encoding:'utf8', windowsHide:true, maxBuffer:4*1024*1024}));
+  const result = inspectOperator([operatorRoot,runtimeRoot,handoffRoot,...paths]);
   await verifyPlannedInputs(handoffRoot,inputs,records,result);
 }
 export async function verifyPlannedInputs(handoffRoot,inputs,records,result) {
@@ -169,7 +172,57 @@ export async function verifyPlannedInputs(handoffRoot,inputs,records,result) {
 
 // Budget evidence belongs to these signed looks and to the reviewed game source.
 // The handoff remains diagnostic even when the static limits are met.
-export function readStaticBudget(report, pointer, records, configBytes) {
+const aggregateEvidenceFields = ['sumAcrossSelectedActors','temporaryAggregateLimits','closureUnionFileCount','closureUnionSourceBytes'];
+function hasAggregateEvidence(report) {
+  return aggregateEvidenceFields.some(field => Object.hasOwn(report,field));
+}
+function readBudgetAggregate(report, limits, runtimeFiles) {
+  const match = (ok, why) => requireValue(ok, 'budget-mismatch', why);
+  const count = value => Number.isSafeInteger(value) && value >= 0;
+  const totals = {placedNodeTriangles:0,rgba8MipBytes:0,textureObjects:0};
+  const closure = new Map();
+  match(limits?.status === 'temporary-unmeasured' && limits.ordinaryPCPerformance === 'unmeasured' &&
+    ['fileBytes','rgba8MipBytes','textureObjects'].every(key=>count(limits[key]) && limits[key] > 0) &&
+    isDeepStrictEqual(report.temporaryAggregateLimits,limits), 'Temporary budget limits differ from the operator');
+  for (const record of report.records) {
+    for (const metric of Object.keys(totals)) {
+      const value = record.selectedCost.totals?.[metric];
+      match(count(value) && count(totals[metric] + value), 'Invalid selected actor total for ' + metric);
+      totals[metric] += value;
+    }
+    match(Array.isArray(record.files) && record.files.length > 0, 'Missing budget closure for ' + record.id);
+    const paths = new Set();
+    let bytes = 0;
+    for (const file of record.files) {
+      const existing = closure.get(file?.path);
+      match(typeof file?.path === 'string' && !paths.has(file.path) && count(file.bytes) &&
+        /^[a-f0-9]{64}$/.test(file.sha256) && (!existing || (existing.bytes === file.bytes && existing.sha256 === file.sha256)),
+      'Invalid or inconsistent budget closure file for ' + record.id);
+      bytes += file.bytes;
+      paths.add(file.path);
+      closure.set(file.path,file);
+    }
+    match(count(bytes) && record.closureSourceBytes === bytes, 'Per-record budget closure bytes differ for ' + record.id);
+  }
+  match(isDeepStrictEqual(report.sumAcrossSelectedActors,totals), 'Selected actor sums differ from the measured records');
+  const closureSourceBytes = [...closure.values()].reduce((sum,file)=>sum + file.bytes,0);
+  match(count(closureSourceBytes) && report.closureUnionSourceBytes === closureSourceBytes &&
+    report.closureUnionFileCount === closure.size, 'Budget union closure totals differ from the measured records');
+  if (runtimeFiles) {
+    match(runtimeFiles.length === closure.size && runtimeFiles.every(file => {
+      const measured = closure.get(file.path);
+      return measured?.sha256 === file.sha256 && measured.bytes === file.bytes;
+    }), 'Budget union closure differs from the signed game resource inventory');
+  }
+  const comparisons = {fileBytes:closureSourceBytes,rgba8MipBytes:totals.rgba8MipBytes,textureObjects:totals.textureObjects};
+  const excesses = Object.entries(comparisons).filter(([metric,actual])=>actual > limits[metric])
+    .map(([metric,actual])=>({metric,actual,limit:limits[metric]}));
+  return {status:excesses.length ? 'over-temporary-reference' : 'within-temporary-reference',
+    sumAcrossSelectedActors:totals, closureUnionFileCount:closure.size, closureUnionSourceBytes:closureSourceBytes,
+    temporaryAggregateLimits:limits, excesses};
+}
+
+export function readStaticBudget(report, pointer, records, configBytes, temporaryLimits, runtimeFiles) {
   const match = (ok, why) => requireValue(ok, 'budget-mismatch', why);
   match(report.schema === 'zbgs-character-record-budget-result-v1' &&
     report.readOnly === true && report.inputSha256 === pointer.inputs.signedRecords.sha256 &&
@@ -192,8 +245,10 @@ export function readStaticBudget(report, pointer, records, configBytes) {
   });
   match(report.status === (rows.some(r => r.status === 'over-budget') ? 'over-budget' : 'within-static-limits'),
     'Batch budget result contradicts its records');
+  // The producer's status covers each record. Compare the combined estimates separately.
+  const aggregate = hasAggregateEvidence(report) ? readBudgetAggregate(report,temporaryLimits,runtimeFiles) : {status:'unmeasured'};
   return {status:report.status, budgetVersion:version, ordinaryPCPerformance:report.ordinaryPCPerformance,
-    evidenceSha256:pointer.staticBudgetEvidence.sha256, records:rows};
+    evidenceSha256:pointer.staticBudgetEvidence.sha256, records:rows, aggregate};
 }
 
 export async function verifyHandoff({handoffRoot=here, handoff='delivery/character-production-handoff.json',
@@ -227,7 +282,13 @@ export async function verifyHandoff({handoffRoot=here, handoff='delivery/charact
   if (Object.hasOwn(pointer,'staticBudgetEvidence')) {
     const report = JSON.parse(await pinned(handoffRoot,pointer.staticBudgetEvidence));
     const config = await readFile(await trackedFile(operatorRoot,'scripts/production/asset-budgets-v1.json'));
-    staticBudget = readStaticBudget(report,pointer,records,config);
+    let limits;
+    if (hasAggregateEvidence(report)) {
+      await trackedFile(operatorRoot,'scripts/production/selected_look_budget.py');
+      limits = inspectOperator(['--budget-limits',operatorRoot]);
+    }
+    const runtimeFiles = inventory.files.filter(row => !Object.hasOwn(review.files,row.path) && row.generated === undefined);
+    staticBudget = readStaticBudget(report,pointer,records,config,limits,runtimeFiles);
   }
   return {schema:'character-production-handoff-readback-v1',status:'verified',handoffStatus:pointer.status,
     formalAdmission:false,operatorCommit:commit,runtime:inventory.runtime,files:pointer.fixedGamePackage.files,

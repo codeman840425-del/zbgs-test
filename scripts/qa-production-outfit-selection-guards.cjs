@@ -11,13 +11,22 @@ const outfitSelection = ({base, equipment}) => ({
   equipment:Object.values(equipment.resources).map(({id, slot, sha256}) => ({id, slot, sha256})),
 });
 const editOutfit = (record, selection) => request('edit', {record, edits:[{domain:'outfit', selection}]});
-const socks = selection => selection.equipment.find(equipment => equipment.slot === 'socks');
+function selectedItem(entries, slot) {
+  const matches = entries.filter(item => item.slot === slot);
+  assert.equal(matches.length, 1, 'Expected one selected ' + slot);
+  return matches[0];
+}
 
 async function main() {
-  const [base, outArg, recordsArg, expectedBuild] = process.argv.slice(2);
+  const [base, outArg, recordsArg, expectedBuild, slotOption, ...extra] = process.argv.slice(2);
+  assert(!extra.length && (slotOption === undefined || slotOption === '--slot=top'), 'Optional argument: --slot=top');
+  const slot = slotOption ? 'top' : 'socks';
+  const role = slot === 'socks' ? 'pants-socks' : 'pants-top-far';
+  const slotName = slot === 'socks' ? 'sock' : 'top';
   if (!recordsArg || !/^(?:[a-f0-9]{12}|[a-f0-9]{64})$/.test(expectedBuild ?? ''))
     throw Error('Expected BASE_URL NEW_EVIDENCE_DIR TWO_RECORDS_JSON EXPECTED_BUILD');
-  const out = path.resolve(outArg);
+  const {productionRoot, projectOutput} = require('./project-output.cjs');
+  const out = await projectOutput(outArg, await productionRoot());
   const inputBytes = await fs.readFile(recordsArg), records = JSON.parse(inputBytes);
   const {canonicalJson} = await import('../prototype/src/character-record.js');
   const match = (actual, expected, label) => assert.equal(canonicalJson(actual), canonicalJson(expected), label);
@@ -26,21 +35,25 @@ async function main() {
   assert.notEqual(first.identity.id, second.identity.id);
   assert.notEqual(first.appearanceRecipe.base.sha256, second.appearanceRecipe.base.sha256);
   const [firstSelection, secondSelection] = records.map(record => outfitSelection(record.appearanceRecipe));
-  assert(firstSelection.equipment.length === 4 && secondSelection.equipment.length === 4);
-  assert.equal(firstSelection.role, 'pants-socks');
-  assert.equal(secondSelection.role, 'pants-socks');
-  assert.notEqual(socks(firstSelection).sha256, socks(secondSelection).sha256);
+  const expectedCount = slot === 'socks' ? 4 : 3;
+  for (const selection of [firstSelection, secondSelection]) {
+    assert.equal(selection.equipment.length, expectedCount);
+    assert.equal(selection.role, role);
+  }
+  const firstItem = selectedItem(firstSelection.equipment, slot);
+  const secondItem = selectedItem(secondSelection.equipment, slot);
+  assert.notEqual(firstItem.sha256, secondItem.sha256);
 
-  const wrongSocks = structuredClone(firstSelection);
-  socks(wrongSocks).sha256 = socks(secondSelection).sha256;
+  const wrongHash = structuredClone(firstSelection);
+  selectedItem(wrongHash.equipment, slot).sha256 = secondItem.sha256;
   const wrongBody = {...secondSelection, bodySha256:firstSelection.bodySha256};
-  const mixedSocks = {...firstSelection, equipment:firstSelection.equipment.map(item => item.slot === 'socks' ? socks(secondSelection) : item)};
-  const missingSocks = {...secondSelection, equipment:secondSelection.equipment.filter(item => item.slot !== 'socks')};
+  const mixed = {...firstSelection, equipment:firstSelection.equipment.map(item => item.slot === slot ? secondItem : item)};
+  const missing = {...secondSelection, equipment:secondSelection.equipment.filter(item => item.slot !== slot)};
   const badCases = [
-    ['mismatched-sock-sha', first, wrongSocks, 'outfit.selection'],
+    ['mismatched-'+slotName+'-sha', first, wrongHash, 'outfit.selection'],
     ['mismatched-body-sha', second, wrongBody, 'outfit.selection.bodySha256'],
-    ['another-bodys-sock', first, mixedSocks, 'outfit.selection'],
-    ['missing-sock', second, missingSocks, 'outfit.selection'],
+    ['another-bodys-'+slotName, first, mixed, 'outfit.selection'],
+    ['missing-'+slotName, second, missing, 'outfit.selection'],
   ];
   const report={status:'incomplete',inputSha256:digest(inputBytes),cases:[],pageErrors:[],failedResponses:[],
     scope:'Actual D02 production and consumer on the fixed build. No recording, clothing contact or performance measurement.'};
@@ -117,40 +130,50 @@ async function main() {
       report.cases.push({name,actor:record.identity.id,selection,result,activeUnchanged:true});
     }
     const damagedRecord = structuredClone(first);
-    damagedRecord.appearanceRecipe.equipment.resources.socks.sha256 = socks(secondSelection).sha256;
+    selectedItem(Object.values(damagedRecord.appearanceRecipe.equipment.resources), slot).sha256 = secondItem.sha256;
     const damaged = await production(request('validate',{record:damagedRecord}));
     assert.equal(damaged.ok,false,'tampered complete record');
     assert(!Object.hasOwn(damaged,'record'));
     await leftVisible('tampered complete record');
     report.cases.push({name:'tampered-complete-record',actor:first.identity.id,result:damaged,activeUnchanged:true});
 
-    const femaleSocks = first.appearanceRecipe.equipment.resources.socks;
-    const sockURL = new URL(femaleSocks.url,new URL(first.appearanceRecipe.equipment.manifestUrl,base)).href;
-    let blockedRequests = 0;
-    const block = route => { blockedRequests++; return route.fulfill({status:503,body:'Injected equipment read failure'}); };
-    await page.route(sockURL, block);
-    let unavailable;
-    try { unavailable = await production(editOutfit(first,firstSelection)); }
-    finally { await page.unroute(sockURL,block); }
-    assert(blockedRequests > 0, 'exact sock resource was intercepted');
-    assert.equal(unavailable.ok,false);
-    assert.match(unavailable.reason,/503/);
-    assert(!Object.hasOwn(unavailable,'record'));
-    await leftVisible('503 while restoring detached edit candidate');
-    report.cases.push({name:'resource-503',actor:first.identity.id,path:new URL(sockURL).pathname,result:unavailable,
-      blockedRequests,activeUnchanged:true});
+    const blockedURLs = new Map();
+    for (const record of slot === 'top' ? records : [first]) {
+      const recipe = record.appearanceRecipe;
+      const visibleResource = selectedItem(Object.values(recipe.equipment.resources), slot);
+      const resourceURL = new URL(visibleResource.url, new URL(recipe.equipment.manifestUrl, base)).href;
+      let hits = 0;
+      const block = route => { hits++; return route.fulfill({status:503,body:'Injected equipment read failure'}); };
+      await page.route(resourceURL, block);
+      let unavailable;
+      try { unavailable = await production(editOutfit(record,outfitSelection(recipe))); }
+      finally { await page.unroute(resourceURL,block); }
+      assert(hits > 0, 'exact '+slot+' resource was intercepted');
+      assert.equal(unavailable.ok,false);
+      assert.match(unavailable.reason,/503/);
+      assert(!Object.hasOwn(unavailable,'record'));
+      await leftVisible('503 while restoring detached edit candidate');
+      const pathname = new URL(resourceURL).pathname;
+      blockedURLs.set(pathname, (blockedURLs.get(pathname) ?? 0) + hits);
+      report.cases.push({name:'resource-503',actor:record.identity.id,path:pathname,result:unavailable,
+        blockedRequests:hits,activeUnchanged:true});
+    }
 
     const settled=[];
     for (const old of records) {
       const query = await production(request('query',{bodyType:old.appearanceRecipe.base.bodyType}));
       assert(query.ok,query.reason);
       const defaultSet = query.query.appearance.equipment.sets.find(item=>item.index===0);
-      const noSocks = outfitSelection({base:old.appearanceRecipe.base,equipment:defaultSet});
-      assert(!socks(noSocks));
-      const removed = await production(editOutfit(old,noSocks));
+      const fallback = outfitSelection({base:old.appearanceRecipe.base,equipment:defaultSet});
+      const original = selectedItem(Object.values(old.appearanceRecipe.equipment.resources), slot);
+      assert(!fallback.equipment.some(item => item.id === original.id));
+      if (slot === 'socks') assert(!fallback.equipment.some(item => item.slot === slot));
+      else assert.notEqual(selectedItem(fallback.equipment, slot).sha256, original.sha256);
+      const removed = await production(editOutfit(old,fallback));
       assert(removed.ok,removed.reason);
       assert.equal(removed.record.appearanceRecipe.equipment.index,defaultSet.index);
-      assert(!removed.record.appearanceRecipe.equipment.resources.socks);
+      match(outfitSelection(removed.record.appearanceRecipe), fallback, 'replacement equipment');
+      assert(!Object.values(removed.record.appearanceRecipe.equipment.resources).some(item => item.id === original.id));
       const valid = outfitSelection(old.appearanceRecipe);
       valid.equipment.reverse();
       const restored = await production(editOutfit(removed.record,valid));
@@ -176,8 +199,10 @@ async function main() {
     assert(reopened.active.every(item=>before.active.every(old=>old.root!==item.root)));
     assert.equal(digest(await fs.readFile(recordsArg)),report.inputSha256,'disk input preserved');
     assert.equal(report.pageErrors.length,0,JSON.stringify(report.pageErrors));
-    assert.equal(report.failedResponses.length,blockedRequests);
-    assert(report.failedResponses.every(row=>row.path===new URL(sockURL).pathname&&row.status===503));
+    assert(report.failedResponses.every(row => row.status === 503 && blockedURLs.has(row.path)));
+    for (const [pathname,hits] of blockedURLs) {
+      assert.equal(report.failedResponses.filter(row => row.path === pathname).length, hits);
+    }
     report.reopened=reopened;
     report.status='passed';
   } catch (error) {

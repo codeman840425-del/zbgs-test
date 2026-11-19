@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
 import {mkdtemp, readFile, realpath, rm, symlink, writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import test from 'node:test';
@@ -8,6 +9,10 @@ import {compareSignedLook,pinned,readStaticBudget,registeredReview,verifyPackage
 
 const root = fileURLToPath(new URL('../../',import.meta.url));
 const ref = (name,bytes) => ({path:name,bytes:bytes.length,sha256:digest(bytes)});
+function operatorBudgetLimits() {
+  const script = fileURLToPath(new URL('./inspect-handoff-plan.py',import.meta.url));
+  return JSON.parse(execFileSync('python',['-I','-B','-X','utf8',script,'--budget-limits',root],{encoding:'utf8',windowsHide:true}));
+}
 async function scratch(t) {
   const parent = path.join(root,'scripts','runtime-package');
   assert.equal(path.relative(parent,await realpath(parent)),'');
@@ -66,7 +71,8 @@ test('a verified handoff keeps the exact signed record budget and its over-limit
   const records = JSON.parse(recordBytes), report = JSON.parse(reportBytes);
   const pointer = {runtime:{sourceCommit:report.sourceCommit}, inputs:{signedRecords:{sha256:digest(recordBytes)}},
     staticBudgetEvidence:{sha256:digest(reportBytes)}};
-  const read = (value, rows = records) => readStaticBudget(value,pointer,rows,config);
+  const limits = operatorBudgetLimits();
+  const read = (value, rows = records) => readStaticBudget(value,pointer,rows,config,limits);
   const result = read(report);
   assert.equal(result.status,'over-budget');
   assert.equal(result.ordinaryPCPerformance,'unmeasured');
@@ -79,6 +85,53 @@ test('a verified handoff keeps the exact signed record budget and its over-limit
   const wrong = structuredClone(report);
   wrong.records[0].status = 'within-static-limits';
   assert.throws(() => read(wrong),{code:'budget-mismatch'});
+  assert.equal(result.aggregate.status,'over-temporary-reference');
+  assert.equal(result.aggregate.sumAcrossSelectedActors.rgba8MipBytes,406156616);
+  const {sumAcrossSelectedActors,temporaryAggregateLimits,closureUnionSourceBytes,closureUnionFileCount,...old} = report;
+  assert.deepEqual(readStaticBudget(old,pointer,records,config).aggregate,{status:'unmeasured'});
+});
+
+test('actual far package reports its separate selected actor aggregate and rejects inconsistent claims',async () => {
+  const base = 'evidence/m2-female-uniform-texture-game-v1';
+  const reviewPath = 'scripts/runtime-package/game-record-female-uniform-texture-reviewed.json';
+  const [recordBytes,reportBytes,inventoryBytes,reviewBytes,config] = await Promise.all([
+    base+'/far-records.json', base+'/receiver/far-budget.json', base+'/receiver/far-inventory.json',reviewPath,
+    'scripts/production/asset-budgets-v1.json',
+  ].map(file=>readFile(path.join(root,file))));
+  const records = JSON.parse(recordBytes), report = JSON.parse(reportBytes), inventory = JSON.parse(inventoryBytes);
+  const reviewed = JSON.parse(reviewBytes);
+  const runtimeFiles = inventory.files.filter(row=>!Object.hasOwn(reviewed.files,row.path) && row.generated === undefined);
+  const pointer = {runtime:inventory.runtime,inputs:{signedRecords:ref(base+'/far-records.json',recordBytes)},
+    staticBudgetEvidence:ref(base+'/receiver/far-budget.json',reportBytes)};
+  const limits = operatorBudgetLimits();
+  const read = (value,files = runtimeFiles) => readStaticBudget(value,pointer,records,config,limits,files);
+  const actual = read(report);
+  assert.equal(actual.status,'within-static-limits');
+  assert.equal(actual.aggregate.status,'within-temporary-reference');
+  assert.deepEqual(actual.aggregate.sumAcrossSelectedActors,{placedNodeTriangles:34344,rgba8MipBytes:209367384,textureObjects:52});
+  assert.equal(actual.aggregate.closureUnionFileCount,19);
+  assert.equal(actual.aggregate.closureUnionSourceBytes,41055103);
+
+  const over = structuredClone(report);
+  const extra = 60*1024*1024;
+  over.records[0].selectedCost.totals.rgba8MipBytes += extra;
+  over.records[0].startupAndSelectedCost.totals.rgba8MipBytes += extra;
+  over.sumAcrossSelectedActors.rgba8MipBytes += extra;
+  const sumOnly = read(over);
+  assert.equal(sumOnly.status,'within-static-limits');
+  assert.equal(sumOnly.aggregate.status,'over-temporary-reference');
+  assert.deepEqual(sumOnly.aggregate.excesses,
+    [{metric:'rgba8MipBytes',actual:209367384+extra,limit:limits.rgba8MipBytes}]);
+
+  for (const changed of [{...report,sumAcrossSelectedActors:{...report.sumAcrossSelectedActors,rgba8MipBytes:0}},
+    {...report,temporaryAggregateLimits:{...limits,rgba8MipBytes:limits.rgba8MipBytes*2}},
+    {...report,closureUnionSourceBytes:0}, {...report,closureUnionFileCount:0},
+    {...report,sumAcrossSelectedActors:undefined}]) {
+    assert.throws(()=>read(changed),{code:'budget-mismatch'});
+  }
+  assert.throws(()=>read(report,runtimeFiles.slice(1)),{code:'budget-mismatch'});
+  const wrongPin = runtimeFiles.map((file,index)=>index===0?{...file,sha256:'0'.repeat(64)}:file);
+  assert.throws(()=>read(report,wrongPin),{code:'budget-mismatch'});
 });
 
 test('real signed uniform records must match independent identity, outfit and explicit appearance',async () => {
