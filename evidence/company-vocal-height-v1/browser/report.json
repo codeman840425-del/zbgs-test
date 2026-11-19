@@ -1,0 +1,5034 @@
+{
+  "status": "passed",
+  "scope": "Company viewer height selection, fixed room and mesh identities, browser storage restore, and direct named snapshots.",
+  "manifestSha256": "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+  "rooms": [
+    {
+      "room": "singing-studio",
+      "edit": {
+        "initial": {
+          "slot": {
+            "id": "singing-studio/ground/live/vocal#vocal",
+            "companyId": "singing-studio",
+            "revision": 1,
+            "facilityId": "singing-studio/ground/live/vocal",
+            "floorId": "singing-studio/ground",
+            "roomId": "singing-studio/ground/live",
+            "resource": {
+              "id": "floor-vocal-mic-disc-fit-lower",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793
+            },
+            "facilityTransform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            },
+            "local": {
+              "coordinateSpace": "facility",
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793,
+              "approach": [
+                0,
+                0,
+                1.12
+              ],
+              "exit": [
+                0,
+                0,
+                1.12
+              ]
+            },
+            "approachPosition": [
+              0,
+              0,
+              1.12
+            ],
+            "exitPosition": [
+              0,
+              0,
+              1.12
+            ],
+            "kind": "standing-vocal",
+            "slotId": "vocal",
+            "transformChain": [
+              {
+                "id": "singing-studio/ground",
+                "parentId": "singing-studio",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live",
+                "parentId": "singing-studio/ground",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/vocal",
+                "parentId": "singing-studio/ground/live",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              }
+            ],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "mouth": [
+                -0.0137221147,
+                1.4998611454,
+                0.1334972148
+              ],
+              "eye": [
+                -0.0161797469,
+                1.5848122486,
+                0.093537181
+              ]
+            },
+            "heightProfile": "standard",
+            "capacity": 1,
+            "clearance": {
+              "width": 0.5,
+              "depth": 0.5,
+              "height": 1.9
+            },
+            "footprint": {
+              "center": [
+                0,
+                0
+              ],
+              "halfSize": [
+                0.33,
+                0.48
+              ],
+              "blocking": true
+            },
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "missingFields": [],
+            "limitations": []
+          },
+          "doc": {
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "id": "singing-studio",
+            "name": "独立唱播工作室",
+            "nodes": [
+              {
+                "connections": [],
+                "exteriorEntrances": [
+                  {
+                    "edge": "south",
+                    "height": 2.2,
+                    "id": "singing-studio/ground/entry",
+                    "offset": 0,
+                    "regionId": "singing-studio/ground/live",
+                    "width": 1.4
+                  }
+                ],
+                "id": "singing-studio/ground",
+                "kind": "floor",
+                "name": "一层",
+                "parentId": "singing-studio",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 6,
+                  "width": 6
+                },
+                "entry": {
+                  "position": [
+                    0,
+                    0,
+                    2.35
+                  ]
+                },
+                "finishes": {
+                  "floor": {
+                    "resource": {
+                      "id": "floor-offset-plank",
+                      "version": 1
+                    }
+                  }
+                },
+                "id": "singing-studio/ground/live",
+                "kind": "room",
+                "name": "唱播间",
+                "parentId": "singing-studio/ground",
+                "purpose": "streaming",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/vocal",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "floor-vocal-mic-disc-fit-lower",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/score",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "floor-score-stand-tripod-readable",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0.69,
+                    0,
+                    -0.38
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/camera-desk",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "desk-frame",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.51,
+                    0,
+                    -2.34
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/camera",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live/camera-desk",
+                "resource": {
+                  "id": "camera-orbit-eye",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.91,
+                    0.84,
+                    0.4
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/background",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "background-brand-panel",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    1.4,
+                    0,
+                    2.18
+                  ],
+                  "yaw": 3.141592653589793
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/fill",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "fill-light-panel",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -1.45,
+                    0,
+                    -0.6
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              }
+            ],
+            "revision": 1,
+            "scale": "single-room",
+            "schema": "company-layout",
+            "singingRooms": [
+              {
+                "heightProfiles": {
+                  "low": {
+                    "eye": [
+                      -0.0092342425,
+                      1.4424544796,
+                      0.0672084413
+                    ],
+                    "mouth": [
+                      -0.0077806128,
+                      1.3653426463,
+                      0.115260715
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-height-low",
+                      "version": 1
+                    }
+                  },
+                  "standard": {
+                    "eye": [
+                      -0.0161797469,
+                      1.5848122486,
+                      0.093537181
+                    ],
+                    "mouth": [
+                      -0.0137221147,
+                      1.4998611454,
+                      0.1334972148
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-fit-lower",
+                      "version": 1
+                    }
+                  }
+                },
+                "performer": {
+                  "approach": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "coordinateSpace": "facility",
+                  "exit": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "eye": [
+                    -0.0161797469,
+                    1.5848122486,
+                    0.093537181
+                  ],
+                  "mouth": [
+                    -0.0137221147,
+                    1.4998611454,
+                    0.1334972148
+                  ],
+                  "position": [
+                    0,
+                    0,
+                    0.77
+                  ],
+                  "slotId": "vocal",
+                  "yaw": 3.141592653589793
+                },
+                "portalId": "singing-studio/ground/entry",
+                "regionId": "singing-studio/ground/live",
+                "roles": {
+                  "camera": "singing-studio/ground/live/camera",
+                  "mic": "singing-studio/ground/live/vocal",
+                  "score": "singing-studio/ground/live/score"
+                }
+              }
+            ],
+            "spaceProfile": {
+              "id": "company-space-v2",
+              "version": 1
+            },
+            "version": 1
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/vocal-fit-v1/floor-vocal-mic-disc-fit-lower/v1/model.glb",
+            "sha256": "c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a",
+            "bytes": 349256
+          },
+          "fit": {
+            "boomPitchDegrees": -4,
+            "forwardMetres": 0.044
+          },
+          "mesh": {
+            "name": "singing-mic-pickup",
+            "triangles": 2112,
+            "center": [
+              0,
+              1.5504147861454665,
+              0.4485846979616804
+            ],
+            "localCenter": [
+              0,
+              1.5504147861454665,
+              0.4485846979616804
+            ],
+            "min": [
+              -0.030545249581336975,
+              1.5194266661314042,
+              0.4226366544743914
+            ],
+            "max": [
+              0.030545249581336975,
+              1.581402906159529,
+              0.47453274144896934
+            ]
+          },
+          "anchor": [
+            0,
+            0,
+            0.77
+          ],
+          "host": [
+            0,
+            0,
+            0
+          ],
+          "frameTime": 907.0999999940395
+        },
+        "low": {
+          "slot": {
+            "id": "singing-studio/ground/live/vocal#vocal",
+            "companyId": "singing-studio",
+            "revision": 2,
+            "facilityId": "singing-studio/ground/live/vocal",
+            "floorId": "singing-studio/ground",
+            "roomId": "singing-studio/ground/live",
+            "resource": {
+              "id": "floor-vocal-mic-disc-height-low",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793
+            },
+            "facilityTransform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            },
+            "local": {
+              "coordinateSpace": "facility",
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793,
+              "approach": [
+                0,
+                0,
+                1.12
+              ],
+              "exit": [
+                0,
+                0,
+                1.12
+              ]
+            },
+            "approachPosition": [
+              0,
+              0,
+              1.12
+            ],
+            "exitPosition": [
+              0,
+              0,
+              1.12
+            ],
+            "kind": "standing-vocal",
+            "slotId": "vocal",
+            "transformChain": [
+              {
+                "id": "singing-studio/ground",
+                "parentId": "singing-studio",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live",
+                "parentId": "singing-studio/ground",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/vocal",
+                "parentId": "singing-studio/ground/live",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              }
+            ],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "mouth": [
+                -0.0077806128,
+                1.3653426463,
+                0.115260715
+              ],
+              "eye": [
+                -0.0092342425,
+                1.4424544796,
+                0.0672084413
+              ]
+            },
+            "heightProfile": "low",
+            "capacity": 1,
+            "clearance": {
+              "width": 0.5,
+              "depth": 0.5,
+              "height": 1.9
+            },
+            "footprint": {
+              "center": [
+                0,
+                0
+              ],
+              "halfSize": [
+                0.33,
+                0.48
+              ],
+              "blocking": true
+            },
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "missingFields": [],
+            "limitations": []
+          },
+          "doc": {
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "id": "singing-studio",
+            "name": "独立唱播工作室",
+            "nodes": [
+              {
+                "connections": [],
+                "exteriorEntrances": [
+                  {
+                    "edge": "south",
+                    "height": 2.2,
+                    "id": "singing-studio/ground/entry",
+                    "offset": 0,
+                    "regionId": "singing-studio/ground/live",
+                    "width": 1.4
+                  }
+                ],
+                "id": "singing-studio/ground",
+                "kind": "floor",
+                "name": "一层",
+                "parentId": "singing-studio",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 6,
+                  "width": 6
+                },
+                "entry": {
+                  "position": [
+                    0,
+                    0,
+                    2.35
+                  ]
+                },
+                "finishes": {
+                  "floor": {
+                    "resource": {
+                      "id": "floor-offset-plank",
+                      "version": 1
+                    }
+                  }
+                },
+                "id": "singing-studio/ground/live",
+                "kind": "room",
+                "name": "唱播间",
+                "parentId": "singing-studio/ground",
+                "purpose": "streaming",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/vocal",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "floor-vocal-mic-disc-height-low",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/score",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "floor-score-stand-tripod-readable",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0.69,
+                    0,
+                    -0.38
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/camera-desk",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "desk-frame",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.51,
+                    0,
+                    -2.34
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/camera",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live/camera-desk",
+                "resource": {
+                  "id": "camera-orbit-eye",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.91,
+                    0.84,
+                    0.4
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/background",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "background-brand-panel",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    1.4,
+                    0,
+                    2.18
+                  ],
+                  "yaw": 3.141592653589793
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/fill",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "fill-light-panel",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -1.45,
+                    0,
+                    -0.6
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              }
+            ],
+            "revision": 2,
+            "scale": "single-room",
+            "schema": "company-layout",
+            "singingRooms": [
+              {
+                "heightProfiles": {
+                  "low": {
+                    "eye": [
+                      -0.0092342425,
+                      1.4424544796,
+                      0.0672084413
+                    ],
+                    "mouth": [
+                      -0.0077806128,
+                      1.3653426463,
+                      0.115260715
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-height-low",
+                      "version": 1
+                    }
+                  },
+                  "standard": {
+                    "eye": [
+                      -0.0161797469,
+                      1.5848122486,
+                      0.093537181
+                    ],
+                    "mouth": [
+                      -0.0137221147,
+                      1.4998611454,
+                      0.1334972148
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-fit-lower",
+                      "version": 1
+                    }
+                  }
+                },
+                "performer": {
+                  "approach": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "coordinateSpace": "facility",
+                  "exit": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "eye": [
+                    -0.0092342425,
+                    1.4424544796,
+                    0.0672084413
+                  ],
+                  "mouth": [
+                    -0.0077806128,
+                    1.3653426463,
+                    0.115260715
+                  ],
+                  "position": [
+                    0,
+                    0,
+                    0.77
+                  ],
+                  "slotId": "vocal",
+                  "yaw": 3.141592653589793
+                },
+                "portalId": "singing-studio/ground/entry",
+                "regionId": "singing-studio/ground/live",
+                "roles": {
+                  "camera": "singing-studio/ground/live/camera",
+                  "mic": "singing-studio/ground/live/vocal",
+                  "score": "singing-studio/ground/live/score"
+                }
+              }
+            ],
+            "spaceProfile": {
+              "id": "company-space-v2",
+              "version": 1
+            },
+            "version": 1
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/vocal-height-v1/floor-vocal-mic-disc-height-low/v1/model.glb",
+            "sha256": "7edc048c5980e811213bdfa7b7614d4768cae1a370b7e1b3f80dbc9dcd4fe3bc",
+            "bytes": 600460
+          },
+          "fit": {
+            "boomPitchDegrees": -4,
+            "forwardMetres": 0.044,
+            "mastDropMetres": 0.16437267564332592
+          },
+          "mesh": {
+            "name": "singing-mic-pickup",
+            "triangles": 2112,
+            "center": [
+              0,
+              1.3860421105021405,
+              0.4485846979616804
+            ],
+            "localCenter": [
+              0,
+              1.3860421105021405,
+              0.4485846979616804
+            ],
+            "min": [
+              -0.030545249581336975,
+              1.3550539904880783,
+              0.4226366544743914
+            ],
+            "max": [
+              0.030545249581336975,
+              1.417030230516203,
+              0.47453274144896934
+            ]
+          },
+          "anchor": [
+            0,
+            0,
+            0.77
+          ],
+          "host": [
+            0,
+            0,
+            0
+          ],
+          "frameTime": 2856.7999999970198
+        },
+        "standard": {
+          "slot": {
+            "id": "singing-studio/ground/live/vocal#vocal",
+            "companyId": "singing-studio",
+            "revision": 3,
+            "facilityId": "singing-studio/ground/live/vocal",
+            "floorId": "singing-studio/ground",
+            "roomId": "singing-studio/ground/live",
+            "resource": {
+              "id": "floor-vocal-mic-disc-fit-lower",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793
+            },
+            "facilityTransform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            },
+            "local": {
+              "coordinateSpace": "facility",
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793,
+              "approach": [
+                0,
+                0,
+                1.12
+              ],
+              "exit": [
+                0,
+                0,
+                1.12
+              ]
+            },
+            "approachPosition": [
+              0,
+              0,
+              1.12
+            ],
+            "exitPosition": [
+              0,
+              0,
+              1.12
+            ],
+            "kind": "standing-vocal",
+            "slotId": "vocal",
+            "transformChain": [
+              {
+                "id": "singing-studio/ground",
+                "parentId": "singing-studio",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live",
+                "parentId": "singing-studio/ground",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/vocal",
+                "parentId": "singing-studio/ground/live",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              }
+            ],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "mouth": [
+                -0.0137221147,
+                1.4998611454,
+                0.1334972148
+              ],
+              "eye": [
+                -0.0161797469,
+                1.5848122486,
+                0.093537181
+              ]
+            },
+            "heightProfile": "standard",
+            "capacity": 1,
+            "clearance": {
+              "width": 0.5,
+              "depth": 0.5,
+              "height": 1.9
+            },
+            "footprint": {
+              "center": [
+                0,
+                0
+              ],
+              "halfSize": [
+                0.33,
+                0.48
+              ],
+              "blocking": true
+            },
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "missingFields": [],
+            "limitations": []
+          },
+          "doc": {
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "id": "singing-studio",
+            "name": "独立唱播工作室",
+            "nodes": [
+              {
+                "connections": [],
+                "exteriorEntrances": [
+                  {
+                    "edge": "south",
+                    "height": 2.2,
+                    "id": "singing-studio/ground/entry",
+                    "offset": 0,
+                    "regionId": "singing-studio/ground/live",
+                    "width": 1.4
+                  }
+                ],
+                "id": "singing-studio/ground",
+                "kind": "floor",
+                "name": "一层",
+                "parentId": "singing-studio",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 6,
+                  "width": 6
+                },
+                "entry": {
+                  "position": [
+                    0,
+                    0,
+                    2.35
+                  ]
+                },
+                "finishes": {
+                  "floor": {
+                    "resource": {
+                      "id": "floor-offset-plank",
+                      "version": 1
+                    }
+                  }
+                },
+                "id": "singing-studio/ground/live",
+                "kind": "room",
+                "name": "唱播间",
+                "parentId": "singing-studio/ground",
+                "purpose": "streaming",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/vocal",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "floor-vocal-mic-disc-fit-lower",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/score",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "floor-score-stand-tripod-readable",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0.69,
+                    0,
+                    -0.38
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/camera-desk",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "desk-frame",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.51,
+                    0,
+                    -2.34
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/camera",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live/camera-desk",
+                "resource": {
+                  "id": "camera-orbit-eye",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.91,
+                    0.84,
+                    0.4
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/background",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "background-brand-panel",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    1.4,
+                    0,
+                    2.18
+                  ],
+                  "yaw": 3.141592653589793
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/fill",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "fill-light-panel",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -1.45,
+                    0,
+                    -0.6
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              }
+            ],
+            "revision": 3,
+            "scale": "single-room",
+            "schema": "company-layout",
+            "singingRooms": [
+              {
+                "heightProfiles": {
+                  "low": {
+                    "eye": [
+                      -0.0092342425,
+                      1.4424544796,
+                      0.0672084413
+                    ],
+                    "mouth": [
+                      -0.0077806128,
+                      1.3653426463,
+                      0.115260715
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-height-low",
+                      "version": 1
+                    }
+                  },
+                  "standard": {
+                    "eye": [
+                      -0.0161797469,
+                      1.5848122486,
+                      0.093537181
+                    ],
+                    "mouth": [
+                      -0.0137221147,
+                      1.4998611454,
+                      0.1334972148
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-fit-lower",
+                      "version": 1
+                    }
+                  }
+                },
+                "performer": {
+                  "approach": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "coordinateSpace": "facility",
+                  "exit": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "eye": [
+                    -0.0161797469,
+                    1.5848122486,
+                    0.093537181
+                  ],
+                  "mouth": [
+                    -0.0137221147,
+                    1.4998611454,
+                    0.1334972148
+                  ],
+                  "position": [
+                    0,
+                    0,
+                    0.77
+                  ],
+                  "slotId": "vocal",
+                  "yaw": 3.141592653589793
+                },
+                "portalId": "singing-studio/ground/entry",
+                "regionId": "singing-studio/ground/live",
+                "roles": {
+                  "camera": "singing-studio/ground/live/camera",
+                  "mic": "singing-studio/ground/live/vocal",
+                  "score": "singing-studio/ground/live/score"
+                }
+              }
+            ],
+            "spaceProfile": {
+              "id": "company-space-v2",
+              "version": 1
+            },
+            "version": 1
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/vocal-fit-v1/floor-vocal-mic-disc-fit-lower/v1/model.glb",
+            "sha256": "c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a",
+            "bytes": 349256
+          },
+          "fit": {
+            "boomPitchDegrees": -4,
+            "forwardMetres": 0.044
+          },
+          "mesh": {
+            "name": "singing-mic-pickup",
+            "triangles": 2112,
+            "center": [
+              0,
+              1.5504147861454665,
+              0.4485846979616804
+            ],
+            "localCenter": [
+              0,
+              1.5504147861454665,
+              0.4485846979616804
+            ],
+            "min": [
+              -0.030545249581336975,
+              1.5194266661314042,
+              0.4226366544743914
+            ],
+            "max": [
+              0.030545249581336975,
+              1.581402906159529,
+              0.47453274144896934
+            ]
+          },
+          "anchor": [
+            0,
+            0,
+            0.77
+          ],
+          "host": [
+            0,
+            0,
+            0
+          ],
+          "frameTime": 5279.5999999940395
+        },
+        "final": {
+          "slot": {
+            "id": "singing-studio/ground/live/vocal#vocal",
+            "companyId": "singing-studio",
+            "revision": 4,
+            "facilityId": "singing-studio/ground/live/vocal",
+            "floorId": "singing-studio/ground",
+            "roomId": "singing-studio/ground/live",
+            "resource": {
+              "id": "floor-vocal-mic-disc-height-low",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793
+            },
+            "facilityTransform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            },
+            "local": {
+              "coordinateSpace": "facility",
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793,
+              "approach": [
+                0,
+                0,
+                1.12
+              ],
+              "exit": [
+                0,
+                0,
+                1.12
+              ]
+            },
+            "approachPosition": [
+              0,
+              0,
+              1.12
+            ],
+            "exitPosition": [
+              0,
+              0,
+              1.12
+            ],
+            "kind": "standing-vocal",
+            "slotId": "vocal",
+            "transformChain": [
+              {
+                "id": "singing-studio/ground",
+                "parentId": "singing-studio",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live",
+                "parentId": "singing-studio/ground",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/vocal",
+                "parentId": "singing-studio/ground/live",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              }
+            ],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "mouth": [
+                -0.0077806128,
+                1.3653426463,
+                0.115260715
+              ],
+              "eye": [
+                -0.0092342425,
+                1.4424544796,
+                0.0672084413
+              ]
+            },
+            "heightProfile": "low",
+            "capacity": 1,
+            "clearance": {
+              "width": 0.5,
+              "depth": 0.5,
+              "height": 1.9
+            },
+            "footprint": {
+              "center": [
+                0,
+                0
+              ],
+              "halfSize": [
+                0.33,
+                0.48
+              ],
+              "blocking": true
+            },
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "missingFields": [],
+            "limitations": []
+          },
+          "doc": {
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "id": "singing-studio",
+            "name": "独立唱播工作室",
+            "nodes": [
+              {
+                "connections": [],
+                "exteriorEntrances": [
+                  {
+                    "edge": "south",
+                    "height": 2.2,
+                    "id": "singing-studio/ground/entry",
+                    "offset": 0,
+                    "regionId": "singing-studio/ground/live",
+                    "width": 1.4
+                  }
+                ],
+                "id": "singing-studio/ground",
+                "kind": "floor",
+                "name": "一层",
+                "parentId": "singing-studio",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 6,
+                  "width": 6
+                },
+                "entry": {
+                  "position": [
+                    0,
+                    0,
+                    2.35
+                  ]
+                },
+                "finishes": {
+                  "floor": {
+                    "resource": {
+                      "id": "floor-offset-plank",
+                      "version": 1
+                    }
+                  }
+                },
+                "id": "singing-studio/ground/live",
+                "kind": "room",
+                "name": "唱播间",
+                "parentId": "singing-studio/ground",
+                "purpose": "streaming",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/vocal",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "floor-vocal-mic-disc-height-low",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/score",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "floor-score-stand-tripod-readable",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0.69,
+                    0,
+                    -0.38
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/camera-desk",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "desk-frame",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.51,
+                    0,
+                    -2.34
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/camera",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live/camera-desk",
+                "resource": {
+                  "id": "camera-orbit-eye",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.91,
+                    0.84,
+                    0.4
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/background",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "background-brand-panel",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    1.4,
+                    0,
+                    2.18
+                  ],
+                  "yaw": 3.141592653589793
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/fill",
+                "kind": "facility",
+                "parentId": "singing-studio/ground/live",
+                "resource": {
+                  "id": "fill-light-panel",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -1.45,
+                    0,
+                    -0.6
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              }
+            ],
+            "revision": 4,
+            "scale": "single-room",
+            "schema": "company-layout",
+            "singingRooms": [
+              {
+                "heightProfiles": {
+                  "low": {
+                    "eye": [
+                      -0.0092342425,
+                      1.4424544796,
+                      0.0672084413
+                    ],
+                    "mouth": [
+                      -0.0077806128,
+                      1.3653426463,
+                      0.115260715
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-height-low",
+                      "version": 1
+                    }
+                  },
+                  "standard": {
+                    "eye": [
+                      -0.0161797469,
+                      1.5848122486,
+                      0.093537181
+                    ],
+                    "mouth": [
+                      -0.0137221147,
+                      1.4998611454,
+                      0.1334972148
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-fit-lower",
+                      "version": 1
+                    }
+                  }
+                },
+                "performer": {
+                  "approach": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "coordinateSpace": "facility",
+                  "exit": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "eye": [
+                    -0.0092342425,
+                    1.4424544796,
+                    0.0672084413
+                  ],
+                  "mouth": [
+                    -0.0077806128,
+                    1.3653426463,
+                    0.115260715
+                  ],
+                  "position": [
+                    0,
+                    0,
+                    0.77
+                  ],
+                  "slotId": "vocal",
+                  "yaw": 3.141592653589793
+                },
+                "portalId": "singing-studio/ground/entry",
+                "regionId": "singing-studio/ground/live",
+                "roles": {
+                  "camera": "singing-studio/ground/live/camera",
+                  "mic": "singing-studio/ground/live/vocal",
+                  "score": "singing-studio/ground/live/score"
+                }
+              }
+            ],
+            "spaceProfile": {
+              "id": "company-space-v2",
+              "version": 1
+            },
+            "version": 1
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/vocal-height-v1/floor-vocal-mic-disc-height-low/v1/model.glb",
+            "sha256": "7edc048c5980e811213bdfa7b7614d4768cae1a370b7e1b3f80dbc9dcd4fe3bc",
+            "bytes": 600460
+          },
+          "fit": {
+            "boomPitchDegrees": -4,
+            "forwardMetres": 0.044,
+            "mastDropMetres": 0.16437267564332592
+          },
+          "mesh": {
+            "name": "singing-mic-pickup",
+            "triangles": 2112,
+            "center": [
+              0,
+              1.3860421105021405,
+              0.4485846979616804
+            ],
+            "localCenter": [
+              0,
+              1.3860421105021405,
+              0.4485846979616804
+            ],
+            "min": [
+              -0.030545249581336975,
+              1.3550539904880783,
+              0.4226366544743914
+            ],
+            "max": [
+              0.030545249581336975,
+              1.417030230516203,
+              0.47453274144896934
+            ]
+          },
+          "anchor": [
+            0,
+            0,
+            0.77
+          ],
+          "host": [
+            0,
+            0,
+            0
+          ],
+          "frameTime": 6374.0999999940395
+        },
+        "drop": {
+          "expectedM": 0.16437267564332592,
+          "measuredM": 0.16437267564332592
+        },
+        "saveSha256": "50bbc83dc499c9616e88ca9136a3382b02001f9e05c6249fe5e68ba11e892cf1",
+        "menuChanges": [
+          "标准位",
+          "低位",
+          "标准位",
+          "低位"
+        ],
+        "recording": "singing-studio-height-normal.webm"
+      },
+      "cold": {
+        "build": "aed783000987",
+        "slot": {
+          "id": "singing-studio/ground/live/vocal#vocal",
+          "companyId": "singing-studio",
+          "revision": 4,
+          "facilityId": "singing-studio/ground/live/vocal",
+          "floorId": "singing-studio/ground",
+          "roomId": "singing-studio/ground/live",
+          "resource": {
+            "id": "floor-vocal-mic-disc-height-low",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793
+          },
+          "facilityTransform": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0
+          },
+          "local": {
+            "coordinateSpace": "facility",
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793,
+            "approach": [
+              0,
+              0,
+              1.12
+            ],
+            "exit": [
+              0,
+              0,
+              1.12
+            ]
+          },
+          "approachPosition": [
+            0,
+            0,
+            1.12
+          ],
+          "exitPosition": [
+            0,
+            0,
+            1.12
+          ],
+          "kind": "standing-vocal",
+          "slotId": "vocal",
+          "transformChain": [
+            {
+              "id": "singing-studio/ground",
+              "parentId": "singing-studio",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-studio/ground/live",
+              "parentId": "singing-studio/ground",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-studio/ground/live/vocal",
+              "parentId": "singing-studio/ground/live",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            }
+          ],
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "mouth": [
+              -0.0077806128,
+              1.3653426463,
+              0.115260715
+            ],
+            "eye": [
+              -0.0092342425,
+              1.4424544796,
+              0.0672084413
+            ]
+          },
+          "heightProfile": "low",
+          "capacity": 1,
+          "clearance": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 1.9
+          },
+          "footprint": {
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              0.33,
+              0.48
+            ],
+            "blocking": true
+          },
+          "contact": {
+            "pickupNodeId": "singing-mic-pickup"
+          },
+          "missingFields": [],
+          "limitations": []
+        },
+        "mesh": {
+          "name": "singing-mic-pickup",
+          "triangles": 2112,
+          "center": [
+            0,
+            1.3860421105021405,
+            0.4485846979616804
+          ],
+          "localCenter": [
+            0,
+            1.3860421105021405,
+            0.4485846979616804
+          ],
+          "min": [
+            -0.030545249581336975,
+            1.3550539904880783,
+            0.4226366544743914
+          ],
+          "max": [
+            0.030545249581336975,
+            1.417030230516203,
+            0.47453274144896934
+          ]
+        },
+        "saveSha256": "50bbc83dc499c9616e88ca9136a3382b02001f9e05c6249fe5e68ba11e892cf1",
+        "withoutDeliveryQuery": true
+      },
+      "snapshot": {
+        "key": "singing-studio-low",
+        "sameCompanyId": "singing-studio",
+        "saveSha256": "f4bd629236c267ede2e20361ac932c292553f810afd49c64a27586c69f3f6eee",
+        "slot": {
+          "id": "singing-studio/ground/live/vocal#vocal",
+          "companyId": "singing-studio",
+          "revision": 2,
+          "facilityId": "singing-studio/ground/live/vocal",
+          "floorId": "singing-studio/ground",
+          "roomId": "singing-studio/ground/live",
+          "resource": {
+            "id": "floor-vocal-mic-disc-height-low",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793
+          },
+          "facilityTransform": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0
+          },
+          "local": {
+            "coordinateSpace": "facility",
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793,
+            "approach": [
+              0,
+              0,
+              1.12
+            ],
+            "exit": [
+              0,
+              0,
+              1.12
+            ]
+          },
+          "approachPosition": [
+            0,
+            0,
+            1.12
+          ],
+          "exitPosition": [
+            0,
+            0,
+            1.12
+          ],
+          "kind": "standing-vocal",
+          "slotId": "vocal",
+          "transformChain": [
+            {
+              "id": "singing-studio/ground",
+              "parentId": "singing-studio",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-studio/ground/live",
+              "parentId": "singing-studio/ground",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-studio/ground/live/vocal",
+              "parentId": "singing-studio/ground/live",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            }
+          ],
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "mouth": [
+              -0.0077806128,
+              1.3653426463,
+              0.115260715
+            ],
+            "eye": [
+              -0.0092342425,
+              1.4424544796,
+              0.0672084413
+            ]
+          },
+          "heightProfile": "low",
+          "capacity": 1,
+          "clearance": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 1.9
+          },
+          "footprint": {
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              0.33,
+              0.48
+            ],
+            "blocking": true
+          },
+          "contact": {
+            "pickupNodeId": "singing-mic-pickup"
+          },
+          "missingFields": [],
+          "limitations": []
+        },
+        "mesh": {
+          "name": "singing-mic-pickup",
+          "triangles": 2112,
+          "center": [
+            0,
+            1.3860421105021405,
+            0.4485846979616804
+          ],
+          "localCenter": [
+            0,
+            1.3860421105021405,
+            0.4485846979616804
+          ],
+          "min": [
+            -0.030545249581336975,
+            1.3550539904880783,
+            0.4226366544743914
+          ],
+          "max": [
+            0.030545249581336975,
+            1.417030230516203,
+            0.47453274144896934
+          ]
+        },
+        "drop": {
+          "expectedM": 0.16437267564332592,
+          "measuredM": 0.16437267564332592
+        }
+      }
+    },
+    {
+      "room": "singing-rental",
+      "edit": {
+        "initial": {
+          "slot": {
+            "id": "singing-rental/ground/live/vocal#vocal",
+            "companyId": "singing-rental",
+            "revision": 2,
+            "facilityId": "singing-rental/ground/live/vocal",
+            "floorId": "singing-rental/ground",
+            "roomId": "singing-rental/ground/live",
+            "resource": {
+              "id": "floor-vocal-mic-disc-fit-lower",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                -3.73,
+                0,
+                4.71489017671731e-17
+              ],
+              "yaw": 4.71238898038469
+            },
+            "facilityTransform": {
+              "position": [
+                -4.5,
+                0,
+                0
+              ],
+              "yaw": 1.5707963267948966
+            },
+            "local": {
+              "coordinateSpace": "facility",
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793,
+              "approach": [
+                0,
+                0,
+                1.12
+              ],
+              "exit": [
+                0,
+                0,
+                1.12
+              ]
+            },
+            "approachPosition": [
+              -3.38,
+              0,
+              6.858022075225179e-17
+            ],
+            "exitPosition": [
+              -3.38,
+              0,
+              6.858022075225179e-17
+            ],
+            "kind": "standing-vocal",
+            "slotId": "vocal",
+            "transformChain": [
+              {
+                "id": "singing-rental/ground",
+                "parentId": "singing-rental",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live",
+                "parentId": "singing-rental/ground",
+                "transform": {
+                  "position": [
+                    -4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/vocal",
+                "parentId": "singing-rental/ground/live",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              }
+            ],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "mouth": [
+                -0.0137221147,
+                1.4998611454,
+                0.1334972148
+              ],
+              "eye": [
+                -0.0161797469,
+                1.5848122486,
+                0.093537181
+              ]
+            },
+            "heightProfile": "standard",
+            "capacity": 1,
+            "clearance": {
+              "width": 0.5,
+              "depth": 0.5,
+              "height": 1.9
+            },
+            "footprint": {
+              "center": [
+                0,
+                0
+              ],
+              "halfSize": [
+                0.33,
+                0.48
+              ],
+              "blocking": true
+            },
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "missingFields": [],
+            "limitations": []
+          },
+          "doc": {
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "id": "singing-rental",
+            "name": "整套出租屋 · 唱播间",
+            "nodes": [
+              {
+                "connections": [
+                  {
+                    "from": {
+                      "edge": "east",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/live",
+                      "width": 1.4
+                    },
+                    "id": "singing-rental/ground/portal-stream-living",
+                    "to": {
+                      "edge": "west",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/living",
+                      "width": 1.4
+                    }
+                  },
+                  {
+                    "from": {
+                      "edge": "west",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/work",
+                      "width": 1.4
+                    },
+                    "id": "singing-rental/ground/portal-work-living",
+                    "to": {
+                      "edge": "east",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/living",
+                      "width": 1.4
+                    }
+                  },
+                  {
+                    "from": {
+                      "edge": "north",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/rest",
+                      "width": 1.4
+                    },
+                    "id": "singing-rental/ground/portal-rest-living",
+                    "to": {
+                      "edge": "south",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/living",
+                      "width": 1.4
+                    }
+                  }
+                ],
+                "id": "singing-rental/ground",
+                "kind": "floor",
+                "name": "一层",
+                "parentId": "singing-rental",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    1.6,
+                    0,
+                    0.68
+                  ]
+                },
+                "finishes": {
+                  "floor": {
+                    "resource": {
+                      "id": "floor-terrazzo",
+                      "version": 1
+                    }
+                  }
+                },
+                "id": "singing-rental/ground/live",
+                "kind": "room",
+                "name": "唱播间",
+                "parentId": "singing-rental/ground",
+                "purpose": "streaming",
+                "transform": {
+                  "position": [
+                    -4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    1.8,
+                    0,
+                    1.5
+                  ]
+                },
+                "id": "singing-rental/ground/work",
+                "kind": "room",
+                "name": "剪辑间",
+                "parentId": "singing-rental/ground",
+                "purpose": "work",
+                "transform": {
+                  "position": [
+                    4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    1.7,
+                    0,
+                    1.4
+                  ]
+                },
+                "id": "singing-rental/ground/rest",
+                "kind": "room",
+                "name": "休息间",
+                "parentId": "singing-rental/ground",
+                "purpose": "rest",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    4
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    -1.6,
+                    0,
+                    1.5
+                  ]
+                },
+                "id": "singing-rental/ground/living",
+                "kind": "area",
+                "name": "公共客厅",
+                "parentId": "singing-rental/ground",
+                "publicRole": "living",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/work/desk",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/work",
+                "resource": {
+                  "id": "desk",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    -0.8
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/work/chair",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/work",
+                "resource": {
+                  "id": "chair-ladder",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0.65
+                  ],
+                  "yaw": 3.141592653589793
+                }
+              },
+              {
+                "id": "singing-rental/ground/living/sofa",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/living",
+                "resource": {
+                  "id": "lounge-sofa",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    -0.45
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/living/plant",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/living",
+                "resource": {
+                  "id": "plant",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    1.55,
+                    0,
+                    -1
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/vocal",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "floor-vocal-mic-disc-fit-lower",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/score",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "floor-score-stand-tripod-readable",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.38,
+                    0,
+                    -0.69
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/camera-desk",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "desk-pedestal",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -1.67,
+                    0,
+                    0.42
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/camera",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live/camera-desk",
+                "resource": {
+                  "id": "camera-cube-slate",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.6,
+                    0.84,
+                    0.24
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/background",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "background-soft-panel",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0.82,
+                    0,
+                    -1.72
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/fill",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "fill-light-wing",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0.5,
+                    0,
+                    1.44
+                  ],
+                  "yaw": 3.141592653589793
+                }
+              }
+            ],
+            "revision": 2,
+            "scale": "rental-home",
+            "schema": "company-layout",
+            "singingRooms": [
+              {
+                "heightProfiles": {
+                  "low": {
+                    "eye": [
+                      -0.0092342425,
+                      1.4424544796,
+                      0.0672084413
+                    ],
+                    "mouth": [
+                      -0.0077806128,
+                      1.3653426463,
+                      0.115260715
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-height-low",
+                      "version": 1
+                    }
+                  },
+                  "standard": {
+                    "eye": [
+                      -0.0161797469,
+                      1.5848122486,
+                      0.093537181
+                    ],
+                    "mouth": [
+                      -0.0137221147,
+                      1.4998611454,
+                      0.1334972148
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-fit-lower",
+                      "version": 1
+                    }
+                  }
+                },
+                "performer": {
+                  "approach": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "coordinateSpace": "facility",
+                  "exit": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "eye": [
+                    -0.0161797469,
+                    1.5848122486,
+                    0.093537181
+                  ],
+                  "mouth": [
+                    -0.0137221147,
+                    1.4998611454,
+                    0.1334972148
+                  ],
+                  "position": [
+                    0,
+                    0,
+                    0.77
+                  ],
+                  "slotId": "vocal",
+                  "yaw": 3.141592653589793
+                },
+                "portalId": "singing-rental/ground/portal-stream-living",
+                "regionId": "singing-rental/ground/live",
+                "roles": {
+                  "camera": "singing-rental/ground/live/camera",
+                  "mic": "singing-rental/ground/live/vocal",
+                  "score": "singing-rental/ground/live/score"
+                }
+              }
+            ],
+            "spaceProfile": {
+              "id": "company-space-v2",
+              "version": 1
+            },
+            "version": 1
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/vocal-fit-v1/floor-vocal-mic-disc-fit-lower/v1/model.glb",
+            "sha256": "c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a",
+            "bytes": 349256
+          },
+          "fit": {
+            "boomPitchDegrees": -4,
+            "forwardMetres": 0.044
+          },
+          "mesh": {
+            "name": "singing-mic-pickup",
+            "triangles": 2112,
+            "center": [
+              -4.05141530203832,
+              1.5504147861454665,
+              9.71445146547012e-17
+            ],
+            "localCenter": [
+              2.4612973796145086e-18,
+              1.5504147861454665,
+              0.4485846979616799
+            ],
+            "min": [
+              -4.077363345525609,
+              1.5194266661314042,
+              -0.030545249581336878
+            ],
+            "max": [
+              -4.025467258551031,
+              1.581402906159529,
+              0.030545249581337072
+            ]
+          },
+          "anchor": [
+            -3.73,
+            0,
+            1.709743457922741e-16
+          ],
+          "host": [
+            -4.5,
+            0,
+            0
+          ],
+          "frameTime": 1021.2999999970198
+        },
+        "low": {
+          "slot": {
+            "id": "singing-rental/ground/live/vocal#vocal",
+            "companyId": "singing-rental",
+            "revision": 3,
+            "facilityId": "singing-rental/ground/live/vocal",
+            "floorId": "singing-rental/ground",
+            "roomId": "singing-rental/ground/live",
+            "resource": {
+              "id": "floor-vocal-mic-disc-height-low",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                -3.73,
+                0,
+                4.71489017671731e-17
+              ],
+              "yaw": 4.71238898038469
+            },
+            "facilityTransform": {
+              "position": [
+                -4.5,
+                0,
+                0
+              ],
+              "yaw": 1.5707963267948966
+            },
+            "local": {
+              "coordinateSpace": "facility",
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793,
+              "approach": [
+                0,
+                0,
+                1.12
+              ],
+              "exit": [
+                0,
+                0,
+                1.12
+              ]
+            },
+            "approachPosition": [
+              -3.38,
+              0,
+              6.858022075225179e-17
+            ],
+            "exitPosition": [
+              -3.38,
+              0,
+              6.858022075225179e-17
+            ],
+            "kind": "standing-vocal",
+            "slotId": "vocal",
+            "transformChain": [
+              {
+                "id": "singing-rental/ground",
+                "parentId": "singing-rental",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live",
+                "parentId": "singing-rental/ground",
+                "transform": {
+                  "position": [
+                    -4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/vocal",
+                "parentId": "singing-rental/ground/live",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              }
+            ],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "mouth": [
+                -0.0077806128,
+                1.3653426463,
+                0.115260715
+              ],
+              "eye": [
+                -0.0092342425,
+                1.4424544796,
+                0.0672084413
+              ]
+            },
+            "heightProfile": "low",
+            "capacity": 1,
+            "clearance": {
+              "width": 0.5,
+              "depth": 0.5,
+              "height": 1.9
+            },
+            "footprint": {
+              "center": [
+                0,
+                0
+              ],
+              "halfSize": [
+                0.33,
+                0.48
+              ],
+              "blocking": true
+            },
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "missingFields": [],
+            "limitations": []
+          },
+          "doc": {
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "id": "singing-rental",
+            "name": "整套出租屋 · 唱播间",
+            "nodes": [
+              {
+                "connections": [
+                  {
+                    "from": {
+                      "edge": "east",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/live",
+                      "width": 1.4
+                    },
+                    "id": "singing-rental/ground/portal-stream-living",
+                    "to": {
+                      "edge": "west",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/living",
+                      "width": 1.4
+                    }
+                  },
+                  {
+                    "from": {
+                      "edge": "west",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/work",
+                      "width": 1.4
+                    },
+                    "id": "singing-rental/ground/portal-work-living",
+                    "to": {
+                      "edge": "east",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/living",
+                      "width": 1.4
+                    }
+                  },
+                  {
+                    "from": {
+                      "edge": "north",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/rest",
+                      "width": 1.4
+                    },
+                    "id": "singing-rental/ground/portal-rest-living",
+                    "to": {
+                      "edge": "south",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/living",
+                      "width": 1.4
+                    }
+                  }
+                ],
+                "id": "singing-rental/ground",
+                "kind": "floor",
+                "name": "一层",
+                "parentId": "singing-rental",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    1.6,
+                    0,
+                    0.68
+                  ]
+                },
+                "finishes": {
+                  "floor": {
+                    "resource": {
+                      "id": "floor-terrazzo",
+                      "version": 1
+                    }
+                  }
+                },
+                "id": "singing-rental/ground/live",
+                "kind": "room",
+                "name": "唱播间",
+                "parentId": "singing-rental/ground",
+                "purpose": "streaming",
+                "transform": {
+                  "position": [
+                    -4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    1.8,
+                    0,
+                    1.5
+                  ]
+                },
+                "id": "singing-rental/ground/work",
+                "kind": "room",
+                "name": "剪辑间",
+                "parentId": "singing-rental/ground",
+                "purpose": "work",
+                "transform": {
+                  "position": [
+                    4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    1.7,
+                    0,
+                    1.4
+                  ]
+                },
+                "id": "singing-rental/ground/rest",
+                "kind": "room",
+                "name": "休息间",
+                "parentId": "singing-rental/ground",
+                "purpose": "rest",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    4
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    -1.6,
+                    0,
+                    1.5
+                  ]
+                },
+                "id": "singing-rental/ground/living",
+                "kind": "area",
+                "name": "公共客厅",
+                "parentId": "singing-rental/ground",
+                "publicRole": "living",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/work/desk",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/work",
+                "resource": {
+                  "id": "desk",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    -0.8
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/work/chair",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/work",
+                "resource": {
+                  "id": "chair-ladder",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0.65
+                  ],
+                  "yaw": 3.141592653589793
+                }
+              },
+              {
+                "id": "singing-rental/ground/living/sofa",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/living",
+                "resource": {
+                  "id": "lounge-sofa",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    -0.45
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/living/plant",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/living",
+                "resource": {
+                  "id": "plant",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    1.55,
+                    0,
+                    -1
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/vocal",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "floor-vocal-mic-disc-height-low",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/score",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "floor-score-stand-tripod-readable",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.38,
+                    0,
+                    -0.69
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/camera-desk",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "desk-pedestal",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -1.67,
+                    0,
+                    0.42
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/camera",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live/camera-desk",
+                "resource": {
+                  "id": "camera-cube-slate",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.6,
+                    0.84,
+                    0.24
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/background",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "background-soft-panel",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0.82,
+                    0,
+                    -1.72
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/fill",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "fill-light-wing",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0.5,
+                    0,
+                    1.44
+                  ],
+                  "yaw": 3.141592653589793
+                }
+              }
+            ],
+            "revision": 3,
+            "scale": "rental-home",
+            "schema": "company-layout",
+            "singingRooms": [
+              {
+                "heightProfiles": {
+                  "low": {
+                    "eye": [
+                      -0.0092342425,
+                      1.4424544796,
+                      0.0672084413
+                    ],
+                    "mouth": [
+                      -0.0077806128,
+                      1.3653426463,
+                      0.115260715
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-height-low",
+                      "version": 1
+                    }
+                  },
+                  "standard": {
+                    "eye": [
+                      -0.0161797469,
+                      1.5848122486,
+                      0.093537181
+                    ],
+                    "mouth": [
+                      -0.0137221147,
+                      1.4998611454,
+                      0.1334972148
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-fit-lower",
+                      "version": 1
+                    }
+                  }
+                },
+                "performer": {
+                  "approach": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "coordinateSpace": "facility",
+                  "exit": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "eye": [
+                    -0.0092342425,
+                    1.4424544796,
+                    0.0672084413
+                  ],
+                  "mouth": [
+                    -0.0077806128,
+                    1.3653426463,
+                    0.115260715
+                  ],
+                  "position": [
+                    0,
+                    0,
+                    0.77
+                  ],
+                  "slotId": "vocal",
+                  "yaw": 3.141592653589793
+                },
+                "portalId": "singing-rental/ground/portal-stream-living",
+                "regionId": "singing-rental/ground/live",
+                "roles": {
+                  "camera": "singing-rental/ground/live/camera",
+                  "mic": "singing-rental/ground/live/vocal",
+                  "score": "singing-rental/ground/live/score"
+                }
+              }
+            ],
+            "spaceProfile": {
+              "id": "company-space-v2",
+              "version": 1
+            },
+            "version": 1
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/vocal-height-v1/floor-vocal-mic-disc-height-low/v1/model.glb",
+            "sha256": "7edc048c5980e811213bdfa7b7614d4768cae1a370b7e1b3f80dbc9dcd4fe3bc",
+            "bytes": 600460
+          },
+          "fit": {
+            "boomPitchDegrees": -4,
+            "forwardMetres": 0.044,
+            "mastDropMetres": 0.16437267564332592
+          },
+          "mesh": {
+            "name": "singing-mic-pickup",
+            "triangles": 2112,
+            "center": [
+              -4.05141530203832,
+              1.3860421105021405,
+              9.71445146547012e-17
+            ],
+            "localCenter": [
+              2.4612973796145086e-18,
+              1.3860421105021405,
+              0.4485846979616799
+            ],
+            "min": [
+              -4.077363345525609,
+              1.3550539904880783,
+              -0.030545249581336878
+            ],
+            "max": [
+              -4.025467258551031,
+              1.417030230516203,
+              0.030545249581337072
+            ]
+          },
+          "anchor": [
+            -3.73,
+            0,
+            1.709743457922741e-16
+          ],
+          "host": [
+            -4.5,
+            0,
+            0
+          ],
+          "frameTime": 3035.3999999910593
+        },
+        "standard": {
+          "slot": {
+            "id": "singing-rental/ground/live/vocal#vocal",
+            "companyId": "singing-rental",
+            "revision": 4,
+            "facilityId": "singing-rental/ground/live/vocal",
+            "floorId": "singing-rental/ground",
+            "roomId": "singing-rental/ground/live",
+            "resource": {
+              "id": "floor-vocal-mic-disc-fit-lower",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                -3.73,
+                0,
+                4.71489017671731e-17
+              ],
+              "yaw": 4.71238898038469
+            },
+            "facilityTransform": {
+              "position": [
+                -4.5,
+                0,
+                0
+              ],
+              "yaw": 1.5707963267948966
+            },
+            "local": {
+              "coordinateSpace": "facility",
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793,
+              "approach": [
+                0,
+                0,
+                1.12
+              ],
+              "exit": [
+                0,
+                0,
+                1.12
+              ]
+            },
+            "approachPosition": [
+              -3.38,
+              0,
+              6.858022075225179e-17
+            ],
+            "exitPosition": [
+              -3.38,
+              0,
+              6.858022075225179e-17
+            ],
+            "kind": "standing-vocal",
+            "slotId": "vocal",
+            "transformChain": [
+              {
+                "id": "singing-rental/ground",
+                "parentId": "singing-rental",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live",
+                "parentId": "singing-rental/ground",
+                "transform": {
+                  "position": [
+                    -4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/vocal",
+                "parentId": "singing-rental/ground/live",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              }
+            ],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "mouth": [
+                -0.0137221147,
+                1.4998611454,
+                0.1334972148
+              ],
+              "eye": [
+                -0.0161797469,
+                1.5848122486,
+                0.093537181
+              ]
+            },
+            "heightProfile": "standard",
+            "capacity": 1,
+            "clearance": {
+              "width": 0.5,
+              "depth": 0.5,
+              "height": 1.9
+            },
+            "footprint": {
+              "center": [
+                0,
+                0
+              ],
+              "halfSize": [
+                0.33,
+                0.48
+              ],
+              "blocking": true
+            },
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "missingFields": [],
+            "limitations": []
+          },
+          "doc": {
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "id": "singing-rental",
+            "name": "整套出租屋 · 唱播间",
+            "nodes": [
+              {
+                "connections": [
+                  {
+                    "from": {
+                      "edge": "east",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/live",
+                      "width": 1.4
+                    },
+                    "id": "singing-rental/ground/portal-stream-living",
+                    "to": {
+                      "edge": "west",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/living",
+                      "width": 1.4
+                    }
+                  },
+                  {
+                    "from": {
+                      "edge": "west",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/work",
+                      "width": 1.4
+                    },
+                    "id": "singing-rental/ground/portal-work-living",
+                    "to": {
+                      "edge": "east",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/living",
+                      "width": 1.4
+                    }
+                  },
+                  {
+                    "from": {
+                      "edge": "north",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/rest",
+                      "width": 1.4
+                    },
+                    "id": "singing-rental/ground/portal-rest-living",
+                    "to": {
+                      "edge": "south",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/living",
+                      "width": 1.4
+                    }
+                  }
+                ],
+                "id": "singing-rental/ground",
+                "kind": "floor",
+                "name": "一层",
+                "parentId": "singing-rental",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    1.6,
+                    0,
+                    0.68
+                  ]
+                },
+                "finishes": {
+                  "floor": {
+                    "resource": {
+                      "id": "floor-terrazzo",
+                      "version": 1
+                    }
+                  }
+                },
+                "id": "singing-rental/ground/live",
+                "kind": "room",
+                "name": "唱播间",
+                "parentId": "singing-rental/ground",
+                "purpose": "streaming",
+                "transform": {
+                  "position": [
+                    -4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    1.8,
+                    0,
+                    1.5
+                  ]
+                },
+                "id": "singing-rental/ground/work",
+                "kind": "room",
+                "name": "剪辑间",
+                "parentId": "singing-rental/ground",
+                "purpose": "work",
+                "transform": {
+                  "position": [
+                    4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    1.7,
+                    0,
+                    1.4
+                  ]
+                },
+                "id": "singing-rental/ground/rest",
+                "kind": "room",
+                "name": "休息间",
+                "parentId": "singing-rental/ground",
+                "purpose": "rest",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    4
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    -1.6,
+                    0,
+                    1.5
+                  ]
+                },
+                "id": "singing-rental/ground/living",
+                "kind": "area",
+                "name": "公共客厅",
+                "parentId": "singing-rental/ground",
+                "publicRole": "living",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/work/desk",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/work",
+                "resource": {
+                  "id": "desk",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    -0.8
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/work/chair",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/work",
+                "resource": {
+                  "id": "chair-ladder",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0.65
+                  ],
+                  "yaw": 3.141592653589793
+                }
+              },
+              {
+                "id": "singing-rental/ground/living/sofa",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/living",
+                "resource": {
+                  "id": "lounge-sofa",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    -0.45
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/living/plant",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/living",
+                "resource": {
+                  "id": "plant",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    1.55,
+                    0,
+                    -1
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/vocal",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "floor-vocal-mic-disc-fit-lower",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/score",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "floor-score-stand-tripod-readable",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.38,
+                    0,
+                    -0.69
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/camera-desk",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "desk-pedestal",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -1.67,
+                    0,
+                    0.42
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/camera",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live/camera-desk",
+                "resource": {
+                  "id": "camera-cube-slate",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.6,
+                    0.84,
+                    0.24
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/background",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "background-soft-panel",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0.82,
+                    0,
+                    -1.72
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/fill",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "fill-light-wing",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0.5,
+                    0,
+                    1.44
+                  ],
+                  "yaw": 3.141592653589793
+                }
+              }
+            ],
+            "revision": 4,
+            "scale": "rental-home",
+            "schema": "company-layout",
+            "singingRooms": [
+              {
+                "heightProfiles": {
+                  "low": {
+                    "eye": [
+                      -0.0092342425,
+                      1.4424544796,
+                      0.0672084413
+                    ],
+                    "mouth": [
+                      -0.0077806128,
+                      1.3653426463,
+                      0.115260715
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-height-low",
+                      "version": 1
+                    }
+                  },
+                  "standard": {
+                    "eye": [
+                      -0.0161797469,
+                      1.5848122486,
+                      0.093537181
+                    ],
+                    "mouth": [
+                      -0.0137221147,
+                      1.4998611454,
+                      0.1334972148
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-fit-lower",
+                      "version": 1
+                    }
+                  }
+                },
+                "performer": {
+                  "approach": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "coordinateSpace": "facility",
+                  "exit": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "eye": [
+                    -0.0161797469,
+                    1.5848122486,
+                    0.093537181
+                  ],
+                  "mouth": [
+                    -0.0137221147,
+                    1.4998611454,
+                    0.1334972148
+                  ],
+                  "position": [
+                    0,
+                    0,
+                    0.77
+                  ],
+                  "slotId": "vocal",
+                  "yaw": 3.141592653589793
+                },
+                "portalId": "singing-rental/ground/portal-stream-living",
+                "regionId": "singing-rental/ground/live",
+                "roles": {
+                  "camera": "singing-rental/ground/live/camera",
+                  "mic": "singing-rental/ground/live/vocal",
+                  "score": "singing-rental/ground/live/score"
+                }
+              }
+            ],
+            "spaceProfile": {
+              "id": "company-space-v2",
+              "version": 1
+            },
+            "version": 1
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/vocal-fit-v1/floor-vocal-mic-disc-fit-lower/v1/model.glb",
+            "sha256": "c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a",
+            "bytes": 349256
+          },
+          "fit": {
+            "boomPitchDegrees": -4,
+            "forwardMetres": 0.044
+          },
+          "mesh": {
+            "name": "singing-mic-pickup",
+            "triangles": 2112,
+            "center": [
+              -4.05141530203832,
+              1.5504147861454665,
+              9.71445146547012e-17
+            ],
+            "localCenter": [
+              2.4612973796145086e-18,
+              1.5504147861454665,
+              0.4485846979616799
+            ],
+            "min": [
+              -4.077363345525609,
+              1.5194266661314042,
+              -0.030545249581336878
+            ],
+            "max": [
+              -4.025467258551031,
+              1.581402906159529,
+              0.030545249581337072
+            ]
+          },
+          "anchor": [
+            -3.73,
+            0,
+            1.709743457922741e-16
+          ],
+          "host": [
+            -4.5,
+            0,
+            0
+          ],
+          "frameTime": 5356.0999999940395
+        },
+        "final": {
+          "slot": {
+            "id": "singing-rental/ground/live/vocal#vocal",
+            "companyId": "singing-rental",
+            "revision": 5,
+            "facilityId": "singing-rental/ground/live/vocal",
+            "floorId": "singing-rental/ground",
+            "roomId": "singing-rental/ground/live",
+            "resource": {
+              "id": "floor-vocal-mic-disc-height-low",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                -3.73,
+                0,
+                4.71489017671731e-17
+              ],
+              "yaw": 4.71238898038469
+            },
+            "facilityTransform": {
+              "position": [
+                -4.5,
+                0,
+                0
+              ],
+              "yaw": 1.5707963267948966
+            },
+            "local": {
+              "coordinateSpace": "facility",
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793,
+              "approach": [
+                0,
+                0,
+                1.12
+              ],
+              "exit": [
+                0,
+                0,
+                1.12
+              ]
+            },
+            "approachPosition": [
+              -3.38,
+              0,
+              6.858022075225179e-17
+            ],
+            "exitPosition": [
+              -3.38,
+              0,
+              6.858022075225179e-17
+            ],
+            "kind": "standing-vocal",
+            "slotId": "vocal",
+            "transformChain": [
+              {
+                "id": "singing-rental/ground",
+                "parentId": "singing-rental",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live",
+                "parentId": "singing-rental/ground",
+                "transform": {
+                  "position": [
+                    -4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/vocal",
+                "parentId": "singing-rental/ground/live",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              }
+            ],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "mouth": [
+                -0.0077806128,
+                1.3653426463,
+                0.115260715
+              ],
+              "eye": [
+                -0.0092342425,
+                1.4424544796,
+                0.0672084413
+              ]
+            },
+            "heightProfile": "low",
+            "capacity": 1,
+            "clearance": {
+              "width": 0.5,
+              "depth": 0.5,
+              "height": 1.9
+            },
+            "footprint": {
+              "center": [
+                0,
+                0
+              ],
+              "halfSize": [
+                0.33,
+                0.48
+              ],
+              "blocking": true
+            },
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "missingFields": [],
+            "limitations": []
+          },
+          "doc": {
+            "catalog": {
+              "id": "company-facilities",
+              "version": 1
+            },
+            "id": "singing-rental",
+            "name": "整套出租屋 · 唱播间",
+            "nodes": [
+              {
+                "connections": [
+                  {
+                    "from": {
+                      "edge": "east",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/live",
+                      "width": 1.4
+                    },
+                    "id": "singing-rental/ground/portal-stream-living",
+                    "to": {
+                      "edge": "west",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/living",
+                      "width": 1.4
+                    }
+                  },
+                  {
+                    "from": {
+                      "edge": "west",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/work",
+                      "width": 1.4
+                    },
+                    "id": "singing-rental/ground/portal-work-living",
+                    "to": {
+                      "edge": "east",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/living",
+                      "width": 1.4
+                    }
+                  },
+                  {
+                    "from": {
+                      "edge": "north",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/rest",
+                      "width": 1.4
+                    },
+                    "id": "singing-rental/ground/portal-rest-living",
+                    "to": {
+                      "edge": "south",
+                      "offset": 0,
+                      "regionId": "singing-rental/ground/living",
+                      "width": 1.4
+                    }
+                  }
+                ],
+                "id": "singing-rental/ground",
+                "kind": "floor",
+                "name": "一层",
+                "parentId": "singing-rental",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    1.6,
+                    0,
+                    0.68
+                  ]
+                },
+                "finishes": {
+                  "floor": {
+                    "resource": {
+                      "id": "floor-terrazzo",
+                      "version": 1
+                    }
+                  }
+                },
+                "id": "singing-rental/ground/live",
+                "kind": "room",
+                "name": "唱播间",
+                "parentId": "singing-rental/ground",
+                "purpose": "streaming",
+                "transform": {
+                  "position": [
+                    -4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    1.8,
+                    0,
+                    1.5
+                  ]
+                },
+                "id": "singing-rental/ground/work",
+                "kind": "room",
+                "name": "剪辑间",
+                "parentId": "singing-rental/ground",
+                "purpose": "work",
+                "transform": {
+                  "position": [
+                    4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    1.7,
+                    0,
+                    1.4
+                  ]
+                },
+                "id": "singing-rental/ground/rest",
+                "kind": "room",
+                "name": "休息间",
+                "parentId": "singing-rental/ground",
+                "purpose": "rest",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    4
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "bounds": {
+                  "depth": 4,
+                  "width": 4.5
+                },
+                "entry": {
+                  "position": [
+                    -1.6,
+                    0,
+                    1.5
+                  ]
+                },
+                "id": "singing-rental/ground/living",
+                "kind": "area",
+                "name": "公共客厅",
+                "parentId": "singing-rental/ground",
+                "publicRole": "living",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/work/desk",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/work",
+                "resource": {
+                  "id": "desk",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    -0.8
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/work/chair",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/work",
+                "resource": {
+                  "id": "chair-ladder",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0.65
+                  ],
+                  "yaw": 3.141592653589793
+                }
+              },
+              {
+                "id": "singing-rental/ground/living/sofa",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/living",
+                "resource": {
+                  "id": "lounge-sofa",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    -0.45
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/living/plant",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/living",
+                "resource": {
+                  "id": "plant",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    1.55,
+                    0,
+                    -1
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/vocal",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "floor-vocal-mic-disc-height-low",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/score",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "floor-score-stand-tripod-readable",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.38,
+                    0,
+                    -0.69
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/camera-desk",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "desk-pedestal",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -1.67,
+                    0,
+                    0.42
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/camera",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live/camera-desk",
+                "resource": {
+                  "id": "camera-cube-slate",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    -0.6,
+                    0.84,
+                    0.24
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/background",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "background-soft-panel",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0.82,
+                    0,
+                    -1.72
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/fill",
+                "kind": "facility",
+                "parentId": "singing-rental/ground/live",
+                "resource": {
+                  "id": "fill-light-wing",
+                  "version": 1
+                },
+                "state": {},
+                "transform": {
+                  "position": [
+                    0.5,
+                    0,
+                    1.44
+                  ],
+                  "yaw": 3.141592653589793
+                }
+              }
+            ],
+            "revision": 5,
+            "scale": "rental-home",
+            "schema": "company-layout",
+            "singingRooms": [
+              {
+                "heightProfiles": {
+                  "low": {
+                    "eye": [
+                      -0.0092342425,
+                      1.4424544796,
+                      0.0672084413
+                    ],
+                    "mouth": [
+                      -0.0077806128,
+                      1.3653426463,
+                      0.115260715
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-height-low",
+                      "version": 1
+                    }
+                  },
+                  "standard": {
+                    "eye": [
+                      -0.0161797469,
+                      1.5848122486,
+                      0.093537181
+                    ],
+                    "mouth": [
+                      -0.0137221147,
+                      1.4998611454,
+                      0.1334972148
+                    ],
+                    "resource": {
+                      "id": "floor-vocal-mic-disc-fit-lower",
+                      "version": 1
+                    }
+                  }
+                },
+                "performer": {
+                  "approach": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "coordinateSpace": "facility",
+                  "exit": [
+                    0,
+                    0,
+                    1.12
+                  ],
+                  "eye": [
+                    -0.0092342425,
+                    1.4424544796,
+                    0.0672084413
+                  ],
+                  "mouth": [
+                    -0.0077806128,
+                    1.3653426463,
+                    0.115260715
+                  ],
+                  "position": [
+                    0,
+                    0,
+                    0.77
+                  ],
+                  "slotId": "vocal",
+                  "yaw": 3.141592653589793
+                },
+                "portalId": "singing-rental/ground/portal-stream-living",
+                "regionId": "singing-rental/ground/live",
+                "roles": {
+                  "camera": "singing-rental/ground/live/camera",
+                  "mic": "singing-rental/ground/live/vocal",
+                  "score": "singing-rental/ground/live/score"
+                }
+              }
+            ],
+            "spaceProfile": {
+              "id": "company-space-v2",
+              "version": 1
+            },
+            "version": 1
+          },
+          "asset": {
+            "format": "glb",
+            "url": "/company-assets/vocal-height-v1/floor-vocal-mic-disc-height-low/v1/model.glb",
+            "sha256": "7edc048c5980e811213bdfa7b7614d4768cae1a370b7e1b3f80dbc9dcd4fe3bc",
+            "bytes": 600460
+          },
+          "fit": {
+            "boomPitchDegrees": -4,
+            "forwardMetres": 0.044,
+            "mastDropMetres": 0.16437267564332592
+          },
+          "mesh": {
+            "name": "singing-mic-pickup",
+            "triangles": 2112,
+            "center": [
+              -4.05141530203832,
+              1.3860421105021405,
+              9.71445146547012e-17
+            ],
+            "localCenter": [
+              2.4612973796145086e-18,
+              1.3860421105021405,
+              0.4485846979616799
+            ],
+            "min": [
+              -4.077363345525609,
+              1.3550539904880783,
+              -0.030545249581336878
+            ],
+            "max": [
+              -4.025467258551031,
+              1.417030230516203,
+              0.030545249581337072
+            ]
+          },
+          "anchor": [
+            -3.73,
+            0,
+            1.709743457922741e-16
+          ],
+          "host": [
+            -4.5,
+            0,
+            0
+          ],
+          "frameTime": 6449.79999999702
+        },
+        "drop": {
+          "expectedM": 0.16437267564332592,
+          "measuredM": 0.16437267564332592
+        },
+        "saveSha256": "dc64abf9267d4cd995ab56fcccd1ebae81831e293bbd16ec5316408366cc7245",
+        "menuChanges": [
+          "标准位",
+          "低位",
+          "标准位",
+          "低位"
+        ],
+        "recording": "singing-rental-height-normal.webm"
+      },
+      "cold": {
+        "build": "aed783000987",
+        "slot": {
+          "id": "singing-rental/ground/live/vocal#vocal",
+          "companyId": "singing-rental",
+          "revision": 5,
+          "facilityId": "singing-rental/ground/live/vocal",
+          "floorId": "singing-rental/ground",
+          "roomId": "singing-rental/ground/live",
+          "resource": {
+            "id": "floor-vocal-mic-disc-height-low",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -3.73,
+              0,
+              4.71489017671731e-17
+            ],
+            "yaw": 4.71238898038469
+          },
+          "facilityTransform": {
+            "position": [
+              -4.5,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "local": {
+            "coordinateSpace": "facility",
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793,
+            "approach": [
+              0,
+              0,
+              1.12
+            ],
+            "exit": [
+              0,
+              0,
+              1.12
+            ]
+          },
+          "approachPosition": [
+            -3.38,
+            0,
+            6.858022075225179e-17
+          ],
+          "exitPosition": [
+            -3.38,
+            0,
+            6.858022075225179e-17
+          ],
+          "kind": "standing-vocal",
+          "slotId": "vocal",
+          "transformChain": [
+            {
+              "id": "singing-rental/ground",
+              "parentId": "singing-rental",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-rental/ground/live",
+              "parentId": "singing-rental/ground",
+              "transform": {
+                "position": [
+                  -4.5,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-rental/ground/live/vocal",
+              "parentId": "singing-rental/ground/live",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 1.5707963267948966
+              }
+            }
+          ],
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "mouth": [
+              -0.0077806128,
+              1.3653426463,
+              0.115260715
+            ],
+            "eye": [
+              -0.0092342425,
+              1.4424544796,
+              0.0672084413
+            ]
+          },
+          "heightProfile": "low",
+          "capacity": 1,
+          "clearance": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 1.9
+          },
+          "footprint": {
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              0.33,
+              0.48
+            ],
+            "blocking": true
+          },
+          "contact": {
+            "pickupNodeId": "singing-mic-pickup"
+          },
+          "missingFields": [],
+          "limitations": []
+        },
+        "mesh": {
+          "name": "singing-mic-pickup",
+          "triangles": 2112,
+          "center": [
+            -4.05141530203832,
+            1.3860421105021405,
+            9.71445146547012e-17
+          ],
+          "localCenter": [
+            2.4612973796145086e-18,
+            1.3860421105021405,
+            0.4485846979616799
+          ],
+          "min": [
+            -4.077363345525609,
+            1.3550539904880783,
+            -0.030545249581336878
+          ],
+          "max": [
+            -4.025467258551031,
+            1.417030230516203,
+            0.030545249581337072
+          ]
+        },
+        "saveSha256": "dc64abf9267d4cd995ab56fcccd1ebae81831e293bbd16ec5316408366cc7245",
+        "withoutDeliveryQuery": true
+      },
+      "snapshot": {
+        "key": "singing-rental-low",
+        "sameCompanyId": "singing-rental",
+        "saveSha256": "7c60df4198b1124a8cd56a1a5984bbe764fae0a351a071c13e75bdbba1eed027",
+        "slot": {
+          "id": "singing-rental/ground/live/vocal#vocal",
+          "companyId": "singing-rental",
+          "revision": 3,
+          "facilityId": "singing-rental/ground/live/vocal",
+          "floorId": "singing-rental/ground",
+          "roomId": "singing-rental/ground/live",
+          "resource": {
+            "id": "floor-vocal-mic-disc-height-low",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -3.73,
+              0,
+              4.71489017671731e-17
+            ],
+            "yaw": 4.71238898038469
+          },
+          "facilityTransform": {
+            "position": [
+              -4.5,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "local": {
+            "coordinateSpace": "facility",
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793,
+            "approach": [
+              0,
+              0,
+              1.12
+            ],
+            "exit": [
+              0,
+              0,
+              1.12
+            ]
+          },
+          "approachPosition": [
+            -3.38,
+            0,
+            6.858022075225179e-17
+          ],
+          "exitPosition": [
+            -3.38,
+            0,
+            6.858022075225179e-17
+          ],
+          "kind": "standing-vocal",
+          "slotId": "vocal",
+          "transformChain": [
+            {
+              "id": "singing-rental/ground",
+              "parentId": "singing-rental",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-rental/ground/live",
+              "parentId": "singing-rental/ground",
+              "transform": {
+                "position": [
+                  -4.5,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-rental/ground/live/vocal",
+              "parentId": "singing-rental/ground/live",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 1.5707963267948966
+              }
+            }
+          ],
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "mouth": [
+              -0.0077806128,
+              1.3653426463,
+              0.115260715
+            ],
+            "eye": [
+              -0.0092342425,
+              1.4424544796,
+              0.0672084413
+            ]
+          },
+          "heightProfile": "low",
+          "capacity": 1,
+          "clearance": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 1.9
+          },
+          "footprint": {
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              0.33,
+              0.48
+            ],
+            "blocking": true
+          },
+          "contact": {
+            "pickupNodeId": "singing-mic-pickup"
+          },
+          "missingFields": [],
+          "limitations": []
+        },
+        "mesh": {
+          "name": "singing-mic-pickup",
+          "triangles": 2112,
+          "center": [
+            -4.05141530203832,
+            1.3860421105021405,
+            9.71445146547012e-17
+          ],
+          "localCenter": [
+            2.4612973796145086e-18,
+            1.3860421105021405,
+            0.4485846979616799
+          ],
+          "min": [
+            -4.077363345525609,
+            1.3550539904880783,
+            -0.030545249581336878
+          ],
+          "max": [
+            -4.025467258551031,
+            1.417030230516203,
+            0.030545249581337072
+          ]
+        },
+        "drop": {
+          "expectedM": 0.16437267564332592,
+          "measuredM": 0.16437267564332592
+        }
+      }
+    }
+  ],
+  "browserErrors": [],
+  "files": [
+    {
+      "name": "singing-studio-standard.png",
+      "bytes": 624689,
+      "sha256": "768f7406de118564e503fe29b7eaeb1b7dbb2a4cc3bce2efef4ae60de8c170d9"
+    },
+    {
+      "name": "singing-studio-low.png",
+      "bytes": 625792,
+      "sha256": "857f98b49f74a6f9f183a7c59799f6362318ba776706932ed6e0ef7cf6274913"
+    },
+    {
+      "name": "singing-studio-height-normal.webm",
+      "bytes": 725652,
+      "sha256": "8c460f96297ca1a742e2adbdd03d0e61f7eb2938c995cee7aaae646c54efd047",
+      "playbackRate": 1,
+      "scope": "Same run as the measured public height selections and save"
+    },
+    {
+      "name": "singing-studio-restored.png",
+      "bytes": 638182,
+      "sha256": "07fc5044537d695a30a1a7779a8873359bc4d5f052260d653cc88cb1600c823d"
+    },
+    {
+      "name": "singing-studio-low-direct.png",
+      "bytes": 639239,
+      "sha256": "2c28c8c639d8a92d7c7643b82b226a7e995e0e29cb422e66c19d33476abbaae5"
+    },
+    {
+      "name": "singing-rental-standard.png",
+      "bytes": 408467,
+      "sha256": "53c64fcc28de32b57d5d5d236e712f35c8e1863e77501f0e93470007c257d56d"
+    },
+    {
+      "name": "singing-rental-low.png",
+      "bytes": 409320,
+      "sha256": "3d22ba06296ce148a9158f8e2300cceefb2aa20f5ef86cdeb2ad31f0febb3f6f"
+    },
+    {
+      "name": "singing-rental-height-normal.webm",
+      "bytes": 707481,
+      "sha256": "c64c0dea1ae3e922398d5d7330461851a30af2aad89658851988f20a9a214e76",
+      "playbackRate": 1,
+      "scope": "Same run as the measured public height selections and save"
+    },
+    {
+      "name": "singing-rental-restored.png",
+      "bytes": 421966,
+      "sha256": "187ba3ebb0706a1021f5e60bbe472be3adf60421dc6ef8e8a2767aad2fcb929e"
+    },
+    {
+      "name": "singing-rental-low-direct.png",
+      "bytes": 422385,
+      "sha256": "98c9ec78b53672dbafe8b843d9bd4425e7597ca9f12a3679bc5b35e9c1a91d9a"
+    }
+  ],
+  "scriptSha256": "3946f7b72cd34fa2450b841ec12253d11aa1ba8c17d327b717676bd7f04600c0",
+  "packageVerification": {
+    "ok": true,
+    "build": "aed783000987",
+    "manifestSha256": "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+    "declaredFiles": 2336,
+    "checkedFiles": 2336,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "build": "aed783000987"
+}

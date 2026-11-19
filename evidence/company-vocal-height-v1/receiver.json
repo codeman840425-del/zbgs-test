@@ -1,0 +1,1067 @@
+{
+  "status": "passed",
+  "sealed": "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate",
+  "expected": "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+  "previous": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-fit-v1",
+  "previousPin": "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+  "source": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source",
+  "tmp": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\temp",
+  "cache": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\npm-cache",
+  "commands": [
+    {
+      "label": "01-verify-package",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate",
+        "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate",
+      "exit": 0
+    },
+    {
+      "label": "02-npm-ci",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+        "ci",
+        "--offline",
+        "--cache",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\npm-cache",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\prototype",
+      "exit": 0
+    },
+    {
+      "label": "03-build-id",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\prototype\\scripts\\build-company-id.mjs"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\prototype",
+      "exit": 0
+    },
+    {
+      "label": "04-vite",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\prototype\\node_modules\\vite\\bin\\vite.js",
+        "build",
+        "--config",
+        "vite.company.config.js"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\prototype",
+      "exit": 0
+    },
+    {
+      "label": "05-verify-viewer",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate",
+        "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+        "--viewer",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\prototype\\dist-company"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03",
+      "exit": 0
+    },
+    {
+      "label": "06-sealed-geometry",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\scripts\\company-platform\\check-vocal-heights.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\receiver\\run-03\\06-sealed-geometry",
+        "--standard",
+        "singing-studio",
+        "singing-rental",
+        "--low",
+        "singing-studio-low",
+        "singing-rental-low"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source",
+      "exit": 0
+    },
+    {
+      "label": "07-read-singing-studio",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate\\check-vocal-origin.mjs",
+        "singing-studio",
+        "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-fit-v1",
+        "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+        "singing-studio",
+        "--height-profiles"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03",
+      "exit": 0
+    },
+    {
+      "label": "08-exact-refused-singing-studio",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate\\check-vocal-origin.mjs",
+        "singing-studio",
+        "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-fit-v1",
+        "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+        "singing-studio"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03",
+      "exit": 1
+    },
+    {
+      "label": "07-read-singing-rental",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate\\check-vocal-origin.mjs",
+        "singing-rental",
+        "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-fit-v1",
+        "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+        "singing-rental",
+        "--height-profiles"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03",
+      "exit": 0
+    },
+    {
+      "label": "08-exact-refused-singing-rental",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate\\check-vocal-origin.mjs",
+        "singing-rental",
+        "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-fit-v1",
+        "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+        "singing-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03",
+      "exit": 1
+    },
+    {
+      "label": "07-read-singing-studio-low",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate\\check-vocal-origin.mjs",
+        "singing-studio-low",
+        "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-fit-v1",
+        "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+        "singing-studio",
+        "--height-profiles"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03",
+      "exit": 0
+    },
+    {
+      "label": "08-exact-refused-singing-studio-low",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate\\check-vocal-origin.mjs",
+        "singing-studio-low",
+        "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-fit-v1",
+        "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+        "singing-studio"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03",
+      "exit": 1
+    },
+    {
+      "label": "07-read-singing-rental-low",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate\\check-vocal-origin.mjs",
+        "singing-rental-low",
+        "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-fit-v1",
+        "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+        "singing-rental",
+        "--height-profiles"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03",
+      "exit": 0
+    },
+    {
+      "label": "08-exact-refused-singing-rental-low",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate\\check-vocal-origin.mjs",
+        "singing-rental-low",
+        "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-fit-v1",
+        "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+        "singing-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03",
+      "exit": 1
+    },
+    {
+      "label": "09-publish-score",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--publish",
+        "assets-source/company-readable-score-v1/examples/eight-mm.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source",
+      "exit": 0
+    },
+    {
+      "label": "10-check-score",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--check",
+        "assets-source/company-readable-score-v1/examples/eight-mm.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source",
+      "exit": 0
+    },
+    {
+      "label": "11-repeat-score",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--publish",
+        "assets-source/company-readable-score-v1/examples/eight-mm.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source",
+      "exit": 0
+    },
+    {
+      "label": "11b-conflicting-version",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--publish",
+        "assets-source/company-readable-score-v1/examples/receiver-conflict.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source",
+      "exit": 1
+    },
+    {
+      "label": "12-published-score-geometry",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\scripts\\company-platform\\check-vocal-heights.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\published-score-rooms",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\receiver\\run-03\\12-published-score-geometry",
+        "--standard",
+        "singing-studio",
+        "singing-rental",
+        "--low",
+        "singing-studio-low",
+        "singing-rental-low"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source",
+      "exit": 0
+    },
+    {
+      "label": "13-verify-unchanged-package",
+      "argv": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate",
+        "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\fixed\\final-candidate",
+      "exit": 0
+    }
+  ],
+  "fullBefore": {
+    "ok": true,
+    "build": "aed783000987",
+    "manifestSha256": "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+    "declaredFiles": 2336,
+    "checkedFiles": 2336,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "sourceFiles": 1652,
+  "npm": {
+    "lockHash": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b",
+    "node": "v24.13.0",
+    "offline": true,
+    "versions": {
+      "three": "0.187.0",
+      "vite": "7.3.8",
+      "playwright": "1.58.2",
+      "pngjs": "7.0.0",
+      "jpeg-js": "0.4.4"
+    }
+  },
+  "viewer": {
+    "ok": true,
+    "build": "aed783000987",
+    "manifestSha256": "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+    "declaredFiles": 643,
+    "checkedFiles": 643,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0,
+    "scope": "rebuilt-viewer"
+  },
+  "snapshots": {
+    "report": "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\receiver\\run-03\\06-sealed-geometry\\report.json",
+    "sha256": "eeba86a815705ed8b041e4cc4ed43ec5b24c8015d5146a6bc731aac5ebdcd0d9",
+    "fixtureSha256": "85d4ee9a2c7401f750b70d013b66e9122fd96761e06de8c6af393e894f89be06",
+    "checks": [
+      {
+        "key": "singing-studio-low",
+        "observed": 14,
+        "passed": 14,
+        "mic": {
+          "id": "floor-vocal-mic-disc-height-low",
+          "version": 1,
+          "sha256": "7edc048c5980e811213bdfa7b7614d4768cae1a370b7e1b3f80dbc9dcd4fe3bc"
+        },
+        "score": {
+          "id": "floor-score-stand-tripod-readable",
+          "version": 1,
+          "sha256": "6887442a54622dca48b8b923dfa8f993f75067342a4cabc4261ff8ed9bb2f520"
+        },
+        "summary": {
+          "distanceM": [
+            0.16763043794202304,
+            0.18138936451488635
+          ],
+          "incidenceDeg": [
+            10.136204183488719,
+            13.898506596349307
+          ],
+          "facingDeg": [
+            1.9006949588943987,
+            4.02205952734642
+          ],
+          "aboveMouthM": [
+            0.01361222138927376,
+            0.02453026187382079
+          ],
+          "aboveEyeM": [
+            -0.06067105266914874,
+            -0.0562378808261792
+          ],
+          "signedMargins": {
+            "pickupDistanceM": 0.07861063548511366,
+            "incidenceDeg": 21.101493403650693,
+            "facingDeg": 40.97794047265358,
+            "absoluteMouthHeightM": 0.01546973812617921,
+            "eyeClearanceM": 0.0562378808261792
+          },
+          "visibility": {
+            "grid": {
+              "rays": 7280,
+              "visible": 7280
+            },
+            "lowestGridRow": {
+              "rays": 560,
+              "visible": 560
+            },
+            "staff": {
+              "rays": 6300,
+              "visible": 6300
+            },
+            "lowestStaffLine": {
+              "rays": 140,
+              "visible": 140
+            }
+          },
+          "pickupFirst": 14,
+          "camera": {
+            "rays": 28,
+            "passed": 28
+          }
+        }
+      },
+      {
+        "key": "singing-rental-low",
+        "observed": 14,
+        "passed": 14,
+        "mic": {
+          "id": "floor-vocal-mic-disc-height-low",
+          "version": 1,
+          "sha256": "7edc048c5980e811213bdfa7b7614d4768cae1a370b7e1b3f80dbc9dcd4fe3bc"
+        },
+        "score": {
+          "id": "floor-score-stand-tripod-readable",
+          "version": 1,
+          "sha256": "6887442a54622dca48b8b923dfa8f993f75067342a4cabc4261ff8ed9bb2f520"
+        },
+        "summary": {
+          "distanceM": [
+            0.16878665144692184,
+            0.1874631049097428
+          ],
+          "incidenceDeg": [
+            11.643590501080173,
+            15.043286403131253
+          ],
+          "facingDeg": [
+            2.1189864501144062,
+            4.03587881010353
+          ],
+          "aboveMouthM": [
+            0.010381784522738968,
+            0.021138871324801745
+          ],
+          "aboveEyeM": [
+            -0.06127311487726117,
+            -0.05809553417519808
+          ],
+          "signedMargins": {
+            "pickupDistanceM": 0.07253689509025721,
+            "incidenceDeg": 19.956713596868745,
+            "facingDeg": 40.96412118989647,
+            "absoluteMouthHeightM": 0.018861128675198256,
+            "eyeClearanceM": 0.05809553417519808
+          },
+          "visibility": {
+            "grid": {
+              "rays": 7280,
+              "visible": 7280
+            },
+            "lowestGridRow": {
+              "rays": 560,
+              "visible": 560
+            },
+            "staff": {
+              "rays": 6300,
+              "visible": 6300
+            },
+            "lowestStaffLine": {
+              "rays": 140,
+              "visible": 140
+            }
+          },
+          "pickupFirst": 14,
+          "camera": {
+            "rays": 28,
+            "passed": 28
+          }
+        }
+      },
+      {
+        "key": "singing-studio",
+        "observed": 5,
+        "passed": 5,
+        "mic": {
+          "id": "floor-vocal-mic-disc-fit-lower",
+          "version": 1,
+          "sha256": "c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a"
+        },
+        "score": {
+          "id": "floor-score-stand-tripod-readable",
+          "version": 1,
+          "sha256": "6887442a54622dca48b8b923dfa8f993f75067342a4cabc4261ff8ed9bb2f520"
+        },
+        "summary": {
+          "distanceM": [
+            0.1632503580739656,
+            0.18383965712768138
+          ],
+          "incidenceDeg": [
+            4.450703947756772,
+            6.781421268885532
+          ],
+          "facingDeg": [
+            3.0076482641597426,
+            4.695664170113336
+          ],
+          "aboveMouthM": [
+            0.036502453456738415,
+            0.046321896936425855
+          ],
+          "aboveEyeM": [
+            -0.04547452404326169,
+            -0.04134337536357413
+          ],
+          "signedMargins": {
+            "pickupDistanceM": 0.07616034287231863,
+            "incidenceDeg": 28.21857873111447,
+            "facingDeg": 40.30433582988667
+          },
+          "visibility": {
+            "grid": {
+              "rays": 2600,
+              "visible": 2600
+            },
+            "lowestGridRow": {
+              "rays": 200,
+              "visible": 200
+            },
+            "staff": {
+              "rays": 2250,
+              "visible": 2250
+            },
+            "lowestStaffLine": {
+              "rays": 50,
+              "visible": 50
+            }
+          },
+          "pickupFirst": 5,
+          "camera": {
+            "rays": 10,
+            "passed": 10
+          }
+        }
+      },
+      {
+        "key": "singing-rental",
+        "observed": 5,
+        "passed": 5,
+        "mic": {
+          "id": "floor-vocal-mic-disc-fit-lower",
+          "version": 1,
+          "sha256": "c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a"
+        },
+        "score": {
+          "id": "floor-score-stand-tripod-readable",
+          "version": 1,
+          "sha256": "6887442a54622dca48b8b923dfa8f993f75067342a4cabc4261ff8ed9bb2f520"
+        },
+        "summary": {
+          "distanceM": [
+            0.16098877472948667,
+            0.17489153522522236
+          ],
+          "incidenceDeg": [
+            3.450619805871086,
+            4.9624731866472125
+          ],
+          "facingDeg": [
+            3.0982278924831017,
+            4.160191946207617
+          ],
+          "aboveMouthM": [
+            0.043769961395764945,
+            0.048850018608052714
+          ],
+          "aboveEyeM": [
+            -0.04128751780423512,
+            -0.03905590139194737
+          ],
+          "signedMargins": {
+            "pickupDistanceM": 0.08510846477477765,
+            "incidenceDeg": 30.037526813352788,
+            "facingDeg": 40.83980805379238
+          },
+          "visibility": {
+            "grid": {
+              "rays": 2600,
+              "visible": 2600
+            },
+            "lowestGridRow": {
+              "rays": 200,
+              "visible": 200
+            },
+            "staff": {
+              "rays": 2250,
+              "visible": 2250
+            },
+            "lowestStaffLine": {
+              "rays": 50,
+              "visible": 50
+            }
+          },
+          "pickupFirst": 5,
+          "camera": {
+            "rays": 10,
+            "passed": 10
+          }
+        }
+      }
+    ]
+  },
+  "consumer": [
+    {
+      "historicalError": {
+        "code": "vocal-origin-not-inherited",
+        "message": "The selected room has no verified inheritance from this reviewed source room"
+      },
+      "key": "singing-studio",
+      "companyId": "singing-studio",
+      "saveSha256": "1b489758f6174cdd4565df7618ffba8cb8863074f27454ed68f5e96e53989ebe",
+      "id": "singing-studio/ground/live/vocal#vocal",
+      "resource": {
+        "id": "floor-vocal-mic-disc-fit-lower",
+        "version": 1
+      },
+      "profile": "standard",
+      "performerReferences": {
+        "coordinateSpace": "use-point",
+        "eye": [
+          -0.0161797469,
+          1.5848122486,
+          0.093537181
+        ],
+        "mouth": [
+          -0.0137221147,
+          1.4998611454,
+          0.1334972148
+        ]
+      },
+      "legacyRejected": "vocal-origin-not-inherited"
+    },
+    {
+      "historicalError": {
+        "code": "vocal-origin-not-inherited",
+        "message": "The selected room has no verified inheritance from this reviewed source room"
+      },
+      "key": "singing-rental",
+      "companyId": "singing-rental",
+      "saveSha256": "89ff764c0799f91200cdb4eb17240ca603fb985fda74bece01992cb71117b272",
+      "id": "singing-rental/ground/live/vocal#vocal",
+      "resource": {
+        "id": "floor-vocal-mic-disc-fit-lower",
+        "version": 1
+      },
+      "profile": "standard",
+      "performerReferences": {
+        "coordinateSpace": "use-point",
+        "eye": [
+          -0.0161797469,
+          1.5848122486,
+          0.093537181
+        ],
+        "mouth": [
+          -0.0137221147,
+          1.4998611454,
+          0.1334972148
+        ]
+      },
+      "legacyRejected": "vocal-origin-not-inherited"
+    },
+    {
+      "historicalError": {
+        "code": "vocal-origin-not-inherited",
+        "message": "The selected room has no verified inheritance from this reviewed source room"
+      },
+      "key": "singing-studio-low",
+      "companyId": "singing-studio",
+      "saveSha256": "f4bd629236c267ede2e20361ac932c292553f810afd49c64a27586c69f3f6eee",
+      "id": "singing-studio/ground/live/vocal#vocal",
+      "resource": {
+        "id": "floor-vocal-mic-disc-height-low",
+        "version": 1
+      },
+      "profile": "low",
+      "performerReferences": {
+        "coordinateSpace": "use-point",
+        "eye": [
+          -0.0092342425,
+          1.4424544796,
+          0.0672084413
+        ],
+        "mouth": [
+          -0.0077806128,
+          1.3653426463,
+          0.115260715
+        ]
+      },
+      "legacyRejected": "vocal-origin-not-inherited"
+    },
+    {
+      "historicalError": {
+        "code": "vocal-origin-not-inherited",
+        "message": "The selected room has no verified inheritance from this reviewed source room"
+      },
+      "key": "singing-rental-low",
+      "companyId": "singing-rental",
+      "saveSha256": "7c60df4198b1124a8cd56a1a5984bbe764fae0a351a071c13e75bdbba1eed027",
+      "id": "singing-rental/ground/live/vocal#vocal",
+      "resource": {
+        "id": "floor-vocal-mic-disc-height-low",
+        "version": 1
+      },
+      "profile": "low",
+      "performerReferences": {
+        "coordinateSpace": "use-point",
+        "eye": [
+          -0.0092342425,
+          1.4424544796,
+          0.0672084413
+        ],
+        "mouth": [
+          -0.0077806128,
+          1.3653426463,
+          0.115260715
+        ]
+      },
+      "legacyRejected": "vocal-origin-not-inherited"
+    }
+  ],
+  "publication": {
+    "status": "published",
+    "family": "readable-score",
+    "sourceParameters": "assets-source/company-readable-score-v1/examples/recipe-147b69e677e2a7ca86482d2c77d887f6adf8e02db992893f2e3a79f638b59772.json",
+    "sourceParametersSha256": "147b69e677e2a7ca86482d2c77d887f6adf8e02db992893f2e3a79f638b59772",
+    "items": [
+      {
+        "id": "floor-score-stand-tripod-readable-eight-mm",
+        "version": 1,
+        "resourcePath": "prototype/public/company-assets/readable-score-v1/floor-score-stand-tripod-readable-eight-mm/v1/resource.json",
+        "sha256": "1ea04a6230344a1ec9e9035fc343b6e682d69a36191ac537b02bfc7db13b222e"
+      }
+    ]
+  },
+  "publicationCheck": {
+    "status": "unchanged",
+    "family": "readable-score",
+    "sourceParameters": "assets-source/company-readable-score-v1/examples/recipe-147b69e677e2a7ca86482d2c77d887f6adf8e02db992893f2e3a79f638b59772.json",
+    "sourceParametersSha256": "147b69e677e2a7ca86482d2c77d887f6adf8e02db992893f2e3a79f638b59772",
+    "items": [
+      {
+        "id": "floor-score-stand-tripod-readable-eight-mm",
+        "version": 1,
+        "resourcePath": "prototype/public/company-assets/readable-score-v1/floor-score-stand-tripod-readable-eight-mm/v1/resource.json",
+        "sha256": "1ea04a6230344a1ec9e9035fc343b6e682d69a36191ac537b02bfc7db13b222e"
+      }
+    ]
+  },
+  "repeat": {
+    "status": "unchanged",
+    "family": "readable-score",
+    "sourceParameters": "assets-source/company-readable-score-v1/examples/recipe-147b69e677e2a7ca86482d2c77d887f6adf8e02db992893f2e3a79f638b59772.json",
+    "sourceParametersSha256": "147b69e677e2a7ca86482d2c77d887f6adf8e02db992893f2e3a79f638b59772",
+    "items": [
+      {
+        "id": "floor-score-stand-tripod-readable-eight-mm",
+        "version": 1,
+        "resourcePath": "prototype/public/company-assets/readable-score-v1/floor-score-stand-tripod-readable-eight-mm/v1/resource.json",
+        "sha256": "1ea04a6230344a1ec9e9035fc343b6e682d69a36191ac537b02bfc7db13b222e"
+      }
+    ]
+  },
+  "refusedPublication": {
+    "code": "appearance-version-conflict",
+    "unchanged": [
+      {
+        "file": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\prototype\\src\\company\\library-catalog.json",
+        "sha256": "4ef01b20e73e018216eba7e5964af6aa1952ee5e4ca760787872cd85220f02d4"
+      },
+      {
+        "file": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\scripts\\company-platform\\library-inputs.json",
+        "sha256": "315cfa0a599684cbd4172dbf5e41694de3a766adb0d89e3f992b06647afbd852"
+      },
+      {
+        "file": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\prototype\\public\\company-assets\\readable-score-v1\\floor-score-stand-tripod-readable-eight-mm\\v1\\model.glb",
+        "sha256": "1ea04a6230344a1ec9e9035fc343b6e682d69a36191ac537b02bfc7db13b222e"
+      },
+      {
+        "file": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\assets-source\\company-readable-score-v1\\examples\\recipe-147b69e677e2a7ca86482d2c77d887f6adf8e02db992893f2e3a79f638b59772.json",
+        "sha256": "147b69e677e2a7ca86482d2c77d887f6adf8e02db992893f2e3a79f638b59772"
+      },
+      {
+        "file": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\run-03\\source\\prototype\\public\\company-assets\\readable-score-v1\\floor-score-stand-tripod-readable-eight-mm\\v1\\resource.json",
+        "sha256": "52be63f29a16979662559d7b4159524b65c6f3fba9a30a714c6b7cd585e21bf2"
+      }
+    ]
+  },
+  "edit": {
+    "key": "singing-studio-low",
+    "facility": "singing-studio/ground/live/score",
+    "was": {
+      "id": "floor-score-stand-tripod-readable",
+      "version": 1
+    },
+    "now": {
+      "id": "floor-score-stand-tripod-readable-eight-mm",
+      "version": 1
+    },
+    "glbSha256": "1ea04a6230344a1ec9e9035fc343b6e682d69a36191ac537b02bfc7db13b222e",
+    "sourceSaveSha256": "f4bd629236c267ede2e20361ac932c292553f810afd49c64a27586c69f3f6eee",
+    "newSaveSha256": "193b26f33c8b4703ca3489df5f9db40472a3ae9fc3faa16a44f740ec6acf9e08",
+    "method": "prepareCompanyChange replace-resource; encodeCompanySave and read-back via decodeCompanySave",
+    "paperClearanceMetres": 0.008,
+    "failedReplacement": "incompatible-replacement"
+  },
+  "modified": {
+    "report": "F:\\gamemake-company-platform-c1\\output\\vocal-height-profile-v1\\receiver\\run-03\\12-published-score-geometry\\report.json",
+    "sha256": "d7fba74906696f127f1e6df42ff63b9c2979895e750ab04846383fbf91908580",
+    "fixtureSha256": "85d4ee9a2c7401f750b70d013b66e9122fd96761e06de8c6af393e894f89be06",
+    "checks": [
+      {
+        "key": "singing-studio-low",
+        "observed": 14,
+        "passed": 14,
+        "mic": {
+          "id": "floor-vocal-mic-disc-height-low",
+          "version": 1,
+          "sha256": "7edc048c5980e811213bdfa7b7614d4768cae1a370b7e1b3f80dbc9dcd4fe3bc"
+        },
+        "score": {
+          "id": "floor-score-stand-tripod-readable-eight-mm",
+          "version": 1,
+          "sha256": "1ea04a6230344a1ec9e9035fc343b6e682d69a36191ac537b02bfc7db13b222e"
+        },
+        "summary": {
+          "distanceM": [
+            0.16763043794202304,
+            0.18138936451488635
+          ],
+          "incidenceDeg": [
+            10.136204183488719,
+            13.898506596349307
+          ],
+          "facingDeg": [
+            1.9006949588943987,
+            4.02205952734642
+          ],
+          "aboveMouthM": [
+            0.01361222138927376,
+            0.02453026187382079
+          ],
+          "aboveEyeM": [
+            -0.06067105266914874,
+            -0.0562378808261792
+          ],
+          "signedMargins": {
+            "pickupDistanceM": 0.07861063548511366,
+            "incidenceDeg": 21.101493403650693,
+            "facingDeg": 40.97794047265358,
+            "absoluteMouthHeightM": 0.01546973812617921,
+            "eyeClearanceM": 0.0562378808261792
+          },
+          "visibility": {
+            "grid": {
+              "rays": 7280,
+              "visible": 7280
+            },
+            "lowestGridRow": {
+              "rays": 560,
+              "visible": 560
+            },
+            "staff": {
+              "rays": 6300,
+              "visible": 6300
+            },
+            "lowestStaffLine": {
+              "rays": 140,
+              "visible": 140
+            }
+          },
+          "pickupFirst": 14,
+          "camera": {
+            "rays": 28,
+            "passed": 28
+          }
+        }
+      },
+      {
+        "key": "singing-rental-low",
+        "observed": 14,
+        "passed": 14,
+        "mic": {
+          "id": "floor-vocal-mic-disc-height-low",
+          "version": 1,
+          "sha256": "7edc048c5980e811213bdfa7b7614d4768cae1a370b7e1b3f80dbc9dcd4fe3bc"
+        },
+        "score": {
+          "id": "floor-score-stand-tripod-readable",
+          "version": 1,
+          "sha256": "6887442a54622dca48b8b923dfa8f993f75067342a4cabc4261ff8ed9bb2f520"
+        },
+        "summary": {
+          "distanceM": [
+            0.16878665144692184,
+            0.1874631049097428
+          ],
+          "incidenceDeg": [
+            11.643590501080173,
+            15.043286403131253
+          ],
+          "facingDeg": [
+            2.1189864501144062,
+            4.03587881010353
+          ],
+          "aboveMouthM": [
+            0.010381784522738968,
+            0.021138871324801745
+          ],
+          "aboveEyeM": [
+            -0.06127311487726117,
+            -0.05809553417519808
+          ],
+          "signedMargins": {
+            "pickupDistanceM": 0.07253689509025721,
+            "incidenceDeg": 19.956713596868745,
+            "facingDeg": 40.96412118989647,
+            "absoluteMouthHeightM": 0.018861128675198256,
+            "eyeClearanceM": 0.05809553417519808
+          },
+          "visibility": {
+            "grid": {
+              "rays": 7280,
+              "visible": 7280
+            },
+            "lowestGridRow": {
+              "rays": 560,
+              "visible": 560
+            },
+            "staff": {
+              "rays": 6300,
+              "visible": 6300
+            },
+            "lowestStaffLine": {
+              "rays": 140,
+              "visible": 140
+            }
+          },
+          "pickupFirst": 14,
+          "camera": {
+            "rays": 28,
+            "passed": 28
+          }
+        }
+      },
+      {
+        "key": "singing-studio",
+        "observed": 5,
+        "passed": 5,
+        "mic": {
+          "id": "floor-vocal-mic-disc-fit-lower",
+          "version": 1,
+          "sha256": "c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a"
+        },
+        "score": {
+          "id": "floor-score-stand-tripod-readable",
+          "version": 1,
+          "sha256": "6887442a54622dca48b8b923dfa8f993f75067342a4cabc4261ff8ed9bb2f520"
+        },
+        "summary": {
+          "distanceM": [
+            0.1632503580739656,
+            0.18383965712768138
+          ],
+          "incidenceDeg": [
+            4.450703947756772,
+            6.781421268885532
+          ],
+          "facingDeg": [
+            3.0076482641597426,
+            4.695664170113336
+          ],
+          "aboveMouthM": [
+            0.036502453456738415,
+            0.046321896936425855
+          ],
+          "aboveEyeM": [
+            -0.04547452404326169,
+            -0.04134337536357413
+          ],
+          "signedMargins": {
+            "pickupDistanceM": 0.07616034287231863,
+            "incidenceDeg": 28.21857873111447,
+            "facingDeg": 40.30433582988667
+          },
+          "visibility": {
+            "grid": {
+              "rays": 2600,
+              "visible": 2600
+            },
+            "lowestGridRow": {
+              "rays": 200,
+              "visible": 200
+            },
+            "staff": {
+              "rays": 2250,
+              "visible": 2250
+            },
+            "lowestStaffLine": {
+              "rays": 50,
+              "visible": 50
+            }
+          },
+          "pickupFirst": 5,
+          "camera": {
+            "rays": 10,
+            "passed": 10
+          }
+        }
+      },
+      {
+        "key": "singing-rental",
+        "observed": 5,
+        "passed": 5,
+        "mic": {
+          "id": "floor-vocal-mic-disc-fit-lower",
+          "version": 1,
+          "sha256": "c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a"
+        },
+        "score": {
+          "id": "floor-score-stand-tripod-readable",
+          "version": 1,
+          "sha256": "6887442a54622dca48b8b923dfa8f993f75067342a4cabc4261ff8ed9bb2f520"
+        },
+        "summary": {
+          "distanceM": [
+            0.16098877472948667,
+            0.17489153522522236
+          ],
+          "incidenceDeg": [
+            3.450619805871086,
+            4.9624731866472125
+          ],
+          "facingDeg": [
+            3.0982278924831017,
+            4.160191946207617
+          ],
+          "aboveMouthM": [
+            0.043769961395764945,
+            0.048850018608052714
+          ],
+          "aboveEyeM": [
+            -0.04128751780423512,
+            -0.03905590139194737
+          ],
+          "signedMargins": {
+            "pickupDistanceM": 0.08510846477477765,
+            "incidenceDeg": 30.037526813352788,
+            "facingDeg": 40.83980805379238
+          },
+          "visibility": {
+            "grid": {
+              "rays": 2600,
+              "visible": 2600
+            },
+            "lowestGridRow": {
+              "rays": 200,
+              "visible": 200
+            },
+            "staff": {
+              "rays": 2250,
+              "visible": 2250
+            },
+            "lowestStaffLine": {
+              "rays": 50,
+              "visible": 50
+            }
+          },
+          "pickupFirst": 5,
+          "camera": {
+            "rays": 10,
+            "passed": 10
+          }
+        }
+      }
+    ]
+  },
+  "unchangedOriginalSourceFiles": 1650,
+  "fullAfter": {
+    "ok": true,
+    "build": "aed783000987",
+    "manifestSha256": "7d502e930194ea8c115ad95461f13749a406fbf373696a5ef4315f3f37879e9d",
+    "declaredFiles": 2336,
+    "checkedFiles": 2336,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  }
+}
