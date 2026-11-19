@@ -48,7 +48,7 @@ async function outputDirectory() {
     }
   }
   const resolved = path.resolve(await fs.realpath(ancestor),path.relative(ancestor,out));
-  assert.equal(path.relative(out,resolved),'Evidence path traverses a link or junction');
+  assert.equal(path.relative(out,resolved),'','Evidence path traverses a link or junction');
   assert(!inside(await fs.realpath(root),resolved),'Write evidence outside the viewer input');
   if (batch) assert(!inside(await fs.realpath(batch),resolved),'Write evidence outside the room input');
   await fs.mkdir(path.dirname(out),{recursive:true});
@@ -490,7 +490,7 @@ async function cleanup() {
     const candidate = path.join(out,name);
     try {
       const resolved = await fs.realpath(candidate);
-      assert.equal(path.relative(candidate,resolved),'Unexpected cleanup target');
+      assert.equal(path.relative(candidate,resolved),'','Unexpected cleanup target');
       assert(inside(out,resolved) && path.relative(out,resolved),'Temporary directory escaped allocated output');
       await fs.rm(resolved,{recursive:true,maxRetries:4,retryDelay:200});
     } catch (error) { if(error.code!=='ENOENT') throw error; }

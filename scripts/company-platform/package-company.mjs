@@ -668,6 +668,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     ({verifyWallHvacSources}=await import(pathToFileURL(verifier).href));
     if (!verifyWallHvacSources) fail('missing-production-tool',verifier,'Expected the indoor unit source and adapter verifier');
     supplemental.add('scripts/company-platform/test-wall-hvac.mjs');
+    supplemental.add('scripts/company-platform/test-wall-hvac-receiver.mjs');
     supplemental.add('scripts/company-platform/test-wall-ac-intake-rooms.mjs');
     supplemental.add('scripts/company-platform/qa-wall-hvac.cjs');
   }
