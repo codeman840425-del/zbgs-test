@@ -204,7 +204,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, renderer, parser,
     const accessoryContext=accessoryTransaction===undefined?undefined:readAccessoryTransactionContext(accessoryTransaction,avatarSha256,vrm);
     const entry = validateHairSelection(avatarSha256, style);
     validateHairChange?.({ hairStyle: style, replacementSHA256: entry?.assetSha256 ?? null,
-      hairFit: entry ? hairFitIdentity(entry) : null }, accessoryContext);
+      hairFit: entry ? hairFitIdentity(entry) : null }, accessoryContext, accessoryTransaction);
   }
   async function prepareUpdate(input = {}, {trackIntent=false,accessoryTransaction,accessories}={}) {
     if(accessories!==undefined)return{applied:false,reason:'附件组合必须通过整套配方提交'};

@@ -17,6 +17,9 @@ def install(source, root=ROOT):
     provenance = json.loads((source / 'provenance.json').read_bytes())
     check(provenance['schema'] == 'uniform-glasses-transfer-provenance-v1' and
           provenance['runtimeAdmission'] is False, 'Expected diagnostic transfer provenance')
+    check(provenance.get('hair') == 'original' and provenance.get('neutralFace') is True,
+          'Preview needs a measured original-hair, neutral-face transfer')
+    head = {'hairStyle': provenance['hair'], 'faceGeometry': 'neutral'}
     lock = catalog_path.with_suffix('.lock')
     with lock.open('x', encoding='utf-8') as stream:
         stream.write('stage_glasses_preview\n')
@@ -43,6 +46,12 @@ def install(source, root=ROOT):
                 changes.append((target, None, raw))
             entry = {'bodyType': body, 'bodySHA256': row['targetSha256'], 'url': url,
                      'sha256': row['sha256'], 'bytes': row['bytes'], 'status': 'cpu-candidate-only'}
+            # Migrate only the earlier exact diagnostic row. Any different resource
+            # or existing dependency must still go through the conflict check.
+            for existing in catalog['profiles']:
+                if existing == entry:
+                    existing['headDependency'] = head
+            entry['headDependency'] = head
             merge(catalog['profiles'], entry, ('bodyType', 'bodySHA256', 'url'))
         if catalog != json.loads(before):
             after = encoded(catalog)

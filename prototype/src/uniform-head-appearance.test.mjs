@@ -8,6 +8,8 @@ import imageCodecs from '../node_modules/playwright-core/lib/utilsBundle.js';
 import {runtimePath} from '../../scripts/runtime-package/files.mjs';
 import {collectRecordResources} from '../../scripts/runtime-package/record-resources.mjs';
 import {fittedHeadAppearance,indexFittedHeadAppearances} from './fitted-head-appearance.js';
+import glassesRegistry from './glasses-temple-fit-manifest.json' with {type:'json'};
+import {updateCharacterRecord} from './character-record.js';
 
 const hooks=registerHooks({load(url,context,next){
   return next(url,url.endsWith('.json')?{...context,importAttributes:{type:'json'}}:context);
@@ -16,7 +18,7 @@ const {THREE}=await import('../../scripts/headless-avatar-node.mjs');
 const {prepareRecordedCharacter}=await import('./character-record-consumer.js');
 const {performCharacterProduction}=await import('./character-production.js');
 const {admitAppearanceCandidate,queryAppearanceCandidates}=await import('./appearance-candidates.js');
-const {restoreRuntimeCharacterRecord}=await import('./character-runtime-record.js');
+const {deriveCharacterResourceIdentities,restoreRuntimeCharacterRecord}=await import('./character-runtime-record.js');
 test.after(()=>hooks.deregister());
 const publicFile=path=>new URL('../public/'+path,import.meta.url);
 const load=async path=>JSON.parse(await readFile(new URL('../../'+path,import.meta.url)));
@@ -151,4 +153,46 @@ test('historical warm signed female bob and original male retain their recipe an
       assert.deepEqual(again.resourceIdentities,record.resourceIdentities);
     }finally{instance.dispose();}
   }
+});
+
+test('a restricted glasses record restores over a bob and rejects mismatched final head identities atomically',async t=>{
+  imageTransport(t);
+  const [bob]=await load('evidence/m2-uniform-skin-v1/signed-pair.json');
+  assert.deepEqual(bob.appearanceRecipe.base,original.appearanceRecipe.base);
+  const {profiles}=await load('prototype/public/assets/native-glasses-candidate-v2/manifest.json');
+  const candidate=profiles.find(row=>row.bodySHA256===original.appearanceRecipe.base.sha256);
+  // Install this candidate only in this test process to exercise formal restore.
+  const previous=glassesRegistry.profiles;
+  glassesRegistry.profiles=[...previous.filter(row=>row.bodySHA256!==candidate.bodySHA256),
+    {...candidate,headDependency:{hairStyle:'original',faceGeometry:'neutral'}}];
+  t.after(()=>{glassesRegistry.profiles=previous;});
+  const instance=await prepareRecordedCharacter(original,env());
+  t.after(()=>instance.dispose());
+  const restore=record=>restoreRuntimeCharacterRecord(instance.controller,record);
+  const enabled=await instance.avatar.livePresentation.setAccessory('glasses',true);
+  assert.equal(enabled.applied,true,enabled.reason);
+  const fitted=await instance.capture();
+  assert.equal(fitted.liveAccessories.selections.glasses.identity.fit.sha256,candidate.sha256);
+  assert.equal((await restore(bob)).applied,true);
+  assert.equal((await instance.capture()).integrity.recipeSha256,bob.integrity.recipeSha256);
+  assert.equal((await restore(fitted)).applied,true);
+  const temple=instance.avatar.root.getObjectByName('Temple-1');
+  assert(temple?.isMesh);
+  const recipe=fitted.appearanceRecipe;
+  for(const [appearanceRecipe,error] of [
+    [bob.appearanceRecipe,/仅支持原发/],
+    [{...recipe,hairAssetSha256:bob.appearanceRecipe.hairAssetSha256},/hairAssetSha256/],
+    [{...recipe,hairFit:bob.appearanceRecipe.hairFit},/hairFit/],
+    [{...recipe,geometry:{...recipe.geometry,eyeRecipeSha256:candidate.sha256}},/geometry.eyeRecipeSha256/],
+  ]){
+    const resourceIdentities=deriveCharacterResourceIdentities(appearanceRecipe,fitted.liveAccessories,fitted.equipmentMaterials);
+    const invalid=await updateCharacterRecord(fitted,{appearanceRecipe,resourceIdentities},{},
+      {validateResources:()=>({status:'pending'})});
+    await assert.rejects(restore(invalid),error);
+    await assert.rejects(closure(invalid),error);
+    assert.equal(instance.avatar.root.getObjectByName('Temple-1'),temple);
+  }
+  const retained=await instance.capture();
+  assert.deepEqual(retained.liveAccessories,fitted.liveAccessories);
+  assert.equal(retained.integrity.recipeSha256,fitted.integrity.recipeSha256);
 });

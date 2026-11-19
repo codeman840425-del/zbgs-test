@@ -476,7 +476,7 @@ export async function collectRecordResources({record, sourceRoot, add}) {
   };
   const admission = contracts.admitAppearanceCandidate({actor}, recipe);
   requireDependency(admission.accepted, 'Record appearance admission: ' + JSON.stringify(admission.issues));
-  contracts.validateLiveAccessories(actor, record.liveAccessories);
+  contracts.validateLiveAccessories(actor, record.liveAccessories, recipe);
   const {record:materials} = contracts.resolveGarmentMaterials(actor, recipe, record.equipmentMaterials);
 
   // Reviewed runtimes built before this policy still cold-load outfit 0.

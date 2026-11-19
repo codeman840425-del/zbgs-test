@@ -1,5 +1,7 @@
 import {createEyeBlinkCompatibility} from './eye-blink-compatibility.js';
-import {fitGlassesTemples} from './glasses-temple-fit.js';
+import {fitGlassesTemples,glassesFitMode,glassesProfileForBody} from './glasses-temple-fit.js';
+import {assertGlassesHeadDependency} from './glasses-head-dependency.js';
+import {readGlassesTarget,assertAccessoryTransactionCommit} from './accessory-transaction-context.js';
 import {microphoneArmTarget,microphoneCarryTarget,microphoneElbow} from './microphone-pose.js';
 import {MICROPHONE_PRESENTATION_FITS} from './microphone-presentation-fits.js';
 import * as THREE from 'three';
@@ -23,7 +25,7 @@ function orientSegment(bone,child,target){
 }
 /** Independent per-avatar live layer. Call after motion, before vrm.update;
  * postUpdate follows raw-bone/world-matrix synchronization. No audio input. */
-export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=null}){
+export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=null,getHeadState}){
  if(!vrm?.humanoid||!root)throw new TypeError('Loaded VRM and world root required');
  const greeting=createGreetingLayer({vrm});
  const bone=name=>vrm.humanoid.getNormalizedBoneNode(name),raw=name=>vrm.humanoid.getRawBoneNode(name);
@@ -110,6 +112,22 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
   return {...profile,sha256:hash};
  }
   function slotSettledStatus(slot){return slot.object&&slot.requested?'on':'off';}
+  // Associate the requirement with this actual load. URL changes and failed
+  // replacements cannot change the requirement of a mounted or staged object.
+  const headDependencies=new WeakMap();
+  function assertHeadChange(change,accessoryTransaction){
+   const slot=slots.glasses,target=readGlassesTarget(accessoryTransaction,avatarSha256,vrm);
+   if(target?.enabled===false)return;
+   const mounted=headDependencies.get(slot.object)?.dependency,pending=headDependencies.get(slot.pending);
+   const dependencies=target?.enabled
+    ? [slot.object?mounted:glassesProfileForBody(avatarSha256)?.headDependency]
+    : [mounted,accessoryTransaction&&pending?.owner===accessoryTransaction?undefined:pending?.dependency];
+   for(const dependency of dependencies){
+    if(dependency===undefined)continue;
+    const state=target??getHeadState?.();
+    assertGlassesHeadDependency(dependency,change.appearance??state?.appearance,change.geometry??state?.geometry);
+   }
+  }
   function accessoryRestriction(kind,desired){
    if(kind!=='mic'||!desired)return null;
    if(greeting.busy())return'招手与持麦组合尚未验证，请等待招手结束。';
@@ -132,7 +150,7 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
    }
   }
   /** Prepare one live prop without touching the currently committed prop or pose. */
-  async function prepareAccessory(kind,value){
+  async function prepareAccessory(kind,value,{accessoryTransaction}={}){
    if(disposed)throw Error('Live presentation disposed');
    const slot=slots[kind];if(!slot)throw Error('Unknown accessory '+kind);
    const desired=Boolean(value),restriction=accessoryRestriction(kind,desired);
@@ -142,6 +160,17 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
    slot.pending?.release?.();
    const version=++slot.version,controller=new AbortController();
    const candidate={kind,desired,version,controller,object:null,profile:null,entry:null,identity:null,cached:false,live:true,committed:false,finalized:false,commitError:null,finalize:()=>{},rollback:null};
+   candidate.releasesHeadDependency=kind==='glasses'&&!desired&&headDependencies.has(slot.object);
+   const mode=kind==='glasses'&&desired?glassesFitMode():null;
+   const headDependency=kind==='glasses'&&desired
+    ? (slot.object?headDependencies.get(slot.object)?.dependency:glassesProfileForBody(avatarSha256,mode)?.headDependency):undefined;
+   if(headDependency!==undefined)headDependencies.set(candidate,{dependency:headDependency,owner:accessoryTransaction});
+   const checkHead=()=>{
+    if(headDependency===undefined)return;
+    const target=readGlassesTarget(accessoryTransaction,avatarSha256,vrm);
+    const state=target??getHeadState?.();
+    assertGlassesHeadDependency(headDependency,state?.appearance,state?.geometry);
+   };
    slot.pending=candidate;slot.abort=controller;slot.error=null;slot.status='loading';
    candidate.isCurrent=()=>candidate.live&&!disposed&&slot.version===version&&slot.pending===candidate;
    candidate.ensureCurrent=()=>{if(!candidate.isCurrent())throw new DOMException('Stale live accessory preparation','AbortError');};
@@ -155,11 +184,13 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
    candidate.rollback=()=>candidate.release();
    candidate.validateCommit=()=>{
     if(!candidate.isCurrent())throw Error('Live accessory preparation expired');
+    checkHead();
     const recheck=accessoryRestriction(kind,desired);if(recheck)throw Error(recheck);
     if(desired){assertAccessoryIdentity(candidate);if(!candidate.cached&&!candidate.object)throw Error('Live accessory resource missing');}
     return true;
    };
    candidate.commit=()=>{
+    assertAccessoryTransactionCommit(accessoryTransaction,vrm);
     candidate.validateCommit();
     const previous=slot.object,previousEntry=slot.entry,previousIdentity=slot.identity,previousRequested=slot.requested,
       previousError=slot.error,previousGripProfile=gripProfile;
@@ -198,6 +229,7 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
     return{applied:true,...(desired?{sha256:candidate.identity.accessorySHA256,identity:structuredClone(candidate.identity),...(candidate.cached?{cached:true}:{})}:{})};
    };
    try{
+    checkHead();
     if(desired&&slot.object&&slot.requested){
      candidate.cached=true;candidate.entry=slot.entry;candidate.identity=slot.identity;candidate.profile=kind==='mic'?gripProfile:null;
      candidate.validateCommit();return candidate;
@@ -221,8 +253,9 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
     // abort still enters the candidate cleanup path and cannot leak its scene.
     candidate.object=gltf.scene;candidate.ensureCurrent();candidate.object.name='LiveAccessory:'+kind;
     let fitIdentity=kind==='mic'?{id:candidate.profile.id,sha256:candidate.profile.sha256,fitVersion:candidate.profile.fitVersion,bodySHA256:avatarSha256,accessorySHA256:hash}:null;
-    if(kind==='glasses'&&new URLSearchParams(location.search).get('glassesFit')!=='legacy'){
-     fitIdentity=await fitGlassesTemples(candidate.object,{bodySHA256:avatarSha256,accessorySHA256:hash,signal:controller.signal});candidate.ensureCurrent();candidate.object.userData.templeFit=fitIdentity;
+    if(kind==='glasses'&&mode!=='legacy'){
+     fitIdentity=await fitGlassesTemples(candidate.object,{bodySHA256:avatarSha256,accessorySHA256:hash,signal:controller.signal,mode});candidate.ensureCurrent();candidate.object.userData.templeFit=fitIdentity;
+     if(headDependency!==undefined)headDependencies.set(candidate.object,{dependency:headDependency});
     }else if(kind==='glasses'){
      // Retain the historical diagnostic branch for source-measurement runs.
      // Production character records require a fitted profile SHA and reject
@@ -308,7 +341,7 @@ export function createLivePresentation({vrm,root,bodyType='female',avatarSha256=
  // Admission and execution share the same real hand-layer readiness. Removing
  // the prop is immediate, but its arm pose still needs to blend out.
   const canStartGreeting=()=>['idle','sit'].includes(currentAction)&&!micRequestedOrPreparing()&&holdWeight<=.001;
-  return{preUpdate,postUpdate,setAccessory,prepareAccessory,canPerform,canStartGreeting,
+  return{preUpdate,postUpdate,setAccessory,prepareAccessory,assertHeadChange,canPerform,canStartGreeting,
   setEyeBlinkCompatibility:mode=>eyeBlinkCompatibility.setMode(mode),
   refreshEyeBlinkCompatibility(){eyeBlinkCompatibility.update();vrm.expressionManager?.update();return eyeBlinkCompatibility.getState();},
   playGreeting(options){if(!canStartGreeting())return Promise.resolve({started:false,error:'greeting-requires-settled-empty-hand-pose'});return greeting.start(options);},

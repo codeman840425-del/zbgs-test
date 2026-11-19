@@ -3,6 +3,7 @@ import grips from '../public/assets/m1c/grips/manifest.json' with {type:'json'};
 import glasses from './glasses-temple-fit-manifest.json' with {type:'json'};
 import {MICROPHONE_PRESENTATION_FITS} from './microphone-presentation-fits.js';
 import {canonicalJson} from './character-record.js';
+import {assertGlassesHeadDependency} from './glasses-head-dependency.js';
 
 export const LIVE_ACCESSORY_RECORD_SCHEMA='live-accessory-record-v1';
 const ids={mic:'studio-microphone-v1',glasses:'studio-glasses-v1'};
@@ -20,7 +21,7 @@ export function captureLiveAccessories(actor){
  validateLiveAccessories(actor,record);
  return record;
 }
-export function validateLiveAccessories(actor,record){
+export function validateLiveAccessories(actor,record,appearanceRecipe){
  if(record?.schema!==LIVE_ACCESSORY_RECORD_SCHEMA||
   Object.keys(record).sort().join(',')!=='microphonePresentation,schema,selections'||
   Object.keys(record.selections??{}).sort().join(',')!=='glasses,mic')throw Error('道具记录版本或字段不兼容');
@@ -39,6 +40,10 @@ export function validateLiveAccessories(actor,record){
   if(kind==='mic'&&(identity.fit.id!==fit.id||typeof identity.fit.fitVersion!=='string'||!identity.fit.fitVersion))throw Error('握麦配置身份不一致');
   if(kind==='glasses'&&(identity.fit.status!=='fitted-candidate'||identity.fit.verified!==false||identity.fit.sourceGeometryUnmodified!==true||
    !Array.isArray(identity.fit.changedMeshes)||identity.fit.changedMeshes.length!==2||identity.fit.changedMeshes.some(x=>typeof x!=='string')))throw Error('镜腿适配记录不兼容');
+  if(kind==='glasses'&&fit.headDependency!==undefined){
+   const look=appearanceRecipe===undefined?{appearance:actor.appearance.getState(),geometry:actor.facialGeometry.getState()}:appearanceRecipe;
+   assertGlassesHeadDependency(fit.headDependency,look?.appearance,look?.geometry);
+  }
   // Profile-internal metadata is compared against the SHA-checked, actually
   // prepared resource by assertPreparedLiveAccessory before any visible write.
  }

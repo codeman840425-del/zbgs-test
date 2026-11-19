@@ -27,7 +27,7 @@ function validateLoadedRecord(controller,record){
  const admission=admitAppearanceCandidate(controller,record.appearanceRecipe);
  if(!admission.accepted)throw Error('角色配方未准入：'+JSON.stringify(admission.issues??admission));
  validateAppearanceRecipe(controller,record.appearanceRecipe);
- validateLiveAccessories(controller.actor,record.liveAccessories);
+ validateLiveAccessories(controller.actor,record.liveAccessories,record.appearanceRecipe);
  resolveGarmentMaterials(controller.actor,record.appearanceRecipe,record.equipmentMaterials);
  const actual=deriveCharacterResourceIdentities(record.appearanceRecipe,record.liveAccessories,record.equipmentMaterials,record.nativeHairCenter);
  if(canonicalJson(record.resourceIdentities)!==canonicalJson(actual))throw Error('角色资源清单与最终造型不一致');

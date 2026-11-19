@@ -35,6 +35,30 @@ class PreviewStagingTests(unittest.TestCase):
             self.assertEqual(saved['profiles'][:-2], registry['profiles'])
             for entry, row in zip(saved['profiles'][-2:], rows, strict=True):
                 self.assertEqual(entry['bodySHA256'], row['targetSha256'])
+                self.assertEqual(entry['headDependency'], {'hairStyle': 'original', 'faceGeometry': 'neutral'})
                 self.assertEqual((root / 'prototype/public' / entry['url'][1:]).read_bytes(),
                                  (source / row['file']).read_bytes())
             self.assertFalse((root / 'prototype/src/glasses-temple-fit-manifest.json').exists())
+
+            for entry in saved['profiles'][-2:]:
+                del entry['headDependency']
+            path.write_text(json.dumps(saved))
+            self.assertEqual(install(source, root), [CATALOG])
+            self.assertEqual(install(source, root), [])
+
+            saved = json.loads(path.read_bytes())
+            saved['profiles'][-1]['headDependency']['faceGeometry'] = 'any'
+            conflict = json.dumps(saved).encode()
+            path.write_bytes(conflict)
+            with self.assertRaisesRegex(ValueError, 'Conflicting registration'):
+                install(source, root)
+            self.assertEqual(path.read_bytes(), conflict)
+
+            provenance_file = source / 'provenance.json'
+            provenance = json.loads(provenance_file.read_bytes())
+            for unsupported in ({'hair': 'female-bob-v1'}, {'neutralFace': False}):
+                with self.subTest(unsupported=unsupported):
+                    provenance_file.write_text(json.dumps({**provenance, **unsupported}))
+                    with self.assertRaisesRegex(ValueError, 'measured original-hair'):
+                        install(source, root)
+                    self.assertEqual(path.read_bytes(), conflict)

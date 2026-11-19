@@ -513,12 +513,14 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
     const brow = input.reset ? 'none' : input.browSample ?? (trackIntent?wantedBrow:browSample);
     const nose = input.reset ? 'none' : input.noseSample ?? (trackIntent?wantedNose:noseSample);
     const eye = input.reset ? 'none' : input.eyeSample ?? (trackIntent?wantedEye:eyeSample);
+    const checkAccessories=()=>validateGeometryChange?.({mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye},
+      accessoryTransaction===undefined?undefined:readAccessoryTransactionContext(accessoryTransaction,avatarSha256,vrm),accessoryTransaction);
     let selection;
     try{
       selection=resolveFacialGeometrySelection(avatarSha256,{mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye,
         recipeSha256:input.expectedRecipeSha256,browRecipeSha256:input.expectedBrowRecipeSha256,
         noseRecipeSha256:input.expectedNoseRecipeSha256,eyeRecipeSha256:input.expectedEyeRecipeSha256});
-      validateGeometryChange?.({mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye},accessoryTransaction===undefined?undefined:readAccessoryTransactionContext(accessoryTransaction,avatarSha256,vrm));
+      checkAccessories();
     }catch(error){return{applied:false,reason:error.message,field:error.field,code:error.code};}
     if(trackIntent){wanted = value; wantedBrow = brow; wantedNose = nose; wantedEye = eye;}
     const request = ++generation; error = null;
@@ -566,7 +568,7 @@ export function createFacialGeometry({ vrm, avatarSha256, prepareRender, renderC
         isCurrent:()=>live&&!disposed&&request===generation,
         validateCommit(){
           if(!update.isCurrent())throw Error('五官准备已过期');
-          validateGeometryChange?.({mouthWidth:value,browSample:brow,noseSample:nose,eyeSample:eye},accessoryTransaction===undefined?undefined:readAccessoryTransactionContext(accessoryTransaction,avatarSha256,vrm));
+          checkAccessories();
         },
         commit(){
           assertAccessoryTransactionCommit(accessoryTransaction,vrm);

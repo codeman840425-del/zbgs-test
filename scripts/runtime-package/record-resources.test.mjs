@@ -15,6 +15,8 @@ import {accessorySelection} from '../../prototype/src/accessory-recipe.js';
 import {SURFACE_LAYER_PACKAGE} from '../../prototype/src/surface-layer-catalog.js';
 import {createCharacterRecord} from '../../prototype/src/character-record.js';
 import {deriveCharacterResourceIdentities} from '../../prototype/src/character-runtime-record.js';
+import glassesRegistry from '../../prototype/src/glasses-temple-fit-manifest.json' with {type:'json'};
+import {captureLiveAccessories, validateLiveAccessories} from '../../prototype/src/live-accessory-record.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const release = JSON.parse(await readFile(path.join(root, 'delivery/appearance-workbench.json'), 'utf8'));
@@ -30,12 +32,12 @@ const neutralGeometry = {
   noseSample:'none', noseRecipeSha256:null, eyeSample:'none', eyeRecipeSha256:null,
 };
 
-async function collect(record, {tamper, omit, sourceRoot = root} = {}) {
+async function collect(record, {tamper, omit, sourceRoot = root, assetRoot = dist} = {}) {
   const files = new Map();
   const add = async (url, reason, {sha256, bytes:size, parent, provenance}) => {
     const relative = runtimePath(url, parent);
     if (relative === omit) throw Error('Missing test dependency ' + relative);
-    const bytes = await readFile(await localFile(dist, relative));
+    const bytes = await readFile(await localFile(assetRoot, relative));
     if (relative === tamper) bytes[0] ^= 1;
     const original = await readFile(await localFile(publicRoot, relative));
     const hash = digest(bytes);
@@ -120,6 +122,47 @@ test('native male replacement hair, iris and eyebrow each bring their selected f
     '/assets/native-iris-palette-v1/manifest.json', '/assets/native-iris-palette-v1/source-iris.png', '/assets/native-iris-palette-v1/iris-green.png',
     '/assets/native-eyebrow-palette-v1/manifest.json', '/assets/native-eyebrow-palette-v1/source-brow.png', '/assets/native-eyebrow-palette-v1/brow-brown.png',
   ]);
+});
+
+test('conditional production glasses bind to the signed final head on both 1K uniforms', async t => {
+  const originals = await json('evidence/m2-uniform-lite-operator-v1/records.json');
+  const [bob] = await json('evidence/m2-uniform-skin-v1/signed-pair.json');
+  const candidates = await publicJson('/assets/native-glasses-candidate-v2/manifest.json');
+  // The released dist predates these diagnostic profiles. Stage only the
+  // registry in this process and read the real source assets as a fixture.
+  const profiles = glassesRegistry.profiles;
+  glassesRegistry.profiles = [...profiles];
+  t.after(() => { glassesRegistry.profiles = profiles; });
+  const local = {assetRoot:publicRoot};
+  for (const original of originals) {
+    const {appearanceRecipe:recipe, equipmentMaterials} = original;
+    const {sha256:bodySHA256} = recipe.base;
+    const candidate = candidates.profiles.find(row => row.bodySHA256 === bodySHA256);
+    const ref = {...candidate, headDependency:{hairStyle:'original',faceGeometry:'neutral'}};
+    glassesRegistry.profiles = [...glassesRegistry.profiles.filter(row => row.bodySHA256 !== bodySHA256), ref];
+    const fit = await publicJson(ref.url);
+    const {accessorySHA256} = fit;
+    const identity = {bodySHA256, accessorySHA256, fit:{bodySHA256, accessorySHA256,
+      id:fit.id, sha256:ref.sha256, status:'fitted-candidate', verified:false, sourceGeometryUnmodified:true,
+      changedMeshes:fit.controls.map(control => control.mesh)}};
+    const live = structuredClone(original.liveAccessories);
+    live.selections.glasses = {enabled:true, identity};
+    const fitted = await recordFor(recipe, equipmentMaterials, live);
+    contains((await collect(fitted, local)).files, [ref.url,'/assets/m1c/studio-glasses-v1.glb']);
+    assert(!(await collect(original, local)).files.has(ref.url));
+
+    if (bob.appearanceRecipe.base.sha256 !== bodySHA256) continue;
+    const foreignLook = await recordFor(bob.appearanceRecipe, bob.equipmentMaterials, live);
+    await assert.rejects(collect(foreignLook, local), {code:'glasses-head-incompatible'});
+    assert(!(await collect(bob, local)).files.has(ref.url));
+    const actor = {profile:{sha256:bodySHA256}, appearance:{getState:() => bob.appearanceRecipe.appearance},
+      facialGeometry:{getState:() => recipe.geometry}, livePresentation:{getState:() => ({accessories:{
+        mic:{requested:false,loaded:false}, glasses:{requested:true,loaded:true,identity}}})}};
+    assert.throws(() => captureLiveAccessories(actor), {code:'glasses-head-incompatible'});
+    assert.equal(validateLiveAccessories(actor, live, recipe), true); // restore from bob to original
+    assert.throws(() => validateLiveAccessories(actor, live, {...recipe, geometry:{...recipe.geometry, mouthWidth:0.02}}),
+      {code:'glasses-head-incompatible'});
+  }
 });
 
 test('native 7586 adds the independent sock model only to the selected shorts-socks record', async () => {

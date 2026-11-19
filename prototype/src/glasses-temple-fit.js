@@ -13,10 +13,14 @@ export function validateTempleProfile(p,bodySHA,accessorySHA){
   }if(ids.size!==36)return false;
  }return names.size===0;
 }
-export async function fitGlassesTemples(object,{bodySHA256,accessorySHA256,signal}){
- const candidateMode=typeof location!=='undefined'&&new URLSearchParams(location.search).get('glassesFit')==='candidate';
- const source=candidateMode&&candidateRegistry.status==='candidate-only'?candidateRegistry:registry;
- const entry=source.profiles.find(p=>p.bodySHA256===bodySHA256);
+export const glassesFitMode=()=>typeof location==='undefined'?null:new URLSearchParams(location.search).get('glassesFit');
+export function glassesProfileForBody(bodySHA256,mode=glassesFitMode()){
+ if(mode==='legacy')return undefined;
+ const source=mode==='candidate'&&candidateRegistry.status==='candidate-only'?candidateRegistry:registry;
+ return source.profiles.find(p=>p.bodySHA256===bodySHA256);
+}
+export async function fitGlassesTemples(object,{bodySHA256,accessorySHA256,signal,mode=glassesFitMode()}){
+ const entry=glassesProfileForBody(bodySHA256,mode);
  if(!entry)throw Error('当前基模没有精确匹配的镜腿适配配置；眼镜暂不可用。');
  const response=await fetch(entry.url,{signal,cache:'no-store'});if(!response.ok)throw Error('Glasses fit HTTP '+response.status);
  const bytes=await response.arrayBuffer();if(bytes.byteLength!==entry.bytes||await hash(bytes)!==entry.sha256)throw Error('Glasses fit integrity mismatch');

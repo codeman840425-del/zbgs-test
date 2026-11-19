@@ -3,6 +3,7 @@ import {FOUNDATION_PROFILES} from './foundation-profiles.js';
 import accessoryManifest from '../public/assets/m1c/accessories.json' with {type:'json'};
 import gripManifest from '../public/assets/m1c/grips/manifest.json' with {type:'json'};
 import templeManifest from './glasses-temple-fit-manifest.json' with {type:'json'};
+import {assertGlassesHeadDependency} from './glasses-head-dependency.js';
 import {MICROPHONE_PRESENTATION_FITS} from './microphone-presentation-fits.js';
 import {supportsNativeHairCenterFit} from './native-hair-center-fit.js';
 import {createNativeHairCenterPin} from './native-hair-center-record.js';
@@ -25,7 +26,8 @@ function accessoryAsset(id) {
   return pin && {id, ...pin, manifestUrl:'/assets/m1c/accessories.json', license:accessoryManifest.license};
 }
 
-function liveAccessoryChoices(bodySha256) {
+function liveAccessoryChoices(actor) {
+  const bodySha256 = actor.profile.sha256;
   const microphone = accessoryAsset('studio-microphone-v1');
   const grip = gripManifest.items.find(entry => entry.compatibleAvatarSha256 === bodySha256);
   const gripPin = resourcePin(grip);
@@ -36,7 +38,19 @@ function liveAccessoryChoices(bodySha256) {
     presentation.microphoneSha256 === microphone.sha256 && SHA256.test(presentation.anchorSourceSha256);
 
   const glasses = accessoryAsset('studio-glasses-v1');
-  const templePin = resourcePin(templeManifest.profiles.find(entry => entry.bodySHA256 === bodySha256));
+  const temple = templeManifest.profiles.find(entry => entry.bodySHA256 === bodySha256);
+  const templePin = resourcePin(temple);
+  const glassesConstraints = {fitMode:'exact-temple-profile'};
+  let glassesReason;
+  if (templePin && temple.headDependency !== undefined) {
+    glassesConstraints.headDependency = temple.headDependency;
+    try {
+      assertGlassesHeadDependency(temple.headDependency, actor.appearance.getState(), actor.facialGeometry.getState());
+    } catch (error) {
+      if (error.code !== 'glasses-head-incompatible' && error.code !== 'glasses-head-dependency-invalid') throw error;
+      glassesReason = error.code;
+    }
+  }
   const microphoneEnabled = registeredGrip && registeredPresentation ? {
     enabled:true,
     asset:microphone,
@@ -45,18 +59,18 @@ function liveAccessoryChoices(bodySha256) {
     presentationFit:{id:presentation.id, bodySha256, microphoneSha256:presentation.microphoneSha256,
       anchorSourceSha256:presentation.anchorSourceSha256, sourcePath:'prototype/src/microphone-presentation-fits.js'},
   } : null;
-  const glassesEnabled = glasses && templePin ? {
+  const glassesEnabled = glasses && templePin && !glassesReason ? {
     enabled:true,
     asset:glasses,
     templeFit:{...templePin, bodySha256, sourcePath:'prototype/src/glasses-temple-fit-manifest.json'},
   } : null;
 
-  function choices(enabled, requiresPreparation, constraints) {
+  function choices(enabled, requiresPreparation, constraints, reason = 'exact-body-fit-unregistered') {
     return {
       status:enabled ? 'registered' : 'unavailable',
       default:false,
       choices:enabled ? [{enabled:false}, enabled] : [{enabled:false}],
-      ...(enabled ? {} : {reason:'exact-body-fit-unregistered'}),
+      ...(enabled ? {} : {reason}),
       requiresPreparation,
       constraints,
     };
@@ -66,7 +80,7 @@ function liveAccessoryChoices(bodySha256) {
       // canPerform, canStartGreeting and accessoryRestriction in live-presentation.js.
       {blockedActions:['dance'], blocksGreeting:true, enableBlockedDuring:['dance', 'greeting']}),
     glasses:choices(glassesEnabled, ['asset and temple profile bytes', 'body and accessory binding', 'source temple mesh geometry'],
-      {fitMode:'exact-temple-profile'}),
+      glassesConstraints, glassesReason),
   };
 }
 
@@ -120,7 +134,7 @@ export function queryCharacterProduction(controller) {
     appearance,
     nativeHairCenter:{default:null, choices:supportsNativeHairCenterFit(bodyType,profile.sha256)
       ? [createNativeHairCenterPin(bodyType,profile.sha256)] : []},
-    liveAccessories:liveAccessoryChoices(profile.sha256),
+    liveAccessories:liveAccessoryChoices(actor),
     outfits:configuredOutfits(actor.config, appearance),
     styleVariants:configuredStyleVariants(bodyType),
     runtimeVariants:configuredRuntimeVariants(bodyType),

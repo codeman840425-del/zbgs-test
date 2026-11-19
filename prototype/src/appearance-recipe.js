@@ -131,7 +131,7 @@ export async function applyAppearanceRecipe(controller,record,{liveAccessories,e
  // reuse its JSON object, but it cannot change an in-flight transaction.
  record=structuredClone(record);
  const actor=controller.actor;
- if(liveAccessories!==undefined){liveAccessories=structuredClone(liveAccessories);validateLiveAccessories(actor,liveAccessories);}
+ if(liveAccessories!==undefined){liveAccessories=structuredClone(liveAccessories);validateLiveAccessories(actor,liveAccessories,record);}
  if(equipmentMaterials!==undefined){equipmentMaterials=structuredClone(equipmentMaterials);validateGarmentMaterials(actor,record,equipmentMaterials);}
  const materialIds=equipmentMaterials?[...new Set([...Object.values(actor.getEquipmentRecipe(controller.outfit)).map(entry=>entry.id),...equipmentMaterials.selections.map(row=>row.equipmentId)])]:[];
  const materialVersions=new Map(materialIds.map(id=>[id,garmentMaterialIntent(actor,id)]));
@@ -145,7 +145,9 @@ export async function applyAppearanceRecipe(controller,record,{liveAccessories,e
  const accessoryDomains=[actor.rigidAccessories,actor.headwear].filter(Boolean);
  const accessoryRevisions=new Map(accessoryDomains.map(domain=>[domain,domain.getState().revision]));
  const updates=[],attemptedCommits=[],cleanupErrors=[];
- const attachmentTransaction=accessoryVersion?createAccessoryTransactionContext(actor,record.accessories):null;
+ const glassesTarget=liveAccessories&&{enabled:liveAccessories.selections.glasses.enabled,
+  appearance:record.appearance,geometry:{browSample:'none',noseSample:'none',eyeSample:'none',...record.geometry}};
+ const attachmentTransaction=accessoryVersion||glassesTarget?createAccessoryTransactionContext(actor,record.accessories,glassesTarget):null;
  let commitStarted=false;
  const superseded=(materialExcept=null)=>!isCurrent()||controller.actor!==actor||materialsChanged(materialExcept)||
   actor.facialGeometry.getState().revision!==geometryRevision||
@@ -201,11 +203,16 @@ export async function applyAppearanceRecipe(controller,record,{liveAccessories,e
   if(liveAccessories){
    for(const kind of ['mic','glasses']){
     if(superseded())return{applied:false,cancelled:true};
-    const job=actor.livePresentation.prepareAccessory(kind,liveAccessories.selections[kind].enabled);
+    const job=actor.livePresentation.prepareAccessory(kind,liveAccessories.selections[kind].enabled,options);
     liveVersions[kind]=actor.livePresentation.getState().accessories[kind].version;
     const update=await job;
-    if(update.commit)updates.push({isCurrent:()=>update.isCurrent(),validateCommit:()=>update.validateCommit(),
-     commit:()=>update.commit(),rollback:()=>update.rollback(),dispose:()=>update.release()});
+    if(update.commit){
+     const staged={isCurrent:()=>update.isCurrent(),validateCommit:()=>update.validateCommit(),
+      commit:()=>update.commit(),rollback:()=>update.rollback(),dispose:()=>update.release()};
+     // Unmount a constrained fit before head commits inspect the real actor.
+     // Its retained object can be restored last if any later commit fails.
+     if(update.releasesHeadDependency)updates.unshift(staged);else updates.push(staged);
+    }
     if(update.cancelled||superseded())return{applied:false,cancelled:true};
     if(!update.commit)throw Error(update.reason||'道具准备失败');
     assertPreparedLiveAccessory(kind,update,liveAccessories);

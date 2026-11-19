@@ -11,6 +11,7 @@ import {FOUNDATION_PROFILES, foundationProfile} from './foundation-profiles.js';
 import {MICROPHONE_PRESENTATION_FITS} from './microphone-presentation-fits.js';
 import {outfitSelection} from './outfit-selection.js';
 import {validateNativeHairCenterPin} from './native-hair-center-record.js';
+import glassesRegistry from './glasses-temple-fit-manifest.json' with {type:'json'};
 
 const publicFile = url => new URL('../public' + url, import.meta.url);
 const json = async url => JSON.parse(await readFile(publicFile(url)));
@@ -172,6 +173,38 @@ test('texture-derived body resolves both separately fitted tops with unchanged g
   }
   assert.equal(next.liveAccessories.mic.status, 'unavailable');
   assert.equal(next.liveAccessories.glasses.status, 'unavailable');
+});
+
+test('a restricted glasses registration identifies incompatible current heads separately from absent fits', async t => {
+  const records = async file => JSON.parse(await readFile(new URL('../../evidence/' + file, import.meta.url)));
+  const [original] = await records('m2-uniform-lite-operator-v1/records.json');
+  const [bob] = await records('m2-uniform-skin-v1/signed-pair.json');
+  const recipe = original.appearanceRecipe;
+  assert.deepEqual(recipe.base, bob.appearanceRecipe.base);
+  const {controller, state} = await fixture(recipe.base.bodyType);
+  Object.assign(state, recipe.appearance);
+  const geometry = {...recipe.geometry};
+  controller.actor.facialGeometry = {getState:() => geometry};
+  const glasses = () => queryCharacterProduction(controller).liveAccessories.glasses;
+  const rows = glassesRegistry.profiles;
+  t.after(() => { glassesRegistry.profiles = rows; });
+  glassesRegistry.profiles = rows.filter(row => row.bodySHA256 !== recipe.base.sha256);
+  assert.equal(glasses().reason, 'exact-body-fit-unregistered');
+  const candidates = await json('/assets/native-glasses-candidate-v2/manifest.json');
+  const fit = candidates.profiles.find(row => row.bodySHA256 === recipe.base.sha256);
+  const headDependency = {hairStyle:'original', faceGeometry:'neutral'};
+  glassesRegistry.profiles.push({...fit, headDependency});
+  assert.deepEqual(glasses().constraints, {fitMode:'exact-temple-profile', headDependency});
+  assert.equal(fittedChoice(glasses()).templeFit.sha256, fit.sha256);
+  Object.assign(state, bob.appearanceRecipe.appearance);
+  assert.equal(glasses().reason, 'glasses-head-incompatible');
+  assert.deepEqual(glasses().choices, [{enabled:false}]);
+  state.hairStyle = 'original'; // preserve warm skin, dye, eye and lip colours
+  assert.equal(glasses().status, 'registered');
+  geometry.eyeSample = 'changed';
+  assert.equal(glasses().reason, 'glasses-head-incompatible');
+  headDependency.faceGeometry = 'unknown';
+  assert.equal(glasses().reason, 'glasses-head-dependency-invalid');
 });
 
 test('publisher VRM0 wears only its own three bindings in the source outfit', async () => {

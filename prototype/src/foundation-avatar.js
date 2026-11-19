@@ -230,8 +230,13 @@ export async function loadFoundationAvatar({
   const surfaces = equipment.getAssetProfile();
   appearance = createCharacterAppearance({ vrm, avatarSha256: sha256, renderer, parser:gltf.parser, preserveHairInBaseMode: sourceBodyDisplay,
     bodyTextureCoverage:equipment.bodyTextureCoverage,
-    validateHairChange:(selection,accessories)=>accessories===undefined?headwear?.assertHairSelection(selection):assertAccessoryHair(sha256,accessories,selection) });
-  livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType, avatarSha256: sha256});
+    validateHairChange:(selection,accessories,transaction)=>{
+      livePresentation?.assertHeadChange({appearance:selection},transaction);
+      if(accessories===undefined)headwear?.assertHairSelection(selection);
+      else assertAccessoryHair(sha256,accessories,selection);
+    } });
+  livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType, avatarSha256: sha256,
+    getHeadState:()=>({appearance:appearance.getState(),geometry:facialGeometry.getState()})});
   rigidAccessories = createRigidAccessoryLayer({vrm, avatarSha256:sha256,manifestSha256:EAR_MANIFEST_SHA});
   headwear = createRigidAccessoryLayer({vrm, avatarSha256:sha256,kind:'hat',
     manifestUrl:'/assets/m2-hat-hair-v1/manifest.json',
@@ -240,7 +245,11 @@ export async function loadFoundationAvatar({
   // Live expression admission and attachment calibration inspect canonical indices first.
   faceRenderCompaction=createFaceRenderCompaction({vrm,avatarSha256:sha256});
   facialGeometry = createFacialGeometry({ vrm, avatarSha256: sha256,renderCompaction:faceRenderCompaction,prepareRender:parts=>faceWarmup.prepare(parts),
-    validateGeometryChange:(selection,accessories)=>{if(accessories!==undefined)assertAccessoryGeometry(sha256,accessories,selection);else if(headwear.getState().selection!=='none')assertNeutralHeadGeometry(selection);} });
+    validateGeometryChange:(selection,accessories,transaction)=>{
+      livePresentation.assertHeadChange({geometry:selection},transaction);
+      if(accessories!==undefined)assertAccessoryGeometry(sha256,accessories,selection);
+      else if(headwear.getState().selection!=='none')assertNeutralHeadGeometry(selection);
+    } });
   const meshRoles = {};
   for (const role of [
     "body",
