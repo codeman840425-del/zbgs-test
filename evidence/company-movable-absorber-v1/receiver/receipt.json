@@ -1,0 +1,460 @@
+{
+  "status": "passed",
+  "candidate": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\candidate",
+  "manifestSha256": "12564a138cc6ae66e6503acff772290d794a8dbccb86636c1da73f51a9512594",
+  "build": "30fd28eef82a",
+  "sourceDigest": "30fd28eef82ae84c1e86b1222421d37dff1d392aff55ad74b90a11f3d3daf3ae",
+  "node": "v24.13.0",
+  "project": "F:\\gamemake-company-platform-c1",
+  "workingSource": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source",
+  "commands": [
+    {
+      "label": "01-original-seal",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\candidate",
+        "12564a138cc6ae66e6503acff772290d794a8dbccb86636c1da73f51a9512594"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\candidate",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\01-original-seal.log",
+      "exit": 0
+    },
+    {
+      "label": "02-complete-copy",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received",
+        "12564a138cc6ae66e6503acff772290d794a8dbccb86636c1da73f51a9512594"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\02-complete-copy.log",
+      "exit": 0
+    },
+    {
+      "label": "03-empty-cache-ci",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+        "ci",
+        "--cache",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\npm-cache",
+        "--prefer-online",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\prototype",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\03-empty-cache-ci.log",
+      "exit": 0
+    },
+    {
+      "label": "04-fixed-build-id",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\prototype\\scripts\\build-company-id.mjs"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\prototype",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\04-fixed-build-id.log",
+      "exit": 0
+    },
+    {
+      "label": "05-fixed-viewer",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\prototype\\node_modules\\vite\\bin\\vite.js",
+        "build",
+        "--config",
+        "vite.company.config.js"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\prototype",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\05-fixed-viewer.log",
+      "exit": 0
+    },
+    {
+      "label": "06-compare-all-viewer-files",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\candidate",
+        "12564a138cc6ae66e6503acff772290d794a8dbccb86636c1da73f51a9512594",
+        "--viewer",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\prototype\\dist-company"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\06-compare-all-viewer-files.log",
+      "exit": 0
+    },
+    {
+      "label": "07-replay-fixed-room-input",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\batch-inputs\\movable-absorber-rooms.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\fixed-rooms"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\07-replay-fixed-room-input.log",
+      "exit": 0
+    },
+    {
+      "label": "08-original-producer-check",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\build-movable-absorber.mjs",
+        "--check"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\08-original-producer-check.log",
+      "exit": 0
+    },
+    {
+      "label": "09-public-publish",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--publish",
+        "assets-source/company-movable-absorber-v1/examples/folding-four-leaf-v2.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\09-public-publish.log",
+      "exit": 0
+    },
+    {
+      "label": "10-reproduce-publication",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--check",
+        "assets-source/company-movable-absorber-v1/examples/folding-four-leaf-v2.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\10-reproduce-publication.log",
+      "exit": 0
+    },
+    {
+      "label": "11-read-published-catalog",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\build-library.mjs",
+        "--check"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\11-read-published-catalog.log",
+      "exit": 0
+    },
+    {
+      "label": "12-produce-two-v1-bound-rooms",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\folding-receiver-rooms.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\folding-rooms"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\12-produce-two-v1-bound-rooms.log",
+      "exit": 0
+    },
+    {
+      "label": "13-revision-build-id",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\prototype\\scripts\\build-company-id.mjs"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\prototype",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\13-revision-build-id.log",
+      "exit": 0
+    },
+    {
+      "label": "14-revision-viewer",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\prototype\\node_modules\\vite\\bin\\vite.js",
+        "build",
+        "--config",
+        "vite.company.config.js"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\prototype",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\14-revision-viewer.log",
+      "exit": 0
+    },
+    {
+      "label": "15-package-both-rooms",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\package-company.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source\\prototype\\dist-company",
+        "948686fc73e5",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\folding-rooms\\absorber-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\folding-v2-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source",
+        "--room",
+        "absorber-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\folding-rooms\\absorber-studio",
+        "--room",
+        "absorber-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\folding-rooms\\absorber-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\15-package-both-rooms.log",
+      "exit": 0
+    },
+    {
+      "label": "16-verify-derived-package",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\folding-v2-package\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\folding-v2-package",
+        "b7dd681e8dea629d9456bf8b2f33b3c9ec83b3c53e20cf403485f5e1941b38ef"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\folding-v2-package",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\16-verify-derived-package.log",
+      "exit": 0
+    },
+    {
+      "label": "17-original-still-sealed",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\candidate",
+        "12564a138cc6ae66e6503acff772290d794a8dbccb86636c1da73f51a9512594"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\candidate",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\logs\\17-original-still-sealed.log",
+      "exit": 0
+    }
+  ],
+  "original": {
+    "ok": true,
+    "build": "30fd28eef82a",
+    "manifestSha256": "12564a138cc6ae66e6503acff772290d794a8dbccb86636c1da73f51a9512594",
+    "declaredFiles": 2549,
+    "checkedFiles": 2549,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "copy": {
+    "ok": true,
+    "build": "30fd28eef82a",
+    "manifestSha256": "12564a138cc6ae66e6503acff772290d794a8dbccb86636c1da73f51a9512594",
+    "declaredFiles": 2549,
+    "checkedFiles": 2549,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "readmeSha256": "37bf54e0d7ea91c8979ecedea2ff4472dbae39b2851ddcf9442d4a954cc7129f",
+  "lockSha256": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b",
+  "npmCache": {
+    "initialEntries": 0,
+    "after": [
+      "_cacache",
+      "_logs"
+    ]
+  },
+  "viewer": {
+    "ok": true,
+    "build": "30fd28eef82a",
+    "manifestSha256": "12564a138cc6ae66e6503acff772290d794a8dbccb86636c1da73f51a9512594",
+    "declaredFiles": 697,
+    "checkedFiles": 697,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0,
+    "scope": "rebuilt-viewer"
+  },
+  "fixedRooms": {
+    "absorber-studio": {
+      "input.json": "d5f353a6c73d50f6b74bfc04f0e4139d9fe13189bdfeb416407eead168a2fe27",
+      "layout.json": "b8a6f2e51e3c19ca6b34795ae4b9feac3cf39de360e706257f6ba3d13e3c1886",
+      "save.json": "2908fc879eaefda6dbd5333faf50cf8e7366e74af4cba83b1dfaa612c8b35c56",
+      "report.json": "5af5e990982ac3b56e676944246ebd1c920141fa6c76af45a797838d0e972886"
+    },
+    "absorber-rental": {
+      "input.json": "c6c1560f9b555c2b4246b64457c44984f6b7fb7f2e08c43eb65b0217d4b7beab",
+      "layout.json": "38d50d7c55f9f7c6d169c83b75e025b635549c8f40df1b7ed67c90974ef6de7e",
+      "save.json": "8294b62b8d930470ad39f4e65b6b462cbafa383c4f8ee972505f21921f6642b2",
+      "report.json": "16c3fecc9b123f633ae6b93fe7e5b87368bd1c4180d8950fdb5224f265baace1"
+    }
+  },
+  "familyBaseline": {
+    "absorber-folding": {
+      "model": "1e211984612e9b6a98764ba08053ce112504d22fccaa8292f29da2764cadafaa",
+      "card": "4b01f1e8bead62731a54206884b0864623231b94b73cd6937e395e9773547851"
+    },
+    "absorber-casters": {
+      "model": "2189d7ed3cf2904821859a0ad37e7a196ea90b25d7afd21f11193e6e38c59148",
+      "card": "14bb97ca81b5a6b8ac49153e25753164c0befd4462c24ee68a1779d5ea6f757e"
+    },
+    "absorber-double-sided": {
+      "model": "1d737f1dbb87112be4e91f7cd7a5111a99e97bf74f0a0ad2aebde7db5e76b3be",
+      "card": "519fe649cf4b7915b55fc7cbf040bf3e96003800585770f1512a4f031e1fee37"
+    },
+    "absorber-curved": {
+      "model": "9e5b9a3c458e7fbca629a73ecf1c778bf20df6a28f096d54c96865d3590e4d88",
+      "card": "a42283ff9c48ae3d2e9d2a4ae0188dc2ddfcc43b956fd8cda62034726b36c1b4"
+    }
+  },
+  "v2Recipe": {
+    "path": "assets-source/company-movable-absorber-v1/examples/folding-four-leaf-v2.json",
+    "sha256": "94ef994fe8793ac67e79219a873f9b0da90133533a3c68e44b51b7c7fffa7c1f"
+  },
+  "publication": {
+    "status": "published",
+    "family": "movable-absorber",
+    "sourceParameters": "assets-source/company-movable-absorber-v1/examples/recipe-94ef994fe8793ac67e79219a873f9b0da90133533a3c68e44b51b7c7fffa7c1f.json",
+    "sourceParametersSha256": "94ef994fe8793ac67e79219a873f9b0da90133533a3c68e44b51b7c7fffa7c1f",
+    "items": [
+      {
+        "id": "absorber-folding",
+        "version": 2,
+        "resourcePath": "prototype/public/company-assets/movable-absorber-v1/absorber-folding/v2/resource.json",
+        "sha256": "bfb5441a89e751fc0b2944f58bbe34f070b67ac5f42a6aff8594baccd43fbbeb",
+        "geometrySha256": "a4a0f6f36b7a42146a235606663c686777ca24ebdd4c2e8e6b98f1a235cfbd18"
+      }
+    ]
+  },
+  "folds": {
+    "1": {
+      "sha256": "1e211984612e9b6a98764ba08053ce112504d22fccaa8292f29da2764cadafaa",
+      "bytes": 54416,
+      "leaves": 3,
+      "parts": [
+        "steel-foot-left",
+        "steel-foot-right",
+        "folding-leaf-1",
+        "leaf-cloth-1-rear",
+        "leaf-cloth-1-front",
+        "folding-leaf-2",
+        "leaf-cloth-2-rear",
+        "leaf-cloth-2-front",
+        "hinge-1-1",
+        "hinge-1-2",
+        "hinge-1-3",
+        "folding-leaf-3",
+        "leaf-cloth-3-rear",
+        "leaf-cloth-3-front",
+        "hinge-2-1",
+        "hinge-2-2",
+        "hinge-2-3"
+      ]
+    },
+    "2": {
+      "sha256": "bfb5441a89e751fc0b2944f58bbe34f070b67ac5f42a6aff8594baccd43fbbeb",
+      "bytes": 76380,
+      "leaves": 4,
+      "parts": [
+        "steel-foot-left",
+        "steel-foot-right",
+        "folding-leaf-1",
+        "leaf-cloth-1-rear",
+        "leaf-cloth-1-front",
+        "folding-leaf-2",
+        "leaf-cloth-2-rear",
+        "leaf-cloth-2-front",
+        "hinge-1-1",
+        "hinge-1-2",
+        "hinge-1-3",
+        "folding-leaf-3",
+        "leaf-cloth-3-rear",
+        "leaf-cloth-3-front",
+        "hinge-2-1",
+        "hinge-2-2",
+        "hinge-2-3",
+        "folding-leaf-4",
+        "leaf-cloth-4-rear",
+        "leaf-cloth-4-front",
+        "hinge-3-1",
+        "hinge-3-2",
+        "hinge-3-3"
+      ]
+    }
+  },
+  "derivedRooms": {
+    "absorber-studio": {
+      "screen": {
+        "id": "absorber-studio/ground/live/screen",
+        "kind": "facility",
+        "parentId": "absorber-studio/ground/live",
+        "resource": {
+          "id": "absorber-folding",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            2.1,
+            0,
+            0
+          ],
+          "yaw": 1.5707963267948966
+        }
+      },
+      "saveSha256": "47fef5214fbd438a4d31f5d92920c96573d4bae07c8a0be323ae00b0ef861373",
+      "layoutSha256": "a2e6a59cf8eecc0db2c0743447a34d45b5c94983625920de9efc5d670687ed13",
+      "checkedPortals": 1,
+      "checks": [
+        "connections",
+        "placement",
+        "singingRooms"
+      ]
+    },
+    "absorber-rental": {
+      "screen": {
+        "id": "absorber-rental/ground/live/screen",
+        "kind": "facility",
+        "parentId": "absorber-rental/ground/live",
+        "resource": {
+          "id": "absorber-folding",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            1.42,
+            0,
+            -1.12
+          ],
+          "yaw": 0
+        }
+      },
+      "saveSha256": "622ae0034cf16023995f150fafa242fe58bb6c1ac2759ed9caffd5d064fa2d1a",
+      "layoutSha256": "18db6fd7c1416cfc14d2a8cc279d09c25016ced5ae86c746263549f4700fe01f",
+      "checkedPortals": 6,
+      "checks": [
+        "connections",
+        "placement",
+        "productShowcases"
+      ]
+    }
+  },
+  "newBuild": "948686fc73e5",
+  "derivedPackage": {
+    "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\movable-absorber-screen-v1\\receiver\\run-01\\folding-v2-package",
+    "manifestSha256": "b7dd681e8dea629d9456bf8b2f33b3c9ec83b3c53e20cf403485f5e1941b38ef",
+    "files": 2554,
+    "build": "948686fc73e5",
+    "verified": {
+      "ok": true,
+      "build": "948686fc73e5",
+      "manifestSha256": "b7dd681e8dea629d9456bf8b2f33b3c9ec83b3c53e20cf403485f5e1941b38ef",
+      "declaredFiles": 2554,
+      "checkedFiles": 2554,
+      "extraFiles": 0,
+      "changedFiles": 0,
+      "missingFiles": 0
+    }
+  },
+  "recheckedOriginal": {
+    "ok": true,
+    "build": "30fd28eef82a",
+    "manifestSha256": "12564a138cc6ae66e6503acff772290d794a8dbccb86636c1da73f51a9512594",
+    "declaredFiles": 2549,
+    "checkedFiles": 2549,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  }
+}
