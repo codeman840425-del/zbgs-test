@@ -119,8 +119,9 @@ test('ordinary preflight pins both signed record identities, the manifest, body 
   const records=['first','second'].map(id=>{
     const model=pin(`assets/${id}/body.vrm`,id);files.push(model);
     return {identity:{id},integrity:{recordSha256:digest('record '+id)},appearanceRecipe:{
-      base:{bodyType:id,sha256:model.sha256},equipment:{resources:equipment}}};
+      base:{bodyType:id,sha256:model.sha256},equipment:{manifestUrl:'/assets/equipment.json',resources:structuredClone(equipment)}}};
   });
+  records[0].appearanceRecipe.equipment.resources.top.url='top.glb';
   const ruleBodyDataPacks=records.map(({identity:{id}})=>{
     const index=pin(`character-data/${id}/index.json`,id);files.push(index);
     return {bodyType:id,url:'/'+index.path,sha256:index.sha256,bytes:index.bytes};
@@ -145,6 +146,10 @@ test('ordinary preflight pins both signed record identities, the manifest, body 
   assert.deepEqual(actual.ruleBodyDataPacks,ruleBodyDataPacks);
   assert.deepEqual(actual.actors.map(a=>a.body),['/assets/first/body.vrm','/assets/second/body.vrm']);
   assert.deepEqual(actual.actors[0].equipment.map(i=>i.slot),['bottom','shoes','top']);
+  assert.equal(actual.actors[0].equipment.find(i=>i.slot==='top').url,'/assets/top.glb');
+  const wrongDirectory=structuredClone(records);
+  wrongDirectory[0].appearanceRecipe.equipment.manifestUrl='/assets/other/equipment.json';
+  await assert.rejects(ordinaryInput(base,digest(game),buildId,wrongDirectory),/Equipment asset not pinned/);
   const changed=structuredClone(records);changed[1].integrity.recordSha256=digest('changed');
   await assert.rejects(ordinaryInput(base,digest(game),buildId,changed),{code:'ERR_ASSERTION'});
   await assert.rejects(ordinaryInput(base,digest('wrong manifest'),buildId,records),/Package manifest SHA mismatch/);

@@ -3,7 +3,8 @@ const {createHash}=require('node:crypto');
 const fs=require('node:fs/promises');
 const path=require('node:path');
 const test=require('node:test');
-const {selection,garmentAssets,changeOneByte,checkWave}=require('./qa-production-cold-pair.cjs');
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {runColdPair,selection,garmentAssets,changeOneByte,checkWave,copyColdQASnapshots,saveColdVideo}=require('./qa-production-cold-pair.cjs');
 
 const pointer=bodyType=>({bodyType,url:'/character-data/'+bodyType+'/index.json',sha256:'a'.repeat(64),bytes:1024});
 const manifestFor=(records,packs)=>({schema:'character-record-input-v1',
@@ -74,4 +75,77 @@ test('a greeting receipt requires the actual signed gesture, wrist lift and comp
  assert.throws(()=>checkWave({...result,maxSettledDisplacementM:.15},'fixture'),/did not return/);
  assert.throws(()=>checkWave({...result,peakWristDisplacementM:.02},'fixture'),/did not lift/);
  assert.throws(()=>checkWave({...result,gesture:{...gesture,sha256:'0'.repeat(64)}},'fixture'));
+});
+
+async function workspace(t){
+ const root=await productionRoot();
+ const area=await fs.mkdtemp(await projectOutput(path.join(root,'experiments','cold-pair-test-'),root));
+ t.after(async()=>{assert.equal(await projectOutput(area,root),area);await fs.rm(area,{recursive:true});});
+ return {root,area};
+}
+
+test('cold-pair entry rejects the drive root and its junction and preserves existing evidence on retry',async t=>{
+ const {root,area}=await workspace(t),drive=path.parse(root).root;
+ const link=path.join(area,'drive-link'),base='http://127.0.0.1:1/';
+ await fs.symlink(drive,link,process.platform==='win32'?'junction':'dir');
+ try{
+   for(const out of [drive,root+path.sep+'..',link]){
+     await assert.rejects(runColdPair(base,out,path.join(area,'missing-records'),{}),{code:'outside-project'});
+   }
+ }finally{await fs.unlink(link);}
+ const recordFile=path.join(root,'evidence/m2-frozen-rule-game-v1/records.json');
+ const records=JSON.parse(await fs.readFile(recordFile));
+ const manifest=manifestFor(records,[pointer(records[0].appearanceRecipe.base.bodyType)]);
+ const fetch=global.fetch;
+ global.fetch=async()=>Response.json(manifest);
+ try{
+   const out=path.join(area,'attempt');
+   // The nonexistent executable exercises the normal launch failure and scratch cleanup without opening a browser.
+   const options={executablePath:path.join(area,'missing-browser.exe')};
+   await assert.rejects(runColdPair(base,out,recordFile,options),/executable doesn't exist/i);
+   const previous=await fs.readFile(path.join(out,'report.json'));
+   assert.match(JSON.parse(previous).failure,/executable doesn't exist/i);
+   assert.deepEqual((await fs.readdir(out)).sort(),['qa-production-cold-pair.cjs','qa-production-package.cjs','report.json']);
+   await assert.rejects(runColdPair(base,out,recordFile,options),{code:'EEXIST'});
+   assert.deepEqual(await fs.readFile(path.join(out,'report.json')),previous);
+ }finally{global.fetch=fetch;}
+});
+
+test('source snapshots reject a redirected evidence directory and keep an existing snapshot',async t=>{
+ const {area}=await workspace(t),sibling=path.join(area,'sibling'),out=path.join(area,'evidence');
+ await fs.mkdir(sibling);
+ await fs.symlink(sibling,out,process.platform==='win32'?'junction':'dir');
+ try{
+   await assert.rejects(copyColdQASnapshots(out),{code:'outside-project'});
+   assert.deepEqual(await fs.readdir(sibling),[]);
+ }finally{await fs.unlink(out);}
+ await fs.mkdir(out);
+ const first=path.join(out,'qa-production-cold-pair.cjs');
+ await fs.writeFile(first,'previous');
+ await assert.rejects(copyColdQASnapshots(out),{code:'EEXIST'});
+ assert.equal(await fs.readFile(first,'utf8'),'previous');
+});
+
+test('cold video publishes completed bytes once and cleans the stage on failure or collision',async t=>{
+ const {area}=await workspace(t),out=path.join(area,'evidence'),scratch=path.join(out,'scratch');
+ await fs.mkdir(scratch,{recursive:true});
+ const file='mixed-cold-1x.webm',target=path.join(out,file),bytes=Buffer.from('mock completed recording');
+ let deleted=0;
+ const video={async saveAs(p){assert.equal(path.dirname(path.dirname(p)),scratch);await fs.writeFile(p,bytes);},
+   async delete(){deleted++;}};
+ const broken={...video,async saveAs(p){await fs.writeFile(p,'partial');throw Error('recording failed');}};
+ await assert.rejects(saveColdVideo(broken,out,scratch,file),/recording failed/);
+ await assert.rejects(fs.stat(target),{code:'ENOENT'});assert.deepEqual(await fs.readdir(scratch),[]);
+ const collision={...video,async saveAs(p){await video.saveAs(p);await fs.writeFile(target,'concurrent',{flag:'wx'});}};
+ await assert.rejects(saveColdVideo(collision,out,scratch,file),{code:'EEXIST'});
+ assert.equal(await fs.readFile(target,'utf8'),'concurrent');assert.deepEqual(await fs.readdir(scratch),[]);
+ assert.equal(deleted,0);
+ await fs.unlink(target);
+ const result=await saveColdVideo(video,out,scratch,file);
+ assert.equal(result.sha256,createHash('sha256').update(bytes).digest('hex'));assert.equal(result.bytes,bytes.length);
+ assert.equal(deleted,1);assert.deepEqual(await fs.readFile(target),bytes);assert.deepEqual(await fs.readdir(scratch),[]);
+ const outside=path.join(area,'other-scratch');
+ await fs.mkdir(outside);
+ await assert.rejects(saveColdVideo(video,out,outside,'second.webm'),{code:'outside-project'});
+ assert.deepEqual(await fs.readdir(outside),[]);
 });

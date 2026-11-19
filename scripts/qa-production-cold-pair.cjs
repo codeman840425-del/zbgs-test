@@ -61,6 +61,7 @@ function changeOneByte(original,expected) {
 }
 
 async function capturePair(page,records,published) {
+  const {equipmentRuntimePath} = await import('./runtime-package/files.mjs');
   const {canonicalJson} = await import('../prototype/src/character-record.js');
   const {resolveGarmentMaterials} = await import('../prototype/src/garment-material-record.js');
   assert.deepEqual(await page.evaluate(()=>__recordConsumer.records),records);
@@ -92,7 +93,9 @@ async function capturePair(page,records,published) {
     assert.equal(canonicalJson(captured.appearanceRecipe),canonicalJson(recipe));
     assert.deepEqual(captured.liveAccessories,r.liveAccessories);assert.deepEqual(captured.nativeHairCenter,r.nativeHairCenter);
     assert.deepEqual(captured.equipmentMaterials,materials.record);
-    const expected=Object.values(recipe.equipment.resources).map(({id,slot,url,sha256,compatibleAvatarSha256})=>({id,slot,url,sha256,compatibleAvatarSha256}));
+    const expected=Object.values(recipe.equipment.resources).map(({id,slot,url,sha256,compatibleAvatarSha256})=>({
+      id,slot,url:'/'+equipmentRuntimePath(url,recipe.equipment.manifestUrl),sha256,compatibleAvatarSha256
+    }));
     const bySlot=(a,b)=>a.slot.localeCompare(b.slot);
     assert.deepEqual(row.selected.sort(bySlot),expected.sort(bySlot));
     assert.deepEqual(row.visible,expected.map(item=>item.id).sort());
@@ -156,6 +159,49 @@ async function opened(page,url) {
   await page.waitForFunction(()=>window.__recordConsumer?.ready,null,timeout);
 }
 
+// With the signed microphone still equipped, observe the ordinary game's
+// procedural speech clock on the live facial mesh. It only greets empty-handed.
+async function speakingWithMic(id) {
+  const game=window.__recordConsumer, avatar=game.actors.get(id).avatar;
+  const live=avatar.livePresentation, expressions=avatar.vrm.expressionManager;
+  const rejected=await live.playGreeting({requestId:'cold-occupied-hand-'+id});
+  const vowels=['aa','ih','ou','ee','oh'].map(name=>{
+    const binds=expressions.getExpression(name)?.binds??[];
+    const targets=binds.flatMap(bind=>(bind.primitives??[]).filter(mesh=>mesh.morphTargetInfluences)
+      .map(mesh=>({mesh,index:bind.index})));
+    return {name,targets,min:Infinity,max:-Infinity};
+  });
+  const frame=game.renderer.info.render.frame, start=performance.now();
+  let samples=0;
+  while(performance.now()-start<1500){
+    await new Promise(requestAnimationFrame);
+    for(const vowel of vowels){
+      if(!vowel.targets.length)continue;
+      const value=Math.max(...vowel.targets.map(({mesh,index})=>mesh.morphTargetInfluences[index]));
+      vowel.min=Math.min(vowel.min,value); vowel.max=Math.max(vowel.max,value);
+    }
+    samples++;
+  }
+  const state=live.getState();
+  return {id,kind:'equipped-microphone-speech',rejected,samples,elapsedMs:performance.now()-start,
+    drawFrames:game.renderer.info.render.frame-frame,speaking:state.speaking,
+    mic:state.accessories.mic,glasses:state.accessories.glasses,holdWeight:state.arm?.weight,
+    vowels:vowels.map(({name,targets,min,max})=>({name,boundTargets:targets.length,min,max}))};
+}
+
+function checkMicSpeech(result,record) {
+  assert.equal(result.id,record.identity.id);
+  assert.deepEqual(result.rejected,{started:false,error:'greeting-requires-settled-empty-hand-pose'});
+  assert(result.speaking && result.drawFrames>=10 && result.samples>=10 && result.holdWeight>.9);
+  for(const kind of ['mic','glasses']){
+    const expected=record.liveAccessories.selections[kind];
+    assert.equal(result[kind].loaded,expected.enabled);
+    if(expected.enabled)assert.deepEqual(result[kind].identity,expected.identity);
+  }
+  assert(result.vowels.filter(v=>v.boundTargets>0 && v.max-v.min>.1).length>=2,
+    'Expected two changing mouth morph targets while speaking');
+}
+
 async function rejectChangedBody(context,url,selected,records,report) {
   const target=new URL(selected.bodyPath,url).href;
   const match=request=>request.href===target;
@@ -190,6 +236,34 @@ async function rejectChangedBody(context,url,selected,records,report) {
   await page.close();
 }
 
+async function copyColdQASnapshots(out) {
+  for(const file of [__filename,require.resolve('./qa-production-package.cjs')]){
+    const destination=await projectOutput(path.join(out,path.basename(file)),out);
+    await fs.copyFile(file,destination,fs.constants.COPYFILE_EXCL);
+  }
+}
+
+async function saveColdVideo(video,out,scratch,file) {
+  const destination=await projectOutput(path.join(out,file),out);
+  assert.equal(await projectOutput(scratch,out),scratch);
+  const prefix=await projectOutput(path.join(scratch,'cold-video-'),scratch);
+  const stage=await fs.mkdtemp(prefix);
+  const stagedFile=path.join(stage,'completed.webm');
+  // Playwright saveAs waits for a successful recording and can replace a file.
+  // Give it a private destination, then exclusively publish the completed bytes.
+  try {
+    await video.saveAs(await projectOutput(stagedFile,stage));
+    const bytes=await fs.readFile(await projectOutput(stagedFile,stage));
+    assert(bytes.length>0);
+    await fs.copyFile(stagedFile,await projectOutput(destination,out),fs.constants.COPYFILE_EXCL);
+    await video.delete();
+    return {file,bytes:bytes.length,sha256:digest(bytes),normalSpeed:true};
+  } finally {
+    assert.equal(await projectOutput(stage,out),stage);
+    await fs.rm(stage,{recursive:true,force:true});
+  }
+}
+
 async function runColdPair(base,folder,recordsFile,launchOptions) {
   const root=await productionRoot(), out=await projectOutput(folder,root);
   const records=JSON.parse(await fs.readFile(recordsFile,'utf8'));
@@ -198,38 +272,38 @@ async function runColdPair(base,folder,recordsFile,launchOptions) {
   const response=await fetch(new URL('/records/manifest.json',url),{redirect:'error'});
   assert.equal(response.status,200);
   const selected=selection(await response.json(),records);
+  assert.equal(await projectOutput(out,root),out);
   await fs.mkdir(out);
   const report={schema:'published-rule-game-functional-cold-v1',status:'incomplete',mode:selected.mode,
     selection:{records:records.map(recordPin),published:selected.published,removeAndTamper:recordPin(selected.fresh),
       expectedSurvivor:recordPin(selected.old)},garmentAssets:garmentAssets(records),
     transportScope:'Functional cold open and a deliberate byte change; strict CDP transfer measurement is separate.',sessions:[]};
   try {
-    for(const file of [__filename,require.resolve('./qa-production-package.cjs')])
-      await fs.copyFile(file,path.join(out,path.basename(file)),fs.constants.COPYFILE_EXCL);
+    await copyColdQASnapshots(out);
     for(const phase of ['first','cold']){
       const session=await launchQABrowser(out,launchOptions);
       const row={phase,browser:session.browser.version(),browserLaunch:session.receipt,errors:[]};
       report.sessions.push(row);
       try {
         const viewport={width:1440,height:1000};
-        const dual=selected.mode==='dual-external', filming=dual && phase==='cold';
+        const filming=phase==='cold';
         const openContext=async options=>{
           const context=await session.browser.newContext({viewport,serviceWorkers:'block',...options});
           context.on('page',page=>page.on('pageerror',error=>row.errors.push(error.message)));
           return context;
         };
-        const context=await openContext(filming?{recordVideo:{dir:await projectOutput(session.scratch,root),size:viewport}}:{});
+        const context=await openContext(filming?{recordVideo:{dir:await projectOutput(session.scratch,out),size:viewport}}:{});
         const page=await context.newPage();
         await opened(page,url);
         row.build=await page.evaluate(()=>__recordConsumer.buildInfo.sourceDigest);
         row.first=await capturePair(page,records,selected.published);
-        if(dual){
-          row.motions=[];
-          for(const {identity:{id}} of records){
-            const result=await page.evaluate(wave,id);
-            row.motions.push(result);
-            checkWave(result,id);
-          }
+        row.motions=[];
+        for(const record of records){
+          const id=record.identity.id, mic=record.liveAccessories?.selections?.mic?.enabled;
+          const result=await page.evaluate(mic?speakingWithMic:wave,id);
+          row.motions.push(result);
+          if(mic)checkMicSpeech(result,record);
+          else checkWave(result,id);
         }
         const survivor=await oldSurvivor(page,selected);
         const prior=row.first.find(a=>a.id===selected.old.identity.id);
@@ -248,13 +322,8 @@ async function runColdPair(base,folder,recordsFile,launchOptions) {
         if(filming){
           await context.close();
           assert(video,'Missing cold-open recording');
-          const file='dual-external-cold-1x.webm';
-          const output=await projectOutput(path.join(out,file),root);
-          await video.saveAs(output);
-          await video.delete();
-          const bytes=await fs.readFile(output);
-          assert(bytes.length>0);
-          row.video={file,bytes:bytes.length,sha256:digest(bytes),normalSpeed:true};
+          const file=selected.mode==='dual-external'?'dual-external-cold-1x.webm':'mixed-cold-1x.webm';
+          row.video=await saveColdVideo(video,out,session.scratch,file);
           const faultContext=await openContext({});
           try{await rejectChangedBody(faultContext,url,selected,records,row);}
           finally{await faultContext.close();}
@@ -271,8 +340,8 @@ async function runColdPair(base,folder,recordsFile,launchOptions) {
     for(const key of ['root','head'])assert.equal(new Set([...first.first,...cold.first].map(a=>a[key])).size,4);
     report.status='functional-pass';
   } catch(error){report.failure=String(error.stack??error);throw error;}
-  finally{await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});}
+  finally{await fs.writeFile(await projectOutput(path.join(out,'report.json'),out),JSON.stringify(report,null,2)+'\n',{flag:'wx'});}
   console.log(JSON.stringify({status:report.status,build:report.sessions[0].build,report:path.join(out,'report.json')}));
 }
 
-module.exports={runColdPair,selection,garmentAssets,changeOneByte,checkWave};
+module.exports={runColdPair,selection,garmentAssets,changeOneByte,checkWave,copyColdQASnapshots,saveColdVideo};

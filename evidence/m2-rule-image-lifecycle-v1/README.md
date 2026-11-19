@@ -17,9 +17,23 @@
 
 在未染色的这批原签中，首次加载每人产生 23 张位图；两人图像的累计 RGBA8 当量为 124,781,568 字节。再次加载两人会再次解码。新版在角色全部离场后，归属到本次装扮且仍未显式关闭的位图为 0。页面首次取得两个 1×1 的 2D Canvas 上下文，未统计之后的 Canvas 尺寸变化。解码 Promise 计时含排队，无法据此计算纯解码 CPU 耗时、物理内存回收时点或显存峰值。结果仅代表该开发机、这套服装及本页主线程。普通电脑及染色、编辑时使用的其他 Canvas 路径另行验收。
 
-## 重放
+## 待审片单
 
-同一份新构建还分别录下 [A 的走坐起](public-batch-a/room-produced-1x.webm) 和 [B 的走坐起](public-batch-b/room-produced-1x.webm)。两人均按原签、实际衣物、四项独立任务、座位占用与释放及重开恢复通过单人动作检查。[对应两条原签](two-rooms.json)
+三段均为构建 `241ce1c278f0` 的 1× 原片，观感待用户审看。工作台两段分别使用 A 与 B 自己的原签，普通游戏一段同时使用这两条原签。点击片名可直接打开本机录像。
+
+| 录像 | 容器时长 | 观看范围 |
+| --- | ---: | --- |
+| [A 单人工作台](public-batch-a/room-produced-1x.webm) | 17.082 秒 | A 穿三件制服走近、坐稳、起身、走离。 |
+| [B 单人工作台](public-batch-b/room-produced-1x.webm) | 17.085 秒 | B 穿同款制服完成同样的动作，核对自身贴合和接触。 |
+| [A+B 普通游戏](game-cold/dual-external-cold-1x.webm) | 9.480 秒 | 同屏出场，两人各自招手并回落。 |
+
+片单保留原签、构建完整摘要、普通包 SHA、三段录像和回执的文件路径、大小与 SHA。复跑用本机 PyAV 读取容器并解出首帧，同时拒绝错签房间报告、旧构建摘要、旧普通包和错配录像。无需重录。[机器片单](visual-review-playlist.json) · [单人原签回执](two-rooms.json)
+
+```powershell
+python -B F:/gamemake/evidence/m2-rule-image-lifecycle-v1/visual-review-playlist.py
+```
+
+## 重放
 
 两份独立构建的 555 个文件、767,641,841 字节一致。导出的普通游戏含清单共 37 文件、42,820,387 字节。静态成本按两套真实身体包和原签重算，资源闭包 22 个文件，双人纹理 RGBA8 含 mip 的估算共 211,115,352 字节。[构建与游戏包摘要](build-and-package.json) · [静态预算](current-cost/static.json)
 

@@ -20,6 +20,16 @@ export function runtimePath(value, parent = 'index.html') {
   return relative;
 }
 
+// Equipment manifests use both adjacent GLBs and shared sibling directories.
+// Return the path used as the key in the packaged game's file inventory.
+export function equipmentRuntimePath(value, manifestPath) {
+  const parent = runtimePath(manifestPath);
+  if (typeof value === 'string' && /^\.\.\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_.-]+\.glb$/.test(value)) {
+    return runtimePath('/' + path.posix.join(path.posix.dirname(parent), value));
+  }
+  return runtimePath(value, parent);
+}
+
 export async function localFile(root, relative) {
   if (runtimePath('/' + relative) !== relative) fail('unsafe-path', `Noncanonical runtime path ${relative}`);
   const base = await realpath(root);

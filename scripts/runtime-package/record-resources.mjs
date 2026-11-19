@@ -1,7 +1,7 @@
 import path from 'node:path';
 import {readFile} from 'node:fs/promises';
 import {fileURLToPath, pathToFileURL} from 'node:url';
-import {checkedBytes, digest, fail, localFile, runtimePath} from './files.mjs';
+import {checkedBytes, digest, equipmentRuntimePath, fail, localFile, runtimePath} from './files.mjs';
 import earStyleSources from './ear-style-sources.json' with {type:'json'};
 import hairRegionSources from './hair-region-sources.json' with {type:'json'};
 
@@ -133,12 +133,7 @@ async function addEquipment(io, contracts, config, catalog, entry, reason) {
       'Equipment body surface identity differs: ' + entry.id);
   }
   requireDependency(SHA.test(entry.sha256 ?? '') && POSITIVE_BYTES(entry.bytes), 'Invalid equipment pin: ' + entry.id);
-  // Some fixed native catalog entries point to a sibling directory. Resolve
-  // the authored relative URL before submitting the canonical package path.
-  let url = entry.url;
-  if (typeof url === 'string' && /^\.\.\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_.-]+\.glb$/.test(url)) {
-    url = '/' + path.posix.join(path.posix.dirname(catalog.parent), url);
-  }
+  const url = '/' + equipmentRuntimePath(entry.url, catalog.parent);
   await io.model(url, reason, {...options, sha256:entry.sha256, bytes:entry.bytes});
 }
 

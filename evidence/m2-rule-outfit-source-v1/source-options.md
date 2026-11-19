@@ -1,0 +1,16 @@
+# 男体原件与女体原生候选的来源核对
+
+**hecko 男体已有第三方原始导出，仍缺同一模型的原生工程及独立官方对证。** 本次重算保留的 `Base_Male.vrm` 为 17,914,788 字节，SHA-256 为 `ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c`，与发布者回执及历史审计相符。其 VRM0 元数据为 CC0、Everyone、Allow。存档发布页由 hecko 归属 VRoid Project，称从 Studio β 0.14.0 导出。历史取件脚本钉住 ZIP 摘要，并要求成员恰为一项 `Base_Male.vrm`。此次没有重取 ZIP。可编辑的 `.blend` 为本项目从 VRM 重建，重算摘要为 `c076d81ce83baad19c356053d9dba5af47ec8f88476d9153e8e0922ae7662751`。现有材料中未找到与该导出逐字节关联的原始 `.vroid`、官方 β 对照导出或权利方对本项目用途的专项授权。同目录外较新 Studio 生成的男体另有身份。[来源回执](../../assets-source/foundation-male/source.json) · [历史 ZIP 校验](../../assets-source/foundation-male/fetch-candidate.py) · [使用条件存档](../../assets-source/foundation-male/LICENSE.md)
+
+**两具可用于普通游戏技术校验的女体，均来自 `native-parameter-batch-v2`。** 本次核对了模板 SHA `311a1bd0…8a73b4de`、同批参数、保存后冷读、导出意图中的文档 SHA、实际 VRM 导出的路径与字节数。两个 `.vroid` 的元数据均记录 N00/F00，`vroidVersion` 为 2.14.0，`updateVroidVersion` 为 2.16.0。批次记录的桥接插件为 VRoidMcpBridge 0.15.0，Unity 为 6000.0.62f1。[制作批次及逐项源文件 SHA](../../assets-source/native-parameter-batch-v2/manifest.json) · [保存、冷读与导出](../../assets-source/native-parameter-batch-v2/result.json)
+
+| 同批候选 | 圆度 / 颊丰满度 | 原生工程 SHA 前 12 位 | 同次 VRM SHA 前 12 位 | 普通游戏身体 SHA 前 12 位 | 普通游戏原签 SHA 前 12 位 |
+| --- | --- | --- | --- | --- | --- |
+| `native-contour-roundness-a-v1` | 0.78 / 0.30 | `3f53e5e33311` | `a5aa0d4ffff9` | `825a82c94463` | `aef0fb51494b` |
+| `native-contour-cheek-b-v1` | 0.60 / 0.48 | `dda66c45b638` | `2f6082fd6310` | `9592933507b3` | `67455dde3f74` |
+
+两次独立重开后、各自导出前的 `vroid_list_groups` 回执逐项相等，各有 38 组 ID、类型与 `pixiv/VRoid/…` 资源路径，涵盖身体、面部、皮肤、毛发、衣物、叠加层与固定预设。其规范化 JSON 的 SHA-256 为 `ee5b5a8d3e107a39be49c71cf33ad25712ee8cf57215af34583bcbf5927dbd14`（按键排序、紧凑分隔）。装备提取表分别定位原网格 1 的 primitive 3、1、2 对应上衣、短裤、鞋。游戏身体另用了完整皮肤供体、基准及遮罩，本次核齐每体登记的六个上游输入和七份派生资产。供体来自单独钉住的文件，原始导出与游戏身体保留不同身份。[A 部件清单](../../assets-source/native-parameter-batch-v2/calls/0016-vroid_list_groups.response.json) · [B 部件清单](../../assets-source/native-parameter-batch-v2/calls/0038-vroid_list_groups.response.json) · [A 转换链](../../assets-source/native-parameter-game-packages-v1/contour-roundness-a/provenance.json) · [B 转换链](../../assets-source/native-parameter-game-packages-v1/contour-cheek-b/provenance.json)
+
+**许可缺口仍在。** 两份原生 VRM1 均写有 `onlyAuthor`、`personalNonProfit`、`allowRedistribution=false`、`modification=prohibited`、`creditNotation=required`；导出作者字段为 `gamemake technical study`。38 组资源清单能追到预设，对应材料中未见逐组单独授权或放宽此次导出条件的权利方许可。现存 Studio 指南摘录、工具开源许可证和旧男体 CC0 声明各有自己的对象。普通游戏包还含虹膜、唇色、麦克风等下游资源，其来源需按各自清单核查。整套发行权属仍待审。[同批导出元数据](../../assets-source/native-parameter-batch-v2/manifest.json) · [既有许可范围调研](../../docs/research/NATIVE-VROID-FACTORY-SEAM-2026-11-17.md)
+
+**可重用的原签选同一份已冷开的普通包。** 本次调用 D02 校验器重算两条签名，与游戏包内记录以及原冷开报告首次入场、关闭后重开的摘要逐项相同。已核对包清单全部 55 个条目的文件字节和 SHA。普通包构建为 `637b3f8bb4a3`，包清单 SHA-256 为 `9b4fc030719efce5549eee3e6f0feb52e4711753d566aa33c63151174414158b`。后续同版技术校验可直接使用下列两条原签；当前阶段一 `241ce1c278f0` 若选用这批人物，需另验该构建。[双条原签](../m2-native-lip-game-handoff-v1/records.json) · [A 单条原签](../../experiments/m2-native-lip-game-handoff-v1/records/batch-contour-roundness-a.json) · [B 单条原签](../../experiments/m2-native-lip-game-handoff-v1/records/batch-native-contour-cheek-b-v1-2fd63f7b90b2.json) · [原普通游戏冷开回执](../m2-native-lip-game-handoff-v1/browser/report.json)

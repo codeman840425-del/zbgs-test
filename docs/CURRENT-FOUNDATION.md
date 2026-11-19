@@ -1,5 +1,9 @@
 # 当前角色基础工程恢复点
 
+2026-11-19 从 F 盘根执行盘根巡检，意外同名前缀目录、工程外角色工作树及工作树路径异常均为 0。普通游戏冷开工具现在逐个核对脚本快照与录像的写入位置，录像先写入本次浏览器暂存区，完成后独占发布。已有同名录像及失败报告会保留。可从任意目录重放 [7 项冷开回归](../scripts/qa-production-cold-pair.test.cjs)。[37 个工作树的迁移与盘根归属](../evidence/character-worktree-relocation-v1/root-review.json)
+
+当前固定版的开发侧混合装扮结果已收入[能力清单](CAPABILITIES.md)。供融合使用的[参数至普通游戏交件](../evidence/m2-rule-image-lifecycle-v1/operator-handoff.md)列明固定工具、运行版、原签、命令及适用范围。总工负责实现与必要开发自测，融合测试负责正式独立验收。身体和面部的扩展要求先核历史样件再讨论，尚未修改会话正式长目标或启动该扩展。下颌新体、历史小腿长度变体、已内置原生女体分别保留各自的验证范围。
+
 阶段一交接材料已按 `241ce1c278f0` 核齐逐人动作、两人关闭恢复、九项选装保护、静态预算及开发机运行报告。另由真实原签重建两份公开样本和一份接收方私选样本的身体及三件制服。后续接收方可带自己的原签做同版差异复验；下段的 4196 在线版仍独立。普通电脑的采集入口已在开发机按 1440×900 演练；待有目标设备再做现场采集。旧版素材声明的适用范围、两份造型的人工观感和整套发行仍待相应审核。[同构建校验](../evidence/m2-rule-image-lifecycle-v1/verify-lanes.py) · [来源复算](../evidence/m2-rule-outfit-source-v1/README.md) · [实机、观感与权属交件](../evidence/m2-rule-image-lifecycle-v1/pending-signoffs.md)
 
 当前普通游戏候选源码 `bc42048f`，固定构建 `241ce1c278f0`。同两份原签已在这个构建完成逐人走坐起、双人回读、离场图像释放、静态预算和开发机采样。4196 实际服务的工作台仍为 `9ce414f65f55`。离线可直接观看[角色 A](../evidence/m2-rule-image-lifecycle-v1/public-batch-a/room-produced-1x.webm)、[角色 B](../evidence/m2-rule-image-lifecycle-v1/public-batch-b/room-produced-1x.webm)及[双人普通游戏](../evidence/m2-rule-image-lifecycle-v1/game-cold/dual-external-cold-1x.webm)。[固定包、运行证据和重建步骤](../evidence/m2-rule-image-lifecycle-v1/README.md)

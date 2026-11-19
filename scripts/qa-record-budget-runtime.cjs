@@ -39,6 +39,7 @@ function parseCaptureConfig(bytes) {
 }
 
 async function ordinaryInput(base, manifestSha, inspectBuild, records) {
+ const {equipmentRuntimePath}=await import('./runtime-package/files.mjs');
  const origin=new URL(base);
  assert(origin.protocol==='http:' && origin.hostname==='127.0.0.1','Ordinary package must use the fixed loopback server');
  async function read(file) {
@@ -67,8 +68,9 @@ async function ordinaryInput(base, manifestSha, inspectBuild, records) {
  const actors=records.map(record=>{
   const {id}=record.identity, {recordSha256}=record.integrity;
   const {bodyType,sha256:bodySha256}=record.appearanceRecipe.base;
-  const equipment=Object.values(record.appearanceRecipe.equipment.resources)
-   .map(({id,slot,url,sha256})=>({id,slot,url,sha256})).sort((a,b)=>a.slot.localeCompare(b.slot));
+  const outfit=record.appearanceRecipe.equipment;
+  const equipment=Object.values(outfit.resources)
+   .map(({id,slot,url,sha256})=>({id,slot,url:'/'+equipmentRuntimePath(url,outfit.manifestUrl),sha256})).sort((a,b)=>a.slot.localeCompare(b.slot));
   assert.deepEqual(equipment.map(item=>item.slot),['bottom','shoes','top']);
   for (const item of equipment) assert.equal(pins.get(item.url)?.sha256,item.sha256,'Equipment asset not pinned');
   const body=pointers.includes(bodyType)?'/assets/'+bodyType+'/body.vrm':undefined;
