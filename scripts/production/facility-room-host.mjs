@@ -13,7 +13,7 @@ async function getText(path) {
 
 export async function mountCompanyRoom(consumer,roomKey) {
   const metadata=JSON.parse(await getText('./facility/rooms.json'));
-  const room=metadata.rooms.find(entry=>entry.key===roomKey);
+  const room=roomKey==null?metadata.rooms[0]:metadata.rooms.find(entry=>entry.key===roomKey);
   if (!room) throw Error('未知房间 '+roomKey);
   const [catalogText,templatesText,save]=await Promise.all([
     getText('./facility/library-catalog.json'),getText('./facility/templates.json'),getText(room.save)
@@ -21,7 +21,7 @@ export async function mountCompanyRoom(consumer,roomKey) {
   const catalog=JSON.parse(catalogText),templates=JSON.parse(templatesText);
   const doc=await decodeCompanySave(save,catalog,templates);
   const {floorId,roomId}=room;
-  if(doc.id!==roomKey) throw Error('公司存档身份不符');
+  if(doc.id!==room.key) throw Error('公司存档身份不符');
   const assetLibrary=createCompanyAssetLibrary();
   let session;
   const dispose=()=>{session?.dispose();assetLibrary.dispose();};
@@ -33,11 +33,19 @@ export async function mountCompanyRoom(consumer,roomKey) {
   } catch(error){dispose();throw error;}
 }
 
-export function bindFacilityActorControls(consumer,seatSelect,storageKey,message) {
+export function bindFacilityActorControls(consumer,seatSelect,storageKey,message,pointKinds) {
   const actorSelect=byId('facility-actor'),sit=byId('facility-sit'),stand=byId('facility-stand');
   const save=byId('facility-save'),restore=byId('facility-restore');
   const lastRequest=new WeakMap();
   let pending=false,closed=false;
+  const selectedKind=()=>pointKinds?pointKinds.get(seatSelect.value):'sit';
+  function refreshAction() {
+    sit.textContent=selectedKind()==='standing-vocal'?'走到麦架并开始站唱':'走到座位并坐下';
+  }
+  seatSelect.onchange=refreshAction;
+  refreshAction();
+  const canSing=pointKinds && [...pointKinds.values()].includes('standing-vocal');
+  stand.textContent=canSing?'结束并离开设施':'起身';
   function refresh() {
     const previous=actorSelect.value;
     const actors=[...consumer.actors.values()];
@@ -58,18 +66,27 @@ export function bindFacilityActorControls(consumer,seatSelect,storageKey,message
   function taskMessage(task) {
     const labels={pending:'等待',running:'进行中',completed:'完成',cancelled:'已取消',failed:'失败',rejected:'被拒绝'};
     const state=task.admission==='rejected'?'rejected':task.state;
-    message([task.kind==='sit'?'入座':'起身',labels[state]??state,task.reason].filter(Boolean).join(' · '));
+    const action={'sit':'入座','standing-vocal':'就位站唱','stand':canSing?'离开设施':'起身'}[task.kind]??task.kind;
+    const detail={
+      'vocal-performer-outside-pickup-window':'人物在固定站位超出麦克风拾音范围',
+      'seat-unavailable':'设施已被另一名角色预约或占用',
+      'vocal-unavailable':'麦架已被另一名角色预约或占用',
+    }[task.reason]??task.reason;
+    message([action,labels[state]??state,detail].filter(Boolean).join(' · '));
     return ['completed','failed','cancelled','rejected'].includes(state);
   }
   function request(kind) {
     const actor=consumer.actors.get(actorSelect.value);
     refresh();
     if(!actor){message(consumer.actors.size?'所选角色已离开房间':'房间内没有角色');return;}
+    if(!kind){message('请选择可使用的设施');return;}
     const requestId=crypto.randomUUID();
-    const reply=actor.controller.requestBehavior({kind,requestId,payload:kind==='sit'?{usePointId:seatSelect.value}:{}});
-    if(taskMessage(reply.task)) lastRequest.delete(actor);else lastRequest.set(actor,requestId);
+    const reply=actor.controller.requestBehavior({kind,requestId,payload:kind==='stand'?{}:{usePointId:seatSelect.value}});
+    const terminal=taskMessage(reply.task);
+    if(reply.task.admission==='rejected')return;
+    if(terminal)lastRequest.delete(actor);else lastRequest.set(actor,requestId);
   }
-  sit.onclick=()=>request('sit');
+  sit.onclick=()=>request(selectedKind());
   stand.onclick=()=>request('stand');
   save.onclick=()=>{
     refresh();if(!consumer.actors.size)return;
@@ -98,6 +115,7 @@ export function bindFacilityActorControls(consumer,seatSelect,storageKey,message
     consumer.scene.removeEventListener('childadded',invalidate);
     consumer.scene.removeEventListener('childremoved',invalidate);
     for(const control of [sit,stand,save,restore]) control.onclick=null;
+    seatSelect.onchange=null;
   };
 }
 
@@ -105,10 +123,12 @@ export async function openFacilityRoom(consumer,roomKey) {
   const mounted=await mountCompanyRoom(consumer,roomKey);
   const {session,assetLibrary,room,metadata}=mounted;
   const {floorId,roomId}=room;
+  roomKey=room.key;
   let orbit,releaseControls;
   const close=()=>{releaseControls?.();orbit?.dispose();mounted.dispose();};
   try {
-    await consumer.bindFacilityRoom({session,floorId,roomId});
+    const primaryUsePointId=room.primaryUsePointId??room.seatId;
+    await consumer.bindFacilityRoom({session,floorId,roomId,primaryUsePointId});
     const {camera,renderer}=consumer;
     const region=session.scene.navigation(floorId).regions.find(item=>item.id===roomId);
     orbit=new OrbitControls(camera,renderer.domElement);
@@ -127,15 +147,30 @@ export async function openFacilityRoom(consumer,roomKey) {
     frameRoom();
     const seatSelect=byId('facility-seat');
     const points=session.scene.describeUsePoints({floorId}).filter(p=>p.roomId===roomId);
-    for(const point of points) seatSelect.add(new Option(point.id.split('/').slice(-2).join('/'),point.id));
-    const station=points.find(p=>p.id===room.seatId);
-    if (!station) throw Error('公司存档缺少指定工位座椅');
-    seatSelect.value=station.id;
+    const pointKinds=new Map();
+    for(const point of points){
+      const kind=point.kind==='standing-vocal' && point.contact?.pickupNodeId?'standing-vocal':
+        point.contact?.seatNodeId&&point.contact?.backNodeId?'sit':null;
+      if(!kind)continue;
+      pointKinds.set(point.id,kind);
+      seatSelect.add(new Option(kind==='standing-vocal'?'站式麦克风':point.facilityId.split('/').slice(-2).join('/'),point.id));
+    }
+    if (!pointKinds.has(primaryUsePointId)) throw Error('公司存档缺少指定交互设施');
+    seatSelect.value=primaryUsePointId;
+    const links=metadata.rooms.map(entry=>{
+      const link=document.createElement('a'),target=new URL(location.href);
+      target.searchParams.set('room',entry.key);
+      link.href=target.href;
+      link.textContent=entry.label??({'plant-home':'单工位民房','plant-rental':'出租屋'}[entry.key]??entry.key);
+      if(entry.key===roomKey)link.setAttribute('aria-current','page');
+      return link;
+    });
+    byId('facility-rooms').replaceChildren(...links);
     const status=byId('room-status');
     function message(text){status.textContent=text;}
     byId('facility-frame').onclick=frameRoom;
     const storageKey='facility-room-state:'+metadata.gameInventorySha256+':'+metadata.roomManifestSha256+':'+roomKey;
-    releaseControls=bindFacilityActorControls(consumer,seatSelect,storageKey,message);
+    releaseControls=bindFacilityActorControls(consumer,seatSelect,storageKey,message,pointKinds);
     window.facilityRoom={roomKey,floorId,roomId,session,assetLibrary,frameRoom,orbit};
     byId('facility-controls').disabled=false;
     status.dataset.state='ready';message(session.document.name+' · '+roomKey+' · '+consumer.buildInfo.shortId);

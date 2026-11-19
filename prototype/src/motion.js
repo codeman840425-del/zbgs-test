@@ -584,6 +584,7 @@ export function createMotion(
   let selectedDance = motions?.dances?.[0]?.key || "dance";
   const danceInfo = () => motions?.dances?.find(d=>d.key===selectedDance);
   let talkMix = 0;
+  let vocalPitch = 0;
   let runMix = 0, runRequested = false, runPhase = .17;
   let sitProgress = 0,
     gait = 0,
@@ -1935,6 +1936,27 @@ export function createMotion(
       foot.lastSupport.copy(support);
       foot.lastSupportKind = foot.anchorKind;
     }
+    // At a fixed standing mic, keep an admitted lip position from drifting
+    // back with the idle/talk clip. Only the spine above the hips is pitched.
+    // The gait and the actual two foot contacts assessed above remain authored.
+    const vocal=state.stationaryVocal;
+    if (nodes.spine && nodes.head && (vocal || vocalPitch>1e-5)) {
+      const forward=new V(0,0,1).applyQuaternion(root.getWorldQuaternion(new Q())).setY(0).normalize();
+      let desired=0;
+      if (vocal && !moving && !turning && requested==='idle') {
+        const mouth=nodes.head.localToWorld(new V(...vocal.mouthHeadLocal));
+        const fromPickup=mouth.clone().sub(new V(...vocal.pickupWorld));
+        const behind=-forward.dot(fromPickup), lateralSq=Math.max(0,fromPickup.lengthSq()-behind*behind);
+        const wantedBehind=Math.sqrt(Math.max(0,vocal.distance*vocal.distance-lateralSq));
+        const lever=mouth.y-worldPoint(nodes.spine).y;
+        if (lever>0) desired=clamp(Math.atan2(behind-wantedBehind,lever),0,THREE.MathUtils.degToRad(4));
+      }
+      vocalPitch=THREE.MathUtils.damp(vocalPitch,desired,12,dt);
+      const axis=new V(0,1,0).cross(forward);
+      const rotated=new Q().setFromAxisAngle(axis,vocalPitch).multiply(nodes.spine.getWorldQuaternion(new Q()));
+      nodes.spine.quaternion.copy(nodes.spine.parent.getWorldQuaternion(new Q()).invert().multiply(rotated));
+      nodes.spine.updateWorldMatrix(true,true);
+    }
     if (!sourceActive) { clearHandRelease(); poseArms(); }
     else fitSeatHands();
     wasMoving = moving;
@@ -2049,7 +2071,7 @@ export function createMotion(
       frame =
         0;
     phase = stance / 2;
-    runMix = 0; runRequested = false; runPhase = .17; talkMix = 0; gaitTransition = null;
+    runMix = 0; runRequested = false; runPhase = .17; talkMix = 0; vocalPitch=0; gaitTransition = null;
     wasMoving = wasTurning = false;
     wasPlannedTurn = false;
     adaptiveHipDrop = 0;

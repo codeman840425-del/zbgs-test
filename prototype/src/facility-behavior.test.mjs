@@ -132,6 +132,49 @@ test('rotated seat holds through exit, rejects contention, restores atomically a
 });
 
 const company=process.env.FACILITY_COMPANY_PACKAGE,records=process.env.FACILITY_RECORD_PACKAGE;
+test('standing vocal cancels a stale reservation, rejects a stale or expired save, and rebinds the current rotation',async t=>{
+  const hook=registerHooks({load(url,ctx,next){return next(url,url.endsWith('.json')?{...ctx,importAttributes:{type:'json'}}:ctx);}});
+  t.after(()=>hook.deregister());
+  await import('../../scripts/headless-avatar-node.mjs');
+  const {prepareRecordedCharacter,createRecordAppearanceController}=await import('./character-record-consumer.js');
+  const [,record]=JSON.parse(await fs.readFile(new URL('../../evidence/m2-uniform-lite-operator-v1/records.json',import.meta.url)));
+  const f=fixture(),scene=f.room.session.scene;
+  const point={id:'studio/mic#vocal',kind:'standing-vocal',slotId:'vocal',capacity:1,
+    floorId:'ground',roomId:'studio',companyId:'home',facilityId:'studio/mic',resource:{id:'floor-vocal-mic-boom',version:1},
+    transform:{position:[-1,0,0],yaw:Math.PI},facilityTransform:{position:[-1,0,-.77],yaw:0},
+    approachPosition:[-1,0,.35],exitPosition:[-1,0,.35],contact:{pickupNodeId:'singing-mic-pickup'},
+    clearance:{width:.5,depth:.5,height:1.9},transformChain:[{id:'studio',transform:{position:[0,0,0],yaw:0}}],
+    performerReferences:{coordinateSpace:'use-point',mouth:[0,1.555,.23],eye:[0,1.64,.215]}};
+  const facility=new THREE.Group(),anchor=new THREE.Group();
+  const mesh=new THREE.Mesh(new THREE.BoxGeometry(.045,.04,.05));
+  const handle=new THREE.Mesh(new THREE.BoxGeometry(.025,.025,.08));
+  mesh.name=point.contact.pickupNodeId;handle.name='singing-mic-handle';
+  mesh.position.set(-1,1.53,-.33);handle.position.set(-1,1.53,-.40);
+  anchor.position.fromArray(point.transform.position);anchor.rotation.y=point.transform.yaw;
+  facility.add(anchor,mesh,handle);scene.root.add(facility);
+  const resolved={anchor,pickupMesh:mesh};
+  scene.resolveUsePoint=id=>id===point.id?resolved:null;
+  const seatDescriptor=scene.describeUsePoint;
+  scene.describeUsePoint=id=>id===point.id?structuredClone(point):seatDescriptor(id);
+  const a=await prepareRecordedCharacter(record,{scene:f.world,renderer:{},position:[-2,0,1.2],
+    createController:ctx=>attachFacilityBehavior(createRecordAppearanceController(ctx.avatar),{...ctx,seatLeases:f.leases,getRoom:()=>f.room})});
+  a.attach();t.after(()=>a.dispose());
+  const start=id=>a.controller.requestBehavior({kind:point.kind,requestId:id,timeoutSeconds:5,payload:{usePointId:point.id}});
+  assert.equal(start('first').admission,'accepted');for(let i=0;i<6;i++)a.controller.simulate(1/60,a.update);
+  const saved=a.controller.captureFacilityPose();assert.equal(saved.phase,'approaching');
+  assert.equal(saved.remainingSeconds,4.9);assert.equal(saved.seat,null);assert.equal(saved.vocal.id,point.id);
+  ++scene.revision;point.transformChain[0].transform.yaw=Math.PI/2;
+  a.controller.simulate(.01,a.update);
+  assert.equal(a.controller.behaviorTasks.get('first').reason,'stale-vocal-use-point');
+  assert.equal(f.leases.forSeat(point.id),null);
+  await assert.rejects(a.controller.restoreFacilityPose(saved,a.update),/saved-vocal-version-mismatch/);
+  point.transform.yaw=anchor.rotation.y=Math.PI/2;
+  assert.equal(start('rotated').admission,'accepted');
+  const rotated=a.controller.captureFacilityPose();assert.equal(rotated.vocal.transform.yaw,Math.PI/2);
+  a.controller.cancelBehavior('rotated');assert.equal(f.leases.forSeat(point.id),null);
+  await assert.rejects(a.controller.restoreFacilityPose({...rotated,remainingSeconds:0},a.update),/positive finite simulation seconds/);
+  assert.equal(f.leases.forSeat(point.id),null);
+});
 test('published rooms use retained GLB seats and signed VRM records on the real motion controller',
   {skip:!company||!records},async t=>{
   const read=async(...segments)=>JSON.parse(await fs.readFile(path.join(...segments),'utf8'));

@@ -33,6 +33,11 @@ window.addEventListener('pagehide',event=>{
 const buildInfo=await fetch('/build-info.json').then(r=>r.json());
 const status=document.querySelector('#status'),resultElement=document.querySelector('#results');
 function show(){const snapshot=batch?.snapshot();resultElement.textContent=snapshot?JSON.stringify(snapshot.items.map(({identityId,status,attempt,reason})=>({id:identityId,status,attempt,reason})),null,2):'';}
+function setRoomPresentation(actor) {
+  const previewSpeaking=!room?.supportsVocal;
+  actor.avatar.livePresentation.setSpeaking(previewSpeaking);
+  actor.avatar.livePresentation.setGaze(previewSpeaking?camera.position.toArray():null);
+}
 async function prepareRoomActor(record,{getPeers=()=>actors.values(),...options}) {
   const instance=await prepareRecordedCharacter(record,{scene,renderer,...options,
     createController(context) {
@@ -40,8 +45,7 @@ async function prepareRoomActor(record,{getPeers=()=>actors.values(),...options}
         {...context,seatLeases,getRoom:()=>room,getPeers});
     }});
   actorRecords.set(instance,record);
-  instance.avatar.livePresentation.setSpeaking(true);
-  instance.avatar.livePresentation.setGaze(camera.position.toArray());
+  setRoomPresentation(instance);
   return instance;
 }
 async function consume(record,context){
@@ -122,6 +126,7 @@ window.__recordConsumer={buildInfo,scene,renderer,camera,three:THREE,actors,atte
     room=next;restoreGeneration++;ground.visible=false;
     [...actors.values()].forEach((actor,index)=>{
       actor.avatar.root.position.fromArray(room.spawns[index]);actor.motion.reset();
+      setRoomPresentation(actor);
       actor.update(0,{action:'idle'});actor.avatar.resetSecondary();
     });
     return {floorId:room.floorId,roomId:room.roomId,spawns:structuredClone(room.spawns)};

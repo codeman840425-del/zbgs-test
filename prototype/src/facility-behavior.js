@@ -3,6 +3,7 @@ import {createTurnPolicy,turnAngleDelta,movingSteering} from './turn-policy.js';
 import {canonicalJson} from './character-record.js';
 import {findFacilityPoint,finitePosition,pointIdentity,retainFacilitySeat} from './facility-contact.js';
 import {createFacilityNavigation,parkingRoute} from './facility-navigation.js';
+import {measureVocalContact,pickupAxis,vocalPerformer,vocalPickup} from './facility-vocal.js';
 import {Vector3} from 'three';
 
 // The record host supplies its existing frame clock and instance.update(). The
@@ -26,10 +27,16 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
   let disposed=false, mode='idle', phase='idle', target=null, token=null, binding=null;
   let path=[], speed=0, pendingContact=null, contactTask=null, revision=null, nav=null;
   let alignAfterCollision=false,waitingPoint=null;
+  let performer=null,lastVocal=null,previousPresentation=null;
+  const isVocal=()=>target?.kind==='standing-vocal';
   const tasks=createBehaviorTasks({ownerId:actorId,onEvent({type,task}) {
-    if (['cancelled','failed'].includes(type) && task.kind==='sit' && task.requestId===contactTask) {
+    if (['cancelled','failed'].includes(type) && task.requestId===contactTask) {
       path=[];speed=0;turn.reset(root.rotation.y);
-      if (token && seatLeases.get(token)?.state==='reserved') {
+      if (phase==='checking-vocal' && task.reason==='vocal-performer-outside-pickup-window') {
+        // The body is already standing on the anchor. Keep its reservation
+        // until it clears the same physical corridor as a departing performer.
+        phase='exiting';path=[target.exitPosition];setMode('idle');
+      } else if (token && seatLeases.get(token)?.state==='reserved') {
         seatLeases.requestRelease(token,task.reason);
         clearBinding();
       } else if (binding) beginExit();
@@ -39,19 +46,28 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
     if (mode!==next) {mode=next;avatar.livePresentation?.setAction(next);}
   }
   function clearBinding() {
+    stopVocal();
     token=null;target=null;contactTask=null;path=[];phase='idle';alignAfterCollision=false;waitingPoint=null;
     const previous=binding;binding=null;
     try { motion.setFacilitySeatHeight(null);avatar.updateGarment?.(0,0,[]); }
-    finally { previous?.release(); }
+    finally { previous?.release?.(); }
     setMode('idle');
   }
   function beginExit() {
     if (!token || !binding) return;
-    seatLeases.beginExit(token);phase='rising';path=[];speed=0;setMode('stand');
+    seatLeases.beginExit(token);speed=0;
+    if (isVocal()) {stopVocal();phase='exiting';path=[target.exitPosition];setMode('idle');}
+    else {phase='rising';path=[];setMode('stand');}
+  }
+  function stopVocal() {
+    if (!previousPresentation) return;
+    avatar.livePresentation.setSpeaking(previousPresentation.speaking);
+    avatar.livePresentation.setGaze(previousPresentation.gaze);
+    previousPresentation=null;
   }
   function refreshNav() {
     const room=getRoom(), current=room.session.scene.revision;
-    if (!nav || current!==revision) {
+    if (!nav || current!==revision || nav.scene!==room.session.scene || nav.region.id!==room.roomId) {
       nav=createFacilityNavigation(room.session.scene,room.floorId,room.roomId,personObstacles);revision=current;
     }
     return nav;
@@ -75,11 +91,26 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
       const task=tasks.active();if (task) tasks.fail(task.requestId,error.message);
     }
   }
-  function startSit(task,resumePhase=null) {
-    const room=getRoom(), point=findFacilityPoint(room,task.payload.usePointId);
+  function startFacility(task,resumePhase=null) {
+    const room=getRoom(), point=findFacilityPoint(room,task.payload.usePointId,task.kind);
     const reserved=seatLeases.reserve({seatId:point.id,ownerId:actorId,ownerGeneration,requestId:task.requestId});
     if (!reserved.accepted) throw Error(reserved.reason);
     token=reserved.lease.token;contactTask=task.requestId;target=point;phase='loading';
+    if (isVocal()) {
+      lastVocal=null;pendingContact=null;
+      performer??=vocalPerformer(avatar);
+      const scene=room.session.scene,object=scene.resolveUsePoint(point.id),mesh=vocalPickup(room,point);
+      binding={foot:point.transform.position,mesh,axis:pickupAxis(mesh,object.anchor.parent),
+        scene,revision:scene.revision,object,sceneRoot:scene.root};
+      const navigation=refreshNav(),pos=root.position.toArray();
+      if (!navigation.clear(point.approachPosition,binding.foot) || !navigation.clear(binding.foot,point.exitPosition))
+        throw Error('vocal-contact-path-blocked');
+      if (resumePhase==='fitting' || resumePhase==='vocal') {
+        if (!navigation.clear(pos,binding.foot)) throw Error('vocal-contact-path-blocked');
+        phase='fitting';path=[binding.foot];
+      } else {path=navigation.route(pos,point.approachPosition);phase='approaching';}
+      return;
+    }
     const ownToken=token;
     pendingContact=retainFacilitySeat(room,point,motion).then(candidate=>{
       if (disposed || token!==ownToken || tasks.active()?.requestId!==task.requestId) {candidate.release();return;}
@@ -99,9 +130,9 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
     const spec={timeoutSeconds:60,...request,payload:request?.payload??{}};
     if (spec.requestId && tasks.get(spec.requestId)) return tasks.request(spec);
     let rejection=null;
-    if (spec.kind==='sit') {
+    if (spec.kind==='sit' || spec.kind==='standing-vocal') {
       try {
-        findFacilityPoint(getRoom(),spec.payload.usePointId);
+        findFacilityPoint(getRoom(),spec.payload.usePointId,spec.kind);
         if (seatLeases.forSeat(spec.payload.usePointId)) rejection='seat-unavailable';
         else if (token) rejection='owner-already-has-seat';
       } catch(error) {rejection=error.message;}
@@ -113,7 +144,7 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
     const reply=tasks.request(spec);
     if (reply.admission==='accepted') {
       try {
-        if (spec.kind==='sit') startSit(reply.task,resumePhase);
+        if (spec.kind!=='stand') startFacility(reply.task,resumePhase);
         else if (!binding) tasks.complete(reply.task.requestId,{mode:'idle'});
         else if (phase==='waiting-blocked') clearSeatCorridor();
         else if (!['exiting','rising','clearing'].includes(phase)) beginExit();
@@ -170,8 +201,35 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
     alignAfterCollision=false;root.rotation.y=yaw;root.position.fromArray(destination);setMode('walk');
     return {moved,turning:Math.abs(angle)>.2};
   }
+  function sampleVocal() {
+    return {...measureVocalContact(performer,binding.mesh,target,binding.axis),requestId:contactTask,
+      footWorld:root.position.toArray(),yaw:root.rotation.y};
+  }
+  function verifyVocalTarget() {
+    const room=getRoom(), scene=room?.session.scene;
+    if (scene!==binding.scene || room.roomId!==target.roomId || room.floorId!==target.floorId) throw Error('stale-vocal-use-point');
+    const resolved=scene.resolveUsePoint(target.id);
+    if (binding.revision!==scene.revision || binding.object!==resolved || binding.sceneRoot!==scene.root) {
+      const current=findFacilityPoint(room,target.id,'standing-vocal');
+      if (canonicalJson(pointIdentity(current))!==canonicalJson(pointIdentity(target))) throw Error('stale-vocal-use-point');
+      binding.mesh=vocalPickup(room,current);binding.axis=pickupAxis(binding.mesh,resolved.anchor.parent);
+      binding.revision=scene.revision;binding.object=resolved;binding.sceneRoot=scene.root;
+    }
+  }
+  function invalidateVocal(reason) {
+    const active=tasks.active();
+    if (active) tasks.fail(active.requestId,reason);
+    if (token) {
+      seatLeases.requestRelease(token,reason);seatLeases.beginExit(token);seatLeases.releaseAfterExit(token);
+      clearBinding();
+    }
+    if (lastVocal) lastVocal={...lastVocal,reason};
+  }
   function advance(dt,update) {
     tasks.tick(dt);
+    if (isVocal() && binding) {
+      try {verifyVocalTarget();} catch (error) {invalidateVocal(error.message);}
+    }
     let moved=0,plan=null,turning=false;
     if (binding && path.length && (phase==='approaching' || phase==='clearing')) {
       ({moved=0,plan=null,turning=false}=advanceRoute(dt));
@@ -183,7 +241,7 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
         speed=0;setMode('idle');plan=steer(yaw,dt);
       } else if (dist>.0001) {
         const navigation=refreshNav();
-        if (!navigation.clear(root.position.toArray(),next,target.facilityId)) {
+        if (!navigation.clear(root.position.toArray(),next,isVocal()?null:target.facilityId)) {
           if (phase==='fitting') tasks.fail(contactTask,'seat-contact-path-blocked');
           else { const active=tasks.active();if (active) tasks.fail(active.requestId,'seat-exit-blocked'); }
           speed=0;
@@ -195,17 +253,36 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
       } else {
         path.shift();speed=0;
         if (!path.length && phase==='fitting') {
-          if (!refreshNav().clear(binding.foot,target.transform.position,target.facilityId)) tasks.fail(contactTask,'seat-body-space-blocked');
+          if (isVocal()) {
+            if (!refreshNav().clear(binding.foot,binding.foot)) tasks.fail(contactTask,'vocal-contact-path-blocked');
+            else {phase='checking-vocal';setMode('idle');}
+          }
+          else if (!refreshNav().clear(binding.foot,target.transform.position,target.facilityId)) tasks.fail(contactTask,'seat-body-space-blocked');
           else {phase='sitting';setMode('sit');seatLeases.occupy(token);}
         } else if (!path.length && phase==='exiting') setMode('idle');
       }
     }
     update(dt,{action:mode,distanceDelta:moved,speed:dt?moved/dt:0,moving:moved>0,
       locomotion:'walk',turning:turning||!!plan,turnPlan:plan,allowUnplannedTurn:false,
+      stationaryVocal:phase==='vocal'?binding.stance:undefined,
       speaking:avatar.livePresentation?.getState().speaking},binding?.colliders??[]);
     if (!binding) return;
     const metrics=motion.getMetrics();
-    if (phase==='sitting' && metrics.sitProgress===1) {
+    if (phase==='checking-vocal' || phase==='vocal') {
+      try {lastVocal=sampleVocal();} catch(error) {invalidateVocal(error.message);return;}
+      if (!lastVocal.withinPickupWindow) {
+        lastVocal.reason='vocal-performer-outside-pickup-window';
+        if (phase==='checking-vocal') tasks.fail(contactTask,lastVocal.reason);
+        else {seatLeases.requestRelease(token,lastVocal.reason);beginExit();}
+      } else if (phase==='checking-vocal') {
+        const {gaze,speaking}=avatar.livePresentation.getState();previousPresentation={gaze,speaking};
+        binding.stance={distance:binding.savedDistance??lastVocal.mouthDistance,pickupWorld:lastVocal.pickupWorld,
+          mouthHeadLocal:avatar.vrm.humanoid.getNormalizedBoneNode('head').worldToLocal(new Vector3(...lastVocal.mouthWorld)).toArray()};
+        avatar.livePresentation.setGaze(lastVocal.pickupWorld);avatar.livePresentation.setSpeaking(true);
+        seatLeases.occupy(token);phase='vocal';
+        tasks.complete(contactTask,{mode:'standing-vocal',...lastVocal});
+      }
+    } else if (phase==='sitting' && metrics.sitProgress===1) {
       const hip=metrics.hipWorld;
       const hit=binding.hitBelow(hip[0],hip[2],hip[1]+.02);
       if (!hit || Math.abs(hit.y-(target.facilityTransform.position[1]+binding.height))>.025)
@@ -218,6 +295,11 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
       phase='exiting';path=[target.exitPosition];setMode('idle');
     } else if (phase==='exiting' && !path.length) {
       clearSeatCorridor();
+    } else if (phase==='cleared' && isVocal()) {
+      if (seatLeases.get(token)?.state==='reserved') seatLeases.requestRelease(token,lastVocal?.reason);
+      else seatLeases.releaseAfterExit(token);
+      clearBinding();
+      const active=tasks.active();if (active?.kind==='stand') tasks.complete(active.requestId,{mode:'idle'});
     } else if (phase==='cleared') {
       const hip=metrics.hipWorld, top=target.facilityTransform.position[1]+binding.height;
       if (hip[1]>top+.25 && !binding.hitBelow(hip[0],hip[2],hip[1])) {
@@ -227,42 +309,54 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
     }
   }
   function capture() {
-    if (!['idle','approaching','fitting','seated'].includes(phase)) throw Error('facility-pose-in-transition');
+    if (!['idle','approaching','fitting','seated','vocal'].includes(phase)) throw Error('facility-pose-in-transition');
     const active=tasks.active();
     return {phase,position:root.position.toArray(),yaw:root.rotation.y,
-      seat:target?pointIdentity(target):null,requestId:contactTask,
+      seat:target && !isVocal()?pointIdentity(target):null,...(isVocal()?{vocal:pointIdentity(target)}:{}),
+      ...(phase==='vocal'?{vocalWorkingDistance:binding.stance.distance}:{}),requestId:contactTask,
       remainingSeconds:active?active.deadline-tasks.diagnostics().simulationTime:null};
   }
   async function restore(saved,update) {
     if (phase!=='idle' || !finitePosition(saved?.position) || !Number.isFinite(saved.yaw) ||
-       !['idle','approaching','fitting','seated'].includes(saved.phase)) throw Error('invalid-facility-pose');
+       !['idle','approaching','fitting','seated','vocal'].includes(saved.phase)) throw Error('invalid-facility-pose');
+    if ((saved.vocal && saved.seat) || (saved.phase==='vocal' && !saved.vocal) || (saved.vocal && saved.phase==='seated'))
+      throw Error('invalid-facility-pose');
     const navigation=refreshNav();
-    const point=saved.seat?findFacilityPoint(getRoom(),saved.seat.id):null;
+    const identity=saved.vocal??saved.seat,kind=saved.vocal?'standing-vocal':'sit';
+    const point=identity?findFacilityPoint(getRoom(),identity.id,kind):null;
     if (Math.abs(saved.position[1]-navigation.region.transform.position[1])>.001 ||
-        !navigation.clear(saved.position,saved.position,['seated','fitting'].includes(saved.phase)?point?.facilityId:null))
+        !navigation.clear(saved.position,saved.position,!saved.vocal && ['seated','fitting'].includes(saved.phase)?point?.facilityId:null))
       throw Error('invalid-facility-position');
-    if (saved.phase==='idle' ? point!==null : !point || canonicalJson(pointIdentity(point))!==canonicalJson(saved.seat))
-      throw Error('saved-seat-version-mismatch');
+    if (saved.phase==='idle' ? point!==null : !point || canonicalJson(pointIdentity(point))!==canonicalJson(identity))
+      throw Error(saved.vocal?'saved-vocal-version-mismatch':'saved-seat-version-mismatch');
     if (point && (typeof saved.requestId!=='string' || !saved.requestId)) throw Error('invalid-saved-seat-request');
+    if (point && !['vocal','seated'].includes(saved.phase) && !(Number.isFinite(saved.remainingSeconds) && saved.remainingSeconds>0))
+      throw RangeError('timeoutSeconds must be positive finite simulation seconds');
+    if (saved.phase==='vocal' && (saved.remainingSeconds!==null || !Number.isFinite(saved.vocalWorkingDistance) ||
+        saved.vocalWorkingDistance<.06 || saved.vocalWorkingDistance>.26 ||
+        new Vector3(...saved.position).distanceToSquared(new Vector3(...point.transform.position))>1e-8 ||
+        Math.abs(turnAngleDelta(saved.yaw,point.transform.yaw))>.015)) throw Error('saved-vocal-alignment-mismatch');
     root.position.fromArray(saved.position);root.rotation.y=saved.yaw;turn.reset(saved.yaw);motion.reset();
     if (!point) {update(0,{action:'idle'});return;}
-    const reply=requestBehavior({requestId:saved.requestId,kind:'sit',payload:{usePointId:point.id},
-      timeoutSeconds:saved.phase==='seated'?60:saved.remainingSeconds},saved.phase);
+    const reply=requestBehavior({requestId:saved.requestId,kind,payload:{usePointId:point.id},
+      timeoutSeconds:['seated','vocal'].includes(saved.phase)?60:saved.remainingSeconds},saved.phase);
     if (reply.admission!=='accepted') throw Error(reply.reason);
     await pendingContact;
+    if (saved.phase==='vocal' && binding) {binding.savedDistance=saved.vocalWorkingDistance;advance(0,update);}
     if (saved.phase==='seated') {
       if (!binding || root.position.distanceToSquared({x:binding.foot[0],y:binding.foot[1],z:binding.foot[2]})>.00001 ||
           Math.abs(turnAngleDelta(saved.yaw,point.transform.yaw))>.02) throw Error('saved-seat-alignment-mismatch');
       for (let i=0;i<600 && tasks.active();i++) advance(1/60,update);
     }
     const task=tasks.get(saved.requestId);
-    if (!binding || (saved.phase==='seated'?task.state!=='completed':task.state!=='running')) throw Error(task.reason||'seat-restore-failed');
+    if (!binding || (['seated','vocal'].includes(saved.phase)?task.state!=='completed':task.state!=='running')) throw Error(task.reason||'facility-restore-failed');
   }
   return Object.assign(controller,{requestBehavior:request=>requestBehavior(request),cancelBehavior:id=>tasks.cancel(id),behaviorTasks:tasks,
     simulate:advance,captureFacilityPose:capture,restoreFacilityPose:restore,facilityFootprint:footprint,
+    vocalContact:()=>lastVocal?structuredClone(lastVocal):null,
     disposeRecordController() {
       disposed=true;root.removeFromParent();tasks.dispose();
       if (token) seatLeases.releaseRemovedInstance(token);
-      clearBinding();
+      clearBinding();lastVocal=null;performer=null;
     }});
 }

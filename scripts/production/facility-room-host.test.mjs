@@ -18,7 +18,7 @@ const hooks=registerHooks({resolve(specifier,context,next) {
 let bindFacilityActorControls;
 try {({bindFacilityActorControls}=await import('./facility-room-host.mjs'));} finally {hooks.deregister();}
 
-function setup(t) {
+function setup(t,pointKinds) {
   const scene=new Scene(),actors=new Map(),messages=[],stored=new Map(),calls=[];
   const controls=Object.fromEntries(['actor','seat','sit','stand','save','restore'].map(id=>[id,{disabled:false}]));
   const select=Object.assign(controls.actor,{value:'',options:[],writes:0,
@@ -47,11 +47,51 @@ function setup(t) {
     Object.defineProperty(globalThis,key,{configurable:true,value});
     t.after(()=>{if(old)Object.defineProperty(globalThis,key,old);else delete globalThis[key];});
   }
-  const release=bindFacilityActorControls(consumer,controls.seat,'saved',text=>messages.push(text));
+  const release=bindFacilityActorControls(consumer,controls.seat,'saved',text=>messages.push(text),pointKinds);
   t.after(release);
   return {scene,actors,controls,select,stored,messages,calls,attach,remove,make,release,
     ids:()=>select.options.map(option=>option.value)};
 }
+
+test('a rejected second click keeps the original accepted task visible through completion',async t=>{
+  t.mock.timers.enable({apis:['setInterval']});
+  const f=setup(t,new Map([['mic','standing-vocal']])),actor=f.attach('a');
+  await Promise.resolve();
+  f.controls.seat.value='mic';
+  let original;
+  actor.controller.requestBehavior=({kind,requestId})=>{
+    if(original)return {task:{kind,requestId,admission:'rejected',reason:'seat-unavailable'}};
+    original={kind,requestId,admission:'accepted',state:'running'};
+    return {task:original};
+  };
+  actor.controller.behaviorTasks.get=id=>id===original.requestId?original:null;
+  f.controls.sit.onclick();f.controls.sit.onclick();
+  assert.match(f.messages.at(-1),/被拒绝/);
+  original.state='completed';
+  t.mock.timers.tick(301);
+  assert.match(f.messages.at(-1),/站唱.*完成/);
+});
+
+test('the same use button sends the selected facility behavior and disables stale targets',async t=>{
+  const f=setup(t,new Map([['chair','sit'],['mic','standing-vocal']]));
+  f.attach('a');
+  await Promise.resolve();
+  f.controls.seat.value='mic';
+  f.controls.seat.onchange();
+  assert.match(f.controls.sit.textContent,/站唱/);
+  f.controls.sit.onclick();
+  assert.deepEqual(f.calls.at(-1),['a','standing-vocal']);
+  f.controls.seat.value='chair';
+  f.controls.seat.onchange();
+  f.controls.sit.onclick();
+  assert.deepEqual(f.calls.at(-1),['a','sit']);
+  f.controls.seat.value='removed';
+  f.controls.sit.onclick();
+  assert.equal(f.calls.length,2);
+  assert.match(f.messages.at(-1),/选择/);
+  f.controls.stand.onclick();
+  assert.deepEqual(f.calls.at(-1),['a','stand']);
+});
 
 test('direct Three children invalidate after the atomic map update; selection follows surviving actors',async t=>{
   const f=setup(t),{select,controls}=f;

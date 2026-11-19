@@ -61,7 +61,7 @@ export function createFacilityNavigation(scene, floorId, roomId, actorObstacles=
     for (let i=1;i!==0;i=previous[i]) path.push(points[i]);
     return path.reverse();
   }
-  return {route,clear,region};
+  return {route,clear,region,scene};
 }
 
 export function parkingRoute(nav,point,start,clearance,leavesApproachOpen) {

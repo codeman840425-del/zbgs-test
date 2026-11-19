@@ -8,19 +8,27 @@ export const finitePosition = p => Array.isArray(p) && p.length===3 && p.every(N
 export function pointIdentity(point) {
   const {id,companyId,floorId,roomId,facilityId,resource,transform,facilityTransform,
     approachPosition,exitPosition,seatHeight,contact} = point;
-  return {id,companyId,floorId,roomId,facilityId,resource,transform,facilityTransform,
-    approachPosition,exitPosition,seatHeight,contact};
+  const common={id,companyId,floorId,roomId,facilityId,resource,transform,facilityTransform,approachPosition,exitPosition,contact};
+  if (point.kind==='standing-vocal') return {...common,kind:point.kind,slotId:point.slotId,
+    transformChain:point.transformChain,performerReferences:point.performerReferences,clearance:point.clearance,capacity:point.capacity};
+  return {...common,seatHeight};
 }
 
-export function findFacilityPoint(room,id) {
+export function findFacilityPoint(room,id,kind='sit') {
   if (!room) throw Error('facility-room-unbound');
   const point=room.session.scene.describeUsePoint(id);
-  if (!point || point.id!==id) throw Error('unknown-seat-use-point');
+  const vocal=kind==='standing-vocal';
+  if (!point || point.id!==id) throw Error(vocal?'unknown-vocal-use-point':'unknown-seat-use-point');
   if (point.floorId!==room.floorId || point.roomId!==room.roomId) throw Error('seat-outside-actor-room');
   if (!finitePosition(point.transform?.position) || !Number.isFinite(point.transform.yaw) ||
       !finitePosition(point.facilityTransform?.position) || !finitePosition(point.approachPosition) ||
-      !finitePosition(point.exitPosition) || !Number.isFinite(point.seatHeight) || point.seatHeight<=0 ||
-      point.capacity!==1 || !point.contact?.seatNodeId || !point.contact?.backNodeId) throw Error('invalid-seat-use-point');
+      !finitePosition(point.exitPosition) || point.capacity!==1) throw Error(vocal?'invalid-vocal-use-point':'invalid-seat-use-point');
+  if (vocal) {
+    if (point.kind!==kind || !point.contact?.pickupNodeId || !point.slotId || !Array.isArray(point.transformChain) ||
+        point.performerReferences?.coordinateSpace!=='use-point' || !finitePosition(point.performerReferences.mouth) ||
+        !finitePosition(point.performerReferences.eye)) throw Error('invalid-vocal-use-point');
+  } else if (!Number.isFinite(point.seatHeight) || point.seatHeight<=0 || !point.contact?.seatNodeId || !point.contact?.backNodeId)
+    throw Error('invalid-seat-use-point');
   return point;
 }
 

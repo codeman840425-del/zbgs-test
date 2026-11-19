@@ -1,18 +1,21 @@
 import {createFacilityNavigation} from './facility-navigation.js';
 import {finitePosition} from './facility-contact.js';
 
-export function resolveActorRoom(scene,{session,floorId,roomId,spawns}={}) {
+export function resolveActorRoom(scene,{session,floorId,roomId,spawns,primaryUsePointId}={}) {
   if (!session?.scene?.root || scene.getObjectById(session.scene.root.id)!==session.scene.root)
     throw Error('facility-room-must-share-actor-scene');
   const nav=createFacilityNavigation(session.scene,floorId,roomId);
   const {transform,bounds}=nav.region, center=transform.position;
+  const pointsInRoom=session.scene.describeUsePoints({floorId}).filter(p=>p.roomId===roomId);
+  const supportsVocal=pointsInRoom.some(p=>p.kind==='standing-vocal' && p.contact?.pickupNodeId);
+  const primary=primaryUsePointId===undefined ? undefined : pointsInRoom.find(p=>p.id===primaryUsePointId);
+  if (primaryUsePointId!==undefined && !primary) throw Error('primary-use-point-outside-actor-room');
   const free=p=>finitePosition(p) && Math.abs(p[1]-center[1])<.001 && nav.clear(p,p);
   if (spawns!==undefined && (!Array.isArray(spawns) || spawns.length<1 || spawns.length>2 || !spawns.every(free)))
     throw Error('invalid-facility-spawns');
   const points=spawns?structuredClone(spawns):[];
   if (!spawns) {
-    const destinations=session.scene.describeUsePoints({floorId}).filter(p=>p.roomId===roomId && p.contact?.seatNodeId);
-    const reach=destinations[0]?.approachPosition;
+    const reach=(primary??pointsInRoom.find(p=>p.contact?.seatNodeId || p.kind==='standing-vocal'))?.approachPosition;
     const size=Math.ceil(Math.hypot(bounds.width,bounds.depth)/.7);
     for (let ring=0;points.length<2 && ring<=size;ring++) {
       for (let x=-ring;x<=ring && points.length<2;x++) for (let z=-ring;z<=ring && points.length<2;z++) {
@@ -27,7 +30,7 @@ export function resolveActorRoom(scene,{session,floorId,roomId,spawns}={}) {
   }
   if (points.length===2 && Math.hypot(points[0][0]-points[1][0],points[0][2]-points[1][2])<.42)
     throw Error('overlapping-facility-spawns');
-  return {session,floorId,roomId,spawns:points};
+  return {session,floorId,roomId,spawns:points,supportsVocal};
 }
 
 export function captureFacilityState(room,actors) {
