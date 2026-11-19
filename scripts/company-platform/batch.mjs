@@ -57,7 +57,7 @@ function validateBatch(batch,only){
   const keys=new Set(),ids=new Set();
   for(const [index,item]of batch.items.entries()){
     const location=`items[${index}]`;
-    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance','productShowcases','interviewRooms','singingRooms','teaStations','publicWashrooms','meetingRooms','publicStorageRooms','wayfindingRooms'].includes(key))||
+    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','studioLoungeSet','trainingClearance','productShowcases','interviewRooms','singingRooms','teaStations','publicWashrooms','meetingRooms','publicStorageRooms','wayfindingRooms'].includes(key))||
         typeof item.key!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(item.key)||
         /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(item.key))
       fail('invalid-batch-key',location,'Use a portable nonempty directory key with letters, digits, underscore or hyphen');
@@ -125,6 +125,22 @@ async function prepare(item,sourceHashes){
       operations.push(...workstationLookOperations(document,assignment.stationId,recipe,catalog,templates));
     }
     if(operations.length)document=prepareCompanyChange(document,operations,{catalog,templates}).document;
+  }
+  let studioLoungeSet;
+  if (Object.hasOwn(item,'studioLoungeSet')) {
+    const {loadStudioLoungeRecipe,studioLoungeOperations} = await import('./install-studio-lounge-set.mjs');
+    const {checkStudioLoungeDesk} = await import('./check-studio-lounge-set.mjs');
+    const binding = item.studioLoungeSet;
+    const {recipe,source} = await loadStudioLoungeRecipe(binding?.recipe);
+    sourceHashes[source] = binding.recipe.sha256;
+    Object.assign(sourceHashes,await sources(['scripts/company-platform/install-studio-lounge-set.mjs',
+      'scripts/company-platform/check-studio-lounge-set.mjs','prototype/src/company/facility-edit-data.js']));
+    const {operations,secondaryId} = studioLoungeOperations(document,binding,recipe,{catalog,templates});
+    const candidate = prepareCompanyChange(document,operations,{catalog,templates}).document;
+    inspectCompanyMotionSweep(document,candidate,catalog,templates);
+    const geometry = await checkStudioLoungeDesk(candidate,{catalog,templates,stationId:binding.station,secondaryId});
+    studioLoungeSet = {recipe:binding.recipe,live:binding.live,waiting:binding.waiting,sofa:binding.sofa,geometry};
+    document = candidate;
   }
   if (Object.hasOwn(item,'singingRooms')) document.singingRooms = structuredClone(item.singingRooms);
   const connections=inspectCompanyConnections(document,catalog,templates);
@@ -228,7 +244,7 @@ async function prepare(item,sourceHashes){
     documentRevision:document.revision,dependencies:saved.dependencies,assetDependencies,sourceHashes,
     ...(styleRecipe ? {styleRecipe} : {}),
     files:Object.fromEntries(Object.entries(files).map(([name,bytes])=>[name,{bytes:bytes.length,sha256:hash(bytes)}])),
-    checks:{connections,placement,...(trainingClearance ? {trainingClearance} : {}),...(productShowcases ? {productShowcases} : {}),
+    checks:{connections,placement,...(studioLoungeSet ? {studioLoungeSet} : {}),...(trainingClearance ? {trainingClearance} : {}),...(productShowcases ? {productShowcases} : {}),
       ...(interviewRooms ? {interviewRooms} : {}),...(singingRooms ? {singingRooms} : {}),...(teaStations?.length ? {teaStations} : {}),
       ...(publicWashrooms?.length ? {publicWashrooms} : {}),...(meetingRooms?.length ? {meetingRooms} : {}),
       ...(publicStorageRooms?.length ? {publicStorageRooms} : {}),...(wayfindingRooms?.length ? {wayfindingRooms} : {}),...(wallAbsorberRooms?.length ? {wallAbsorberRooms} : {})},

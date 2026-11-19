@@ -1,0 +1,360 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "rental-lounge",
+      "input": {
+        "id": "concept-lounge-rental",
+        "name": "概念图二 · 整套房休息室",
+        "scale": "rental-home",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              },
+              {
+                "id": "work",
+                "name": "工作间",
+                "purpose": "work",
+                "furniture": "desk-chair"
+              },
+              {
+                "id": "lounge",
+                "name": "休息室",
+                "purpose": "rest",
+                "sofaVersion": 1
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set-surface-finish",
+          "id": "concept-lounge-rental/ground/lounge",
+          "surface": "floor",
+          "finish": {
+            "resource": {
+              "id": "floor-herringbone",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "move",
+          "id": "concept-lounge-rental/ground/lounge/sofa",
+          "transform": {
+            "position": [
+              -1.58,
+              0,
+              0.08
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "concept-lounge-rental/ground/lounge/rug",
+          "name": "沙发前地毯",
+          "parentId": "concept-lounge-rental/ground/lounge",
+          "resource": {
+            "id": "rug-border",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -0.49,
+              0,
+              0.06
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "concept-lounge-rental/ground/lounge/cup-table",
+          "name": "茶杯边几",
+          "parentId": "concept-lounge-rental/ground/lounge",
+          "resource": {
+            "id": "side-table-carved-round",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -1.3,
+              0,
+              1.6
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "concept-lounge-rental/ground/lounge/cup",
+          "name": "茶杯",
+          "parentId": "concept-lounge-rental/ground/lounge/cup-table",
+          "attachment": {
+            "surfaceId": "top"
+          },
+          "resource": {
+            "id": "side-table-life-cup",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.035,
+              0.5,
+              -0.012
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "concept-lounge-rental/ground/lounge/book-table",
+          "name": "阅读边几",
+          "parentId": "concept-lounge-rental/ground/lounge",
+          "resource": {
+            "id": "side-table-round",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -1.47,
+              0,
+              -1.52
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "concept-lounge-rental/ground/lounge/book",
+          "name": "笔记本与笔筒",
+          "parentId": "concept-lounge-rental/ground/lounge/book-table",
+          "attachment": {
+            "surfaceId": "top"
+          },
+          "resource": {
+            "id": "side-table-life-pen-notebook",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -0.026,
+              0.5,
+              0.01
+            ],
+            "yaw": 0
+          }
+        }
+      ],
+      "studioLoungeSet": {
+        "recipe": {
+          "id": "concept-studio-lounge",
+          "version": 1,
+          "sha256": "b7a4de57570f0aafce31063d7bfdf47a806e5ff3b736d7d51818137da72fa60c"
+        },
+        "live": "concept-lounge-rental/ground/live",
+        "station": "concept-lounge-rental/ground/live/station-1",
+        "waiting": "concept-lounge-rental/ground/lounge",
+        "sofa": "concept-lounge-rental/ground/lounge/sofa",
+        "shelfWall": {
+          "edge": "north",
+          "along": 0.85
+        },
+        "tableYaw": 0,
+        "reuse": {
+          "table": "concept-lounge-rental/ground/lounge/cup-table",
+          "cup": "concept-lounge-rental/ground/lounge/cup"
+        }
+      }
+    },
+    {
+      "key": "cool-studios",
+      "input": {
+        "id": "cool-studios",
+        "name": "两层冷色直播公司",
+        "scale": "building",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "floors": [
+          {
+            "id": "floor-alpha",
+            "name": "直播层",
+            "rooms": [
+              {
+                "id": "alpha-stream",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 2
+              },
+              {
+                "id": "alpha-work",
+                "name": "工作间",
+                "purpose": "work",
+                "furniture": "desk-chair"
+              },
+              {
+                "id": "alpha-rest",
+                "name": "休息间",
+                "purpose": "rest",
+                "sofaVersion": 1
+              }
+            ]
+          },
+          {
+            "id": "floor-beta",
+            "name": "训练层",
+            "rooms": [
+              {
+                "id": "beta-stream",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              },
+              {
+                "id": "beta-training",
+                "name": "培训间",
+                "purpose": "training",
+                "furniture": "desk-chair"
+              },
+              {
+                "id": "beta-rest",
+                "name": "休息间",
+                "purpose": "rest",
+                "sofaVersion": 1
+              }
+            ]
+          }
+        ]
+      },
+      "styleRecipe": {
+        "version": 1,
+        "id": "cool-work-v1",
+        "name": "冷静制作间",
+        "surfaces": {
+          "default": {
+            "wall": {
+              "resource": {
+                "id": "wall-diamond-grid",
+                "version": 1
+              }
+            },
+            "floor": {
+              "resource": {
+                "id": "floor-checker-tile",
+                "version": 1
+              }
+            }
+          },
+          "purposes": {
+            "work": {
+              "wall": {
+                "resource": {
+                  "id": "wall-arc-fan",
+                  "version": 1
+                }
+              },
+              "floor": {
+                "resource": {
+                  "id": "floor-terrazzo",
+                  "version": 1
+                }
+              }
+            }
+          }
+        },
+        "facilities": {
+          "default": {
+            "desk": {
+              "id": "desk-frame",
+              "version": 1
+            },
+            "monitor": {
+              "id": "monitor-slate",
+              "version": 1
+            },
+            "keyboard": {
+              "id": "keyboard-console",
+              "version": 1
+            },
+            "desk-microphone": {
+              "id": "desk-microphone-capsule",
+              "version": 1
+            },
+            "chair": {
+              "id": "chair-crossbeam",
+              "version": 1
+            },
+            "fill-light": {
+              "id": "fill-light-panel",
+              "version": 1
+            },
+            "sofa": {
+              "id": "sofa-modular",
+              "version": 1
+            },
+            "plant": {
+              "id": "plant-bonsai",
+              "version": 1
+            },
+            "rug": {
+              "id": "rug-inset",
+              "version": 1
+            },
+            "floor-panel": {
+              "id": "floor-panel-herringbone",
+              "version": 1
+            },
+            "wall-panel": {
+              "id": "wall-panel-ribbed",
+              "version": 1
+            },
+            "wall-art": {
+              "id": "wall-art-woven",
+              "version": 1
+            },
+            "window-panel": {
+              "id": "window-panel-round",
+              "version": 1
+            },
+            "door-frame": {
+              "id": "door-frame-crown",
+              "version": 2
+            }
+          }
+        }
+      },
+      "studioLoungeSet": {
+        "recipe": {
+          "id": "concept-studio-lounge",
+          "version": 1,
+          "sha256": "b7a4de57570f0aafce31063d7bfdf47a806e5ff3b736d7d51818137da72fa60c"
+        },
+        "live": "cool-studios/floor-alpha/alpha-stream",
+        "station": "cool-studios/floor-alpha/alpha-stream/station-1",
+        "waiting": "cool-studios/floor-alpha/alpha-rest",
+        "sofa": "cool-studios/floor-alpha/alpha-rest/sofa",
+        "shelfWall": {
+          "edge": "west",
+          "along": -1.65
+        },
+        "tableYaw": 0
+      }
+    }
+  ]
+}

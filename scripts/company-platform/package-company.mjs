@@ -513,6 +513,19 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     const trainingClearance=bindTrainingDocument(document,binding,input,trainingContext);
     if (trainingSource?.kind === 'batch-input') {
       const declaration = decode(trainingSource.bytes,'batch-result/input.json');
+      if (Object.hasOwn(declaration,'studioLoungeSet')) {
+        const ref = declaration.studioLoungeSet?.recipe;
+        if (!ref || typeof ref.id !== 'string' || !/^[a-z][a-z0-9-]{0,62}$/.test(ref.id) ||
+            !Number.isSafeInteger(ref.version) || ref.version < 1 || !/^[0-9a-f]{64}$/.test(ref.sha256))
+          fail('invalid-studio-lounge-recipe',input,'The installation requires an exact recipe version and SHA-256');
+        const file = 'scripts/company-platform/studio-lounge-sets/'+ref.id+'.v'+ref.version+'.json';
+        const bytes = await read(source,file), recipe = decode(bytes,file);
+        if (hash(bytes) !== ref.sha256 || recipe.id !== ref.id || recipe.version !== ref.version)
+          fail('studio-lounge-recipe-mismatch',file,'The source recipe differs from the installed batch input');
+        const prior = files.get('source/'+file);
+        if (prior && !prior.bytes.equals(bytes)) fail('studio-lounge-recipe-mismatch',file,'Recipe bytes changed while packing rooms');
+        if (!prior) add('source/'+file,bytes,'editable-production-source');
+      }
       const declared = Object.hasOwn(declaration,'productShowcases') ? declaration.productShowcases : declaration.document?.productShowcases;
       if (JSON.stringify(canonical(declared)) !== JSON.stringify(canonical(document.productShowcases)))
         fail('showcase-batch-binding-mismatch',input,'Saved showcase roles and clearances differ from the batch declaration');
@@ -846,6 +859,15 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   }
   for(const folder of ['scripts/company-platform/batch-inputs','scripts/company-platform/space-inputs','scripts/company-platform/space-v2-inputs','scripts/company-platform/surface-inputs'])for(const name of await list(source,folder)){
     if(!name.endsWith('.json'))fail('unsupported-production-input',name,'Production input folders must contain JSON only');supplemental.add(name);
+  }
+  if (supplemental.has('scripts/company-platform/batch-inputs/studio-lounge-set.json')) {
+    for (const file of ['install-studio-lounge-set.mjs','check-studio-lounge-set.mjs','test-studio-lounge-set.mjs','test-studio-lounge-batch.mjs','qa-studio-lounge-set.cjs'])
+      supplemental.add('scripts/company-platform/'+file);
+    supplemental.add('docs/research/COMPANY-STUDIO-LOUNGE-SET.md');
+    for (const file of await list(source,'scripts/company-platform/studio-lounge-sets')) {
+      if (!file.endsWith('.json')) fail('unsupported-production-input',file,'Studio lounge recipes must be JSON');
+      supplemental.add(file);
+    }
   }
   const assetDependencies=[],provenance=[];
   if(supplemental.has('scripts/company-platform/batch-inputs/vocal-height-rooms.json')) {
