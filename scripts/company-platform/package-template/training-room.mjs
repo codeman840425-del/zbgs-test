@@ -194,7 +194,7 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
   if (origin || choice || identical.length) return possible[0]?.evidence;
 }
 
-function vocalDeclarations(layout) {
+export function vocalDeclarations(layout) {
   return (layout.singingRooms??[]).filter(rule=>rule.performer?.coordinateSpace==='facility')
     .map(rule=>({regionId:rule.regionId,micId:rule.roles.mic,performer:rule.performer}));
 }

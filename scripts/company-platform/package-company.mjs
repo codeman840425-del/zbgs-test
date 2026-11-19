@@ -3,6 +3,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {bindTrainingDocument,bindingFromSource,editedTrainingBinding,resolveTrainingBinding} from './package-template/training-room.mjs';
+import {inheritVocalOrigin,readVocalAuthority,validOriginKey} from './package-template/vocal-origin.mjs';
 
 const defaultSource=fileURLToPath(new URL('../../',import.meta.url));
 const fixedInputs=['company.html','vite.company.config.js','scripts/build-company-id.mjs','package.json','package-lock.json'];
@@ -362,7 +363,7 @@ export async function checkManagedOutput(output, toolSource = defaultSource) {
       '临时包和试制包请放入 output 或 company-workspace/production-trials。正式版本请直接放入 company-workspace/deliveries/<版本名>。');
 }
 
-export async function packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot=defaultSource,rooms=[],seatContacts=false}){
+export async function packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot=defaultSource,rooms=[],seatContacts=false,vocalOrigins=[]}){
   if(!/^[a-f0-9]{12}$/.test(buildId||''))fail('invalid-package-build','buildId','Expected the explicit 12-hex company build identity');
   for(const [key,value]of Object.entries({distDirectory,inputPath,outputDirectory,sourceRoot}))if(typeof value!=='string'||!value)fail('invalid-package-argument',key,'Explicit input/output paths are required');
   if (typeof seatContacts !== 'boolean') fail('invalid-package-argument', 'seatContacts', 'Expected true or false');
@@ -434,9 +435,16 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   if (seatContacts) await noLinks(seatCheckerFile);
   const seatContactReports = [];
   const usePointReports = [];
+  const roomOrigins=[], authorities=new Map();
+  const outputKeys=new Set(['@default',...rooms.map(item=>item.key)]);
+  for (const origin of vocalOrigins) {
+    if (!validOriginKey(origin.key) || !outputKeys.has(origin.key) || authorities.has(origin.key))
+      fail('invalid-vocal-origin-target',origin.key,'Select one existing output room per source binding');
+    authorities.set(origin.key,await readVocalAuthority(origin));
+  }
   const trainingContext={catalog,templates,createScaledCompany:space.createScaledCompany,
     createCompanyScaleV2:scale.createCompanyScaleV2,prepareCompanyChange:documentTools.prepareCompanyChange};
-  async function includeScene(input,prefix){
+  async function includeScene(input,prefix,key){
     let inputBytes,inputFiles=[],trainingSource,binding;
     let inputIsDirectory=(await fs.lstat(input)).isDirectory();
     const folder=inputIsDirectory?input:path.dirname(input);
@@ -563,6 +571,9 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       seatContactReports.push({path: reportPath, companyId: document.id, seatCount: points.length});
     }
     const saveBytes=json(saved);
+    const authority=authorities.get(key);
+    const origin=authority?inheritVocalOrigin(authority,document,vocalPoints):{mode:trainingSource?.kind==='batch-input'?'batch-declared':'independent'};
+    roomOrigins.push({key,companyId:document.id,saveSha256:hash(saveBytes),...origin});
     if(vocalPoints.length) {
       const pointPath=prefix+'/use-points.json';
       add(pointPath,json({schema:'company-installed-use-points',version:1,companyId:document.id,
@@ -572,12 +583,12 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     add(prefix+'/save.json',saveBytes,'complete-pinned-save');add(prefix+'/layout.json',json(document),'complete-editable-layout');
     return {saved,document,trainingClearance};
   }
-  const {saved,document,trainingClearance}=await includeScene(input,'data');
+  const {saved,document,trainingClearance}=await includeScene(input,'data','@default');
   const roomKeys=new Set();
   for(const {key,folder} of rooms){
     if(!/^[a-z][a-z0-9-]{0,62}$/.test(key)||roomKeys.has(key))fail('invalid-package-room',key,'Expected a unique room key');
     roomKeys.add(key);
-    await includeScene(await noLinks(folder),`data/rooms/${key}`);
+    await includeScene(await noLinks(folder),`data/rooms/${key}`,key);
   }
   add('data/library-catalog.json',catalogBytes,'complete-catalog');
   add('data/templates.json',templateBytes,'complete-templates');
@@ -739,6 +750,9 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   if (supplemental.has('scripts/company-platform/batch-inputs/vocal-use-rooms.json')) {
     for(const name of ['test-vocal-slots.mjs','qa-vocal-slot.cjs','test-vocal-slot-handoff.mjs'])
       supplemental.add('scripts/company-platform/'+name);
+    const lineageTest='scripts/company-platform/test-vocal-lineage.mjs';
+    try {await noLinks(path.join(source,lineageTest));supplemental.add(lineageTest);}
+    catch(error){if(error.code!=='ENOENT')throw error;}
   }
   if (supplemental.has('scripts/company-platform/batch-inputs/interview-rooms.json')) {
     for (const name of ['check-interview-room.mjs','public-door-access.mjs','test-interview-public-door.mjs','test-interview-room.mjs','qa-interview-rooms.cjs'])
@@ -826,12 +840,13 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   const readme=(await read(toolRoot,'package-template/README.template.md')).toString('utf8').replaceAll('{{BUILD_ID}}',buildId).replaceAll('{{SOURCE_DIGEST}}',info.sourceDigest);
   add('README.md',Buffer.from(readme,'utf8'),'handoff-instructions');add('serve.mjs',await read(toolRoot,'package-template/serve.mjs'),'local-http-viewer');
   add('edit.mjs',await read(toolRoot,'package-template/edit.mjs'),'standalone-data-editor');
+  add('check-vocal-origin.mjs',await read(toolRoot,'package-template/check-vocal-origin.mjs'),'reviewed-vocal-room-reader');
   add('verify.mjs',await read(toolRoot,'package-template/verify.mjs'),'verify-clean-handoff');
   const manifest={schema:'company-transfer',version:1,buildId,sourceDigest:info.sourceDigest,
     runtimeInputs,sourceVerification:{method:'SHA256 of each manifest path, NUL, original bytes, NUL in sorted input order',inputs:sourceFiles},
     savedCompany:{id:document.id,revision:document.revision,...(trainingClearance ? {trainingClearance}:{}),floors:document.nodes.filter(node=>node.kind==='floor').map(node=>node.id),dependencies:saved.dependencies},
     ...(seatContacts ? {seatContactReports} : {}),
-    ...(usePointReports.length ? {usePointReports} : {}),
+    roomOrigins,...(usePointReports.length ? {usePointReports} : {}),
     assetDependencies,productionSources:provenance,runtimeFiles,
     files:[...files].sort(([a],[b])=>a.localeCompare(b)).map(([name,file])=>({path:name,scope:file.scope,bytes:file.bytes.length,sha256:hash(file.bytes)})),
     limits:['Fixed manifest source identity and exact packaged viewer bytes are verified. Rebuild equivalence and browser use require separate acceptance.',
@@ -857,19 +872,20 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
 
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
   const [distDirectory,buildId,inputPath,outputDirectory,...options]=process.argv.slice(2);
-  if(distDirectory==='--help')console.log('node package-company.mjs FIXED_DIST BUILD_ID SAVE_OR_BATCH_RESULT OUT_NEW_DIR [--source FIXED_SOURCE_ROOT] [--seat-contacts] [--room KEY SAVE_OR_BATCH_RESULT]...');
+  if(distDirectory==='--help')console.log('node package-company.mjs FIXED_DIST BUILD_ID SAVE_OR_BATCH_RESULT OUT_NEW_DIR [--source FIXED_SOURCE_ROOT] [--seat-contacts] [--room KEY SAVE_OR_BATCH_RESULT]... [--inherit-vocal OUTPUT_KEY SOURCE_PACKAGE SOURCE_MANIFEST_SHA256 SOURCE_ROOM_KEY]...');
   else {
     const run=async()=>{
       let sourceRoot, seatContacts = false;
-      const rooms=[];
+      const rooms=[],vocalOrigins=[];
       while(options.length){
         const flag=options.shift();
         if(flag==='--source'&&!sourceRoot&&options[0])sourceRoot=options.shift();
         else if(flag==='--seat-contacts'&&!seatContacts)seatContacts=true;
         else if(flag==='--room'&&options.length>=2)rooms.push({key:options.shift(),folder:options.shift()});
+        else if(flag==='--inherit-vocal'&&options.length>=4)vocalOrigins.push({key:options.shift(),packageRoot:options.shift(),manifestSha256:options.shift(),sourceRoomKey:options.shift()});
         else throw Error(`Invalid package option ${flag}`);
       }
-      const manifest=await packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot,rooms,seatContacts});
+      const manifest=await packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot,rooms,seatContacts,vocalOrigins});
       console.log(JSON.stringify({ok:true,buildId:manifest.buildId,companyId:manifest.savedCompany.id,rooms:rooms.map(room=>room.key),files:manifest.files.length,output:path.resolve(outputDirectory)},null,2));
     };
     run().catch(error=>{console.error(JSON.stringify({ok:false,code:error.code||'io-error',path:error.path,message:error.message,details:error.details},null,2));process.exitCode=1;});
