@@ -1,0 +1,65 @@
+{
+  "schema": "seat-clearance-combined-replay-v1",
+  "status": "exact-cross-checkout-replay-pass",
+  "runtime": {
+    "sourceCommit": "989deed323a781010931518650cd26256d3c3a02",
+    "sourceDigest": "d9140194fb8429f139d60e0b2aeedc75f47ee8448294eb41883229e0f3f7d800",
+    "buildId": "d9140194fb84",
+    "entry": "record-consumer.html",
+    "entryUrl": "record-consumer.html?records=/records/manifest.json"
+  },
+  "repeatRuntimeCheckout": "experiments/worktrees/seat-clear-989deed3-repeat",
+  "reviewPath": "scripts/runtime-package/game-record-seat-clearance-reviewed.json",
+  "reviewSha256": "4c941b611defb0108cde6c363be1b07b58238eb0f10c5cdb2c0e4225d90fea1a",
+  "recordInput": "evidence/m2-uniform-lite-operator-v1/records.json",
+  "recordInputSha256": "d38cd555d8b125c606ef28775b08fa96b2834c40c082e7ee06478dc4035f6989",
+  "records": [
+    {
+      "id": "uniform-lite-female-v1",
+      "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+    },
+    {
+      "id": "uniform-lite-male-v1",
+      "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+    }
+  ],
+  "gameInventory": "evidence/m2-company-seat-clearance-v1/inventory.json",
+  "gameExport": {
+    "reference": "output/m2-company-seat-clearance-fixed/pair",
+    "repeat": "output/m2-company-seat-clearance-fixed/repeat-pack/pair",
+    "manifestSha256": "1759505cc6ef16f93a16508ba795ac52c060e137306f0742d4950423d71f8406",
+    "files": 34,
+    "bytes": 43871201,
+    "manifestDeclaredFilesVerified": 33,
+    "byteDifferences": []
+  },
+  "packagerPath": "experiments/worktrees/company-seat-tools-8dfed231/scripts/production/package-facility-room.mjs",
+  "packagerCommit": "8dfed23169ada19c2e1edcdbac42b508494c1874",
+  "packagerSha256": "0c5f517498cd53d3b7aa7be0dda01c6a003c482af2788ef4799ad153f1ded2ef",
+  "packagerDependencies": {
+    "location": "prototype/node_modules",
+    "three": "0.187.0",
+    "esbuild": "0.28.2"
+  },
+  "companyTransfer": {
+    "path": "F:/gamemake-test/native-studio-round/official-pair/body-texture-f496/received-room",
+    "manifestSha256": "6359150e83c284125dc757ac6680cc326d58bf57df142dfc4af0d6b522c658f2",
+    "sourceDigest": "d57333ea66d2583145e5a0ad230c4e7b878fdf318fe58aba35028facfd203e09"
+  },
+  "combined": {
+    "reference": "output/m2-company-seat-clearance-fixed/rooms",
+    "repeat": "output/m2-company-seat-clearance-fixed/repeat-pack/rooms",
+    "manifestSha256": "1c86367d0ac35a67957138b2db11ed0f1a1fd12c124792c72d5a9db56f9eedf8",
+    "files": 597,
+    "bytes": 71834003,
+    "manifestDeclaredFilesVerified": 596,
+    "byteDifferences": []
+  },
+  "failureAndRetry": {
+    "failure": "Transfer manifest SHA-256 mismatch: runtime-package.json",
+    "failedOutputCreated": false,
+    "log": "output/m2-company-seat-clearance-fixed/repeat-pack/rejected-room.log",
+    "retryWithArchivedInventory": "pass"
+  },
+  "cleanRuntimeAndToolsCheckouts": true
+}

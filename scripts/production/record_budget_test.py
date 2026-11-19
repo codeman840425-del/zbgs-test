@@ -10,7 +10,7 @@ import unittest
 from unittest.mock import patch
 
 from asset_budget import AssetCost
-from record_budget import (LIP_IMAGE_PREFIX, ROOT, SKIN_IMAGE_PREFIX, UnsupportedBudget, collected_records,
+from record_budget import (LIP_IMAGE_PREFIX, ROOT, SKIN_IMAGE_PREFIX, UnsupportedBudget, collected_records, concurrent_assessment,
                            image_cost, legacy_texture_groups, main, measure, model_roles,
                            fitted_head_family, runtime_source_sha, skin_cache, validate_fitted_head_recipe,
                            validate_fitted_warm_skin_record)
@@ -24,6 +24,7 @@ UNIFORM_HEAD_EVIDENCE = ROOT / 'evidence/m2-uniform-lite-head-intake-v1'
 UNIFORM_WARM_EVIDENCE = ROOT / 'evidence/m2-uniform-skin-v1'
 FIXED_LEGACY = ROOT / 'experiments/worktrees/garment-80fb16b7'
 FIXED_UNIFORM_HEAD = ROOT / 'experiments/worktrees/head-ba9a95f6'
+FIXED_UNIFORM_WARM = ROOT / 'experiments/worktrees/warm-d96411eb'
 
 
 class ReviewedLegacyAppearanceTests(unittest.TestCase):
@@ -152,10 +153,10 @@ class RecordBudgetTests(unittest.TestCase):
         path.write_text(json.dumps(records), encoding='utf-8')
         return measure(path, self.source, 'm2-technical-v1')
 
-    def run_cli(self, path):
+    def run_cli(self, path, *options, source=None):
         stdout = io.StringIO()
-        argv = ['record_budget.py', 'measure', str(path), '--source-root', str(self.source),
-                '--budget-version', 'm2-technical-v1']
+        argv = ['record_budget.py', 'measure', str(path), '--source-root', str(source or self.source),
+                '--budget-version', 'm2-technical-v1', *options]
         with patch.object(sys, 'argv', argv), redirect_stdout(stdout):
             code = main()
         return code, json.loads(stdout.getvalue())
@@ -310,6 +311,68 @@ console.log(JSON.stringify(result));
         ])
         self.assertFalse(actual['runtimeAdmission'])
         self.assertEqual(actual['ordinaryPCPerformance'], 'unmeasured')
+
+    def test_only_explicit_actor_groups_affect_concurrent_budget_and_cli_exit(self):
+        if not (FIXED_UNIFORM_WARM / 'prototype/src/fitted-head-appearances.json').is_file():
+            self.skipTest('Exact signed uniform skin source is unavailable')
+        inputs = UNIFORM_WARM_EVIDENCE / 'signed-pair.json'
+        archived = json.loads((UNIFORM_WARM_EVIDENCE / 'budget-signed-pair.json').read_bytes())
+        ids = [row['id'] for row in archived['records']]
+        code, default = self.run_cli(inputs, source=FIXED_UNIFORM_WARM)
+        self.assertEqual(code, 0)
+        self.assertEqual(default, archived)
+        code, separate = self.run_cli(inputs, '--concurrent-group', ids[0], '--concurrent-group', ids[1],
+                                      source=FIXED_UNIFORM_WARM)
+        self.assertEqual(code, 0)
+        for group, record in zip(separate['concurrentAssessment']['groups'], archived['records'], strict=True):
+            self.assertEqual(group['actors'], [{key: record[key] for key in ('id', 'revision', 'recordSha256')}])
+            self.assertEqual(group['closureUnionSourceBytes'], record['closureSourceBytes'])
+            self.assertEqual(group['sumAcrossSelectedActors']['rgba8MipBytes'], 138063528)
+            self.assertEqual(group['excesses'], [])
+        code, combined = self.run_cli(inputs, '--concurrent-group', *ids, source=FIXED_UNIFORM_WARM)
+        self.assertEqual(code, 1)
+        scope = combined.pop('concurrentAssessment')
+        self.assertEqual(combined, archived)
+        self.assertEqual(scope['status'], 'over-temporary-reference')
+        group, = scope['groups']
+        proof = json.loads((UNIFORM_WARM_EVIDENCE / 'budget-concurrent-proof.json').read_bytes())['concurrentSelectedActorReference']
+        for key in ('status', 'sumAcrossSelectedActors', 'closureUnionFileCount', 'closureUnionSourceBytes', 'excesses'):
+            self.assertEqual(group[key], proof[key])
+
+    def test_concurrent_group_rejects_invalid_members_and_repeated_alternatives(self):
+        records = json.loads((UNIFORM_WARM_EVIDENCE / 'budget-signed-pair.json').read_bytes())['records']
+        warm, original = [row['id'] for row in records]
+        for groups, message in (([], 'at least one'), ([[]], 'one or two'), ([[warm]*3], 'one or two'),
+                                ([[warm, warm]], 'Duplicate actor'), ([['unknown']], 'signed input'),
+                                ([[warm, original], [original, warm]], 'Duplicate concurrent group')):
+            with self.subTest(groups=groups), self.assertRaisesRegex(ValueError, message):
+                concurrent_assessment(records, groups)
+
+    def test_group_file_limit_uses_the_subset_union_and_keeps_individual_model_excesses(self):
+        # Ordinary batch summaries include all alternatives. A subset has its
+        # own transfer closure and must not accidentally inherit unrelated files.
+        inputs = ROOT / 'evidence/m2-record-budget-v1/records.json'
+        rows = measure(inputs, self.source, 'm2-technical-v1')['records']
+        ids = [row['id'] for row in rows[:2]]
+        group, = concurrent_assessment(rows, [ids])['groups']
+        paths = {f['path']: f['bytes'] for r in rows[:2] for f in r['files']}
+        self.assertEqual(group['closureUnionFileCount'], len(paths))
+        self.assertEqual(group['closureUnionSourceBytes'], sum(paths.values()))
+        self.assertLess(len(paths), len({f['path'] for r in rows for f in r['files']}))
+        code, result = self.run_cli(inputs, '--concurrent-group', ids[0])
+        self.assertEqual(code, 1)
+        self.assertEqual(result['status'], 'over-budget')
+
+    def test_shared_transfer_dependency_counts_once_at_the_exact_limit(self):
+        base = {'revision': 1, 'recordSha256': 'f'*64,
+                'selectedCost': {'totals': {'placedNodeTriangles': 2, 'rgba8MipBytes': 4, 'textureObjects': 1}},
+                'files': [{'path': 'shared.vrm', 'sha256': 'e'*64, 'bytes': 64*1024**2}]}
+        first, second = dict(base, id='first'), dict(base, id='second')
+        def group():
+            return concurrent_assessment([first, second], [['first', 'second']])['groups'][0]
+        self.assertEqual(group()['excesses'], [])
+        second['files'] = [*base['files'], {'path': 'another.bin', 'sha256': 'a'*64, 'bytes': 1}]
+        self.assertEqual(group()['excesses'], [{'metric': 'fileBytes', 'actual': 67108865, 'limit': 67108864, 'excess': 1}])
 
     def test_exact_records_cover_models_material_and_standalone_textures(self):
         report = self.run_measure(self.records)

@@ -1,0 +1,1938 @@
+{
+  "build": "d9140194fb84",
+  "passed": true,
+  "rooms": [
+    {
+      "room": "plant-home",
+      "seat": "plant-home/ground/live/station-1/chair#seat",
+      "first": "uniform-lite-female-v1",
+      "second": "uniform-lite-male-v1",
+      "sessions": [
+        {
+          "phase": "first",
+          "observations": [
+            {
+              "id": "uniform-lite-female-v1",
+              "kind": "sit",
+              "admission": {
+                "admission": "accepted",
+                "duplicate": false,
+                "reason": null,
+                "task": {
+                  "requestId": "plant-home/first/first-sit",
+                  "ownerId": "uniform-lite-female-v1",
+                  "kind": "sit",
+                  "payload": {
+                    "usePointId": "plant-home/ground/live/station-1/chair#seat"
+                  },
+                  "admission": "accepted",
+                  "state": "running",
+                  "requestedAt": 0.4909,
+                  "startedAt": 0.4909,
+                  "endedAt": null,
+                  "deadline": 60.4909,
+                  "reason": null,
+                  "result": null
+                }
+              }
+            },
+            {
+              "id": "uniform-lite-male-v1",
+              "kind": "sit",
+              "admission": {
+                "admission": "rejected",
+                "duplicate": false,
+                "reason": "seat-unavailable",
+                "task": {
+                  "requestId": "plant-home/first/contest",
+                  "ownerId": "uniform-lite-male-v1",
+                  "kind": "sit",
+                  "payload": {
+                    "usePointId": "plant-home/ground/live/station-1/chair#seat"
+                  },
+                  "admission": "rejected",
+                  "state": null,
+                  "requestedAt": 0.16809999999999992,
+                  "startedAt": null,
+                  "endedAt": 0.16809999999999992,
+                  "deadline": 60.1681,
+                  "reason": "seat-unavailable",
+                  "result": null
+                }
+              }
+            },
+            {
+              "result": {
+                "requestId": "plant-home/first/contest",
+                "ownerId": "uniform-lite-male-v1",
+                "kind": "sit",
+                "payload": {
+                  "usePointId": "plant-home/ground/live/station-1/chair#seat"
+                },
+                "admission": "rejected",
+                "state": null,
+                "requestedAt": 0.16809999999999992,
+                "startedAt": null,
+                "endedAt": 0.16809999999999992,
+                "deadline": 60.1681,
+                "reason": "seat-unavailable",
+                "result": null
+              }
+            },
+            {
+              "result": {
+                "requestId": "plant-home/first/first-sit",
+                "ownerId": "uniform-lite-female-v1",
+                "kind": "sit",
+                "payload": {
+                  "usePointId": "plant-home/ground/live/station-1/chair#seat"
+                },
+                "admission": "accepted",
+                "state": "completed",
+                "requestedAt": 0.4909,
+                "startedAt": 0.4909,
+                "endedAt": 6.72139999999994,
+                "deadline": 60.4909,
+                "reason": null,
+                "result": {
+                  "mode": "sit",
+                  "usePointId": "plant-home/ground/live/station-1/chair#seat",
+                  "position": [
+                    -0.7499999836392895,
+                    0,
+                    -0.3648934728597487
+                  ],
+                  "surface": [
+                    -0.7525172393742805,
+                    0.4700000001490116,
+                    0.049865164002128703
+                  ]
+                }
+              }
+            }
+          ],
+          "initial": {
+            "error": "民房 · 盆景直播桌 · plant-home · d9140194fb84",
+            "state": "ready",
+            "build": "d9140194fb84",
+            "ids": [
+              [
+                "uniform-lite-female-v1",
+                "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+              ],
+              [
+                "uniform-lite-male-v1",
+                "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+              ]
+            ]
+          },
+          "saved": {
+            "schema": "record-facility-state-v1",
+            "companyId": "plant-home",
+            "floorId": "plant-home/ground",
+            "roomId": "plant-home/ground/live",
+            "actors": [
+              {
+                "actorId": "uniform-lite-female-v1",
+                "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757",
+                "revision": 1,
+                "pose": {
+                  "phase": "seated",
+                  "position": [
+                    -0.7499999836392895,
+                    0,
+                    -0.3648934728597487
+                  ],
+                  "yaw": -3.1415926535897936,
+                  "seat": {
+                    "id": "plant-home/ground/live/station-1/chair#seat",
+                    "companyId": "plant-home",
+                    "floorId": "plant-home/ground",
+                    "roomId": "plant-home/ground/live",
+                    "facilityId": "plant-home/ground/live/station-1/chair",
+                    "resource": {
+                      "id": "chair-ladder",
+                      "version": 1
+                    },
+                    "transform": {
+                      "position": [
+                        -0.75,
+                        0,
+                        0.050000000000000044
+                      ],
+                      "yaw": 3.141592653589793
+                    },
+                    "facilityTransform": {
+                      "position": [
+                        -0.75,
+                        0,
+                        0.050000000000000044
+                      ],
+                      "yaw": 3.141592653589793
+                    },
+                    "approachPosition": [
+                      -0.7499999999999999,
+                      0,
+                      -0.5499999999999999
+                    ],
+                    "exitPosition": [
+                      -0.7499999999999999,
+                      0,
+                      -0.6
+                    ],
+                    "seatHeight": 0.47,
+                    "contact": {
+                      "seatNodeId": "chair-seat",
+                      "backNodeId": "chair-back"
+                    }
+                  },
+                  "requestId": "plant-home/first/first-sit",
+                  "remainingSeconds": null
+                }
+              },
+              {
+                "actorId": "uniform-lite-male-v1",
+                "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2",
+                "revision": 1,
+                "pose": {
+                  "phase": "idle",
+                  "position": [
+                    -0.7,
+                    0,
+                    0.7
+                  ],
+                  "yaw": 0,
+                  "seat": null,
+                  "requestId": null,
+                  "remainingSeconds": null
+                }
+              }
+            ]
+          },
+          "seated": {
+            "point": {
+              "id": "plant-home/ground/live/station-1/chair#seat",
+              "companyId": "plant-home",
+              "revision": 2,
+              "facilityId": "plant-home/ground/live/station-1/chair",
+              "floorId": "plant-home/ground",
+              "roomId": "plant-home/ground/live",
+              "resource": {
+                "id": "chair-ladder",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.75,
+                  0,
+                  0.050000000000000044
+                ],
+                "yaw": 3.141592653589793
+              },
+              "facilityTransform": {
+                "position": [
+                  -0.75,
+                  0,
+                  0.050000000000000044
+                ],
+                "yaw": 3.141592653589793
+              },
+              "local": {
+                "coordinateSpace": "facility",
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0,
+                "approach": [
+                  0,
+                  0,
+                  0.6
+                ],
+                "exit": [
+                  0,
+                  0,
+                  0.65
+                ]
+              },
+              "approachPosition": [
+                -0.7499999999999999,
+                0,
+                -0.5499999999999999
+              ],
+              "exitPosition": [
+                -0.7499999999999999,
+                0,
+                -0.6
+              ],
+              "seatHeight": 0.47,
+              "capacity": 1,
+              "clearance": {
+                "width": 0.7,
+                "depth": 0.65
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.275,
+                  0.255
+                ],
+                "blocking": true
+              },
+              "contact": {
+                "seatNodeId": "chair-seat",
+                "backNodeId": "chair-back"
+              },
+              "missingFields": [],
+              "limitations": [
+                "Static authoring envelope only; exact body alignment and use remain C3 validation."
+              ]
+            },
+            "pose": {
+              "phase": "seated",
+              "position": [
+                -0.7499999836392895,
+                0,
+                -0.3648934728597487
+              ],
+              "yaw": -3.1415926535897936,
+              "seat": {
+                "id": "plant-home/ground/live/station-1/chair#seat",
+                "companyId": "plant-home",
+                "floorId": "plant-home/ground",
+                "roomId": "plant-home/ground/live",
+                "facilityId": "plant-home/ground/live/station-1/chair",
+                "resource": {
+                  "id": "chair-ladder",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -0.75,
+                    0,
+                    0.050000000000000044
+                  ],
+                  "yaw": 3.141592653589793
+                },
+                "facilityTransform": {
+                  "position": [
+                    -0.75,
+                    0,
+                    0.050000000000000044
+                  ],
+                  "yaw": 3.141592653589793
+                },
+                "approachPosition": [
+                  -0.7499999999999999,
+                  0,
+                  -0.5499999999999999
+                ],
+                "exitPosition": [
+                  -0.7499999999999999,
+                  0,
+                  -0.6
+                ],
+                "seatHeight": 0.47,
+                "contact": {
+                  "seatNodeId": "chair-seat",
+                  "backNodeId": "chair-back"
+                }
+              },
+              "requestId": "plant-home/first/first-sit",
+              "remainingSeconds": null
+            },
+            "hips": [
+              -0.7525172394999178,
+              0.6078315930826511,
+              0.049903143907925274
+            ],
+            "root": [
+              -0.7499999836392895,
+              0,
+              -0.3648934728597487
+            ],
+            "owned": {
+              "token": "seat-lease:1",
+              "seatId": "plant-home/ground/live/station-1/chair#seat",
+              "ownerId": "uniform-lite-female-v1",
+              "requestId": "plant-home/first/first-sit",
+              "state": "occupied",
+              "releaseRequested": false,
+              "releaseReason": null
+            },
+            "rendered": true
+          },
+          "video": "plant-home-first-1x.webm"
+        },
+        {
+          "phase": "reopened",
+          "observations": [
+            {
+              "id": "uniform-lite-female-v1",
+              "kind": "stand",
+              "admission": {
+                "admission": "accepted",
+                "duplicate": false,
+                "reason": null,
+                "task": {
+                  "requestId": "plant-home/reopened/leave",
+                  "ownerId": "uniform-lite-female-v1",
+                  "kind": "stand",
+                  "payload": {
+                    "usePointId": "plant-home/ground/live/station-1/chair#seat"
+                  },
+                  "admission": "accepted",
+                  "state": "running",
+                  "requestedAt": 1.4304333333333343,
+                  "startedAt": 1.4304333333333343,
+                  "endedAt": null,
+                  "deadline": 61.43043333333333,
+                  "reason": null,
+                  "result": null
+                }
+              }
+            },
+            {
+              "result": {
+                "requestId": "plant-home/reopened/leave",
+                "ownerId": "uniform-lite-female-v1",
+                "kind": "stand",
+                "payload": {
+                  "usePointId": "plant-home/ground/live/station-1/chair#seat"
+                },
+                "admission": "accepted",
+                "state": "completed",
+                "requestedAt": 1.4304333333333343,
+                "startedAt": 1.4304333333333343,
+                "endedAt": 5.598333333333296,
+                "deadline": 61.43043333333333,
+                "reason": null,
+                "result": {
+                  "mode": "idle"
+                }
+              }
+            },
+            {
+              "id": "uniform-lite-male-v1",
+              "kind": "sit",
+              "admission": {
+                "admission": "accepted",
+                "duplicate": false,
+                "reason": null,
+                "task": {
+                  "requestId": "plant-home/reopened/interrupted-approach",
+                  "ownerId": "uniform-lite-male-v1",
+                  "kind": "sit",
+                  "payload": {
+                    "usePointId": "plant-home/ground/live/station-1/chair#seat"
+                  },
+                  "admission": "accepted",
+                  "state": "running",
+                  "requestedAt": 4.333199999999986,
+                  "startedAt": 4.333199999999986,
+                  "endedAt": null,
+                  "deadline": 64.33319999999999,
+                  "reason": null,
+                  "result": null
+                }
+              }
+            },
+            {
+              "result": {
+                "requestId": "plant-home/reopened/interrupted-approach",
+                "ownerId": "uniform-lite-male-v1",
+                "kind": "sit",
+                "payload": {
+                  "usePointId": "plant-home/ground/live/station-1/chair#seat"
+                },
+                "admission": "accepted",
+                "state": "cancelled",
+                "requestedAt": 4.333199999999986,
+                "startedAt": 4.333199999999986,
+                "endedAt": 4.3392999999999855,
+                "deadline": 64.33319999999999,
+                "reason": "cancelled",
+                "result": null
+              }
+            },
+            {
+              "id": "uniform-lite-male-v1",
+              "kind": "sit",
+              "admission": {
+                "admission": "accepted",
+                "duplicate": false,
+                "reason": null,
+                "task": {
+                  "requestId": "plant-home/reopened/second-sit",
+                  "ownerId": "uniform-lite-male-v1",
+                  "kind": "sit",
+                  "payload": {
+                    "usePointId": "plant-home/ground/live/station-1/chair#seat"
+                  },
+                  "admission": "accepted",
+                  "state": "running",
+                  "requestedAt": 4.345299999999986,
+                  "startedAt": 4.345299999999986,
+                  "endedAt": null,
+                  "deadline": 64.34529999999998,
+                  "reason": null,
+                  "result": null
+                }
+              }
+            },
+            {
+              "result": {
+                "requestId": "plant-home/reopened/second-sit",
+                "ownerId": "uniform-lite-male-v1",
+                "kind": "sit",
+                "payload": {
+                  "usePointId": "plant-home/ground/live/station-1/chair#seat"
+                },
+                "admission": "accepted",
+                "state": "completed",
+                "requestedAt": 4.345299999999986,
+                "startedAt": 4.345299999999986,
+                "endedAt": 13.42709999999997,
+                "deadline": 64.34529999999998,
+                "reason": null,
+                "result": {
+                  "mode": "sit",
+                  "usePointId": "plant-home/ground/live/station-1/chair#seat",
+                  "position": [
+                    -0.7499999999999999,
+                    0,
+                    -0.40631606637832307
+                  ],
+                  "surface": [
+                    -0.7525626709712004,
+                    0.4700000001490116,
+                    0.04991821589532064
+                  ]
+                }
+              }
+            },
+            {
+              "id": "uniform-lite-male-v1",
+              "kind": "stand",
+              "admission": {
+                "admission": "accepted",
+                "duplicate": false,
+                "reason": null,
+                "task": {
+                  "requestId": "plant-home/reopened/second-leave",
+                  "ownerId": "uniform-lite-male-v1",
+                  "kind": "stand",
+                  "payload": {
+                    "usePointId": "plant-home/ground/live/station-1/chair#seat"
+                  },
+                  "admission": "accepted",
+                  "state": "running",
+                  "requestedAt": 13.42709999999997,
+                  "startedAt": 13.42709999999997,
+                  "endedAt": null,
+                  "deadline": 73.42709999999997,
+                  "reason": null,
+                  "result": null
+                }
+              }
+            },
+            {
+              "result": {
+                "requestId": "plant-home/reopened/second-leave",
+                "ownerId": "uniform-lite-male-v1",
+                "kind": "stand",
+                "payload": {
+                  "usePointId": "plant-home/ground/live/station-1/chair#seat"
+                },
+                "admission": "accepted",
+                "state": "completed",
+                "requestedAt": 13.42709999999997,
+                "startedAt": 13.42709999999997,
+                "endedAt": 21.635400000000665,
+                "deadline": 73.42709999999997,
+                "reason": null,
+                "result": {
+                  "mode": "idle"
+                }
+              }
+            }
+          ],
+          "initial": {
+            "error": "民房 · 盆景直播桌 · plant-home · d9140194fb84",
+            "state": "ready",
+            "build": "d9140194fb84",
+            "ids": [
+              [
+                "uniform-lite-female-v1",
+                "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+              ],
+              [
+                "uniform-lite-male-v1",
+                "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+              ]
+            ]
+          },
+          "seated": {
+            "point": {
+              "id": "plant-home/ground/live/station-1/chair#seat",
+              "companyId": "plant-home",
+              "revision": 2,
+              "facilityId": "plant-home/ground/live/station-1/chair",
+              "floorId": "plant-home/ground",
+              "roomId": "plant-home/ground/live",
+              "resource": {
+                "id": "chair-ladder",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.75,
+                  0,
+                  0.050000000000000044
+                ],
+                "yaw": 3.141592653589793
+              },
+              "facilityTransform": {
+                "position": [
+                  -0.75,
+                  0,
+                  0.050000000000000044
+                ],
+                "yaw": 3.141592653589793
+              },
+              "local": {
+                "coordinateSpace": "facility",
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0,
+                "approach": [
+                  0,
+                  0,
+                  0.6
+                ],
+                "exit": [
+                  0,
+                  0,
+                  0.65
+                ]
+              },
+              "approachPosition": [
+                -0.7499999999999999,
+                0,
+                -0.5499999999999999
+              ],
+              "exitPosition": [
+                -0.7499999999999999,
+                0,
+                -0.6
+              ],
+              "seatHeight": 0.47,
+              "capacity": 1,
+              "clearance": {
+                "width": 0.7,
+                "depth": 0.65
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.275,
+                  0.255
+                ],
+                "blocking": true
+              },
+              "contact": {
+                "seatNodeId": "chair-seat",
+                "backNodeId": "chair-back"
+              },
+              "missingFields": [],
+              "limitations": [
+                "Static authoring envelope only; exact body alignment and use remain C3 validation."
+              ]
+            },
+            "pose": {
+              "phase": "seated",
+              "position": [
+                -0.7499999836392895,
+                0,
+                -0.3648934728597487
+              ],
+              "yaw": -3.1415926535897936,
+              "seat": {
+                "id": "plant-home/ground/live/station-1/chair#seat",
+                "companyId": "plant-home",
+                "floorId": "plant-home/ground",
+                "roomId": "plant-home/ground/live",
+                "facilityId": "plant-home/ground/live/station-1/chair",
+                "resource": {
+                  "id": "chair-ladder",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    -0.75,
+                    0,
+                    0.050000000000000044
+                  ],
+                  "yaw": 3.141592653589793
+                },
+                "facilityTransform": {
+                  "position": [
+                    -0.75,
+                    0,
+                    0.050000000000000044
+                  ],
+                  "yaw": 3.141592653589793
+                },
+                "approachPosition": [
+                  -0.7499999999999999,
+                  0,
+                  -0.5499999999999999
+                ],
+                "exitPosition": [
+                  -0.7499999999999999,
+                  0,
+                  -0.6
+                ],
+                "seatHeight": 0.47,
+                "contact": {
+                  "seatNodeId": "chair-seat",
+                  "backNodeId": "chair-back"
+                }
+              },
+              "requestId": "plant-home/first/first-sit",
+              "remainingSeconds": null
+            },
+            "hips": [
+              -0.7525172395937343,
+              0.6078315930826511,
+              0.049903143818674056
+            ],
+            "root": [
+              -0.7499999836392895,
+              0,
+              -0.3648934728597487
+            ],
+            "owned": {
+              "token": "seat-lease:1",
+              "seatId": "plant-home/ground/live/station-1/chair#seat",
+              "ownerId": "uniform-lite-female-v1",
+              "requestId": "plant-home/first/first-sit",
+              "state": "occupied",
+              "releaseRequested": false,
+              "releaseReason": null
+            },
+            "rendered": true
+          },
+          "standing": {
+            "point": {
+              "id": "plant-home/ground/live/station-1/chair#seat",
+              "companyId": "plant-home",
+              "revision": 2,
+              "facilityId": "plant-home/ground/live/station-1/chair",
+              "floorId": "plant-home/ground",
+              "roomId": "plant-home/ground/live",
+              "resource": {
+                "id": "chair-ladder",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -0.75,
+                  0,
+                  0.050000000000000044
+                ],
+                "yaw": 3.141592653589793
+              },
+              "facilityTransform": {
+                "position": [
+                  -0.75,
+                  0,
+                  0.050000000000000044
+                ],
+                "yaw": 3.141592653589793
+              },
+              "local": {
+                "coordinateSpace": "facility",
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0,
+                "approach": [
+                  0,
+                  0,
+                  0.6
+                ],
+                "exit": [
+                  0,
+                  0,
+                  0.65
+                ]
+              },
+              "approachPosition": [
+                -0.7499999999999999,
+                0,
+                -0.5499999999999999
+              ],
+              "exitPosition": [
+                -0.7499999999999999,
+                0,
+                -0.6
+              ],
+              "seatHeight": 0.47,
+              "capacity": 1,
+              "clearance": {
+                "width": 0.7,
+                "depth": 0.65
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.275,
+                  0.255
+                ],
+                "blocking": true
+              },
+              "contact": {
+                "seatNodeId": "chair-seat",
+                "backNodeId": "chair-back"
+              },
+              "missingFields": [],
+              "limitations": [
+                "Static authoring envelope only; exact body alignment and use remain C3 validation."
+              ]
+            },
+            "pose": {
+              "phase": "idle",
+              "position": [
+                -0.0900054742762742,
+                0,
+                0.05998893212777813
+              ],
+              "yaw": -5.8238592727201155,
+              "seat": null,
+              "requestId": null,
+              "remainingSeconds": null
+            },
+            "hips": [
+              -0.0970828686987824,
+              0.8669242628151286,
+              0.06286157945122245
+            ],
+            "root": [
+              -0.0900054742762742,
+              0,
+              0.05998893212777813
+            ],
+            "owned": null,
+            "rendered": true
+          },
+          "history": [
+            {
+              "type": "reserved",
+              "lease": {
+                "token": "seat-lease:1",
+                "seatId": "plant-home/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-female-v1",
+                "requestId": "plant-home/first/first-sit",
+                "state": "reserved",
+                "releaseRequested": false,
+                "releaseReason": null
+              }
+            },
+            {
+              "type": "occupied",
+              "lease": {
+                "token": "seat-lease:1",
+                "seatId": "plant-home/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-female-v1",
+                "requestId": "plant-home/first/first-sit",
+                "state": "occupied",
+                "releaseRequested": false,
+                "releaseReason": null
+              }
+            },
+            {
+              "type": "exiting",
+              "lease": {
+                "token": "seat-lease:1",
+                "seatId": "plant-home/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-female-v1",
+                "requestId": "plant-home/first/first-sit",
+                "state": "exiting",
+                "releaseRequested": false,
+                "releaseReason": null
+              }
+            },
+            {
+              "type": "released",
+              "lease": {
+                "token": "seat-lease:1",
+                "seatId": "plant-home/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-female-v1",
+                "requestId": "plant-home/first/first-sit",
+                "state": "released",
+                "releaseRequested": false,
+                "releaseReason": "physically-exited"
+              }
+            },
+            {
+              "type": "reserved",
+              "lease": {
+                "token": "seat-lease:2",
+                "seatId": "plant-home/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-male-v1",
+                "requestId": "plant-home/reopened/interrupted-approach",
+                "state": "reserved",
+                "releaseRequested": false,
+                "releaseReason": null
+              }
+            },
+            {
+              "type": "released",
+              "lease": {
+                "token": "seat-lease:2",
+                "seatId": "plant-home/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-male-v1",
+                "requestId": "plant-home/reopened/interrupted-approach",
+                "state": "released",
+                "releaseRequested": false,
+                "releaseReason": "cancelled"
+              }
+            },
+            {
+              "type": "reserved",
+              "lease": {
+                "token": "seat-lease:3",
+                "seatId": "plant-home/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-male-v1",
+                "requestId": "plant-home/reopened/second-sit",
+                "state": "reserved",
+                "releaseRequested": false,
+                "releaseReason": null
+              }
+            },
+            {
+              "type": "occupied",
+              "lease": {
+                "token": "seat-lease:3",
+                "seatId": "plant-home/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-male-v1",
+                "requestId": "plant-home/reopened/second-sit",
+                "state": "occupied",
+                "releaseRequested": false,
+                "releaseReason": null
+              }
+            },
+            {
+              "type": "exiting",
+              "lease": {
+                "token": "seat-lease:3",
+                "seatId": "plant-home/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-male-v1",
+                "requestId": "plant-home/reopened/second-sit",
+                "state": "exiting",
+                "releaseRequested": false,
+                "releaseReason": null
+              }
+            },
+            {
+              "type": "released",
+              "lease": {
+                "token": "seat-lease:3",
+                "seatId": "plant-home/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-male-v1",
+                "requestId": "plant-home/reopened/second-sit",
+                "state": "released",
+                "releaseRequested": false,
+                "releaseReason": "physically-exited"
+              }
+            }
+          ],
+          "video": "plant-home-reopened-1x.webm"
+        }
+      ]
+    },
+    {
+      "room": "plant-rental",
+      "seat": "plant-rental/ground/live/station-1/chair#seat",
+      "first": "uniform-lite-male-v1",
+      "second": "uniform-lite-female-v1",
+      "sessions": [
+        {
+          "phase": "first",
+          "observations": [
+            {
+              "id": "uniform-lite-male-v1",
+              "kind": "sit",
+              "admission": {
+                "admission": "accepted",
+                "duplicate": false,
+                "reason": null,
+                "task": {
+                  "requestId": "plant-rental/first/first-sit",
+                  "ownerId": "uniform-lite-male-v1",
+                  "kind": "sit",
+                  "payload": {
+                    "usePointId": "plant-rental/ground/live/station-1/chair#seat"
+                  },
+                  "admission": "accepted",
+                  "state": "running",
+                  "requestedAt": 0.20900000000000002,
+                  "startedAt": 0.20900000000000002,
+                  "endedAt": null,
+                  "deadline": 60.209,
+                  "reason": null,
+                  "result": null
+                }
+              }
+            },
+            {
+              "id": "uniform-lite-female-v1",
+              "kind": "sit",
+              "admission": {
+                "admission": "rejected",
+                "duplicate": false,
+                "reason": "seat-unavailable",
+                "task": {
+                  "requestId": "plant-rental/first/contest",
+                  "ownerId": "uniform-lite-female-v1",
+                  "kind": "sit",
+                  "payload": {
+                    "usePointId": "plant-rental/ground/live/station-1/chair#seat"
+                  },
+                  "admission": "rejected",
+                  "state": null,
+                  "requestedAt": 0.5805000000000002,
+                  "startedAt": null,
+                  "endedAt": 0.5805000000000002,
+                  "deadline": 60.5805,
+                  "reason": "seat-unavailable",
+                  "result": null
+                }
+              }
+            },
+            {
+              "result": {
+                "requestId": "plant-rental/first/contest",
+                "ownerId": "uniform-lite-female-v1",
+                "kind": "sit",
+                "payload": {
+                  "usePointId": "plant-rental/ground/live/station-1/chair#seat"
+                },
+                "admission": "rejected",
+                "state": null,
+                "requestedAt": 0.5805000000000002,
+                "startedAt": null,
+                "endedAt": 0.5805000000000002,
+                "deadline": 60.5805,
+                "reason": "seat-unavailable",
+                "result": null
+              }
+            },
+            {
+              "result": {
+                "requestId": "plant-rental/first/first-sit",
+                "ownerId": "uniform-lite-male-v1",
+                "kind": "sit",
+                "payload": {
+                  "usePointId": "plant-rental/ground/live/station-1/chair#seat"
+                },
+                "admission": "accepted",
+                "state": "completed",
+                "requestedAt": 0.20900000000000002,
+                "startedAt": 0.20900000000000002,
+                "endedAt": 6.020899999999945,
+                "deadline": 60.209,
+                "reason": null,
+                "result": {
+                  "mode": "sit",
+                  "usePointId": "plant-rental/ground/live/station-1/chair#seat",
+                  "position": [
+                    -0.4063283396304996,
+                    0,
+                    5.24999999684761
+                  ],
+                  "surface": [
+                    0.049905942643269474,
+                    0.4700000001490116,
+                    5.252562667819339
+                  ]
+                }
+              }
+            }
+          ],
+          "initial": {
+            "error": "整套出租屋 · 绿植剪辑与直播间 · plant-rental · d9140194fb84",
+            "state": "ready",
+            "build": "d9140194fb84",
+            "ids": [
+              [
+                "uniform-lite-female-v1",
+                "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+              ],
+              [
+                "uniform-lite-male-v1",
+                "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+              ]
+            ]
+          },
+          "saved": {
+            "schema": "record-facility-state-v1",
+            "companyId": "plant-rental",
+            "floorId": "plant-rental/ground",
+            "roomId": "plant-rental/ground/live",
+            "actors": [
+              {
+                "actorId": "uniform-lite-female-v1",
+                "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757",
+                "revision": 1,
+                "pose": {
+                  "phase": "idle",
+                  "position": [
+                    -2.755455298081545e-16,
+                    0,
+                    4.5
+                  ],
+                  "yaw": 0,
+                  "seat": null,
+                  "requestId": null,
+                  "remainingSeconds": null
+                }
+              },
+              {
+                "actorId": "uniform-lite-male-v1",
+                "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2",
+                "revision": 1,
+                "pose": {
+                  "phase": "seated",
+                  "position": [
+                    -0.4063283396304996,
+                    0,
+                    5.24999999684761
+                  ],
+                  "yaw": -1.570796326794897,
+                  "seat": {
+                    "id": "plant-rental/ground/live/station-1/chair#seat",
+                    "companyId": "plant-rental",
+                    "floorId": "plant-rental/ground",
+                    "roomId": "plant-rental/ground/live",
+                    "facilityId": "plant-rental/ground/live/station-1/chair",
+                    "resource": {
+                      "id": "chair-ladder",
+                      "version": 1
+                    },
+                    "transform": {
+                      "position": [
+                        0.04999999999999971,
+                        0,
+                        5.25
+                      ],
+                      "yaw": 4.71238898038469
+                    },
+                    "facilityTransform": {
+                      "position": [
+                        0.04999999999999971,
+                        0,
+                        5.25
+                      ],
+                      "yaw": 4.71238898038469
+                    },
+                    "approachPosition": [
+                      -0.5500000000000003,
+                      0,
+                      5.25
+                    ],
+                    "exitPosition": [
+                      -0.6000000000000003,
+                      0,
+                      5.25
+                    ],
+                    "seatHeight": 0.47,
+                    "contact": {
+                      "seatNodeId": "chair-seat",
+                      "backNodeId": "chair-back"
+                    }
+                  },
+                  "requestId": "plant-rental/first/first-sit",
+                  "remainingSeconds": null
+                }
+              }
+            ]
+          },
+          "seated": {
+            "point": {
+              "id": "plant-rental/ground/live/station-1/chair#seat",
+              "companyId": "plant-rental",
+              "revision": 2,
+              "facilityId": "plant-rental/ground/live/station-1/chair",
+              "floorId": "plant-rental/ground",
+              "roomId": "plant-rental/ground/live",
+              "resource": {
+                "id": "chair-ladder",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0.04999999999999971,
+                  0,
+                  5.25
+                ],
+                "yaw": 4.71238898038469
+              },
+              "facilityTransform": {
+                "position": [
+                  0.04999999999999971,
+                  0,
+                  5.25
+                ],
+                "yaw": 4.71238898038469
+              },
+              "local": {
+                "coordinateSpace": "facility",
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0,
+                "approach": [
+                  0,
+                  0,
+                  0.6
+                ],
+                "exit": [
+                  0,
+                  0,
+                  0.65
+                ]
+              },
+              "approachPosition": [
+                -0.5500000000000003,
+                0,
+                5.25
+              ],
+              "exitPosition": [
+                -0.6000000000000003,
+                0,
+                5.25
+              ],
+              "seatHeight": 0.47,
+              "capacity": 1,
+              "clearance": {
+                "width": 0.7,
+                "depth": 0.65
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.275,
+                  0.255
+                ],
+                "blocking": true
+              },
+              "contact": {
+                "seatNodeId": "chair-seat",
+                "backNodeId": "chair-back"
+              },
+              "missingFields": [],
+              "limitations": [
+                "Static authoring envelope only; exact body alignment and use remain C3 validation."
+              ]
+            },
+            "pose": {
+              "phase": "seated",
+              "position": [
+                -0.4063283396304996,
+                0,
+                5.24999999684761
+              ],
+              "yaw": -1.570796326794897,
+              "seat": {
+                "id": "plant-rental/ground/live/station-1/chair#seat",
+                "companyId": "plant-rental",
+                "floorId": "plant-rental/ground",
+                "roomId": "plant-rental/ground/live",
+                "facilityId": "plant-rental/ground/live/station-1/chair",
+                "resource": {
+                  "id": "chair-ladder",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.04999999999999971,
+                    0,
+                    5.25
+                  ],
+                  "yaw": 4.71238898038469
+                },
+                "facilityTransform": {
+                  "position": [
+                    0.04999999999999971,
+                    0,
+                    5.25
+                  ],
+                  "yaw": 4.71238898038469
+                },
+                "approachPosition": [
+                  -0.5500000000000003,
+                  0,
+                  5.25
+                ],
+                "exitPosition": [
+                  -0.6000000000000003,
+                  0,
+                  5.25
+                ],
+                "seatHeight": 0.47,
+                "contact": {
+                  "seatNodeId": "chair-seat",
+                  "backNodeId": "chair-back"
+                }
+              },
+              "requestId": "plant-rental/first/first-sit",
+              "remainingSeconds": null
+            },
+            "hips": [
+              0.04994799945735312,
+              0.6003917621908382,
+              5.252562667958677
+            ],
+            "root": [
+              -0.4063283396304996,
+              0,
+              5.24999999684761
+            ],
+            "owned": {
+              "token": "seat-lease:1",
+              "seatId": "plant-rental/ground/live/station-1/chair#seat",
+              "ownerId": "uniform-lite-male-v1",
+              "requestId": "plant-rental/first/first-sit",
+              "state": "occupied",
+              "releaseRequested": false,
+              "releaseReason": null
+            },
+            "rendered": true
+          },
+          "video": "plant-rental-first-1x.webm"
+        },
+        {
+          "phase": "reopened",
+          "observations": [
+            {
+              "id": "uniform-lite-male-v1",
+              "kind": "stand",
+              "admission": {
+                "admission": "accepted",
+                "duplicate": false,
+                "reason": null,
+                "task": {
+                  "requestId": "plant-rental/reopened/leave",
+                  "ownerId": "uniform-lite-male-v1",
+                  "kind": "stand",
+                  "payload": {
+                    "usePointId": "plant-rental/ground/live/station-1/chair#seat"
+                  },
+                  "admission": "accepted",
+                  "state": "running",
+                  "requestedAt": 1.399933333333334,
+                  "startedAt": 1.399933333333334,
+                  "endedAt": null,
+                  "deadline": 61.39993333333334,
+                  "reason": null,
+                  "result": null
+                }
+              }
+            },
+            {
+              "result": {
+                "requestId": "plant-rental/reopened/leave",
+                "ownerId": "uniform-lite-male-v1",
+                "kind": "stand",
+                "payload": {
+                  "usePointId": "plant-rental/ground/live/station-1/chair#seat"
+                },
+                "admission": "accepted",
+                "state": "completed",
+                "requestedAt": 1.399933333333334,
+                "startedAt": 1.399933333333334,
+                "endedAt": 9.83263333333325,
+                "deadline": 61.39993333333334,
+                "reason": null,
+                "result": {
+                  "mode": "idle"
+                }
+              }
+            },
+            {
+              "id": "uniform-lite-female-v1",
+              "kind": "sit",
+              "admission": {
+                "admission": "accepted",
+                "duplicate": false,
+                "reason": null,
+                "task": {
+                  "requestId": "plant-rental/reopened/interrupted-approach",
+                  "ownerId": "uniform-lite-female-v1",
+                  "kind": "sit",
+                  "payload": {
+                    "usePointId": "plant-rental/ground/live/station-1/chair#seat"
+                  },
+                  "admission": "accepted",
+                  "state": "running",
+                  "requestedAt": 8.561499999999922,
+                  "startedAt": 8.561499999999922,
+                  "endedAt": null,
+                  "deadline": 68.56149999999992,
+                  "reason": null,
+                  "result": null
+                }
+              }
+            },
+            {
+              "result": {
+                "requestId": "plant-rental/reopened/interrupted-approach",
+                "ownerId": "uniform-lite-female-v1",
+                "kind": "sit",
+                "payload": {
+                  "usePointId": "plant-rental/ground/live/station-1/chair#seat"
+                },
+                "admission": "accepted",
+                "state": "cancelled",
+                "requestedAt": 8.561499999999922,
+                "startedAt": 8.561499999999922,
+                "endedAt": 8.567699999999924,
+                "deadline": 68.56149999999992,
+                "reason": "cancelled",
+                "result": null
+              }
+            },
+            {
+              "id": "uniform-lite-female-v1",
+              "kind": "sit",
+              "admission": {
+                "admission": "accepted",
+                "duplicate": false,
+                "reason": null,
+                "task": {
+                  "requestId": "plant-rental/reopened/second-sit",
+                  "ownerId": "uniform-lite-female-v1",
+                  "kind": "sit",
+                  "payload": {
+                    "usePointId": "plant-rental/ground/live/station-1/chair#seat"
+                  },
+                  "admission": "accepted",
+                  "state": "running",
+                  "requestedAt": 8.585699999999925,
+                  "startedAt": 8.585699999999925,
+                  "endedAt": null,
+                  "deadline": 68.58569999999992,
+                  "reason": null,
+                  "result": null
+                }
+              }
+            },
+            {
+              "result": {
+                "requestId": "plant-rental/reopened/second-sit",
+                "ownerId": "uniform-lite-female-v1",
+                "kind": "sit",
+                "payload": {
+                  "usePointId": "plant-rental/ground/live/station-1/chair#seat"
+                },
+                "admission": "accepted",
+                "state": "completed",
+                "requestedAt": 8.585699999999925,
+                "startedAt": 8.585699999999925,
+                "endedAt": 14.6100999999999,
+                "deadline": 68.58569999999992,
+                "reason": null,
+                "result": {
+                  "mode": "sit",
+                  "usePointId": "plant-rental/ground/live/station-1/chair#seat",
+                  "position": [
+                    -0.36479661667842306,
+                    0,
+                    5.25
+                  ],
+                  "surface": [
+                    0.04996239998406038,
+                    0.4700000001490116,
+                    5.252517255735634
+                  ]
+                }
+              }
+            },
+            {
+              "id": "uniform-lite-female-v1",
+              "kind": "stand",
+              "admission": {
+                "admission": "accepted",
+                "duplicate": false,
+                "reason": null,
+                "task": {
+                  "requestId": "plant-rental/reopened/second-leave",
+                  "ownerId": "uniform-lite-female-v1",
+                  "kind": "stand",
+                  "payload": {
+                    "usePointId": "plant-rental/ground/live/station-1/chair#seat"
+                  },
+                  "admission": "accepted",
+                  "state": "running",
+                  "requestedAt": 14.6100999999999,
+                  "startedAt": 14.6100999999999,
+                  "endedAt": null,
+                  "deadline": 74.6100999999999,
+                  "reason": null,
+                  "result": null
+                }
+              }
+            },
+            {
+              "result": {
+                "requestId": "plant-rental/reopened/second-leave",
+                "ownerId": "uniform-lite-female-v1",
+                "kind": "stand",
+                "payload": {
+                  "usePointId": "plant-rental/ground/live/station-1/chair#seat"
+                },
+                "admission": "accepted",
+                "state": "completed",
+                "requestedAt": 14.6100999999999,
+                "startedAt": 14.6100999999999,
+                "endedAt": 18.77780000000022,
+                "deadline": 74.6100999999999,
+                "reason": null,
+                "result": {
+                  "mode": "idle"
+                }
+              }
+            }
+          ],
+          "initial": {
+            "error": "整套出租屋 · 绿植剪辑与直播间 · plant-rental · d9140194fb84",
+            "state": "ready",
+            "build": "d9140194fb84",
+            "ids": [
+              [
+                "uniform-lite-female-v1",
+                "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+              ],
+              [
+                "uniform-lite-male-v1",
+                "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+              ]
+            ]
+          },
+          "seated": {
+            "point": {
+              "id": "plant-rental/ground/live/station-1/chair#seat",
+              "companyId": "plant-rental",
+              "revision": 2,
+              "facilityId": "plant-rental/ground/live/station-1/chair",
+              "floorId": "plant-rental/ground",
+              "roomId": "plant-rental/ground/live",
+              "resource": {
+                "id": "chair-ladder",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0.04999999999999971,
+                  0,
+                  5.25
+                ],
+                "yaw": 4.71238898038469
+              },
+              "facilityTransform": {
+                "position": [
+                  0.04999999999999971,
+                  0,
+                  5.25
+                ],
+                "yaw": 4.71238898038469
+              },
+              "local": {
+                "coordinateSpace": "facility",
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0,
+                "approach": [
+                  0,
+                  0,
+                  0.6
+                ],
+                "exit": [
+                  0,
+                  0,
+                  0.65
+                ]
+              },
+              "approachPosition": [
+                -0.5500000000000003,
+                0,
+                5.25
+              ],
+              "exitPosition": [
+                -0.6000000000000003,
+                0,
+                5.25
+              ],
+              "seatHeight": 0.47,
+              "capacity": 1,
+              "clearance": {
+                "width": 0.7,
+                "depth": 0.65
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.275,
+                  0.255
+                ],
+                "blocking": true
+              },
+              "contact": {
+                "seatNodeId": "chair-seat",
+                "backNodeId": "chair-back"
+              },
+              "missingFields": [],
+              "limitations": [
+                "Static authoring envelope only; exact body alignment and use remain C3 validation."
+              ]
+            },
+            "pose": {
+              "phase": "seated",
+              "position": [
+                -0.4063283396304996,
+                0,
+                5.24999999684761
+              ],
+              "yaw": -1.570796326794897,
+              "seat": {
+                "id": "plant-rental/ground/live/station-1/chair#seat",
+                "companyId": "plant-rental",
+                "floorId": "plant-rental/ground",
+                "roomId": "plant-rental/ground/live",
+                "facilityId": "plant-rental/ground/live/station-1/chair",
+                "resource": {
+                  "id": "chair-ladder",
+                  "version": 1
+                },
+                "transform": {
+                  "position": [
+                    0.04999999999999971,
+                    0,
+                    5.25
+                  ],
+                  "yaw": 4.71238898038469
+                },
+                "facilityTransform": {
+                  "position": [
+                    0.04999999999999971,
+                    0,
+                    5.25
+                  ],
+                  "yaw": 4.71238898038469
+                },
+                "approachPosition": [
+                  -0.5500000000000003,
+                  0,
+                  5.25
+                ],
+                "exitPosition": [
+                  -0.6000000000000003,
+                  0,
+                  5.25
+                ],
+                "seatHeight": 0.47,
+                "contact": {
+                  "seatNodeId": "chair-seat",
+                  "backNodeId": "chair-back"
+                }
+              },
+              "requestId": "plant-rental/first/first-sit",
+              "remainingSeconds": null
+            },
+            "hips": [
+              0.04994799935172495,
+              0.6003917621908382,
+              5.252562668048913
+            ],
+            "root": [
+              -0.4063283396304996,
+              0,
+              5.24999999684761
+            ],
+            "owned": {
+              "token": "seat-lease:1",
+              "seatId": "plant-rental/ground/live/station-1/chair#seat",
+              "ownerId": "uniform-lite-male-v1",
+              "requestId": "plant-rental/first/first-sit",
+              "state": "occupied",
+              "releaseRequested": false,
+              "releaseReason": null
+            },
+            "rendered": true
+          },
+          "standing": {
+            "point": {
+              "id": "plant-rental/ground/live/station-1/chair#seat",
+              "companyId": "plant-rental",
+              "revision": 2,
+              "facilityId": "plant-rental/ground/live/station-1/chair",
+              "floorId": "plant-rental/ground",
+              "roomId": "plant-rental/ground/live",
+              "resource": {
+                "id": "chair-ladder",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0.04999999999999971,
+                  0,
+                  5.25
+                ],
+                "yaw": 4.71238898038469
+              },
+              "facilityTransform": {
+                "position": [
+                  0.04999999999999971,
+                  0,
+                  5.25
+                ],
+                "yaw": 4.71238898038469
+              },
+              "local": {
+                "coordinateSpace": "facility",
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0,
+                "approach": [
+                  0,
+                  0,
+                  0.6
+                ],
+                "exit": [
+                  0,
+                  0,
+                  0.65
+                ]
+              },
+              "approachPosition": [
+                -0.5500000000000003,
+                0,
+                5.25
+              ],
+              "exitPosition": [
+                -0.6000000000000003,
+                0,
+                5.25
+              ],
+              "seatHeight": 0.47,
+              "capacity": 1,
+              "clearance": {
+                "width": 0.7,
+                "depth": 0.65
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.275,
+                  0.255
+                ],
+                "blocking": true
+              },
+              "contact": {
+                "seatNodeId": "chair-seat",
+                "backNodeId": "chair-back"
+              },
+              "missingFields": [],
+              "limitations": [
+                "Static authoring envelope only; exact body alignment and use remain C3 validation."
+              ]
+            },
+            "pose": {
+              "phase": "idle",
+              "position": [
+                0.05999999999999961,
+                0,
+                5.91
+              ],
+              "yaw": -7.742320955694339,
+              "seat": null,
+              "requestId": null,
+              "remainingSeconds": null
+            },
+            "hips": [
+              0.057015238263086854,
+              0.9750791309129451,
+              5.912652898432261
+            ],
+            "root": [
+              0.05999999999999961,
+              0,
+              5.91
+            ],
+            "owned": null,
+            "rendered": true
+          },
+          "history": [
+            {
+              "type": "reserved",
+              "lease": {
+                "token": "seat-lease:1",
+                "seatId": "plant-rental/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-male-v1",
+                "requestId": "plant-rental/first/first-sit",
+                "state": "reserved",
+                "releaseRequested": false,
+                "releaseReason": null
+              }
+            },
+            {
+              "type": "occupied",
+              "lease": {
+                "token": "seat-lease:1",
+                "seatId": "plant-rental/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-male-v1",
+                "requestId": "plant-rental/first/first-sit",
+                "state": "occupied",
+                "releaseRequested": false,
+                "releaseReason": null
+              }
+            },
+            {
+              "type": "exiting",
+              "lease": {
+                "token": "seat-lease:1",
+                "seatId": "plant-rental/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-male-v1",
+                "requestId": "plant-rental/first/first-sit",
+                "state": "exiting",
+                "releaseRequested": false,
+                "releaseReason": null
+              }
+            },
+            {
+              "type": "released",
+              "lease": {
+                "token": "seat-lease:1",
+                "seatId": "plant-rental/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-male-v1",
+                "requestId": "plant-rental/first/first-sit",
+                "state": "released",
+                "releaseRequested": false,
+                "releaseReason": "physically-exited"
+              }
+            },
+            {
+              "type": "reserved",
+              "lease": {
+                "token": "seat-lease:2",
+                "seatId": "plant-rental/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-female-v1",
+                "requestId": "plant-rental/reopened/interrupted-approach",
+                "state": "reserved",
+                "releaseRequested": false,
+                "releaseReason": null
+              }
+            },
+            {
+              "type": "released",
+              "lease": {
+                "token": "seat-lease:2",
+                "seatId": "plant-rental/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-female-v1",
+                "requestId": "plant-rental/reopened/interrupted-approach",
+                "state": "released",
+                "releaseRequested": false,
+                "releaseReason": "cancelled"
+              }
+            },
+            {
+              "type": "reserved",
+              "lease": {
+                "token": "seat-lease:3",
+                "seatId": "plant-rental/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-female-v1",
+                "requestId": "plant-rental/reopened/second-sit",
+                "state": "reserved",
+                "releaseRequested": false,
+                "releaseReason": null
+              }
+            },
+            {
+              "type": "occupied",
+              "lease": {
+                "token": "seat-lease:3",
+                "seatId": "plant-rental/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-female-v1",
+                "requestId": "plant-rental/reopened/second-sit",
+                "state": "occupied",
+                "releaseRequested": false,
+                "releaseReason": null
+              }
+            },
+            {
+              "type": "exiting",
+              "lease": {
+                "token": "seat-lease:3",
+                "seatId": "plant-rental/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-female-v1",
+                "requestId": "plant-rental/reopened/second-sit",
+                "state": "exiting",
+                "releaseRequested": false,
+                "releaseReason": null
+              }
+            },
+            {
+              "type": "released",
+              "lease": {
+                "token": "seat-lease:3",
+                "seatId": "plant-rental/ground/live/station-1/chair#seat",
+                "ownerId": "uniform-lite-female-v1",
+                "requestId": "plant-rental/reopened/second-sit",
+                "state": "released",
+                "releaseRequested": false,
+                "releaseReason": "physically-exited"
+              }
+            }
+          ],
+          "video": "plant-rental-reopened-1x.webm"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "browser": "157.0.8103.79"
+}

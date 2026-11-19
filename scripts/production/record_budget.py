@@ -682,7 +682,51 @@ def measure_record(source, record, config, signed):
             'closureSourceBytes':sum(row['bytes'] for row in record['files'])}
 
 
-def measure(input_file, source, version):
+def actor_resource_totals(records):
+    shared_files = {}
+    for record in records:
+        for row in record['files']:
+            key = row['path']
+            require(key not in shared_files or shared_files[key] == (row['sha256'], row['bytes']),
+                    'Dependency changed between record measurements: '+key)
+            shared_files[key] = row['sha256'], row['bytes']
+    totals = ['rgba8MipBytes', 'textureObjects', 'placedNodeTriangles']
+    return {'closureUnionFileCount': len(shared_files),
+            'closureUnionSourceBytes': sum(size for _, size in shared_files.values()),
+            'sumAcrossSelectedActors': {name: sum(row['selectedCost']['totals'][name] for row in records)
+                                        for name in totals}}
+
+
+def concurrent_assessment(records, groups):
+    by_id = {row['id']: row for row in records}
+    require(isinstance(groups, (list, tuple)) and groups, 'Declare at least one concurrent group')
+    results, seen = [], set()
+    for ids in groups:
+        require(isinstance(ids, (list, tuple)) and 1 <= len(ids) <= 2,
+                'The record consumer supports one or two simultaneous actors per group')
+        require(all(isinstance(identifier, str) and identifier in by_id for identifier in ids),
+                'Concurrent group must use stable actor IDs from the signed input')
+        members = frozenset(ids)
+        require(len(members) == len(ids), 'Duplicate actor ID within concurrent group')
+        require(members not in seen, 'Duplicate concurrent group')
+        seen.add(members)
+        actors = [by_id[identifier] for identifier in ids]
+        totals = actor_resource_totals(actors)
+        metrics = dict(totals['sumAcrossSelectedActors'], fileBytes=totals['closureUnionSourceBytes'])
+        excesses = [{'metric': key, 'actual': metrics[key], 'limit': AGGREGATE_LIMITS[key],
+                     'excess': metrics[key] - AGGREGATE_LIMITS[key]}
+                    for key in AGGREGATE_METRICS if metrics[key] > AGGREGATE_LIMITS[key]]
+        results.append({'actors': [{key: actor[key] for key in ('id', 'revision', 'recordSha256')} for actor in actors],
+                        **totals, 'excesses': excesses,
+                        'status': 'over-temporary-reference' if excesses else 'within-temporary-reference'})
+    return {'groups': results, 'status': 'over-temporary-reference' if any(group['excesses'] for group in results)
+            else 'within-temporary-reference',
+            'scope': 'Each declared group counts its signed dependency paths once and sums cold selected-look costs for its own actors.',
+            'textureEstimateScope': 'Conservative per-actor sums retain duplicate texture estimates. Actual cross-actor sharing, renderer-only allocations and physical GPU memory are unmeasured.',
+            'ordinaryPCPerformance': 'unmeasured', 'runtimeAdmission': False}
+
+
+def measure(input_file, source, version, *, concurrent_groups=None):
     config = budget_config(BUDGET, version)
     collected = collected_records(source, input_file)
     raw = input_file.read_bytes()
@@ -692,14 +736,6 @@ def measure(input_file, source, version):
     signed_records = {record['integrity']['recordSha256']: record for record in input_records}
     records = [measure_record(source, row, config, signed_records[row['recordSha256']]) for row in collected['records']]
     measured_legacy = any('reviewedLegacyAppearanceCache' in row for row in records)
-    shared_files = {}
-    for record in records:
-        for row in record['files']:
-            key = row['path']
-            require(key not in shared_files or shared_files[key] == (row['sha256'], row['bytes']),
-                    'Dependency changed between record measurements: '+key)
-            shared_files[key] = row['sha256'], row['bytes']
-    totals = ['rgba8MipBytes', 'textureObjects', 'placedNodeTriangles']
     return {
         'schema':SCHEMA, 'readOnly':True, 'sourceCommit':collected['sourceCommit'],
         'inputSha256':collected['inputSha256'], 'budgetVersion':config['version'],
@@ -713,9 +749,8 @@ def measure(input_file, source, version):
             'unmodeledRendererAllocations':['bone data textures', 'morph data array textures',
                                            'renderer-specific texture, source and sampler allocation'],
         },
-        'records':records, 'closureUnionFileCount':len(shared_files),
-        'closureUnionSourceBytes':sum(size for _, size in shared_files.values()),
-        'sumAcrossSelectedActors':{name:sum(row['selectedCost']['totals'][name] for row in records) for name in totals},
+        'records':records, **actor_resource_totals(records),
+        **({'concurrentAssessment':concurrent_assessment(records, concurrent_groups)} if concurrent_groups is not None else {}),
         'limitations':[
             'RGBA8 estimates use standalone model texture objects and full mip chains except for the reviewed linear-only native cover, skin and lip maps.',
             'Record totals start from a fresh actor. Native appearance cache estimates show the effect of prior selections separately from cold totals, where reviewed.',
@@ -736,11 +771,15 @@ def main():
     parser.add_argument('records', type=pathlib.Path)
     parser.add_argument('--source-root', required=True, type=pathlib.Path)
     parser.add_argument('--budget-version', required=True)
+    parser.add_argument('--concurrent-group', nargs='*', action='append', metavar='ACTOR_ID',
+                        help='Evaluate one group of one or two simultaneous signed actors. Repeat for alternative groups.')
     args = parser.parse_args()
     try:
-        result = measure(args.records.resolve(), args.source_root.resolve(), args.budget_version)
+        result = measure(args.records.resolve(), args.source_root.resolve(), args.budget_version,
+                         concurrent_groups=args.concurrent_group)
         print(json.dumps(result, ensure_ascii=True, indent=2, sort_keys=True))
-        return 1 if result['status'] == 'over-budget' else 0
+        return int(result['status'] == 'over-budget' or
+                   result.get('concurrentAssessment', {}).get('status') == 'over-temporary-reference')
     except UnsupportedBudget as error:
         print(json.dumps({'schema':SCHEMA, 'status':'unsupported', 'code':error.code, 'error':str(error),
                           'ordinaryPCPerformance':'unmeasured'}))

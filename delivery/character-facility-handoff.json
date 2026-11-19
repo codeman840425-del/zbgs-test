@@ -1,0 +1,76 @@
+{
+  "schema": "character-facility-handoff-v1",
+  "status": "verified-internal-candidate",
+  "runtime": {
+    "sourceCommit": "989deed323a781010931518650cd26256d3c3a02",
+    "sourceDigest": "d9140194fb8429f139d60e0b2aeedc75f47ee8448294eb41883229e0f3f7d800",
+    "buildId": "d9140194fb84",
+    "entry": "record-consumer.html",
+    "entryUrl": "record-consumer.html?records=/records/manifest.json"
+  },
+  "company": {
+    "build": "d57333ea66d2",
+    "sourceDigest": "d57333ea66d2583145e5a0ad230c4e7b878fdf318fe58aba35028facfd203e09",
+    "transferManifestSha256": "6359150e83c284125dc757ac6680cc326d58bf57df142dfc4af0d6b522c658f2"
+  },
+  "records": {
+    "path": "evidence/m2-uniform-lite-operator-v1/records.json",
+    "bytes": 34291,
+    "sha256": "d38cd555d8b125c606ef28775b08fa96b2834c40c082e7ee06478dc4035f6989"
+  },
+  "gameInventory": {
+    "path": "evidence/m2-company-seat-clearance-v1/inventory.json",
+    "bytes": 71839,
+    "sha256": "1759505cc6ef16f93a16508ba795ac52c060e137306f0742d4950423d71f8406"
+  },
+  "combinedPackage": {
+    "manifest": "facility-package.json",
+    "sha256": "1c86367d0ac35a67957138b2db11ed0f1a1fd12c124792c72d5a9db56f9eedf8",
+    "fileCountIncludingManifest": 597,
+    "entry": "facility-room.html",
+    "rooms": [
+      {
+        "key": "plant-home",
+        "roomId": "plant-home/ground/live",
+        "floorId": "plant-home/ground",
+        "seatId": "plant-home/ground/live/station-1/chair#seat",
+        "save": "facility/rooms/plant-home/save.json",
+        "saveSha256": "66f6a047a887f8eba57ddeb092dd81c1218170a970f4827c72b35b40be7f8aa5"
+      },
+      {
+        "key": "plant-rental",
+        "roomId": "plant-rental/ground/live",
+        "floorId": "plant-rental/ground",
+        "seatId": "plant-rental/ground/live/station-1/chair#seat",
+        "save": "facility/rooms/plant-rental/save.json",
+        "saveSha256": "8ffb3e9e221b753e986a96f9fc2f8837bd6663d90a9f96fe809f4f004536785f"
+      }
+    ]
+  },
+  "sourceTool": {
+    "path": "scripts/production/package-facility-room.mjs",
+    "sha256": "0c5f517498cd53d3b7aa7be0dda01c6a003c482af2788ef4799ad153f1ded2ef"
+  },
+  "rebuild": {
+    "path": "evidence/m2-company-seat-clearance-v1/rebuild.json",
+    "bytes": 5002,
+    "sha256": "a54e5a388879d1c1fc8b86229ed0f7be8b40a17358078fdb5048b735e1f34d1e"
+  },
+  "gameplay": {
+    "path": "evidence/m2-company-seat-clearance-v1/gameplay/report.json",
+    "bytes": 64824,
+    "sha256": "9becf730b2d49cb212fa084f9c3cd677346440e91c9cada7e96c37a31a00a61d"
+  },
+  "sideView": {
+    "path": "evidence/m2-company-seat-clearance-v1/controls/visual-review.json",
+    "bytes": 2444,
+    "sha256": "153541e7cf57f4c0cf81581643d0bbbb52a014d63f750f622c7a7694f39635c2"
+  },
+  "reproduceInProject": "evidence/m2-company-seat-clearance-v1/README.md",
+  "preview": "evidence/m2-company-seat-clearance-v1/index.html",
+  "limits": [
+    "Two signed uniform records and two tested room saves; development PC Chrome 157. Ordinary PC unmeasured.",
+    "Local facility handoff; larger crowds, arbitrary furniture and external receiver validation are outside this result.",
+    "Human preview workbenches are separate from this game package."
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "scripts/production/record_budget.py",
+    "measure",
+    "evidence/m2-uniform-skin-v1/signed-pair.json",
+    "--source-root",
+    "experiments/worktrees/warm-d96411eb",
+    "--budget-version",
+    "m2-technical-v1",
+    "--concurrent-group",
+    "uniform-warm-bob-v1",
+    "uniform-original-bob-v1"
+  ],
+  "sourceCommit": "d96411ebef27a0e255bab3eaa49bf9addab48e8a",
+  "budgetVersion": "m2-technical-v1",
+  "budgetFileSha256": "b5f792da80d061aa8dfac1045e2f69e699207dd5d4a05b5ea9959ef532dc9d63",
+  "temporaryAggregateLimits": {
+    "fileBytes": 67108864,
+    "ordinaryPCPerformance": "unmeasured",
+    "rgba8MipBytes": 268435456,
+    "status": "temporary-unmeasured",
+    "textureObjects": 96
+  },
+  "operator": {
+    "path": "scripts/production/record_budget.py",
+    "sha256": "a17c4830dab66025485e603b95b02f5a8ee59a979cfeaa2a57019d1bad85f5b5"
+  },
+  "signedRecords": {
+    "path": "evidence/m2-uniform-skin-v1/signed-pair.json",
+    "sha256": "852afbd11132afa0801a27fa8eec0b67713026cc2fb7f83c2445f210950ff1d9"
+  },
+  "ordinaryBatch": {
+    "exit": 0,
+    "status": "within-static-limits",
+    "matchesArchivedReport": {
+      "path": "evidence/m2-uniform-skin-v1/budget-signed-pair.json",
+      "sha256": "81109b5a514cd49b727cc9e219dd90f9593b4631a079d08cc1ec4af7bd9a3c01"
+    },
+    "records": [
+      {
+        "id": "uniform-warm-bob-v1",
+        "status": "within-static-limits"
+      },
+      {
+        "id": "uniform-original-bob-v1",
+        "status": "within-static-limits"
+      }
+    ]
+  },
+  "unknownActor": {
+    "exit": 2,
+    "status": "invalid",
+    "error": "Concurrent group must use stable actor IDs from the signed input"
+  },
+  "declaredTogether": {
+    "exit": 1,
+    "groups": [
+      {
+        "actors": [
+          {
+            "id": "uniform-warm-bob-v1",
+            "recordSha256": "f1cb9a9e697cfd5ad8e5b89165798137efb8d058aa7b30d2274828ae9803ff0b",
+            "revision": 1
+          },
+          {
+            "id": "uniform-original-bob-v1",
+            "recordSha256": "76430d2b93415d348a6ed68681f0369c8faf0e7d5a8c0f790049d32bc6c184a3",
+            "revision": 1
+          }
+        ],
+        "closureUnionFileCount": 21,
+        "closureUnionSourceBytes": 27896903,
+        "excesses": [
+          {
+            "actual": 276127056,
+            "excess": 7691600,
+            "limit": 268435456,
+            "metric": "rgba8MipBytes"
+          }
+        ],
+        "status": "over-temporary-reference",
+        "sumAcrossSelectedActors": {
+          "placedNodeTriangles": 39124,
+          "rgba8MipBytes": 276127056,
+          "textureObjects": 76
+        }
+      }
+    ],
+    "ordinaryPCPerformance": "unmeasured",
+    "runtimeAdmission": false,
+    "scope": "Each declared group counts its signed dependency paths once and sums cold selected-look costs for its own actors.",
+    "status": "over-temporary-reference",
+    "textureEstimateScope": "Conservative per-actor sums retain duplicate texture estimates. Actual cross-actor sharing, renderer-only allocations and physical GPU memory are unmeasured."
+  },
+  "priorBrowserObservation": {
+    "report": {
+      "path": "evidence/m2-uniform-skin-v1/development-budget/report.json",
+      "sha256": "cc145532564a0ce5a4db5fe88bec13cf464a4300f25394b48f3ba4f837549aaf"
+    },
+    "build": "d9cadedb54f6",
+    "device": "Development Windows host, Ryzen 9 9950X3D / RTX4090; not ordinary-PC measurement",
+    "actorIds": [
+      "uniform-warm-bob-v1",
+      "uniform-original-bob-v1"
+    ],
+    "loadedTextures": 81,
+    "releasedTextures": 1
+  }
+}
