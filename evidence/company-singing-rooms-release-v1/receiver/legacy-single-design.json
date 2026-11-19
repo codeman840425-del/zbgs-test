@@ -1,0 +1,56 @@
+{
+  "ok": true,
+  "source": "F:\\gamemake-company-platform-c1\\output\\singing-room\\production-check\\detached",
+  "cwd": "F:\\gamemake-company-platform-c1\\output\\singing-room\\receiver-tools\\legacy-trial",
+  "sha256": "ce579bc486a82b210dd1de01ce601852de665f17f78c8df0e156739d9c65d0fe",
+  "failures": [
+    {
+      "args": [
+        "--write",
+        "--parameters",
+        "assets-source/company-receiver-legacy/mic.json"
+      ],
+      "exitCode": 1,
+      "stderr": "Alternate parameters require --output NEW_DIRECTORY\n"
+    },
+    {
+      "args": [
+        "--output",
+        "legacy-single",
+        "--parameters",
+        "assets-source/company-receiver-legacy/mic.json"
+      ],
+      "exitCode": 1,
+      "stderr": "Expected the two distinct production designs\n+ actual - expected\n\n  [\n    'vocal',\n-   'score'\n  ]\n\n"
+    }
+  ],
+  "previewCollection": {
+    "schemaVersion": 1,
+    "id": "company-singing-stage-v1",
+    "sourceParameters": "assets-source/company-receiver-legacy/both.json",
+    "sourceParametersSha256": "0857d4c0819991b919c7c166f7b262697ebae508e0c6c46ae0c0cf70259ae8a5",
+    "contract": "assets-source/company-singing-stage-v1/contract.json",
+    "contractSha256": "a6a6184dc23fec658b3870b7e016cce423cf007dc0b75e85667c6d45e0a27053",
+    "generator": "scripts/company-platform/build-singing-stage.mjs",
+    "generatorSha256": "ce579bc486a82b210dd1de01ce601852de665f17f78c8df0e156739d9c65d0fe",
+    "resources": [
+      {
+        "id": "floor-vocal-mic-receiver-six-degree",
+        "version": 1,
+        "modelPath": "prototype/public/company-assets/singing-stage-v1/floor-vocal-mic-receiver-six-degree/v1/model.glb",
+        "resourcePath": "prototype/public/company-assets/singing-stage-v1/floor-vocal-mic-receiver-six-degree/v1/resource.json",
+        "sha256": "add1fb2a3c2e160ed839b8081cab604469c7f0bac7080da1c0d7ba871ea3d228",
+        "triangles": 10272
+      },
+      {
+        "id": "floor-score-stand-receiver-low-page",
+        "version": 1,
+        "modelPath": "prototype/public/company-assets/singing-stage-v1/floor-score-stand-receiver-low-page/v1/model.glb",
+        "resourcePath": "prototype/public/company-assets/singing-stage-v1/floor-score-stand-receiver-low-page/v1/resource.json",
+        "sha256": "2a0dfa2f7675e9b1e22e3f9c73642eb6fab524216af9a715e5f4987a60360838",
+        "triangles": 4376
+      }
+    ]
+  },
+  "stockCollectionPreserved": true
+}

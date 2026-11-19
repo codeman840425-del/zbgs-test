@@ -1,0 +1,617 @@
+{
+  "status": "passed",
+  "rooms": [
+    {
+      "key": "singing-studio",
+      "coldRead": true,
+      "wholeFloorRotation": 1.5707963267948966,
+      "measured": {
+        "ok": true,
+        "regionId": "singing-studio/ground/live",
+        "floorId": "singing-studio/ground",
+        "roles": {
+          "camera": "singing-studio/ground/live/camera",
+          "mic": "singing-studio/ground/live/vocal",
+          "score": "singing-studio/ground/live/score"
+        },
+        "portalId": "singing-studio/ground/entry",
+        "access": {
+          "portalId": "singing-studio/ground/entry",
+          "fromRegion": null,
+          "threshold": [
+            0,
+            3
+          ],
+          "approach": [],
+          "inside": [
+            [
+              0,
+              2.75
+            ],
+            [
+              0,
+              2.65
+            ],
+            [
+              -0.05,
+              2.65
+            ],
+            [
+              -0.05,
+              0.76
+            ],
+            [
+              0,
+              0.76
+            ]
+          ]
+        },
+        "checkedMeshes": 40,
+        "standing": {
+          "bounds": {
+            "min": [
+              -0.25,
+              0,
+              0.51
+            ],
+            "max": [
+              0.25,
+              1.9,
+              1.01
+            ]
+          },
+          "width": 0.5,
+          "height": 1.9,
+          "mouth": [
+            0,
+            1.555,
+            0.53
+          ],
+          "eye": [
+            0,
+            1.64,
+            0.545
+          ]
+        },
+        "supports": {
+          "mic": {
+            "mesh": "singing-tripod",
+            "floorY": 0,
+            "feet": [
+              {
+                "min": [
+                  -0.013,
+                  0,
+                  0.1519134
+                ],
+                "max": [
+                  0.013,
+                  0,
+                  0.1775184
+                ]
+              },
+              {
+                "min": [
+                  0.2857788,
+                  0,
+                  -0.3655866
+                ],
+                "max": [
+                  0.3117788,
+                  0,
+                  -0.3399816
+                ]
+              },
+              {
+                "min": [
+                  -0.3117788,
+                  0,
+                  -0.3655866
+                ],
+                "max": [
+                  -0.2857788,
+                  0,
+                  -0.3399816
+                ]
+              }
+            ]
+          },
+          "score": {
+            "mesh": "singing-tripod",
+            "floorY": 0,
+            "feet": [
+              {
+                "min": [
+                  0.6862171,
+                  0.0003296,
+                  -0.6170161
+                ],
+                "max": [
+                  0.6937829,
+                  0.0005869,
+                  -0.6090573
+                ]
+              },
+              {
+                "min": [
+                  0.4177176,
+                  0,
+                  -0.1511972
+                ],
+                "max": [
+                  0.4277513,
+                  0.0009814,
+                  -0.1444406
+                ]
+              },
+              {
+                "min": [
+                  0.9522487,
+                  0,
+                  -0.1511972
+                ],
+                "max": [
+                  0.9622824,
+                  0.0009814,
+                  -0.1444406
+                ]
+              }
+            ]
+          },
+          "camera": {
+            "deskId": "singing-studio/ground/live/camera-desk",
+            "baseY": 0.8399999998509884,
+            "contactArea": 0.0180172599083307,
+            "deskMeshes": [
+              "desktop"
+            ]
+          }
+        },
+        "microphone": {
+          "node": "singing-mic-pickup",
+          "surface": [
+            0,
+            1.5842109,
+            0.4131268
+          ],
+          "axis": [
+            0,
+            -0.2419224,
+            0.9702956
+          ],
+          "distanceMetres": 0.12046837952830662,
+          "incidenceDegrees": 0.0327922747910569,
+          "facingDegrees": 0,
+          "joins": {
+            "singing-mic-pickup / singing-mic-collar": [
+              0.0250655,
+              1.5967134,
+              0.3708086
+            ],
+            "singing-mic-collar / singing-mic-handle": [
+              0.0217333,
+              1.602065,
+              0.3597755
+            ],
+            "singing-mic-handle / singing-mic-clip": [
+              0.0201616,
+              1.6093277,
+              0.3289051
+            ],
+            "singing-mic-clip / singing-boom": [
+              0,
+              1.6357855,
+              0.3080271
+            ]
+          }
+        },
+        "score": [
+          {
+            "page": "left",
+            "mesh": "singing-score-pages",
+            "point": [
+              0.584,
+              1.2062608,
+              -0.2905105
+            ],
+            "incidenceDegrees": 32.88067999082494,
+            "glanceDegrees": 34.95254256221533,
+            "distanceMetres": 1.1078192312946618
+          },
+          {
+            "page": "right",
+            "mesh": "singing-score-pages",
+            "point": [
+              0.796,
+              1.2062608,
+              -0.2905105
+            ],
+            "incidenceDegrees": 41.28887455802342,
+            "glanceDegrees": 43.612731854536996,
+            "distanceMetres": 1.2328111962505577
+          }
+        ],
+        "camera": {
+          "node": "camera-lens",
+          "lens": [
+            -0.47,
+            0.877,
+            -1.882
+          ],
+          "forward": [
+            0,
+            0,
+            1
+          ],
+          "rays": [
+            {
+              "reference": "mouth",
+              "target": [
+                0,
+                1.555,
+                0.53
+              ],
+              "horizontalDegrees": 11.026428137581167,
+              "verticalDegrees": 15.424460958186883
+            },
+            {
+              "reference": "eye",
+              "target": [
+                0,
+                1.64,
+                0.545
+              ],
+              "horizontalDegrees": 10.959934842591727,
+              "verticalDegrees": 17.15261763563672
+            }
+          ]
+        },
+        "scope": "Installed geometry and fixed performer references for staging and access."
+      }
+    },
+    {
+      "key": "singing-rental",
+      "coldRead": true,
+      "wholeFloorRotation": 1.5707963267948966,
+      "measured": {
+        "ok": true,
+        "regionId": "singing-rental/ground/live",
+        "floorId": "singing-rental/ground",
+        "roles": {
+          "camera": "singing-rental/ground/live/camera",
+          "mic": "singing-rental/ground/live/vocal",
+          "score": "singing-rental/ground/live/score"
+        },
+        "portalId": "singing-rental/ground/portal-stream-living",
+        "access": {
+          "portalId": "singing-rental/ground/portal-stream-living",
+          "fromRegion": "singing-rental/ground/living",
+          "threshold": [
+            2.25,
+            0
+          ],
+          "approach": [
+            [
+              -1.6,
+              1.5
+            ],
+            [
+              -1.8,
+              1.5
+            ],
+            [
+              -1.8,
+              0.45
+            ],
+            [
+              -2,
+              0.45
+            ],
+            [
+              -2,
+              0
+            ]
+          ],
+          "inside": [
+            [
+              2,
+              0
+            ],
+            [
+              0.78,
+              0
+            ]
+          ]
+        },
+        "checkedMeshes": 99,
+        "standing": {
+          "bounds": {
+            "min": [
+              0.53,
+              0,
+              -0.25
+            ],
+            "max": [
+              1.03,
+              1.9,
+              0.25
+            ]
+          },
+          "width": 0.5,
+          "height": 1.9,
+          "mouth": [
+            0.55,
+            1.555,
+            0
+          ],
+          "eye": [
+            0.565,
+            1.64,
+            0
+          ]
+        },
+        "supports": {
+          "mic": {
+            "mesh": "singing-tripod",
+            "floorY": 0,
+            "feet": [
+              {
+                "min": [
+                  0.1519134,
+                  0,
+                  -0.013
+                ],
+                "max": [
+                  0.1775184,
+                  0,
+                  0.013
+                ]
+              },
+              {
+                "min": [
+                  -0.3655866,
+                  0,
+                  -0.3117788
+                ],
+                "max": [
+                  -0.3399816,
+                  0,
+                  -0.2857788
+                ]
+              },
+              {
+                "min": [
+                  -0.3655866,
+                  0,
+                  0.2857788
+                ],
+                "max": [
+                  -0.3399816,
+                  0,
+                  0.3117788
+                ]
+              }
+            ]
+          },
+          "score": {
+            "mesh": "singing-tripod",
+            "floorY": 0,
+            "feet": [
+              {
+                "min": [
+                  -0.6170161,
+                  0.0003296,
+                  -0.6937829
+                ],
+                "max": [
+                  -0.6090573,
+                  0.0005869,
+                  -0.6862171
+                ]
+              },
+              {
+                "min": [
+                  -0.1511972,
+                  0,
+                  -0.4277513
+                ],
+                "max": [
+                  -0.1444406,
+                  0.0009814,
+                  -0.4177176
+                ]
+              },
+              {
+                "min": [
+                  -0.1511972,
+                  0,
+                  -0.9622824
+                ],
+                "max": [
+                  -0.1444406,
+                  0.0009814,
+                  -0.9522487
+                ]
+              }
+            ]
+          },
+          "camera": {
+            "deskId": "singing-rental/ground/live/camera-desk",
+            "baseY": 0.8399999982118607,
+            "contactArea": 0.022200000944733622,
+            "deskMeshes": [
+              "desktop"
+            ]
+          }
+        },
+        "microphone": {
+          "node": "singing-mic-pickup",
+          "surface": [
+            0.4132733,
+            1.5849387,
+            0
+          ],
+          "axis": [
+            0.9702956,
+            -0.2419224,
+            0
+          ],
+          "distanceMetres": 0.13996611287963123,
+          "incidenceDegrees": 1.6490489288674288,
+          "facingDegrees": 0,
+          "joins": {
+            "singing-mic-pickup / singing-mic-collar": [
+              0.3708086,
+              1.5967134,
+              -0.0250655
+            ],
+            "singing-mic-collar / singing-mic-handle": [
+              0.3597755,
+              1.602065,
+              -0.0217333
+            ],
+            "singing-mic-handle / singing-mic-clip": [
+              0.3289051,
+              1.6093277,
+              -0.0201616
+            ],
+            "singing-mic-clip / singing-boom": [
+              0.3080271,
+              1.6357855,
+              0
+            ]
+          }
+        },
+        "score": [
+          {
+            "page": "left",
+            "mesh": "singing-score-pages",
+            "point": [
+              -0.2905105,
+              1.2062608,
+              -0.584
+            ],
+            "incidenceDegrees": 32.284826505732354,
+            "glanceDegrees": 34.31874873829683,
+            "distanceMetres": 1.122979905967469
+          },
+          {
+            "page": "right",
+            "mesh": "singing-score-pages",
+            "point": [
+              -0.2905105,
+              1.2062608,
+              -0.796
+            ],
+            "incidenceDegrees": 40.67409399279334,
+            "glanceDegrees": 42.936297768532334,
+            "distanceMetres": 1.2464525123634076
+          }
+        ],
+        "camera": {
+          "node": "camera-lens",
+          "lens": [
+            -1.37,
+            0.887,
+            0.42
+          ],
+          "forward": [
+            1,
+            0,
+            0
+          ],
+          "rays": [
+            {
+              "reference": "mouth",
+              "target": [
+                0.55,
+                1.555,
+                0
+              ],
+              "horizontalDegrees": 12.339087279672249,
+              "verticalDegrees": 18.771859563809606
+            },
+            {
+              "reference": "eye",
+              "target": [
+                0.565,
+                1.64,
+                0
+              ],
+              "horizontalDegrees": 12.246332861006612,
+              "verticalDegrees": 20.821414818162193
+            }
+          ]
+        },
+        "scope": "Installed geometry and fixed performer references for staging and access."
+      }
+    }
+  ],
+  "negativeCases": [
+    {
+      "key": "singing-studio",
+      "status": "failed",
+      "code": "singing-camera-occluded",
+      "path": "singing-studio/ground/live/blocked-probe",
+      "message": "singing-camera-occluded at singing-studio/ground/live/blocked-probe: Geometry blocks the lens view of the performer reference.",
+      "entity": "singing-studio/ground/live/blocked-probe",
+      "preservedFiles": 8
+    },
+    {
+      "key": "singing-rental",
+      "status": "failed",
+      "code": "room-door-unreachable",
+      "path": "singing-rental/ground/portal-stream-living",
+      "message": "room-door-unreachable at singing-rental/ground/portal-stream-living: No clear physical route from a connected entrance to every authored indoor route.",
+      "entity": "singing-rental/ground/live/blocked-probe",
+      "preservedFiles": 8
+    }
+  ],
+  "retry": [
+    {
+      "key": "singing-studio",
+      "status": "idempotent"
+    }
+  ],
+  "adjustedRental": {
+    "coldRead": true,
+    "mouthHeight": 1.563,
+    "eyeHeight": 1.648,
+    "score": [
+      {
+        "page": "left",
+        "mesh": "singing-score-pages",
+        "point": [
+          -0.2905105,
+          1.2062608,
+          -0.609
+        ],
+        "incidenceDegrees": 33.62688777353211,
+        "glanceDegrees": 37.77956911792012,
+        "distanceMetres": 1.1433976523920875
+      },
+      {
+        "page": "right",
+        "mesh": "singing-score-pages",
+        "point": [
+          -0.2905105,
+          1.2062608,
+          -0.821
+        ],
+        "incidenceDegrees": 41.741996713511405,
+        "glanceDegrees": 46.0828459783381,
+        "distanceMetres": 1.270318124065365
+      }
+    ]
+  },
+  "publishedSha256": {
+    "singing-studio/input.json": "a84a6d05a3c0a6b65fc6fb3fd810cfb584df200572a17f1a859803d65062daeb",
+    "singing-studio/layout.json": "c1002f3b4d66d27a306f06aaa4a49c9c7f9471c5b80aad44f5550d489538a7ae",
+    "singing-studio/report.json": "6f12dddd63d0a69d196dbc405e0f2dce9a56c1daa6d67e4c737088e634eec170",
+    "singing-studio/save.json": "11ca3b0bbaa21fc247198e82a7050f555df8fc4bee05a9251be8334a3d669e08",
+    "singing-rental/input.json": "cb36bc1acee3f09307eef3f436b62dcef0b545942f452365c7211b5ccf250de5",
+    "singing-rental/layout.json": "99a95d09040034a42f276bf30a228d63f0f6585d18439481c6937115195cb8a7",
+    "singing-rental/report.json": "c14e674f17f5657d1605714244ae766cb6d389e00c1683ca8ed3df219e456c50",
+    "singing-rental/save.json": "f0fe48925a1a9422b9d561f580d9bce1eaa311b099c73f5009f5d58838199c2e"
+  }
+}
