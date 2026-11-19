@@ -191,10 +191,13 @@ node source/scripts/company-platform/batch.mjs source/scripts/company-platform/b
 cd source/prototype
 npm ci
 node scripts/build-company-id.mjs
-npx vite build --config vite.company.config.js
+node node_modules/vite/bin/vite.js build --config vite.company.config.js
 cd ../..
+node verify.mjs . --viewer source/prototype/dist-company
 node serve.mjs 0 source/prototype/dist-company
 ```
+
+首次接收可在完整工作副本中选择一个尚不存在的缓存目录，从包根目录运行 `npm ci --prefix source/prototype --cache ./npm-cache-first-install --no-audit --no-fund`，随后从上述生成构建身份的命令继续。首次下载需要能访问锁文件指定的源。对照时可在 `--viewer` 前填入交付回执给出的清单 SHA-256。输出列出相同、缺失、额外和内容变化的运行文件数与差异路径示例。核对整个原包仍使用前文的 `node verify.mjs`。
 
 source/assets-source保留模型参数，source/scripts/company-platform保留模型生产脚本、目录生成脚本和agent制作入口。npm ci后可从source目录运行对应模型脚本，再登记目录、生成新构建身份并重建。修改源会产生新候选，原viewer身份保留。
 

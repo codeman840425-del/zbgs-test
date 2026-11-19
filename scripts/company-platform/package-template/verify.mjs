@@ -2,12 +2,20 @@ import {createHash} from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const [folder = '.', expectedDigest, ...extra] = process.argv.slice(2);
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 
 async function verify() {
-  if (extra.length || (expectedDigest !== undefined && !/^[0-9a-f]{64}$/i.test(expectedDigest))) {
-    throw Error('Usage: node verify.mjs [PACKAGE_DIRECTORY] [EXPECTED_MANIFEST_SHA256]');
+  const args = process.argv.slice(2);
+  const viewerFlag = args.indexOf('--viewer');
+  let rebuiltViewer;
+  if (viewerFlag >= 0) {
+    const options = args.splice(viewerFlag);
+    if (options.length !== 2 || !options[1] || options[1].startsWith('--')) throw Error('Expected --viewer REBUILT_DIRECTORY');
+    rebuiltViewer = options[1];
+  }
+  const [folder = '.', expectedDigest] = args;
+  if (args.length > 2 || (expectedDigest !== undefined && !/^[0-9a-f]{64}$/i.test(expectedDigest))) {
+    throw Error('Usage: node verify.mjs [PACKAGE_DIRECTORY] [EXPECTED_MANIFEST_SHA256] [--viewer REBUILT_DIRECTORY]');
   }
   const root = await fs.realpath(folder);
   const manifestName = 'transfer-manifest.json';
@@ -28,22 +36,38 @@ async function verify() {
     }
     pending.set(file.path, file);
   }
+  let directory = root;
+  let pins = pending;
+  if (rebuiltViewer) {
+    directory = await fs.realpath(rebuiltViewer);
+    const sealedViewer = await fs.realpath(path.join(root, 'viewer')).catch(error => {
+      if (error.code === 'ENOENT') return undefined;
+      throw error;
+    });
+    if (sealedViewer && path.relative(directory, sealedViewer) === '') throw Error('Select the separate rebuilt output directory');
+    pins = new Map();
+    for (const [name, pin] of pending) {
+      if (name.startsWith('viewer/')) pins.set(name.slice('viewer/'.length), pin);
+    }
+    if (!pins.has('company.html') || !pins.has('company-build-info.json')) throw Error('Manifest lacks the fixed viewer entry or build identity');
+  }
+  const declaredFiles = pins.size;
   let checkedFiles = 0, extraFiles = 0, changedFiles = 0;
   const examples = [];
   function note(issue, file) {
     if (examples.length < 12) examples.push({issue, file});
   }
   async function visit(prefix) {
-    const entries = await fs.readdir(path.join(root, prefix), {withFileTypes:true});
+    const entries = await fs.readdir(path.join(directory, prefix), {withFileTypes:true});
     for (const entry of entries) {
       const name = prefix ? prefix + '/' + entry.name : entry.name;
-      if (name === manifestName) continue;
+      if (!rebuiltViewer && name === manifestName) continue;
       if (entry.isDirectory()) { await visit(name); continue; }
-      const pin = pending.get(name);
+      const pin = pins.get(name);
       if (!pin) { extraFiles++; note('extra', name); continue; }
-      pending.delete(name);
+      pins.delete(name);
       if (entry.isFile()) {
-        const content = await fs.readFile(path.join(root, name));
+        const content = await fs.readFile(path.join(directory, name));
         if (content.length === pin.bytes && digest(content) === pin.sha256) { checkedFiles++; continue; }
       }
       changedFiles++;
@@ -51,9 +75,10 @@ async function verify() {
     }
   }
   await visit('');
-  for (const name of pending.keys()) note('missing', name);
-  const result = {ok:!extraFiles && !changedFiles && pending.size === 0, build:manifest.buildId, manifestSha256,
-    declaredFiles:manifest.files.length, checkedFiles, extraFiles, changedFiles, missingFiles:pending.size};
+  for (const name of pins.keys()) note('missing', name);
+  const result = {ok:!extraFiles && !changedFiles && pins.size === 0, build:manifest.buildId, manifestSha256,
+    declaredFiles, checkedFiles, extraFiles, changedFiles, missingFiles:pins.size};
+  if (rebuiltViewer) result.scope = 'rebuilt-viewer';
   if (examples.length) result.examples = examples;
   return result;
 }
