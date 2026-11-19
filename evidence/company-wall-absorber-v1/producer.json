@@ -1,0 +1,198 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "label": "private work copy, from disk root, stock byte rebuild",
+      "status": 0,
+      "expectedRefusal": false
+    },
+    {
+      "label": "a flat illustration cannot be the panel",
+      "status": 1,
+      "expectedRefusal": true,
+      "diagnostic": "Error: wall-absorber-relief at wall-absorber-timber: Expected a room-facing panel with physical thickness and edge geometry"
+    },
+    {
+      "label": "back face floating off the wall",
+      "status": 1,
+      "expectedRefusal": true,
+      "diagnostic": "Error: wall-absorber-back-contact at wall-absorber-timber: No measurable bearing face touches the wall"
+    },
+    {
+      "label": "one loose DCC slat behind the nominal envelope",
+      "status": 1,
+      "expectedRefusal": true,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: Panel parts need actual contact with wall or connected backing: Chevron_1_left"
+    },
+    {
+      "label": "external buffer in DCC GLB",
+      "status": 1,
+      "expectedRefusal": true,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: Use embedded geometry buffers"
+    },
+    {
+      "label": "wrong original checksum",
+      "status": 1,
+      "expectedRefusal": true,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: Source GLB hash differs"
+    },
+    {
+      "label": "signed identity collision",
+      "status": 1,
+      "expectedRefusal": true,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: Edit signed panel under a new identity or version"
+    },
+    {
+      "label": "disk root refused",
+      "status": 1,
+      "expectedRefusal": true,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: Trial must stay inside project outputs"
+    },
+    {
+      "label": "path traversal refused",
+      "status": 1,
+      "expectedRefusal": true,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: Path traversal in trial destination"
+    },
+    {
+      "label": "Windows source-directory junction refused",
+      "status": 1,
+      "expectedRefusal": true,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: Linked path: F:\\gamemake-company-platform-c1\\output\\wall-absorber-v1\\production\\independent-F4tuhw\\junction"
+    },
+    {
+      "label": "valid original DCC retry at rejected destination",
+      "status": 0,
+      "expectedRefusal": false
+    },
+    {
+      "label": "private DCC source edited, reexported and accepted",
+      "status": 0,
+      "expectedRefusal": false
+    },
+    {
+      "label": "readback unchanged stock after failures and DCC acceptance",
+      "status": 0,
+      "expectedRefusal": false
+    }
+  ],
+  "workingCopy": "output/wall-absorber-v1/production/independent-F4tuhw/source",
+  "procedural": [
+    {
+      "id": "wall-absorber-honeyfelt",
+      "triangles": 576,
+      "meshes": 18,
+      "connected": 18,
+      "bounds": [
+        [
+          -0.3,
+          -0.6,
+          0
+        ],
+        [
+          0.3,
+          0.6,
+          0.08
+        ]
+      ],
+      "backArea": 0.577381,
+      "glb": "b795a27a8e60c19366229895f7063f614211efbeba4f3686f8eaab0ed643de71"
+    },
+    {
+      "id": "wall-absorber-timber",
+      "triangles": 2152,
+      "meshes": 9,
+      "connected": 9,
+      "bounds": [
+        [
+          -0.3,
+          -0.6,
+          0
+        ],
+        [
+          0.3,
+          0.6,
+          0.08
+        ]
+      ],
+      "backArea": 0.72,
+      "glb": "e1da3c834bbef2115281c48f018d7f5e2e30bbca313ae63bc94ef8369c0030c5"
+    },
+    {
+      "id": "wall-absorber-upholstered",
+      "triangles": 5388,
+      "meshes": 7,
+      "connected": 7,
+      "bounds": [
+        [
+          -0.3,
+          -0.6,
+          0
+        ],
+        [
+          0.3,
+          0.6,
+          0.08
+        ]
+      ],
+      "backArea": 0.72,
+      "glb": "30a9eea3e422a3c47c5cfaaf6e2574e42440c2c9621119f73de5028a757134c1"
+    },
+    {
+      "id": "wall-absorber-foam",
+      "triangles": 612,
+      "meshes": 51,
+      "connected": 51,
+      "bounds": [
+        [
+          -0.3,
+          -0.6,
+          0
+        ],
+        [
+          0.3,
+          0.6,
+          0.08
+        ]
+      ],
+      "backArea": 0.72,
+      "glb": "060127ec004c1edaa5f988dc7d67706b789107acaa32d1b2fc1864e6d015d365"
+    }
+  ],
+  "dcc": {
+    "original": {
+      "pin": "155e2413c0590372e1bf09c4599c70d338821e946b0914db373342ad555ec999",
+      "blenderReplay": "155e2413c0590372e1bf09c4599c70d338821e946b0914db373342ad555ec999",
+      "editable": {
+        "path": "assets-source/company-wall-absorber-v1/original/author-chevron.py",
+        "sha256": "7994634cd012b03938e4f3c3b52e58528e11f8f31687506e158474baa695a6a6"
+      },
+      "geometry": "8883a9a615b90a2f43860e2952a82796db15960bd84da51b457215560b88f0ec",
+      "meshes": 17
+    },
+    "edited": {
+      "id": "wall-absorber-timber",
+      "version": 3,
+      "model": "0d37b425c69a7a3ce7347bbcce9e66ffa6177a6314bc92e1e1ccfd166fc6083a",
+      "geometry": "68cebc67514cffa35f2851112de8a7a15965499112faa3ba9d6ac76f41d406df",
+      "meshes": 15,
+      "location": "output/wall-absorber-v1/production/independent-F4tuhw/new-v3"
+    }
+  },
+  "stockHashesBeforeAfter": {
+    "assets-source/company-wall-absorber-v1/collection.json": "8149820e9652db3ed402b61d5800137921e81a2279b9fcc315cbb4205ebdb9d4",
+    "prototype/public/company-assets/wall-absorber-v1/wall-absorber-honeyfelt/v1/model.glb": "b795a27a8e60c19366229895f7063f614211efbeba4f3686f8eaab0ed643de71",
+    "prototype/public/company-assets/wall-absorber-v1/wall-absorber-honeyfelt/v1/resource.json": "ce99d074f448fbaa225c52dc9242c91874e94e1efd1cb7b82ecc708e802539d0",
+    "prototype/public/company-assets/wall-absorber-v1/wall-absorber-timber/v1/model.glb": "e1da3c834bbef2115281c48f018d7f5e2e30bbca313ae63bc94ef8369c0030c5",
+    "prototype/public/company-assets/wall-absorber-v1/wall-absorber-timber/v1/resource.json": "17a7d461085a4aefc279e3b97c56758166b863d1a00c13371896302034c85699",
+    "prototype/public/company-assets/wall-absorber-v1/wall-absorber-upholstered/v1/model.glb": "30a9eea3e422a3c47c5cfaaf6e2574e42440c2c9621119f73de5028a757134c1",
+    "prototype/public/company-assets/wall-absorber-v1/wall-absorber-upholstered/v1/resource.json": "5eb4979dacc2af49d03ac5654e9952ccd70d837f4de9045a6d9357ba50701e6e",
+    "prototype/public/company-assets/wall-absorber-v1/wall-absorber-foam/v1/model.glb": "060127ec004c1edaa5f988dc7d67706b789107acaa32d1b2fc1864e6d015d365",
+    "prototype/public/company-assets/wall-absorber-v1/wall-absorber-foam/v1/resource.json": "eba40e06366074a6dfedbc5a384c1745fda3dac126849e85f0e311a6c4ee06f1"
+  },
+  "preview": {
+    "file": "physical-panels.png",
+    "sha256": "052afcbc267b4132ee199f7aeb581a8bcc10b247db10430ef31185b30bd9b8cc",
+    "method": "Blender 4.5.9 LTS, Cycles CPU on real independently imported GLBs, same wall and lighting."
+  }
+}
