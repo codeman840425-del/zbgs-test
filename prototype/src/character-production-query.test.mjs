@@ -1,6 +1,7 @@
 import productionCatalog from './native-production-catalog.json' with {type:'json'};
 import sourceOutfits from './source-outfit-profiles.json' with {type:'json'};
 import shoeOutfits from './source-shoe-outfits.json' with {type:'json'};
+import styleMatrix from '../../assets-source/variant-matrix-v1/representative-matrix.json' with {type:'json'};
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
@@ -156,7 +157,9 @@ test('lists exact body registrations and all outfits and material references fro
   const sourceProfiles = Object.values(sourceOutfits);
   assert.equal(registrations.length, 25 + sourceProfiles.length + productionCatalog.entries.length);
   const sourceCount = sourceProfiles.reduce((sum, row) => sum + 1 + (row.extraOutfits?.length ?? 0), 0);
-  assert.equal(outfitCount, 43 + sourceCount + shoeOutfits.length + productionCatalog.entries.length);
+  const imported = styleMatrix.styles.flatMap(style => style.variants)
+    .filter(row => row.outfitRegistration && row.status !== 'rejected' && row.budgetStatus !== 'reject-static-over-budget');
+  assert.equal(outfitCount, 43 + sourceCount + shoeOutfits.length + productionCatalog.entries.length + imported.length);
   assert.equal(checkedRecipes.size, 1);
 });
 
@@ -364,7 +367,12 @@ test('exposes the configured style matrix per exact body while keeping candidate
   const male = queryCharacterProduction((await fixture('male')).controller);
   const expected = ['uniform-top-v1', 'lower-shorts-v1', 'plain-crew-socks-v1'];
   assert.deepEqual(female.styleVariants.map(style => style.styleId), expected);
-  assert.deepEqual(male.styleVariants.map(style => style.styleId), expected);
+  const shirtId = 'shared-male-studio-top-v1';
+  assert.deepEqual(male.styleVariants.map(style => style.styleId), [...expected, shirtId]);
+  const withShirt = male.outfits.filter(look => look.equipment.some(item => item.id === shirtId));
+  assert.equal(withShirt.length, 1);
+  assert.deepEqual(withShirt[0].equipment.map(item => item.id), [shirtId, 'm1b-uniform-shoes', 'm1b-uniform-pants']);
+  assert.equal(female.outfits.some(look => look.equipment.some(item => item.id === shirtId)), false);
   for (const [body, query] of [['female',female],['male',male]]) {
     const [row] = query.styleVariants.find(style => style.styleId === 'plain-crew-socks-v1').variants;
     assert.equal(row.bodySha256, foundationProfile(body).sha256);

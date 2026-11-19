@@ -109,11 +109,24 @@ def main(argv=None):
     source=p.add_mutually_exclusive_group(required=True)
     source.add_argument('--spec',help='Repository-relative author spec')
     source.add_argument('--fragment',help='Repository-relative matrix containing one candidate style')
+    source.add_argument('--top',help='Repository-relative authored male top recipe (GLB and receipt beside recipe)')
+    p.add_argument('--install',action='store_true',help='Publish and register the authored top, or verify without this flag')
+    p.add_argument('--target-root',type=Path,help='In-project checkout containing the matching recipe and base resources for --top')
     p.add_argument('--publication',help='Published manifest for --spec')
     p.add_argument('--label',help='Catalog display label; defaults to the fragment label for --fragment')
-    p.add_argument('--matrix',type=Path,default=MATRIX)
+    p.add_argument('--matrix',type=Path)
     p.add_argument('--output',type=Path,help='Fresh output matrix; omitted to verify the existing registration')
     a=p.parse_args(argv)
+    if a.top:
+        if any(value is not None for value in (a.matrix, a.output, a.label, a.publication)):
+            p.error('--top uses the source recipe label and the target checkout catalog')
+        from register_top_style import import_top
+        print(json.dumps(import_top(a.top, install=a.install, target_root=a.target_root), ensure_ascii=True))
+        return
+    if a.install or a.target_root is not None:
+        p.error('--install and --target-root require --top')
+    if a.matrix is None:
+        a.matrix = MATRIX
     output = project_output(a.output, __file__) if a.output is not None else None
     if a.fragment:
         if a.publication is not None:
@@ -124,6 +137,8 @@ def main(argv=None):
         require(len(data['styles']) == 1, 'Expected a single style in the matrix fragment')
         style = data['styles'][0]
         require(all(v['status'] == 'candidate' for v in style['variants']), 'Expected only candidate variants')
+        require(all('outfitRegistration' not in row for row in style['variants']),
+                'outfitRegistration is reserved for validated authored top imports; use --top')
         if a.label is not None:
             style = dict(style, label=a.label)
         require(isinstance(style.get('label'), str) and style['label'].strip(), 'Expected a catalog label')

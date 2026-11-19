@@ -159,6 +159,18 @@ class PublishedStyleTests(unittest.TestCase):
                 else:
                     redirect.unlink()
 
+    def test_fragment_cannot_grant_an_outfit_registration(self):
+        fragment = json.loads((ROOT/'assets-source/variant-matrix-v1/uniform-lite-top-matrix.json').read_bytes())
+        fragment['styles'][0]['variants'][0]['outfitRegistration'] = {'topId': 'injected-top'}
+        with tempfile.TemporaryDirectory(dir=ROOT/'experiments') as directory:
+            folder = Path(directory)
+            presented = folder/'fragment.json'
+            presented.write_text(json.dumps(fragment))
+            output = folder/'matrix.json'
+            with self.assertRaisesRegex(ValueError, 'reserved for validated authored top imports'):
+                main(['--fragment', presented.relative_to(ROOT).as_posix(), '--output', str(output)])
+            self.assertFalse(output.exists())
+
 
 if __name__ == '__main__':
     unittest.main()

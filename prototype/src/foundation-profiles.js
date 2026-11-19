@@ -1,6 +1,7 @@
 import {nativeProductionCatalog} from './native-production-catalog.js';
 import sourceOutfits from './source-outfit-profiles.json' with {type:'json'};
 import sourceShoeOutfits from './source-shoe-outfits.json' with {type:'json'};
+import styleMatrix from '../../assets-source/variant-matrix-v1/representative-matrix.json' with {type:'json'};
 import performerLipAnchors from './performer-lip-anchors.json' with {type:'json'};
 import {REPRESENTATIVE_PROFILES} from './representative-batch.js';
 import {appearanceColorSupport} from './appearance-color-policy.js';
@@ -223,6 +224,33 @@ export function foundationProfile(bodyType = "female") {
     result.additionalEquipmentManifests=[layer.manifest,...(result.additionalEquipmentManifests??[])];
     result.additionalBodyCoverage=[{role:'fitTop',descriptor:layer.bodyCoverage},...(result.additionalBodyCoverage??[])];
     result.extraOutfits=[...(result.extraOutfits??[]),layer.outfit].sort((a,b)=>a.index-b.index);
+  }
+  // An intake registers one fit on the body. Every actor using that body
+  // resolves the same catalog without adding an entry for its character ID.
+  for (const style of styleMatrix.styles) {
+    for (const variant of style.variants) {
+      const fit = variant.outfitRegistration;
+      if (!fit || variant.bodyType !== bodyType || variant.status === 'rejected' ||
+          variant.budgetStatus === 'reject-static-over-budget') continue;
+      if (variant.bodySha256 !== result.sha256 || fit.baseManifestUrl !== result.manifestUrl ||
+          !/^[a-f0-9]{64}$/.test(fit.baseManifestSha256) ||
+          (result.manifestSha256 !== undefined && result.manifestSha256 !== fit.baseManifestSha256) ||
+          fit.sourceTopId !== result.ids.top || fit.pantsId !== result.ids.pants || fit.shoesId !== result.ids.shoes)
+        throw Error('Imported shirt requires its registered body and source outfit: ' + style.styleId);
+      if (!/^[a-z][a-z0-9-]+$/.test(fit.topId) || Object.hasOwn(result.ids, fit.topId) ||
+          Object.values(result.ids).includes(fit.topId) || !fit.manifest ||
+          fit.manifest.url !== '/assets/' + style.styleId + '/equipment.json' ||
+          variant.resourceManifest !== fit.manifest.url + '#' + fit.topId ||
+          !/^[a-f0-9]{64}$/.test(fit.manifest.sha256) || fit.manifest.sha256 !== variant.resourceManifestSha256)
+        throw Error('Invalid imported shirt identity: ' + style.styleId);
+      result.manifestSha256 = fit.baseManifestSha256;
+      result.additionalEquipmentManifests = [...(result.additionalEquipmentManifests ?? []), {...fit.manifest}];
+      result.ids[fit.topId] = fit.topId;
+      result.extraOutfits = [...(result.extraOutfits ?? []), {
+        index:fit.index, role:fit.role, label:fit.label,
+        bottomRole:'pants', equipmentRoles:[fit.topId, 'shoes', 'pants'],
+      }];
+    }
   }
   const initialLook = {
     ...(result.defaultOutfit ?? { index: 0, role: "pants" }),
