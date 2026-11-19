@@ -22,6 +22,7 @@ const parse = bytes => JSON.parse(bytes.toString('utf8'));
 const run = promisify(execFile);
 const families = {
   'company-desk-lamp-collection': 'desk-lamp',
+  'company-movable-absorber-collection': 'movable-absorber',
   'company-screen-partition-collection': 'screen-partition',
   'company-static-textile-collection': 'static-textile',
   'company-baseboard-collection': 'baseboard',
@@ -56,6 +57,7 @@ generatorFiles['vocal-mic-looks'] = 'build-vocal-mic-looks.mjs';
 generatorFiles['vocal-fit'] = 'build-vocal-fit.mjs';
 generatorFiles['vocal-height'] = 'build-vocal-height.mjs';
 generatorFiles['readable-score'] = 'build-readable-score.mjs';
+generatorFiles['movable-absorber'] = 'build-movable-absorber.mjs';
 generatorFiles['wall-absorber'] = 'build-wall-absorber.mjs';
 generatorFiles['wayfinding'] = 'build-wayfinding.mjs';
 generatorFiles['cleaning-loads'] = 'build-cleaning-loads.mjs';
@@ -69,6 +71,7 @@ productionBranches['vocal-mic-looks'] = 'floor-vocal-microphone';
 productionBranches['vocal-fit'] = 'floor-vocal-microphone';
 productionBranches['vocal-height'] = 'floor-vocal-microphone';
 productionBranches['readable-score'] = 'floor-score-stand';
+productionBranches['movable-absorber'] = 'movable-absorber-screen';
 productionBranches['wall-absorber'] = 'wall-absorber-panel';
 productionBranches['wayfinding'] = 'public-wayfinding-content';
 productionBranches['cleaning-loads'] = 'storage-cleaning-shelf';

@@ -331,6 +331,48 @@ export async function verifyWallAbsorberSources(root, resource, recipe) {
   return new Map(Object.entries(pins));
 }
 
+export async function verifyMovableAbsorberSources(root, resource, recipe) {
+  const family = 'assets-source/company-movable-absorber-v1/';
+  const originals = family+'original/';
+  const paths = {
+    generator:'scripts/company-platform/build-movable-absorber.mjs', contract:family+'contract.json',
+    sourceRecord:originals+'sources.json', license:originals+'PROJECT-SOURCE.txt',
+    panelDonor:originals+'screen-partition-acoustic.glb', footDonor:originals+'floor-whiteboard.glb',
+    casterDonor:originals+'platform-utility-cart.glb', casterLicense:originals+'CC0-source-declaration.txt'
+  };
+  const mismatch = key => {throw Object.assign(Error('movable-absorber-source-mismatch: '+key), {code:'movable-absorber-source-mismatch',path:key});};
+  const p = resource.provenance;
+  const design = recipe.designs?.find(d => d.id===resource.id && d.version===resource.version);
+  if (recipe.schema!=='company-movable-absorber-collection' || recipe.version!==1 || !design ||
+      !['folding','casters','double-sided','curved'].includes(design.kind) || p.sourceDesign!==design.kind ||
+      resource.displayName!==design.displayName || p.generator!==paths.generator || p.functionalContractSource!==paths.contract ||
+      !isDeepStrictEqual(resource.acoustic,{purpose:'movable-absorber-screen',construction:design.kind,configuration:'fixed-deployed'}))
+    mismatch(resource.id);
+  const generatorFile = path.resolve(root,paths.generator);
+  if (await fs.realpath(generatorFile)!==generatorFile) mismatch(paths.generator);
+  const pins = {};
+  let record, contract;
+  for (const [key,name] of Object.entries(paths)) {
+    const bytes = key==='generator' ? await fs.readFile(generatorFile) : await readProductionFile(root,name);
+    pins[key]={path:name,sha256:digest(bytes)};
+    if (key==='sourceRecord') record=JSON.parse(bytes);
+    if (key==='contract') contract=JSON.parse(bytes).resource;
+  }
+  if (record.licensePath!==paths.license || !record.author || p.sourceAuthor!==record.author ||
+      record.panelDonor?.originalId!=='screen-partition-acoustic' || record.panelDonor.version!==1 ||
+      record.footDonor?.originalId!=='information-board-floor-whiteboard' || record.footDonor.version!==1 ||
+      record.casterDonor?.author!=='Innerscene Corp' || record.casterDonor.license!=='CC0-1.0') mismatch(paths.sourceRecord);
+  for (const key of ['panelDonor','footDonor','casterDonor','casterLicense'])
+    if (record[key]?.path!==paths[key] || record[key]?.sha256!==pins[key].sha256) mismatch(paths[key]);
+  for (const [key,value] of Object.entries(contract))
+    if (!isDeepStrictEqual(resource[key],value)) mismatch(resource.id+'.'+key);
+  const license = design.kind==='casters' ? 'Project-authored and Innerscene CC0-1.0 caster components' : 'Project-authored';
+  if (!isDeepStrictEqual(p.dependencies,pins) || p.generatorSha256!==pins.generator.sha256 ||
+      p.functionalContractSourceSha256!==pins.contract.sha256 || p.sourceLicense!==license || p.license!==license)
+    mismatch(resource.id+'.provenance');
+  return new Map(Object.entries(pins));
+}
+
 export async function verifyWayfindingSources(root,resource,recipe) {
   const family='assets-source/company-wayfinding-v1/', common='assets-source/company-information-v1/';
   const scripts='scripts/company-platform/', p=resource.provenance;
@@ -486,6 +528,9 @@ export async function validateResourceProvenance({root, resource, label = resour
       await verifyWashroomDispenserSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && (resource.productionBranch==='wall-absorber-panel' || resource.mountRole==='wall-absorber-panel'))
       await verifyWallAbsorberSources(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && (resource.productionBranch==='movable-absorber-screen' || resource.mountRole==='movable-absorber-screen' ||
+        resource.acoustic?.purpose==='movable-absorber-screen' || provenance.generator==='scripts/company-platform/build-movable-absorber.mjs'))
+      await verifyMovableAbsorberSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && (resource.productionBranch==='public-wayfinding-content' || Object.hasOwn(resource,'wayfindingMeaning')))
       await verifyWayfindingSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && provenance.generator==='scripts/company-platform/build-washroom-sign.mjs')

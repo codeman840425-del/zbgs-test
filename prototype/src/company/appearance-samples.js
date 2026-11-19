@@ -22,7 +22,7 @@ import {createWallShelfSample} from './wall-shelf-samples.js';
 import {createCableSample} from './cable-samples.js';
 import {resolveWorkstationLook,workstationLooks,workstationLookOperations} from './workstation-looks.js';
 export const appearanceBranches=[
- ['screen-partition','落地屏风'],
+ ['screen-partition','落地屏风'],['movable-absorber-screen','移动吸声屏'],
  ['background-fabric','可收卷直播背景幕'],
  ['static-textile','沙发软装'],
  ['window-opening-and-glass','窗体与真实洞口'],
@@ -222,7 +222,7 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
      'ambient-led-and-neon':[[0,1.4,-3.4],0], 'plant-desktop-installation':[[-.70,.84,-.25],0],
      'fan-and-air-purifier':[[1.6,0,1.2],0],
      'hvac':[[0,2.24,-3.4],0],
-     'floor-panel':[[2,0,-1.5],0],rug:[[0,0,1.8],0], 'desk-lamp':[[.67,.84,-.2],0], 'camera-device':[[.52,.84,-.02],0], 'desktop-computer':[[-.48,.84,.02],0], 'laptop-computer':[[.34,.84,.08],0], 'background-display':[[0,0,-2.6],0], 'screen-partition':[[-2.2,0,0],Math.PI/2], 'headphones-and-stand':[[.72,.84,.05],0], 'audio-control':[[0,.84,.08],0], 'outlet-switch':[[0,1.35,-3.4],0], 'power-strip':[[0,.84,.3],0]};
+     'floor-panel':[[2,0,-1.5],0],rug:[[0,0,1.8],0], 'desk-lamp':[[.67,.84,-.2],0], 'camera-device':[[.52,.84,-.02],0], 'desktop-computer':[[-.48,.84,.02],0], 'laptop-computer':[[.34,.84,.08],0], 'background-display':[[0,0,-2.6],0], 'screen-partition':[[-2.2,0,0],Math.PI/2], 'movable-absorber-screen':[[-2.2,0,0],Math.PI/2], 'headphones-and-stand':[[.72,.84,.05],0], 'audio-control':[[0,.84,.08],0], 'outlet-switch':[[0,1.35,-3.4],0], 'power-strip':[[0,.84,.3],0]};
    const [position,yaw]=transforms[branch];target='sample/object';
    const deskMounted=selected.mount==='desk-surface';
    const parentId=deskMounted?`${station}/desk`:room.id;

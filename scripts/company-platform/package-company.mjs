@@ -719,6 +719,14 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   let verifyWallHvacSources;
   let verifyEquipmentCartSources;
   let verifyWashbasinSources,verifyWashroomDispenserSources,verifyPrintedSignSources;
+  let verifyMovableAbsorberSources;
+  if (catalog.resources.some(resource => resource.productionBranch === 'movable-absorber-screen')) {
+    const verifier = await noLinks(path.join(source, 'scripts/company-platform/validate-resource-provenance.mjs'));
+    ({verifyMovableAbsorberSources} = await import(pathToFileURL(verifier).href));
+    if (!verifyMovableAbsorberSources) fail('missing-production-tool', verifier, 'Expected the floor screen source verifier');
+    for (const entry of ['test-movable-absorber-geometry.mjs', 'test-movable-absorber-rooms.mjs', 'qa-movable-absorber.cjs'])
+      supplemental.add('scripts/company-platform/' + entry);
+  }
   let verifyWallAbsorberSources;
   if (catalog.resources.some(r=>r.productionBranch==='wall-absorber-panel')) {
     const verifier=await noLinks(path.join(source,'scripts/company-platform/validate-resource-provenance.mjs'));
@@ -963,7 +971,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
         productionSourcePins.set(pin.path,pin.sha256);
       }
     }
-    const equipmentVerifier = resource.productionBranch==='wall-absorber-panel' ? verifyWallAbsorberSources :
+    const equipmentVerifier = resource.productionBranch==='movable-absorber-screen' ? verifyMovableAbsorberSources :
+      resource.productionBranch==='wall-absorber-panel' ? verifyWallAbsorberSources :
       resource.productionBranch==='public-wayfinding-content' ? verifyWayfindingSources :
       resource.productionBranch==='storage-cleaning-shelf' ? verifyCleaningLoadSources :
       entry.generator==='scripts/company-platform/build-washroom-sign.mjs' ? verifyPrintedSignSources :
@@ -1023,6 +1032,9 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     add(`source/${name}`,bytes,'editable-production-source');
   }
   let readme=(await read(toolRoot,'package-template/README.template.md')).toString('utf8').replaceAll('{{BUILD_ID}}',buildId).replaceAll('{{SOURCE_DIGEST}}',info.sourceDigest);
+  const screenIds = new Set(catalog.resources.filter(resource => resource.productionBranch === 'movable-absorber-screen').map(resource => resource.id));
+  if (document.nodes.some(node => screenIds.has(node.resource?.id)))
+    readme += '\n输入房名可打开唱播间或带货出租屋。四种屏体的改款、保存与复跑见[移动吸声屏制作说明](source/assets-source/company-movable-absorber-v1/README.md)。\n';
   if(document.wayfindingRooms?.length)readme+='\n接待和报到区的观看地址、图文改版与复跑步骤见[接待与导视](source/docs/research/COMPANY-WAYFINDING-HANDOFF.md)。\n';
   if(document.publicStorageRooms?.length)readme+='\n可在实际楼层打开储物间，给层架和车换装耗材。见[制作、试装与复验](source/docs/research/COMPANY-PUBLIC-STORAGE-HANDOFF.md)。\n';
   if(document.meetingRooms?.length)readme+='\n四套公共会议区各自带有楼层入口和座位检查，可按房名直达。见[制作、改款与复验](source/docs/research/COMPANY-MEETING-ROOM-HANDOFF.md)。\n';

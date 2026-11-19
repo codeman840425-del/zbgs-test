@@ -1,0 +1,301 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "absorber-studio",
+      "input": {
+        "id": "absorber-studio",
+        "name": "独立唱播工作室 · 移动吸声屏",
+        "spaceProfile": {"id": "company-space-v2", "version": 1},
+        "furnishingVersion": 2,
+        "scale": "single-room",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "唱播间",
+                "purpose": "streaming",
+                "stations": 0,
+                "entry": [0, 0, 2.35]
+              }
+            ],
+            "exteriorEntrances": [
+              {
+                "id": "entry",
+                "regionId": "live",
+                "edge": "south",
+                "offset": 0,
+                "width": 1.4,
+                "height": 2.2
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "add-facility",
+          "id": "absorber-studio/ground/live/vocal",
+          "parentId": "absorber-studio/ground/live",
+          "resource": {"id": "floor-vocal-mic-disc-fit-lower", "version": 1},
+          "transform": {"position": [0, 0, 0], "yaw": 0}
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-studio/ground/live/score",
+          "parentId": "absorber-studio/ground/live",
+          "resource": {"id": "floor-score-stand-tripod-readable", "version": 1},
+          "transform": {"position": [0.69, 0, -0.38], "yaw": 0}
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-studio/ground/live/camera-desk",
+          "parentId": "absorber-studio/ground/live",
+          "resource": {"id": "desk-frame", "version": 1},
+          "transform": {"position": [-0.51, 0, -2.34], "yaw": 0}
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-studio/ground/live/camera",
+          "parentId": "absorber-studio/ground/live/camera-desk",
+          "resource": {"id": "camera-orbit-eye", "version": 1},
+          "transform": {"position": [-0.91, 0.84, 0.4], "yaw": 0}
+        },
+        {
+          "type": "set-surface-finish",
+          "id": "absorber-studio/ground/live",
+          "surface": "floor",
+          "finish": {
+            "resource": {"id": "floor-offset-plank", "version": 1}
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-studio/ground/live/background",
+          "parentId": "absorber-studio/ground/live",
+          "resource": {"id": "background-brand-panel", "version": 1},
+          "transform": {"position": [1.4, 0, 2.18], "yaw": 3.141592653589793}
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-studio/ground/live/fill",
+          "parentId": "absorber-studio/ground/live",
+          "resource": {"id": "fill-light-panel", "version": 1},
+          "transform": {"position": [-1.45, 0, -0.6], "yaw": 1.5707963267948966}
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-studio/ground/live/east-window",
+          "parentId": "absorber-studio/ground/live",
+          "resource": {"id": "window-opening-square-basic", "version": 1},
+          "transform": {"position": [2.9, 1.45, 0], "yaw": 4.71238898038469}
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-studio/ground/live/screen",
+          "parentId": "absorber-studio/ground/live",
+          "resource": {"id": "absorber-double-sided", "version": 1},
+          "transform": {"position": [2.1, 0, 0], "yaw": 1.5707963267948966}
+        }
+      ],
+      "singingRooms": [
+        {
+          "regionId": "absorber-studio/ground/live",
+          "portalId": "absorber-studio/ground/entry",
+          "roles": {
+            "mic": "absorber-studio/ground/live/vocal",
+            "score": "absorber-studio/ground/live/score",
+            "camera": "absorber-studio/ground/live/camera"
+          },
+          "performer": {
+            "coordinateSpace": "facility",
+            "slotId": "vocal",
+            "position": [0, 0, 0.77],
+            "yaw": 3.141592653589793,
+            "approach": [0, 0, 1.12],
+            "exit": [0, 0, 1.12],
+            "mouth": [-0.0137221147, 1.4998611454, 0.1334972148],
+            "eye": [-0.0161797469, 1.5848122486, 0.093537181]
+          },
+          "heightProfiles": {
+            "standard": {
+              "resource": {"id": "floor-vocal-mic-disc-fit-lower", "version": 1},
+              "mouth": [-0.0137221147, 1.4998611454, 0.1334972148],
+              "eye": [-0.0161797469, 1.5848122486, 0.093537181]
+            },
+            "low": {
+              "resource": {"id": "floor-vocal-mic-disc-height-low", "version": 1},
+              "mouth": [-0.0077806128, 1.3653426463, 0.115260715],
+              "eye": [-0.0092342425, 1.4424544796, 0.0672084413]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "absorber-rental",
+      "input": {
+        "id": "absorber-rental",
+        "name": "出租屋好物直播间 · 移动吸声屏",
+        "spaceProfile": {"id": "company-space-v2", "version": 1},
+        "furnishingVersion": 2,
+        "scale": "rental-home",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "食品陈列直播间",
+                "purpose": "streaming",
+                "stations": 0,
+                "entry": [1.66, 0, 0]
+              },
+              {
+                "id": "office",
+                "name": "选品工作间",
+                "purpose": "work",
+                "furniture": "desk-chair"
+              },
+              {
+                "id": "lounge",
+                "name": "休息间",
+                "purpose": "rest",
+                "sofaVersion": 1
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set-surface-finish",
+          "id": "absorber-rental/ground/live",
+          "surface": "floor",
+          "finish": {
+            "resource": {"id": "floor-offset-plank", "version": 1}
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-rental/ground/live/backdrop",
+          "parentId": "absorber-rental/ground/live",
+          "resource": {"id": "background-grid-panel", "version": 1},
+          "transform": {"position": [0.12, 0, -1.8], "yaw": 0}
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-rental/ground/live/counter",
+          "parentId": "absorber-rental/ground/live",
+          "resource": {"id": "hinged-cabinet-flat-panel", "version": 1},
+          "transform": {"position": [-0.15, 0, -0.55], "yaw": 0}
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-rental/ground/live/stock-shelf",
+          "parentId": "absorber-rental/ground/live",
+          "resource": {"id": "support-shelf-frame-posts", "version": 1},
+          "transform": {"position": [-1.5, 0, -1.18], "yaw": 0}
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-rental/ground/live/camera-desk",
+          "parentId": "absorber-rental/ground/live",
+          "resource": {"id": "desk-trestle", "version": 1},
+          "transform": {"position": [-0.15, 0, 1.43], "yaw": 0}
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-rental/ground/live/camera",
+          "parentId": "absorber-rental/ground/live/camera-desk",
+          "resource": {"id": "camera-orbit-eye", "version": 1},
+          "transform": {"position": [0, 0.84, -0.38], "yaw": 3.141592653589793}
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-rental/ground/live/key-light",
+          "parentId": "absorber-rental/ground/live",
+          "resource": {"id": "fill-light-panel", "version": 1},
+          "transform": {"position": [-1.7, 0, 0.48], "yaw": 1.5707963267948966}
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-rental/ground/live/featured",
+          "parentId": "absorber-rental/ground/live/counter",
+          "resource": {"id": "showcase-product-honey", "version": 1},
+          "transform": {"position": [0, 1.2, 0.08], "yaw": 0},
+          "attachment": {
+            "surfaceId": "top"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-rental/ground/live/sample-low",
+          "parentId": "absorber-rental/ground/live/stock-shelf",
+          "resource": {"id": "showcase-product-bag", "version": 1},
+          "transform": {"position": [0, 0.45, 0], "yaw": 0},
+          "attachment": {
+            "surfaceId": "lower"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-rental/ground/live/sample-mid",
+          "parentId": "absorber-rental/ground/live/stock-shelf",
+          "resource": {"id": "showcase-product-can", "version": 1},
+          "transform": {"position": [0, 1.05, 0], "yaw": 0},
+          "attachment": {
+            "surfaceId": "middle"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-rental/ground/live/sample-high",
+          "parentId": "absorber-rental/ground/live/stock-shelf",
+          "resource": {"id": "showcase-product-carton", "version": 1},
+          "transform": {"position": [0, 1.8, 0], "yaw": 0},
+          "attachment": {
+            "surfaceId": "top"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "absorber-rental/ground/live/screen",
+          "parentId": "absorber-rental/ground/live",
+          "resource": {"id": "absorber-casters", "version": 1},
+          "transform": {"position": [1.42, 0, -1.12], "yaw": 0}
+        }
+      ],
+      "productShowcases": [
+        {
+          "roomId": "absorber-rental/ground/live",
+          "portalId": "absorber-rental/ground/portal-stream-living",
+          "approach": [],
+          "aisleWidth": 0.75,
+          "presenter": {
+            "offset": [1, 0.55],
+            "width": 0.75,
+            "depth": 0.8,
+            "height": 1.9
+          },
+          "maxOffAxisDegrees": 30,
+          "members": {
+            "counter": "absorber-rental/ground/live/counter",
+            "stockShelf": "absorber-rental/ground/live/stock-shelf",
+            "featured": "absorber-rental/ground/live/featured",
+            "camera": "absorber-rental/ground/live/camera",
+            "backdrop": "absorber-rental/ground/live/backdrop",
+            "sampleLow": "absorber-rental/ground/live/sample-low",
+            "sampleMid": "absorber-rental/ground/live/sample-mid",
+            "sampleHigh": "absorber-rental/ground/live/sample-high"
+          }
+        }
+      ]
+    }
+  ]
+}
