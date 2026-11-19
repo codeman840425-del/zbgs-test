@@ -1,0 +1,88 @@
+{
+  "schema": "uniform-glasses-transfer-provenance-v1",
+  "referenceCommit": "1239c0e2a7c2ecaa226fdb8a40bd4e12f710b068",
+  "intake": {
+    "path": "evidence/m2-uniform-live-fit-intake-v1/glasses.json",
+    "sha256": "bb26805e78ff4353dedc177db6aa1fdcd401c629ae88e04d50e6212f3b5d26b5"
+  },
+  "hair": "original",
+  "neutralFace": true,
+  "accessory": {
+    "id": "studio-glasses-v1",
+    "sha256": "c8098a499434c384850a73e6c207fb6c5e85620e9012c4426cd989952e5bec52",
+    "sockets": {
+      "bridge": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "forward": [
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    "temples": [
+      {
+        "mesh": "Temple-1",
+        "vertices": 36,
+        "positionSha256": "16b0d1c786e4d8104fd29f5b9d453df7aac571813c030b4d72be9d21c07ec879",
+        "rings": 4
+      },
+      {
+        "mesh": "Temple1",
+        "vertices": 36,
+        "positionSha256": "bc51482d6ae3e1888f75c9ef99251e70c25f3c15e43e32c83dd77abdbabfe24d",
+        "rings": 4
+      }
+    ]
+  },
+  "posedTargetMeasured": false,
+  "runtimeAdmission": false,
+  "candidates": [
+    {
+      "body": "source-female-uniform-texture-v1",
+      "targetSha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+      "level": "exact-parent-transfer-candidate",
+      "donor": {
+        "donor": "female",
+        "donorSha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+        "fitSha256": "cb56bd93a8f2719de813692dddea6f78ff399945dc45c2022f0fcf37ae012b5a",
+        "provenParent": true,
+        "different": [],
+        "reuseEligible": true
+      },
+      "donorFitId": "female-temple-fit-v1",
+      "file": "source-female-uniform-texture-v1.json",
+      "fitId": "uniform-1k-female-temple-fit-v1",
+      "sha256": "4dbd284c4c90b0a03fad2f367776a72b4b108df7e8bd5dee42b2d559a00a147c",
+      "bytes": 7617
+    },
+    {
+      "body": "source-male-cc0-texture-release-v1",
+      "targetSha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+      "level": "neutral-surface-diagnostic-candidate",
+      "donor": {
+        "donor": "male",
+        "donorSha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+        "fitSha256": "3f14e225d594a4f233cfe5725c2baec83159265046a090220e5acd105b6c965b",
+        "provenParent": false,
+        "different": [
+          "mount",
+          "rawMount",
+          "surfaces",
+          "nodeSkinAndHumanoidSha256",
+          "inverseBindSha256"
+        ],
+        "reuseEligible": false
+      },
+      "donorFitId": "male-temple-fit-v1",
+      "file": "source-male-cc0-texture-release-v1.json",
+      "fitId": "uniform-1k-male-temple-fit-v1",
+      "sha256": "ff603b729e705471c4f9270f087f8adce4f76e1771765a0d92e2464863d075f2",
+      "bytes": 7628
+    }
+  ]
+}

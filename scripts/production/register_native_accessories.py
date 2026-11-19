@@ -11,6 +11,7 @@ import tempfile
 
 from native_import import ROOT, confined, digest
 from native_accessory_batch import is_unfitted_glasses_capture
+from production_paths import main_checkout, resolve_output_path
 
 
 GRIPS = 'prototype/public/assets/m1c/grips/manifest.json'
@@ -195,7 +196,8 @@ def publish(root, changes):
 
 
 def register(result_path, root=ROOT):
-    root = root.resolve()
+    root = resolve_output_path(root)
+    check(root.is_relative_to(main_checkout(__file__)), 'Registration checkout must be inside the production project')
     result_path = result_path.resolve()
     check(result_path.is_relative_to(root), 'Expected result file inside the target checkout')
     result = json.loads(result_path.read_bytes())

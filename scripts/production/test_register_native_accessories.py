@@ -10,7 +10,7 @@ import register_native_accessories as registration
 
 class NativeAccessoryRegistrationTests(unittest.TestCase):
     def setUp(self):
-        scratch = tempfile.TemporaryDirectory()
+        scratch = tempfile.TemporaryDirectory(dir=registration.ROOT / 'experiments')
         self.addCleanup(scratch.cleanup)
         self.root = Path(scratch.name)
         self.source_result = Path('evidence/m2-native-batch-runtime-seam-v1/accessory-smoke/result.json')
@@ -60,6 +60,11 @@ class NativeAccessoryRegistrationTests(unittest.TestCase):
         self.assertFalse((self.root / registration.PRESENTATION).exists())
         self.assertFalse(self.grip_path.exists())
         self.assertFalse(self.glasses_path.exists())
+
+    def test_external_checkout_is_rejected_before_reading_the_result(self):
+        external = registration.ROOT.parent
+        with self.assertRaisesRegex(ValueError, 'checkout must be inside the production project'):
+            registration.register(external / 'missing-fit-receipt.json', external)
 
     def test_separate_results_and_idempotence(self):
         mic_only = self.source_result.with_name('mic-result.json')
