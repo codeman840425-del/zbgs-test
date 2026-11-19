@@ -275,7 +275,7 @@ export async function loadFoundationAvatar({
     baseBodyDisplay: sourceBodyDisplay ? 'source-materials-and-hair' : 'gray-diagnostic-without-hair',
     floorAlignment: { sourceFloorY, modelOffsetY: -sourceFloorY, basis: 'configured source footwear rest plane; scene ground remains owned by actor root' },
     meshRoles,
-    footwear: { kind: "shoes", meshes: surfaces.shoes.map((m) => m.name) },
+    get footwear() { return { kind: "shoes", meshes: surfaces.shoes.map(m => m.name) }; },
     garmentStatus: "independent new-body equipment; visual acceptance pending",
     motion: {
       forearmCollision: new URLSearchParams(location.search).get("forearm") === "legacy" ? null : forearmCollision,
@@ -284,6 +284,9 @@ export async function loadFoundationAvatar({
       forearmProfileTiming: new URLSearchParams(location.search).has("forearmTiming"),
       preserveAuthoredSitHands: new URLSearchParams(location.search).get("handTarget") !== "lap",
       deriveSeatFromBody: true,
+      getFootwear: equipment.getFootwear,
+      defaultFootwearId: equipment.defaultFootwearId,
+      subscribeFootwear: equipment.subscribeFootwear,
       get preserveAuthoredHands() { return livePresentation.getState().speaking; },
       seatClothAllowance: 0.006,
       seatHeight: 0.47,

@@ -67,12 +67,33 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   let coverage, textureCoverage, garmentCoverage, garmentCoveragePending, skirtCorrective;
   let revision=0,intentRevision=0;
   const pendingUpdates=new Set();
+  const footwearIds = new Map();
+  const footwearPreparers = new Set();
+  const getFootwear = () => adapter.get(footwearIds.get(outfit));
   function buildPreparedOutfit(nextOutfit,nextDebugBody,expectedIntent=intentRevision){
     if(disposed)throw Error('Equipment is disposed');
-    const look=outfitSelection(config,nextOutfit),selected=nextDebugBody?[IDS.shoes]:look.ids;
+    const look=outfitSelection(config,nextOutfit),selected=nextDebugBody?[footwearIds.get(nextOutfit)]:look.ids;
+    const shoeUpdates = [];
     let update,textureUpdate,garmentUpdate,equipmentUpdate;
-    try{update=coverage?.prepareEquipmentSet(selected);garmentUpdate=garmentCoverage?.prepareEquipmentSet(selected);textureUpdate=textureCoverage?.prepareEquipmentSet(selected);equipmentUpdate=adapter.prepareLoadedSet(selected);}
-    catch(error){update?.dispose();textureUpdate?.dispose();garmentUpdate?.dispose();throw error;}
+    function releasePreparations() {
+      const failures = [];
+      for (const piece of [...shoeUpdates, equipmentUpdate, update, textureUpdate, garmentUpdate]) {
+        try { piece?.dispose(); } catch (error) { failures.push(error); }
+      }
+      if (failures.length) throw new AggregateError(failures, 'Outfit preparation cleanup failed');
+    }
+    try{update=coverage?.prepareEquipmentSet(selected);garmentUpdate=garmentCoverage?.prepareEquipmentSet(selected);textureUpdate=textureCoverage?.prepareEquipmentSet(selected);equipmentUpdate=adapter.prepareLoadedSet(selected);
+      if (footwearIds.get(nextOutfit) !== footwearIds.get(outfit)) {
+        const nextShoe = adapter.get(footwearIds.get(nextOutfit));
+        for (const prepare of footwearPreparers) shoeUpdates.push(prepare(nextShoe));
+      }
+    }
+    catch(error){
+      try { releasePreparations(); } catch (cleanup) {
+        throw new AggregateError([error, cleanup], 'Outfit preparation and cleanup failed', {cause:error});
+      }
+      throw error;
+    }
     const ticket=++revision;let live=true,cleaned=false,committed=false,rolledBack=false;
     const previousState={outfit,lowerBodyRole,debugBody};
     const prepared={
@@ -81,7 +102,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         if(!prepared.isCurrent())throw Error('Outfit preparation is no longer current');
         const committedUpdates=[];
         try{
-          for(const candidate of [textureUpdate,equipmentUpdate,update,garmentUpdate]){if(candidate)committedUpdates.push(candidate);candidate?.commit();}
+          for(const candidate of [textureUpdate,equipmentUpdate,update,garmentUpdate,...shoeUpdates]){if(candidate)committedUpdates.push(candidate);candidate?.commit();}
         }
         catch(error){
           const rollbackErrors=[];
@@ -98,11 +119,17 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         if(!committed||rolledBack)return;
         if(cleaned)throw Error('Outfit update already finalized');
         const errors=[];
-        for(const candidate of [garmentUpdate,update,equipmentUpdate,textureUpdate])try{candidate?.rollback?.();}catch(error){errors.push(error);}
+        for(const candidate of [...shoeUpdates.slice().reverse(),garmentUpdate,update,equipmentUpdate,textureUpdate])try{candidate?.rollback?.();}catch(error){errors.push(error);}
         outfit=previousState.outfit;lowerBodyRole=previousState.lowerBodyRole;debugBody=previousState.debugBody;rolledBack=true;
         if(errors.length)throw Error('Outfit rollback failed: '+errors.map(error=>error.message).join('; '));
       },
-      dispose(){if(cleaned)return;cleaned=true;live=false;pendingUpdates.delete(prepared);try{equipmentUpdate.dispose();}finally{try{update?.dispose();}finally{try{textureUpdate?.dispose();}finally{garmentUpdate?.dispose();}}}},
+      dispose() {
+        if (cleaned) return;
+        cleaned = true;
+        live = false;
+        pendingUpdates.delete(prepared);
+        releasePreparations();
+      },
     };pendingUpdates.add(prepared);return prepared;
   }
   function createSkirtAtRest(args) {
@@ -179,7 +206,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   }
   function prepareOutfitSync(nextOutfit=outfit,nextDebugBody=debugBody){
     intentRevision++;
-    const look=outfitSelection(config,nextOutfit),selected=nextDebugBody?[IDS.shoes]:look.ids;
+    const look=outfitSelection(config,nextOutfit),selected=nextDebugBody?[footwearIds.get(nextOutfit)]:look.ids;
     if(selected.some(id=>!adapter.get(id)))throw Error('Outfit resources are not loaded; await prepareOutfit');
     if(config.garmentCoverage&&selected.includes(IDS.outer)&&!garmentCoverage)throw Error('Outfit coverage is not prepared; await prepareOutfit');
     if(IDS.skirt&&look.bottomRole==='skirt'&&!skirtCorrective)throw Error('Skirt solver is not prepared; await prepareOutfit');
@@ -191,6 +218,12 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     try{update.commit();}finally{update.dispose();}
   }
   try {
+    for (const look of config.outfits) {
+      const selected = outfitSelection(config, look.index).ids;
+      const shoes = selected.filter(id => adapter.describe(id).slot === 'shoes');
+      if (shoes.length !== 1) throw Error('Outfit must select exactly one footwear item: ' + look.role);
+      footwearIds.set(look.index, shoes[0]);
+    }
     const coverageBindings = [
       ...(config.bodyCoverage ? [{entry:adapter.describe(IDS.top), descriptor:config.bodyCoverage}] : []),
       ...(config.additionalBodyCoverage ?? []).map(({role,descriptor}) => {
@@ -218,6 +251,12 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   }
   return {
     prepareOutfit,
+    getFootwear,
+    defaultFootwearId: footwearIds.get(0),
+    subscribeFootwear: new Set(footwearIds.values()).size > 1 ? prepare => {
+      footwearPreparers.add(prepare);
+      return () => footwearPreparers.delete(prepare);
+    } : undefined,
     get bodyTextureCoverage() { return textureCoverage; },
     setOutfit(value) {
       const { selection } = outfitSelection(config, value);
@@ -261,7 +300,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         hair,
         get top() { return item(selectedTopRole())?.meshes || []; },
         get outer() { return IDS.outer ? item("outer")?.meshes || [] : []; },
-        shoes: item("shoes").meshes,
+        get shoes() { return getFootwear().meshes; },
         get pants() { return item(['shorts','onePiece'].includes(lowerBodyRole) ? lowerBodyRole : 'pants')?.meshes || []; },
         get allPants() { return [...(item("pants")?.meshes || []), ...(IDS.shorts ? item("shorts")?.meshes || [] : []), ...(IDS.onePiece ? item('onePiece')?.meshes || [] : [])]; },
         get onePiece() { return IDS.onePiece ? item('onePiece')?.meshes || [] : []; },
@@ -279,6 +318,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
       if (disposed) return;
       disposed = true;intentRevision++;
       for(const update of pendingUpdates)update.dispose();
+      footwearPreparers.clear();
       skirtCorrective?.dispose();
       garmentCoverage?.dispose();
       coverage?.dispose();

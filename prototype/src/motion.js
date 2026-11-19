@@ -1,3 +1,4 @@
+import { createFootwearSampler } from './footwear-contact.js';
 import { createJointHandWorkspace } from "./joint-hand-workspace.mjs";
 import { completeBodyGeometry } from "./body-coverage.js";
 import * as THREE from "three";
@@ -215,165 +216,39 @@ export function createMotion(
       contactTravel: 0,
     };
   });
-  // Calibrate against the loaded, CPU-deformed outsole, not an ankle-height
-  // assumption. That assumption put the mathematical pivot on y=0 while the
-  // real shoe still floated about 2 cm above it on this avatar.
-  const shoeVertices = [];
-  const normalizedForRaw = new Map();
-  for (const [name, node] of Object.entries(nodes)) {
-    const raw = vrm.humanoid.getRawBoneNode?.(name);
-    if (raw)
-      normalizedForRaw.set(raw, {
-        name,
-        node,
-        inverseRest: node.matrixWorld.clone().invert(),
-      });
+  const startingShoes=profile?.getFootwear?.();
+  if(profile?.getFootwear&&!startingShoes)throw Error('Motion requires the selected footwear to be loaded');
+  const sampler=createFootwearSampler(vrm,root,nodes,feet);
+  const initialFit=sampler.build(startingShoes,true);
+  const neutralAnkles=feet.map(foot=>foot.local.y);
+  let standingLift=0;
+  function installFit(item,fit){
+    const lifted=item&&profile?.defaultFootwearId!==undefined&&item.id!==profile.defaultFootwearId;
+    if(lifted&&fit.some(f=>!f.soleSamples?.heel||!f.soleSamples?.toe))throw Error('Missing weighted footwear contact patch');
+    standingLift=0;
+    for(let i=0;i<feet.length;i++){
+      const foot=feet[i],shoe=fit[i];
+      const lift=lifted?-shoe.minRestY:0;
+      Object.assign(foot,shoe);
+      foot.local.y=neutralAnkles[i]+lift;
+      standingLift+=lift/feet.length;
+    }
   }
-  vrm.scene.traverse((mesh) => {
-    if (
-      !mesh.isSkinnedMesh ||
-      !(Array.isArray(mesh.material) ? mesh.material : [mesh.material]).some(
-        (m) => /Shoes/i.test(m?.name),
-      )
-    )
-      return;
-    // Hidden embedded shoes are replaced by equipment. Only the active
-    // footwear is a contact surface; duplicates must not enter calibration.
-    for (let parent = mesh; parent; parent = parent.parent)
-      if (!parent.visible) return;
-    mesh.skeleton.update();
-    const indices = mesh.geometry.attributes.skinIndex,
-      weights = mesh.geometry.attributes.skinWeight;
-    const referenced = mesh.geometry.index
-      ? new Set(mesh.geometry.index.array)
-      : Array.from(
-          { length: mesh.geometry.attributes.position.count },
-          (_, i) => i,
-        );
-    for (const i of referenced) {
-      const world = mesh
-        .getVertexPosition(i, new V())
-        .applyMatrix4(mesh.matrixWorld);
-      const influences = [];
-      for (let k = 0; k < 4; k++) {
-        const weight = weights.getComponent(i, k),
-          source = normalizedForRaw.get(
-            mesh.skeleton.bones[indices.getComponent(i, k)],
-          );
-        if (weight > 1e-6 && source) influences.push({ ...source, weight });
-      }
-      const local = root.worldToLocal(world.clone());
-      shoeVertices.push({ local, world, influences, mesh, vertexIndex: i });
-    }
-  });
-  for (const foot of feet) {
-    // A narrow stance puts the opposite shoe inside the old +/- 7 cm X band.
-    // Select actual foot/ankle skin weights: a swinging toe must never borrow
-    // the planted opposite shoe's floor height or horizontal contact point.
-    const belongsToFoot = (p) =>
-      p.influences.reduce(
-        (sum, influence) =>
-          sum +
-          (influence.name.startsWith(foot.side) &&
-          /(?:Foot|Toes|LowerLeg)$/.test(influence.name)
-            ? influence.weight
-            : 0),
-        0,
-      ) > 0.999;
-    const oldSelection = shoeVertices.filter(
-      (p) =>
-        Math.abs(p.local.x - foot.local.x) < 0.07 &&
-        p.influences.reduce((s, x) => s + x.weight, 0) > 0.999,
-    );
-    foot.soleSelectionAudit = {
-      legacyVertexCount: oldSelection.length,
-      legacyForeignVertexCount: oldSelection.filter((p) => !belongsToFoot(p))
-        .length,
-      selectedVertexCount: shoeVertices.filter(belongsToFoot).length,
-      patches: {},
-    };
-    const sameFoot = shoeVertices.filter(
-      (p) =>
-        belongsToFoot(p) &&
-        p.influences.reduce((s, x) => s + x.weight, 0) > 0.999,
-    );
-    if (sameFoot.length < 8) continue;
-    const toeAt = foot.toe
-      ? root.worldToLocal(worldPoint(foot.toe))
-      : foot.local.clone().add(new V(0, 0, 0.1));
-    for (const kind of ["heel", "toe"]) {
-      const region = sameFoot.filter((p) =>
-        kind === "heel"
-          ? p.local.z <= foot.local.z + 0.015
-          : p.local.z >= foot.local.z + 0.015,
-      );
-      if (!region.length) continue;
-      const bottom = Math.min(...region.map((p) => p.local.y));
-      const low = region.filter((p) => p.local.y < bottom + 0.012);
-      foot.soleSelectionAudit.patches[kind] = low.map((p) => ({
-        mesh: p.mesh.uuid,
-        vertex: p.vertexIndex,
-      }));
-      const center = low
-        .reduce((sum, p) => sum.add(p.local), new V())
-        .divideScalar(low.length);
-      foot.restSoleOffsets ??= {};
-      const owner = kind === "toe" && foot.toe ? foot.toe : foot.foot;
-      const offset = point(center)
-        .sub(worldPoint(owner))
-        .applyQuaternion(owner.getWorldQuaternion(new Q()).invert());
-      if (kind === "toe" && foot.toe) foot.toeOffset.copy(offset);
-      else foot.soleOffsets[kind].copy(offset);
-      foot.soleSamples ??= {};
-      foot.soleSamples[kind] = () => {
-        const points = low.map((vertex) =>
-          vertex.influences.reduce(
-            (sum, { node, inverseRest, weight }) =>
-              sum.addScaledVector(
-                vertex.world
-                  .clone()
-                  .applyMatrix4(inverseRest)
-                  .applyMatrix4(node.matrixWorld),
-                weight,
-              ),
-            new V(),
-          ),
-        );
-        const minY = Math.min(...points.map((p) => p.y));
-        let total = 0;
-        const result = new V();
-        // Soft minimum avoids a discontinuity when adjacent outsole vertices
-        // exchange the lowest point during foot roll (1 mm smoothing width).
-        for (const p of points) {
-          const w = Math.exp(-(p.y - minY) / 0.001);
-          total += w;
-          result.addScaledVector(p, w);
-        }
-        result.divideScalar(total);
-        // Horizontal lock follows a fixed patch of material. Do not move it
-        // to whichever vertex happens to be lowest, which would itself slide
-        // the shoe when the sole becomes flat. Only floor clearance uses minY.
-        result.x = points.reduce((s, p) => s + p.x, 0) / points.length;
-        result.z = points.reduce((s, p) => s + p.z, 0) / points.length;
-        return result;
-      };
-      // Use the same material-patch XZ and soft-min Y for prediction and
-      // measurement. Arithmetic mean Y sat 4.24 mm above the female sole;
-      // every turn landing/handoff otherwise reapplied that downward error.
-      foot.restSoleOffsets[kind] = foot.soleSamples[kind]()
-        .sub(worldPoint(foot.foot))
-        .applyQuaternion(foot.foot.getWorldQuaternion(new Q()).invert());
-      foot.landmarkMethod =
-        "weighted Shoes patch XZ + outsole soft-min Y (1 mm)";
-    }
+  installFit(startingShoes,initialFit);
+  const clipFrames=profile?.subscribeFootwear?new Map():null;
+  function captureFootwearFrame(key){
+    if(!clipFrames)return;
+    if(!clipFrames.has(key))clipFrames.set(key,[]);
+    clipFrames.get(key).push(sampler.captureFrame());
   }
   const legLength =
     (feet[0].first + feet[0].second + feet[1].first + feet[1].second) / 2;
   let stride = legLength * 1.15;
+  let geometricStride=stride;
   // Clip phase is chosen from the actual two-foot pose. A boolean contact test
   // cannot choose a support side during a run's flight interval.
   const gaitPoses = { walk: [], jog: [] };
-  const gaitSupport = { walk: [], jog: [] };
+  let gaitSupport = { walk: [], jog: [] };
   const captureGaitPose = () => feet.map(foot => root.worldToLocal(worldPoint(foot.foot)));
   const captureGaitSupport = () => feet.map(foot => ({
     hip: root.worldToLocal(worldPoint(foot.upper)),
@@ -455,7 +330,7 @@ export function createMotion(
     return result;
   }
   const stance = 0.6;
-  const ankleHeight = (feet[0].local.y + feet[1].local.y) / 2;
+  const ankleHeight = (neutralAnkles[0] + neutralAnkles[1]) / 2;
   const defaultSeatHeight =
     profile?.seatHeight ??
     (feet[0].second + feet[1].second) / 2 + ankleHeight - 0.025;
@@ -529,7 +404,7 @@ export function createMotion(
     sourceActions = {},
     sourceSitHip = null,
     sourceGroundLift = 0, sourceJogGroundLift = 0;
-  const danceGroundLifts = {};
+  let danceGroundLifts = {};
   if (motions?.clips?.walk && motions?.clips?.idle) {
     sourceMixer = new THREE.AnimationMixer(vrm.scene);
     for (const [name, clip] of Object.entries(motions.clips)) {
@@ -556,6 +431,7 @@ export function createMotion(
       sourceWalk.time = (i / 120) * motions.clips.walk.duration;
       sourceMixer.update(0);
       root.updateWorldMatrix(true, true);
+      captureFootwearFrame("walk");
       gaitPoses.walk.push(captureGaitPose());
       gaitSupport.walk.push(captureGaitSupport());
       for (const foot of feet) {
@@ -600,6 +476,7 @@ export function createMotion(
       legLength * 0.7,
       legLength * 1.7,
     );
+    geometricStride=stride;
     // Fallback for clips without a verified Root Motion counterpart. Sole
     // velocity varies during heel roll and is not an authoritative stride.
     const supportSpeeds = [];
@@ -635,6 +512,7 @@ export function createMotion(
       for (let i = 0; i < 120; i++) {
         sourceActions.jog.time = i / 120 * motions.clips.jog.duration;
         sourceMixer.update(0); root.updateWorldMatrix(true, true);
+        captureFootwearFrame("jog");
         gaitPoses.jog.push(captureGaitPose());
         gaitSupport.jog.push(captureGaitSupport());
         for (const foot of feet) {
@@ -652,6 +530,7 @@ export function createMotion(
       for (let i = 0; i < 121; i++) {
         sourceActions[dance.key].time = Math.min(i/120*motions.clips[dance.key].duration, motions.clips[dance.key].duration-1e-6);
         sourceMixer.update(0); root.updateWorldMatrix(true,true);
+        captureFootwearFrame(dance.key);
         for (const foot of feet) if (foot.soleSamples) for (const kind of ["heel","toe"])
           lowest = Math.min(lowest, root.worldToLocal(foot.soleSamples[kind]()).y);
       }
@@ -1528,6 +1407,7 @@ export function createMotion(
     if (sourceActive)
       hipOffset.y +=
         groundLift * gait * (1 - sitProgress) * (1 - danceMix);
+    hipOffset.y += standingLift * (sourceActive ? 1 - gait : 1) * (1 - sitProgress) * (1 - danceMix);
     hipOffset.y += (danceGroundLifts[selectedDance] || 0) * danceMix;
     // Pelvis underside is measured on the new body's real seated skin patch.
     // Clothing thickness is independent of anatomy and eases when equipping
@@ -2199,6 +2079,72 @@ export function createMotion(
   function refreshPose() {
     update(0, { ...lastInput, refresh: true });
   }
+  // The pose library records only the six lower-leg frames while the existing
+  // startup clip scan is already running. Another sole is projected into these
+  // poses once, without evaluating clips on the moving actor.
+  const referenceSupport=gaitSupport;
+  let activeCalibration={item:startingShoes,fit:initialFit,support:gaitSupport,walk:sourceGroundLift,
+    jog:sourceJogGroundLift,dance:danceGroundLifts,stride};
+  const calibrations=new WeakMap();
+  if(startingShoes)calibrations.set(startingShoes,activeCalibration);
+  function prepareFootwear(item){
+    let next=calibrations.get(item);
+    if(!next){
+      const fit=sampler.build(item,false);
+      if(fit.some(f=>!f.soleSamples?.heel||!f.soleSamples?.toe))throw Error('Missing weighted footwear contact patch');
+      const support={walk:[],jog:[]},lifts={};
+      for(const [key,frames] of clipFrames){
+        let lowest=Infinity;
+        for(const [i,matrices] of frames.entries()){
+          const soles=fit.map(f=>({heel:f.soleSamples.heel(matrices),toe:f.soleSamples.toe(matrices)}));
+          for(const sole of soles)lowest=Math.min(lowest,sole.heel.y,sole.toe.y);
+          if(key==='walk'||key==='jog')support[key].push(soles.map((sole,j)=>({...referenceSupport[key][i][j],sole})));
+        }
+        lifts[key]=-lowest;
+      }
+      const {walk=0,jog=walk,...dance}=lifts;
+      const rootMotionStride=Number.isFinite(motions?.walkDistance)&&motions.walkDistance>0;
+      let newStride=rootMotionStride?motions.walkDistance:geometricStride;
+      if(support.walk.length&&!rootMotionStride){
+        const speeds=[];
+        for(let j=0;j<feet.length;j++){
+          const soles=support.walk.map(pair=>pair[j].sole);
+          const min=Math.min(...soles.flatMap(s=>[s.heel.y,s.toe.y]));
+          for(let i=1;i<soles.length;i++)for(const kind of ['heel','toe']){
+            const a=soles[i-1][kind],b=soles[i][kind],speed=(a.z-b.z)*soles.length;
+            if(a.y<min+.009&&b.y<min+.009&&speed>legLength*.4&&speed<legLength*2.5)speeds.push(speed);
+          }
+        }
+        if(speeds.length>=8)newStride=speeds.sort((a,b)=>a-b)[Math.floor(speeds.length/2)];
+      }
+      next={item,fit,support,walk,jog,dance,stride:newStride};calibrations.set(item,next);
+    }
+    const previous=activeCalibration;
+    let committed=false;
+    function install(value){
+      const previousHeights=feet.map(foot=>foot.local.y);
+      installFit(value.item,value.fit);
+      gaitSupport=value.support;sourceGroundLift=value.walk;sourceJogGroundLift=value.jog;
+      danceGroundLifts=value.dance;stride=value.stride;
+      for(const [i,foot] of feet.entries()){
+        const delta=foot.local.y-previousHeights[i];
+        if(foot.turnIdleAnchor)foot.turnIdleAnchor.y+=delta;
+        if(foot.turnSoleLocal){
+          const lever=foot.restSoleOffsets?.toe??foot.soleOffsets.toe;
+          if(foot.turnEntrySoleLocal)foot.turnEntrySoleLocal.add(lever).sub(foot.turnSoleLocal);
+          foot.turnSoleLocal.copy(lever);
+        }
+      }
+      activeCalibration=value;
+      refreshPose();vrm.humanoid.update?.();root.updateMatrixWorld(true);
+    }
+    return {
+      commit(){committed=true;install(next);},
+      rollback(){if(committed){committed=false;install(previous);}},
+      dispose(){},
+    };
+  }
+  const unsubscribeFootwear=profile?.subscribeFootwear?.(prepareFootwear);
   return {
     update,
     getFootLockCalibration: () =>
@@ -2225,7 +2171,7 @@ export function createMotion(
     setCorrections,
     refreshPose,
     reset,
-    dispose: () => { sourceMixer?.stopAllAction(); sourceMixer?.uncacheRoot(vrm.scene); },
+    dispose: () => { unsubscribeFootwear?.(); clipFrames?.clear(); sourceMixer?.stopAllAction(); sourceMixer?.uncacheRoot(vrm.scene); },
   };
 }
 

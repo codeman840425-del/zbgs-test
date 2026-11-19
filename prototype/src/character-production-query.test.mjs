@@ -164,8 +164,15 @@ test('texture-derived body resolves both separately fitted tops with unchanged g
   const old = queryCharacterProduction(base.controller), next = queryCharacterProduction(derived.controller);
   assert.notEqual(next.body.sha256, old.body.sha256);
   assert.equal(sha256(await readFile(publicFile(next.body.url))), next.body.sha256);
-  assert.deepEqual(next.outfits.map(row => row.role), ['pants','pants-top-far']);
-  for (const [i, look] of next.outfits.entries()) {
+  assert.deepEqual(old.outfits.map(row => row.role), ['pants','pants-top-far']);
+  assert.deepEqual(next.outfits.map(row => row.role), ['pants','pants-top-far','pants-top-far-platform']);
+  const [flat, platform] = next.outfits.slice(1);
+  assert.deepEqual(platform.equipment.filter(row => ['topFar','pants'].includes(row.role)), flat.equipment.filter(row => ['topFar','pants'].includes(row.role)));
+  const platformShoe = platform.equipment.find(row => row.role === 'platformShoes');
+  assert.equal(platformShoe.role, 'platformShoes');
+  assert.equal(platformShoe.materials.binding.bodySha256, next.body.sha256);
+  assert.notEqual(platformShoe.sha256, flat.equipment.find(row => row.role === 'shoes').sha256);
+  for (const [i, look] of next.outfits.slice(0,2).entries()) {
     assert.deepEqual(look.equipment.map(row => [row.role,row.sha256]), old.outfits[i].equipment.map(row => [row.role,row.sha256]));
     for (const row of look.equipment) {
       assert.equal(row.materials.binding.bodySha256, next.body.sha256);
