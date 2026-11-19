@@ -16,6 +16,8 @@ node serve.mjs
 
 ## 核对收到的目录
 
+打包时会逐一读取默认场景和具名场景的最终存档，重新检查同层连通、门口内侧至门槛的通道和设施使用点。默认场景的结果在 `data/placement.json`，具名场景在 `data/rooms/<名称>/placement.json`。清单的 `placementReports` 列出房键、报告路径、公司 ID 和对应存档的 SHA-256。若家具挡住通道，命令会给出房键、门口和障碍物 ID，整次发布中止。报告中的半径与网格尺度用于场景静态摆放验收，真实角色通行由游戏运行链验证。
+
 正式交付目录的文件集合是 `transfer-manifest.json` 加上其 `files` 中逐项登记的文件。刚接收时在包根目录运行 `node verify.mjs`。若交付回执给出了清单 SHA-256，可运行 `node verify.mjs . 回执中的SHA256` 一并核对版本。检查会报告缺失、额外及字节不符的文件。
 
 保留这份验证通过的原包。后续命令在它的独立工作副本中执行。安装和重建会在工作副本产生 `source/prototype/node_modules/`、`source/prototype/public/company-build-info.json` 和 `source/prototype/dist-company/`。构建身份由 `build-company-id.mjs` 生成，Vite 将它复制进查看器。

@@ -417,8 +417,9 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   const catalogBytes=await read(prototype,runtimeInputs.catalog),templateBytes=await read(prototype,runtimeInputs.templates);
   const catalog=decode(catalogBytes,runtimeInputs.catalog),templates=decode(templateBytes,runtimeInputs.templates);
   const loadRuntime=name=>import(pathToFileURL(path.join(prototype,'src/company',name)).href);
-  const [persistence,space,scale,documentTools]=await Promise.all([
-    loadRuntime('persistence.js'),loadRuntime('space.js'),loadRuntime('scale-v2.js'),loadRuntime('document.js')
+  const [persistence,space,scale,documentTools,placement]=await Promise.all([
+    loadRuntime('persistence.js'),loadRuntime('space.js'),loadRuntime('scale-v2.js'),loadRuntime('document.js'),
+    loadRuntime('placement.js')
   ]);
   const installationChecks = await import(pathToFileURL(path.join(source,'scripts/company-platform/preflight-library-assets.mjs')).href);
   // Early handoffs have an asset reader but no room geometry preflight.
@@ -435,6 +436,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   if (seatContacts) await noLinks(seatCheckerFile);
   const seatContactReports = [];
   const usePointReports = [];
+  const placementReports = [];
   const roomOrigins=[], authorities=new Map();
   const outputKeys=new Set(['@default',...rooms.map(item=>item.key)]);
   for (const origin of vocalOrigins) {
@@ -518,6 +520,16 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       if (JSON.stringify(canonical(tea)) !== JSON.stringify(canonical(document.teaStations)))
         fail('tea-station-binding-mismatch',input,'Saved tea station members, service clearance or passage differs from the batch declaration');
     }
+    // A bare save can be newly authored. Its current doors and use points still require the same
+    // clearance as a batch result, including when this is the last named room in the package.
+    let connections, floorPlacement;
+    try {
+      connections = space.inspectCompanyConnections(document, catalog, templates);
+      floorPlacement = placement.inspectCompanyPlacement(document, catalog, templates);
+    } catch (error) {
+      error.details = {...error.details, roomKey: key, companyId: document.id};
+      throw error;
+    }
     if (Object.hasOwn(document,'productShowcases')) {
       const checker = path.join(source,'scripts/company-platform/check-showcase-room.mjs');
       await noLinks(checker);
@@ -571,13 +583,18 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       seatContactReports.push({path: reportPath, companyId: document.id, seatCount: points.length});
     }
     const saveBytes=json(saved);
+    const saveSha256 = hash(saveBytes);
+    const placementPath = prefix + '/placement.json';
+    add(placementPath, json({schema:'company-room-placement',version:1,roomKey:key,companyId:document.id,
+      revision:document.revision,saveSha256,connections,placement:floorPlacement}), 'checked-room-placement');
+    placementReports.push({key,path:placementPath,companyId:document.id,saveSha256});
     const authority=authorities.get(key);
     const origin=authority?inheritVocalOrigin(authority,document,vocalPoints):{mode:trainingSource?.kind==='batch-input'?'batch-declared':'independent'};
-    roomOrigins.push({key,companyId:document.id,saveSha256:hash(saveBytes),...origin});
+    roomOrigins.push({key,companyId:document.id,saveSha256,...origin});
     if(vocalPoints.length) {
       const pointPath=prefix+'/use-points.json';
       add(pointPath,json({schema:'company-installed-use-points',version:1,companyId:document.id,
-        revision:document.revision,saveSha256:hash(saveBytes),points:vocalPoints}),'installed-standing-use-points');
+        revision:document.revision,saveSha256,points:vocalPoints}),'installed-standing-use-points');
       usePointReports.push({path:pointPath,companyId:document.id,count:vocalPoints.length});
     }
     add(prefix+'/save.json',saveBytes,'complete-pinned-save');add(prefix+'/layout.json',json(document),'complete-editable-layout');
@@ -846,7 +863,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     runtimeInputs,sourceVerification:{method:'SHA256 of each manifest path, NUL, original bytes, NUL in sorted input order',inputs:sourceFiles},
     savedCompany:{id:document.id,revision:document.revision,...(trainingClearance ? {trainingClearance}:{}),floors:document.nodes.filter(node=>node.kind==='floor').map(node=>node.id),dependencies:saved.dependencies},
     ...(seatContacts ? {seatContactReports} : {}),
-    roomOrigins,...(usePointReports.length ? {usePointReports} : {}),
+    placementReports,roomOrigins,...(usePointReports.length ? {usePointReports} : {}),
     assetDependencies,productionSources:provenance,runtimeFiles,
     files:[...files].sort(([a],[b])=>a.localeCompare(b)).map(([name,file])=>({path:name,scope:file.scope,bytes:file.bytes.length,sha256:hash(file.bytes)})),
     limits:['Fixed manifest source identity and exact packaged viewer bytes are verified. Rebuild equivalence and browser use require separate acceptance.',
