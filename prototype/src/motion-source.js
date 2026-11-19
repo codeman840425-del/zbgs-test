@@ -48,13 +48,35 @@ for (const [suffix, side] of [
           : ["Proximal", "Intermediate", "Distal"][i - 1]);
   }
 
+const standardMotionUrl = "/assets/motion/UAL1_Standard.glb";
+const standardMotionSha256 = "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997";
+let standardMotionTransfer;
+
+async function readStandardMotion() {
+  const response = await fetch(standardMotionUrl);
+  if (!response.ok) throw new Error(`Standard motion HTTP ${response.status}`);
+  // Read the original response directly. Chrome 145 can mark the wrapping
+  // ReadableStream in Three's progress loader aborted after the last byte.
+  const bytes = await response.arrayBuffer();
+  const digest = new Uint8Array(await crypto.subtle.digest("SHA-256", bytes));
+  const sha = Array.from(digest, byte => byte.toString(16).padStart(2, "0")).join("");
+  if (sha !== standardMotionSha256) throw new Error("Standard motion resource identity mismatch");
+  return bytes;
+}
+
+export async function loadStandardMotionLibrary() {
+  if (!standardMotionTransfer) {
+    standardMotionTransfer = readStandardMotion().finally(() => { standardMotionTransfer = undefined; });
+  }
+  // One pending download can serve two actors; each parser owns its source rig.
+  return new GLTFLoader().parseAsync(await standardMotionTransfer, "/assets/motion/");
+}
+
 export async function loadRetargetedMotions(
   vrm,
   { walkClip = "Walk_Loop", avatarSha256 = null, targetFloorY = null } = {},
 ) {
-  const source = await new GLTFLoader().loadAsync(
-    "/assets/motion/UAL1_Standard.glb",
-  );
+  const source = await loadStandardMotionLibrary();
   const jogProfile = await (await fetch("/assets/motion/m1c/jog-ordinary-derived-v1.profile.json")).json();
   const jogResponse = await fetch("/assets/motion/m1c/jog-ordinary-derived-v1.glb");
   if (!jogResponse.ok) throw new Error("Jog asset unavailable");
