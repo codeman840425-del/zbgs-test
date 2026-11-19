@@ -120,6 +120,8 @@ Agent 可以在制作阶段编辑内部网格和骨骼组，但交付给运行�
 
 多款式请求填写 `sharedLook.styles`，每一项都要有 `styleId` 和 `variantVersion`。逐个身体对照所有指定装备的槽位、资源 ID 与 SHA，从游戏已配置的整套穿搭中选择。只有一个结果时可省略 `outfitRole`；多个结果返回可选穿搭，缺少版型则拒绝该人。正式准入要求每个指定款式的审核都覆盖同一套完整装备和固定来源。
 
+裤装需要为某双鞋另做裤口时，套装可保留原有的 `bottomRole`（`pants` 或 `shorts`），以 `bottomEquipmentRole` 指向随套装加载的实际裤装。未指定时使用原角色名。该资源必须是清单中唯一占用下装槽位的装备，角色记录保存它的具体 ID 与哈希。换装、回滚和接触检查跟随当前装备，两种裤口共用同一个动作控制器。裙摆动态和连体服沿用各自已有的适配配置。
+
 运行 `python scripts/production/variant_batch.py REQUEST --root 固定游戏检出 --input-root 配方工程 --output 工程内新目录`。款式目录取自固定游戏检出，输入和目录的来源及哈希记入回执。追加 `--diagnostic` 可签发技术试穿请求。可重放的[上衣与鞋款配方](../assets-source/sole-variant-v1/uniform-style-pair-request.json)及[游戏回读](../evidence/m2-default-shoe-intake-v1/README.md)使用这一入口。
 
 原生虹膜款式的重复生产输入见 scripts/production/native-facecontour-iris-batch-v1.json。每个身体条目提供身体与包来源的精确版本；native_palette_compatibility.py --stage、--publish、--check-published 依次生成、发布并回读。检查实际虹膜 UV、材质、图片及同图其他消费者后才复用作者款式。登记表随匹配结果生成，原色记录仍按原配方恢复。正式资源适用的许可与运行预算必须单独满足。

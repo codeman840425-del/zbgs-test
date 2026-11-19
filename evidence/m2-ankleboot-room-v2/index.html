@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>男体踝靴与裤口 · 游戏实录</title>
+<style>
+body{max-width:1500px;margin:2rem auto;padding:0 1.2rem;font:16px/1.55 system-ui,sans-serif;color:#202521;background:#fafaf7}
+h1{font-size:1.55rem}h2{font-size:1.15rem} .pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+figure{margin:0}video{width:100%;background:#272a27}figcaption{margin:.3rem 0}button{font:inherit;padding:.35rem .75rem;margin:.5rem .5rem .5rem 0}
+@media(max-width:700px){.pair{grid-template-columns:1fr}}
+</style>
+<h1>男体踝靴与裤口 · 游戏实录</h1>
+<p>两版使用同一具男体、上衣、房间、镜头、移动指令和正常播放速度。左侧是原裤与原靴，右侧是直筒裤口与配套靴筒。</p>
+<section>
+<h2>脚部近景 · 站立、入座、坐姿换回平底、起身</h2>
+<button data-play>从头同时播放 · 1×</button><button data-stop>同时暂停</button>
+<div class="pair">
+<figure><video controls playsinline preload="metadata" poster="../m2-ankleboot-room-v1/room/ankleboot-standing.png" src="../m2-ankleboot-room-v1/room/feet-swap-1x.webm"></video><figcaption>原版 · 07958ad5d085</figcaption></figure>
+<figure><video controls playsinline preload="metadata" poster="room/ankleboot-v2-standing.png" src="room/feet-swap-1x.webm"></video><figcaption>配套版 · dca61742f36d</figcaption></figure>
+</div></section>
+<section>
+<h2>房间全景 · 走停、入座、起身、离开和短舞</h2>
+<button data-play>从头同时播放 · 1×</button><button data-stop>同时暂停</button>
+<div class="pair">
+<figure><video controls playsinline preload="metadata" poster="../m2-ankleboot-room-v1/poses/standing-room-normal.png" src="../m2-ankleboot-room-v1/room/room-ankleboot-1x.webm"></video><figcaption>原版 · 约 26 秒</figcaption></figure>
+<figure><video controls playsinline preload="metadata" poster="poses/standing-room-normal.png" src="room/room-ankleboot-v2-1x.webm"></video><figcaption>配套版 · 约 26 秒</figcaption></figure>
+</div></section>
+<p>新版坐稳时裤管能连续盖住靴口。站立近景仍可见棕色从一侧裤脚露出。两版的脚跟侧面都有材质色块，鞋底和鞋面观感待验。</p>
+<p><a href="../m2-ankleboot-room-v1/poses/walk-later-feet-close-normal.png">原版迈步近景</a> · <a href="poses/walk-later-feet-close-normal.png">配套版同相位近景</a> · <a href="comparison.json">姿态、录像与测量数据</a></p>
+<script>
+for (const section of document.querySelectorAll('section')) {
+  const clips = [...section.querySelectorAll('video')];
+  section.querySelector('[data-stop]').onclick = () => clips.forEach(clip => clip.pause());
+  section.querySelector('[data-play]').onclick = async () => {
+    document.querySelectorAll('video').forEach(clip => clip.pause());
+    clips.forEach(clip => {clip.currentTime = 0; clip.playbackRate = 1;});
+    try { await Promise.all(clips.map(clip => clip.play())); }
+    catch { clips.forEach(clip => clip.pause()); }
+  };
+}
+</script></html>
