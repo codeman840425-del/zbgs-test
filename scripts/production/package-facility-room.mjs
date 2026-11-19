@@ -6,6 +6,7 @@ import {parseArgs} from 'node:util';
 import {pathToFileURL} from 'node:url';
 import outputs from '../project-output.cjs';
 import {checkedBytes,digest,jsonBytes,publishStagedDirectory,runtimePath} from '../runtime-package/files.mjs';
+import {requireCompanyRoomRuntime} from '../runtime-package/company-room-compatibility.mjs';
 
 const shaPattern=/^[0-9a-f]{64}$/;
 const roomManifestPin='6359150e83c284125dc757ac6680cc326d58bf57df142dfc4af0d6b522c658f2';
@@ -145,6 +146,7 @@ export async function packageFacilityRoom({game,room,gameSha256,out,roomProfile=
   if(await lstat(destination).catch(e=>{if(e.code!=='ENOENT')throw e;})) throw Error('Output already exists: '+destination);
   const manifestPin=vocal?vocalManifestPin:roomManifestPin;
   const [company,character]=await Promise.all([readCompany(roomRoot,manifestPin),readGame(gameRoot,gameSha256)]);
+  await requireCompanyRoomRuntime(digest(company.manifestBytes),character);
   const host=await compileHost(company,root);
   const files=new Map(character.files);
   function add(name,bytes) {

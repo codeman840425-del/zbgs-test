@@ -4,6 +4,7 @@ import projectOutputs from '../project-output.cjs';
 import {fileURLToPath} from 'node:url';
 import {digest, fail, jsonBytes, writeFresh} from './files.mjs';
 import {createGameRecordInventory, exportGameRecordInventory} from './game-record-inventory.mjs';
+import {readGameRuntimeReview} from './game-runtime-review.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const sharedOptions = ['--dist', '--source-root', '--reviewed', '--out', '--records'];
@@ -24,14 +25,7 @@ async function main() {
   const out = await projectOutputs.projectOutput(options.get('--out'), await projectOutputs.productionRoot());
   const external = options.has('--records');
   const {sourceDigest} = await readJson(path.join(options.get('--dist'), 'build-info.json'));
-  const index = JSON.parse(await readFile(new URL('./game-runtime-reviews.json', import.meta.url)));
-  const group = external ? index.externalRecords : index.bundledRecords;
-  const review = Object.hasOwn(group, sourceDigest) ? group[sourceDigest] : null;
-  if (!review || !/^game-record-[a-z0-9-]+-reviewed\.json$/.test(review.file))
-    fail('unsupported-build', 'No repository review for selected game runtime');
-  const reviewedBytes = await readFile(new URL(review.file, import.meta.url));
-  if (digest(reviewedBytes) !== review.sha256 || JSON.parse(reviewedBytes).sourceDigest !== sourceDigest)
-    fail('unsupported-build', 'Selected review differs from the production registry');
+  const {bytes:reviewedBytes,reviewed} = await readGameRuntimeReview(sourceDigest,external);
   if (options.has('--reviewed')) {
     const copy = await readFile(path.resolve(options.get('--reviewed')));
     if (!copy.equals(reviewedBytes)) fail('unsupported-build', 'Review metadata must match the repository-reviewed file exactly');
@@ -39,7 +33,7 @@ async function main() {
   const common = {
     dist:path.resolve(options.get('--dist')),
     sourceRoot:path.resolve(options.get('--source-root') ?? root),
-    reviewed:JSON.parse(reviewedBytes),
+    reviewed,
     records:external ? await readJson(options.get('--records')) : undefined,
   };
   if (command === 'export') {
