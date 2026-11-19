@@ -32,7 +32,7 @@ function fixture(yaw=Math.PI,obstacles=[]) {
       facilityId:point.facilityId,resource:point.resource,transform:point.transform,facilityTransform:point.facilityTransform};holds.add(h);return h;},
     releaseUsePointContact:h=>{assert.ok(holds.delete(h));}};
   const room=resolveActorRoom(world,{session,floorId:'ground',roomId:'studio'});
-  function actor(id,pos=[0,0,1.5]) {
+  function actor(id,pos=[0,0,1.5],getPeers=()=>[]) {
     const root=new THREE.Group();root.position.fromArray(pos);
     const avatar={root,updateGarment(){},livePresentation:{setAction(){},getState:()=>({})}};
     let progress=0;
@@ -40,7 +40,7 @@ function fixture(yaw=Math.PI,obstacles=[]) {
       seatBack:.16,sitProgress:progress,hipWorld:[
         root.position.x-.4*progress*Math.sin(root.rotation.y),1-.44*progress,root.position.z-.4*progress*Math.cos(root.rotation.y)],
     })};
-    const controller=attachFacilityBehavior({},{actorId:id,avatar,motion,seatLeases:leases,getRoom:()=>room});
+    const controller=attachFacilityBehavior({},{actorId:id,avatar,motion,seatLeases:leases,getRoom:()=>room,getPeers});
     const instance={identity:{id},revision:1,recordSha256:id,avatar,controller,
       update(dt,{action}){progress=action==='sit'?Math.min(1,progress+dt*2):Math.max(0,progress-dt*2);},
       attach(){world.add(root);},dispose(){controller.disposeRecordController();}};
@@ -51,9 +51,11 @@ function fixture(yaw=Math.PI,obstacles=[]) {
 function sit(actor,id,point) {
   return actor.controller.requestBehavior({kind:'sit',requestId:id,payload:{usePointId:point.id}});
 }
-function finish(actor,id) {
+function finish(actor,id,observe=()=>{}) {
   const controller=actor.controller;
-  for(let i=0;i<3600 && controller.behaviorTasks.get(id)?.state==='running';i++) controller.simulate(1/60,actor.update);
+  for(let i=0;i<3600 && controller.behaviorTasks.get(id)?.state==='running';i++) {
+    controller.simulate(1/60,actor.update);observe();
+  }
   const result=controller.behaviorTasks.get(id);assert.equal(result.state,'completed',JSON.stringify(result));
 }
 test('the moving approach rounds furniture without planting at an ordinary waypoint',async t=>{
@@ -87,6 +89,20 @@ test('the moving approach rounds furniture without planting at an ordinary waypo
   t.diagnostic(JSON.stringify({interiorWaypoints:corners.length-1,movingCornerFrames:frames.length,
     minSpeed:Math.min(...frames.map(f=>f.speed)),turnedRadians:frames.reduce((sum,f)=>sum+f.change,0)}));
   finish(actor,'around-desk');actor.dispose();
+});
+test('occupied entry corridor fails before movement, preserves the standing actor and releases the unused lease',async()=>{
+  const f=fixture(),actors=new Map(),getPeers=()=>actors.values();
+  const a=f.actor('incoming',[-1,0,-1],getPeers),b=f.actor('standing',f.point.approachPosition,getPeers);
+  for(const actor of [a,b]) {actor.attach();actors.set(actor.identity.id,actor);}
+  const before=a.avatar.root.position.toArray();
+  sit(a,'blocked',f.point);await turn();
+  assert.equal(a.controller.behaviorTasks.get('blocked').state,'failed');
+  assert.match(a.controller.behaviorTasks.get('blocked').reason,/seat-body-space-blocked|seat-path-unreachable/);
+  assert.deepEqual(a.avatar.root.position.toArray(),before);
+  assert.deepEqual(b.avatar.root.position.toArray(),f.point.approachPosition);
+  assert.equal(f.holds.size,0);assert.equal(f.leases.forSeat(f.point.id),null);
+  actors.delete('standing');b.dispose();
+  sit(a,'retry',f.point);await turn();finish(a,'retry');a.dispose();
 });
 test('rotated seat holds through exit, rejects contention, restores atomically and releases late contact',async()=>{
   const f=fixture(),a=f.actor('alice'),b=f.actor('bob'),group=new Map([['alice',a],['bob',b]]);
@@ -144,34 +160,73 @@ test('published rooms use retained GLB seats and signed VRM records on the real 
     try {
       const point=session.scene.describeUsePoints().find(p=>p.id.endsWith('chair#seat'));
       const room=resolveActorRoom(world,{session,floorId:point.floorId,roomId:point.roomId});
-      const record=await read(records,manifest.entries[index].url);
-      const prepare=position=>prepareRecordedCharacter(record,{scene:world,renderer:{},position,
-        createController:ctx=>attachFacilityBehavior(createRecordAppearanceController(ctx.avatar),{...ctx,seatLeases:leases,getRoom:()=>room})});
-      const actor=await prepare(room.spawns[0]);
+      const pair=await Promise.all(manifest.entries.map(e=>read(records,e.url)));
+      const actors=new Map();
+      const prepare=(record,position,getPeers=()=>actors.values())=>prepareRecordedCharacter(record,{scene:world,renderer:{},position,
+        createController:ctx=>attachFacilityBehavior(createRecordAppearanceController(ctx.avatar),{...ctx,seatLeases:leases,getRoom:()=>room,getPeers})});
+      const actor=await prepare(pair[index],room.spawns[0]),peer=await prepare(pair[1-index],room.spawns[1]);
+      function mount(actor) {actor.attach();actors.set(actor.identity.id,actor);}
+      const waist=new THREE.Vector3(),other=new THREE.Vector3();
+      const shoulderWidth=person=>{
+        const bones=person.avatar.vrm.humanoid;
+        return bones.getRawBoneNode('leftUpperArm').getWorldPosition(new THREE.Vector3())
+          .distanceTo(bones.getRawBoneNode('rightUpperArm').getWorldPosition(new THREE.Vector3()));
+      };
+      const minimumClearance=Math.max(.22,shoulderWidth(actor)/2+.065)+Math.max(.22,shoulderWidth(peer)/2+.065);
+      let minimum=Infinity,samples=0,touchedExit=false,leaseAtExit;
+      function sample(moving,stationary) {
+        stationary.controller.simulate(1/60,stationary.update);
+        moving.avatar.vrm.humanoid.getRawBoneNode('chest').getWorldPosition(waist);
+        stationary.avatar.vrm.humanoid.getRawBoneNode('chest').getWorldPosition(other);
+        const distance=Math.hypot(waist.x-other.x,waist.z-other.z);
+        samples++;minimum=Math.min(distance,minimum);
+      }
       try {
-        actor.attach();assert.equal(sit(actor,'arrive',point).admission,'accepted');
+        mount(actor);mount(peer);
+        assert.equal(sit(actor,'arrive',point).admission,'accepted');
         for(let i=0;i<300 && actor.controller.behaviorTasks.get('arrive').state==='running';i++) {
           await turn();
           try{if(actor.controller.captureFacilityPose().phase!=='idle')break;}catch{ /* Contact is still loading. */ }
         }
-        finish(actor,'arrive');
+        finish(actor,'arrive',()=>sample(actor,peer));
         assert.equal(actor.controller.captureFacilityPose().phase,'seated');
         assert.equal(leases.forSeat(point.id).state,'occupied');
-        const actors=new Map([[actor.identity.id,actor]]), saved=captureFacilityState(room,actors);
+        const saved=captureFacilityState(room,actors);
         const seated=actor.controller.behaviorTasks.get('arrive').result, originalRoot=actor.avatar.root.uuid;
-        actor.dispose();assert.equal(leases.forSeat(point.id),null);
-        const fresh=await prepare(room.spawns[0]);fresh.attach();actors.set(actor.identity.id,fresh);
+        actor.dispose();peer.dispose();actors.clear();assert.equal(leases.forSeat(point.id),null);
+        mount(await prepare(pair[index],room.spawns[0]));mount(await prepare(pair[1-index],room.spawns[1]));
         try {
-          await restoreFacilityState(room,actors,saved,{isCurrent:()=>true,prepare:(_old,position)=>prepare(position)});
+          await restoreFacilityState(room,actors,saved,{isCurrent:()=>true,prepare:(old,position,getPeers)=>
+            prepare(pair.find(r=>r.identity.id===old.identity.id),position,getPeers)});
           const restored=actors.get(actor.identity.id);
           assert.notEqual(restored.avatar.root.uuid,originalRoot);assert.equal(restored.recordSha256,actor.recordSha256);
           assert.equal(restored.controller.behaviorTasks.get('arrive').state,'completed');
+          const waiting=actors.get(peer.identity.id);
           restored.controller.requestBehavior({requestId:'exit',kind:'stand'});
-          finish(restored,'exit');assert.equal(leases.forSeat(point.id),null);
+          finish(restored,'exit',()=>{
+            sample(restored,waiting);
+            const p=restored.avatar.root.position;
+            if (Math.hypot(p.x-point.exitPosition[0],p.z-point.exitPosition[2])<.001) {
+              touchedExit=true;leaseAtExit=leases.forSeat(point.id)?.state;
+            }
+          });
+          assert.equal(leases.forSeat(point.id),null);
+          const parked=restored.avatar.root.position.toArray();
+          assert.equal(sit(waiting,'replacement',point).admission,'accepted');
+          await turn();
+          finish(waiting,'replacement',()=>sample(waiting,restored));
+          for (let i=0;i<60;i++) {
+            waiting.controller.simulate(1/60,waiting.update);sample(waiting,restored);
+          }
+          assert.equal(leases.forSeat(point.id).ownerId,peer.identity.id);
+          assert.ok(minimum>=minimumClearance,`${id}: minimum chest separation ${minimum}m < ${minimumClearance}m over ${samples} samples`);
+          assert.ok(touchedExit);assert.equal(leaseAtExit,'exiting');
+          assert.ok(Math.hypot(parked[0]-point.approachPosition[0],parked[2]-point.approachPosition[2])>.6);
           t.diagnostic(JSON.stringify({id,actor:actor.identity.id,record:actor.recordSha256,seat:point.id,
-            result:seated,reopened:restored.controller.behaviorTasks.get('arrive').result,exit:restored.avatar.root.position.toArray()}));
+            result:seated,reopened:restored.controller.behaviorTasks.get('arrive').result,authoredExit:point.exitPosition,
+            parked,minimumTorsoDistance:minimum,minimumClearance,samples,peer:peer.identity.id,peerResult:waiting.controller.behaviorTasks.get('replacement').result}));
         } finally {for(const member of actors.values())member.dispose();}
-      } finally {actor.dispose();}
+      } finally {actor.dispose();peer.dispose();for(const member of actors.values())member.dispose();}
     } finally {session.dispose();assetLibrary.dispose();}
   }
 });

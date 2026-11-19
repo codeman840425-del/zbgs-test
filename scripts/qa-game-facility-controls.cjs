@@ -147,15 +147,24 @@ async function run(folder,pin,destination) {
     try{
       if(probe) {
         const trace=await probe.evaluate(p=>p.stop());
+        assert(trace.rows.length>1,'No usable rAF body samples');
         result.separation=describeSeparation(trace);
         await fs.writeFile(path.join(out,'separation-frames.json'),JSON.stringify(trace)+'\n',{flag:'wx'});
       }
+    }catch(error){
+      result.passed=false;result.failure??=String(error.stack??error);throw error;
     }finally{
-    try{await context?.close();if(video)await fs.rename(await video.path(),path.join(out,'room-controls-1x.webm'));}
-    finally{try{await browser?.close();}finally{
-      if(server.listening)await new Promise(resolve=>server.close(resolve));
-      await fs.writeFile(path.join(out,'report.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx'});
-    }}}
+      try{
+        await context?.close();
+        if(video)await fs.rename(await video.path(),path.join(out,'room-controls-1x.webm'));
+      }finally{
+        try{await browser?.close();}
+        finally{
+          if(server.listening)await new Promise(resolve=>server.close(resolve));
+          await fs.writeFile(path.join(out,'report.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx'});
+        }
+      }
+    }
   }
 }
 if(require.main===module)run(...process.argv.slice(2)).catch(error=>{console.error(error);process.exitCode=1;});

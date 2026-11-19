@@ -33,11 +33,11 @@ window.addEventListener('pagehide',event=>{
 const buildInfo=await fetch('/build-info.json').then(r=>r.json());
 const status=document.querySelector('#status'),resultElement=document.querySelector('#results');
 function show(){const snapshot=batch?.snapshot();resultElement.textContent=snapshot?JSON.stringify(snapshot.items.map(({identityId,status,attempt,reason})=>({id:identityId,status,attempt,reason})),null,2):'';}
-async function prepareRoomActor(record,options) {
+async function prepareRoomActor(record,{getPeers=()=>actors.values(),...options}) {
   const instance=await prepareRecordedCharacter(record,{scene,renderer,...options,
     createController(context) {
       return attachFacilityBehavior(createRecordAppearanceController(context.avatar),
-        {...context,seatLeases,getRoom:()=>room});
+        {...context,seatLeases,getRoom:()=>room,getPeers});
     }});
   actorRecords.set(instance,record);
   instance.avatar.livePresentation.setSpeaking(true);
@@ -131,7 +131,7 @@ window.__recordConsumer={buildInfo,scene,renderer,camera,three:THREE,actors,atte
     const token=++restoreGeneration,group=generation;
     const isCurrent=()=>!closed && token===restoreGeneration && group===generation;
     return restoreFacilityState(room,actors,structuredClone(saved),{isCurrent,
-      prepare:(previous,position)=>prepareRoomActor(actorRecords.get(previous),{position,isCurrent})});
+      prepare:(previous,position,getPeers)=>prepareRoomActor(actorRecords.get(previous),{position,isCurrent,getPeers})});
   },
   removeActor(id) {
     const actor=actors.get(id);if(!actor)return false;

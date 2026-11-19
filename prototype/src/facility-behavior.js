@@ -2,15 +2,30 @@ import {createBehaviorTasks} from './behavior-tasks.js';
 import {createTurnPolicy,turnAngleDelta,movingSteering} from './turn-policy.js';
 import {canonicalJson} from './character-record.js';
 import {findFacilityPoint,finitePosition,pointIdentity,retainFacilitySeat} from './facility-contact.js';
-import {createFacilityNavigation} from './facility-navigation.js';
+import {createFacilityNavigation,parkingRoute} from './facility-navigation.js';
+import {Vector3} from 'three';
 
 // The record host supplies its existing frame clock and instance.update(). The
 // same rig evaluates walking, turns, sitting and garment contacts for every body.
-export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLeases,getRoom}) {
+export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLeases,getRoom,getPeers=()=>[]}) {
   const root=avatar.root, turn=createTurnPolicy(), ownerGeneration=crypto.randomUUID();
+  const bone=name=>avatar.vrm?.humanoid?.getRawBoneNode(name);
+  const chest=bone('chest')??bone('hips'),left=bone('leftUpperArm'),right=bone('rightUpperArm');
+  const bodyPosition=new Vector3();
+  // Neutral upper-arm joint spacing plus soft tissue and sleeve clearance.
+  const radius=left && right ? Math.max(.22,left.getWorldPosition(new Vector3()).distanceTo(right.getWorldPosition(new Vector3()))/2+.065) : .24;
+  function footprint() {
+    const center=chest?chest.getWorldPosition(bodyPosition):root.position;
+    return {position:root.position.toArray(),x:(root.position.x+center.x)/2,z:(root.position.z+center.z)/2,
+      hw:Math.abs(root.position.x-center.x)/2+radius,hd:Math.abs(root.position.z-center.z)/2+radius,radius};
+  }
+  function peers() {return [...getPeers()].filter(actor=>actor.identity.id!==actorId).map(actor=>actor.controller.facilityFootprint());}
+  function personObstacles() {
+    return peers().map(body=>({...body,hw:body.hw+radius+.04,hd:body.hd+radius+.04}));
+  }
   let disposed=false, mode='idle', phase='idle', target=null, token=null, binding=null;
   let path=[], speed=0, pendingContact=null, contactTask=null, revision=null, nav=null;
-  let alignAfterCollision=false;
+  let alignAfterCollision=false,waitingPoint=null;
   const tasks=createBehaviorTasks({ownerId:actorId,onEvent({type,task}) {
     if (['cancelled','failed'].includes(type) && task.kind==='sit' && task.requestId===contactTask) {
       path=[];speed=0;turn.reset(root.rotation.y);
@@ -24,7 +39,7 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
     if (mode!==next) {mode=next;avatar.livePresentation?.setAction(next);}
   }
   function clearBinding() {
-    token=null;target=null;contactTask=null;path=[];phase='idle';alignAfterCollision=false;
+    token=null;target=null;contactTask=null;path=[];phase='idle';alignAfterCollision=false;waitingPoint=null;
     const previous=binding;binding=null;
     try { motion.setFacilitySeatHeight(null);avatar.updateGarment?.(0,0,[]); }
     finally { previous?.release(); }
@@ -37,9 +52,28 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
   function refreshNav() {
     const room=getRoom(), current=room.session.scene.revision;
     if (!nav || current!==revision) {
-      nav=createFacilityNavigation(room.session.scene,room.floorId,room.roomId);revision=current;
+      nav=createFacilityNavigation(room.session.scene,room.floorId,room.roomId,personObstacles);revision=current;
     }
     return nav;
+  }
+  function clearSeatCorridor() {
+    try {
+      const others=peers(),room=getRoom();
+      const clearance=radius+Math.max(radius,...others.map(p=>p.radius))+.22;
+      function leavesApproachOpen(p) {
+        return others.every(peer=>{
+          const pad=radius+peer.radius+.10;
+          const nextNav=createFacilityNavigation(room.session.scene,room.floorId,room.roomId,
+            ()=>[{x:p[0],z:p[2],hw:pad,hd:pad}]);
+          try {nextNav.route(peer.position,target.approachPosition);return true;} catch {return false;}
+        });
+      }
+      path=parkingRoute(refreshNav(),target,root.position.toArray(),clearance,leavesApproachOpen);
+      waitingPoint=path.at(-1);phase='clearing';
+    } catch(error) {
+      phase='waiting-blocked';path=[];setMode('idle');
+      const task=tasks.active();if (task) tasks.fail(task.requestId,error.message);
+    }
   }
   function startSit(task,resumePhase=null) {
     const room=getRoom(), point=findFacilityPoint(room,task.payload.usePointId);
@@ -52,6 +86,7 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
       binding=candidate;
       motion.setFacilitySeatHeight(binding.height);
       const pos=root.position.toArray(), navigation=refreshNav();
+      if (!navigation.clear(binding.foot,point.transform.position,point.facilityId)) throw Error('seat-body-space-blocked');
       if (resumePhase==='fitting' || resumePhase==='seated') {
         if (!navigation.clear(pos,binding.foot,point.facilityId)) throw Error('restored-seat-path-blocked');
         phase='fitting';path=[binding.foot];
@@ -80,7 +115,8 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
       try {
         if (spec.kind==='sit') startSit(reply.task,resumePhase);
         else if (!binding) tasks.complete(reply.task.requestId,{mode:'idle'});
-        else if (phase!=='exiting' && phase!=='rising') beginExit();
+        else if (phase==='waiting-blocked') clearSeatCorridor();
+        else if (!['exiting','rising','clearing'].includes(phase)) beginExit();
       } catch(error) {tasks.fail(reply.task.requestId,error.message);}
     }
     return {...reply,task:tasks.get(reply.task.requestId)};
@@ -90,7 +126,7 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
     turn.requestHeading(yaw);
     const plan=turn.update(dt);root.rotation.y=plan.yaw;return plan;
   }
-  function advanceApproach(dt) {
+  function advanceRoute(dt) {
     const navigation=refreshNav(),pos=root.position.toArray();
     const distanceTo=p=>Math.hypot(p[0]-pos[0],p[2]-pos[2]);
     // Once the next segment is visible, pursue it without planting at the
@@ -98,13 +134,20 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
     while (path.length>1 && distanceTo(path[0])<.30 && navigation.clear(pos,path[1])) path.shift();
     let next=path[0];
     if (!navigation.clear(pos,next)) {
-      try {path=navigation.route(pos,target.approachPosition);next=path[0];}
-      catch(error) {tasks.fail(contactTask,error.message);return {};}
+      try {path=navigation.route(pos,phase==='clearing'?waitingPoint:target.approachPosition);next=path[0];}
+      catch(error) {
+        if (phase==='clearing') clearSeatCorridor();else tasks.fail(contactTask,error.message);
+        return {};
+      }
     }
     const dist=distanceTo(next);
     if (dist<.0001) {
       path.shift();
-      if (!path.length) {phase='fitting';path=[binding.foot];speed=0;}
+      if (!path.length) {
+        speed=0;
+        if (phase==='clearing') {phase='cleared';setMode('idle');}
+        else {phase='fitting';path=[binding.foot];}
+      }
       return {};
     }
     const dx=next[0]-pos[0],dz=next[2]-pos[2],heading=Math.atan2(dx,dz);
@@ -130,8 +173,8 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
   function advance(dt,update) {
     tasks.tick(dt);
     let moved=0,plan=null,turning=false;
-    if (binding && path.length && phase==='approaching') {
-      ({moved=0,plan=null,turning=false}=advanceApproach(dt));
+    if (binding && path.length && (phase==='approaching' || phase==='clearing')) {
+      ({moved=0,plan=null,turning=false}=advanceRoute(dt));
     } else if (binding && path.length) {
       const next=path[0], x=next[0]-root.position.x,z=next[2]-root.position.z,dist=Math.hypot(x,z);
       const toYaw=Math.atan2(x,z);
@@ -152,7 +195,8 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
       } else {
         path.shift();speed=0;
         if (!path.length && phase==='fitting') {
-          phase='sitting';setMode('sit');seatLeases.occupy(token);
+          if (!refreshNav().clear(binding.foot,target.transform.position,target.facilityId)) tasks.fail(contactTask,'seat-body-space-blocked');
+          else {phase='sitting';setMode('sit');seatLeases.occupy(token);}
         } else if (!path.length && phase==='exiting') setMode('idle');
       }
     }
@@ -173,6 +217,8 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
     } else if (phase==='rising' && metrics.sitProgress===0) {
       phase='exiting';path=[target.exitPosition];setMode('idle');
     } else if (phase==='exiting' && !path.length) {
+      clearSeatCorridor();
+    } else if (phase==='cleared') {
       const hip=metrics.hipWorld, top=target.facilityTransform.position[1]+binding.height;
       if (hip[1]>top+.25 && !binding.hitBelow(hip[0],hip[2],hip[1])) {
         seatLeases.releaseAfterExit(token);clearBinding();
@@ -213,7 +259,7 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
     if (!binding || (saved.phase==='seated'?task.state!=='completed':task.state!=='running')) throw Error(task.reason||'seat-restore-failed');
   }
   return Object.assign(controller,{requestBehavior:request=>requestBehavior(request),cancelBehavior:id=>tasks.cancel(id),behaviorTasks:tasks,
-    simulate:advance,captureFacilityPose:capture,restoreFacilityPose:restore,
+    simulate:advance,captureFacilityPose:capture,restoreFacilityPose:restore,facilityFootprint:footprint,
     disposeRecordController() {
       disposed=true;root.removeFromParent();tasks.dispose();
       if (token) seatLeases.releaseRemovedInstance(token);

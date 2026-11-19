@@ -47,6 +47,8 @@ export async function restoreFacilityState(room,actors,saved,{prepare,isCurrent}
       saved.actors.length!==actors.size || new Set(saved.actors.map(a=>a.actorId)).size!==actors.size)
     throw Error('saved-room-or-roster-mismatch');
   const previous=new Map(actors), candidates=[];
+  let mounted=false;
+  const getPeers=()=>mounted?actors.values():candidates.values();
   function check() {
     if (!isCurrent()) throw Error('room-restore-superseded');
     for (const [id,actor] of previous) {
@@ -58,14 +60,17 @@ export async function restoreFacilityState(room,actors,saved,{prepare,isCurrent}
     for (const entry of saved.actors) {
       const old=previous.get(entry.actorId);
       if (!old || old.recordSha256!==entry.recordSha256 || old.revision!==entry.revision) throw Error('saved-character-version-mismatch');
-      const actor=await prepare(old,entry.pose.position);
+      const actor=await prepare(old,entry.pose.position,getPeers);
       candidates.push(actor);check();
       await actor.controller.restoreFacilityPose(entry.pose,actor.update);
       check();
     }
+    const restored=captureFacilityState(room,new Map(candidates.map(actor=>[actor.identity.id,actor])));
     for (const candidate of candidates) candidate.attach();
     for (const actor of previous.values()) actor.dispose();
     actors.clear();for (const actor of candidates) actors.set(actor.identity.id,actor);
-    return captureFacilityState(room,actors);
+    mounted=true;
+    candidates.length=0;
+    return restored;
   } catch(error) {for (const actor of candidates) actor.dispose();throw error;}
 }
