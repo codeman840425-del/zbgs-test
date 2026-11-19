@@ -38,7 +38,16 @@ function Assert-LocalWorkspace {
 # Apply the same guard when allocating a path, before the caller creates any files.
 Assert-LocalWorkspace
 if ($Check) {
-    Write-Output "公司根目录和 Git 工作树路径检查通过：$project"
+    $workspace = Join-Path $project 'company-workspace'
+    $indexText = Get-Content -LiteralPath (Join-Path $workspace 'README.md') -Raw -Encoding UTF8
+    $missing = foreach ($link in [regex]::Matches($indexText, '\]\(([^)]+)\)')) {
+        $target = $link.Groups[1].Value.Trim('<', '>')
+        if ($target -match '^(https?://|#)') { continue }
+        $relative = $target.Split('#')[0]
+        if (-not (Test-Path -LiteralPath (Join-Path $workspace $relative))) { $relative }
+    }
+    if ($missing) { throw ("本机工作区索引缺少目标：" + ($missing -join ', ')) }
+    Write-Output "公司根目录、Git 工作树和本机索引链接检查通过：$project"
     return
 }
 
