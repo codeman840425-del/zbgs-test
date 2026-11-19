@@ -1,0 +1,201 @@
+{
+  "runs": [
+    {
+      "args": [
+        "--check"
+      ],
+      "result": {
+        "status": "passed",
+        "resources": [
+          {
+            "id": "equipment-cart-open",
+            "version": 1,
+            "sha256": "9cfb4847de1d836223e7bf5b83b0f60dbd5bfb643fb37d76b8c6d45640139c73",
+            "triangles": 11180
+          },
+          {
+            "id": "equipment-cart-flightcase",
+            "version": 1,
+            "sha256": "51d424512499a741bad9a5fbf060eeedebf223457f90b352e987376351e111cc",
+            "triangles": 10376
+          },
+          {
+            "id": "equipment-cart-tool",
+            "version": 1,
+            "sha256": "6f823829ed987742f1c10fb6c40d166eb48a5a0ac17e90ae8a6228f28fde34a9",
+            "triangles": 10244
+          },
+          {
+            "id": "equipment-cart-display",
+            "version": 1,
+            "sha256": "51c8af8facb3563a3726e2c6a3bf0590973f400f2a5e03550e68018e342b642f",
+            "triangles": 10368
+          }
+        ]
+      }
+    },
+    {
+      "args": [
+        "--parameters",
+        "output/equipment-cart-v1/producer/refused.json",
+        "--output",
+        "output/equipment-cart-v1/producer/repeat-after-error"
+      ],
+      "result": "Deck thickness outside"
+    },
+    {
+      "args": [
+        "--parameters",
+        "assets-source/company-equipment-cart-v1/examples/open-service-v2.json",
+        "--output",
+        "output/equipment-cart-v1/producer/repeat-after-error"
+      ],
+      "result": {
+        "status": "passed",
+        "resources": [
+          {
+            "id": "equipment-cart-open",
+            "version": 2,
+            "sha256": "06f48a0e7406350315863b36050d5d6eb34635f573d62d06241b404c99923d13",
+            "triangles": 11180
+          }
+        ]
+      }
+    },
+    {
+      "args": [
+        "--parameters",
+        "assets-source/company-equipment-cart-v1/examples/open-service-v2.json",
+        "--output",
+        "output/equipment-cart-v1/producer/repeat-after-error"
+      ],
+      "result": "Trial output already exists"
+    },
+    {
+      "args": [
+        "--parameters",
+        "output/equipment-cart-v1/producer/refused.json",
+        "--output",
+        "output/equipment-cart-v1/producer/identity-rejection"
+      ],
+      "result": "Edit geometry under a new ID/version"
+    },
+    {
+      "args": [
+        "--output",
+        "F:/invalid-equipment-cart-root"
+      ],
+      "result": "Trial must stay inside project"
+    },
+    {
+      "args": [
+        "--output",
+        "output/equipment-cart-v1/producer/dummy/../traversal"
+      ],
+      "result": "Path traversal"
+    },
+    {
+      "args": [
+        "--output",
+        "output/equipment-cart-v1/producer/junction-probe/forbidden"
+      ],
+      "result": "Linked path"
+    },
+    {
+      "args": [
+        "--output",
+        "output/equipment-cart-v1/producer/all-from-drive-root"
+      ],
+      "result": {
+        "status": "passed",
+        "resources": [
+          {
+            "id": "equipment-cart-open",
+            "version": 1,
+            "sha256": "9cfb4847de1d836223e7bf5b83b0f60dbd5bfb643fb37d76b8c6d45640139c73",
+            "triangles": 11180
+          },
+          {
+            "id": "equipment-cart-flightcase",
+            "version": 1,
+            "sha256": "51d424512499a741bad9a5fbf060eeedebf223457f90b352e987376351e111cc",
+            "triangles": 10376
+          },
+          {
+            "id": "equipment-cart-tool",
+            "version": 1,
+            "sha256": "6f823829ed987742f1c10fb6c40d166eb48a5a0ac17e90ae8a6228f28fde34a9",
+            "triangles": 10244
+          },
+          {
+            "id": "equipment-cart-display",
+            "version": 1,
+            "sha256": "51c8af8facb3563a3726e2c6a3bf0590973f400f2a5e03550e68018e342b642f",
+            "triangles": 10368
+          }
+        ]
+      }
+    }
+  ],
+  "cwd": "F:/",
+  "identicalFiles": [
+    {
+      "path": "prototype/public/company-assets/equipment-cart-v1/equipment-cart-tool/v1/model.glb",
+      "sha256": "6f823829ed987742f1c10fb6c40d166eb48a5a0ac17e90ae8a6228f28fde34a9"
+    },
+    {
+      "path": "prototype/public/company-assets/equipment-cart-v1/equipment-cart-tool/v1/resource.json",
+      "sha256": "9f8040ea6565e11a2c8eeb031c28c8554ad70dace995843e3f37e902ed8f8f53"
+    },
+    {
+      "path": "prototype/public/company-assets/equipment-cart-v1/equipment-cart-open/v1/model.glb",
+      "sha256": "9cfb4847de1d836223e7bf5b83b0f60dbd5bfb643fb37d76b8c6d45640139c73"
+    },
+    {
+      "path": "prototype/public/company-assets/equipment-cart-v1/equipment-cart-open/v1/resource.json",
+      "sha256": "92d0b7f51744f0935c4179cba556fe5bfef1c5c7c472981b8d88095218d70311"
+    },
+    {
+      "path": "prototype/public/company-assets/equipment-cart-v1/equipment-cart-flightcase/v1/model.glb",
+      "sha256": "51d424512499a741bad9a5fbf060eeedebf223457f90b352e987376351e111cc"
+    },
+    {
+      "path": "prototype/public/company-assets/equipment-cart-v1/equipment-cart-flightcase/v1/resource.json",
+      "sha256": "4a18e79a82ce1ffc0be167b7ba2e2f7b0bf36416f6808186a8f59537be11bfa7"
+    },
+    {
+      "path": "prototype/public/company-assets/equipment-cart-v1/equipment-cart-display/v1/model.glb",
+      "sha256": "51c8af8facb3563a3726e2c6a3bf0590973f400f2a5e03550e68018e342b642f"
+    },
+    {
+      "path": "prototype/public/company-assets/equipment-cart-v1/equipment-cart-display/v1/resource.json",
+      "sha256": "56d3c67438248cac230318528dfa54a275a1b9af95d27fb55dc4ec7d692bff93"
+    },
+    {
+      "path": "assets-source/company-equipment-cart-v1/collection.json",
+      "sha256": "019ca59ae274df1d41b3ce8304eabbd194922047dd219e7025a4e5e42deb4398"
+    }
+  ],
+  "preflightImplementations": [
+    {
+      "path": "prototype/src/company/support-geometry.js",
+      "sha256": "a66fcfcba61c0794436be654d92d7f0fed0340712bc4033049c3cf29231f5b81"
+    },
+    {
+      "path": "prototype/src/company/support-data.js",
+      "sha256": "02a80a1fb59f1712bdaa6912af95aea38bc9fbb40dfc5f2007cec48bc677b98e"
+    }
+  ],
+  "generator": {
+    "path": "scripts/company-platform/build-equipment-carts.mjs",
+    "sha256": "504c990d6d808c057548252af3aeac51f5a4a93a967d1d41f052eda4d02a6371"
+  },
+  "prototype": {
+    "sample": "open",
+    "sourceModel": "b799d82d8f570a1be677292be9a875db22b1c0abc807ed337925ecaa056ae542",
+    "failure": "First family run found four isolated case latch meshes.",
+    "repair": "Moved each latch inward 0.009 m; all four overlap actual case edges."
+  },
+  "lockReleased": true,
+  "junctionTargetUntouched": true
+}

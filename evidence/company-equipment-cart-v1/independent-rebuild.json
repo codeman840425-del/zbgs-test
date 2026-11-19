@@ -1,0 +1,295 @@
+{
+  "status": "passed",
+  "manifestSha256": "8f37ca308d8afd8d75562ccd897e7c8bd761c224eaec7eb8e6b6aca0163670c6",
+  "build": "3ab00ef8132d",
+  "sourceInput": "assets-source/company-equipment-cart-v1/examples/open-service-v2.json",
+  "steps": [
+    {
+      "label": "01-original",
+      "args": [
+        "verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\equipment-cart-v1\\release",
+        "8f37ca308d8afd8d75562ccd897e7c8bd761c224eaec7eb8e6b6aca0163670c6"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\output\\equipment-cart-v1\\release",
+      "exit": 0
+    },
+    {
+      "label": "02-offline-clean-install",
+      "args": [
+        "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+        "ci",
+        "--offline",
+        "--include=dev",
+        "--cache",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\npm-cache",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source\\prototype",
+      "exit": 0
+    },
+    {
+      "label": "03-source-id",
+      "args": [
+        "scripts/build-company-id.mjs"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source\\prototype",
+      "exit": 0
+    },
+    {
+      "label": "04-rebuild",
+      "args": [
+        "node_modules/vite/bin/vite.js",
+        "build",
+        "--config",
+        "vite.company.config.js",
+        "--outDir",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\original-build"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source\\prototype",
+      "exit": 0
+    },
+    {
+      "label": "05-verify-rebuilt-viewer",
+      "args": [
+        "verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\equipment-cart-v1\\release",
+        "8f37ca308d8afd8d75562ccd897e7c8bd761c224eaec7eb8e6b6aca0163670c6",
+        "--viewer",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\original-build"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\output\\equipment-cart-v1\\release",
+      "exit": 0
+    },
+    {
+      "label": "06-stock-producer-check",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source\\scripts\\company-platform\\build-equipment-carts.mjs",
+        "--check"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source",
+      "exit": 0
+    },
+    {
+      "label": "07-publish-v2",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--publish",
+        "assets-source/company-equipment-cart-v1/examples/open-service-v2.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source",
+      "exit": 0
+    },
+    {
+      "label": "08-check-registered-v2",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--check",
+        "assets-source/company-equipment-cart-v1/examples/open-service-v2.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source",
+      "exit": 0
+    },
+    {
+      "label": "09-stock-still-rebuilds",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source\\scripts\\company-platform\\build-equipment-carts.mjs",
+        "--check"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source",
+      "exit": 0
+    },
+    {
+      "label": "10-reject-overhang",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\variant-room.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\variant-batch"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source",
+      "exit": 1
+    },
+    {
+      "label": "11-retry-with-valid-layers",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\variant-room.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\variant-batch"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source",
+      "exit": 0
+    },
+    {
+      "label": "12-repeat-room-batch",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\variant-room.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\variant-batch"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\source",
+      "exit": 0
+    },
+    {
+      "label": "13-original-after-publish",
+      "args": [
+        "verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\equipment-cart-v1\\release",
+        "8f37ca308d8afd8d75562ccd897e7c8bd761c224eaec7eb8e6b6aca0163670c6"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\output\\equipment-cart-v1\\release",
+      "exit": 0
+    }
+  ],
+  "before": {
+    "ok": true,
+    "build": "3ab00ef8132d",
+    "manifestSha256": "8f37ca308d8afd8d75562ccd897e7c8bd761c224eaec7eb8e6b6aca0163670c6",
+    "declaredFiles": 2292,
+    "checkedFiles": 2292,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "lockAndCache": {
+    "priorReportSha256": "7b691b2fc7cdd9843d981fd0e6408d6b0312bf9888c3fdf1141b5e9b9016ada9",
+    "sourceCache": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\npm-cache",
+    "copiedCache": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\equipment-cart-v1\\receiver\\final\\npm-cache",
+    "mode": "npm ci --offline"
+  },
+  "differenceFromPrior": {
+    "manifestSha256": "15f6be38d6aaff12fc5d55b48b0338f537e2687f0ba98b9ab4fd16544ca1f92c",
+    "originalBuild": "b1d717043fe5",
+    "finalBuild": "3ab00ef8132d",
+    "changedSourceFiles": [
+      {
+        "path": "source/prototype/src/company/facility-editor.js",
+        "before": "754e1013d0b46f51a2e434c622b07e1df12892c036b2f461d018f03a22647ad8",
+        "after": "31bb5b52a9912b6859e919e9343cfe5a1dff89be88471ee8606fc728ee7bbae9"
+      },
+      {
+        "path": "source/scripts/company-platform/qa-equipment-cart.cjs",
+        "before": "e1bf2e4a8aac702e9489161e62e7e8efd01158f3e276b911d8dc2d71d71be25c",
+        "after": "9f4b8668425c90dc5e693485a90911d9732603e250265fb56dc90005009e549f"
+      }
+    ],
+    "allDifferences": [
+      {
+        "path": "README.md",
+        "before": "c0ed9324c4ad232e382a2019e67e328073f369c250caea020df047a5b04c5787",
+        "after": "b50f195431052e0982e8ba46ebdfcfddc6712cc71acb34c8d2e58d78fc3fcd1b"
+      },
+      {
+        "path": "source/prototype/src/company/facility-editor.js",
+        "before": "754e1013d0b46f51a2e434c622b07e1df12892c036b2f461d018f03a22647ad8",
+        "after": "31bb5b52a9912b6859e919e9343cfe5a1dff89be88471ee8606fc728ee7bbae9"
+      },
+      {
+        "path": "source/scripts/company-platform/qa-equipment-cart.cjs",
+        "before": "e1bf2e4a8aac702e9489161e62e7e8efd01158f3e276b911d8dc2d71d71be25c",
+        "after": "9f4b8668425c90dc5e693485a90911d9732603e250265fb56dc90005009e549f"
+      },
+      {
+        "path": "viewer/assets/company-BEHxaDyo.js",
+        "before": null,
+        "after": "285cf2185205b883d44d974325c65d8ef90cf3277c85f4cbef5039c58e84b138"
+      },
+      {
+        "path": "viewer/assets/company-XImRl7fg.js",
+        "before": "7da6cee4341fe1e5f935edd2e3d8c53671d6be41821a2b54baf07cc0096b4bf6",
+        "after": null
+      },
+      {
+        "path": "viewer/company-build-info.json",
+        "before": "b078f4291cee513210d54ccf546e5b7035b78f41ee094655b85867c4eb7687e3",
+        "after": "184feecf2e5aee14c487563768dfff6df2a856ce66e5e5d4277f879fbf5408b1"
+      },
+      {
+        "path": "viewer/company.html",
+        "before": "0536f3ff3a0c18684708ea2810d3ea0d1e83a6b922c275b40c33adca95d16a8e",
+        "after": "61a877f0270d9336ebda4abede97293bc1cfd3b132c286b150fed58cb8439ab8"
+      }
+    ]
+  },
+  "copiedSourceFiles": 1625,
+  "lockSha256": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b",
+  "viewer": {
+    "ok": true,
+    "build": "3ab00ef8132d",
+    "manifestSha256": "8f37ca308d8afd8d75562ccd897e7c8bd761c224eaec7eb8e6b6aca0163670c6",
+    "declaredFiles": 639,
+    "checkedFiles": 639,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0,
+    "scope": "rebuilt-viewer"
+  },
+  "oldResourcesPreserved": 10,
+  "versionPair": [
+    {
+      "id": "equipment-cart-open",
+      "version": 1,
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/equipment-cart-v1/equipment-cart-open/v1/model.glb",
+        "sha256": "9cfb4847de1d836223e7bf5b83b0f60dbd5bfb643fb37d76b8c6d45640139c73",
+        "bytes": 326392
+      },
+      "sourceParameters": "assets-source/company-equipment-cart-v1/parameters.json"
+    },
+    {
+      "id": "equipment-cart-open",
+      "version": 2,
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/equipment-cart-v1/equipment-cart-open/v2/model.glb",
+        "sha256": "06f48a0e7406350315863b36050d5d6eb34635f573d62d06241b404c99923d13",
+        "bytes": 326404
+      },
+      "sourceParameters": "assets-source/company-equipment-cart-v1/examples/recipe-13356e44507be5d8d2b1b40ab986efd23c16c85e4810c52eeb53b617c4ca0e1e.json"
+    }
+  ],
+  "loadedLayers": [
+    {
+      "id": "equipment-cart-studio/ground/live/cart-open/camera",
+      "surfaceId": "upper",
+      "resource": {
+        "id": "camera-orbit-eye",
+        "version": 1
+      },
+      "worldHit": [
+        -1.552999999526888,
+        0.82,
+        -1.7700000000000002
+      ],
+      "deckThickness": 0.03200000000000003,
+      "deviceBaseGap": -1.4901158085223187e-10
+    },
+    {
+      "id": "equipment-cart-studio/ground/live/cart-open/audio",
+      "surfaceId": "lower",
+      "resource": {
+        "id": "audio-interface",
+        "version": 1
+      },
+      "worldHit": [
+        -1.4499999999999997,
+        0.3,
+        -1.8079999992810192
+      ],
+      "deckThickness": 0.03200000000000003,
+      "deviceBaseGap": 6.705522248573459e-10
+    }
+  ],
+  "receiverSaveSha256": "d5a5037174d42701690df650a4a6ce369fe6929ab0ca7749456b041bb00c80a1",
+  "after": {
+    "ok": true,
+    "build": "3ab00ef8132d",
+    "manifestSha256": "8f37ca308d8afd8d75562ccd897e7c8bd761c224eaec7eb8e6b6aca0163670c6",
+    "declaredFiles": 2292,
+    "checkedFiles": 2292,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  }
+}
