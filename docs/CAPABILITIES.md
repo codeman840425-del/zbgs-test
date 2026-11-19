@@ -2,6 +2,8 @@
 
 **一具 1K 男体已实测两款鞋当场替换和重开。** 固定游戏 `57407c0e / 57621e5c967c` 中，从同一源鞋生成的 20 毫米平行厚底保留鞋面、贴图和六骨绑定。原版换鞋后仍使用旧鞋四个接触区，直接从第二款鞋启动亦失败。修复后两款鞋分别走停、坐起、跳舞，坐稳时换回平底，另开页面均恢复到正确装备。换鞋后的实际鞋底成为接触输入。非舞动作采样最深约 1.5 毫米，短舞厚底最深约 14.45 毫米。只覆盖这具男体和此款，两款鞋静态纹理数相同。其他版型、高跟与普通电脑表现待测。[正常速度同镜头与脚部近景](../evidence/m2-sole-variant-v1/index.html) · [修前复现](../evidence/m2-footwear-contact-intake-v1/README.md) · [资源成本](../evidence/m2-sole-variant-v1/asset/record-budget.json)
 
+同一固定构建已补批量制作与独立消费。按款式片段创建出一份试制男角色记录，缺精确版型的女角色被单独拒绝。既有角色修改装备的 revision 3 从 27 文件独立包两次完整冷开，实际显示的鞋网格和前后掌校准均来自选中的 GLB。[批次回执](../evidence/m2-sole-variant-v1/producer/report.json) · [完整冷开](../evidence/m2-sole-variant-v1/standalone/run-dsjZ9R/report.json)
+
 轻量戴镜双人旧版 `60c87f62e8b0` 已收到独立接收方复核。按原签重导的 38 文件与原包一致。固定依赖的逐网格销毁令男体面部和身体共用材质分别发出 2 次与 4 次处置通知；两个独立进程未见页面错误或女角色受损，实际显存释放量未测。[外部接收原件摘要](../evidence/m2-uniform-lite-glasses-game-v1/fusion-intake.json)
 
 **美术交付的一款多版型片段可进入制作端和游戏的默认目录。** 固定 `3b64a5dad472` 在实际浏览器分别找到两具身体的 1K 上衣、绑定和遮罩，按同一配方签出两人。两份请求与旧的专用目录逐字节相同，重新加载的装备与资源身份一致。原目录只走技术试制，正式套装仍待批准。独立融合组另外在 Chrome for Testing 145 上复验了旧构建的 bob 与眼镜双向拒绝，CPU 侧另测提交后回滚。[签出及每人回放](../evidence/m2-default-style-intake-v1/README.md) · [独验来源](../evidence/m2-uniform-glasses-head-v1/fusion-receipt.json)

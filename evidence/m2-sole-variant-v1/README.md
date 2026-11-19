@@ -14,6 +14,10 @@
 
 旧平底角色 revision 2 在房间加载。换鞋后生成了同一角色 revision 3，另开页恢复了两种装备。[修订后的角色记录](records.json) · [游戏包清单](inventory.json)。美术 Agent 的[独立款式片段](../../assets-source/sole-variant-v1/style-fragment.json)可按相同版本交给批次入口。当前候选仅有这一具男体的版型。同批请求中对应男体产生制作请求，女体因缺少对应版型被拒。[逐人结果](candidate-plan/plan.json)
 
+导出的独立游戏共 27 个文件，包含包清单。从普通消费页首次打开，完全关闭 Chrome 后再打开，两次都从网络加载 165,108 字节的厚底 GLB。实绘网格的 680 个顶点与 612 个三角形和下载文件吻合。左右脚各取 15 个后跟点、35 个前掌点，均在可见鞋上，自然站立动作在两次冷开时分别推进 139 和 137 帧。[首开与全关重开](standalone/run-dsjZ9R/report.json)
+
+固定游戏的制作端已经执行上述获选请求，签出新的独立角色 `sole-platform-male-sample`（revision 1）。与房间内既有角色 revision 3 比对，套装、装备资源和适配标识相同。未适配女体没有生成角色记录。[批次输出](produced-batch.json) · [实际签发回执](producer/report.json)
+
 仅实测这一款平行厚底在该男体上的技术使用。舞蹈瞬时穿地、其他高度和高跟姿态、其他身体版型、普通电脑性能均保留独立结论。正式整套批准和人工观感分别记录。
 
 ## 重建
@@ -37,4 +41,5 @@ $dist = "$game/prototype/dist"
 python -X utf8 -B scripts/production/variant_batch.py assets-source/sole-variant-v1/style-fragment.json assets-source/sole-variant-v1/batch-request.json --input-root . --root $game --diagnostic --output "$out/plan"
 node scripts/run-fixed-check.cjs $dist scripts/qa-footwear-room.cjs 57621e5c967cffd796b243b2ddd9b9da81d6a8bb819ced92528b4ba17bb81609 evidence/m2-cc0-body-release-game-v1/far-records.json "$out/room"
 node scripts/runtime-package/game-record-cli.mjs export --source-root $game --dist $dist --records "$e/records.json" --inventory "$e/inventory.json" --out "$out/game"
+node scripts/run-fixed-check.cjs "$out/game" scripts/qa-footwear-cold-package.cjs 08c66c8953e33dfc1d5ee7d8dc459cbbf566d292a9d1ca66e2441d3fc304ce6e "$out/standalone-check"
 ```
