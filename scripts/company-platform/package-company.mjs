@@ -494,6 +494,18 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(inputFiles.length){const layout=decode(inputFiles.find(file=>file.name==='layout.json').bytes,'batch-result/layout.json');if(JSON.stringify(canonical(layout))!==JSON.stringify(canonical(document)))fail('batch-layout-save-mismatch','layout.json','Saved document differs from the batch layout');}
     if(trainingSource)binding=bindingFromSource(document,trainingSource.kind,trainingSource.bytes,trainingContext);
     const trainingClearance=bindTrainingDocument(document,binding,input,trainingContext);
+    if (trainingSource?.kind === 'batch-input') {
+      const declaration = decode(trainingSource.bytes,'batch-result/input.json');
+      const declared = Object.hasOwn(declaration,'productShowcases') ? declaration.productShowcases : declaration.document?.productShowcases;
+      if (JSON.stringify(canonical(declared)) !== JSON.stringify(canonical(document.productShowcases)))
+        fail('showcase-batch-binding-mismatch',input,'Saved showcase roles and clearances differ from the batch declaration');
+    }
+    if (Object.hasOwn(document,'productShowcases')) {
+      const checker = path.join(source,'scripts/company-platform/check-showcase-room.mjs');
+      await noLinks(checker);
+      const {checkProductShowcases} = await import(pathToFileURL(checker).href);
+      await checkProductShowcases(document,{catalog,templates});
+    }
     saved.document=document;
     if(trainingClearance!==undefined){
       const {checkTrainingClearance}=await import(pathToFileURL(path.join(source,'scripts/company-platform/check-training-clearance.mjs')).href);
@@ -576,6 +588,16 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   }
   const garmentBranches = ['garment-rack-wardrobe','hanging-garment','enclosed-wardrobe'];
   let verifyGarmentEditableProvenance;
+  let verifyShowcaseProvenance;
+  if (catalog.resources.some(resource => resource.productionBranch === 'showcase-product')) {
+    for (const name of ['check-showcase-room.mjs','test-showcase-room.mjs','qa-product-showcase-rooms.cjs','showcase-inputs/showcase-checks.json'])
+      supplemental.add('scripts/company-platform/'+name);
+    supplemental.add('docs/research/COMPANY-PRODUCT-SHOWCASE-PRODUCTION.md');
+    const verifier = path.join(source,'scripts/company-platform/validate-resource-provenance.mjs');
+    await noLinks(verifier);
+    ({verifyShowcaseProvenance} = await import(pathToFileURL(verifier).href));
+    if (!verifyShowcaseProvenance) fail('missing-production-tool',verifier,'Expected product source verification');
+  }
   if (catalog.resources.some(resource => garmentBranches.includes(resource.productionBranch))) {
     supplemental.add('docs/research/COMPANY-GARMENT-RACK-PRODUCTION.md');
     supplemental.add('scripts/company-platform/test-garment-rack-assets.mjs');
@@ -637,6 +659,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   }
   const geometryChecks = new Map([
     ['enclosed-wardrobe','test-enclosed-wardrobe-assets.mjs'],
+    ['showcase-product','test-showcase-product-assets.mjs'],
     ['ambient-led-and-neon','test-wall-ambient-assets.mjs'],
     ['plant-desktop-installation','test-desktop-plant-assets.mjs'],
     ['garment-rack-wardrobe','test-garment-rack-assets.mjs'],
@@ -652,7 +675,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     const entry=resource.provenance;
     const plant = resource.productionBranch === 'plant-desktop-installation';
     const garment = garmentBranches.includes(resource.productionBranch);
-    const verifyEditable = plant ? plantTools?.verifyPlantEditableProvenance : garment ? verifyGarmentEditableProvenance : undefined;
+    const product = resource.productionBranch === 'showcase-product';
+    const verifyEditable = product ? verifyShowcaseProvenance : plant ? plantTools?.verifyPlantEditableProvenance : garment ? verifyGarmentEditableProvenance : undefined;
     if (verifyEditable) {
       const recipe = decode(await read(source,entry.sourceParameters),entry.sourceParameters);
       const pins = await verifyEditable(source,resource,recipe);
@@ -667,14 +691,14 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
         relative(target);
         const geometryTest = 'scripts/company-platform/'+geometryChecks.get(resource.productionBranch);
         if (!(target.startsWith('assets-source/company-') || target === geometryTest ||
-          (garment && field === 'editableSourceValidator' && target === plantValidator) ||
+          ((garment || product) && field === 'editableSourceValidator' && target === plantValidator) ||
           (plant && plantTools && ({geometryCompiler:plantTools.plantCompiler,editableSourceValidator:plantValidator,producerLock:plantTools.plantToolLock})[field]===target)))
           fail('unsafe-production-source', target, 'Expected an artwork source, license or geometry check');
         const bytes = await read(source,target);
         if (hash(bytes) !== dependency.sha256)
           fail('production-source-hash-mismatch',target,'The referenced production dependency has changed');
         supplemental.add(target);
-        if (garment && field === 'editableSourceValidator') productionSourcePins.set(target,dependency.sha256);
+        if ((garment || product) && field === 'editableSourceValidator') productionSourcePins.set(target,dependency.sha256);
         provenance.push({resourceId:resource.id,version:resource.version,field,path:target,sha256:dependency.sha256});
       }
     }

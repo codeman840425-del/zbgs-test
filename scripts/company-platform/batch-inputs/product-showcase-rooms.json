@@ -1,0 +1,538 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "showcase-rental",
+      "input": {
+        "id": "showcase-rental",
+        "name": "出租屋 · 好物直播间",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "furnishingVersion": 2,
+        "scale": "rental-home",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "食品陈列直播间",
+                "purpose": "streaming",
+                "stations": 0,
+                "entry": [
+                  1.66,
+                  0,
+                  0
+                ]
+              },
+              {
+                "id": "office",
+                "name": "选品工作间",
+                "purpose": "work",
+                "furniture": "desk-chair"
+              },
+              {
+                "id": "lounge",
+                "name": "休息间",
+                "purpose": "rest",
+                "sofaVersion": 1
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set-surface-finish",
+          "id": "showcase-rental/ground/live",
+          "surface": "floor",
+          "finish": {
+            "resource": {
+              "id": "floor-offset-plank",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-rental/ground/live/backdrop",
+          "parentId": "showcase-rental/ground/live",
+          "resource": {
+            "id": "background-grid-panel",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.12,
+              0,
+              -1.8
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-rental/ground/live/counter",
+          "parentId": "showcase-rental/ground/live",
+          "resource": {
+            "id": "hinged-cabinet-flat-panel",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -0.15,
+              0,
+              -0.55
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-rental/ground/live/stock-shelf",
+          "parentId": "showcase-rental/ground/live",
+          "resource": {
+            "id": "support-shelf-frame-posts",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -1.5,
+              0,
+              -1.18
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-rental/ground/live/camera-desk",
+          "parentId": "showcase-rental/ground/live",
+          "resource": {
+            "id": "desk-trestle",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -0.15,
+              0,
+              1.43
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-rental/ground/live/camera",
+          "parentId": "showcase-rental/ground/live/camera-desk",
+          "resource": {
+            "id": "camera-orbit-eye",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0.84,
+              -0.38
+            ],
+            "yaw": 3.141592653589793
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-rental/ground/live/key-light",
+          "parentId": "showcase-rental/ground/live",
+          "resource": {
+            "id": "fill-light-panel",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -1.7,
+              0,
+              0.48
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-rental/ground/live/featured",
+          "parentId": "showcase-rental/ground/live/counter",
+          "resource": {
+            "id": "showcase-product-honey",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              1.2,
+              0.08
+            ],
+            "yaw": 0
+          },
+          "attachment": {
+            "surfaceId": "top"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-rental/ground/live/sample-low",
+          "parentId": "showcase-rental/ground/live/stock-shelf",
+          "resource": {
+            "id": "showcase-product-bag",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0.45,
+              0
+            ],
+            "yaw": 0
+          },
+          "attachment": {
+            "surfaceId": "lower"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-rental/ground/live/sample-mid",
+          "parentId": "showcase-rental/ground/live/stock-shelf",
+          "resource": {
+            "id": "showcase-product-can",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              1.05,
+              0
+            ],
+            "yaw": 0
+          },
+          "attachment": {
+            "surfaceId": "middle"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-rental/ground/live/sample-high",
+          "parentId": "showcase-rental/ground/live/stock-shelf",
+          "resource": {
+            "id": "showcase-product-carton",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              1.8,
+              0
+            ],
+            "yaw": 0
+          },
+          "attachment": {
+            "surfaceId": "top"
+          }
+        }
+      ],
+      "productShowcases": [
+        {
+          "roomId": "showcase-rental/ground/live",
+          "portalId": "showcase-rental/ground/portal-stream-living",
+          "approach": [],
+          "aisleWidth": 0.75,
+          "presenter": {
+            "offset": [
+              1,
+              0.55
+            ],
+            "width": 0.75,
+            "depth": 0.8,
+            "height": 1.9
+          },
+          "maxOffAxisDegrees": 30,
+          "members": {
+            "counter": "showcase-rental/ground/live/counter",
+            "stockShelf": "showcase-rental/ground/live/stock-shelf",
+            "featured": "showcase-rental/ground/live/featured",
+            "camera": "showcase-rental/ground/live/camera",
+            "backdrop": "showcase-rental/ground/live/backdrop",
+            "sampleLow": "showcase-rental/ground/live/sample-low",
+            "sampleMid": "showcase-rental/ground/live/sample-mid",
+            "sampleHigh": "showcase-rental/ground/live/sample-high"
+          }
+        }
+      ]
+    },
+    {
+      "key": "showcase-studio",
+      "input": {
+        "id": "showcase-studio",
+        "name": "品牌选品工作室",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "furnishingVersion": 2,
+        "scale": "single-room",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "食品品牌演示间",
+                "purpose": "streaming",
+                "stations": 0,
+                "entry": [
+                  0,
+                  0,
+                  -2.35
+                ]
+              }
+            ],
+            "exteriorEntrances": [
+              {
+                "id": "entry",
+                "regionId": "live",
+                "edge": "north",
+                "offset": 0,
+                "width": 1.4,
+                "height": 2.2
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set-surface-finish",
+          "id": "showcase-studio/ground/live",
+          "surface": "floor",
+          "finish": {
+            "resource": {
+              "id": "floor-terrazzo",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-studio/ground/live/backdrop",
+          "parentId": "showcase-studio/ground/live",
+          "resource": {
+            "id": "background-brand-panel",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -2.4,
+              0,
+              -0.12
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-studio/ground/live/counter",
+          "parentId": "showcase-studio/ground/live",
+          "resource": {
+            "id": "hinged-cabinet-flat-panel",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -0.55,
+              0,
+              0.15
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-studio/ground/live/stock-shelf",
+          "parentId": "showcase-studio/ground/live",
+          "resource": {
+            "id": "support-shelf-crossback",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -1.18,
+              0,
+              1.71
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-studio/ground/live/camera-desk",
+          "parentId": "showcase-studio/ground/live",
+          "resource": {
+            "id": "desk-trestle",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              2,
+              0,
+              0.15
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-studio/ground/live/camera",
+          "parentId": "showcase-studio/ground/live/camera-desk",
+          "resource": {
+            "id": "camera-orbit-eye",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0.84,
+              -0.38
+            ],
+            "yaw": 3.141592653589793
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-studio/ground/live/key-light",
+          "parentId": "showcase-studio/ground/live",
+          "resource": {
+            "id": "fill-light-panel",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.48,
+              0,
+              1.7
+            ],
+            "yaw": 3.141592653589793
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-studio/ground/live/featured",
+          "parentId": "showcase-studio/ground/live/counter",
+          "resource": {
+            "id": "showcase-product-carton",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              1.2,
+              0
+            ],
+            "yaw": 0
+          },
+          "attachment": {
+            "surfaceId": "top"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-studio/ground/live/sample-low",
+          "parentId": "showcase-studio/ground/live/stock-shelf",
+          "resource": {
+            "id": "showcase-product-bag",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0.45,
+              0
+            ],
+            "yaw": 0
+          },
+          "attachment": {
+            "surfaceId": "lower"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-studio/ground/live/sample-mid",
+          "parentId": "showcase-studio/ground/live/stock-shelf",
+          "resource": {
+            "id": "showcase-product-can",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              1.05,
+              0
+            ],
+            "yaw": 0
+          },
+          "attachment": {
+            "surfaceId": "middle"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "showcase-studio/ground/live/sample-high",
+          "parentId": "showcase-studio/ground/live/stock-shelf",
+          "resource": {
+            "id": "showcase-product-honey",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              1.8,
+              0
+            ],
+            "yaw": 0
+          },
+          "attachment": {
+            "surfaceId": "top"
+          }
+        }
+      ],
+      "productShowcases": [
+        {
+          "roomId": "showcase-studio/ground/live",
+          "portalId": "showcase-studio/ground/entry",
+          "approach": [],
+          "aisleWidth": 0.75,
+          "presenter": {
+            "offset": [
+              1,
+              0.55
+            ],
+            "width": 0.75,
+            "depth": 0.8,
+            "height": 1.9
+          },
+          "maxOffAxisDegrees": 30,
+          "members": {
+            "counter": "showcase-studio/ground/live/counter",
+            "stockShelf": "showcase-studio/ground/live/stock-shelf",
+            "featured": "showcase-studio/ground/live/featured",
+            "camera": "showcase-studio/ground/live/camera",
+            "backdrop": "showcase-studio/ground/live/backdrop",
+            "sampleLow": "showcase-studio/ground/live/sample-low",
+            "sampleMid": "showcase-studio/ground/live/sample-mid",
+            "sampleHigh": "showcase-studio/ground/live/sample-high"
+          }
+        }
+      ]
+    }
+  ]
+}

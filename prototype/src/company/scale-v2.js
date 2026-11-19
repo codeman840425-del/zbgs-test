@@ -272,7 +272,7 @@ export function createCompanyScaleV2(input, catalog, templates) {
     }
     if (floorIndex > 0 && input.scale !== 'building') fail('space-floor-capacity', `input.floors[${floorIndex}]`, 'This scale supports one floor');
   }
-  const result = prepareCompanyChange(document, operations, { catalog, templates }).document;
+  const result = operations.length ? prepareCompanyChange(document, operations, { catalog, templates }).document : document;
   inspectCompanyConnections(result, catalog, templates);
   inspectCompanyPlacement(result, catalog, templates);
   return result;

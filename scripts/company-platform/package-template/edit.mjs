@@ -41,6 +41,10 @@ try{
   if (preflightDesktopAreas) await preflightDesktopAreas(path.join(root,'source'),derived);
   else if (derived.facilities.some(f=>f.resource.mounting?.reserveDesktopArea || f.resource.garmentRail || f.resource.mount==='garment-rail'))
     throw Error('missing-installation-preflight: this room requires installation geometry checks');
+  if (Object.hasOwn(document,'productShowcases')) {
+    const {checkProductShowcases} = await import('./source/scripts/company-platform/check-showcase-room.mjs');
+    await checkProductShowcases(document,{catalog,templates});
+  }
   if(constraint){
     const {checkTrainingClearance}=await import('./source/scripts/company-platform/check-training-clearance.mjs');
     await checkTrainingClearance(document,constraint,{catalog,templates});

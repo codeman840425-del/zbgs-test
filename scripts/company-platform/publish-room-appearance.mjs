@@ -7,6 +7,7 @@ import {fileURLToPath} from 'node:url';
 import {isDeepStrictEqual, promisify} from 'node:util';
 import {buildLibrary, planPath, replaceIndex, withCatalogWriteLock} from './build-library.mjs';
 import {editableSources,plantProducer,plantToolchain} from './plant-editable-source.mjs';
+import {showcaseTexturePins} from './validate-resource-provenance.mjs';
 import {compareFacilityFunction} from '../../prototype/src/company/appearance-contract.js';
 import {createCompany, deriveCompany} from '../../prototype/src/company/document.js';
 
@@ -29,8 +30,9 @@ const families = {
   'company-desktop-plants-collection': 'desktop-plants',
   'company-garment-rack-collection': 'garment-rack',
   'company-enclosed-wardrobe-collection': 'enclosed-wardrobe',
+  'company-showcase-product-collection': 'showcase-product',
 };
-const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs', 'wall-ambient':'build-wall-ambient.mjs', 'desktop-plants':'build-desktop-plants.mjs', 'garment-rack':'build-garment-rack.mjs', 'enclosed-wardrobe':'build-enclosed-wardrobe.mjs'};
+const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs', 'wall-ambient':'build-wall-ambient.mjs', 'desktop-plants':'build-desktop-plants.mjs', 'garment-rack':'build-garment-rack.mjs', 'enclosed-wardrobe':'build-enclosed-wardrobe.mjs', 'showcase-product':'build-showcase-products.mjs'};
 const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric', 'wall-ambient':'ambient-led-and-neon', 'desktop-plants':'plant-desktop-installation'};
 
 const garmentBranches = {rack:'garment-rack-wardrobe',garment:'hanging-garment'};
@@ -142,9 +144,10 @@ async function publish(recipePath,check) {
   }
   const plant = family === 'desktop-plants';
   const garment = family === 'garment-rack' || family === 'enclosed-wardrobe';
-  const editablePins = plant || garment ? await editableSources(root,input) : null;
+  const product = family === 'showcase-product';
+  const editablePins = plant || garment || product ? await editableSources(root,input) : null;
   const plantTools = plant ? await plantToolchain(root) : null;
-  const perDesignSource = family === 'wall-ambient' || plant || family === 'enclosed-wardrobe';
+  const perDesignSource = family === 'wall-ambient' || plant || product || family === 'enclosed-wardrobe';
   const artwork = new Map();
   const designBranches = new Map();
   for (const design of input.designs) {
@@ -232,7 +235,12 @@ async function publish(recipePath,check) {
         if (family === 'wall-ambient' && source.editable) expectedDependencies.editableContour = source.editable;
         const design = input.designs.find(d => d.id === entry.id && d.version === entry.version);
         const editable = editablePins?.get(design.source);
-        if (garment && editable) expectedDependencies.editableSource = editable;
+        if (product) {
+          for (const key of Object.keys(expectedDependencies)) if (key.startsWith('sourceTexture-')) delete expectedDependencies[key];
+          delete expectedDependencies.editableSource;
+          Object.assign(expectedDependencies,await showcaseTexturePins(root,source));
+        }
+        if ((garment || product) && editable) expectedDependencies.editableSource = editable;
         if (plant) {
           if (editable) Object.assign(expectedDependencies,{editableSource:editable,geometryCompiler:plantTools.compiler,
             editableSourceValidator:plantTools.validator,producerLock:plantTools.lock});

@@ -80,7 +80,7 @@ function clearanceBox(rect, portal, joinedByEdge) {
   return new THREE.Box3(min,max);
 }
 
-function localLibrary() {
+export function createLocalRoomAssetLibrary() {
   globalThis.self ??= globalThis;
   // Geometry is decoded by GLTFLoader. Supply image dimensions in Node without raster or GPU rendering.
   globalThis.createImageBitmap ??= async blob => {
@@ -97,7 +97,7 @@ function localLibrary() {
   }});
 }
 
-function scanMeshes(scene, room, facilities, regions, failures) {
+export function scanRoomMeshes(scene, room, facilities, regions, failures, onMesh) {
   const roomGroup = scene.root.getObjectByName(room.id);
   const worldToRoom = roomGroup.matrixWorld.clone().invert();
   const facilityGroups = new Map(facilities.map(facility => [scene.root.getObjectByName(facility.id), facility]));
@@ -122,6 +122,7 @@ function scanMeshes(scene, room, facilities, regions, failures) {
       const positions = geometry.getAttribute('position');
       transform.multiplyMatrices(worldToRoom,object.matrixWorld);
       bounds.setFromBufferAttribute(positions).applyMatrix4(transform);
+      onMesh?.(object, owner, transform, bounds);
       const pending = regions.filter(({box}) => box.intersectsBox(bounds));
       checkedMeshes++;
       const index = geometry.getIndex();
@@ -165,14 +166,14 @@ export async function checkTrainingClearance(document, constraint, {catalog = de
     {name:'entry',box:clearanceBox(constraint.entry,portal,joinedByEdge)},
   ];
   const facilities = derived.facilities.filter(facility => facility.floorId === floorId);
-  const library = localLibrary();
+  const library = createLocalRoomAssetLibrary();
   let scene;
   try {
     const finishes = derived.surfaceFinishes.filter(finish => finish.floorId === floorId);
     await library.preload([...facilities,...finishes].map(item => item.resource));
     scene = createCompanyScene(new THREE.Scene(), document, {catalog,templates,visibleFloorId:floorId,assetLibrary:library,mirrorPreflight:()=>{}});
     const failures = [];
-    const {worldToRoom,checkedMeshes} = scanMeshes(scene,room,facilities,regions,failures);
+    const {worldToRoom,checkedMeshes} = scanRoomMeshes(scene,room,facilities,regions,failures);
     const corner = new THREE.Vector3();
     for (const obstacle of derived.obstacles.filter(item => item.floorId === floorId && item.resource.mount !== 'portal-door')) {
       const corners = obstacle.corners.map(point => corner.fromArray(point).applyMatrix4(worldToRoom).toArray());

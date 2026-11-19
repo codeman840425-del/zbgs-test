@@ -339,3 +339,9 @@ scripts/company-platform/test-enclosed-wardrobe-assets.mjs -text whitespace=cr-a
 # Keep the exact receiver program and embedded upstream license recorded in the release.
 evidence/company-enclosed-wardrobe-release-v1/receiver/receive.py -text whitespace=-blank-at-eof,cr-at-eol
 evidence/company-enclosed-wardrobe-release-v1/receiver/source/LICENSE.txt -text -diff
+
+# Source pins must survive checkout unchanged, including the CC0 donor files.
+assets-source/company-showcase-product-v1/** -text whitespace=cr-at-eol
+assets-source/company-showcase-product-v1/original/** -text -diff
+scripts/company-platform/build-showcase-products.mjs -text whitespace=cr-at-eol
+scripts/company-platform/test-showcase-product-assets.mjs -text whitespace=cr-at-eol

@@ -54,7 +54,7 @@ function validateBatch(batch,only){
   const keys=new Set(),ids=new Set();
   for(const [index,item]of batch.items.entries()){
     const location=`items[${index}]`;
-    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance'].includes(key))||
+    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance','productShowcases'].includes(key))||
         typeof item.key!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(item.key)||
         /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(item.key))
       fail('invalid-batch-key',location,'Use a portable nonempty directory key with letters, digits, underscore or hyphen');
@@ -133,6 +133,14 @@ async function prepare(item,sourceHashes){
     const {checkTrainingClearance}=await import('./check-training-clearance.mjs');
     trainingClearance=await checkTrainingClearance(document,constraint,{catalog,templates});
   }
+  if (Object.hasOwn(item,'productShowcases')) document.productShowcases = structuredClone(item.productShowcases);
+  let productShowcases;
+  if (Object.hasOwn(document,'productShowcases')) {
+    const checker = 'scripts/company-platform/check-showcase-room.mjs';
+    const {checkProductShowcases} = await import('./check-showcase-room.mjs');
+    productShowcases = await checkProductShowcases(document,{catalog,templates});
+    sourceHashes = {...sourceHashes,...await sources([checker])};
+  }
   const assetDependencies=[];
   const derived=deriveCompany(document,catalog,templates);
   const selected=new Map();
@@ -158,7 +166,7 @@ async function prepare(item,sourceHashes){
     documentRevision:document.revision,dependencies:saved.dependencies,assetDependencies,sourceHashes,
     ...(styleRecipe ? {styleRecipe} : {}),
     files:Object.fromEntries(Object.entries(files).map(([name,bytes])=>[name,{bytes:bytes.length,sha256:hash(bytes)}])),
-    checks:{connections,placement,...(trainingClearance ? {trainingClearance} : {})},
+    checks:{connections,placement,...(trainingClearance ? {trainingClearance} : {}),...(productShowcases ? {productShowcases} : {})},
     scope:'Complete deterministic authoring result. Static geometry and placement admission only; rendering and character usage require their own evidence.'};
   files['report.json']=jsonBytes(report);
   return {files,report};

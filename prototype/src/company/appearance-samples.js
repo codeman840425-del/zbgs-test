@@ -31,7 +31,7 @@ export const appearanceBranches=[
  ['cable-route','设备连接线'],
  ['ceiling-acoustic-baffle','顶部吸声构件'],
  ['wall-shelf','墙装多层壁架'],
- ['side-table-life-items','边几日用品'],
+ ['side-table-life-items','边几日用品'],['showcase-product','直播陈列商品'],
  ['side-table','边几与茶几'],
  ['makeup-mirror-wall','挂墙化妆镜'],
  ['makeup-storage-drawer','抽屉内化妆收纳'],
@@ -133,6 +133,14 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
    selected.productionBranch==='sofa-textile-host' ? 'appearance-sofa-textile-host' : `appearance-${branch}`;
  let doc=createCompany({id:sampleId,name:`${appearanceBranches.find(([key])=>key===branch)?.[1]} · ${selected.displayName||selected.name||selected.id}`,width:9,depth:7},catalog);
  const floor=doc.nodes[0],room=doc.nodes[1],area=`${doc.id}/public`;
+ if (branch === 'showcase-product') {
+   const counter = room.id+'/counter', target = room.id+'/featured';
+   doc = prepareCompanyChange(doc,[
+     {type:'add-facility',id:counter,parentId:room.id,resource:{id:'hinged-cabinet-flat-panel',version:1},transform:identityTransform()},
+     {type:'add-facility',id:target,parentId:counter,attachment:{surfaceId:'top'},resource:{id:selected.id,version:selected.version}},
+   ],{catalog,templates}).document;
+   return {document:doc,target,branch,index,resource:{id:selected.id,version:selected.version},floorId:floor.id,roomId:room.id};
+ }
  if (['garment-rack-wardrobe','enclosed-wardrobe','hanging-garment'].includes(branch)) {
    const rackLook = branch==='hanging-garment' ? appearanceCandidates(catalog,'garment-rack-wardrobe')[0] : selected;
    const garmentLook = branch==='hanging-garment' ? selected : appearanceCandidates(catalog,'hanging-garment')[0];
