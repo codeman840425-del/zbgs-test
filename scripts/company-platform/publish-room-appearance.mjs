@@ -31,13 +31,16 @@ const families = {
   'company-garment-rack-collection': 'garment-rack',
   'company-enclosed-wardrobe-collection': 'enclosed-wardrobe',
   'company-showcase-product-collection': 'showcase-product',
+  'company-singing-stage-collection': 'singing-stage',
 };
-const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs', 'wall-ambient':'build-wall-ambient.mjs', 'desktop-plants':'build-desktop-plants.mjs', 'garment-rack':'build-garment-rack.mjs', 'enclosed-wardrobe':'build-enclosed-wardrobe.mjs', 'showcase-product':'build-showcase-products.mjs'};
+const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs', 'wall-ambient':'build-wall-ambient.mjs', 'desktop-plants':'build-desktop-plants.mjs', 'garment-rack':'build-garment-rack.mjs', 'enclosed-wardrobe':'build-enclosed-wardrobe.mjs', 'showcase-product':'build-showcase-products.mjs', 'singing-stage':'build-singing-stage.mjs'};
 const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric', 'wall-ambient':'ambient-led-and-neon', 'desktop-plants':'plant-desktop-installation'};
 
 const garmentBranches = {rack:'garment-rack-wardrobe',garment:'hanging-garment'};
+const singingBranches = {vocal:'floor-vocal-microphone',score:'floor-score-stand'};
 function belongsToFamily(resource,family) {
   if (family === 'garment-rack') return Object.values(garmentBranches).includes(resource?.productionBranch);
+  if (family === 'singing-stage') return Object.values(singingBranches).includes(resource?.productionBranch);
   return family === 'baseboard'
     ? resource?.kind === 'surface-finish' && resource.provenance?.environmentBranch === 'baseboard-and-edge' &&
       isDeepStrictEqual(resource.finish?.allowedSurfaces,['baseboard'])
@@ -154,7 +157,10 @@ async function publish(recipePath,check) {
     if (!/^[a-z][a-z0-9-]{0,70}$/.test(design.id) || /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/.test(design.id) ||
         !Number.isSafeInteger(design.version) || design.version < 1)
       fail('invalid-appearance-identity',String(design.id));
-    const branch = family === 'garment-rack' ? garmentBranches[design.type] : undefined;
+    const branch = family === 'garment-rack' ? garmentBranches[design.type] :
+      family === 'singing-stage' ? singingBranches[design.kind] : undefined;
+    if (family==='singing-stage' && !Object.hasOwn(singingBranches,design.kind))
+      fail('invalid-appearance-recipe','Expected vocal or score for '+design.id);
     if (family === 'garment-rack' && !Object.hasOwn(garmentBranches,design.type))
       fail('invalid-appearance-recipe','Expected rack or garment for '+design.id);
     if (branch) designBranches.set(design.id+'@'+design.version,branch);

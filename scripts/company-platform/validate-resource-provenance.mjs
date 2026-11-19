@@ -58,6 +58,25 @@ export async function verifyShowcaseProvenance(root,resource,recipe) {
   return new Map([...editable,...Object.entries(textures)]);
 }
 
+export async function verifySingingSources(root,resource,recipe) {
+  const p=resource.provenance;
+  const contract=JSON.parse(await readProductionFile(root,p.functionalContractSource));
+  const design=recipe.designs?.find(d=>d.id===resource.id && d.version===resource.version);
+  const spec=contract.designs?.[design?.kind], pins=p.dependencies??{};
+  const mismatch = at => {throw Object.assign(Error('singing-source-mismatch: '+at),{code:'singing-source-mismatch',path:at});};
+  if(!spec || spec.resource.mountRole!==resource.mountRole || !isDeepStrictEqual(pins.fittedMaster,spec.neutral) ||
+    !isDeepStrictEqual(pins.originalGlb,spec.original) || !isDeepStrictEqual(pins.editableSource,spec.editable) ||
+    spec.editable.path!==p.sourceArtifactPath || spec.editable.sha256!==p.sourceArtifactSha256) mismatch(resource.id);
+  const family=path.posix.dirname(p.functionalContractSource)+'/';
+  for(const name of ['sourceRecord','license','sourceConverter','editableReader','topologyReader','textureFilter']) {
+    if(!Object.hasOwn(pins,name)) mismatch(name);
+  }
+  for(const pin of Object.values(pins)) {
+    if(!pin?.path?.startsWith(family) || digest(await readProductionFile(root,pin.path))!==pin.sha256) mismatch(pin?.path??resource.id);
+  }
+  return new Map(Object.entries(pins));
+}
+
 export async function validateResourceProvenance({root, resource, label = resource?.id || '?'}) {
   if (!resource?.asset) return;
   const provenance = resource.provenance || {};
@@ -77,6 +96,8 @@ export async function validateResourceProvenance({root, resource, label = resour
     if (provenance[hashField] !== digest(bytes)) throw new Error(`provenance-hash-mismatch: ${label}.${hashField}`);
     if(field==='sourceParameters' && resource.productionBranch==='showcase-product')
       await verifyShowcaseProvenance(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && provenance.generator==='scripts/company-platform/build-singing-stage.mjs')
+      await verifySingingSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='plant-desktop-installation')
       await verifyPlantEditableProvenance(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && ['garment-rack-wardrobe','hanging-garment','enclosed-wardrobe'].includes(resource.productionBranch))
