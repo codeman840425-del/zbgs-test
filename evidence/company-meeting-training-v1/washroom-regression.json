@@ -1,0 +1,1419 @@
+{
+  "status": "passed",
+  "scope": "Static installed facility meshes, cleaning volume and public doorway routes. No person, gestures, flowing water or operation simulation.",
+  "rooms": [
+    {
+      "key": "public-washroom-floor",
+      "saveSha256": "178f15ce8ef75b983fb700c42999f4bc2ecb4c88cfbf84d9c71e3152e4033f5f",
+      "scale": "leased-floor",
+      "check": {
+        "ok": true,
+        "regionId": "public-washroom-floor/ground/restroom-access",
+        "floorId": "public-washroom-floor/ground",
+        "portalId": "public-washroom-floor/ground/portal-stair-restroom",
+        "roles": {
+          "basin": "public-washroom-floor/ground/restroom-access/washbasin",
+          "dispenser": "public-washroom-floor/ground/restroom-access/dispenser",
+          "mirror": "public-washroom-floor/ground/restroom-access/mirror",
+          "sign": "public-washroom-floor/ground/restroom-access/service-sign"
+        },
+        "service": [
+          -1.92,
+          -0.72
+        ],
+        "publicApproach": {
+          "lobbyId": "public-washroom-floor/ground/lobby",
+          "lobbyEntry": [
+            -2.4,
+            0,
+            -0.9
+          ],
+          "legs": [
+            {
+              "to": "public-washroom-floor/ground/stair-access",
+              "portalId": "public-washroom-floor/ground/portal-lobby-stair",
+              "fromRegion": "public-washroom-floor/ground/lobby",
+              "threshold": [
+                0,
+                -1.5
+              ],
+              "approach": [
+                [
+                  -2.4,
+                  -0.9
+                ],
+                [
+                  -1.35,
+                  -0.9
+                ],
+                [
+                  -1.35,
+                  0.95
+                ],
+                [
+                  0,
+                  0.95
+                ],
+                [
+                  0,
+                  1.25
+                ]
+              ],
+              "inside": [
+                [
+                  0,
+                  -1.25
+                ],
+                [
+                  0,
+                  0.9
+                ],
+                [
+                  -2.4,
+                  0.9
+                ]
+              ]
+            }
+          ]
+        },
+        "route": {
+          "portalId": "public-washroom-floor/ground/portal-stair-restroom",
+          "fromRegion": "public-washroom-floor/ground/stair-access",
+          "threshold": [
+            0,
+            -1.5
+          ],
+          "approach": [
+            [
+              -2.4,
+              0.9
+            ],
+            [
+              0,
+              0.9
+            ],
+            [
+              0,
+              1.25
+            ]
+          ],
+          "inside": [
+            [
+              0,
+              -1.25
+            ],
+            [
+              0,
+              -0.72
+            ],
+            [
+              -1.92,
+              -0.72
+            ]
+          ]
+        },
+        "aperture": {
+          "width": 1.4,
+          "edge": "north",
+          "clear": [
+            {
+              "from": [
+                -0.49,
+                1.2,
+                -1.7
+              ],
+              "to": [
+                -0.49,
+                1.2,
+                -1.3
+              ]
+            },
+            {
+              "from": [
+                0,
+                1.2,
+                -1.7
+              ],
+              "to": [
+                0,
+                1.2,
+                -1.3
+              ]
+            },
+            {
+              "from": [
+                0.49,
+                1.2,
+                -1.7
+              ],
+              "to": [
+                0.49,
+                1.2,
+                -1.3
+              ]
+            }
+          ],
+          "jambs": [
+            {
+              "wall": "public-washroom-floor/ground/restroom-access/wall-north-0",
+              "point": [
+                -0.8,
+                1.2,
+                -1.5
+              ]
+            },
+            {
+              "wall": "public-washroom-floor/ground/restroom-access/wall-north-1",
+              "point": [
+                0.8,
+                1.2,
+                -1.5
+              ]
+            }
+          ]
+        },
+        "checkedMeshes": 244,
+        "clearance": {
+          "radius": 0.25,
+          "height": 1.9,
+          "min": [
+            -2.265,
+            0.002,
+            -1.12
+          ],
+          "max": [
+            -1.585,
+            1.9,
+            -0.32
+          ]
+        },
+        "assets": {
+          "public-washroom-floor/ground/restroom-access/washbasin": {
+            "id": "public-washbasin-frame-round",
+            "version": 1,
+            "sha256": "294fedade36830f87db9907c47039126190dbc6ab7c9c3be372e933aef503cce"
+          },
+          "public-washroom-floor/ground/restroom-access/mirror": {
+            "id": "makeup-wall-mirror-round",
+            "version": 1,
+            "sha256": "9ac16347683951ddea80aa04ebe9980661ce3a0c2f7fc114cb4bf36c2c588402"
+          },
+          "public-washroom-floor/ground/restroom-access/dispenser": {
+            "id": "washroom-dispenser-pump",
+            "version": 1,
+            "sha256": "f4f70f5e0ca1a28b2f0bf202ac0ef6c4e3b8c29d1843d8232f7a6b9ea7ba39b7"
+          },
+          "public-washroom-floor/ground/restroom-access/service-sign": {
+            "id": "information-board-floor-whiteboard",
+            "version": 1,
+            "sha256": "291459c91c4965fc713319bb89b285a9c0e2b4e7e0b7fa59728440c3750d5c86"
+          }
+        },
+        "basin": {
+          "size": [
+            1.2,
+            0.9,
+            0.6
+          ],
+          "floor": [
+            {
+              "mesh": "pedestal-foot",
+              "point": [
+                -2.75312,
+                0,
+                -0.768142
+              ],
+              "floor": [
+                -2.75312,
+                0,
+                -0.768142
+              ]
+            },
+            {
+              "mesh": "left-front-tube",
+              "point": [
+                -2.344392,
+                0,
+                -0.202472
+              ],
+              "floor": [
+                -2.344392,
+                0,
+                -0.202472
+              ]
+            },
+            {
+              "mesh": "left-rear-tube",
+              "point": [
+                -2.784392,
+                0,
+                -0.202472
+              ],
+              "floor": [
+                -2.784392,
+                0,
+                -0.202472
+              ]
+            },
+            {
+              "mesh": "right-front-tube",
+              "point": [
+                -2.344392,
+                0,
+                -1.242472
+              ],
+              "floor": [
+                -2.344392,
+                0,
+                -1.242472
+              ]
+            },
+            {
+              "mesh": "right-rear-tube",
+              "point": [
+                -2.784392,
+                0,
+                -1.242472
+              ],
+              "floor": [
+                -2.784392,
+                0,
+                -1.242472
+              ]
+            }
+          ],
+          "slab": [
+            -2.51,
+            0.788,
+            -1.16
+          ],
+          "well": [
+            -2.562,
+            0.704,
+            -0.72
+          ],
+          "frontHit": [
+            -2.562,
+            0.704,
+            -0.72
+          ],
+          "spout": [
+            -2.571099,
+            0.858,
+            -0.72
+          ],
+          "underSpout": [
+            -2.571099,
+            0.704,
+            -0.72
+          ]
+        },
+        "mirror": {
+          "mesh": "makeup-face-center",
+          "frontHit": [
+            -2.862,
+            1.55,
+            -0.72
+          ],
+          "normal": [
+            1,
+            0,
+            0
+          ],
+          "backing": {
+            "wall": "public-washroom-floor/ground/restroom-access/wall-west-0",
+            "mesh": "makeup-wall-mount",
+            "back": [
+              -2.9,
+              1.59,
+              -0.746667
+            ],
+            "first": [
+              -2.9,
+              1.59,
+              -0.746667
+            ],
+            "normal": [
+              1,
+              0,
+              0
+            ],
+            "probes": [
+              [
+                -2.9,
+                1.328,
+                -0.454
+              ],
+              [
+                -2.9,
+                1.772,
+                -0.454
+              ],
+              [
+                -2.9,
+                1.328,
+                -0.986
+              ],
+              [
+                -2.9,
+                1.772,
+                -0.986
+              ]
+            ]
+          }
+        },
+        "dispenser": {
+          "mesh": "dispenser-actuator",
+          "from": [
+            -1.92,
+            1.22,
+            -0.72
+          ],
+          "actuatorHit": [
+            -1.921504,
+            1.21975,
+            -1.272404
+          ],
+          "distanceM": 0.5524064599665198,
+          "outlet": [
+            -1.924575,
+            1.1994,
+            -1.284896
+          ],
+          "backing": {
+            "wall": "public-washroom-floor/ground/restroom-access/wall-north-0",
+            "mesh": "dispenser-wall-back",
+            "back": [
+              -1.940958,
+              1.153958,
+              -1.4
+            ],
+            "first": [
+              -1.940958,
+              1.153958,
+              -1.4
+            ],
+            "normal": [
+              0,
+              0,
+              1
+            ],
+            "probes": [
+              [
+                -1.977,
+                1.0275,
+                -1.4
+              ],
+              [
+                -1.977,
+                1.2125,
+                -1.4
+              ],
+              [
+                -1.863,
+                1.0275,
+                -1.4
+              ],
+              [
+                -1.863,
+                1.2125,
+                -1.4
+              ]
+            ]
+          }
+        },
+        "sign": {
+          "floor": [
+            {
+              "mesh": "information-base",
+              "point": [
+                1.536667,
+                0,
+                -0.04
+              ],
+              "floor": [
+                1.536667,
+                0,
+                -0.04
+              ]
+            }
+          ],
+          "contentId": "public-washroom-floor/ground/restroom-access/service-sign/content",
+          "resource": {
+            "id": "information-content-washroom",
+            "version": 1,
+            "sha256": "87fb4b824e78548ffaf9645317be73a6fe41e4db9257ce7ebcb787df359deecb"
+          },
+          "mesh": "information-face",
+          "entry": [
+            0,
+            1.55,
+            -1.5
+          ],
+          "rays": [
+            {
+              "sample": [
+                0.12,
+                0.15
+              ],
+              "point": [
+                1.569,
+                1.104,
+                -0.3344
+              ],
+              "angleDegrees": 38.49944566155385
+            },
+            {
+              "sample": [
+                0.88,
+                0.15
+              ],
+              "point": [
+                1.569,
+                1.104,
+                0.3344
+              ],
+              "angleDegrees": 50.26973722460082
+            },
+            {
+              "sample": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                1.569,
+                1.3,
+                0
+              ],
+              "angleDegrees": 44.10421538435436
+            },
+            {
+              "sample": [
+                0.12,
+                0.85
+              ],
+              "point": [
+                1.569,
+                1.496,
+                -0.3344
+              ],
+              "angleDegrees": 36.63782631614755
+            },
+            {
+              "sample": [
+                0.88,
+                0.85
+              ],
+              "point": [
+                1.569,
+                1.496,
+                0.3344
+              ],
+              "angleDegrees": 49.47120625136391
+            }
+          ]
+        }
+      }
+    },
+    {
+      "key": "public-washroom-building",
+      "saveSha256": "ea0aceb8189e37307215ac9f1bab54ac7293cc5e4be582efa5b84e6bc2a86c01",
+      "scale": "building",
+      "check": {
+        "ok": true,
+        "regionId": "public-washroom-building/upper/restroom-access",
+        "floorId": "public-washroom-building/upper",
+        "portalId": "public-washroom-building/upper/portal-stair-restroom",
+        "roles": {
+          "basin": "public-washroom-building/upper/restroom-access/washbasin",
+          "dispenser": "public-washroom-building/upper/restroom-access/dispenser",
+          "mirror": "public-washroom-building/upper/restroom-access/mirror",
+          "sign": "public-washroom-building/upper/restroom-access/service-sign"
+        },
+        "service": [
+          2.18,
+          0.42
+        ],
+        "publicApproach": {
+          "lobbyId": "public-washroom-building/upper/lobby",
+          "lobbyEntry": [
+            -2.4,
+            0,
+            -0.9
+          ],
+          "legs": [
+            {
+              "to": "public-washroom-building/upper/stair-access",
+              "portalId": "public-washroom-building/upper/portal-lobby-stair",
+              "fromRegion": "public-washroom-building/upper/lobby",
+              "threshold": [
+                0,
+                -1.5
+              ],
+              "approach": [
+                [
+                  -2.4,
+                  -0.9
+                ],
+                [
+                  -1.35,
+                  -0.9
+                ],
+                [
+                  -1.35,
+                  0.95
+                ],
+                [
+                  0,
+                  0.95
+                ],
+                [
+                  0,
+                  1.25
+                ]
+              ],
+              "inside": [
+                [
+                  0,
+                  -1.25
+                ],
+                [
+                  0,
+                  0.9
+                ],
+                [
+                  -2.4,
+                  0.9
+                ]
+              ]
+            }
+          ]
+        },
+        "route": {
+          "portalId": "public-washroom-building/upper/portal-stair-restroom",
+          "fromRegion": "public-washroom-building/upper/stair-access",
+          "threshold": [
+            0,
+            -1.5
+          ],
+          "approach": [
+            [
+              -2.4,
+              0.9
+            ],
+            [
+              0,
+              0.9
+            ],
+            [
+              0,
+              1.25
+            ]
+          ],
+          "inside": [
+            [
+              0,
+              -1.25
+            ],
+            [
+              0,
+              0.42
+            ],
+            [
+              2.18,
+              0.42
+            ]
+          ]
+        },
+        "aperture": {
+          "width": 1.4,
+          "edge": "north",
+          "clear": [
+            {
+              "from": [
+                -0.49,
+                1.2,
+                -1.7
+              ],
+              "to": [
+                -0.49,
+                1.2,
+                -1.3
+              ]
+            },
+            {
+              "from": [
+                0,
+                1.2,
+                -1.7
+              ],
+              "to": [
+                0,
+                1.2,
+                -1.3
+              ]
+            },
+            {
+              "from": [
+                0.49,
+                1.2,
+                -1.7
+              ],
+              "to": [
+                0.49,
+                1.2,
+                -1.3
+              ]
+            }
+          ],
+          "jambs": [
+            {
+              "wall": "public-washroom-building/upper/restroom-access/wall-north-0",
+              "point": [
+                -0.8,
+                1.2,
+                -1.5
+              ]
+            },
+            {
+              "wall": "public-washroom-building/upper/restroom-access/wall-north-1",
+              "point": [
+                0.8,
+                1.2,
+                -1.5
+              ]
+            }
+          ]
+        },
+        "checkedMeshes": 269,
+        "clearance": {
+          "radius": 0.25,
+          "height": 1.9,
+          "min": [
+            1.78,
+            0.002,
+            0.085
+          ],
+          "max": [
+            2.58,
+            1.9,
+            0.765
+          ]
+        },
+        "assets": {
+          "public-washroom-building/upper/restroom-access/washbasin": {
+            "id": "public-washbasin-cabinet-square",
+            "version": 1,
+            "sha256": "f57fb60355b9f142cf7dfd041a7c1e38da8cd0e7453721d6b8525e4abc92e9f1"
+          },
+          "public-washroom-building/upper/restroom-access/mirror": {
+            "id": "makeup-wall-mirror-round",
+            "version": 1,
+            "sha256": "9ac16347683951ddea80aa04ebe9980661ce3a0c2f7fc114cb4bf36c2c588402"
+          },
+          "public-washroom-building/upper/restroom-access/dispenser": {
+            "id": "washroom-dispenser-pump",
+            "version": 1,
+            "sha256": "f4f70f5e0ca1a28b2f0bf202ac0ef6c4e3b8c29d1843d8232f7a6b9ea7ba39b7"
+          },
+          "public-washroom-building/upper/restroom-access/service-sign": {
+            "id": "information-board-floor-whiteboard",
+            "version": 1,
+            "sha256": "291459c91c4965fc713319bb89b285a9c0e2b4e7e0b7fa59728440c3750d5c86"
+          }
+        },
+        "basin": {
+          "size": [
+            1.2,
+            0.9,
+            0.6
+          ],
+          "floor": [
+            {
+              "mesh": "pedestal-foot",
+              "point": [
+                2.148487,
+                0,
+                1.247628
+              ],
+              "floor": [
+                2.148487,
+                0,
+                1.247628
+              ]
+            },
+            {
+              "mesh": "left-plinth-foot",
+              "point": [
+                2.734167,
+                0,
+                1.018667
+              ],
+              "floor": [
+                2.734167,
+                0,
+                1.018667
+              ]
+            },
+            {
+              "mesh": "right-plinth-foot",
+              "point": [
+                1.654167,
+                0,
+                1.018667
+              ],
+              "floor": [
+                1.654167,
+                0,
+                1.018667
+              ]
+            },
+            {
+              "mesh": "rear-plinth-rail",
+              "point": [
+                2.36,
+                0,
+                1.334333
+              ],
+              "floor": [
+                2.36,
+                0,
+                1.334333
+              ]
+            },
+            {
+              "mesh": "front-plinth-rail",
+              "point": [
+                2.36,
+                0,
+                0.886333
+              ],
+              "floor": [
+                2.36,
+                0,
+                0.886333
+              ]
+            }
+          ],
+          "slab": [
+            1.74,
+            0.788,
+            1.01
+          ],
+          "well": [
+            2.18,
+            0.718,
+            1.062
+          ],
+          "frontHit": [
+            2.18,
+            0.718,
+            1.062
+          ],
+          "spout": [
+            2.18,
+            0.858,
+            1.100512
+          ],
+          "underSpout": [
+            2.18,
+            0.718,
+            1.100512
+          ]
+        },
+        "mirror": {
+          "mesh": "makeup-face-center",
+          "frontHit": [
+            2.18,
+            1.55,
+            1.362
+          ],
+          "normal": [
+            0,
+            0,
+            -1
+          ],
+          "backing": {
+            "wall": "public-washroom-building/upper/restroom-access/wall-south-0",
+            "mesh": "makeup-wall-mount",
+            "back": [
+              2.153333,
+              1.59,
+              1.4
+            ],
+            "first": [
+              2.153333,
+              1.59,
+              1.4
+            ],
+            "normal": [
+              0,
+              0,
+              -1
+            ],
+            "probes": [
+              [
+                2.446,
+                1.328,
+                1.4
+              ],
+              [
+                2.446,
+                1.772,
+                1.4
+              ],
+              [
+                1.914,
+                1.328,
+                1.4
+              ],
+              [
+                1.914,
+                1.772,
+                1.4
+              ]
+            ]
+          }
+        },
+        "dispenser": {
+          "mesh": "dispenser-actuator",
+          "from": [
+            2.18,
+            1.22,
+            0.42
+          ],
+          "actuatorHit": [
+            2.772404,
+            1.21975,
+            0.418496
+          ],
+          "distanceM": 0.5924063179442598,
+          "outlet": [
+            2.784896,
+            1.1994,
+            0.415425
+          ],
+          "backing": {
+            "wall": "public-washroom-building/upper/restroom-access/wall-east-0",
+            "mesh": "dispenser-wall-back",
+            "back": [
+              2.9,
+              1.153958,
+              0.399042
+            ],
+            "first": [
+              2.9,
+              1.153958,
+              0.399042
+            ],
+            "normal": [
+              -1,
+              0,
+              0
+            ],
+            "probes": [
+              [
+                2.9,
+                1.0275,
+                0.363
+              ],
+              [
+                2.9,
+                1.2125,
+                0.363
+              ],
+              [
+                2.9,
+                1.0275,
+                0.477
+              ],
+              [
+                2.9,
+                1.2125,
+                0.477
+              ]
+            ]
+          }
+        },
+        "sign": {
+          "floor": [
+            {
+              "mesh": "information-base",
+              "point": [
+                -0.86,
+                0,
+                -0.163333
+              ],
+              "floor": [
+                -0.86,
+                0,
+                -0.163333
+              ]
+            }
+          ],
+          "contentId": "public-washroom-building/upper/restroom-access/service-sign/content",
+          "resource": {
+            "id": "information-content-washroom",
+            "version": 1,
+            "sha256": "87fb4b824e78548ffaf9645317be73a6fe41e4db9257ce7ebcb787df359deecb"
+          },
+          "mesh": "information-face",
+          "entry": [
+            0,
+            1.55,
+            -1.5
+          ],
+          "rays": [
+            {
+              "sample": [
+                0.12,
+                0.15
+              ],
+              "point": [
+                -0.5656,
+                1.104,
+                -0.131
+              ],
+              "angleDegrees": 27.750833303769973
+            },
+            {
+              "sample": [
+                0.88,
+                0.15
+              ],
+              "point": [
+                -1.2344,
+                1.104,
+                -0.131
+              ],
+              "angleDegrees": 43.79296535130731
+            },
+            {
+              "sample": [
+                0.5,
+                0.5
+              ],
+              "point": [
+                -0.9,
+                1.3,
+                -0.131
+              ],
+              "angleDegrees": 34.30595757788446
+            },
+            {
+              "sample": [
+                0.12,
+                0.85
+              ],
+              "point": [
+                -0.5656,
+                1.496,
+                -0.131
+              ],
+              "angleDegrees": 22.539769176489433
+            },
+            {
+              "sample": [
+                0.88,
+                0.85
+              ],
+              "point": [
+                -1.2344,
+                1.496,
+                -0.131
+              ],
+              "angleDegrees": 42.06759148552438
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "looks": [
+    {
+      "role": "basin",
+      "id": "public-washbasin-frame-round",
+      "sha256": "294fedade36830f87db9907c47039126190dbc6ab7c9c3be372e933aef503cce",
+      "saveSha256": "8dca12ad70410726da3d48ddf82c64c58d1ec36bd891794a94c7c66033fd0970",
+      "service": [
+        -1.92,
+        -0.72
+      ],
+      "basin": [
+        -2.562,
+        0.704,
+        -0.72
+      ],
+      "mirror": [
+        -2.862,
+        1.55,
+        -0.72
+      ],
+      "actuator": [
+        -1.921504,
+        1.21975,
+        -1.272404
+      ],
+      "reachM": 0.5524064599665198
+    },
+    {
+      "role": "basin",
+      "id": "public-washbasin-cabinet-square",
+      "sha256": "f57fb60355b9f142cf7dfd041a7c1e38da8cd0e7453721d6b8525e4abc92e9f1",
+      "saveSha256": "94d6705fdf40b2cb370b2d42d1c7f65f67071737075b2efc21b71237cffdac7d",
+      "service": [
+        -1.92,
+        -0.72
+      ],
+      "basin": [
+        -2.562,
+        0.718,
+        -0.72
+      ],
+      "mirror": [
+        -2.862,
+        1.55,
+        -0.72
+      ],
+      "actuator": [
+        -1.921504,
+        1.21975,
+        -1.272404
+      ],
+      "reachM": 0.5524064599665198
+    },
+    {
+      "role": "basin",
+      "id": "public-washbasin-pier-round",
+      "sha256": "2fd1afb6292cd2d4931bbe6f293ea2b957fccba939b63e73577750a290dd1edf",
+      "saveSha256": "6d07038628e58590aedcb3c1db310d85d1abad01ac29ba6faf46c7fe56366e16",
+      "service": [
+        -1.92,
+        -0.72
+      ],
+      "basin": [
+        -2.562,
+        0.704,
+        -0.72
+      ],
+      "mirror": [
+        -2.862,
+        1.55,
+        -0.72
+      ],
+      "actuator": [
+        -1.921504,
+        1.21975,
+        -1.272404
+      ],
+      "reachM": 0.5524064599665198
+    },
+    {
+      "role": "basin",
+      "id": "public-washbasin-shelf-square",
+      "sha256": "b4120b9e08eea380f399dca3eab35adb159a5952e65afa842754c181a059a315",
+      "saveSha256": "1d95f77da37aaf1548e8e80e5a3817cc3ce490215822c00b38f585c8a2cef23c",
+      "service": [
+        -1.92,
+        -0.72
+      ],
+      "basin": [
+        -2.562,
+        0.718,
+        -0.72
+      ],
+      "mirror": [
+        -2.862,
+        1.55,
+        -0.72
+      ],
+      "actuator": [
+        -1.921504,
+        1.21975,
+        -1.272404
+      ],
+      "reachM": 0.5524064599665198
+    },
+    {
+      "role": "dispenser",
+      "id": "washroom-dispenser-pump",
+      "sha256": "f4f70f5e0ca1a28b2f0bf202ac0ef6c4e3b8c29d1843d8232f7a6b9ea7ba39b7",
+      "saveSha256": "8dca12ad70410726da3d48ddf82c64c58d1ec36bd891794a94c7c66033fd0970",
+      "service": [
+        -1.92,
+        -0.72
+      ],
+      "basin": [
+        -2.562,
+        0.704,
+        -0.72
+      ],
+      "mirror": [
+        -2.862,
+        1.55,
+        -0.72
+      ],
+      "actuator": [
+        -1.921504,
+        1.21975,
+        -1.272404
+      ],
+      "reachM": 0.5524064599665198
+    },
+    {
+      "role": "dispenser",
+      "id": "washroom-dispenser-cartridge",
+      "sha256": "513b31ac823c21d36513a0d7253996dd232567fb231ef17f42f563b1cf0c6c1c",
+      "saveSha256": "718f428fd45ff5a33ec4b9f46df7cffbb2703882c106f48e89344a6db9b34310",
+      "service": [
+        -1.92,
+        -0.72
+      ],
+      "basin": [
+        -2.562,
+        0.704,
+        -0.72
+      ],
+      "mirror": [
+        -2.862,
+        1.55,
+        -0.72
+      ],
+      "actuator": [
+        -1.932604,
+        1.089187,
+        -1.281
+      ],
+      "reachM": 0.5761872718842783
+    },
+    {
+      "role": "dispenser",
+      "id": "washroom-dispenser-lever",
+      "sha256": "ecd5625707d189673b79d2c1753f3ac4c7231f4d44ed67bb7f7c8aad48765cf6",
+      "saveSha256": "3ae7b01dde0c009b4654fd601a553a1e31f964a1ededec9e8141cdfa4abb6ae8",
+      "service": [
+        -1.92,
+        -0.72
+      ],
+      "basin": [
+        -2.562,
+        0.704,
+        -0.72
+      ],
+      "mirror": [
+        -2.862,
+        1.55,
+        -0.72
+      ],
+      "actuator": [
+        -1.909,
+        1.133945,
+        -1.276273
+      ],
+      "reachM": 0.5629978223570374
+    },
+    {
+      "role": "dispenser",
+      "id": "washroom-dispenser-clad",
+      "sha256": "e1764077774aab3d9a74896b8afef4f63ad7c7c3ccae686eb5859eabf9d01914",
+      "saveSha256": "c967aa8a774095b01f9a24a3ca85728d97fa23aa0b2a5fded2d941de624f3b56",
+      "service": [
+        -1.92,
+        -0.72
+      ],
+      "basin": [
+        -2.562,
+        0.704,
+        -0.72
+      ],
+      "mirror": [
+        -2.862,
+        1.55,
+        -0.72
+      ],
+      "actuator": [
+        -1.924354,
+        1.083688,
+        -1.278
+      ],
+      "reachM": 0.5744249774597379
+    }
+  ],
+  "rejections": [
+    {
+      "label": "installed basin requires declaration",
+      "code": "washroom-declaration-required",
+      "path": "publicWashrooms",
+      "details": {}
+    },
+    {
+      "label": "explicit public declaration on an ordinary room",
+      "code": "washroom-region",
+      "path": "public-washroom-floor/ground/room-1",
+      "details": {}
+    },
+    {
+      "label": "wrong public door",
+      "code": "washroom-portal",
+      "path": "public-washroom-floor/ground/portal-lobby-stair",
+      "details": {}
+    },
+    {
+      "label": "standing point behind basin",
+      "code": "washroom-service-side",
+      "path": "public-washroom-floor/ground/restroom-access/washbasin",
+      "details": {
+        "local": [
+          0,
+          0,
+          -0.21
+        ]
+      }
+    },
+    {
+      "label": "original sign blocks front cleaning space",
+      "code": "washroom-cleaning-obstructed",
+      "path": "public-washroom-floor/ground/restroom-access/service-sign/content",
+      "details": {
+        "mesh": "information-face"
+      }
+    },
+    {
+      "label": "wall mirror spans doorway opening",
+      "code": "wall-display-over-portal",
+      "path": "public-washroom-floor/ground/restroom-access/mirror",
+      "details": {}
+    },
+    {
+      "label": "solid wall behind an incorrectly oriented mirror",
+      "code": "washroom-mirror-face",
+      "path": "public-washroom-floor/ground/restroom-access/mirror",
+      "details": {
+        "first": "makeup-face-center",
+        "mirrorInBasin": [
+          -2.082,
+          1.55,
+          0.66
+        ]
+      }
+    },
+    {
+      "label": "actuator out of reach",
+      "code": "washroom-dispenser-reach",
+      "path": "public-washroom-floor/ground/restroom-access/dispenser",
+      "details": {}
+    },
+    {
+      "label": "original sign blocks public washroom entrance",
+      "code": "blocked-portal",
+      "path": "public-washroom-floor/ground/portal-stair-restroom",
+      "details": {
+        "regionId": "public-washroom-floor/ground/stair-access",
+        "side": "from",
+        "obstacleId": "public-washroom-floor/ground/restroom-access/service-sign"
+      }
+    },
+    {
+      "label": "public lobby link is blocked from the stair side",
+      "code": "blocked-portal",
+      "path": "public-washroom-floor/ground/portal-lobby-stair",
+      "details": {
+        "regionId": "public-washroom-floor/ground/lobby",
+        "side": "from",
+        "obstacleId": "public-washroom-floor/ground/stair-access/service-sign"
+      }
+    },
+    {
+      "label": "empty washroom sign",
+      "code": "washroom-sign-content",
+      "path": "public-washroom-floor/ground/restroom-access/service-sign",
+      "details": {}
+    },
+    {
+      "label": "hidden washroom graphic",
+      "code": "washroom-sign-content",
+      "path": "public-washroom-floor/ground/restroom-access/service-sign",
+      "details": {}
+    },
+    {
+      "label": "graphic faces away from entry",
+      "code": "washroom-sign-facing",
+      "path": "public-washroom-floor/ground/restroom-access/service-sign",
+      "details": {
+        "reader": [
+          0,
+          1.55,
+          -1.5
+        ],
+        "sample": [
+          0.12,
+          0.15
+        ],
+        "first": "information-back",
+        "frontCosine": 0.6537559700747085
+      }
+    }
+  ],
+  "ordinaryDisplay": {
+    "roomId": "public-washroom-floor/ground/room-1",
+    "basinId": "public-washroom-floor/ground/room-1/display-basin",
+    "saveSha256": "4ca2e954b437f12e5aa5875d2bd3c04a378f3b833fe2db5ead44890e3ff58047",
+    "published": "created"
+  },
+  "authoring": [
+    {
+      "kind": "leased-floor",
+      "regionId": "public-washroom-floor/ground/restroom-access",
+      "viewChangeSkippedGeometry": false,
+      "validSaveSha256": "b5c0a31716d33d5cfb1969270997af1f3f18dab53a17cc96aefa8d632f8f7b31",
+      "oldSaveSha256": "e40f92694dde121cb7d62c43514488f63389c9b4849dd12c1c7d90a8f3d0c272",
+      "rejected": [
+        "hidden sign",
+        "blocked upstream public portal",
+        "wall-valid unreachable move",
+        "invalid imported save",
+        "unchecked renderer save and export",
+        "superseded preload"
+      ]
+    },
+    {
+      "kind": "building",
+      "regionId": "public-washroom-building/upper/restroom-access",
+      "viewChangeSkippedGeometry": true,
+      "validSaveSha256": "e51bbc6b779e4472b1f2d8653f07a665d3fca7f8cbaef6b77b316804109df9be",
+      "oldSaveSha256": "3b4915b097476205db8afaff0e68e04aea8dbc061667af9817a5a41f7c0b61ac",
+      "rejected": [
+        "hidden sign",
+        "blocked upstream public portal",
+        "wall-valid unreachable move",
+        "invalid imported save",
+        "unchecked renderer save and export",
+        "superseded preload"
+      ]
+    },
+    {
+      "kind": "ordinary-room-single-basin",
+      "saveSha256": "541b2bc6d9bf7247800d9288dc648104d26722b82859cda14b8035a5d625d108"
+    }
+  ],
+  "repeat": [
+    {
+      "key": "public-washroom-floor",
+      "status": "idempotent"
+    },
+    {
+      "key": "public-washroom-building",
+      "status": "idempotent"
+    }
+  ],
+  "unchangedAfterFailures": {
+    "public-washroom-floor/input.json": "f5a65dc00acb52bfc4755cfc434fa6b5bce213fec42b4067a290f311bf38f1d7",
+    "public-washroom-floor/layout.json": "c918add58654ad1db79ef965dc9f69646e19b899bb167cce97c308640c5d954c",
+    "public-washroom-floor/save.json": "178f15ce8ef75b983fb700c42999f4bc2ecb4c88cfbf84d9c71e3152e4033f5f",
+    "public-washroom-floor/report.json": "2a8e8718d560973fcf38f2ac895814c761546262e07131b191ec25a019a76ec8",
+    "public-washroom-building/input.json": "40494da383f643dc92a67ac04f689cc14d5daf2e965045e3cb9bb69421ee3aa6",
+    "public-washroom-building/layout.json": "be37e3c22754838e95de1e8a038dd619b05bee4c564639329446895a615e10b0",
+    "public-washroom-building/save.json": "ea0aceb8189e37307215ac9f1bab54ac7293cc5e4be582efa5b84e6bc2a86c01",
+    "public-washroom-building/report.json": "67d323194d9b9d0f21bc281f81b22c6f2b78cfb72b6172cdb06cff0a83475349"
+  }
+}

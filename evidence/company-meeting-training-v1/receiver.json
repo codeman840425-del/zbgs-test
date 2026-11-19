@@ -1,0 +1,301 @@
+{
+  "status": "passed",
+  "manifestSha256": "ca5bca3b24a8876750625db68300e77838d6fed436291d9d2877fe1e4b8abdcd",
+  "sealed": {
+    "ok": true,
+    "build": "1e249616bbb3",
+    "manifestSha256": "ca5bca3b24a8876750625db68300e77838d6fed436291d9d2877fe1e4b8abdcd",
+    "declaredFiles": 2416,
+    "checkedFiles": 2416,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "copy": "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package",
+  "commands": [
+    {
+      "label": "01-fixed-verify",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\meeting-training-v1\\candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\meeting-training-v1\\candidate",
+        "ca5bca3b24a8876750625db68300e77838d6fed436291d9d2877fe1e4b8abdcd"
+      ],
+      "code": 0,
+      "logfile": "01-fixed-verify.log"
+    },
+    {
+      "label": "02-copy-verify",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package",
+        "ca5bca3b24a8876750625db68300e77838d6fed436291d9d2877fe1e4b8abdcd"
+      ],
+      "code": 0,
+      "logfile": "02-copy-verify.log"
+    },
+    {
+      "label": "03-isolated-offline-install",
+      "args": [
+        "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+        "ci",
+        "--offline",
+        "--cache",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\npm-cache",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "code": 0,
+      "logfile": "03-isolated-offline-install.log"
+    },
+    {
+      "label": "04-rebuilt-build-id",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\source\\prototype\\scripts\\build-company-id.mjs"
+      ],
+      "code": 0,
+      "logfile": "04-rebuilt-build-id.log"
+    },
+    {
+      "label": "05-rebuild-locked-viewer",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\source\\prototype\\node_modules\\vite\\bin\\vite.js",
+        "build",
+        "--config",
+        "vite.company.config.js"
+      ],
+      "code": 0,
+      "logfile": "05-rebuild-locked-viewer.log"
+    },
+    {
+      "label": "06-verify-rebuilt-bytes",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\meeting-training-v1\\candidate",
+        "ca5bca3b24a8876750625db68300e77838d6fed436291d9d2877fe1e4b8abdcd",
+        "--viewer",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\source\\prototype\\dist-company"
+      ],
+      "code": 0,
+      "logfile": "06-verify-rebuilt-bytes.log"
+    },
+    {
+      "label": "07-validate-public-meeting-boardroom-floor",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\data\\rooms\\public-meeting-boardroom-floor\\save.json",
+        "--room",
+        "public-meeting-boardroom-floor"
+      ],
+      "code": 0,
+      "logfile": "07-validate-public-meeting-boardroom-floor.log"
+    },
+    {
+      "label": "07-validate-public-meeting-training-floor",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\data\\rooms\\public-meeting-training-floor\\save.json",
+        "--room",
+        "public-meeting-training-floor"
+      ],
+      "code": 0,
+      "logfile": "07-validate-public-meeting-training-floor.log"
+    },
+    {
+      "label": "07-validate-public-meeting-u-building",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\data\\rooms\\public-meeting-u-building\\save.json",
+        "--room",
+        "public-meeting-u-building"
+      ],
+      "code": 0,
+      "logfile": "07-validate-public-meeting-u-building.log"
+    },
+    {
+      "label": "07-validate-public-meeting-discussion-building",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\data\\rooms\\public-meeting-discussion-building\\save.json",
+        "--room",
+        "public-meeting-discussion-building"
+      ],
+      "code": 0,
+      "logfile": "07-validate-public-meeting-discussion-building.log"
+    },
+    {
+      "label": "08-create-five",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\five-configurations.json",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\produced"
+      ],
+      "code": 0,
+      "logfile": "08-create-five.log"
+    },
+    {
+      "label": "09-retry-five",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\five-configurations.json",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\produced"
+      ],
+      "code": 0,
+      "logfile": "09-retry-five.log"
+    },
+    {
+      "label": "10-edit-ordinary-room",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\data\\rooms\\public-meeting-training-floor\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\edit-training.json",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\edited-training",
+        "--room",
+        "public-meeting-training-floor"
+      ],
+      "code": 0,
+      "logfile": "10-edit-ordinary-room.log"
+    },
+    {
+      "label": "11-reopen-edited",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\edited-training\\save.json",
+        "--room",
+        "public-meeting-training-floor"
+      ],
+      "code": 0,
+      "logfile": "11-reopen-edited.log"
+    },
+    {
+      "label": "12-discard-sign",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\edited-training\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\remove-board-content.json",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\retry-after-rejection",
+        "--room",
+        "public-meeting-training-floor"
+      ],
+      "code": 1,
+      "logfile": "12-discard-sign.log"
+    },
+    {
+      "label": "13-block-portal",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\edited-training\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\block-door.json",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\retry-after-rejection",
+        "--room",
+        "public-meeting-training-floor"
+      ],
+      "code": 1,
+      "logfile": "13-block-portal.log"
+    },
+    {
+      "label": "14-retry-valid-same-output",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\edited-training\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\restore-original-chair.json",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\retry-after-rejection",
+        "--room",
+        "public-meeting-training-floor"
+      ],
+      "code": 0,
+      "logfile": "14-retry-valid-same-output.log"
+    },
+    {
+      "label": "15-reopen-retry",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\package\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\meeting-training-v1\\recipes\\receiver\\run-01\\edits\\retry-after-rejection\\save.json",
+        "--room",
+        "public-meeting-training-floor"
+      ],
+      "code": 0,
+      "logfile": "15-reopen-retry.log"
+    },
+    {
+      "label": "16-original-after-edit",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\meeting-training-v1\\candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\meeting-training-v1\\candidate",
+        "ca5bca3b24a8876750625db68300e77838d6fed436291d9d2877fe1e4b8abdcd"
+      ],
+      "code": 0,
+      "logfile": "16-original-after-edit.log"
+    }
+  ],
+  "build": "1e249616bbb3",
+  "install": {
+    "offline": true,
+    "lockSha256": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b"
+  },
+  "viewer": {
+    "ok": true,
+    "build": "1e249616bbb3",
+    "manifestSha256": "ca5bca3b24a8876750625db68300e77838d6fed436291d9d2877fe1e4b8abdcd",
+    "declaredFiles": 661,
+    "checkedFiles": 661,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0,
+    "scope": "rebuilt-viewer"
+  },
+  "originalSaves": {
+    "public-meeting-boardroom-floor": "405d6195f99ebaf200454d04bb5dfb83bce206d508974ca3c3d3c6f9f146fcdc",
+    "public-meeting-training-floor": "75328b90f84760db5358abc1fe2281587d3bc98cc8b2d913e097717fb574e5d0",
+    "public-meeting-u-building": "8fd35ca4b6426d0e6cd23be5fa159e06978b1731dc2b5384d5a37624d54e16dc",
+    "public-meeting-discussion-building": "3dd914b47a6fa4a0a9761e2681442a6282ce0f35783e249e495a8c88c80fcc62"
+  },
+  "fifth": {
+    "id": "public-meeting-induction-floor",
+    "saveSha256": "bca274d7a59c1f8faf6ded498fadc430f0202ae4a914643199dade78e718ed6a",
+    "layout": "classroom",
+    "region": "public-meeting-induction-floor/ground/meeting",
+    "presenter": [
+      1,
+      2.5
+    ],
+    "chairs": [
+      "public-meeting-induction-floor/ground/meeting/chair-1",
+      "public-meeting-induction-floor/ground/meeting/chair-2",
+      "public-meeting-induction-floor/ground/meeting/chair-3"
+    ],
+    "tables": [
+      "public-meeting-induction-floor/ground/meeting/table-1",
+      "public-meeting-induction-floor/ground/meeting/table-2",
+      "public-meeting-induction-floor/ground/meeting/table-3"
+    ],
+    "board": {
+      "position": [
+        0,
+        0,
+        2.7
+      ],
+      "yaw": 3.141592653589793
+    },
+    "verifiedReadingState": "displayed"
+  },
+  "edit": {
+    "source": "public-meeting-training-floor",
+    "original": "75328b90f84760db5358abc1fe2281587d3bc98cc8b2d913e097717fb574e5d0",
+    "modified": "06a8d748477640b681277278cf20c1a3900e86c87e84604a587912e92368910d",
+    "restored": "9fc81e03f7ea5dde0ac067da94a96984fc0486ed4d42364ac9f4b02271117537",
+    "rejected": [
+      "meeting-member",
+      "blocked-portal"
+    ]
+  }
+}

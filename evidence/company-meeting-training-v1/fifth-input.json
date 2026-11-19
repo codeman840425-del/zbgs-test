@@ -1,0 +1,202 @@
+{
+  "input": {
+    "floors": [
+      {
+        "id": "ground",
+        "name": "公共楼层",
+        "publicAreas": [
+          {
+            "connect": {
+              "areaId": "lobby",
+              "edge": "west",
+              "offset": 0,
+              "width": 1.4
+            },
+            "depth": 8,
+            "id": "meeting",
+            "name": "入职培训区",
+            "role": "meeting-training",
+            "width": 8
+          }
+        ]
+      }
+    ],
+    "id": "public-meeting-induction-floor",
+    "name": "独立接收 · 三席新人入职课",
+    "scale": "leased-floor",
+    "spaceProfile": {
+      "id": "company-space-v2",
+      "version": 1
+    }
+  },
+  "key": "public-meeting-induction-floor",
+  "meetingRooms": [
+    {
+      "boardId": "public-meeting-induction-floor/ground/meeting/board",
+      "chairs": [
+        "public-meeting-induction-floor/ground/meeting/chair-1",
+        "public-meeting-induction-floor/ground/meeting/chair-2",
+        "public-meeting-induction-floor/ground/meeting/chair-3"
+      ],
+      "contentId": "public-meeting-induction-floor/ground/meeting/board/content",
+      "layout": "classroom",
+      "portalId": "public-meeting-induction-floor/ground/portal-meeting",
+      "presenter": [
+        1,
+        2.5
+      ],
+      "regionId": "public-meeting-induction-floor/ground/meeting",
+      "tables": [
+        "public-meeting-induction-floor/ground/meeting/table-1",
+        "public-meeting-induction-floor/ground/meeting/table-2",
+        "public-meeting-induction-floor/ground/meeting/table-3"
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "id": "public-meeting-induction-floor/ground/meeting/board",
+      "name": "共享信息板",
+      "parentId": "public-meeting-induction-floor/ground/meeting",
+      "resource": {
+        "id": "information-board-floor-notice",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          0,
+          2.7
+        ],
+        "yaw": 3.141592653589793
+      },
+      "type": "add-facility"
+    },
+    {
+      "id": "public-meeting-induction-floor/ground/meeting/board/content",
+      "name": "入职与例会 · 公司公告",
+      "parentId": "public-meeting-induction-floor/ground/meeting/board",
+      "resource": {
+        "id": "information-content-company-news-cn",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          0,
+          1.3,
+          0.031
+        ],
+        "yaw": 0
+      },
+      "type": "add-facility"
+    },
+    {
+      "id": "public-meeting-induction-floor/ground/meeting/table-1",
+      "name": "模块桌 1",
+      "parentId": "public-meeting-induction-floor/ground/meeting",
+      "resource": {
+        "id": "desk-frame",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.05,
+          0,
+          1.33
+        ],
+        "yaw": 3.141592653589793
+      },
+      "type": "add-facility"
+    },
+    {
+      "id": "public-meeting-induction-floor/ground/meeting/table-2",
+      "name": "模块桌 2",
+      "parentId": "public-meeting-induction-floor/ground/meeting",
+      "resource": {
+        "id": "desk-frame",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.05,
+          0,
+          1.33
+        ],
+        "yaw": 3.141592653589793
+      },
+      "type": "add-facility"
+    },
+    {
+      "id": "public-meeting-induction-floor/ground/meeting/table-3",
+      "name": "模块桌 3",
+      "parentId": "public-meeting-induction-floor/ground/meeting",
+      "resource": {
+        "id": "desk-frame",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.05,
+          0,
+          -1.05
+        ],
+        "yaw": 3.141592653589793
+      },
+      "type": "add-facility"
+    },
+    {
+      "id": "public-meeting-induction-floor/ground/meeting/chair-1",
+      "name": "会议座椅 1",
+      "parentId": "public-meeting-induction-floor/ground/meeting",
+      "resource": {
+        "id": "meeting-chair-crossbeam-side-entry",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -1.45,
+          0,
+          0.4
+        ],
+        "yaw": 0
+      },
+      "type": "add-facility"
+    },
+    {
+      "id": "public-meeting-induction-floor/ground/meeting/chair-2",
+      "name": "会议座椅 2",
+      "parentId": "public-meeting-induction-floor/ground/meeting",
+      "resource": {
+        "id": "meeting-chair-crossbeam-side-entry",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          1.45,
+          0,
+          0.4
+        ],
+        "yaw": 0
+      },
+      "type": "add-facility"
+    },
+    {
+      "id": "public-meeting-induction-floor/ground/meeting/chair-3",
+      "name": "会议座椅 3",
+      "parentId": "public-meeting-induction-floor/ground/meeting",
+      "resource": {
+        "id": "meeting-chair-crossbeam-side-entry",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.73,
+          0,
+          -1.98
+        ],
+        "yaw": 0
+      },
+      "type": "add-facility"
+    }
+  ]
+}
