@@ -158,11 +158,16 @@ test('normal loading and disposal through both equipped foundation actors preser
   assert.notEqual(a,b);
   assert.equal(a.source,b.source);
   const image = a.image;
+  const wrapperDisposals = [0,0];
+  a.addEventListener('dispose', () => wrapperDisposals[0]++);
+  b.addEventListener('dispose', () => wrapperDisposals[1]++);
   actors[1].dispose();
+  assert.deepEqual(wrapperDisposals,[0,1]);
   assert.equal(image.closes, 0);
   assert.equal(actors[0].root.parent, scene);
   assert.equal(actors[1].root.parent, null);
   actors[0].dispose();
+  assert.deepEqual(wrapperDisposals,[1,1]);
   assert.equal(image.closes, 1);
   assert.equal(scene.children.length, 0);
 });

@@ -18,6 +18,7 @@ import { createNativeHairCenterFitPlugin, NATIVE_HAIR_CENTER_FIT_ID, supportsNat
 import { validateNativeHairCenterPin } from "./native-hair-center-record.js";
 import { shareBodyNormalSource } from "./shared-body-normal-source.js";
 import { registerUniformNormals } from "./uniform-normal-source.js";
+import { disposeAvatarScene } from "./dispose-avatar-scene.js";
 
 // Each actor owns its prewarm variants. Geometry UUID is deliberately omitted:
 // a new clone with identical layouts/material versions reuses the same program.
@@ -175,8 +176,10 @@ export async function loadFoundationAvatar({
   };
   const faceWarmup=createFaceGeometryWarmup(renderer,scene);
   const releaseFaceWarmup=()=>faceWarmup.dispose();
-  let releaseBodyNormal;
+  let releaseBodyNormal, disposed = false;
   function disposeAvatar() {
+    if (disposed) return;
+    disposed = true;
     try {
       releaseFaceWarmup();
       facialGeometry?.dispose();
@@ -191,7 +194,7 @@ export async function loadFoundationAvatar({
         root.removeFromParent();
         for (const [mesh, material] of sourceMaterials) mesh.material = material;
         for (const materials of bodyMaterials.values()) materials.forEach(m => m.dispose());
-        VRMUtils.deepDispose(vrm.scene);
+        disposeAvatarScene(vrm.scene);
       } finally {
         // Three releases each actor's texture/GL reference. The last lease
         // separately closes the shared ImageBitmap after actor disposal.
