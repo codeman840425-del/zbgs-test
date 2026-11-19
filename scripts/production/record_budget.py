@@ -102,9 +102,9 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def collected_records(source, record_file):
+def collected_records(source, record_file, shape_packs=()):
     response = subprocess.run(
-        ['node', str(COLLECTOR), str(source), str(record_file)],
+        ['node', str(COLLECTOR), str(source), str(record_file), *map(str,shape_packs)],
         capture_output=True, encoding='utf-8', check=False,
     )
     if response.returncode:
@@ -112,8 +112,8 @@ def collected_records(source, record_file):
     return json.loads(response.stdout)
 
 
-def checked_data(public, row):
-    data = local(public, row['path']).read_bytes()
+def checked_data(public, row, asset=None):
+    data = (asset or local(public, row['path'])).read_bytes()
     require(len(data) == row['bytes'] and sha(data) == row['sha256'],
             'Dependency changed after collection: '+row['path'])
     return data
@@ -629,7 +629,7 @@ def totals_for(rows, images, *, final, appearance_cache=None):
                                  for metric in AGGREGATE_METRICS if totals[metric] > AGGREGATE_LIMITS[metric]]}
 
 
-def measure_record(source, record, config, signed, *, neutral_review=None):
+def measure_record(source, record, config, signed, *, neutral_review=None, shape_packs=()):
     public = source / 'prototype/public'
     recipe = signed['appearanceRecipe']
     appearance_cache = None
@@ -650,10 +650,16 @@ def measure_record(source, record, config, signed, *, neutral_review=None):
     models, images = [], []
     for row in record['files']:
         relative = row['path']
+        external = None
+        if 'shapePackFile' in row:
+            entry = row['shapePackFile']
+            folder = shape_packs[entry['ordinal']]
+            external = local(folder,entry['path'])
+            require(external == folder / entry['path'], 'Redirected shape-pack file: '+relative)
         suffix = pathlib.PurePosixPath(relative).suffix.lower()
         roles = model_roles(row['reasons'], record['earSelection'])
         if roles:
-            asset = local(public, relative)
+            asset = external or local(public, relative)
             for asset_class, identifier, placements in roles:
                 if identifier == 'ears':
                     require_reviewed_source(source, 'rigid-accessory-layer.js')
@@ -677,7 +683,7 @@ def measure_record(source, record, config, signed, *, neutral_review=None):
             images.append(image_cost(source, public, row, IMAGE_FORMATS[suffix], legacy_references=palette_references))
         else:
             require(suffix == '.json', 'Unsupported resource budget format: '+relative)
-            checked_data(public, row)
+            checked_data(public, row, external)
     selected = [row for row in models if row['selected']]
     require(sum(row['class'] == 'body' for row in models) == 1 and
             sorted(row['id'] for row in selected if row['class'] == 'garment') == sorted(record['equipmentIds']),
@@ -878,9 +884,10 @@ def concurrent_assessment(records, groups, *, neutral_review=None):
             'ordinaryPCPerformance': 'unmeasured', 'runtimeAdmission': False}
 
 
-def measure(input_file, source, version, *, concurrent_groups=None):
+def measure(input_file, source, version, *, concurrent_groups=None, shape_packs=()):
     config = budget_config(BUDGET, version)
-    collected = collected_records(source, input_file)
+    shape_packs = [pathlib.Path(p).resolve() for p in shape_packs]
+    collected = collected_records(source, input_file, shape_packs) if shape_packs else collected_records(source, input_file)
     raw = input_file.read_bytes()
     require(sha(raw) == collected['inputSha256'], 'Record input changed after dependency collection')
     data = json.loads(raw)
@@ -889,7 +896,8 @@ def measure(input_file, source, version, *, concurrent_groups=None):
     review = json.loads(NEUTRAL_SHARING_REVIEW.read_bytes())
     require(review['schema'] == 'neutral-texture-sharing-budget-v1', 'Unsupported neutral texture sharing review')
     neutral_review = review if review['sourceCommit'] == collected['sourceCommit'] else None
-    records = [measure_record(source, row, config, signed_records[row['recordSha256']], neutral_review=neutral_review)
+    records = [measure_record(source, row, config, signed_records[row['recordSha256']], neutral_review=neutral_review,
+                              shape_packs=shape_packs)
                for row in collected['records']]
     measured_legacy = any('reviewedLegacyAppearanceCache' in row for row in records)
     return {
@@ -898,6 +906,7 @@ def measure(input_file, source, version, *, concurrent_groups=None):
         'budgetFileSha256':sha(BUDGET.read_bytes()),
         'status':'over-budget' if any(row['status'] == 'over-budget' for row in records) else 'within-static-limits',
         'ordinaryPCPerformance':'unmeasured', 'temporaryAggregateLimits':AGGREGATE_LIMITS,
+        **({'shapePacks':collected['shapePacks'],'reviewedRuntime':collected['reviewedRuntime']} if shape_packs else {}),
         **({'accountingMode':'reviewed-legacy-appearance-cache-v1', 'runtimeAdmission':False} if measured_legacy else {}),
         'textureEstimateScope':{
             'metrics':['textureObjects', 'rgba8MipBytes'],
@@ -927,13 +936,15 @@ def main():
     parser.add_argument('command', choices=['measure'])
     parser.add_argument('records', type=pathlib.Path)
     parser.add_argument('--source-root', required=True, type=pathlib.Path)
+    parser.add_argument('--shape-pack',action='append',type=pathlib.Path,default=[],
+                        help='Verified external body data directory. Repeat for other selected bodies.')
     parser.add_argument('--budget-version', required=True)
     parser.add_argument('--concurrent-group', nargs='*', action='append', metavar='ACTOR_ID',
                         help='Evaluate one group of one or two simultaneous signed actors. Repeat for alternative groups.')
     args = parser.parse_args()
     try:
         result = measure(args.records.resolve(), args.source_root.resolve(), args.budget_version,
-                         concurrent_groups=args.concurrent_group)
+                         concurrent_groups=args.concurrent_group, shape_packs=args.shape_pack)
         print(json.dumps(result, ensure_ascii=True, indent=2, sort_keys=True))
         return int(result['status'] == 'over-budget' or
                    result.get('concurrentAssessment', {}).get('status') == 'over-temporary-reference')

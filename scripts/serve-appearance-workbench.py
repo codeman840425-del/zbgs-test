@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RULE_REVIEW = '/reviews/production-shapes/'
 RULE_MEDIA = {
     RULE_REVIEW: ROOT / 'evidence/m2-rule-batch-delivery-v1/index.html',
-    **{RULE_REVIEW + 'batch/' + name: ROOT / 'evidence/m2-rule-batch-delivery-v1' / name for name in (
+    **{RULE_REVIEW + name: ROOT / 'evidence/m2-rule-batch-delivery-v1' / name for name in (
         'cold/dual-external-cold-1x.webm', 'seat/room-1x.webm',
     )},
     **{RULE_REVIEW + name: ROOT / 'evidence/m2-first-rule-delivery-v1' / name for name in (

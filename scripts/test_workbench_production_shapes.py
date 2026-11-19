@@ -65,7 +65,7 @@ class ProductionShapePages(unittest.TestCase):
         batch = workbench.ROOT / 'evidence/m2-rule-batch-delivery-v1'
         archive = workbench.ROOT / 'evidence/m2-first-rule-delivery-v1'
         for page, folder, prefix, files in [
-            (root, batch, 'batch/', ['cold/dual-external-cold-1x.webm', 'seat/room-1x.webm']),
+            (root, batch, '', ['cold/dual-external-cold-1x.webm', 'seat/room-1x.webm']),
             (root+'index.html', archive, '', ['game/ordinary-cold-02/two-rule-bodies-1x.webm',
               'game/room-0625-01/room-produced-1x.webm', 'game/room-0375-01/room-produced-1x.webm']),
         ]:
@@ -85,8 +85,8 @@ class ProductionShapePages(unittest.TestCase):
     def test_disabled_review_aliases_and_unlisted_evidence_are_rejected(self):
         root = workbench.RULE_REVIEW
         serve = handler(self.config)
-        for url in [root+'batch/', root+'batch/cold/report.json', root+'batch/seat/seated-1.png',
-                    root+'../build-info.json', root+'batch/%63old/dual-external-cold-1x.webm',
+        for url in [root+'batch/', root+'cold/report.json', root+'seat/seated-1.png',
+                    root+'../build-info.json', root+'%63old/dual-external-cold-1x.webm',
                     '/Reviews/Production-Shapes/index.html', root+'index.html/']:
             self.assertEqual(request(serve, url)[0], 404, url)
         disabled = handler({**self.config, 'ruleBodyReview':False})

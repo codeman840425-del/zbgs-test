@@ -17,10 +17,15 @@
     <h1>双人批次 · 角色录像</h1>
     <p>两份配方在同一批次签发。以下为固定游戏构建 <code>60e3934ddd8a</code> 的 1 倍速实录。</p>
     <h2 id="cold">重新打开游戏后，两人依次招手</h2>
-    <video aria-labelledby="cold" controls playsinline preload="metadata" src="batch/cold/dual-external-cold-1x.webm"></video>
+    <video aria-labelledby="cold" controls playsinline preload="metadata" src="cold/dual-external-cold-1x.webm"></video>
     <h2 id="seat">两人先后走向同一把椅子、坐下并起身</h2>
-    <video aria-labelledby="seat" controls playsinline preload="metadata" src="batch/seat/room-1x.webm"></video>
-    <p><a href="index.html">查看早期 0.625 和 0.375 男体的录像与工作台链接</a></p>
+    <video aria-labelledby="seat" controls playsinline preload="metadata" src="seat/room-1x.webm"></video>
+    <p><a id="previous-review" href="index.html">查看早期 0.625 和 0.375 男体的录像与工作台链接</a></p>
   </main>
+  <script>
+    if (location.protocol === 'file:') {
+      document.getElementById('previous-review').href = '../m2-first-rule-delivery-v1/index.html';
+    }
+  </script>
 </body>
 </html>

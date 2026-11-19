@@ -1,0 +1,171 @@
+{
+  "cwd": "F:/",
+  "command": [
+    "python",
+    "-B",
+    "F:/gamemake/scripts/production/record_budget.py",
+    "measure",
+    "F:/gamemake/output/m2-rule-batch-delivery-v1/pair/records.json",
+    "--source-root",
+    "F:/gamemake/experiments/worktrees/shape-ext-a-6e858e51",
+    "--budget-version",
+    "m2-technical-v1",
+    "--shape-pack",
+    "F:/gamemake/output/m2-rule-batch-delivery-v1/pair/shape-packs/0ba4f9c6286975542931b5ca5d21918578de4b19b5091f96895c8e7762a1aca4",
+    "--shape-pack",
+    "F:/gamemake/output/m2-rule-batch-delivery-v1/pair/shape-packs/877f3740d9aeaca5205757829693d71691130a5e4d08c3d4178edf25572328d7",
+    "--concurrent-group",
+    "public-batch-a",
+    "--concurrent-group",
+    "public-batch-b",
+    "--concurrent-group",
+    "public-batch-a",
+    "public-batch-b"
+  ],
+  "exitCode": 0,
+  "report": "record-measure.json",
+  "reportSha256": "cf6e9025170700d84424409f6a75f81ee4b174ac9c0d897e29d3e54c5576f423",
+  "scope": "Complete selected and startup resources for these signed actors on the reviewed ordinary game. Union counts each file path once; concurrent estimates sum each actor independently. Startup dependency bytes are not observed CDP transfers. GPU memory, ordinary-PC performance and formal outfit admission were not measured.",
+  "rejections": [
+    {
+      "case": "missing-all",
+      "command": [
+        "python",
+        "-B",
+        "F:/gamemake/scripts/production/record_budget.py",
+        "measure",
+        "F:/gamemake/output/m2-rule-batch-delivery-v1/pair/records.json",
+        "--source-root",
+        "F:/gamemake/experiments/worktrees/shape-ext-a-6e858e51",
+        "--budget-version",
+        "m2-technical-v1",
+        "--concurrent-group",
+        "public-batch-a",
+        "--concurrent-group",
+        "public-batch-b",
+        "--concurrent-group",
+        "public-batch-a",
+        "public-batch-b"
+      ],
+      "exitCode": 2,
+      "response": {
+        "schema": "zbgs-character-record-budget-result-v1",
+        "status": "invalid",
+        "error": "{\"code\":\"unsupported-dependency\",\"error\":\"Unknown record body\"}",
+        "ordinaryPCPerformance": "unmeasured"
+      }
+    },
+    {
+      "case": "missing-one",
+      "command": [
+        "python",
+        "-B",
+        "F:/gamemake/scripts/production/record_budget.py",
+        "measure",
+        "F:/gamemake/output/m2-rule-batch-delivery-v1/pair/records.json",
+        "--source-root",
+        "F:/gamemake/experiments/worktrees/shape-ext-a-6e858e51",
+        "--budget-version",
+        "m2-technical-v1",
+        "--shape-pack",
+        "F:/gamemake/output/m2-rule-batch-delivery-v1/pair/shape-packs/0ba4f9c6286975542931b5ca5d21918578de4b19b5091f96895c8e7762a1aca4",
+        "--concurrent-group",
+        "public-batch-a",
+        "--concurrent-group",
+        "public-batch-b",
+        "--concurrent-group",
+        "public-batch-a",
+        "public-batch-b"
+      ],
+      "exitCode": 2,
+      "response": {
+        "schema": "zbgs-character-record-budget-result-v1",
+        "status": "invalid",
+        "error": "{\"code\":\"unsupported-dependency\",\"error\":\"Unknown record body\"}",
+        "ordinaryPCPerformance": "unmeasured"
+      }
+    },
+    {
+      "case": "duplicate",
+      "command": [
+        "python",
+        "-B",
+        "F:/gamemake/scripts/production/record_budget.py",
+        "measure",
+        "F:/gamemake/output/m2-rule-batch-delivery-v1/pair/records.json",
+        "--source-root",
+        "F:/gamemake/experiments/worktrees/shape-ext-a-6e858e51",
+        "--budget-version",
+        "m2-technical-v1",
+        "--shape-pack",
+        "F:/gamemake/output/m2-rule-batch-delivery-v1/pair/shape-packs/0ba4f9c6286975542931b5ca5d21918578de4b19b5091f96895c8e7762a1aca4",
+        "--shape-pack",
+        "F:/gamemake/output/m2-rule-batch-delivery-v1/pair/shape-packs/0ba4f9c6286975542931b5ca5d21918578de4b19b5091f96895c8e7762a1aca4",
+        "--concurrent-group",
+        "public-batch-a",
+        "--concurrent-group",
+        "public-batch-b",
+        "--concurrent-group",
+        "public-batch-a",
+        "public-batch-b"
+      ],
+      "exitCode": 2,
+      "response": {
+        "schema": "zbgs-character-record-budget-result-v1",
+        "status": "invalid",
+        "error": "{\"code\":\"invalid-record-input\",\"error\":\"Unused or duplicate shape pack: rule-body-876951f25416836a3d7d\"}",
+        "ordinaryPCPerformance": "unmeasured"
+      }
+    }
+  ],
+  "earlierNoPackReplay": {
+    "report": "physical-and-static.json",
+    "command": [
+      "python",
+      "-B",
+      "F:/gamemake/evidence/m2-rule-batch-delivery-v1/budget/replay.py"
+    ],
+    "entireJsonEqual": true
+  },
+  "compiledLegacyPair": {
+    "command": [
+      "python",
+      "-B",
+      "F:/gamemake/scripts/production/record_budget.py",
+      "measure",
+      "F:/gamemake/evidence/m2-first-rule-delivery-v1/game/signed.json",
+      "--source-root",
+      "F:/gamemake/experiments/worktrees/rule-male-a-cb3aca0d",
+      "--budget-version",
+      "m2-technical-v1",
+      "--concurrent-group",
+      "rule-male-0beabf44f27c0618b0ff",
+      "--concurrent-group",
+      "rule-male-c6ce7efc3da17fe50ea1",
+      "--concurrent-group",
+      "rule-male-0beabf44f27c0618b0ff",
+      "rule-male-c6ce7efc3da17fe50ea1"
+    ],
+    "compared": "evidence/m2-first-rule-delivery-v1/budget/record-budget.json",
+    "entireJsonEqual": true
+  },
+  "targetedTests": {
+    "command": [
+      "python",
+      "-B",
+      "F:/gamemake/scripts/production/test_record_budget_shape_packs.py",
+      "-v"
+    ],
+    "exitCode": 0,
+    "stderr": [
+      "test_complete_closures_and_actor_sum (__main__.ExternalRecordBudgetTests.test_complete_closures_and_actor_sum) ... ok",
+      "test_missing_unused_and_duplicate_packs (__main__.ExternalRecordBudgetTests.test_missing_unused_and_duplicate_packs) ... ok",
+      "test_resigned_conflicting_equipment_binding_fails (__main__.ExternalRecordBudgetTests.test_resigned_conflicting_equipment_binding_fails) ... ok",
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 3 tests in 21.172s",
+      "",
+      "OK"
+    ]
+  }
+}

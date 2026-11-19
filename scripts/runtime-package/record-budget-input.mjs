@@ -4,8 +4,49 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {digest, fail, localFile, runtimePath} from './files.mjs';
 import {collectRecordResources} from './record-resources.mjs';
+import {createGameRecordInventory} from './game-record-inventory.mjs';
+import {readGameRuntimeReview} from './game-runtime-review.mjs';
 
-async function collect(source, input) {
+async function shapeInputs(directories, records, project, commit) {
+  if (directories.length > 4) fail('invalid-record-input','Expected at most four shape packs');
+  const dist = path.join(project,'dist');
+  const build = JSON.parse(await readFile(await localFile(dist,'build-info.json')));
+  const {reviewed} = await readGameRuntimeReview(build.sourceDigest,true);
+  if (reviewed.sourceCommit !== commit) fail('inexact-source','Checkout differs from the approved ordinary runtime');
+  const packs = new Map();
+  for (const [ordinal,directory] of directories.entries()) {
+    const root = await realpath(directory);
+    const raw = await readFile(await localFile(root,'index.json'));
+    const {bodyType} = JSON.parse(raw);
+    if (!records.some(r=>r.appearanceRecipe.base.bodyType===bodyType) || packs.has(bodyType))
+      fail('invalid-record-input','Unused or duplicate shape pack: '+bodyType);
+    packs.set(bodyType,{root,ordinal,indexSha256:digest(raw),bodyType});
+  }
+  return {dist,reviewed,packs};
+}
+
+async function shapeRecord(record, sourceRoot, approved, pack) {
+  // Per-actor inventories retain this actor's own equipment IDs and reasons
+  // when a second actor uses the same garment bytes on a different skeleton.
+  const inventory = await createGameRecordInventory({dist:approved.dist,sourceRoot,reviewed:approved.reviewed,
+    records:[record],shapePacks:[pack.root]});
+  const [look] = inventory.records;
+  const prefix = 'character-data/'+pack.bodyType+'/';
+  const index = inventory.files.find(row=>row.path===prefix+'index.json');
+  if (index?.sha256!==pack.indexSha256) fail('modified-dependency','Verified shape index changed');
+  const files = inventory.files.filter(row=>!Object.hasOwn(approved.reviewed.files,row.path) &&
+    !row.path.startsWith('records/')).map(row=>{
+    const name = row.path.startsWith(prefix)?row.path.slice(prefix.length):row.path;
+    // Declaration provenance can also point to an equipment.json. Only the
+    // physical payload at the matching published path is an asset byte source.
+    const fromPack = row.provenance.some(ref=>ref.indexSha256===pack.indexSha256 && ref.packPath===name);
+    return fromPack?{...row,shapePackFile:{ordinal:pack.ordinal,path:name}}:row;
+  });
+  return {...look,hairColor:record.appearanceRecipe.appearance.hairColor,
+    earSelection:record.appearanceRecipe.accessories?.ears?.selection??'none',files};
+}
+
+async function collect(source, input, directories) {
   const sourceRoot = await realpath(source);
   const git = (...args) => execFileSync('git', args, {cwd:sourceRoot, encoding:'utf8', maxBuffer:4 * 1024 * 1024});
   if (path.relative(sourceRoot, await realpath(git('rev-parse', '--show-toplevel').trim())))
@@ -37,7 +78,13 @@ async function collect(source, input) {
       fail('record-identity-mismatch', 'Resource identities differ from the saved look: ' + record.identity.id);
   }
   const result = [];
+  const approved = directories.length?await shapeInputs(directories,records,project,commit):null;
   for (const record of records) {
+    const pack = approved?.packs.get(record.appearanceRecipe.base.bodyType);
+    if (pack) {
+      result.push(await shapeRecord(record,sourceRoot,approved,pack));
+      continue;
+    }
     const files = new Map();
     const add = async (url, reason, {parent, sha256, bytes:size, provenance = []} = {}) => {
       const relative = runtimePath(url, parent);
@@ -65,13 +112,16 @@ async function collect(source, input) {
       ...look, files:[...files.values()].sort((a,b) => a.path.localeCompare(b.path,'en'))});
   }
   if (verifySource() !== commit) fail('inexact-source', 'Source commit changed during dependency collection');
-  return {sourceCommit:commit, inputSha256:digest(inputBytes), records:result};
+  return {sourceCommit:commit, inputSha256:digest(inputBytes), records:result,...(approved?{
+    shapePacks:[...approved.packs.values()].map(({ordinal,bodyType,indexSha256})=>({ordinal,bodyType,indexSha256})),
+    reviewedRuntime:approved.reviewed.sourceDigest,
+  }:{})};
 }
 
-const [source, input] = process.argv.slice(2);
+const [source, input, ...directories] = process.argv.slice(2);
 try {
   if (!source || !input) fail('invalid-record-input', 'Expected source checkout root and JSON record input');
-  console.log(JSON.stringify(await collect(source, input)));
+  console.log(JSON.stringify(await collect(source, input, directories)));
 } catch (error) {
   console.error(JSON.stringify({code:error.code ?? 'record-collection-failed', error:error.message}));
   process.exitCode = 2;
