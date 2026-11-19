@@ -111,6 +111,12 @@ async function main() {
   report.workingFilesVerified=await verifyManifestEntries(work,original);
   const source=path.join(work,'source'), prototype=path.join(source,'prototype');
   const lock = await read(path.join(prototype,'package-lock.json'));
+  const catalog = await read(path.join(prototype,original.runtimeInputs.catalog));
+  const catalogEntry = ref => {
+    const resource = catalog.resources.find(entry=>entry.id===ref.id && entry.version===ref.version);
+    assert(resource,'Missing catalog reference '+ref.id+'@'+ref.version);
+    return resource;
+  };
   for (const name of ['three','pngjs','jpeg-js']) {
     const installed=await read(path.join(prototype,'node_modules',name,'package.json'));
     assert.equal(installed.version,lock.packages['node_modules/'+name].version,'Install the working copy with npm ci --prefix source/prototype.');
@@ -124,16 +130,20 @@ async function main() {
     await coldEdit(key+' / validate source',input,prior.document);
     const id=sample.select(prior.document), before=node(prior.document,id), resource={id:replacement,version:1};
     assert.notDeepEqual(before.resource,resource);
+    const effectiveState = {...catalogEntry(before.resource).stateDefaults,...before.state};
     const operations=[{type:'replace-resource',id,resource}];
     await write(file,operations);
     const result=await edit(key+' / apply one compatible replacement',['apply',input,file,target]);
     const expected = structuredClone(prior.document);
     expected.revision++;
     node(expected,id).resource=resource;
+    // Replacing an appearance can materialize previously implicit state defaults.
+    node(expected,id).state=effectiveState;
     assert.equal(result.id,expected.id);
     assert.equal(result.revision,expected.revision);
     const save=path.join(target,'save.json'), envelope=await read(save), proposedSha256=await shaFile(save);
     assert.deepEqual(envelope.document,expected,'An instance, its parent, transform, state, or another room changed unexpectedly.');
+    assert.deepEqual({...catalogEntry(resource).stateDefaults,...node(envelope.document,id).state},effectiveState);
     assert.deepEqual(await read(path.join(target,'layout.json')),expected);
     assert(envelope.dependencies.resources.some(pin=>pin.id===resource.id&&pin.version===resource.version&&/^[a-f0-9]{64}$/.test(pin.sha256)));
     if (training) {
@@ -143,7 +153,8 @@ async function main() {
     }
     await coldEdit(key+' / validate edited save',save,expected);
     changes.push({key,input,prior:prior.document,edited:envelope.document,save});
-    report.rooms.push({key,company:expected.id,id,parentId:before.parentId,transform:before.transform,state:before.state,
+    report.rooms.push({key,company:expected.id,id,parentId:before.parentId,transform:before.transform,
+      state:{before:before.state,after:node(envelope.document,id).state,effective:effectiveState},
       attachment:before.attachment,from:before.resource,to:resource,oldRevision:prior.document.revision,
       revision:expected.revision,originalSha256:await shaFile(input),editedSha256:proposedSha256});
   }
