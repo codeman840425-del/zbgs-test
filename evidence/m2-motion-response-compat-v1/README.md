@@ -14,6 +14,8 @@
 
 九个换装检查包括错身体、错上衣、记录损坏、两人各自收到一次 HTTP 503、换回原衣及关闭重开。失败时保留角色及同伴的原装备。[逐项结果](pair-guards/report.json)
 
+融合团队用同一 Chrome 145 可执行文件独立复建本版。三包 86 个成品文件一致，6 次冷开、8 个角色阶段读到完整动作响应。该团队在真实公司环境的 5 次入座调用仍遇到 `target.requestBehavior is not a function`。本页房间录像使用样板内的座位控制；正式设施接缝沿既有 LINK-001 跟踪，仍须贯通真实使用点、预约、离座和释放。角色侧只读核对了 [融合独验回执](<F:/gamemake-test/native-studio-round/independent/motion-intake/RECEIPT.md>) 和[真实使用点失败样本](<F:/gamemake-test/native-studio-round/official-pair/motion-response-4959572f6d5e/evidence/plant-home-01/native-roles-and-seat.json>)。
+
 **预算与范围。** 双人包共 34 个文件。两人选中的资源合计估算 209,367,384 字节 RGBA8 含 mip，落在本轮暂定静态预算内。Windows、RTX 4090、Ryzen 9 9950X3D、Chrome 157、1440×1000 下分别短测 12 秒待机／讲话。女、男、双人刷新间隔 p95 均为 6.2 ms，最大分别为 30.2、36.4、6.6 ms。该测量关闭录屏；录像使用另一轮采样。普通电脑、公开发行许可和正式套装准入仍待验证。两套当前均为内部技术候选，发型和颜色采用原版。[静态成本](pair-static-budget.json) · [开发机三组原始时序](browser-budget/report.json) · [正式计划的拒绝记录](../m2-uniform-lite-operator-v1/formal/plan.json)
 
 ## 交给游戏制作 Agent

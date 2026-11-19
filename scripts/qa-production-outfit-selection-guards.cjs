@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const {createHash} = require('node:crypto');
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const {chromium} = require('../prototype/node_modules/playwright');
+const {launchQABrowser} = require('./qa-browser-workspace.cjs');
 
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const request = (operation, fields) => ({schema:'character-production-request-v1', operation, ...fields});
@@ -59,9 +59,10 @@ async function main() {
     scope:'Actual D02 production and consumer on the fixed build. No recording, clothing contact or performance measurement.'};
   await fs.mkdir(out, {recursive:false});
   await fs.copyFile(__filename, path.join(out, 'executed-script.cjs'));
-  let browser, context, page;
+  let session, context, page;
   try {
-    browser = await chromium.launch({channel:'chrome', headless:true});
+    session = await launchQABrowser(out, {channel:'chrome'});
+    const {browser} = session;
     context = await browser.newContext({viewport:{width:1440,height:1000}});
     report.browser=browser.version();
     context.on('response', response => {
@@ -210,8 +211,8 @@ async function main() {
     process.exitCode=1;
     await page?.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});
   } finally {
-    await browser?.close();
-    await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');
+    try { await session?.close(); }
+    finally { await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n'); }
     console.log(JSON.stringify({status:report.status,build:report.build?.shortId,failure:report.failure,caseCount:report.cases.length}));
   }
 }

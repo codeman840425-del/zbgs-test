@@ -1,16 +1,20 @@
 // Bounded real-loader cost sampling, separate from recording and static RGBA estimates.
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
 const [base,recordFile,folder,inspectBuild]=process.argv.slice(2);
 (async()=>{
  const out=await projectOutput(folder,await productionRoot());
-  const {chromium}=require('../prototype/node_modules/playwright');
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const records=JSON.parse(await fs.readFile(recordFile,'utf8'));
  if(!Array.isArray(records)||records.length<2)throw Error('Budget input requires at least two records');
-const browser=await chromium.launch({channel:'chrome',headless:true}),report={schema:'native-runtime-budget-trace-v1',status:'incomplete',browser:browser.version(),viewport:{width:1440,height:1000},device:'Development Windows host, Ryzen 9 9950X3D / RTX4090; not ordinary-PC measurement',input:{path:path.resolve(recordFile),records:records.map(record=>({id:record.identity?.id,gender:record.identity?.gender,sourceRefs:record.provenance?.sourceRefs||[],bodySha256:record.resourceIdentities?.find(item=>item.id==='appearance/base/sha256')?.sha256||null,recordSha256:record.integrity?.recordSha256||record.integrity?.sha256||null}))},cases:[],errors:[],limits:['Headless Chrome, no CPU/network throttling; 12-second bounded samples only.','Renderer memory reports object counts, not GPU bytes. Frame intervals include browser scheduling; CPU wrappers exclude GPU execution.','No recording in this measurement; original-speed movement films belong to production evidence. Idle/talking independent consumer only.']};
+ const report={schema:'native-runtime-budget-trace-v1',status:'incomplete',viewport:{width:1440,height:1000},device:'Development Windows host, Ryzen 9 9950X3D / RTX4090; not ordinary-PC measurement',input:{path:path.resolve(recordFile),records:records.map(record=>({id:record.identity?.id,gender:record.identity?.gender,sourceRefs:record.provenance?.sourceRefs||[],bodySha256:record.resourceIdentities?.find(item=>item.id==='appearance/base/sha256')?.sha256||null,recordSha256:record.integrity?.recordSha256||record.integrity?.sha256||null}))},cases:[],errors:[],limits:['Headless Chrome, no CPU/network throttling; 12-second bounded samples only.','Renderer memory reports object counts, not GPU bytes. Frame intervals include browser scheduling; CPU wrappers exclude GPU execution.','No recording in this measurement; original-speed movement films belong to production evidence. Idle/talking independent consumer only.']};
  const groups=[[records[0]],[records[1]],[records[0],records[1]]];
+ let session;
  try{
+  session=await launchQABrowser(out,{channel:'chrome'});
+  const {browser}=session;
+  report.browser=browser.version();
   for(const group of groups){
    const context=await browser.newContext({viewport:report.viewport}),page=await context.newPage();const network=[];
    page.on('pageerror',error=>report.errors.push(error.message));page.on('response',response=>network.push({url:response.url(),status:response.status(),bytes:Number(response.headers()['content-length']??0)}));
@@ -65,5 +69,9 @@ const browser=await chromium.launch({channel:'chrome',headless:true}),report={sc
   }
   assert.equal(report.errors.length,0,JSON.stringify(report.errors));report.status='measured-development-only';
  }catch(error){report.failure=String(error.stack||error);process.exitCode=1;}
- finally{await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:report.status,failure:report.failure}));}
-})();
+ finally{
+  try { await session?.close(); }
+  finally { await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)); }
+  console.log(JSON.stringify({status:report.status,failure:report.failure}));
+ }
+})().catch(error=>{console.error(error);process.exitCode=1;});

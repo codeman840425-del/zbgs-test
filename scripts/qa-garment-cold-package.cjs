@@ -4,6 +4,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const {observeNetwork} = require('./qa-cold-assets.cjs');
 const {productionRoot, projectOutput} = require('./project-output.cjs');
+const {launchQABrowser} = require('./qa-browser-workspace.cjs');
 
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const library = 'assets/motion/UAL1_Standard.glb';
@@ -131,13 +132,13 @@ async function run(base, build, selectedFile, oppositeFile, directory, executabl
   assert.deepEqual(records.map(r=>r.identity.id), other.map(r=>r.identity.id));
   assert(expected.every(item => !forbidden.includes(item.url)));
   await fs.mkdir(out, {recursive:false});
-  const {chromium} = require('../prototype/node_modules/playwright');
   const report = {status:'incomplete',build,requestedExecutable:executable??'channel:chrome',runs:[]};
-  let browser;
+  let session;
   try {
     if(executable) assert(path.isAbsolute(executable),'Pass an absolute Chrome executable path');
     const executablePath=executable && await fs.realpath(executable);
-    browser=await chromium.launch({...(executablePath?{executablePath}:{channel:'chrome'}),headless:true});
+    session=await launchQABrowser(out, executablePath ? {executablePath} : {channel:'chrome'});
+    const {browser}=session;
     const browserCdp=await browser.newBrowserCDPSession();
     report.browser=browser.version();
     report.browserIdentity=await browserCdp.send('Browser.getVersion');
@@ -243,7 +244,7 @@ async function run(base, build, selectedFile, oppositeFile, directory, executabl
     report.status='passed';
   } catch(error) { report.failure=String(error.stack||error); throw error; }
   finally {
-    try { await browser?.close(); }
+    try { await session?.close(); }
     finally { await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)); }
   }
   console.log(JSON.stringify({status:report.status, build, output:out}));
