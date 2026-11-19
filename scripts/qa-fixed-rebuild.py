@@ -7,6 +7,7 @@ import pathlib
 import platform
 import shutil
 import subprocess
+import tempfile
 import time
 
 
@@ -58,7 +59,20 @@ if out.exists():
     parser.error('Refuse to overwrite evidence output')
 if baseline.is_relative_to(work):
     parser.error('Baseline cannot be in new worktree')
+cache = main_root / 'output' / 'fixed-build-cache' / 'npm'
+cache_dirs = (cache, cache / '_cacache', cache / '_logs', cache / '_npx')
+if any(folder.resolve() != folder for folder in cache_dirs):
+    parser.error('Fixed-build cache must stay in the main repository')
 out.mkdir(parents=True);report={'status':'incomplete','startedUTC':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'repo':str(repo),'requestedCommit':a.commit,'baseline':str(baseline),'worktree':str(work),'checkoutScope':'fresh detached sparse checkout: complete prototype plus root files; historical evidence/assets-source not needed to build runtime','steps':[],'limitations':['Same development machine/OS/toolchain; no browser/visual/performance acceptance.','Source generators are not rerun: this verifies committed runtime source + committed exports + lockfile reproducibly build the fixed runtime.']}
+scratch = tempfile.TemporaryDirectory(prefix='.build-tmp-', dir=out)
+build_paths = {'TMP': scratch.name, 'TEMP': scratch.name, 'TMPDIR': scratch.name,
+               'npm_config_cache': str(cache), 'npm_config_logs_dir': str(cache / '_logs')}
+path_names = {name.lower() for name in build_paths}
+for key in list(git_env):
+    if key.lower() in path_names:
+        del git_env[key]
+git_env.update(build_paths)
+report['buildPaths'] = {'npmCache': str(cache.relative_to(main_root)), 'temporaryParent': str(out.relative_to(main_root))}
 def sha(b):return hashlib.sha256(b).hexdigest()
 def run(name,cmd,cwd):
  start=time.perf_counter();r=subprocess.run(cmd,cwd=cwd,env=git_env,capture_output=True);(out/(name+'.stdout.log')).write_bytes(r.stdout);(out/(name+'.stderr.log')).write_bytes(r.stderr);step={'name':name,'command':list(map(str,cmd)),'cwd':str(cwd),'exitCode':r.returncode,'seconds':time.perf_counter()-start};report['steps'].append(step);print(json.dumps(step),flush=True)
@@ -102,4 +116,7 @@ try:
 except Exception as exc:
  report['error']=repr(exc);report['status']='failed';raise
 finally:
- report['finishedUTC']=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime());(out/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8');print(str(out/'report.json'),flush=True)
+ try:
+    report['finishedUTC']=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime());(out/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8');print(str(out/'report.json'),flush=True)
+ finally:
+    scratch.cleanup()

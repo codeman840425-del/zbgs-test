@@ -31,12 +31,12 @@ class OutputBoundaryTest(unittest.TestCase):
         shutil.copyfile(SCRIPT, script)
         return script
 
-    def run_cli(self, repo=None, work=None, output=None, baseline=None, script=None):
+    def run_cli(self, repo=None, work=None, output=None, baseline=None, script=None, env=None):
         return subprocess.run(
             [sys.executable, str(script or self.script), '--repo', str(repo or self.root),
              '--commit', 'HEAD', '--baseline', str(baseline or self.root / 'missing-baseline'),
              '--worktree', str(work or self.work), '--output', str(output or self.output)],
-            cwd=self.root, capture_output=True, text=True,
+            cwd=self.root, env=env, capture_output=True, text=True,
         )
 
     def assert_rejected(self, result, message):
@@ -80,6 +80,21 @@ class OutputBoundaryTest(unittest.TestCase):
         self.assertFalse((foreign / 'experiments').exists())
         self.assertFalse((foreign / 'evidence').exists())
 
+    def test_redirected_package_cache_rejects_before_any_evidence_write(self):
+        cache = self.root / 'output/fixed-build-cache/npm'
+        cache.mkdir(parents=True)
+        foreign = self.scratch / 'unrelated-cache'
+        foreign.mkdir()
+        link = cache / '_cacache'
+        if os.name == 'nt':
+            subprocess.run(['cmd.exe', '/d', '/c', 'mklink', '/j', str(link), str(foreign)],
+                           check=True, capture_output=True)
+        else:
+            link.symlink_to(foreign, target_is_directory=True)
+        self.assert_rejected(self.run_cli(), 'cache must stay in the main repository')
+        self.assertFalse(self.output.exists())
+        self.assertEqual(list(foreign.iterdir()), [])
+
     def test_script_in_linked_checkout_accepts_paths_in_main_checkout(self):
         subprocess.run(['git', '-c', 'user.name=Test', '-c', 'user.email=test@example.invalid',
                         '-c', 'commit.gpgsign=false', 'commit', '--allow-empty', '-qm', 'fixture'],
@@ -94,6 +109,42 @@ class OutputBoundaryTest(unittest.TestCase):
         self.assertIn('FileNotFoundError', report['error'])
         self.assertEqual([step['name'] for step in report['steps']], ['resolve-commit'])
         self.assertFalse(self.work.exists())
+
+    def test_npm_and_build_use_only_repository_cache_and_temporary_paths(self):
+        project = self.root / 'prototype'
+        (project / 'scripts').mkdir(parents=True)
+        (self.root / '.gitattributes').write_text('* text=auto eol=lf\n')
+        (self.root / '.gitignore').write_text('dist/\nnode_modules/\n')
+        package = {'name': 'fixed-build-fixture', 'version': '1.0.0', 'private': True,
+                   'scripts': {'build': 'node scripts/build-id.mjs'}}
+        lock = {'name': package['name'], 'version': package['version'], 'lockfileVersion': 3,
+                'packages': {'': {'name': package['name'], 'version': package['version']}}}
+        (project / 'package.json').write_text(json.dumps(package))
+        (project / 'package-lock.json').write_text(json.dumps(lock))
+        (project / 'scripts/build-id.mjs').write_text(
+            "import fs from 'node:fs'; import os from 'node:os';\n"
+            "fs.mkdirSync('dist');fs.writeFileSync('dist/build-info.json','{\"inputs\":[]}');\n"
+            "console.log(JSON.stringify({temp:os.tmpdir(),cache:process.env.npm_config_cache,"
+            "logs:process.env.npm_config_logs_dir}));\n"
+        )
+        subprocess.run(['git', 'add', '--', '.gitattributes', '.gitignore', 'prototype'], cwd=self.root, check=True)
+        subprocess.run(['git', '-c', 'user.name=Test', '-c', 'user.email=test@example.invalid',
+                        '-c', 'commit.gpgsign=false', 'commit', '-qm', 'fixture'], cwd=self.root, check=True)
+        baseline = self.root / 'baseline'
+        baseline.mkdir()
+        (baseline / 'build-info.json').write_bytes(b'{"inputs":[]}')
+        external = self.scratch / 'caller-cache'
+        env = dict(os.environ, npm_config_offline='true', npm_config_cache=str(external),
+                   npm_config_logs_dir=str(external / 'logs'), TEMP=str(external), TMP=str(external),
+                   TMPDIR=str(external))
+        result = self.run_cli(baseline=baseline, env=env)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        paths = json.loads((self.output / 'npm-build.stdout.log').read_text().strip().splitlines()[-1])
+        self.assertEqual(Path(paths['cache']), self.root / 'output/fixed-build-cache/npm')
+        self.assertEqual(Path(paths['logs']), Path(paths['cache']) / '_logs')
+        self.assertEqual(Path(paths['temp']).parent, self.output)
+        self.assertFalse(Path(paths['temp']).exists())
+        self.assertFalse(external.exists())
 
 
 if __name__ == '__main__':

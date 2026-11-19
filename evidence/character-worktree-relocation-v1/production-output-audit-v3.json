@@ -1,0 +1,46 @@
+{
+  "scope": "Character project worktrees and the shipping-preparation, browser QA and fixed-rebuild commands exercised here.",
+  "previousAudit": "production-output-audit-v2.json",
+  "relocated": 37,
+  "audit": {
+    "project": "F:\\gamemake",
+    "unexpectedSiblings": [],
+    "unexpectedWorktrees": [],
+    "companyOwnedSiblings": [
+      "gamemake-company-platform-c1"
+    ],
+    "independentFusionTests": [
+      "gamemake-test"
+    ]
+  },
+  "regressions": {
+    "scripts/runtime-transfer-http/transport.test.mjs": 6,
+    "scripts/test_qa_fixed_rebuild.py": 6,
+    "scripts/test_character_worktree.py": 6
+  },
+  "actualRootRejections": {
+    "target": "F:/",
+    "commands": [
+      "scripts/runtime-transfer-http/prepare.mjs",
+      "scripts/runtime-transfer-http/qa-browser.cjs"
+    ],
+    "result": "outside-project before target or diagnostic output"
+  },
+  "normalPath": {
+    "source": "experiments/m2-runtime-transfer-801/male-final-package",
+    "schema": "runtime-http-browser-pilot-v1",
+    "fixedBuild": "801c7a9c9026",
+    "browser": "157.0.8103.79",
+    "completedBrowserRuns": 18,
+    "pageErrors": [],
+    "reportSha256": "242e4cb15c9fd8ca31ef7251ddfcdca239fed4c3f376e171c41a9b40ac9bfaf6",
+    "output": "output/m2-http-path-check-801-browser-v2"
+  },
+  "retry": "Initial Chromium launch with replacement Windows account-profile paths exited before rendering. Preserving the OS account paths and pinning browser/Playwright temporary, cache and evidence paths inside the project allowed all runs to finish.",
+  "fixedRebuild": "Offline npm ci and npm run build on a locked zero-dependency test project completed with external TEMP, TMP, TMPDIR, npm_config_cache and npm_config_logs_dir supplied by the test parent. The build used project-local directories, removed its private scratch and left the foreign path absent.",
+  "scopeLimits": [
+    "Other projects and arbitrary user shell commands are outside these checks.",
+    "HTTP pilot accepts runtime-package-inventory-v1. New signed game-record packages have a distinct schema and use the corresponding record consumer.",
+    "Ordinary PC performance was not assessed."
+  ]
+}

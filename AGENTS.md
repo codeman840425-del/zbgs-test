@@ -4,6 +4,8 @@
 
 Python 制作入口可以调用 `scripts/production/production_paths.py` 的 `project_output(path, __file__)`，Node 入口沿用 `scripts/project-output.cjs`。先解析并验证写入位置，再读取素材和创建输出。多工作树向同一目的地发布时，共享锁也放在主工程内。
 
+检查制作命令时也要走一次失败和重试。压缩的暂存目录与失败回执、浏览器录屏目录、固定重建的 npm 缓存和子进程临时目录都由制作工程指定。桌面用户的系统配置保持原值。
+
 目标：保留 Phaser 经营、界面和场景，验证可维护的角色表现生产流程。
 
 角色平台新增的独立验证工作树放在主工程 `experiments/` 内。可用 `python scripts/character-worktree.py create 名称 提交` 在 `experiments/worktrees/` 创建；固定游戏构建可给同一入口追加 `--runtime-only`，仅检出该提交的运行源码和所需资产矩阵。发布角色候选前运行 `python scripts/character-worktree.py audit`，核对 Git 登记的全部工作树和盘根同名产物。总工和各子任务的临时脚本、压缩包、录屏与构建输出也放在工程内。副总工独立使用的公司平台目录单列。历史工作树的迁移或清理另行核对使用者、未提交改动和固定构建依赖。

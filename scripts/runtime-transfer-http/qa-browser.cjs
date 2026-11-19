@@ -1,16 +1,20 @@
 // Sequential real-browser measurements. No request interception (it disables
 // the HTTP cache). Timings exclude video and explicit hash-audit requests.
-const {chromium}=require('../../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const crypto=require('node:crypto'),os=require('node:os');
 const {pathToFileURL}=require('node:url');
+const {productionRoot,projectOutput}=require('../project-output.cjs');
 const [rootArg,codingArg,body,outArg]=process.argv.slice(2);
-const root=path.resolve(rootArg),out=path.resolve(outArg);
 const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 (async()=>{
+ if(!rootArg||!codingArg||!body||!outArg)throw Error('Expected source package, derivative directory, body and evidence output');
+ const project=await productionRoot();
+ const out=await projectOutput(outArg,project);
+ const root=path.resolve(rootArg);
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
- const {createServer}=await import(pathToFileURL(path.resolve('scripts/runtime-transfer-http/transport.mjs')));
- const transportBytes=await fs.readFile('scripts/runtime-transfer-http/transport.mjs');
+ const transport=path.join(__dirname,'transport.mjs');
+ const {createServer}=await import(pathToFileURL(transport).href);
+ const transportBytes=await fs.readFile(transport);
  await fs.writeFile(path.join(out,'executed-transport.mjs'),transportBytes);
  const sourceBytes=await fs.readFile(path.join(root,'runtime-package.json')),manifest=JSON.parse(sourceBytes);
  const recipe=JSON.parse(await fs.readFile(path.join(root,'selected-appearance.recipe.json')));
@@ -22,7 +26,15 @@ const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
    firstOutfit:'male first outfit4 loading shorts+outer; female outfit0 already loaded (not a cold alternate outfit test)',
    cache:'Unversioned files revalidate; hashed JS/CSS immutable. App no-store requests can bypass cache.',
    memory:'Renderer object counts and JS used heap sample only; no GPU allocation or peak decoder memory measurement'},runs:[],visual:[],checks:[],errors:[]};
- const browser=await chromium.launch({channel:'chrome',headless:true});report.environment.browser=browser.version();
+ const scratch=await projectOutput(path.join(out,'tmp'),project);
+ await fs.mkdir(scratch);
+ Object.assign(process.env,{TEMP:scratch,TMP:scratch,TMPDIR:scratch});
+ const {chromium}=require('../../prototype/node_modules/playwright');
+ const browser=await chromium.launch({channel:'chrome',headless:true,artifactsDir:scratch,
+  env:{...process.env,CHROME_LOG_FILE:path.join(scratch,'chrome.log'),
+   XDG_CACHE_HOME:scratch,CUDA_CACHE_PATH:scratch,__GL_SHADER_DISK_CACHE_PATH:scratch},
+  args:['--disk-cache-dir='+path.join(scratch,'disk-cache'),'--crash-dumps-dir='+scratch]});
+ report.environment.browser=browser.version();
  let context,server;
  const init=()=>{
   window.__httpReady=null;
@@ -77,7 +89,7 @@ const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
    report.checks.push({mode,decodedHashes:hashes});await context.close();context=null;
    // Same fixed room / close camera normal-speed evidence; HTTP bytes remain exact.
    if(mode!=='gzip'){
-    const dir=path.join(out,mode+'-visual');await fs.mkdir(dir);
+    const dir=await projectOutput(path.join(out,mode+'-visual'),project);await fs.mkdir(dir);
     context=await browser.newContext({viewport:{width:1440,height:900},recordVideo:{dir,size:{width:1440,height:900}}});
     await context.addInitScript(init);const p=await context.newPage();p.on('pageerror',e=>report.errors.push(String(e)));
     await p.goto(origin+manifest.runtime.entryUrl+'&view=room');await ready(p);await apply(p);
@@ -95,7 +107,8 @@ const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
  }catch(e){report.status='failed';report.failure=String(e);report.stack=e.stack;process.exitCode=1;}
  finally{
   await context?.close();await browser.close();if(server)await new Promise(r=>server.close(r));
-  await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));
+  const reportPath=await projectOutput(path.join(out,'report.json'),project);
+  await fs.writeFile(reportPath,JSON.stringify(report,null,2),{flag:'wx'});
  }
  console.log(JSON.stringify({status:report.status,failure:report.failure,runs:report.runs.length,body,out}));
 })().catch(e=>{console.error(e);process.exitCode=1;});

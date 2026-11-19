@@ -4,6 +4,7 @@ import path from 'node:path';
 import http from 'node:http';
 import {createHash,randomUUID} from 'node:crypto';
 import {gzipSync, gunzipSync, brotliCompressSync, brotliDecompressSync, constants} from 'node:zlib';
+import {productionRoot, projectOutput} from '../project-output.cjs';
 import {checkedBytes, runtimePath} from '../runtime-package/files.mjs';
 
 export const sha = b => createHash('sha256').update(b).digest('hex');
@@ -15,26 +16,30 @@ const eligible = name => /\.(html|js|css|json|glb|vrm|svg|wasm)$/.test(name);
 export const settings = {gzipLevel:6, brotliQuality:5, minInputBytes:1024, minSavingBytes:128, minSavingRatio:.02};
 
 export async function prepare(root, out) {
-  const target=path.resolve(out),stage=target+'.stage-'+randomUUID();
+  const project=await productionRoot();
+  const target=await projectOutput(out,project);
   const exists=async()=>Boolean(await fs.lstat(target).catch(e=>{if(e.code==='ENOENT')return null;throw e;}));
   if(await exists())throw Error('Output already exists: '+target);
+  const stage=await projectOutput(target+'.stage-'+randomUUID(),project);
+  const manifestBytes=await fs.readFile(path.join(root,'runtime-package.json'));
+  const manifest=JSON.parse(manifestBytes);
+  if(manifest.schema!=='runtime-package-inventory-v1')throw Error('Unsupported source package');
+  await fs.mkdir(path.dirname(stage),{recursive:true});
+  await fs.mkdir(stage,{recursive:false}); // Only retain diagnostics for a stage created by this run.
   try{
-    const report=await prepareInto(root,stage);
+    const report=await prepareInto(root,stage,manifest,manifestBytes);
     if(await exists())throw Error('Output appeared during preparation: '+target);
     await fs.rename(stage,target);return report;
   }catch(error){
-    // Keep failed artifacts for diagnosis, outside the successful output name.
-    await fs.writeFile(path.join(stage,'FAILED.json'),json({status:'failed',reason:String(error)})).catch(()=>{});
+    const failure=path.join(stage,'FAILED.json');
+    const checked=await projectOutput(failure,project).catch(()=>null);
+    if(checked&&path.relative(failure,checked)==='')
+      await fs.writeFile(failure,json({status:'failed',reason:String(error)}),{flag:'wx'}).catch(()=>{});
     throw error;
   }
 }
 
-async function prepareInto(root, out) {
-  const manifestBytes = await fs.readFile(path.join(root, 'runtime-package.json'));
-  const manifest = JSON.parse(manifestBytes);
-  if (manifest.schema !== 'runtime-package-inventory-v1') throw Error('Unsupported source package');
-  await fs.mkdir(path.dirname(path.resolve(out)), {recursive:true});
-  await fs.mkdir(out, {recursive:false}); // Never overwrite an earlier candidate.
+async function prepareInto(root, out, manifest, manifestBytes) {
   const report = {schema:'runtime-http-coding-v1', sourceManifestSha256:sha(manifestBytes),
     runtime:manifest.runtime, tools:{node:process.version,zlib:process.versions.zlib,brotli:process.versions.brotli},
     config:settings, files:[], note:'HTTP derivatives only. No geometry, texture, fit or runtime identity change.'};

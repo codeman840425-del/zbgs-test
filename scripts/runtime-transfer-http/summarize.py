@@ -1,9 +1,15 @@
 """Render the bounded HTTP pilot evidence, preserving each executed source ID."""
 import json, statistics, html
 from pathlib import Path
+import sys
 
 root = Path(__file__).resolve().parents[2]
-out = root / 'evidence/m2-http-transport-801-v1'
+sys.path.insert(0, str(root / 'scripts/production'))
+from production_paths import project_output
+
+out = project_output(root / 'evidence/m2-http-transport-801-v1', __file__)
+summary_path = project_output(out / 'summary.json', __file__)
+index_path = project_output(out / 'index.html', __file__)
 out.mkdir(exist_ok=True)
 summary = {'runtime':'801c7a9c9026', 'transportSha256':'0efd5085684aee743a2acd77a77a9ee9ac6260913f2958dd413a3dfe44a22a4d', 'rows':[]}
 sources = {'male':'m2-http-browser-male-801-v2', 'female':'m2-http-browser-female-801-v1'}
@@ -36,7 +42,7 @@ for body, folder in sources.items():
                 f'<td>{m["heapUsedBytes"]/1048576:.1f}</td></tr>')
     summary[body+'Environment']=report['environment']
     summary[body+'ManifestSha']=report['sourceManifestSha256']
-(out/'summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+summary_path.write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 sections=[]
 for body,folder in sources.items():
     name='男性短裤外搭' if body=='male' else '女性默认裤装'
@@ -57,5 +63,5 @@ SECTIONS
 <p>下项为少量KTX2身体／头发贴图：单配置已导出，画质、实际GPU格式、Canvas染色与回退仍待运行。没有开始网格／动画编码。普通电脑实测仍缺设备。</p>
 <p><a href="../../docs/research/RESOURCE-COMPRESSION-GAME-PRACTICES-2026-11-16.html">顾问调研及来源</a> · <a href="../../scripts/runtime-transfer-http/README.md">重复执行说明</a></p></section>
 </main><script>function playPair(b){for(const v of b.closest('section').querySelectorAll('video')){v.pause();v.currentTime=0;v.playbackRate=1;v.play().catch(()=>{});}}</script></html>'''
-(out/'index.html').write_text(page.replace('ROWS',''.join(rows)).replace('SECTIONS',''.join(sections)),encoding='utf-8')
+index_path.write_text(page.replace('ROWS',''.join(rows)).replace('SECTIONS',''.join(sections)),encoding='utf-8')
 print(out)
