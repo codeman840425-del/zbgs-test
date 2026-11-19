@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import fs from 'node:fs/promises';
-import os from 'node:os';
 import path from 'node:path';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type: 'json'};
 import templates from '../../prototype/src/company/templates-extended.json' with {type: 'json'};
 import {decodeCompanySave} from '../../prototype/src/company/persistence.js';
-import {runCompanyBatch} from './batch.mjs';
+import {createAuthoringRunDirectory,runCompanyBatch} from './batch.mjs';
+import {checkManagedOutput} from './package-company.mjs';
 
 const readFixture = async filename => JSON.parse(await fs.readFile(new URL(filename, import.meta.url), 'utf8'));
 const [compact, studio, warm, cool] = await Promise.all([
@@ -16,8 +16,11 @@ const [compact, studio, warm, cool] = await Promise.all([
   readFixture('./style-recipes/cool-work.json'),
 ]);
 const configuredOutput = process.argv[2];
-const outputDirectory = configuredOutput ? path.resolve(configuredOutput) : await fs.mkdtemp(path.join(os.tmpdir(), 'company-style-batch-'));
-if (configuredOutput) await fs.mkdir(outputDirectory);
+const outputDirectory = configuredOutput ? path.resolve(configuredOutput) : await createAuthoringRunDirectory('style-batch');
+if (configuredOutput) {
+  await checkManagedOutput(outputDirectory,undefined,{allowDelivery:false});
+  await fs.mkdir(outputDirectory);
+}
 
 const batch = {schema: 'company-batch', version: 1, items: []};
 for (const [layoutKey, input] of [['compact', compact], ['studio', studio]]) {

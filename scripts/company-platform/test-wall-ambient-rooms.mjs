@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {checkManagedOutput} from './package-company.mjs';
 import {Group, Raycaster, Vector3} from '../../prototype/node_modules/three/build/three.module.js';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
 import templates from '../../prototype/src/company/templates-extended.json' with {type:'json'};
@@ -14,6 +15,7 @@ import {installNodeImageDecodeShim} from './preflight-library-assets.mjs';
 
 if (process.argv.length !== 3) throw Error('Use test-wall-ambient-rooms.mjs NEW_RESULTS_DIRECTORY');
 const out = path.resolve(process.argv[2]);
+await checkManagedOutput(out,undefined,{allowDelivery:false});
 await fs.mkdir(out);
 const batch = await runCompanyBatch(rooms, {outputDirectory:path.join(out,'batch')});
 assert(batch.ok, JSON.stringify(batch.results));

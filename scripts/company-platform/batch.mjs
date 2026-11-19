@@ -12,6 +12,7 @@ import {resolveWorkstationLook,workstationLookOperations} from '../../prototype/
 import {encodeCompanySave} from '../../prototype/src/company/persistence.js';
 import {preflightDesktopAreas} from './preflight-library-assets.mjs';
 import {bindTrainingDocument,bindingFromSource} from './package-template/training-room.mjs';
+import {checkManagedOutput,findManagedProject} from './package-company.mjs';
 
 const workspace=new URL('../../',import.meta.url);
 const sourceFiles=[
@@ -226,14 +227,27 @@ async function publish(root,key,files){
   }
 }
 
+// Separate runs can execute concurrently without modifying archived results.
+export async function createAuthoringRunDirectory(task) {
+  if (!/^[a-z][a-z0-9-]*$/.test(task)) throw Error('Expected a simple authoring task name');
+  const checkout = fileURLToPath(workspace);
+  const project = await findManagedProject(checkout) ?? checkout;
+  const parent = path.join(project,'output','authoring-runs',task);
+  await checkManagedOutput(parent,checkout,{allowDelivery:false});
+  await fs.mkdir(parent,{recursive:true});
+  return fs.mkdtemp(path.join(parent,'run-'));
+}
+
 export async function runCompanyBatch(batch,{outputDirectory,only}={}){
   validateBatch(batch,only);
   if(typeof outputDirectory!=='string'||!outputDirectory)fail('invalid-output-directory','outputDirectory','Provide an explicit output directory');
+  const destination=path.resolve(outputDirectory);
+  await checkManagedOutput(destination,undefined,{allowDelivery:false});
   const items=structuredClone(batch).items.filter(item=>only===undefined||item.key===only);
   const baseHashes=await sources(sourceFiles);
   const styleHashes=items.some(hasStyleRecipe)?await sources(styleSourceFiles):null;
-  await fs.mkdir(path.resolve(outputDirectory),{recursive:true});
-  const root=await fs.realpath(path.resolve(outputDirectory)),results=[];
+  await fs.mkdir(destination,{recursive:true});
+  const root=await fs.realpath(destination),results=[];
   for(const item of items){
     try{
       const sourceHashes={...baseHashes,...(hasStyleRecipe(item)?styleHashes:{})};

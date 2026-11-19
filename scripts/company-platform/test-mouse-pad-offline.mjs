@@ -5,12 +5,13 @@ import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import rooms from './batch-inputs/mouse-pad-rooms.json' with {type:'json'};
 import {runCompanyBatch} from './batch.mjs';
-import {packageCompany} from './package-company.mjs';
+import {checkManagedOutput,packageCompany} from './package-company.mjs';
 
 const [distArg,outArg,...extra] = process.argv.slice(2);
 if (!distArg || !outArg || extra.length) throw Error('Usage: node test-mouse-pad-offline.mjs DIST NEW_TEST_DIRECTORY');
 const dist = path.resolve(distArg), out=path.resolve(outArg);
 const build = JSON.parse(await fs.readFile(path.join(dist,'company-build-info.json'),'utf8')).shortId;
+await checkManagedOutput(out,undefined,{allowDelivery:false});
 await fs.mkdir(out);
 const batchDir = path.join(out,'batch'), [home,rental] = rooms.items.map(item=>item.key);
 const bad = structuredClone(rooms);

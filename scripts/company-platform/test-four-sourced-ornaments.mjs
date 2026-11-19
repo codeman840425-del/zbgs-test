@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {checkManagedOutput} from './package-company.mjs';
 import { GLTFLoader } from '../../prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 import { Box3, Raycaster, Vector3 } from '../../prototype/node_modules/three/build/three.module.js';
 import { compareFacilityFunction } from '../../prototype/src/company/appearance-contract.js';
@@ -146,6 +147,7 @@ if (!output || extra.length || output.startsWith('-')) {
   throw new Error('Usage: node scripts/company-platform/test-four-sourced-ornaments.mjs NEW_OUTPUT_DIRECTORY');
 }
 const outputDirectory = path.resolve(output);
+await checkManagedOutput(outputDirectory,undefined,{allowDelivery:false});
 try {
   await fs.mkdir(outputDirectory);
 } catch (error) {

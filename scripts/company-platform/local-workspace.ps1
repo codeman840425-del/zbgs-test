@@ -3,6 +3,11 @@
 param(
     [Parameter(Mandatory, ParameterSetName = 'Check')]
     [switch]$Check,
+    [Parameter(Mandatory, ParameterSetName = 'Run')]
+    [ValidateNotNullOrEmpty()]
+    [string]$Run,
+    [Parameter(ParameterSetName = 'Run')]
+    [string[]]$RunArguments = @(),
     [Parameter(Mandatory, ParameterSetName = 'Path')]
     [ValidateSet('worktrees', 'deliveries', 'production-trials', 'preview', 'inputs-and-receipts', 'output')]
     [string]$Kind,
@@ -50,6 +55,44 @@ function Assert-LocalWorkspace {
 
 # Apply the same guard when allocating a path, before the caller creates any files.
 Assert-LocalWorkspace
+function Get-ProjectDirectory([string[]]$Sections) {
+    $parent = $project
+    foreach ($section in $Sections) {
+        $parent = Join-Path $parent $section
+        $dir = [IO.Directory]::CreateDirectory($parent)
+        if ($dir.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+            throw "请使用项目内的实际目录：$parent"
+        }
+    }
+    return $parent
+}
+
+if ($PSCmdlet.ParameterSetName -eq 'Run') {
+    $program = (Get-Command -Name $Run -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
+    $tempDirectory = Get-ProjectDirectory @('output','tool-runtime','tmp')
+    $npmCache = Get-ProjectDirectory @('output','tool-runtime','npm-cache')
+    $settings = @{TEMP=$tempDirectory; TMP=$tempDirectory; TMPDIR=$tempDirectory; npm_config_cache=$npmCache}
+    $previous = @{}
+    Push-Location -LiteralPath $project
+    try {
+        foreach ($key in $settings.Keys) {
+            $previous[$key] = [Environment]::GetEnvironmentVariable($key, 'Process')
+            [Environment]::SetEnvironmentVariable($key, $settings[$key], 'Process')
+        }
+        & $program @RunArguments
+        $result = $LASTEXITCODE
+    } finally {
+        foreach ($key in $previous.Keys) {
+            if ($null -eq $previous[$key]) {
+                Remove-Item -LiteralPath ('Env:' + $key) -ErrorAction SilentlyContinue
+            } else {
+                [Environment]::SetEnvironmentVariable($key, $previous[$key], 'Process')
+            }
+        }
+        Pop-Location
+    }
+    exit $result
+}
 if ($Check) {
     $workspace = Join-Path $project 'company-workspace'
     $indexText = Get-Content -LiteralPath (Join-Path $workspace 'README.md') -Raw -Encoding UTF8
@@ -68,15 +111,8 @@ if ($Name -notmatch '^[\p{L}\p{N}_-][\p{L}\p{N}._-]*$' -or $Name.EndsWith('.') -
     $Name -match '^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(\.|$)') {
     throw '名称须为单个文件名或目录名，如 studio-v1。'
 }
-$parent = $project
 $sections = if ($Kind -eq 'output') { @('output') } else { @('company-workspace', $Kind) }
-foreach ($section in $sections) {
-    $parent = Join-Path $parent $section
-    $dir = [IO.Directory]::CreateDirectory($parent)
-    if ($dir.Attributes -band [IO.FileAttributes]::ReparsePoint) {
-        throw "请使用项目内的实际目录：$parent"
-    }
-}
+$parent = Get-ProjectDirectory $sections
 $target = Join-Path $parent $Name
 $existing = Get-Item -LiteralPath $target -Force -ErrorAction SilentlyContinue
 if ($existing -and ($existing.Attributes -band [IO.FileAttributes]::ReparsePoint)) {

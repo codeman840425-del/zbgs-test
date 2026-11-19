@@ -1,10 +1,9 @@
 import fs from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {runCompanyBatch} from './batch.mjs';
-const out=new URL('../../evidence/company-scale-v2-batch-v1/',import.meta.url);
-await fs.mkdir(out,{recursive:true});
-const directory=await fs.mkdtemp(new URL('run-',out).pathname.replace(/^\/([A-Za-z]:)/,'$1'));
+import path from 'node:path';
+import {createAuthoringRunDirectory,runCompanyBatch} from './batch.mjs';
+const directory=await createAuthoringRunDirectory('scale-batch');
 const profile={id:'company-space-v2',version:1};
 const input=(id,version=1)=>({id,spaceProfile:{...profile,version},scale:'small-home',floors:[{id:'ground',rooms:[{id:'studio',purpose:'streaming',stations:1}]}]});
 const batch={schema:'company-batch',version:1,items:[
@@ -30,5 +29,5 @@ for(const key of ['first','second','retry']){
  const r=JSON.parse(await fs.readFile(`${directory}/${key}/report.json`));
  assert(r.sourceHashes['prototype/src/company/scale-profile.js']);assert(r.sourceHashes['prototype/src/company/scale-v2.js']);
 }
-await fs.writeFile(new URL('report.json',out),JSON.stringify({status:'passed',first,repeated,retry,unchangedSuccessfulSaves:pins,scope:'Explicit v2 batch generation, deterministic repeats and single-item failure retry. Browser and legacy results are separate.'},null,2)+'\n');
+await fs.writeFile(path.join(directory,'report.json'),JSON.stringify({status:'passed',first,repeated,retry,unchangedSuccessfulSaves:pins,scope:'Explicit v2 batch generation, deterministic repeats and single-item failure retry. Browser and legacy results are separate.'},null,2)+'\n');
 console.log(JSON.stringify({status:'passed',directory}));

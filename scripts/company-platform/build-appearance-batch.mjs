@@ -1,4 +1,6 @@
 import fs from 'node:fs/promises';
+import path from 'node:path';
+import {checkManagedOutput} from './package-company.mjs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
@@ -6,6 +8,7 @@ import templates from '../../prototype/src/company/templates-extended.json' with
 import {appearanceBranches,appearanceCandidates,createAppearanceSample} from '../../prototype/src/company/appearance-samples.js';
 import {runCompanyBatch} from './batch.mjs';
 const out=process.argv[2];if(!out)throw Error('Provide a new output directory');
+await checkManagedOutput(path.resolve(out),undefined,{allowDelivery:false});
 await fs.mkdir(out);const batch={schema:'company-batch',version:1,items:[]};
 for(const [branch]of appearanceBranches){
  assert(appearanceCandidates(catalog,branch).length>=4,`Missing four appearances: ${branch}`);

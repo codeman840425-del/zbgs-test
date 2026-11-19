@@ -2,10 +2,12 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {runCompanyBatch} from './batch.mjs';
+import {checkManagedOutput} from './package-company.mjs';
 
 const [destination] = process.argv.slice(2);
 if (!destination) throw Error('Usage: node test-workstation-look-batch.mjs NEW_OUTPUT_DIRECTORY');
 const out = path.resolve(destination);
+await checkManagedOutput(out,undefined,{allowDelivery:false});
 await fs.mkdir(out);
 const batch = JSON.parse(await fs.readFile(new URL('./batch-inputs/workstation-looks.json', import.meta.url), 'utf8'));
 const read = (key, name) => fs.readFile(path.join(out, key, name), 'utf8');

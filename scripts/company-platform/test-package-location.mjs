@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import {spawnSync} from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { checkManagedOutput } from './package-company.mjs';
 
@@ -37,6 +38,46 @@ try {
     buildId: '0123456789ab', distDirectory: missing, inputPath: missing, sourceRoot: missing, outputDirectory,
   });
   const outside = path.resolve(project, '..', 'gamemake-company-filing-check', path.basename(scratch), 'bundle');
+  const scriptDir = path.dirname(source);
+  const driveRoot = path.parse(project).root;
+  const batchInput = path.join(scriptDir,'batch-inputs','sofa-rooms.json');
+  const recipe = path.join(scriptDir,'style-recipes','warm-live.json');
+  const example = path.join(checkout,'prototype','src','company','examples','c2-small-home.json');
+  function cli(script,args) {
+    const result = spawnSync(process.execPath,[path.join(scriptDir,script),...args],{
+      cwd:driveRoot,encoding:'utf8',windowsHide:true,
+    });
+    if (result.error) throw result.error;
+    return result;
+  }
+  const applyOps = path.join(scratch,'rename-room.json');
+  const room = JSON.parse(await fs.readFile(example,'utf8')).nodes.find(node=>node.kind==='room');
+  await fs.writeFile(applyOps,JSON.stringify([{type:'set-room',id:room.id,name:'预览房间'}]));
+  function rejectedOutputs(target,code) {
+    for (const [script,args] of [
+      ['batch.mjs',[batchInput,target]],
+      ['company.mjs',['create',target]],
+      ['company.mjs',['apply',example,applyOps,target]],
+      ['apply-style-recipe.mjs',[example,recipe,target]],
+    ]) {
+      const result = cli(script,args);
+      assert.equal(result.status,1,script);
+      assert(result.stderr.includes(code),script+' '+result.stderr);
+    }
+  }
+  // A relative name is resolved by the child from the drive root.
+  rejectedOutputs(path.relative(driveRoot,outside),'outside-managed-package-directory');
+  const sealedOutput = path.join(project,'company-workspace','deliveries',path.basename(scratch),'new-layout');
+  rejectedOutputs(sealedOutput,'outside-managed-package-directory');
+  await assert.rejects(fs.lstat(path.dirname(sealedOutput)),{code:'ENOENT'});
+  const localLayout = path.join(scratch,'one-room.json');
+  const created = cli('company.mjs',['create',localLayout]);
+  assert.equal(created.status,0,created.stderr);
+  const originalBytes = await fs.readFile(localLayout);
+  assert.equal(cli('company.mjs',['create',localLayout]).status,1);
+  assert.deepEqual(await fs.readFile(localLayout),originalBytes);
+  const edited = cli('company.mjs',['apply',example,applyOps,path.join(scratch,'edit.json')]);
+  assert.equal(edited.status,0,edited.stderr);
   const misplaced = [
     'loose-bundle', 'docs/old-package', 'output-archive/candidate',
     'company-workspace/preview/package', 'company-workspace/worktrees/release-check/package',
@@ -58,6 +99,7 @@ try {
   await fs.mkdir(target);
   await fs.symlink(target, linked, process.platform === 'win32' ? 'junction' : 'dir');
   try {
+    rejectedOutputs(path.join(linked,'new','bundle'),'linked-package-output');
     for (const pack of [main, fixed, received]) {
       await assert.rejects(run(pack, path.join(linked, 'new', 'bundle')), { code: 'linked-package-output' });
     }
@@ -66,7 +108,7 @@ try {
     await fs.unlink(linked);
   }
   await assert.rejects(fs.stat(path.dirname(outside)), { code: 'ENOENT' });
-  console.log('Passed managed developer, fixed checkout and portable receiver destination checks.');
+  console.log('Passed managed checkout and portable receiver checks, and drive-root authoring CLI, retry and junction checks.');
 } finally {
   const resolved = await fs.realpath(scratch);
   assert.equal(path.dirname(resolved), await fs.realpath(output));

@@ -3,15 +3,14 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawn,spawnSync} from 'node:child_process';
+import {createAuthoringRunDirectory} from './batch.mjs';
 import {createHash} from 'node:crypto';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
 import templates from '../../prototype/src/company/templates.json' with {type:'json'};
 import {decodeCompanySave} from '../../prototype/src/company/persistence.js';
 
 const workspace=fileURLToPath(new URL('../../',import.meta.url));
-const evidence=fileURLToPath(new URL('../../evidence/company-batch-v1/',import.meta.url));
-await fs.mkdir(evidence,{recursive:true});
-const run=await fs.mkdtemp(path.join(evidence,'run-')),checks=[];
+const run=await createAuthoringRunDirectory('batch'),checks=[];
 const representativesOnly=process.argv.includes('--representatives-only');
 const affectedNames=new Set([
   'Real CLI produces two complete results with same-spec real models and explicit style/pose',
@@ -121,4 +120,7 @@ await check('Concurrent real CLI publishers cannot mix or overwrite result bundl
 const report={status:checks.every(check=>check.passed)?'passed':'failed',configuration:{model:'gpt-6.1-sol',reasoning_effort:'high',reuseKnownConfiguration:true,difficulty:'standard',reason:'Atomic independent result bundles and isolated deterministic retries',actualProviderConfiguration:'not independently verified',desktopHookInterception:'not independently verified'},runDirectory:run,batchSourceSha256:hash(await fs.readFile(new URL('./batch.mjs',import.meta.url))),checks,
   limits:['Actual local CLI, filesystem, source/GLB hashing, static placement and save pin round-trip only. No render/GPU or character navigation.','Same-key concurrent publishers honor exclusive lock files. An interrupted process may leave a lock which must be inspected before removal.']};
 report.scope=representativesOnly?'Only same-spec model representatives, complete save outputs, idempotency and isolated retry. Earlier full batch checks retained.':'Full batch CLI and filesystem checks';
-await fs.writeFile(path.join(evidence,representativesOnly?'timber-recheck.json':'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({status:report.status,checks:checks.length,failures:checks.filter(check=>!check.passed)},null,2));if(report.status!=='passed')process.exitCode=1;
+const reportPath=path.join(run,representativesOnly?'timber-recheck.json':'report.json');
+await fs.writeFile(reportPath,JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify({status:report.status,reportPath,checks:checks.length,failures:checks.filter(check=>!check.passed)},null,2));
+if(report.status!=='passed')process.exitCode=1;

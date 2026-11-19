@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import {fileURLToPath} from 'node:url';
 import {Box3, Group, Raycaster, Vector3} from '../../prototype/node_modules/three/build/three.module.js';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
 import templates from '../../prototype/src/company/templates-extended.json' with {type:'json'};
@@ -13,7 +12,7 @@ import {appearanceCandidates, createAppearanceSample} from '../../prototype/src/
 import {createCompany, prepareCompanyChange} from '../../prototype/src/company/document.js';
 import {inspectCompanyPlacement} from '../../prototype/src/company/placement.js';
 import {installNodeImageDecodeShim} from './preflight-library-assets.mjs';
-import {runCompanyBatch} from './batch.mjs';
+import {createAuthoringRunDirectory,runCompanyBatch} from './batch.mjs';
 
 const looks = appearanceCandidates(catalog, 'background-fabric');
 const fixedIds = ['green','blue','print','sheer'].map(kind => 'backdrop-fabric-' + kind);
@@ -78,9 +77,7 @@ async function rejected(session, op, code, expectedPath) {
 }
 
 const checkedRooms = [];
-const output = fileURLToPath(new URL('../../output/',import.meta.url));
-await fs.mkdir(output,{recursive:true});
-const scratch = await fs.mkdtemp(path.join(await fs.realpath(output),'backdrop-room-test-'));
+const scratch = await createAuthoringRunDirectory('backdrop');
 try {
   const batch = await runCompanyBatch(rooms,{outputDirectory:scratch});
   assert(batch.ok,JSON.stringify(batch.results));
@@ -154,8 +151,9 @@ try {
 } finally {
   library.dispose();
   const resolved = await fs.realpath(scratch);
-  assert.equal(path.dirname(resolved),await fs.realpath(output));
-  assert(path.basename(resolved).startsWith('backdrop-room-test-'));
+  assert.equal(resolved,path.resolve(scratch));
+  assert.equal(path.basename(path.dirname(resolved)),'backdrop');
+  assert(path.basename(resolved).startsWith('run-'));
   await fs.rm(resolved,{recursive:true});
 }
 console.log(JSON.stringify({status:'passed',rooms:checkedRooms,seatApproachProtectedAt:[0,1]},null,2));

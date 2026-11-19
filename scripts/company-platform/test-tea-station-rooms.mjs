@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {checkManagedOutput} from './package-company.mjs';
 import {fileURLToPath} from 'node:url';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
 import templates from '../../prototype/src/company/templates-extended.json' with {type:'json'};
@@ -36,6 +37,7 @@ const pins=async()=>Object.fromEntries(await Promise.all(keys.flatMap(key=>files
   const relative=key+'/'+file;
   return [relative,sha(await fs.readFile(path.join(published,relative)))];
 }))));
+await checkManagedOutput(out,undefined,{allowDelivery:false});
 await fs.mkdir(out);
 const first=await run(source);
 await write('build-receipt.json',first);

@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {checkManagedOutput} from './package-company.mjs';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
 import templates from '../../prototype/src/company/templates-extended.json' with {type:'json'};
 import {createCompany, prepareCompanyChange, deriveCompany, restoreCompany, serializeCompany} from '../../prototype/src/company/document.js';
@@ -8,6 +9,7 @@ import {inspectCompanyPlacement,inspectCompanyMotionSweep} from '../../prototype
 const [command, input, operations, output] = process.argv.slice(2);
 const read = async file => restoreCompany(await fs.readFile(file,'utf8'),catalog,templates);
 async function write(file, document) {
+  await checkManagedOutput(path.resolve(file),undefined,{allowDelivery:false});
   inspectCompanyPlacement(document,catalog,templates);
   const bytes=serializeCompany(document,catalog,templates);
   const parent=path.dirname(path.resolve(file));

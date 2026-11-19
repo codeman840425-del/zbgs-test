@@ -3,6 +3,7 @@ import {createHash} from 'node:crypto';
 import fs from 'node:fs/promises';
 import {createRequire} from 'node:module';
 import path from 'node:path';
+import {checkManagedOutput} from './package-company.mjs';
 import {fileURLToPath} from 'node:url';
 import * as THREE from '../../prototype/node_modules/three/build/three.module.js';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
@@ -260,6 +261,7 @@ const saved = async key => {
   return document;
 };
 const prepare = (document,ops,options=baselineOptions)=>prepareCompanyChange(document,ops,options).document;
+await checkManagedOutput(out,undefined,{allowDelivery:false});
 await fs.mkdir(out);
 const initial = await runCompanyBatch(batch,{outputDirectory:published});
 assert(initial.ok,JSON.stringify(initial));

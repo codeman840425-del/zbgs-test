@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {checkManagedOutput} from './package-company.mjs';
 import {fileURLToPath} from 'node:url';
 import * as THREE from '../../prototype/node_modules/three/build/three.module.js';
 import {GLTFLoader} from '../../prototype/node_modules/three/examples/jsm/loaders/GLTFLoader.js';
@@ -25,6 +26,7 @@ const resolvedParent=await fs.realpath(outputParent);
 if(path.relative(outputParent,resolvedParent)!=='')
   throw Error('Supply the resolved output parent instead of an alias: '+resolvedParent);
 const out=path.join(resolvedParent,path.basename(requested));
+await checkManagedOutput(out,undefined,{allowDelivery:false});
 await fs.mkdir(out);
 
 const home='air-home', rental='air-rental', role='floor-air', branch='fan-and-air-purifier';

@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {checkManagedOutput} from './package-company.mjs';
 import { createHash } from 'node:crypto';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import catalog from '../../prototype/src/company/library-catalog.json' with { type: 'json' };
@@ -101,6 +102,9 @@ export function applyStyleRecipe(document, recipe, options = {}) {
 
 export async function publishStyleRecipeResult(outputFile, outputBytes, manifestBytes) {
   const manifestFile = `${outputFile}.style.json`;
+  for (const target of [outputFile,manifestFile]) {
+    await checkManagedOutput(path.resolve(target),undefined,{allowDelivery:false});
+  }
   const tempBase = `${outputFile}.tmp-${process.pid}-${Date.now()}`;
   const tempOutput = `${tempBase}.json`;
   const tempManifest = `${tempBase}.style.json`;

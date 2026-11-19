@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {checkManagedOutput} from './package-company.mjs';
 import {fileURLToPath} from 'node:url';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
 import templates from '../../prototype/src/company/templates-extended.json' with {type:'json'};
@@ -32,6 +33,7 @@ const localGeometry = result=>[result.standing.mouth,result.standing.eye,result.
   ...result.score.map(page=>page.point),result.access.threshold,...result.access.approach,...result.access.inside];
 
 assert.deepEqual(batch.items.map(item=>item.key),keys);
+await checkManagedOutput(out,undefined,{allowDelivery:false});
 await fs.mkdir(out);
 const created = await run();
 assert.equal(created.ok,true,JSON.stringify(created));

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {checkManagedOutput} from './package-company.mjs';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
 import templates from '../../prototype/src/company/templates-extended.json' with {type:'json'};
 import {pointInTransform} from '../../prototype/src/company/document.js';
@@ -28,6 +29,7 @@ for (const [source,key] of [['singing-rooms','singing-studio'],['interview-rooms
   assert(item,key);
   batch.items.push(item);
 }
+await checkManagedOutput(out,undefined,{allowDelivery:false});
 await fs.mkdir(out);
 await write('theme-batch.json',batch);
 const result = await runCompanyBatch(batch,{outputDirectory:published});

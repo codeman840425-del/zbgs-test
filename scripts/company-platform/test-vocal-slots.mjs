@@ -3,6 +3,7 @@ import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {checkManagedOutput} from './package-company.mjs';
 import {fileURLToPath} from 'node:url';
 import * as THREE from '../../prototype/node_modules/three/build/three.module.js';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
@@ -153,6 +154,7 @@ function publicBatch(input,output,only,expectedExit) {
 
 const source=await readJson(fixture);
 assert.deepEqual(source.items.map(item=>item.key).sort(),[...keys].sort());
+await checkManagedOutput(out,undefined,{allowDelivery:false});
 await fs.mkdir(out);
 const receipt=await runCompanyBatch(source,{outputDirectory:published});
 await writeJson('batch-result.json',receipt);
