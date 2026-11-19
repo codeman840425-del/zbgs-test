@@ -15,6 +15,7 @@ import {validateHairSelection, hairFitIdentity} from '../../prototype/src/hair-f
 import {accessorySelection} from '../../prototype/src/accessory-recipe.js';
 import earCatalog from '../../prototype/src/ear-style-catalog.json' with {type:'json'};
 import earStyleSources from './ear-style-sources.json' with {type:'json'};
+import hairRegionSources from './hair-region-sources.json' with {type:'json'};
 import {SURFACE_LAYER_PACKAGE} from '../../prototype/src/surface-layer-catalog.js';
 import {createCharacterRecord} from '../../prototype/src/character-record.js';
 import {deriveCharacterResourceIdentities} from '../../prototype/src/character-runtime-record.js';
@@ -258,6 +259,32 @@ test('brow-only geometry and one surface layer include the hidden base dependenc
   ]);
   assert(!files.has('/assets/m2-surface-layer-v1/female-protected.png'));
   assert(!files.has('/assets/mouth-visible-v2/recipe-manifest.json'));
+});
+
+test('hair colorway pins the author recipe, its scoped permission and original records', async () => {
+  const recipe = await template('female', 0);
+  const hair = validateHairSelection(recipe.base.sha256, 'female-ponytail-mauve-rose-v1');
+  recipe.appearance.hairStyle = hair.id;
+  recipe.hairFit = hairFitIdentity(hair);
+  recipe.hairAssetSha256 = hair.assetSha256;
+  const record = await recordFor(recipe);
+  const options = {assetRoot:publicRoot};
+  const {files} = await collect(record, options);
+  const manifest = await publicJson(hair.manifestUrl);
+  const {regions, palette} = manifest.regionColorway;
+  const source = hairRegionSources[hair.manifestSha256];
+  const mask = (await publicJson(regions.url)).mask;
+  for (const url of [manifest.url, regions.url, palette.url, path.posix.join(path.posix.dirname(regions.url), mask.file)]) {
+    const provenance = files.get(url).provenance.find(row => row.sourcePath === source.releaseRecipe.path);
+    assert.equal(provenance.sourceSha256, source.releaseRecipe.sha256);
+    assert.equal(provenance.sourceLicense.license, 'CC0-1.0');
+    assert.equal(provenance.sourceLicense.sourceRecords.length, 2);
+  }
+  const correct = source.releaseRecipe;
+  try {
+    source.releaseRecipe = {...correct, sha256:'0'.repeat(64)};
+    await assert.rejects(collect(record, options), /Dependency identity differs/);
+  } finally { source.releaseRecipe = correct; }
 });
 
 test('hat and paired ears include shared models and the exact hat hair fit', async () => {

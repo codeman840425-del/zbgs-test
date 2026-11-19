@@ -1,7 +1,9 @@
 import path from 'node:path';
+import {readFile} from 'node:fs/promises';
 import {fileURLToPath, pathToFileURL} from 'node:url';
-import {checkedBytes, fail, runtimePath} from './files.mjs';
+import {checkedBytes, digest, fail, localFile, runtimePath} from './files.mjs';
 import earStyleSources from './ear-style-sources.json' with {type:'json'};
+import hairRegionSources from './hair-region-sources.json' with {type:'json'};
 
 const SHA = /^[a-f0-9]{64}$/;
 const POSITIVE_BYTES = value => Number.isSafeInteger(value) && value > 0;
@@ -71,6 +73,7 @@ function resourceReaders(add) {
   async function model(url, reason, options = {}) {
     const item = await read(url, reason, options);
     const doc = readGlb(item.bytes, item.path);
+    if(options.inspect)await options.inspect(doc,item.bytes);
     for (const entry of [...(doc.buffers ?? []), ...(doc.images ?? [])]) {
       if (!entry.uri || entry.uri.startsWith('data:')) continue;
       // A GLTFLoader given bytes sometimes uses a fixed parse directory.
@@ -229,6 +232,33 @@ async function addMotions(io, contracts, avatarSha256, body) {
   return {actions, unsupportedActions};
 }
 
+async function hairRegionSource(entry, manifest, avatarSha256) {
+  const registered = hairRegionSources[entry.manifestSha256];
+  requireDependency(registered?.manifestUrl === entry.manifestUrl, 'Unknown hairstyle colorway source');
+  const operator = fileURLToPath(new URL('../../', import.meta.url));
+  const release = JSON.parse(await checkedBytes(operator, registered.releaseRecipe));
+  async function authorFile(ref) {
+    requireDependency(ref?.path?.startsWith('assets-source/') && SHA.test(ref.sha256), 'Missing hair author source');
+    const bytes = await readFile(await localFile(operator, ref.path));
+    requireDependency(digest(bytes) === ref.sha256, 'Hair author source differs: ' + ref.path);
+    return JSON.parse(bytes);
+  }
+  const [recipe, author] = await Promise.all([authorFile(release.sourceRegions), authorFile(release.sourceProvenance)]);
+  const source = manifest.regionColorway?.sourceStyle;
+  requireDependency(release.schema === 'hair-region-release-recipe-v1' && release.id === entry.id &&
+    release.version === manifest.version && recipe.schema === 'hair-region-source-recipe-v1' &&
+    source && recipe.styleManifest.sha256 === source.manifestSha256 && recipe.styleFit.sha256 === source.fitSha256 &&
+    recipe.body.sha256 === avatarSha256 && recipe.asset.sha256 === manifest.sha256 &&
+    author.schema === 'hair-region-provenance-v1' && author.license && author.scope && author.sourceRecords?.length,
+  'Hairstyle colorway author recipe differs');
+  await Promise.all(author.sourceRecords.map(authorFile));
+  return {release, provenance:{
+    sourcePath:registered.releaseRecipe.path, sourceSha256:registered.releaseRecipe.sha256,
+    sourceRegionRecipe:release.sourceRegions,
+    sourceLicense:{...release.sourceProvenance, license:author.license, scope:author.scope, sourceRecords:author.sourceRecords},
+  }};
+}
+
 async function addHair(io, contracts, avatarSha256, recipe) {
   const entry = contracts.validateHairSelection(avatarSha256, recipe.appearance.hairStyle);
   if (!entry) return null;
@@ -236,6 +266,7 @@ async function addHair(io, contracts, avatarSha256, recipe) {
     url:entry.manifestUrl, sha256:entry.manifestSha256,
   }, 'Selected hairstyle manifest');
   const native = manifest?.schema === 'character-hairstyle-v2';
+  let colorway, author;
   requireDependency((native || manifest?.schema === 'character-hairstyle-v1' && manifest.mount === 'head' &&
     manifest.headLocal === true && ['rigid', 'vrm-spring'].includes(manifest.physics) && manifest.sourceMaterial === entry.sourceMaterial) &&
     manifest.id === entry.id && manifest.sha256 === entry.assetSha256 && manifest.compatibleBodies?.includes(avatarSha256),
@@ -245,15 +276,32 @@ async function addHair(io, contracts, avatarSha256, recipe) {
       'Hair manifest fit reference differs');
     const {value:fit} = await io.pin(entry.fit, 'Selected hairstyle body fit', {parent});
     contracts.validateHairFitData(fit, entry, avatarSha256, manifest);
+    if(manifest.regionColorway || fit.regionColorway) {
+      requireDependency(typeof contracts.prepareHairRegionColorway==='function' && typeof contracts.verifyRegionPrimitive==='function',
+        'Fixed source does not support hairstyle region coloring');
+      author = await hairRegionSource(entry, manifest, avatarSha256);
+      const {regions, palette} = manifest.regionColorway;
+      colorway = await contracts.prepareHairRegionColorway(entry, manifest, fit, avatarSha256, async (url, reason, pin) => {
+        const derivative = url === regions.url || url === palette.url || url.endsWith('.rg8');
+        const result = await io.read(url, reason, {...pin, provenance:derivative ? [author.provenance] : []});
+        if (url === regions.url)
+          requireDependency(result.value?.recipeSha256 === author.release.sourceRegions.sha256, 'Hairstyle region recipe differs');
+        if (url === palette.url)
+          for (const field of ['rootLinearRgb','tipLinearRgb'])
+            requireDependency(JSON.stringify(result.value?.[field]) === JSON.stringify(author.release[field]), 'Hairstyle author palette differs');
+        return result.bytes;
+      });
+    }
   } else {
-    requireDependency(!native && entry.legacyImplicitFit && manifest.physics === 'rigid' && !manifest.fit,
+    requireDependency(!native && entry.legacyImplicitFit && manifest.physics === 'rigid' && !manifest.fit && !manifest.regionColorway,
       'Missing hairstyle fit');
   }
   await io.model(manifest.url, 'Selected hairstyle model', {
-    sha256:entry.assetSha256, bytes:manifest.bytes, provenance:[{
+    sha256:entry.assetSha256, bytes:manifest.bytes,
+    ...(colorway?{inspect:(doc,bytes)=>contracts.verifyRegionPrimitive(colorway,doc,bytes)}:{}), provenance:[{
       sourcePath:'prototype/public/' + parent, sourceBodySha256:entry.sourceBodySha256,
       ...(manifest.sourceLicense ? {sourceLicense:manifest.sourceLicense} : {}),
-    }],
+    }, ...(author ? [author.provenance] : [])],
   });
   return manifest;
 }

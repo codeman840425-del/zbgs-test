@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { createFacialPalette, EYE_COLORS, LIP_COLORS } from './facial-palette.js';
 import { HAIRSTYLES } from './hairstyle-catalog.js';
 import { NO_HAIR_BODIES } from './no-hair-bodies.js';
-import { hairFitIdentity, validateHairSelection, validateHairFitData } from './hair-fit-contract.js';
+import { hairFitIdentity, validateHairSelection, validateHairFitData, prepareHairRegionColorway, verifyRegionPrimitive } from './hair-fit-contract.js';
 import { createHairSpring, validateHairSkin, validateHairEnvironmentColliders } from './hair-spring.js';
 import { assertAppearanceColorSelection } from './appearance-color-policy.js';
 import {fittedHeadAppearance} from './fitted-head-appearance.js';
@@ -122,10 +122,13 @@ export function createCharacterAppearance({ vrm, avatarSha256, renderer, parser,
     value.scene.traverse(mesh => { if (mesh.isMesh) { mesh.geometry.dispose(); materialsOf(mesh).forEach(m => m.dispose()); } });
   }
   const digest = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(v=>v.toString(16).padStart(2,'0')).join('');
-  async function pinnedJson(url, sha256) {
+  async function fetchHairBytes(url) {
     const response = await fetch(url);
     if (!response.ok) throw Error(`发型数据加载失败 (${response.status})`);
-    const bytes = await response.arrayBuffer();
+    return response.arrayBuffer();
+  }
+  async function pinnedJson(url, sha256) {
+    const bytes = await fetchHairBytes(url);
     if (await digest(bytes) !== sha256) throw Error('发型数据版本不一致');
     return JSON.parse(new TextDecoder().decode(bytes));
   }
@@ -154,7 +157,9 @@ export function createCharacterAppearance({ vrm, avatarSha256, renderer, parser,
       if (!manifest.fit || Object.keys(entry.fit).some(k=>manifest.fit[k]!==entry.fit[k])) throw Error('发型清单适配版本不一致');
       fit = await pinnedJson(entry.fit.url,entry.fit.sha256);
       attachment = validateHairFitData(fit,entry,avatarSha256,manifest); rawBone = fit.rawBone;
-    } else if (manifest.fit || !entry.legacyImplicitFit || manifest.physics!=='rigid') throw Error('发型缺少已登记适配');
+    } else if (manifest.fit || manifest.regionColorway || !entry.legacyImplicitFit || manifest.physics!=='rigid') throw Error('发型缺少已登记适配');
+    const colorway=manifest.regionColorway
+      ? await prepareHairRegionColorway(entry,manifest,fit,avatarSha256,fetchHairBytes) : null;
     const head = vrm.humanoid.getRawBoneNode('head');
     if (!head || (rawBone && head.name !== rawBone)) throw Error('人物头部挂点缺失或与适配不一致');
     const asset = await fetch(manifest.url);
@@ -172,6 +177,19 @@ export function createCharacterAppearance({ vrm, avatarSha256, renderer, parser,
     for(const m of importedMaterials)for(const value of Object.values(m))if(value?.isTexture)importedTextures.add(value);
     const releaseImported=()=>{importedMaterials.forEach(m=>m.dispose());importedTextures.forEach(t=>t.dispose());};
     try {
+      let coloredMesh;
+      if(colorway) {
+        await verifyRegionPrimitive(colorway,gltf.parser.json,bytes);
+        const target=meshes.filter(mesh=>{
+          const origin=gltf.parser.associations.get(mesh);
+          return origin?.meshes===colorway.regions.mesh && origin.primitives===colorway.regions.primitive;
+        });
+        if(target.length!==1 || target[0].geometry.getAttribute('position').count!==colorway.regions.vertices ||
+           source.some(material=>!material.isMToonMaterial))throw Error('分区发色的实际图元或 MToon 材质不匹配');
+        [coloredMesh]=target;
+        // Each replacement owns this loader-created geometry, skeleton and material clones.
+        coloredMesh.geometry.setAttribute('color',new THREE.BufferAttribute(colorway.colors,3));
+      }
       if(manifest.physics==='vrm-spring')validateHairSkin(gltf.scene,meshes);
       else if(meshes.length!==1||meshes[0].isSkinnedMesh)throw Error('刚性发型应为单个独立网格');
       if(meshes.some(m=>Object.keys(m.geometry.morphAttributes).length)||gltf.animations.length||
@@ -184,6 +202,9 @@ export function createCharacterAppearance({ vrm, avatarSha256, renderer, parser,
         // Track each clone before the next one is attempted. A later outline
         // clone can fail before any of these materials are assigned to mesh.
         const cloned=source.map(m=>{const c=m.clone();materialBase.set(c,originals.get(m));return c;});
+        if(mesh===coloredMesh)for(const material of cloned){
+          material.vertexColors=true;material.ignoreVertexColor=false;material.needsUpdate=true;
+        }
         mesh.material=cloned.length===1?cloned[0]:cloned;
         mesh.geometry.clearGroups();
         cloned.forEach((m,i)=>mesh.geometry.addGroup(0,mesh.geometry.index?.count??mesh.geometry.attributes.position.count,i));

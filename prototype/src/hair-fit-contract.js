@@ -1,6 +1,8 @@
 import { HAIRSTYLES } from './hairstyle-catalog.js';
 import { validateHairSpringConfig } from './hair-spring.js';
 import { validateNativeHairFit } from './native-hair-attachment.js';
+import {loadRegionColorway,validateRegionDeclaration} from './hair-region-colorway.js';
+export {verifyRegionPrimitive} from './hair-region-colorway.js';
 
 export function hairEntry(body, style) {
   const entries = HAIRSTYLES.filter(e => e.id === style && e.compatibleBodies.includes(body));
@@ -29,6 +31,7 @@ export function validateHairSelection(body, style, options = {}) {
   return entry;
 }
 export function validateHairFitData(fit, entry, body, manifest) {
+  validateRegionDeclaration(manifest,fit??{});
   if(fit?.schema==='character-hair-fit-v3')return validateNativeHairFit(fit,entry,body,manifest);
   const a = fit?.attachment;
   const rigid=fit?.schema==='character-hair-fit-v1'&&fit.physics==='rigid'&&manifest.physics==='rigid';
@@ -44,4 +47,9 @@ export function validateHairFitData(fit, entry, body, manifest) {
       fit.hideOriginal.materialNames[0] !== entry.sourceMaterial) throw Error('发型适配数据与当前人物不一致');
   if(spring)validateHairSpringConfig(fit.dynamics);
   return a;
+}
+
+export function prepareHairRegionColorway(entry,manifest,fit,body,read) {
+  const source=hairEntry(body,manifest.regionColorway.sourceStyle.id);
+  return loadRegionColorway(entry,manifest,fit,body,source,read);
 }
