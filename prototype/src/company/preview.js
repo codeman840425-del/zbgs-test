@@ -3,7 +3,7 @@ import {createFacilityEditor} from './facility-editor.js';
 import * as THREE from 'three';
 import Phaser from 'phaser';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-import {framingFov, installedCameraPose} from './camera-view.js';
+import {clearFacilityView, framingFov, installedCameraPose} from './camera-view.js';
 import catalog from './library-catalog.json' with {type:'json'};
 import templates from './templates-extended.json' with {type:'json'};
 import ceilingCompany from './examples/c2-ceiling-company.json' with {type:'json'};
@@ -110,8 +110,9 @@ function cameraForRoom(doc,derived,view) {
   if(view.mode!=='room')return;
   const cameras=derived.facilities.filter(f=>f.roomId===view.roomId && f.resource.camera?.lensNode && f.resource.camera.forward==='+Z');
   const interview=Array.isArray(doc.interviewRooms) && doc.interviewRooms.find(r=>r?.regionId===view.roomId);
+  const singing=Array.isArray(doc.singingRooms) && doc.singingRooms.find(r=>r?.regionId===view.roomId);
   const showcase=Array.isArray(doc.productShowcases) && doc.productShowcases.find(r=>r?.roomId===view.roomId);
-  const cameraId=interview?.roles?.camera || showcase?.members?.camera;
+  const cameraId=interview?.roles?.camera || singing?.roles?.camera || showcase?.members?.camera;
   return cameraId ? cameras.find(f=>f.id===cameraId) : cameras.length===1 ? cameras[0] : undefined;
 }
 function aimFromInstalledCamera(facility) {
@@ -433,7 +434,12 @@ async function start(){
       direction.set(0,.1,1);
       distance=Math.max(resource.mounting.height,resource.mounting.width/camera.aspect)/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov)/2))*1.1;
     }
-    orbit.minDistance=.25;orbit.target.copy(center);camera.position.copy(center).addScaledVector(direction.normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion())),distance);orbit.update();updateWallView();
+    direction.normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion()));
+    orbit.minDistance=.25;orbit.target.copy(center);camera.position.copy(center).addScaledVector(direction,distance);orbit.update();updateWallView();
+    if(resource?.mount!=='portal'){
+      const position=clearFacilityView(session.scene.root,object,center,direction,distance,resource?.musicStand?.pageNode??resource?.microphone?.pickupNode);
+      camera.position.copy(position);orbit.update();updateWallView();
+    }
   };
   game=new Phaser.Game({type:Phaser.CANVAS,parent:'phaser-stage',width:1,height:1,transparent:true,audio:{noAudio:true},fps:{target:30},scene:CompanyPreview});
   resize();new ResizeObserver(resize).observe(stage);sync();await defaultSpace();status(restoreError?`已保留默认方案，存档未载入：${restoreError.message}`:restored?'已恢复上次保存的方案。':'方案已加载。',Boolean(restoreError));

@@ -49,6 +49,10 @@ try{
     const {checkInterviewRooms} = await import('./source/scripts/company-platform/check-interview-room.mjs');
     await checkInterviewRooms(document,{catalog,templates});
   }
+  if (Object.hasOwn(document,'singingRooms')) {
+    const {checkSingingRooms} = await import('./source/scripts/company-platform/check-singing-room.mjs');
+    await checkSingingRooms(document,{catalog,templates});
+  }
   if(constraint){
     const {checkTrainingClearance}=await import('./source/scripts/company-platform/check-training-clearance.mjs');
     await checkTrainingClearance(document,constraint,{catalog,templates});

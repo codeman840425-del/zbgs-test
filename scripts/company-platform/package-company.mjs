@@ -502,6 +502,9 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       const interviews = Object.hasOwn(declaration,'interviewRooms') ? declaration.interviewRooms : declaration.document?.interviewRooms;
       if (JSON.stringify(canonical(interviews)) !== JSON.stringify(canonical(document.interviewRooms)))
         fail('interview-batch-binding-mismatch',input,'Saved interview seats, equipment or routes differ from the batch declaration');
+      const singing = Object.hasOwn(declaration,'singingRooms') ? declaration.singingRooms : declaration.document?.singingRooms;
+      if (JSON.stringify(canonical(singing)) !== JSON.stringify(canonical(document.singingRooms)))
+        fail('singing-batch-binding-mismatch',input,'Saved singing equipment, stage or entrance differs from the batch declaration');
     }
     if (Object.hasOwn(document,'productShowcases')) {
       const checker = path.join(source,'scripts/company-platform/check-showcase-room.mjs');
@@ -514,6 +517,12 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       await noLinks(checker);
       const {checkInterviewRooms} = await import(pathToFileURL(checker).href);
       await checkInterviewRooms(document,{catalog,templates});
+    }
+    if (Object.hasOwn(document,'singingRooms')) {
+      const checker = path.join(source,'scripts/company-platform/check-singing-room.mjs');
+      await noLinks(checker);
+      const {checkSingingRooms} = await import(pathToFileURL(checker).href);
+      await checkSingingRooms(document,{catalog,templates});
     }
     saved.document=document;
     if(trainingClearance!==undefined){
@@ -598,6 +607,15 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   const garmentBranches = ['garment-rack-wardrobe','hanging-garment','enclosed-wardrobe'];
   let verifyGarmentEditableProvenance;
   let verifyShowcaseProvenance;
+  let verifySingingSources;
+  const singingProducer='scripts/company-platform/build-singing-stage.mjs';
+  if (catalog.resources.some(resource=>resource.provenance?.generator===singingProducer)) {
+    supplemental.add('scripts/company-platform/test-singing-stage-source.mjs');
+    const verifier=path.join(source,'scripts/company-platform/validate-resource-provenance.mjs');
+    await noLinks(verifier);
+    ({verifySingingSources}=await import(pathToFileURL(verifier).href));
+    if(!verifySingingSources) fail('missing-production-tool',verifier,'Expected fitted master and original source verification');
+  }
   if (catalog.resources.some(resource => resource.productionBranch === 'showcase-product')) {
     for (const name of ['check-showcase-room.mjs','test-showcase-room.mjs','qa-product-showcase-rooms.cjs','showcase-inputs/showcase-checks.json'])
       supplemental.add('scripts/company-platform/'+name);
@@ -661,6 +679,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(!name.endsWith('.json'))fail('unsupported-production-input',name,'Production input folders must contain JSON only');supplemental.add(name);
   }
   const assetDependencies=[],provenance=[];
+  if (supplemental.has('scripts/company-platform/batch-inputs/singing-rooms.json')) {
+    for (const name of ['check-singing-room.mjs','public-door-access.mjs','test-singing-room.mjs','qa-singing-rooms.cjs'])
+      supplemental.add('scripts/company-platform/'+name);
+    supplemental.add('docs/research/COMPANY-SINGING-ROOM-PRODUCTION.md');
+  }
   if (supplemental.has('scripts/company-platform/batch-inputs/interview-rooms.json')) {
     for (const name of ['check-interview-room.mjs','public-door-access.mjs','test-interview-public-door.mjs','test-interview-room.mjs','qa-interview-rooms.cjs'])
       supplemental.add('scripts/company-platform/'+name);
@@ -690,7 +713,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     const plant = resource.productionBranch === 'plant-desktop-installation';
     const garment = garmentBranches.includes(resource.productionBranch);
     const product = resource.productionBranch === 'showcase-product';
-    const verifyEditable = product ? verifyShowcaseProvenance : plant ? plantTools?.verifyPlantEditableProvenance : garment ? verifyGarmentEditableProvenance : undefined;
+    const verifyEditable = entry.generator===singingProducer ? verifySingingSources : product ? verifyShowcaseProvenance : plant ? plantTools?.verifyPlantEditableProvenance : garment ? verifyGarmentEditableProvenance : undefined;
     if (verifyEditable) {
       const recipe = decode(await read(source,entry.sourceParameters),entry.sourceParameters);
       const pins = await verifyEditable(source,resource,recipe);

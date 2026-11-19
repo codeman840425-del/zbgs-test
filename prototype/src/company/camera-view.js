@@ -21,3 +21,37 @@ export function framingFov(aspect) {
   const tangent = Math.max(Math.tan(MathUtils.degToRad(22)), Math.tan(MathUtils.degToRad(41)) / aspect);
   return MathUtils.radToDeg(2 * Math.atan(tangent));
 }
+
+// Invoked only on "focus item". Inspect the visible floor at click time;
+// orbiting or changing the preview never moves the selected furniture.
+export function clearFacilityView(sceneRoot, selected, center, direction, distance, detailName) {
+  const obstacles=[];
+  function visit(object) {
+    if (!object.visible || object===selected) return;
+    if (object.isMesh) obstacles.push(object);
+    for (const child of object.children) visit(child);
+  }
+  visit(sceneRoot);
+  const detail=detailName && selected.getObjectByName(detailName);
+  const targets=[center];
+  if (detail?.isMesh) targets.push(new Box3().setFromObject(detail,true).getCenter(new Vector3()));
+  const ray=new Raycaster(), up=new Vector3(0,1,0);
+  let best;
+  for (const angle of [0,.6,-.6,1.1,-1.1]) {
+    const view=direction.clone().applyAxisAngle(up,angle);
+    const eye=center.clone().addScaledVector(view,distance);
+    let clearDistance=distance;
+    for (const target of targets) {
+      const span=target.clone().sub(eye);
+      ray.set(eye,span.clone().normalize());ray.near=.01;ray.far=span.length()-.015;
+      for(const hit of ray.intersectObjects(obstacles,false)) {
+        const material=Array.isArray(hit.object.material)?hit.object.material[hit.face.materialIndex]:hit.object.material;
+        if (!material?.visible || (material.transparent && material.opacity<.2)) continue;
+        clearDistance=Math.min(clearDistance,hit.point.clone().sub(center).dot(view)-.12);
+      }
+    }
+    if (clearDistance===distance) return eye;
+    if (!best || clearDistance>best.distance) best={view,distance:clearDistance};
+  }
+  return center.clone().addScaledVector(best.view, Math.max(.25,best.distance));
+}

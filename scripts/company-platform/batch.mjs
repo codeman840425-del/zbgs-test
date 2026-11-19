@@ -54,7 +54,7 @@ function validateBatch(batch,only){
   const keys=new Set(),ids=new Set();
   for(const [index,item]of batch.items.entries()){
     const location=`items[${index}]`;
-    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance','productShowcases','interviewRooms'].includes(key))||
+    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance','productShowcases','interviewRooms','singingRooms'].includes(key))||
         typeof item.key!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(item.key)||
         /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(item.key))
       fail('invalid-batch-key',location,'Use a portable nonempty directory key with letters, digits, underscore or hyphen');
@@ -148,6 +148,13 @@ async function prepare(item,sourceHashes){
     const {checkInterviewRooms} = await import('./check-interview-room.mjs');
     interviewRooms = await checkInterviewRooms(document,{catalog,templates});
   }
+  if (Object.hasOwn(item,'singingRooms')) document.singingRooms = structuredClone(item.singingRooms);
+  let singingRooms;
+  if (Object.hasOwn(document,'singingRooms')) {
+    Object.assign(sourceHashes,await sources(['scripts/company-platform/check-singing-room.mjs','scripts/company-platform/public-door-access.mjs']));
+    const {checkSingingRooms} = await import('./check-singing-room.mjs');
+    singingRooms = await checkSingingRooms(document,{catalog,templates});
+  }
   const assetDependencies=[];
   const derived=deriveCompany(document,catalog,templates);
   const selected=new Map();
@@ -174,7 +181,7 @@ async function prepare(item,sourceHashes){
     ...(styleRecipe ? {styleRecipe} : {}),
     files:Object.fromEntries(Object.entries(files).map(([name,bytes])=>[name,{bytes:bytes.length,sha256:hash(bytes)}])),
     checks:{connections,placement,...(trainingClearance ? {trainingClearance} : {}),...(productShowcases ? {productShowcases} : {}),
-      ...(interviewRooms ? {interviewRooms} : {})},
+      ...(interviewRooms ? {interviewRooms} : {}),...(singingRooms ? {singingRooms} : {})},
     scope:'Complete deterministic authoring result. Static geometry and placement admission only; rendering and character usage require their own evidence.'};
   files['report.json']=jsonBytes(report);
   return {files,report};
