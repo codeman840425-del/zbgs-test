@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {checkManagedOutput} from './package-company.mjs';
 import {fileURLToPath} from 'node:url';
 import * as T from '../../prototype/node_modules/three/build/three.module.js';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
@@ -232,9 +233,7 @@ if(process.argv[1] && path.resolve(process.argv[1])===fileURLToPath(import.meta.
   assert(argument && !extra.length && (!mode || mode==='--baseline'),'Usage: node test-vocal-mic-looks.mjs FRESH_OUT [--baseline]');
   const output=path.resolve(argument), parent=path.dirname(output);
   assert(output!==parent && path.relative(parent,await fs.realpath(parent))==='','Use an existing real output parent.');
-  const relative=path.relative(root,output).split(path.sep).join('/');
-  assert(relative.startsWith('output/') || relative.startsWith('company-workspace/production-trials/'),
-    'Write the test under this source’s output or production-trials directory.');
+  await checkManagedOutput(output, root, {allowDelivery:false});
   await fs.mkdir(output);
   const report={status:'running',cases:[],restored:[],rejections:[]};
   try {

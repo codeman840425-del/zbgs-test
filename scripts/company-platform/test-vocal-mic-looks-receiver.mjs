@@ -3,7 +3,8 @@ import {execFile} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import {fileURLToPath,pathToFileURL} from 'node:url';
+import {pathToFileURL} from 'node:url';
+import {checkManagedOutput} from './package-company.mjs';
 import {promisify} from 'node:util';
 
 const [sealedArg,workArg,outArg,reviewedArg,...extra]=process.argv.slice(2);
@@ -22,13 +23,7 @@ const exists=async file=>fs.lstat(file).then(()=>true,error=>{
   if(error.code==='ENOENT') return false;
   throw error;
 });
-for(let dir=path.dirname(fileURLToPath(import.meta.url));dir!==path.dirname(dir);dir=path.dirname(dir)) {
-  if(!(await exists(path.join(dir,'scripts/company-platform/local-workspace.ps1')))) continue;
-  const allowed=['output','company-workspace/production-trials'].map(folder=>path.join(dir,folder));
-  for(const target of [out,work]) assert(allowed.some(root=>root!==target && inside(root,target)),
-    'Use this project’s output or production-trials directory.');
-  break;
-}
+for(const target of [out,work]) await checkManagedOutput(target, undefined, {allowDelivery:false});
 
 const bytes=file=>fs.readFile(file);
 const sha=buffer=>createHash('sha256').update(buffer).digest('hex');

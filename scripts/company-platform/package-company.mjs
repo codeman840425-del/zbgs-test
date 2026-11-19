@@ -333,7 +333,7 @@ async function assertMissing(file){try{await fs.lstat(file);}catch(error){if(err
 
 // Find the owning checkout even when this tool runs from a locally unpacked handoff.
 // A recipient outside the managed workspace can choose their own output directory.
-export async function checkManagedOutput(output, toolSource = defaultSource) {
+export async function checkManagedOutput(output, toolSource = defaultSource, {allowDelivery = true} = {}) {
   const checkout = path.resolve(toolSource);
   const candidates = [checkout];
   for (let dir = checkout; dir !== path.dirname(dir); dir = path.dirname(dir)) {
@@ -353,14 +353,15 @@ export async function checkManagedOutput(output, toolSource = defaultSource) {
   }
   if (!project) return;
   const releases = path.join(project, 'company-workspace', 'deliveries');
-  if (path.relative(releases, path.dirname(output)) === '') return;
+  if (allowDelivery && path.relative(releases, path.dirname(output)) === '') return;
   const managed = ['output', 'company-workspace/production-trials'].some(folder => {
     const location = path.relative(path.join(project, folder), output);
     return location !== '' && location !== '..' && !location.startsWith('..' + path.sep) && !path.isAbsolute(location);
   });
   if (!managed)
     fail('outside-managed-package-directory', output,
-      '临时包和试制包请放入 output 或 company-workspace/production-trials。正式版本请直接放入 company-workspace/deliveries/<版本名>。');
+      '试制与验证请使用项目内的 output 或 company-workspace/production-trials。' +
+      (allowDelivery ? '正式版本请直接放入 company-workspace/deliveries/<版本名>。' : ''));
 }
 
 export async function packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot=defaultSource,rooms=[],seatContacts=false,vocalOrigins=[]}){
