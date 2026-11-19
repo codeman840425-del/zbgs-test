@@ -578,6 +578,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       }
     }
     const derived = documentTools.deriveCompany(document,catalog,templates);
+    if (derived.facilities.some(f=>f.resource.mountRole==='wall-absorber-panel')) {
+      const checker=await noLinks(path.join(source,'scripts/company-platform/check-wall-absorber-room.mjs'));
+      const {checkWallAbsorberRooms}=await import(pathToFileURL(checker).href);
+      await checkWallAbsorberRooms(document,{catalog,templates,derived,root:source});
+    }
     if (Object.hasOwn(document,'wayfindingRooms')) {
       const checker=await noLinks(path.join(source,'scripts/company-platform/check-wayfinding.mjs'));
       const {checkWayfindingRooms}=await import(pathToFileURL(checker).href);
@@ -700,6 +705,14 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   let verifyWallHvacSources;
   let verifyEquipmentCartSources;
   let verifyWashbasinSources,verifyWashroomDispenserSources,verifyPrintedSignSources;
+  let verifyWallAbsorberSources;
+  if (catalog.resources.some(r=>r.productionBranch==='wall-absorber-panel')) {
+    const verifier=await noLinks(path.join(source,'scripts/company-platform/validate-resource-provenance.mjs'));
+    ({verifyWallAbsorberSources}=await import(pathToFileURL(verifier).href));
+    if (!verifyWallAbsorberSources) fail('missing-production-tool',verifier,'Expected the wall absorber source verifier');
+    for (const entry of ['check-wall-absorber-room.mjs','test-wall-absorber-room.mjs','test-wall-absorber-geometry.mjs','qa-wall-absorber-rooms.cjs','batch-inputs/wall-absorber-rooms.json']) supplemental.add('scripts/company-platform/'+entry);
+    for (const entry of ['examples/timber-chevron-v2.json','examples/felt-wide-v2.json','original/author-chevron.py','original/timber-chevron.glb','README.md']) supplemental.add('assets-source/company-wall-absorber-v1/'+entry);
+  }
   let verifyWayfindingSources;
   if (catalog.resources.some(r=>r.productionBranch==='public-wayfinding-content')) {
     const verifier=await noLinks(path.join(source,'scripts/company-platform/validate-resource-provenance.mjs'));
@@ -927,7 +940,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
         productionSourcePins.set(pin.path,pin.sha256);
       }
     }
-    const equipmentVerifier = resource.productionBranch==='public-wayfinding-content' ? verifyWayfindingSources :
+    const equipmentVerifier = resource.productionBranch==='wall-absorber-panel' ? verifyWallAbsorberSources :
+      resource.productionBranch==='public-wayfinding-content' ? verifyWayfindingSources :
       resource.productionBranch==='storage-cleaning-shelf' ? verifyCleaningLoadSources :
       entry.generator==='scripts/company-platform/build-washroom-sign.mjs' ? verifyPrintedSignSources :
       resource.mountRole==='washroom-dispenser' ? verifyWashroomDispenserSources :

@@ -169,6 +169,12 @@ async function prepare(item,sourceHashes){
   if (Object.hasOwn(item,'publicStorageRooms')) document.publicStorageRooms=structuredClone(item.publicStorageRooms);
   if (Object.hasOwn(item,'wayfindingRooms')) document.wayfindingRooms=structuredClone(item.wayfindingRooms);
   const derived=deriveCompany(document,catalog,templates);
+  let wallAbsorberRooms;
+  if (derived.facilities.some(f=>f.resource.mountRole==='wall-absorber-panel')) {
+    Object.assign(sourceHashes,await sources(['scripts/company-platform/check-wall-absorber-room.mjs','prototype/src/company/wall-absorber-room.js','prototype/src/company/wall-absorber.js']));
+    const {checkWallAbsorberRooms}=await import('./check-wall-absorber-room.mjs');
+    wallAbsorberRooms=await checkWallAbsorberRooms(document,{catalog,templates,derived});
+  }
   let wayfindingRooms;
   if (Object.hasOwn(document,'wayfindingRooms')) {
     Object.assign(sourceHashes,await sources(['scripts/company-platform/check-wayfinding.mjs','prototype/src/company/wayfinding.js']));
@@ -225,7 +231,7 @@ async function prepare(item,sourceHashes){
     checks:{connections,placement,...(trainingClearance ? {trainingClearance} : {}),...(productShowcases ? {productShowcases} : {}),
       ...(interviewRooms ? {interviewRooms} : {}),...(singingRooms ? {singingRooms} : {}),...(teaStations?.length ? {teaStations} : {}),
       ...(publicWashrooms?.length ? {publicWashrooms} : {}),...(meetingRooms?.length ? {meetingRooms} : {}),
-      ...(publicStorageRooms?.length ? {publicStorageRooms} : {}),...(wayfindingRooms?.length ? {wayfindingRooms} : {})},
+      ...(publicStorageRooms?.length ? {publicStorageRooms} : {}),...(wayfindingRooms?.length ? {wayfindingRooms} : {}),...(wallAbsorberRooms?.length ? {wallAbsorberRooms} : {})},
     scope:'Complete deterministic authoring result. Static geometry and placement admission only; rendering and character usage require their own evidence.'};
   files['report.json']=jsonBytes(report);
   return {files,report};

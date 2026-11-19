@@ -289,6 +289,48 @@ export async function verifyCleaningLoadSources(root, resource, recipe) {
   return new Map(Object.entries(pins));
 }
 
+export async function verifyWallAbsorberSources(root, resource, recipe) {
+  const family = 'assets-source/company-wall-absorber-v1/';
+  const generator = 'scripts/company-platform/build-wall-absorber.mjs';
+  const p = resource.provenance;
+  const mismatch = name => { throw Object.assign(Error('wall-absorber-source-mismatch: '+name), {code:'wall-absorber-source-mismatch',path:name}); };
+  const design = recipe.designs?.find(d => d.id === resource.id && d.version === resource.version);
+  if (recipe.schema !== 'company-wall-absorber-collection' || recipe.version !== 1 || !design ||
+      resource.mountRole !== 'wall-absorber-panel' || p.generator !== generator ||
+      p.functionalContractSource !== family+'contract.json') mismatch(resource.id);
+  const file = path.resolve(root,generator);
+  if (await fs.realpath(file) !== file) mismatch(generator);
+  const pins = {generator:{path:generator,sha256:digest(await fs.readFile(file))}};
+  const fixed = {contract:family+'contract.json',sourceRecord:family+'original/sources.json',license:family+'original/PROJECT-SOURCE.txt'};
+  for (const [key,name] of Object.entries(fixed)) pins[key] = {path:name,sha256:digest(await readProductionFile(root,name))};
+  const sourceRecord = JSON.parse(await readProductionFile(root,fixed.sourceRecord));
+  if (sourceRecord.schema !== 'company-wall-absorber-sources' || sourceRecord.licensePath !== fixed.license ||
+      !sourceRecord.author || p.sourceDesign !== design.kind || resource.displayName !== design.displayName)
+    mismatch(resource.id+'.design');
+  const {resource:contract} = JSON.parse(await readProductionFile(root,fixed.contract));
+  for (const [key,value] of Object.entries(contract))
+    if (!isDeepStrictEqual(resource[key],value)) mismatch(resource.id+'.'+key);
+  if (design.source) {
+    const source = design.source;
+    if (typeof source.path !== 'string' || !source.path.toLowerCase().endsWith('.glb') ||
+        !source.author?.trim() || !source.license?.trim() || source.author !== p.sourceAuthor || source.license !== p.sourceLicense ||
+        p.sourceArtifactPath !== source.path || p.sourceArtifactSha256 !== source.sha256) mismatch(resource.id);
+    const originals = {originalModel:{path:source.path,sha256:source.sha256},originalLicense:source.licenseFile};
+    if (design.kind === 'timber' && ['path','sha256','author','license','licenseFile'].some(key=>
+      !isDeepStrictEqual(source[key],sourceRecord.woodDonor?.[key]))) mismatch(source.path);
+    if (source.editable) originals.editableSource = source.editable;
+    for (const [key,pin] of Object.entries(originals)) {
+      if (!pin || digest(await readProductionFile(root,pin.path)) !== pin.sha256) mismatch(key);
+      pins[key] = {path:pin.path,sha256:pin.sha256};
+    }
+    if (design.kind === 'dcc' && resource.asset.sha256 !== source.sha256) mismatch(source.path);
+  } else if (['dcc','timber'].includes(design.kind) || p.sourceArtifactPath || p.sourceArtifactSha256 ||
+             p.sourceAuthor !== sourceRecord.author || p.sourceLicense !== 'Project-authored') mismatch(resource.id);
+  if (!isDeepStrictEqual(p.dependencies,pins) || p.generatorSha256 !== pins.generator.sha256 ||
+      p.functionalContractSourceSha256 !== pins.contract.sha256) mismatch(resource.id+'.provenance');
+  return new Map(Object.entries(pins));
+}
+
 export async function verifyWayfindingSources(root,resource,recipe) {
   const family='assets-source/company-wayfinding-v1/', common='assets-source/company-information-v1/';
   const scripts='scripts/company-platform/', p=resource.provenance;
@@ -442,6 +484,8 @@ export async function validateResourceProvenance({root, resource, label = resour
       await verifyWashbasinSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.mountRole==='washroom-dispenser')
       await verifyWashroomDispenserSources(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && (resource.productionBranch==='wall-absorber-panel' || resource.mountRole==='wall-absorber-panel'))
+      await verifyWallAbsorberSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && (resource.productionBranch==='public-wayfinding-content' || Object.hasOwn(resource,'wayfindingMeaning')))
       await verifyWayfindingSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && provenance.generator==='scripts/company-platform/build-washroom-sign.mjs')

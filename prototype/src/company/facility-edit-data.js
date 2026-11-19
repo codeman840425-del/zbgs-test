@@ -141,7 +141,18 @@ function wallTargets(region, floor, resource, windowOpenings, facilities) {
       const {yaw} = wallPosition(region, edge, m);
       blockedSpans.push(...wallHvacSpans(facilities, region.id, yaw, centerY, m.height));
     }
-    if (hvac || resource.mountRole === 'camera-mount') {
+    if (resource.mountRole === 'wall-absorber-panel') {
+      const axis = horizontal ? 0 : 2;
+      const {yaw} = wallPosition(region, edge, m);
+      for (const f of facilities) {
+        const spec = f.resource.mounting;
+        if (f.roomId !== region.id || f.resource.mount !== 'wall' || !spec || Math.cos(f.node.transform.yaw - yaw) < .999999) continue;
+        const bottom = wallEnvelopeBottom(f.resource, f.node.transform.position[1]);
+        if (bottom < centerY + m.height / 2 - EPS && bottom + spec.height > centerY - m.height / 2 + EPS)
+          blockedSpans.push({offset:f.node.transform.position[axis],width:spec.width});
+      }
+    }
+    if (hvac || resource.mountRole === 'wall-absorber-panel' || resource.mountRole === 'camera-mount') {
       const bottom = wallEnvelopeBottom(resource, centerY);
       for (const opening of windowOpenings.values()) for (const side of opening.regions) {
         if (side.regionId === region.id && side.edge === edge && bottom < side.bottom + side.height - EPS &&

@@ -1,0 +1,93 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "wall-absorber-studio",
+      "input": {
+        "id": "wall-absorber-studio", "name": "厚吸声板 · 独立唱播工作室",
+        "spaceProfile": {"id": "company-space-v2", "version": 1},
+        "furnishingVersion": 2, "scale": "single-room",
+        "floors": [{
+          "id": "ground", "name": "一层",
+          "rooms": [
+            {"id": "live", "name": "唱播间", "purpose": "streaming", "stations": 0, "entry": [0, 0, 2.35]}
+          ],
+          "exteriorEntrances": [
+            {"id": "entry", "regionId": "live", "edge": "south", "offset": 0, "width": 1.4, "height": 2.2}
+          ]
+        }]
+      },
+      "operations": [
+        {"type": "add-facility", "id": "wall-absorber-studio/ground/live/vocal", "parentId": "wall-absorber-studio/ground/live",
+          "resource": {"id": "floor-vocal-mic-disc-fit-lower", "version": 1}, "transform": {"position": [0, 0, 0], "yaw": 0}},
+        {"type": "add-facility", "id": "wall-absorber-studio/ground/live/score", "parentId": "wall-absorber-studio/ground/live",
+          "resource": {"id": "floor-score-stand-tripod-readable", "version": 1}, "transform": {"position": [0.69, 0, -0.38], "yaw": 0}},
+        {"type": "add-facility", "id": "wall-absorber-studio/ground/live/camera-desk", "parentId": "wall-absorber-studio/ground/live",
+          "resource": {"id": "desk-frame", "version": 1}, "transform": {"position": [-0.51, 0, -2.34], "yaw": 0}},
+        {"type": "add-facility", "id": "wall-absorber-studio/ground/live/camera", "parentId": "wall-absorber-studio/ground/live/camera-desk",
+          "resource": {"id": "camera-orbit-eye", "version": 1}, "transform": {"position": [-0.91, 0.84, 0.4], "yaw": 0}},
+        {"type": "set-surface-finish", "id": "wall-absorber-studio/ground/live", "surface": "floor",
+          "finish": {"resource": {"id": "floor-offset-plank", "version": 1}}},
+        {"type": "add-facility", "id": "wall-absorber-studio/ground/live/background", "parentId": "wall-absorber-studio/ground/live",
+          "resource": {"id": "background-brand-panel", "version": 1}, "transform": {"position": [1.4, 0, 2.18], "yaw": 3.141592653589793}},
+        {"type": "add-facility", "id": "wall-absorber-studio/ground/live/fill", "parentId": "wall-absorber-studio/ground/live",
+          "resource": {"id": "fill-light-panel", "version": 1}, "transform": {"position": [-1.45, 0, -0.6], "yaw": 1.5707963267948966}},
+        {"type": "add-facility", "id": "wall-absorber-studio/ground/live/absorber", "parentId": "wall-absorber-studio/ground/live",
+          "resource": {"id": "wall-absorber-honeyfelt", "version": 1}, "transform": {"position": [-1.1, 1.55, 2.9], "yaw": 3.141592653589793}}
+      ],
+      "singingRooms": [{
+        "regionId": "wall-absorber-studio/ground/live", "portalId": "wall-absorber-studio/ground/entry",
+        "roles": {"mic": "wall-absorber-studio/ground/live/vocal", "score": "wall-absorber-studio/ground/live/score", "camera": "wall-absorber-studio/ground/live/camera"},
+        "performer": {"coordinateSpace": "facility", "slotId": "vocal", "position": [0, 0, 0.77], "yaw": 3.141592653589793, "approach": [0, 0, 1.12], "exit": [0, 0, 1.12], "mouth": [-0.0137221147, 1.4998611454, 0.1334972148], "eye": [-0.0161797469, 1.5848122486, 0.093537181]},
+        "heightProfiles": {
+          "standard": {"resource": {"id": "floor-vocal-mic-disc-fit-lower", "version": 1}, "mouth": [-0.0137221147, 1.4998611454, 0.1334972148], "eye": [-0.0161797469, 1.5848122486, 0.093537181]},
+          "low": {"resource": {"id": "floor-vocal-mic-disc-height-low", "version": 1}, "mouth": [-0.0077806128, 1.3653426463, 0.115260715], "eye": [-0.0092342425, 1.4424544796, 0.0672084413]}
+        }
+      }]
+    },
+    {
+      "key": "wall-absorber-rental",
+      "input": {
+        "id": "wall-absorber-rental", "name": "厚吸声板 · 出租屋唱播间",
+        "spaceProfile": {"id": "company-space-v2", "version": 1},
+        "furnishingVersion": 2, "scale": "rental-home",
+        "floors": [{
+          "id": "ground", "name": "一层",
+          "rooms": [
+            {"id": "live", "name": "唱播间", "purpose": "streaming", "stations": 0, "entry": [1.6, 0, 0.68]},
+            {"id": "work", "name": "剪辑间", "purpose": "work", "stations": 0, "furniture": "desk-chair"},
+            {"id": "rest", "name": "休息间", "purpose": "rest", "stations": 0}
+          ]
+        }]
+      },
+      "operations": [
+        {"type": "set-surface-finish", "id": "wall-absorber-rental/ground/live", "surface": "floor",
+          "finish": {"resource": {"id": "floor-terrazzo", "version": 1}}},
+        {"type": "add-facility", "id": "wall-absorber-rental/ground/live/vocal", "parentId": "wall-absorber-rental/ground/live",
+          "resource": {"id": "floor-vocal-mic-disc-fit-lower", "version": 1}, "transform": {"position": [0, 0, 0], "yaw": 1.5707963267948966}},
+        {"type": "add-facility", "id": "wall-absorber-rental/ground/live/score", "parentId": "wall-absorber-rental/ground/live",
+          "resource": {"id": "floor-score-stand-tripod-readable", "version": 1}, "transform": {"position": [-0.38, 0, -0.69], "yaw": 1.5707963267948966}},
+        {"type": "add-facility", "id": "wall-absorber-rental/ground/live/camera-desk", "parentId": "wall-absorber-rental/ground/live",
+          "resource": {"id": "desk-pedestal", "version": 1}, "transform": {"position": [-1.67, 0, 0.42], "yaw": 1.5707963267948966}},
+        {"type": "add-facility", "id": "wall-absorber-rental/ground/live/camera", "parentId": "wall-absorber-rental/ground/live/camera-desk",
+          "resource": {"id": "camera-cube-slate", "version": 1}, "transform": {"position": [-0.60, 0.84, 0.24], "yaw": 0}},
+        {"type": "add-facility", "id": "wall-absorber-rental/ground/live/background", "parentId": "wall-absorber-rental/ground/live",
+          "resource": {"id": "background-soft-panel", "version": 1}, "transform": {"position": [0.82, 0, -1.72], "yaw": 0}},
+        {"type": "add-facility", "id": "wall-absorber-rental/ground/live/fill", "parentId": "wall-absorber-rental/ground/live",
+          "resource": {"id": "fill-light-wing", "version": 1}, "transform": {"position": [0.5, 0, 1.44], "yaw": 3.141592653589793}},
+        {"type": "add-facility", "id": "wall-absorber-rental/ground/live/absorber", "parentId": "wall-absorber-rental/ground/live",
+          "resource": {"id": "wall-absorber-timber", "version": 1}, "transform": {"position": [2.15, 1.55, 1.35], "yaw": 4.71238898038469}}
+      ],
+      "singingRooms": [{
+        "regionId": "wall-absorber-rental/ground/live", "portalId": "wall-absorber-rental/ground/portal-stream-living",
+        "roles": {"mic": "wall-absorber-rental/ground/live/vocal", "score": "wall-absorber-rental/ground/live/score", "camera": "wall-absorber-rental/ground/live/camera"},
+        "performer": {"coordinateSpace": "facility", "slotId": "vocal", "position": [0, 0, 0.77], "yaw": 3.141592653589793, "approach": [0, 0, 1.12], "exit": [0, 0, 1.12], "mouth": [-0.0137221147, 1.4998611454, 0.1334972148], "eye": [-0.0161797469, 1.5848122486, 0.093537181]},
+        "heightProfiles": {
+          "standard": {"resource": {"id": "floor-vocal-mic-disc-fit-lower", "version": 1}, "mouth": [-0.0137221147, 1.4998611454, 0.1334972148], "eye": [-0.0161797469, 1.5848122486, 0.093537181]},
+          "low": {"resource": {"id": "floor-vocal-mic-disc-height-low", "version": 1}, "mouth": [-0.0077806128, 1.3653426463, 0.115260715], "eye": [-0.0092342425, 1.4424544796, 0.0672084413]}
+        }
+      }]
+    }
+  ]
+}

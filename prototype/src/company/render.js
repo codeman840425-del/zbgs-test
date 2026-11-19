@@ -2,6 +2,7 @@ import {WALL_AMBIENT_ROLE,applyWallAmbientLight} from './wall-ambient.js';
 import {poseDeskLamp,poseDeskLampHead} from './desk-lamp.js';
 import {bindFloorAirRotor} from './floor-air.js';
 import {adaptCableGeometry,validateCableVisualPlacement} from './cable-render.js';
+import {inspectWallAbsorberObjects} from './wall-absorber-room.js';
 import {validateCeilingVisualPlacement,ceilingVisibleForRegion} from './ceiling-placement.js';
 import {installationGeometryFacilities,validateDesktopReservations,validateCartPayloadGeometry} from './desktop-placement.js';
 import * as THREE from 'three';
@@ -320,6 +321,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       }
       root.updateMatrixWorld(true);
       validatePlacementGeometry(facilities,derived,groups);
+      const absorberMeasurements=inspectWallAbsorberObjects(derived,{floorId,groups,facilities,walls});
       for(const point of derived.usePoints.filter(p=>p.floorId===floorId)) {
         const facility=facilities.get(point.facilityId);
         if(point.kind==='standing-vocal') {
@@ -346,7 +348,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       const wallGroups=groupWallSegments(architecture.visibilityWalls);
       for(const wall of walls)wall.userData.wallGroup=wallGroups.get(wall.userData.physicalBoundary)||wall.userData.physicalBoundary;
       for(const facility of facilities.values())if(facility.wallBinding?.wallId)facility.wallBinding.wallGroup=wallGroups.get(facility.wallBinding.wallId)||facility.wallBinding.wallId;
-      return {root,document:clone(document),derived,architecture,floorId,view,wallView:clone(wallView),groups,facilities,points,floors,walls,ceilings,lights,wallGroups};
+      return {root,document:clone(document),derived,architecture,floorId,view,wallView:clone(wallView),groups,facilities,points,floors,walls,ceilings,lights,wallGroups,absorberMeasurements};
     } catch(error) {disposeTree(root);throw error;}
   }
   function contactSource(id,visible) {
@@ -550,6 +552,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         targets:evaluated.targets.map(target=>[...target]),walls:current.walls.map(wall=>({id:wall.name,region:wall.userData.roomId,edge:wall.userData.edge,
           height:wall.userData.height||WALL_HEIGHT,visible:wall.visible,mounted:mountedByGroup.get(wall.userData.wallGroup)||[]}))};
     },
+    wallAbsorberMeasurements(){return structuredClone(current.absorberMeasurements ?? []);},
     createPlacementProbe(){
       const revision=current.document.revision,identity=current.document.id;
       let candidate=null,ended=false,shape=null,navigationKey=null;
@@ -573,6 +576,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
             for(const entry of result.derived.facilities){const facility=candidate.facilities.get(entry.id);if(facility)Object.assign(facility,entry);}
             candidate.root.updateMatrixWorld(true);
             validatePlacementGeometry(candidate.facilities,result.derived,candidate.groups);
+            inspectWallAbsorberObjects(result.derived,candidate);
           }
           return {valid:true};
         },

@@ -17,6 +17,7 @@ import {validateSlidingPartGeometry} from './sliding-part-geometry.js';
 import {validateWallAmbientResource,validateWallAmbientGeometry} from './wall-ambient.js';
 import {validateDeskLampResource,validateDeskLampGeometry} from './desk-lamp.js';
 import {validateFloorAirResource,validateFloorAirGeometry} from './floor-air.js';
+import {validateWallAbsorberResource,validateWallAbsorberGeometry} from './wall-absorber.js';
 import {validateWallHvacResource,validateWallHvacGeometry} from './wall-hvac.js';
 import {HOOK_CROWN_ALLOWANCE,validateGarmentResource} from './garment-rack-data.js';
 import {validateGarmentGeometry} from './garment-rack-geometry.js';
@@ -56,6 +57,7 @@ function describe(resource) {
   validateWallAmbientResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateDeskLampResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateFloorAirResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
+  validateWallAbsorberResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateWallHvacResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateGarmentResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateWindowResource(resource,(code,location,message)=>{throw error(code,location,message);});
@@ -215,6 +217,7 @@ function validateResource(pack, description) {
   validateWallAmbientGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
   validateDeskLampGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
   validateFloorAirGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
+  validateWallAbsorberGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);},description.path);
   validateWallHvacGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);},description.path);
   const garmentRole=description.resource.mountRole;
   if(['garment-rack-wardrobe','hanging-garment'].includes(garmentRole)&&checkedGarmentPacks.get(pack)!==garmentRole){

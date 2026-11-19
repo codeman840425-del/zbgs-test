@@ -20,6 +20,7 @@ function options(select,rows,value){
 
 export const roomEditMessages={
   'wayfinding-content-meaning':'这块牌承担指定的接待或楼层指引，请选用同一用途的图文',
+  'wall-absorber-occupied':'这块吸声板与房间物件的实体重叠，请沿墙挪动，或先移开挡住它的物件',
   'wayfinding-sign-facing':'从来客进入的门口看不清牌面，请将印面朝向门口并移开遮挡物',
   'wayfinding-reader-blocked':'请给来客留出进门读牌的位置',
   'wayfinding-counter-service':'请把登记本放到台前伸手可及的位置，并留出站位',

@@ -23,6 +23,11 @@ async function checkStorage(document,derived) {
   const {checkPublicStorageRooms}=await import('./check-public-storage.mjs');
   return checkPublicStorageRooms(document,{catalog,templates,derived});
 }
+async function checkWallPanels(document,derived) {
+  if (!derived.facilities.some(f=>f.resource.mountRole==='wall-absorber-panel')) return [];
+  const {checkWallAbsorberRooms}=await import('./check-wall-absorber-room.mjs');
+  return checkWallAbsorberRooms(document,{catalog,templates,derived});
+}
 async function checkWayfinding(document,derived) {
   if (!Object.hasOwn(document,'wayfindingRooms')) return [];
   const {checkWayfindingRooms}=await import('./check-wayfinding.mjs');
@@ -36,6 +41,7 @@ async function write(file, document) {
   await checkMeeting(document,derived);
   await checkStorage(document,derived);
   await checkWayfinding(document,derived);
+  await checkWallPanels(document,derived);
   const bytes=serializeCompany(document,catalog,templates);
   const parent=path.dirname(path.resolve(file));
   if(parent!==path.parse(parent).root)await fs.mkdir(parent,{recursive:true});
@@ -62,7 +68,8 @@ try {
     const meetingRooms=await checkMeeting(document,derived);
     const publicStorageRooms=await checkStorage(document,derived);
     const wayfindingRooms=await checkWayfinding(document,derived);
-    console.log(JSON.stringify({ok:true,id:document.id,revision:document.revision,capacity:derived.capacity,usePointIds:derived.usePoints.map(p=>p.id),placement,...(publicWashrooms.length?{publicWashrooms}:{}),...(meetingRooms.length?{meetingRooms}:{}),...(publicStorageRooms.length?{publicStorageRooms}:{}),...(wayfindingRooms.length?{wayfindingRooms}:{}),scope:'Static authoring and conservative room passage checks only. Real character navigation, contact and use remain C3 validation.'},null,2));
+    const wallAbsorberRooms=await checkWallPanels(document,derived);
+    console.log(JSON.stringify({ok:true,id:document.id,revision:document.revision,capacity:derived.capacity,usePointIds:derived.usePoints.map(p=>p.id),placement,...(publicWashrooms.length?{publicWashrooms}:{}),...(meetingRooms.length?{meetingRooms}:{}),...(publicStorageRooms.length?{publicStorageRooms}:{}),...(wayfindingRooms.length?{wayfindingRooms}:{}),...(wallAbsorberRooms.length?{wallAbsorberRooms}:{}),scope:'Static authoring and conservative room passage checks only. Real character navigation, contact and use remain C3 validation.'},null,2));
   } else if (command==='apply' && input && operations && output) {
     const previous=await read(input), ops=JSON.parse(await fs.readFile(operations,'utf8'));
     const next=prepareCompanyChange(previous,ops,{catalog,templates}).document;
