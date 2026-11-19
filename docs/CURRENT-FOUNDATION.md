@@ -2,6 +2,8 @@
 
 ## 固定入口与备份
 
+设施接收单现对应宿主 752b2b39、合包 9ddfb103。民房和出租屋中删除角色后，操作列表按房间真实人数更新，包括场景换组、恢复与失败回滚。角色及公司游戏输入沿用原有固定版本。[接收单](../delivery/character-facility-handoff.json) · [正常速度换座和名册检查](../evidence/m2-facility-roster-v1/index.html)
+
 固定游戏候选 `df610092 / 9fc39b51d6ff` 已复用两份原签名角色的头发和眉毛像素。开发机双人实测纹理对象 81 → 75，两个独立检出构建一致。暖肤脸部与半身新旧像素相同，原肤各有 7 像素相差 1 级。复演了换色、换装、逐人移除、关闭重开及走坐起动作。按实际绑定核减该双人样本的重复分配估算 15 MiB，普通电脑和实际显存待测。[原速回放与同镜头对照](../evidence/m2-uniform-texture-sharing-v1/index.html) · [复建与适用范围](../evidence/m2-uniform-texture-sharing-v1/README.md)
 
 公司座位交接候选 `989deed3 / d9140194fb84` 已检查两套制服角色在民房、出租屋的争用、取消、起身让行、接替入座与关闭恢复。民房旧版离座后挡住接替者，修后同镜头交接时两人骨盆最近从 1.1 厘米增至 56.2 厘米。角色和公司输入及复建路径见[设施接收单](../delivery/character-facility-handoff.json)，六段实际录像见[新旧对照和房间全景](../evidence/m2-company-seat-clearance-v1/index.html)。制作工具已支持显式指定同屏组，能够分别复算单份角色及整组的资源预算。下一项是根据逐纹理成本核对同发型的重复分配及其对冷开和销毁的影响。[同屏组复现](../evidence/m2-uniform-budget-groups-v1/report.json)
