@@ -2,12 +2,14 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const {chromium} = require('../prototype/node_modules/playwright');
+const {launchQABrowser} = require('./qa-browser-workspace.cjs');
+const {projectOutput, productionRoot} = require('./project-output.cjs');
 const {PNG} = require('../prototype/node_modules/playwright-core/lib/utilsBundle.js');
-const [base, recordsPath, build, mode, out, expectedFaceSize] = process.argv.slice(2);
+const [base, recordsPath, build, mode, output, expectedFaceSize] = process.argv.slice(2);
 
 async function main() {
   assert.ok(['separate', 'shared'].includes(mode));
+  const out = await projectOutput(output, await productionRoot());
   const records = JSON.parse(await fs.readFile(recordsPath, 'utf8'));
   assert.equal(records.length, 2);
   const {resolveGarmentMaterials} = await import('../prototype/src/garment-material-record.js');
@@ -15,7 +17,9 @@ async function main() {
     r.appearanceRecipe, r.equipmentMaterials).record);
   await fs.mkdir(out, {recursive:false});
   const report = {build, mode, cases:[], errors:[]};
-  const browser = await chromium.launch({channel:'chrome', headless:true});
+  const session = await launchQABrowser(out,{channel:'chrome'});
+  const browser = session.browser;
+  report.browser = browser.version();
   try {
     for (const remove of [0, 1]) {
       const page = await browser.newPage({viewport:{width:1440,height:1000}});
@@ -68,6 +72,19 @@ async function main() {
           if (found.size !== 1) throw Error('Expected a single visible BodySkin normal per actor');
           return [...found][0];
         });
+        const bitmaps = textures.map(t => t.image);
+        const bitmapSizes = () => bitmaps.map(img => [img.width, img.height]);
+        const bitmapLoaded = bitmapSizes();
+        function release(actor) {
+          if (typeof d.removeActor === 'function') {
+            if (d.removeActor(actor.identity.id) !== true || d.removeActor(actor.identity.id) !== false)
+              throw Error('Public actor removal did not settle exactly once');
+          } else {
+            // Older archived builds predate the public room removal operation.
+            d.actors.delete(actor.identity.id);
+            actor.dispose();
+          }
+        }
         const handles = textures.map(t => renderer.properties.get(t).__webglTexture);
         if (!handles.every(h => h && gl.isTexture(h))) throw Error('Body normals were not drawn');
         const storage = [], portraits = [], faceHandles = [];
@@ -95,7 +112,8 @@ async function main() {
         const survivor = actors[1-remove], departed = actors[remove];
         departed.avatar.root.visible = false;
         const before = draw();
-        d.actors.delete(departed.identity.id); departed.dispose();
+        release(departed);
+        const bitmapAfterFirst = bitmapSizes();
         const after = draw(), survivingHandle = renderer.properties.get(textures[1-remove]).__webglTexture;
         const survived = survivingHandle === handles[1-remove] && gl.isTexture(survivingHandle);
         const removedStillLive = gl.isTexture(handles[remove]);
@@ -104,9 +122,10 @@ async function main() {
         const restored = ['appearanceRecipe','liveAccessories','nativeHairCenter']
           .every(k => JSON.stringify(keptAppearance[k]) === JSON.stringify(record[k])) &&
           JSON.stringify(keptAppearance.equipmentMaterials) === JSON.stringify(materials[1-remove]);
-        d.actors.delete(survivor.identity.id); survivor.dispose();
+        release(survivor);
         await tick();
-        return {pair,before,after,portraits,storage,sameFaceHandle:expectedFaceSize ? faceHandles[0]===faceHandles[1] : null,removed:departed.identity.id,baseline,loaded,
+        return {pair,before,after,portraits,storage,publicRemoval:typeof d.removeActor==='function',
+          sameBitmap:bitmaps[0]===bitmaps[1],bitmapLoaded,bitmapAfterFirst,bitmapAfterLast:bitmapSizes(),sameFaceHandle:expectedFaceSize ? faceHandles[0]===faceHandles[1] : null,removed:departed.identity.id,baseline,loaded,
           sameTexture:textures[0]===textures[1],sameHandle:handles[0]===handles[1],survived,removedStillLive,
           restored,finalReleased:handles.every(h=>!gl.isTexture(h)),released:renderer.info.memory.textures};
       }, {records, materials, build, remove, expectedFaceSize});
@@ -134,6 +153,12 @@ async function main() {
         assert.equal(face.format, 0x8058, 'Expected RGBA8 storage for the face normal');
         assert.equal(body.format, 0x8058, 'Expected RGBA8 storage for the body normal');
       }
+      if (mode==='shared') {
+        assert.equal(sample.sameBitmap,true);
+        assert.deepEqual(sample.bitmapLoaded,[[2048,2048],[2048,2048]]);
+        assert.deepEqual(sample.bitmapAfterFirst,sample.bitmapLoaded);
+        assert.deepEqual(sample.bitmapAfterLast,[[0,0],[0,0]]);
+      }
       assert.equal(sample.sameTexture,false);
       assert.equal(sample.sameHandle,mode==='shared');
       assert.equal(sample.removedStillLive,mode==='shared');
@@ -144,7 +169,7 @@ async function main() {
     }
     assert.deepEqual(report.errors,[]);
   } finally {
-    await browser.close();
+    await session.close();
     await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));
   }
 }

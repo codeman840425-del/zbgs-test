@@ -1,0 +1,118 @@
+[
+  {
+    "case": "other reviewed build",
+    "argv": [
+      "node",
+      "scripts\\runtime-package\\game-record-cli.mjs",
+      "export",
+      "--source-root",
+      "experiments/worktrees/role-disposal-b-42063d8a",
+      "--dist",
+      "experiments/worktrees/role-disposal-b-42063d8a/prototype/dist",
+      "--records",
+      "evidence\\m2-uniform-lite-glasses-game-v1\\signed-pair.json",
+      "--inventory",
+      "output\\m2-role-disposal-v1\\build-b\\inventory.json",
+      "--out",
+      "output\\m2-role-disposal-v1\\build-b\\game-package",
+      "--reviewed",
+      "scripts/runtime-package/game-record-lite-glasses-reviewed.json"
+    ],
+    "exitCode": 1,
+    "result": {
+      "ok": false,
+      "code": "unsupported-build",
+      "reason": "Review metadata must match the repository-reviewed file exactly"
+    },
+    "outputPresent": false,
+    "newEntries": []
+  },
+  {
+    "case": "male record digest mismatch",
+    "argv": [
+      "node",
+      "scripts\\runtime-package\\game-record-cli.mjs",
+      "export",
+      "--source-root",
+      "experiments/worktrees/role-disposal-b-42063d8a",
+      "--dist",
+      "experiments/worktrees/role-disposal-b-42063d8a/prototype/dist",
+      "--records",
+      "output\\m2-role-disposal-v1\\build-b\\bad-record-digest.json",
+      "--inventory",
+      "output\\m2-role-disposal-v1\\build-b\\inventory.json",
+      "--out",
+      "output\\m2-role-disposal-v1\\build-b\\game-package"
+    ],
+    "exitCode": 1,
+    "result": {
+      "ok": false,
+      "code": "record-hash-mismatch",
+      "reason": "record hash does not match"
+    },
+    "outputPresent": false,
+    "newEntries": []
+  },
+  {
+    "case": "declared file digest mismatch",
+    "argv": [
+      "node",
+      "scripts\\runtime-package\\game-record-cli.mjs",
+      "export",
+      "--source-root",
+      "experiments/worktrees/role-disposal-b-42063d8a",
+      "--dist",
+      "experiments/worktrees/role-disposal-b-42063d8a/prototype/dist",
+      "--records",
+      "evidence\\m2-uniform-lite-glasses-game-v1\\signed-pair.json",
+      "--inventory",
+      "output\\m2-role-disposal-v1\\build-b\\bad-inventory-digest.json",
+      "--out",
+      "output\\m2-role-disposal-v1\\build-b\\game-package"
+    ],
+    "exitCode": 1,
+    "result": {
+      "ok": false,
+      "code": "inventory-mismatch",
+      "reason": "Inventory differs from the reviewed game record dependency closure"
+    },
+    "outputPresent": false,
+    "newEntries": []
+  },
+  {
+    "case": "same destination retry with original signed bytes and correct inventory",
+    "argv": [
+      "node",
+      "scripts\\runtime-package\\game-record-cli.mjs",
+      "export",
+      "--source-root",
+      "experiments/worktrees/role-disposal-b-42063d8a",
+      "--dist",
+      "experiments/worktrees/role-disposal-b-42063d8a/prototype/dist",
+      "--records",
+      "evidence\\m2-uniform-lite-glasses-game-v1\\signed-pair.json",
+      "--inventory",
+      "output\\m2-role-disposal-v1\\build-b\\inventory.json",
+      "--out",
+      "output\\m2-role-disposal-v1\\build-b\\game-package"
+    ],
+    "exitCode": 0,
+    "result": {
+      "ok": true,
+      "schema": "runtime-package-export-result-v1",
+      "files": 42,
+      "manifestSha256": "927c41b468a2c9c421f484a63d18d7bcdbca7b55fcb3b1cfc3762f9908dbd521",
+      "runtime": {
+        "sourceCommit": "42063d8ad5009233d669bf4a733111ca2d67a189",
+        "sourceDigest": "85520f2e74624b258839fcca71af3b3f364badd7220f957b839148a55c049291",
+        "buildId": "85520f2e7462",
+        "entry": "record-consumer.html",
+        "entryUrl": "record-consumer.html?records=/records/manifest.json"
+      }
+    },
+    "outputPresent": true,
+    "newEntries": [
+      "game-package"
+    ]
+  }
+]
