@@ -1,0 +1,122 @@
+[
+  {
+    "case": "other-reviewed-runtime",
+    "sourceTarget": "experiments/worktrees/ear-style-b-e01413e3/prototype/dist/assets/m2-ear-stud-3mm-v1/male-fit.json",
+    "argv": [
+      "node",
+      "scripts/runtime-package/game-record-cli.mjs",
+      "export",
+      "--dist",
+      "experiments/worktrees/ear-style-b-e01413e3/prototype/dist",
+      "--source-root",
+      "experiments/worktrees/ear-style-b-e01413e3",
+      "--records",
+      "evidence/m2-paired-ear-game-v1/signed.json",
+      "--inventory",
+      "output/m2-paired-ear-game-v1/build/b/inventory.json",
+      "--out",
+      "output/m2-paired-ear-game-v1/build/b/game-package",
+      "--reviewed",
+      "scripts/runtime-package/game-record-role-disposal-reviewed.json"
+    ],
+    "exitCode": 1,
+    "result": {
+      "ok": false,
+      "code": "unsupported-build",
+      "reason": "Review metadata must match the repository-reviewed file exactly"
+    },
+    "outputPresent": false,
+    "newEntries": []
+  },
+  {
+    "case": "changed male fit, valid equal-size JSON",
+    "sourceTarget": "experiments/worktrees/ear-style-b-e01413e3/prototype/dist/assets/m2-ear-stud-3mm-v1/male-fit.json",
+    "argv": [
+      "node",
+      "scripts/runtime-package/game-record-cli.mjs",
+      "export",
+      "--dist",
+      "experiments/worktrees/ear-style-b-e01413e3/prototype/dist",
+      "--source-root",
+      "experiments/worktrees/ear-style-b-e01413e3",
+      "--records",
+      "evidence/m2-paired-ear-game-v1/signed.json",
+      "--inventory",
+      "output/m2-paired-ear-game-v1/build/b/inventory.json",
+      "--out",
+      "output/m2-paired-ear-game-v1/build/b/game-package"
+    ],
+    "exitCode": 1,
+    "result": {
+      "ok": false,
+      "code": "modified-dependency",
+      "reason": "Dependency identity differs: assets/m2-ear-stud-3mm-v1/male-fit.json"
+    },
+    "outputPresent": false,
+    "newEntries": []
+  },
+  {
+    "case": "missing male fit",
+    "sourceTarget": "experiments/worktrees/ear-style-b-e01413e3/prototype/dist/assets/m2-ear-stud-3mm-v1/male-fit.json",
+    "argv": [
+      "node",
+      "scripts/runtime-package/game-record-cli.mjs",
+      "export",
+      "--dist",
+      "experiments/worktrees/ear-style-b-e01413e3/prototype/dist",
+      "--source-root",
+      "experiments/worktrees/ear-style-b-e01413e3",
+      "--records",
+      "evidence/m2-paired-ear-game-v1/signed.json",
+      "--inventory",
+      "output/m2-paired-ear-game-v1/build/b/inventory.json",
+      "--out",
+      "output/m2-paired-ear-game-v1/build/b/game-package"
+    ],
+    "exitCode": 1,
+    "result": {
+      "ok": false,
+      "code": "missing-dependency",
+      "reason": "Missing dependency assets/m2-ear-stud-3mm-v1/male-fit.json"
+    },
+    "outputPresent": false,
+    "newEntries": []
+  },
+  {
+    "case": "restored",
+    "sourceTarget": "experiments/worktrees/ear-style-b-e01413e3/prototype/dist/assets/m2-ear-stud-3mm-v1/male-fit.json",
+    "argv": [
+      "node",
+      "scripts/runtime-package/game-record-cli.mjs",
+      "export",
+      "--dist",
+      "experiments/worktrees/ear-style-b-e01413e3/prototype/dist",
+      "--source-root",
+      "experiments/worktrees/ear-style-b-e01413e3",
+      "--records",
+      "evidence/m2-paired-ear-game-v1/signed.json",
+      "--inventory",
+      "output/m2-paired-ear-game-v1/build/b/inventory.json",
+      "--out",
+      "output/m2-paired-ear-game-v1/build/b/game-package"
+    ],
+    "exitCode": 0,
+    "result": {
+      "ok": true,
+      "schema": "runtime-package-export-result-v1",
+      "files": 48,
+      "manifestSha256": "02b5def86e2af426195190dd4b8b3221a997ce03fa432ce51dac5456ca4b2ed2",
+      "runtime": {
+        "sourceCommit": "e01413e3a763ee4552fc225bd791a2d5ebd16666",
+        "sourceDigest": "3c15a020d62a4dd8f4f2e9304af467f5b858e652c2584d8f45d03af1b51b6dc0",
+        "buildId": "3c15a020d62a",
+        "entry": "record-consumer.html",
+        "entryUrl": "record-consumer.html?records=/records/manifest.json"
+      }
+    },
+    "outputPresent": true,
+    "newEntries": [
+      "game-package"
+    ]
+  }
+]

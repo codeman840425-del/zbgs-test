@@ -13,6 +13,8 @@ import {facialPaletteContract} from '../../prototype/src/facial-palette-contract
 import {facialSampleResource} from '../../prototype/src/facial-geometry-selection.js';
 import {validateHairSelection, hairFitIdentity} from '../../prototype/src/hair-fit-contract.js';
 import {accessorySelection} from '../../prototype/src/accessory-recipe.js';
+import earCatalog from '../../prototype/src/ear-style-catalog.json' with {type:'json'};
+import earStyleSources from './ear-style-sources.json' with {type:'json'};
 import {SURFACE_LAYER_PACKAGE} from '../../prototype/src/surface-layer-catalog.js';
 import {createCharacterRecord} from '../../prototype/src/character-record.js';
 import {deriveCharacterResourceIdentities} from '../../prototype/src/character-runtime-record.js';
@@ -276,6 +278,69 @@ test('hat and paired ears include shared models and the exact hat hair fit', asy
     '/assets/m2-paired-ear-accessory-v1/stud.glb', '/assets/m2-hat-hair-v1/manifest.json',
     '/assets/m2-hat-hair-v1/fit.json', '/assets/m2-hat-hair-v1/baseball-cap.glb', hair.manifestUrl, hair.fit.url,
   ]);
+  assert.deepEqual(files.get('/assets/m2-paired-ear-accessory-v1/stud.glb').provenance,
+    [{sourcePath:'assets-source/m2-paired-ear-accessory-v1/LICENSE.md'}]);
+});
+
+async function studRecipe(body, styleId) {
+  const recipe = await template(body, 0, {
+    schema:'workbench-appearance-recipe-v8', rulesVersion:'workbench-appearance-rules-v8',
+  });
+  recipe.accessories = {ears:accessorySelection(recipe.base.sha256, 'ears', 'pair', {styleId, version:1}),
+    hat:accessorySelection(recipe.base.sha256, 'hat', 'none')};
+  return recipe;
+}
+
+test('3 mm stud uses its measured fit on each body and cites its pinned CC0 recipe', async () => {
+  const dir = '/assets/m2-ear-stud-3mm-v1/';
+  for (const body of ['female','male']) {
+    const record = await recordFor(await studRecipe(body, 'round-gold-stud-3mm-v1'));
+    const {files} = await collect(record, {assetRoot:publicRoot});
+    contains(files, [dir+'manifest.json', dir+body+'-fit.json', dir+'stud.glb']);
+    assert(!files.has(dir+(body === 'female' ? 'male' : 'female')+'-fit.json'));
+    assert(!files.has('/assets/m2-paired-ear-accessory-v1/stud.glb'));
+    const [origin] = files.get(dir+'stud.glb').provenance;
+    assert.equal(origin.sourcePath, 'assets-source/paired-ear-style-batch-v1/recipe.json');
+    assert.equal(origin.sourceSha256, digest(await readFile(path.join(root,origin.sourcePath))));
+    const recipe = await json(origin.sourcePath);
+    assert.equal(origin.sourceLicense.license, 'CC0-1.0');
+    assert.equal(origin.sourceLicense.file, recipe.parent.licenseFile);
+    assert.equal(origin.sourceLicense.sha256, digest(await readFile(path.join(root,recipe.parent.licenseFile))));
+    assert.equal(origin.sourceLicense.provenance, recipe.parent.provenance);
+    assert.equal(origin.sourceLicense.provenanceSha256, digest(await readFile(path.join(root,recipe.parent.provenance))));
+  }
+});
+
+test('an admitted runtime stud still requires independently recognized author and manifest identities', async t => {
+  const recipe = await studRecipe('female','round-gold-stud-3mm-v1');
+  const resource = recipe.accessories.ears.resource;
+  const record = await recordFor(recipe);
+  const entry = earStyleSources[resource.manifestSha256];
+  const local = {assetRoot:publicRoot};
+  t.after(() => { earStyleSources[resource.manifestSha256] = entry; });
+  delete earStyleSources[resource.manifestSha256];
+  await assert.rejects(collect(record,local), /Ear source is not registered/);
+  earStyleSources[resource.manifestSha256] = {...entry, license:{...entry.license,sha256:'0'.repeat(64)}};
+  await assert.rejects(collect(record,local), {code:'modified-dependency'});
+  earStyleSources[resource.manifestSha256] = entry;
+
+  // Admit mismatched metadata in the game fixture so the exporter's independent
+  // check is exercised against actual unmodified GLB/JSON bytes.
+  const styles = earCatalog.styles;
+  t.after(() => { earCatalog.styles = styles; });
+  const style = styles.find(row => row.styleId === resource.styleId);
+  for (const changes of [{styleId:'fixture-other-stud'}, {version:99}]) {
+    const row = {...style,...changes};
+    earCatalog.styles = [...styles,row];
+    const forged = structuredClone(recipe);
+    forged.accessories.ears = accessorySelection(recipe.base.sha256,'ears','pair',row);
+    await assert.rejects(collect(await recordFor(forged),local), /Ear record style.version differs/);
+  }
+  const peerFit = style.fits.find(fit => fit.bodySha256 !== recipe.base.sha256);
+  const wrongStyle = {...style,fits:style.fits.map(fit => fit.bodySha256 === recipe.base.sha256
+    ? {...peerFit, bodySha256:fit.bodySha256} : fit)};
+  earCatalog.styles = styles.map(row => row === style ? wrongStyle : row);
+  await assert.rejects(collect(await recordFor(await studRecipe('female',resource.styleId)),local), /Ear fit pin differs/);
 });
 
 test('new sourceRoot ships the native alternate top alone and a fixed legacy sourceRoot requires both tops', async t => {

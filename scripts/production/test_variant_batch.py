@@ -6,10 +6,12 @@ import struct
 import subprocess
 import unittest
 from contextlib import redirect_stdout
+from copy import deepcopy
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
+from production_paths import project_output
 from variant_batch import FIXED_MATRIX, SCHEMA, OUT_SCHEMA, main, plan, run
 from outfit_admission import binding_key, evidence_pin, outfit_binding
 
@@ -450,6 +452,76 @@ batchCreates(parseRequest(fs.readFileSync(process.argv[1])))
             self.assertEqual(status, 1, stdout)
             self.assertIn("recipeSource", stdout)
             self.assertFalse((operator_output / "changed-recipe").exists())
+
+
+class EarAccessoryBatchTests(unittest.TestCase):
+    def test_original_uniform_pair_can_override_ear_slot_and_reject_one_unknown_style(self):
+        root = Path(__file__).resolve().parents[2]
+        pair_path = root / "assets-source/variant-matrix-v1/paired-ear-style-batch.json"
+        request = json.loads(pair_path.read_bytes())
+        female, male = request["items"]
+        style = request["sharedLook"]["accessories"]["ears"]
+        self.assertEqual(style, {"styleId": "round-gold-stud-3mm-v1", "version": 1, "selection": "pair"})
+        male_override = {"styleId": "compact-gold-stud-v1", "version": 1, "selection": "left"}
+        male["accessories"] = {"ears": male_override}
+        bad = deepcopy(female)
+        bad["identity"]["id"] = "unknown-ear-style"
+        bad["accessories"] = {"ears": {**style, "styleId": "unknown-stud-v1"}}
+        request["items"].insert(1, bad)
+
+        output = project_output(root / "output", __file__)
+        output.mkdir(exist_ok=True)
+        with TemporaryDirectory(dir=output, prefix="variant-ear-") as temp:
+            work = Path(temp)
+            request_path = work / "request.json"
+            request_path.write_text(json.dumps(request), encoding="utf-8")
+            report = run(None, request_path, work / "plan", root, diagnostic=True)
+            self.assertEqual((report["acceptedCount"], report["candidateCount"], report["rejectedCount"]), (0, 2, 1))
+            self.assertEqual(report["items"][1]["stableId"], "unknown-ear-style")
+            self.assertIn("no unique registered fit for this body", report["items"][1]["reason"])
+            batch = json.loads((work / "plan" / report["creationBatches"][0]["path"]).read_bytes())["requests"]
+            self.assertEqual([job["identity"]["id"] for job in batch], [female["identity"]["id"], male["identity"]["id"]])
+            for job, expected in zip(batch, (style, male_override), strict=True):
+                self.assertEqual(job["edits"][1:], [{"domain": "accessory", "kind": "ears", **expected}])
+            female_fit, male_fit = [report["items"][i]["selection"]["accessories"]["ears"]["resource"] for i in (0, 2)]
+            self.assertEqual(female_fit["fitSha256"], "14651cb2aebd8b350dec8c94f804097032561007c34d43d754bc1b4070fd1722")
+            self.assertEqual(male_fit["fitSha256"], "92bb47d13238fbec1677b359e9260473b63685234af9f27c8e844575399f7596")
+
+    def test_individual_ear_selection_requires_an_exact_fit_and_default_approval_stays_default(self):
+        fixture = VariantBatchTests()
+        request = fixture.request()
+        query = fixture.query()
+        item = request["items"][0]
+        current = query[item["bodyType"]]
+        style = {"styleId": "registered-stud-v1", "version": 1, "selection": "pair"}
+        item["accessories"] = {"ears": style.copy()}
+        rejected = fixture.plan(matrix(), request, queries=query, diagnostic=True)["items"][0]
+        self.assertIn("no unique registered fit for this body", rejected["reason"])
+
+        resource = {"styleId": style["styleId"], "version": 1, "fitSha256": "f" * 64}
+        choice = {"selection": "pair", "resource": resource, "reason": "Ear style fit pin differs"}
+        current["accessories"] = {"ears": {"choices": [choice]}}
+        rejected = fixture.plan(matrix(), request, queries=query, diagnostic=True)["items"][0]
+        self.assertIn("Ear style fit pin differs", rejected["reason"])
+        del choice["reason"]
+        rejected = fixture.plan(matrix(), request, queries=query)["items"][0]
+        self.assertIn("Whole-outfit review requires rigid accessories disabled", rejected["reason"])
+        self.assertNotIn("request", rejected)
+
+        item["accessories"]["ears"]["selection"] = "none"
+        baseline = fixture.plan(matrix(), fixture.request(), queries=query)["items"][0]
+        off = fixture.plan(matrix(), request, queries=query)["items"][0]
+        self.assertEqual(off["request"], baseline["request"])
+        self.assertIsNone(off["selection"]["accessories"]["ears"]["resource"])
+        for bad, reason in (({"hat": style}, "Unknown accessories field: hat"),
+                            ({"ears": {**style, "version": True}}, "exact styleId and integer version"),
+                            ({"ears": {**style, "version": 2}}, "no unique registered fit for this body"),
+                            ({"ears": {**style, "side": "pair"}}, "requires styleId, version and selection")):
+            with self.subTest(bad=bad):
+                item["accessories"] = bad
+                rejected = fixture.plan(matrix(), request, queries=query, diagnostic=True)["items"][0]
+                self.assertEqual((rejected["status"], rejected["stableId"]), ("rejected", item["stableId"]))
+                self.assertIn(reason, rejected["reason"])
 
 
 if __name__ == "__main__":

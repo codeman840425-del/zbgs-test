@@ -1,6 +1,7 @@
 import path from 'node:path';
-import {pathToFileURL} from 'node:url';
-import {fail, runtimePath} from './files.mjs';
+import {fileURLToPath, pathToFileURL} from 'node:url';
+import {checkedBytes, fail, runtimePath} from './files.mjs';
+import earStyleSources from './ear-style-sources.json' with {type:'json'};
 
 const SHA = /^[a-f0-9]{64}$/;
 const POSITIVE_BYTES = value => Number.isSafeInteger(value) && value > 0;
@@ -351,16 +352,38 @@ async function addPalettes(io, contracts, avatarSha256, recipe) {
   }
 }
 
+async function earModelProvenance(resource, manifest) {
+  requireDependency(resource.styleId === manifest.styleId && resource.version === manifest.version,
+    'Ear record style/version differs from the selected manifest');
+  if (resource.manifestSha256 === '8d7ac33b9078f11a66f3ee1a0c53fd66df87a6569c16e8e55625de6bb09a6909' &&
+      resource.manifestUrl === '/assets/m2-paired-ear-accessory-v1/manifest.json')
+    return [sourceLocation('assets-source/m2-paired-ear-accessory-v1/LICENSE.md')];
+
+  const entry = earStyleSources[resource.manifestSha256];
+  requireDependency(entry && entry.manifestUrl === resource.manifestUrl, 'Ear source is not registered for this manifest');
+  // Authorship pins belong to the producer. Its runtime input may be a sparse game checkout.
+  const operator = fileURLToPath(new URL('../../', import.meta.url));
+  const [recipeBytes, authorBytes] = await Promise.all([entry.recipe, entry.author, entry.license]
+    .map(pin => checkedBytes(operator, pin)));
+  const recipe = JSON.parse(recipeBytes), author = JSON.parse(authorBytes);
+  requireDependency(recipe.styleId === manifest.styleId && recipe.version === manifest.version &&
+    recipe.pairId === manifest.pairId && recipe.license === manifest.license && recipe.license === author.license &&
+    recipe.parent?.provenance === entry.author.path && recipe.parent?.licenseFile === entry.license.path,
+  'Ear source recipe or license differs from the author evidence');
+  return [{sourcePath:entry.recipe.path, sourceSha256:entry.recipe.sha256, source:author.author,
+    sourceLicense:{license:recipe.license, scope:recipe.scope, file:entry.license.path, sha256:entry.license.sha256,
+      provenance:entry.author.path, provenanceSha256:entry.author.sha256}}];
+}
+
 async function addHeadAttachments(io, contracts, avatarSha256, recipe, hairManifest) {
   for (const kind of ['ears', 'hat']) {
     const selection = recipe.accessories?.[kind];
     if (!selection?.resource) continue;
     const {manifestUrl:url, manifestSha256:sha256, assetSha256, fitSha256, fitId} = selection.resource;
     const {path:parent, value:manifest} = await io.pin({url, sha256}, 'Selected ' + kind + ' manifest');
-    const provenance = [sourceLocation(kind === 'ears' ?
-      'assets-source/m2-paired-ear-accessory-v1/LICENSE.md' : 'assets-source/m2-hat-hair-v1/README.md')];
-    let asset;
+    let asset, provenance;
     if (kind === 'hat') {
+      provenance = [sourceLocation('assets-source/m2-hat-hair-v1/README.md')];
       const normalized = contracts.validateHatManifest(manifest, new URL(url, 'https://local.invalid/'));
       const {value:fit} = await io.pin({...normalized.fit, url:normalized.fit.file}, 'Selected hat body fit', {parent});
       contracts.validateHatFit(fit, normalized, avatarSha256, {name:'head'});
@@ -373,8 +396,9 @@ async function addHeadAttachments(io, contracts, avatarSha256, recipe, hairManif
       const fitRef = fits?.[0];
       requireDependency(manifest?.schema === 'zbgs-paired-rigid-accessory-style-v1' &&
         fits?.length === 1 && fitRef.fitId === fitId && fitRef.sha256 === fitSha256, 'Ear fit pin differs');
+      provenance = await earModelProvenance(selection.resource, manifest);
       const {value:fit} = await io.pin({...fitRef, url:fitRef.file}, 'Selected ear body fit', {parent});
-      requireDependency(fit?.schema === 'zbgs-paired-rigid-accessory-fit-v1' && fit.fitId === fitId &&
+      requireDependency(fit?.schema === 'zbgs-paired-rigid-accessory-fit-v1' && fit.fitId === fitId && fit.version === manifest.version &&
         fit.baseAvatarSha256 === avatarSha256 && fit.assetSha256 === assetSha256 && fit.styleId === manifest.styleId &&
         fit.pairId === manifest.pairId, 'Ear fit identity differs');
       asset = manifest.asset;

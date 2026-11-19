@@ -1,8 +1,9 @@
 // Read the configured outfit sets from the same production API as the browser.
 import {registerHooks} from 'node:module';
+import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath, pathToFileURL} from 'node:url';
-import {checkedBytes, runtimePath} from '../runtime-package/files.mjs';
+import {checkedBytes, digest, localFile, runtimePath} from '../runtime-package/files.mjs';
 
 const hook = registerHooks({load(url, context, next) {
   return next(url, url.endsWith('.json') ? {...context, importAttributes:{type:'json'}} : context);
@@ -61,10 +62,55 @@ async function checkedLiveAccessories(query, runtime, load, kinds) {
   return slots;
 }
 
+async function verifyEarResource(publicRoot, body, resource) {
+  const manifestPath = runtimePath(resource.manifestUrl);
+  const manifestBytes = await readFile(await localFile(publicRoot, manifestPath));
+  if (digest(manifestBytes) !== resource.manifestSha256) throw Error('Ear style manifest pin differs');
+  const manifest = JSON.parse(manifestBytes);
+  if (manifest.schema !== 'zbgs-paired-rigid-accessory-style-v1' || manifest.styleId !== resource.styleId ||
+      manifest.version !== resource.version || manifest.asset?.sha256 !== resource.assetSha256)
+    throw Error('Ear style or asset identity differs');
+  const fits = manifest.fits.filter(row => row.baseAvatarSha256 === body.sha256);
+  const [fitRef] = fits;
+  if (fits.length !== 1 || fitRef.bodyType !== body.bodyType || typeof fitRef.fitId !== 'string' ||
+      fitRef.fitId !== resource.fitId || fitRef.sha256 !== resource.fitSha256)
+    throw Error('Ear style fit is not bound to this exact body and resource');
+  const filePath = row => {
+    if (typeof row.file !== 'string' || !/^[a-zA-Z0-9][a-zA-Z0-9._-]*$/.test(row.file))
+      throw Error('Unsafe ear style resource path');
+    return runtimePath(row.file, manifestPath);
+  };
+  await checkedBytes(publicRoot, {...manifest.asset, path:filePath(manifest.asset)});
+  // The original style's fit pins predate the byte-count field.
+  const fitBytes = await readFile(await localFile(publicRoot, filePath(fitRef)));
+  if (digest(fitBytes) !== fitRef.sha256 || (fitRef.bytes !== undefined && fitBytes.length !== fitRef.bytes))
+    throw Error('Ear style fit pin differs');
+  const fit = JSON.parse(fitBytes);
+  if (fit.schema !== 'zbgs-paired-rigid-accessory-fit-v1' || fit.version !== resource.version ||
+      fit.fitId !== resource.fitId || fit.styleId !== resource.styleId || fit.pairId !== manifest.pairId ||
+      fit.baseAvatarSha256 !== body.sha256 || fit.assetSha256 !== resource.assetSha256)
+    throw Error('Ear style fit body or asset binding differs');
+}
+
+async function checkedEarAccessories(query, runtime) {
+  const publicRoot = path.resolve(runtime, 'prototype/public');
+  const choices = query.appearance.accessories?.ears?.choices ?? [];
+  const checked = new Map();
+  return {ears:{choices:await Promise.all(choices.map(async choice => {
+    const {resource} = choice;
+    if (!resource) return choice;
+    const key = JSON.stringify(resource);
+    if (!checked.has(key)) checked.set(key, verifyEarResource(publicRoot, query.body, resource)
+      .then(() => null, error => error.message));
+    const reason = await checked.get(key);
+    return reason === null ? choice : {...choice, reason};
+  }))}};
+}
+
 try {
   const [bodyType, root, ...kinds] = process.argv.slice(2);
-  if (!bodyType || new Set(kinds).size !== kinds.length || kinds.some(kind => !['glasses', 'mic'].includes(kind)))
-    throw Error('Expected a body type, optional runtime checkout and selected live accessory kinds');
+  if (!bodyType || new Set(kinds).size !== kinds.length || kinds.some(kind => !['glasses', 'mic', 'ears'].includes(kind)))
+    throw Error('Expected a body type, optional runtime checkout and selected accessory kinds');
   const runtime = root ?? fileURLToPath(new URL('../../', import.meta.url));
   const load = relative => import(pathToFileURL(path.resolve(runtime, relative)).href);
   const {THREE} = await load('scripts/headless-avatar-node.mjs');
@@ -86,9 +132,11 @@ try {
     field, appearance[field].choices.map(({value, supportedSkinTones}) =>
       supportedSkinTones ? {value, supportedSkinTones} : {value}),
   ]));
-  const liveAccessories = kinds.length ? await checkedLiveAccessories(query, runtime, load, kinds) : undefined;
+  const liveKinds = kinds.filter(kind => kind !== 'ears');
+  const liveAccessories = liveKinds.length ? await checkedLiveAccessories(query, runtime, load, liveKinds) : undefined;
+  const accessories = kinds.includes('ears') ? await checkedEarAccessories(query, runtime) : undefined;
   console.log(JSON.stringify({ok:true, body:query.body, outfits,
-    appearanceDefaults:defaultRecipe.appearance, appearanceChoices, liveAccessories}));
+    appearanceDefaults:defaultRecipe.appearance, appearanceChoices, liveAccessories, accessories}));
 } catch (error) {
   console.error(error.message);
   process.exitCode = 1;
