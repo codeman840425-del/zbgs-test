@@ -2,6 +2,8 @@
 
 [固定包](../../company-workspace/deliveries/garment-rack-v1/README.md)包含整套出租屋的开播准备间和整租平层的造型间。两间房都能独立更换架子和每件挂衣。48.60 秒的原速录像展示四组更换、移到空挂位、补挂、进入第二间房。[原速录像](browser/video/garment-rack-rooms-normal.webm) · [录像抽帧](browser/video-review.png) · [出租屋](browser/rental.png) · [整租平层](browser/floor.png)
 
+融合组独立接收后完成双房回读，并在自己的接收目录制作了蓝铜菱纹短披衫。新包构建 `8d0364bf21c7`，577 个查看器文件重建一致。该回执覆盖开放衣架和静态挂衣。[独立验收及原始证据校验值](fusion-receipt.json)
+
 | 版本 | 构建 | 清单 SHA-256 | 核对文件 |
 | --- | --- | --- | ---: |
 | 固定源码 `3c9630cdd6db0a19b8da100b3a41d90c68a261fc` | `161d598f74da` | `d3502382d59ac3fbfa4036a47ed811f163e4fc549ed6c9b27af755dd8e2406f2` | 1986 |
