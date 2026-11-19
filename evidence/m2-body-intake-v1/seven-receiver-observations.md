@@ -1,5 +1,7 @@
 # 七人固定接收与十三人服装缺口复核
 
+补测了制作工具真实发行入口。两份固定 operator 对原 4 人和 3 人两个组各执行一次 inventory，四次都在运行版本审核处返回 unsupported-build，没有产出发行清单。候选入口的 11 个依赖复算一致，七份签名可以追溯。21 件装备还声明限内部研究、作者使用、个人非营利、标注作者、禁止再分发和修改，进入正式游戏前仍缺相应用途授权。未将该限制继承给其他来源的素材。制作框架另有一个具体版本缺口：Vite 读取的批量配方 JSON 没有进入这版的 684 项构建摘要，现已单独固定该文件并排入构建身份修复。[按候选与制作工具分别列出的实跑结果](seven-inventory-replay.json)
+
 融合侧私有候选为 `89bb64fabca474f216449d2cd9022a9815a466093b392ef91c7db5edbf114a2a`。实算 `source.bundle` SHA-256 为 `6936fe66a8b7d5000fe05db4590a9f4a749f1d22745e8935561db56354087c9a`，`git bundle list-heads` 只列 `ef07d4e6146f5de81bbf768f297a4cf09596a4f2 HEAD`，`git bundle verify` 通过。用现有检出 684 项输入复算得到同一构建摘要，已核另附的 Vite 实际导入文件。候选评审 SHA-256 `40aa08450ff6b144d647b666f3f8b1c9b68f6295e6412365b199e3dd1f0983b3`，11 项长度和哈希在两个已有 dist 均吻合。本仓正式评审索引未登记该候选。此次只读核验，未运行快照中的代码或重新构建。[源快照摘要](/F:/gamemake-test/native-studio-round/registration/seven-fixed-89bb64fabca4/source-summary.json) · [候选评审](/F:/gamemake-test/native-studio-round/registration/seven-fixed-89bb64fabca4/proposed-review.json) · [正式索引](../../scripts/runtime-package/game-runtime-reviews.json)
 
 ## 七人消费证据
