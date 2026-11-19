@@ -1,11 +1,22 @@
 import {digest,fail} from './files.mjs';
 import {readGameRuntimeReview} from './game-runtime-review.mjs';
 
+export const lowerVocal=Object.freeze({
+  profile:'vocal-fit-v1',
+  transfer:'64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc',
+  ancestor:'5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012',
+  gameInventory:'3d3e2b3885003d0585c1b7eb6ea40c7490001a647f227c2dcff9377aa26060b5',
+  runtime:'ddcf40a56d0ef69662f7d0798ca7e6210bd8cc20f6dc52a2cc034d40b20fe28f',
+  resource:'floor-vocal-mic-disc-fit-lower',
+  model:'c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a',
+});
+
 // Transfer SHA identifies both published rooms and the required use-point
 // contract. The caller has already checked this manifest and its files.
 const roomContracts=new Map([
   ['6359150e83c284125dc757ac6680cc326d58bf57df142dfc4af0d6b522c658f2','seat-v1'],
   ['5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012','seat-standing-vocal-v1'],
+  [lowerVocal.transfer,'seat-standing-vocal-v1'],
 ]);
 
 // Historical reviews predate facilityContract. These fixed releases produced
@@ -28,6 +39,9 @@ export async function requireCompanyRoomRuntime(roomDigest,{manifest,files}) {
   const available=historicalContracts.get(reviewed.sourceDigest)??reviewed.facilityContract;
   if(available!==required && !(required==='seat-v1' && available==='seat-standing-vocal-v1'))
     fail('incompatible-facility-runtime',`Room requires ${required}; reviewed character runtime ${runtime.buildId} provides ${available??'no facility contract'}`);
+  if(roomDigest===lowerVocal.transfer && (reviewed.sourceDigest!==lowerVocal.runtime ||
+      !files.has('runtime-package.json') || digest(files.get('runtime-package.json'))!==lowerVocal.gameInventory))
+    fail('incompatible-facility-runtime','Lowered microphone requires the reviewed performer-anchor runtime and original record pair');
   // Authenticate the compiled bytes we will publish, including transitive JS.
   // Agreement between two claims inside an incoming game is insufficient.
   for(const [name,pin] of Object.entries(reviewed.files)) {

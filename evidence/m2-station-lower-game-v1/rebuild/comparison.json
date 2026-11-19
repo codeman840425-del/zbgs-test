@@ -1,0 +1,264 @@
+{
+  "source": {
+    "roomProfile": "vocal-fit-v1",
+    "sourceCommit": "ca1b3349a8e534f03522ad058223ab0b2031f9d8",
+    "companyDigest": "156ab204dddf65c2ff2b5aea099338b90ed56148ddf195ae8e8e1360e76fa14b",
+    "transfer": "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+    "ancestor": "5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012",
+    "game": {
+      "sourceCommit": "545dc941498673f008f85748134778fe831f3d35",
+      "sourceDigest": "ddcf40a56d0ef69662f7d0798ca7e6210bd8cc20f6dc52a2cc034d40b20fe28f",
+      "buildId": "ddcf40a56d0e",
+      "entry": "record-consumer.html",
+      "entryUrl": "record-consumer.html?records=/records/manifest.json"
+    },
+    "gamePackageSha256": "3d3e2b3885003d0585c1b7eb6ea40c7490001a647f227c2dcff9377aa26060b5"
+  },
+  "operatorFiles": {
+    "scripts/production/package-facility-room.mjs": {
+      "bytes": 15579,
+      "sha256": "b9cfde7355b9477d6c4aa3c0bf0233ead6e53156196ed44054f2eb3ae8cc81ea"
+    },
+    "scripts/runtime-package/company-room-compatibility.mjs": {
+      "bytes": 3620,
+      "sha256": "83f958c34f9d9acf45c3c90d4c4a8f6395f9d8193ec00a14974ad73b333d35fa"
+    },
+    "scripts/production/facility-room-host.mjs": {
+      "bytes": 9495,
+      "sha256": "e4f5631a17e9509e2c01b70e8f43fb73ebb6f974dcbd44c16577417de9b48347"
+    }
+  },
+  "ordinaryPackage": {
+    "first": "output/m2-station-lower-game-v1/rooms",
+    "second": "output/m2-station-lower-game-v1/repeat",
+    "manifest": {
+      "bytes": 135665,
+      "sha256": "c1ae6690963ad6291fb60b5d6380f47b06c5373f788c63a2c29330772b462f26"
+    },
+    "matchingFiles": 674,
+    "matchingBytes": 85239912,
+    "tableSha256": "bece142cade284d983e69b401147f4e24dcea1b179fb8d353dacb06d38720973",
+    "originalGameFilesUnchanged": 37,
+    "archivedRecordSidecars": {
+      "records/manifest.json": {
+        "bytes": 364,
+        "sha256": "f4e9f27aaadb3cc64c600c742ea6527c03ddd75c0213c16ebd5f0fee1ad80b48"
+      },
+      "records/uniform-lite-female-v1.json": {
+        "bytes": 18896,
+        "sha256": "4c7f03df5a32175ef19ea8dc1f09895f4dea7af3af1d2b635635bc094704081d"
+      },
+      "records/uniform-lite-male-v1.json": {
+        "bytes": 15392,
+        "sha256": "a8814170014ec8ed4230076b44af38f750519109952b848e2b33620132853a91"
+      }
+    }
+  },
+  "rooms": [
+    {
+      "key": "singing-studio",
+      "usePointId": "singing-studio/ground/live/vocal#vocal",
+      "capacity": 1,
+      "pose": {
+        "position": [
+          0,
+          0,
+          0.77
+        ],
+        "yaw": 3.141592653589793
+      },
+      "approach": [
+        0,
+        0,
+        1.12
+      ],
+      "exit": [
+        0,
+        0,
+        1.12
+      ],
+      "performerReferences": {
+        "coordinateSpace": "use-point",
+        "eye": [
+          0,
+          1.64,
+          0.215
+        ],
+        "mouth": [
+          0,
+          1.555,
+          0.23
+        ]
+      },
+      "otherPointFieldsByteValueEqual": true,
+      "before": {
+        "resource": {
+          "id": "floor-vocal-mic-boom",
+          "version": 1
+        },
+        "file": {
+          "format": "glb",
+          "url": "/company-assets/singing-stage-v1/floor-vocal-mic-boom/v1/model.glb",
+          "bytes": 580300,
+          "sha256": "9cbbc83645f96894fa370494b0813be70c247be7e4442ebff204945d4c928a18"
+        },
+        "mechanicalContract": {
+          "pickupNode": "singing-mic-pickup"
+        },
+        "pickupNodeName": "singing-mic-pickup",
+        "nodePath": [
+          "floor-vocal-mic-boom",
+          "microphone-stand_boom",
+          "singing-mic-pickup"
+        ],
+        "positions": 1571,
+        "triangles": 2112,
+        "facilityLocalAimCenterM": [
+          0.0,
+          1.5909180629427722,
+          0.3870299520290654
+        ]
+      },
+      "after": {
+        "resource": {
+          "id": "floor-vocal-mic-disc-fit-lower",
+          "version": 1
+        },
+        "file": {
+          "format": "glb",
+          "url": "/company-assets/vocal-fit-v1/floor-vocal-mic-disc-fit-lower/v1/model.glb",
+          "sha256": "c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a",
+          "bytes": 349256
+        },
+        "mechanicalContract": {
+          "pickupNode": "singing-mic-pickup",
+          "pickupFit": {
+            "boomPitchDegrees": -4,
+            "forwardMetres": 0.044
+          }
+        },
+        "pickupNodeName": "singing-mic-pickup",
+        "nodePath": [
+          "floor-vocal-mic-disc-fit-lower",
+          "fitted-microphone",
+          "singing-mic-pickup"
+        ],
+        "positions": 1571,
+        "triangles": 2112,
+        "facilityLocalAimCenterM": [
+          0.0,
+          1.550708652138752,
+          0.44784872453022123
+        ]
+      },
+      "pickupDeltaM": [
+        0.0,
+        -0.040209410804020074,
+        0.060818772501155804
+      ]
+    },
+    {
+      "key": "singing-rental",
+      "usePointId": "singing-rental/ground/live/vocal#vocal",
+      "capacity": 1,
+      "pose": {
+        "position": [
+          -3.73,
+          0,
+          4.71489017671731e-17
+        ],
+        "yaw": 4.71238898038469
+      },
+      "approach": [
+        -3.38,
+        0,
+        6.858022075225179e-17
+      ],
+      "exit": [
+        -3.38,
+        0,
+        6.858022075225179e-17
+      ],
+      "performerReferences": {
+        "coordinateSpace": "use-point",
+        "eye": [
+          0,
+          1.64,
+          0.215
+        ],
+        "mouth": [
+          0,
+          1.555,
+          0.23
+        ]
+      },
+      "otherPointFieldsByteValueEqual": true,
+      "before": {
+        "resource": {
+          "id": "floor-vocal-mic-boom",
+          "version": 1
+        },
+        "file": {
+          "format": "glb",
+          "url": "/company-assets/singing-stage-v1/floor-vocal-mic-boom/v1/model.glb",
+          "bytes": 580300,
+          "sha256": "9cbbc83645f96894fa370494b0813be70c247be7e4442ebff204945d4c928a18"
+        },
+        "mechanicalContract": {
+          "pickupNode": "singing-mic-pickup"
+        },
+        "pickupNodeName": "singing-mic-pickup",
+        "nodePath": [
+          "floor-vocal-mic-boom",
+          "microphone-stand_boom",
+          "singing-mic-pickup"
+        ],
+        "positions": 1571,
+        "triangles": 2112,
+        "facilityLocalAimCenterM": [
+          0.0,
+          1.5909180629427722,
+          0.3870299520290654
+        ]
+      },
+      "after": {
+        "resource": {
+          "id": "floor-vocal-mic-disc-fit-lower",
+          "version": 1
+        },
+        "file": {
+          "format": "glb",
+          "url": "/company-assets/vocal-fit-v1/floor-vocal-mic-disc-fit-lower/v1/model.glb",
+          "sha256": "c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a",
+          "bytes": 349256
+        },
+        "mechanicalContract": {
+          "pickupNode": "singing-mic-pickup",
+          "pickupFit": {
+            "boomPitchDegrees": -4,
+            "forwardMetres": 0.044
+          }
+        },
+        "pickupNodeName": "singing-mic-pickup",
+        "nodePath": [
+          "floor-vocal-mic-disc-fit-lower",
+          "fitted-microphone",
+          "singing-mic-pickup"
+        ],
+        "positions": 1571,
+        "triangles": 2112,
+        "facilityLocalAimCenterM": [
+          0.0,
+          1.550708652138752,
+          0.44784872453022123
+        ]
+      },
+      "pickupDeltaM": [
+        0.0,
+        -0.040209410804020074,
+        0.060818772501155804
+      ]
+    }
+  ],
+  "observed": "CPU reads actual POSITION data and node transforms from both distributed GLBs; both installed rooms separately resolve the pickup mesh in the ordinary compiled company host test. Character animation and viewing have separate evidence."
+}

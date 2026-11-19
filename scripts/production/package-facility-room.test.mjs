@@ -27,6 +27,7 @@ test('rejects drive-root, parent traversal and linked directories before accessi
 const game=process.env.FACILITY_GAME_PACKAGE,room=process.env.FACILITY_COMPANY_TRANSFER;
 const gameSha256=process.env.FACILITY_GAME_SHA256;
 const vocal=process.env.FACILITY_VOCAL_TRANSFER;
+const lowered=process.env.FACILITY_LOWER_VOCAL_TRANSFER;
 async function checkCompanyScenes(out,receipt,companyRoot) {
   const three=await import(pathToFileURL(path.join(root,'prototype/node_modules/three/build/three.module.js')));
   const {installNodeImageDecodeShim}=await import(pathToFileURL(path.join(companyRoot,'source/scripts/company-platform/preflight-library-assets.mjs')));
@@ -59,6 +60,14 @@ async function checkCompanyScenes(out,receipt,companyRoot) {
           const {pickupMesh}=scene.resolveUsePoint(point.id);
           assert.ok(pickupMesh.isMesh && pickupMesh.geometry.attributes.position.count>0);
           assert.ok(consumer.scene.getObjectById(pickupMesh.id));
+          const stand=scene.root.getObjectByName(point.facilityId);
+          pickupMesh.geometry.computeBoundingBox();
+          const center=pickupMesh.geometry.boundingBox.getCenter(new three.Vector3());
+          stand.worldToLocal(pickupMesh.localToWorld(center));
+          const isLower=receipt.roomProfile==='vocal-fit-v1';
+          assert.equal(point.resource.id,isLower?'floor-vocal-mic-disc-fit-lower':'floor-vocal-mic-boom');
+          const expected=new three.Vector3(0,...(isLower?[1.5507086521,.4478487245]:[1.5909180629,.3870299520]));
+          assert.ok(center.distanceTo(expected)<1e-6,`Installed pickup center in facility coordinates: ${center.toArray()}`);
           if(definition.key==='singing-rental') {
             const chair=scene.describeUsePoint('singing-rental/ground/work/chair#seat');
             assert.ok(chair.contact.seatNodeId && chair.contact.backNodeId);
@@ -122,6 +131,24 @@ test('rejects unknown profiles and a reviewed vocal source on the default plant 
   await assert.rejects(packageFacilityRoom({...missing,out,roomProfile:'vocal-use-v1'}),/Unknown company room profile/);
   await assert.rejects(packageFacilityRoom({...missing,out,reviewedRoom:'missing'}),/applies only to vocal/);
 });
+
+test('lowered transfer inherits the reviewed world slot and installs its own pickup in both real rooms',
+  {skip:!(game && gameSha256 && vocal && lowered)},async()=>{
+    const temp=await mkdtemp(await outputs.projectOutput(path.join(root,'experiments','lower-vocal-check-'),root));
+    const out=path.join(temp,'combined');
+    const args={game,gameSha256,room:lowered,out,roomProfile:'vocal-fit-v1',reviewedRoom:vocal};
+    try {
+      await assert.rejects(packageFacilityRoom({...args,room:vocal}),/manifest SHA-256 mismatch/);
+      await assert.rejects(packageFacilityRoom({...args,reviewedRoom:path.join(vocal,'..','vocal-use-v1')}),/Source manifest differs/);
+      assert.deepEqual(await readdir(temp),[]);
+      const result=await packageFacilityRoom(args);
+      const receipt=JSON.parse(await readFile(path.join(out,'facility-package.json')));
+      assert.equal(receipt.roomManifestSha256,'64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc');
+      assert.equal(receipt.reviewedRoomManifestSha256,'5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012');
+      assert.deepEqual(result.rooms.map(r=>r.key),['singing-studio','singing-rental']);
+      await checkCompanyScenes(out,receipt,lowered);
+    } finally {await rm(temp,{recursive:true});}
+  });
 
 test('vocal rooms use their own inherited slot and actual microphone mesh, preserving named source bytes',
   {skip:!(game && gameSha256 && vocal)},async()=>{

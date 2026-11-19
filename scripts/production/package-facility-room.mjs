@@ -2,17 +2,19 @@ import {createHash} from 'node:crypto';
 import {readFile, realpath, lstat, mkdir, mkdtemp, rm, writeFile} from 'node:fs/promises';
 import {createRequire} from 'node:module';
 import path from 'node:path';
-import {parseArgs} from 'node:util';
+import {isDeepStrictEqual,parseArgs} from 'node:util';
 import {pathToFileURL} from 'node:url';
 import outputs from '../project-output.cjs';
 import {checkedBytes,digest,jsonBytes,publishStagedDirectory,runtimePath} from '../runtime-package/files.mjs';
-import {requireCompanyRoomRuntime} from '../runtime-package/company-room-compatibility.mjs';
+import {lowerVocal,requireCompanyRoomRuntime} from '../runtime-package/company-room-compatibility.mjs';
 
 const shaPattern=/^[0-9a-f]{64}$/;
 const roomManifestPin='6359150e83c284125dc757ac6680cc326d58bf57df142dfc4af0d6b522c658f2';
-const vocalProfile='vocal-use-v1.1';
-const vocalManifestPin='5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012';
-const reviewedVocalManifestPin='2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57';
+const vocalProfiles=new Map([
+  ['vocal-use-v1.1',{transfer:lowerVocal.ancestor,ancestor:'2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57',
+    ancestorDirectory:'vocal-use-v1',resource:'floor-vocal-mic-boom'}],
+  [lowerVocal.profile,{...lowerVocal,ancestorDirectory:'vocal-use-v1.1'}],
+]);
 const companyPrefix='source/prototype/src/company/';
 const parse=bytes=>JSON.parse(bytes.toString('utf8'));
 const inputsDir=import.meta.dirname;
@@ -105,24 +107,50 @@ async function compileHost(company,root) {
     threeVersion:threeLock.version,esbuildVersion:esbuild.version};
 }
 
-async function vocalRooms(company,roomRoot,reviewedRoot,add) {
+function checkLowerPickup(company,point) {
+  const catalog=parse(company.files.get('data/library-catalog.json'));
+  const cards=catalog.resources.filter(row=>row.id===point.resource.id && row.version===point.resource.version);
+  const card=cards[0],mic=card?.microphone,asset=card?.asset;
+  if(cards.length!==1 || card.mountRole!=='floor-vocal-microphone' || point.capacity!==1 ||
+      !isDeepStrictEqual(card.footprint,point.footprint) || mic?.pickupNode!==point.contact.pickupNodeId ||
+      !isDeepStrictEqual(mic.pickupFit,{boomPitchDegrees:-4,forwardMetres:.044}) ||
+      asset?.format!=='glb' || asset.sha256!==lowerVocal.model) throw Error('Lowered microphone equipment contract differs');
+  const model=company.files.get('viewer/'+runtimePath(asset.url));
+  if(!model || digest(model)!==asset.sha256 || model.length!==asset.bytes || model.readUInt32LE(0)!==0x46546c67 ||
+      model.readUInt32LE(4)!==2 || model.readUInt32LE(8)!==model.length || model.readUInt32LE(16)!==0x4e4f534a)
+    throw Error('Lowered microphone installed model differs');
+  const gltf=parse(model.subarray(20,20+model.readUInt32LE(12)));
+  const nodes=gltf.nodes.filter(n=>n.name===mic.pickupNode);
+  const primitives=gltf.meshes[nodes[0]?.mesh]?.primitives;
+  if(nodes.length!==1 || !primitives?.length || primitives.some(p=>(p.mode??4)!==4 ||
+      !(gltf.accessors[p.attributes.POSITION]?.count>2) || !(gltf.accessors[p.indices]?.count>=3)))
+    throw Error('Lowered microphone pickup has no triangle mesh');
+}
+
+async function vocalRooms(company,roomRoot,reviewedRoot,profile,add) {
   const reader='source/scripts/company-platform/package-template/vocal-origin.mjs';
   if(!company.files.has(reader)) throw Error('Missing transferred vocal authority reader');
-  const {readInheritedVocalRoom}=await import(pathToFileURL(path.join(roomRoot,reader)));
+  const {readInheritedVocalRoom,readVocalAuthority}=await import(pathToFileURL(path.join(roomRoot,reader)));
   const rooms=[];
   for(const key of ['singing-studio','singing-rental']) {
-    const authority=await readInheritedVocalRoom(
-      {packageRoot:roomRoot,manifestSha256:vocalManifestPin,sourceRoomKey:key},
-      {packageRoot:reviewedRoot,manifestSha256:reviewedVocalManifestPin,sourceRoomKey:key});
+    const ancestor={packageRoot:reviewedRoot,manifestSha256:profile.ancestor,sourceRoomKey:key};
+    const authority=await readInheritedVocalRoom({packageRoot:roomRoot,manifestSha256:profile.transfer,sourceRoomKey:key},ancestor);
     const prefix='rooms/'+key+'/';
     const bytes=company.files.get('data/'+prefix+'save.json'),doc=parse(bytes).document;
     const point=authority.points.find(p=>p.id===key+'/ground/live/vocal#vocal');
     const facility=doc.nodes.find(n=>n.id===point?.facilityId);
     if(authority.companyId!==key || authority.saveSha256!==digest(bytes) || point?.kind!=='standing-vocal' ||
        !doc.nodes.some(n=>n.id===point.roomId && n.parentId===point.floorId) ||
-       facility?.parentId!==point.roomId || facility.resource?.id!=='floor-vocal-mic-boom' ||
+       facility?.parentId!==point.roomId || facility.resource?.id!==profile.resource ||
        point.resource.id!==facility.resource.id || point.resource.version!==facility.resource.version || !point.contact?.pickupNodeId)
       throw Error('Missing released standing microphone or pickup: '+key);
+    if(profile.transfer===lowerVocal.transfer) {
+      const original=(await readVocalAuthority(ancestor)).points.find(p=>p.id===point.id);
+      if(original?.resource.id!=='floor-vocal-mic-boom' || original.resource.version!==1 ||
+          point.resource.version!==1 || !isDeepStrictEqual({...point,resource:original.resource},original))
+        throw Error('The lowered microphone changed the reviewed performer use point: '+key);
+      checkLowerPickup(company,point);
+    }
     const save='facility/'+prefix+'save.json',usePointReport='facility/'+prefix+'use-points.json';
     const reportBytes=company.files.get('data/'+prefix+'use-points.json');
     add(save,bytes);add(usePointReport,reportBytes);
@@ -134,17 +162,17 @@ async function vocalRooms(company,roomRoot,reviewedRoot,add) {
 
 export async function packageFacilityRoom({game,room,gameSha256,out,roomProfile='plant',reviewedRoom}) {
   const root=await outputs.productionRoot(),destination=await outputs.projectOutput(out,root);
-  if(roomProfile!=='plant' && roomProfile!==vocalProfile) throw Error('Unknown company room profile: '+roomProfile);
-  const vocal=roomProfile===vocalProfile;
-  if(!vocal && reviewedRoom!==undefined) throw Error('A reviewed room transfer applies only to '+vocalProfile);
+  const vocal=vocalProfiles.get(roomProfile);
+  if(roomProfile!=='plant' && !vocal) throw Error('Unknown company room profile: '+roomProfile);
+  if(!vocal && reviewedRoom!==undefined) throw Error('A reviewed room transfer applies only to vocal rooms');
   const gameRoot=await realpath(game),roomRoot=await realpath(room);
-  const reviewedRoot=vocal?await realpath(reviewedRoom??path.join(roomRoot,'..','vocal-use-v1')):null;
+  const reviewedRoot=vocal?await realpath(reviewedRoom??path.join(roomRoot,'..',vocal.ancestorDirectory)):null;
   for(const input of [gameRoot,roomRoot,reviewedRoot].filter(Boolean)) {
     const rel=path.relative(input,destination);
     if(!rel || (!rel.startsWith('..'+path.sep)&&rel!=='..'&&!path.isAbsolute(rel))) throw Error('Destination overlaps a transfer input');
   }
   if(await lstat(destination).catch(e=>{if(e.code!=='ENOENT')throw e;})) throw Error('Output already exists: '+destination);
-  const manifestPin=vocal?vocalManifestPin:roomManifestPin;
+  const manifestPin=vocal?.transfer??roomManifestPin;
   const [company,character]=await Promise.all([readCompany(roomRoot,manifestPin),readGame(gameRoot,gameSha256)]);
   await requireCompanyRoomRuntime(digest(company.manifestBytes),character);
   const host=await compileHost(company,root);
@@ -157,7 +185,7 @@ export async function packageFacilityRoom({game,room,gameSha256,out,roomProfile=
     if(file.startsWith('viewer/company-assets/')) add(file.slice('viewer/'.length),bytes);
   }
   for(const name of ['library-catalog.json','templates.json']) add('facility/'+name,company.files.get('data/'+name));
-  const rooms=vocal?await vocalRooms(company,roomRoot,reviewedRoot,add):['plant-home','plant-rental'].map(key=>{
+  const rooms=vocal?await vocalRooms(company,roomRoot,reviewedRoot,vocal,add):['plant-home','plant-rental'].map(key=>{
     const save='facility/rooms/'+key+'/save.json', bytes=company.files.get('data/rooms/'+key+'/save.json');
     const doc=parse(bytes).document,roomId=key+'/ground/live',floorId=key+'/ground',chair=roomId+'/station-1/chair';
     if(doc.id!==key || !doc.nodes.some(n=>n.id===roomId&&n.parentId===floorId) ||
@@ -167,7 +195,7 @@ export async function packageFacilityRoom({game,room,gameSha256,out,roomProfile=
   });
   const metadata={schema:'company-character-room-v1',gameInventorySha256:gameSha256,
     gameRuntime:character.manifest.runtime,roomManifestSha256:manifestPin,
-    ...(vocal?{roomProfile,reviewedRoomManifestSha256:reviewedVocalManifestPin}:{}),
+    ...(vocal?{roomProfile,reviewedRoomManifestSha256:vocal.ancestor}:{}),
     roomSourceDigest:company.manifest.sourceDigest,rooms};
   add('facility/rooms.json',jsonBytes(metadata));
   add('facility/company-host.js',host.bytes);
@@ -195,7 +223,7 @@ if(process.argv[1] && import.meta.url===pathToFileURL(path.resolve(process.argv[
   try {
     const {values}=parseArgs({options:{game:{type:'string'},room:{type:'string'},'game-sha256':{type:'string'},out:{type:'string'},
       'room-profile':{type:'string'},'reviewed-room':{type:'string'}}});
-    if(!['game','room','game-sha256','out'].every(k=>values[k])) throw Error('Usage: --game FIXED_GAME --game-sha256 INVENTORY_SHA256 --room COMPANY_TRANSFER --out NEW_PROJECT_DIR [--room-profile plant|vocal-use-v1.1] [--reviewed-room VOCAL_V1_TRANSFER]');
+    if(!['game','room','game-sha256','out'].every(k=>values[k])) throw Error('Usage: --game FIXED_GAME --game-sha256 INVENTORY_SHA256 --room COMPANY_TRANSFER --out NEW_PROJECT_DIR [--room-profile plant|vocal-use-v1.1|vocal-fit-v1] [--reviewed-room ANCESTOR_TRANSFER]');
     console.log(JSON.stringify(await packageFacilityRoom({...values,gameSha256:values['game-sha256'],
       roomProfile:values['room-profile'],reviewedRoom:values['reviewed-room']})));
   } catch(error){console.error(error.message);process.exitCode=1;}

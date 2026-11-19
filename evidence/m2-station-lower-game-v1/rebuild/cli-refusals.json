@@ -1,0 +1,56 @@
+[
+  {
+    "case": "seat-only game",
+    "gameManifestSha256": "3cba17b8df616540b404c8739dcf82c40bb580e49fceb37a6209fb73d2b36d43",
+    "room": "vocal-fit-v1",
+    "ancestor": "vocal-use-v1.1",
+    "exitCode": 1,
+    "outputCreated": false,
+    "message": "Room requires seat-standing-vocal-v1; reviewed character runtime be0e52c243ec provides seat-v1"
+  },
+  {
+    "case": "other reviewed vocal runtime",
+    "gameManifestSha256": "ebedf0c7fb017cddc4196ae6909ce29cbba12c92ebca359bf0c833c11b75cac5",
+    "room": "vocal-fit-v1",
+    "ancestor": "vocal-use-v1.1",
+    "exitCode": 1,
+    "outputCreated": false,
+    "message": "Lowered microphone requires the reviewed performer-anchor runtime and original record pair"
+  },
+  {
+    "case": "same runtime and same records, changed inventory",
+    "gameManifestSha256": "597cff414dc93c6d898f1cf9e700159e8836034acb8c821269c5322c991fcba1",
+    "room": "vocal-fit-v1",
+    "ancestor": "vocal-use-v1.1",
+    "exitCode": 1,
+    "outputCreated": false,
+    "message": "Lowered microphone requires the reviewed performer-anchor runtime and original record pair"
+  },
+  {
+    "case": "old height under lowered profile",
+    "gameManifestSha256": "3d3e2b3885003d0585c1b7eb6ea40c7490001a647f227c2dcff9377aa26060b5",
+    "room": "vocal-use-v1.1",
+    "ancestor": "vocal-use-v1.1",
+    "exitCode": 1,
+    "outputCreated": false,
+    "message": "Transfer manifest SHA-256 mismatch: transfer-manifest.json"
+  },
+  {
+    "case": "grandparent used as the direct authority",
+    "gameManifestSha256": "3d3e2b3885003d0585c1b7eb6ea40c7490001a647f227c2dcff9377aa26060b5",
+    "room": "vocal-fit-v1",
+    "ancestor": "vocal-use-v1",
+    "exitCode": 1,
+    "outputCreated": false,
+    "message": "Source manifest differs from the published digest"
+  },
+  {
+    "case": "authorized original pair retry",
+    "gameManifestSha256": "3d3e2b3885003d0585c1b7eb6ea40c7490001a647f227c2dcff9377aa26060b5",
+    "room": "vocal-fit-v1",
+    "ancestor": "vocal-use-v1.1",
+    "exitCode": 0,
+    "outputCreated": true,
+    "message": "c1ae6690963ad6291fb60b5d6380f47b06c5373f788c63a2c29330772b462f26"
+  }
+]

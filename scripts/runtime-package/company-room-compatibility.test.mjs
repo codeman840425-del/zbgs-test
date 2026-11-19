@@ -6,7 +6,7 @@ import path from 'node:path';
 import test from 'node:test';
 import {promisify} from 'node:util';
 import outputs from '../project-output.cjs';
-import {requireCompanyRoomRuntime} from './company-room-compatibility.mjs';
+import {lowerVocal,requireCompanyRoomRuntime} from './company-room-compatibility.mjs';
 import {digest} from './files.mjs';
 
 const exec=promisify(execFile);
@@ -35,6 +35,14 @@ test('source commit, build ID, entry and compiled closure must match the fixed r
     await assert.rejects(check(vocal,{...runtime,...changed}),{code:'unsupported-build'});
   // Even the exact valid reviewed identity is unusable without its physical files.
   await assert.rejects(check(vocal,runtime),{code:'modified-dependency'});
+});
+
+test('lower microphone requires the exact archived performer pair in addition to vocal behavior support',async()=>{
+  const anchor=runtimeOf(await readReview('performer-anchor'));
+  const wrongPair=new Map([['runtime-package.json',Buffer.from('{}')]]);
+  for(const runtime of [runtimeOf(seatReview),runtimeOf(vocalReview),anchor])
+    await assert.rejects(check(lowerVocal.transfer,runtime,wrongPair),{code:'incompatible-facility-runtime'});
+  await assert.rejects(check(lowerVocal.transfer,anchor),{code:'incompatible-facility-runtime'});
 });
 
 const releases={
