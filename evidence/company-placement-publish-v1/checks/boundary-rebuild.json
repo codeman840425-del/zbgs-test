@@ -1,0 +1,91 @@
+{
+  "status": "passed",
+  "procedure": "Each sealed package supplied its own full prototype directory, freshly installed offline and rebuilt in a reusable workspace; every output file was compared to its own sealed viewer.",
+  "packages": [
+    {
+      "package": "default-package",
+      "manifestSha256": "acb535b959676b455846564a92c15b52727462dd830095b1d8fc0d43227a4aab",
+      "sourceDigest": "7255eee31b85ae9e3647979a0aa809886c7d92e5a02a5d644aa23e92efcc4907",
+      "copiedSourceFiles": 789,
+      "checkedViewerFiles": 615,
+      "commands": [
+        {
+          "command": [
+            "npm.cmd",
+            "ci",
+            "--offline",
+            "--no-audit",
+            "--no-fund"
+          ],
+          "exit": 0,
+          "stdout": "added 35 packages in 7s"
+        },
+        {
+          "command": [
+            "node",
+            "scripts/build-company-id.mjs"
+          ],
+          "exit": 0,
+          "stdout": "7255eee31b85"
+        },
+        {
+          "command": [
+            "node",
+            "node_modules/vite/bin/vite.js",
+            "build",
+            "--config",
+            "vite.company.config.js"
+          ],
+          "exit": 0,
+          "stdout": "vite v7.3.8 building client environment for production...\ntransforming...\n✓ 132 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist-company/company.html                    15.97 kB │ gzip:   5.09 kB\ndist-company/assets/company-2NYSi0Cv.css     15.34 kB │ gzip:   4.14 kB\ndist-company/assets/company-B2OWQ31u.js   3,652.47 kB │ gzip: 811.08 kB\n✓ built in 7.14s"
+        }
+      ],
+      "saveDigests": {
+        "data/save.json": "42a102efb5903fd3dfddf7cf975003b4ff8c99fbc67354c47547632869c108b4"
+      }
+    },
+    {
+      "package": "named-package",
+      "manifestSha256": "97be776164ee1ee3e83d86a3ddd2b3c8a568a0dd19c1b989bd7d7a44c8591aa7",
+      "sourceDigest": "7255eee31b85ae9e3647979a0aa809886c7d92e5a02a5d644aa23e92efcc4907",
+      "copiedSourceFiles": 789,
+      "checkedViewerFiles": 615,
+      "commands": [
+        {
+          "command": [
+            "npm.cmd",
+            "ci",
+            "--offline",
+            "--no-audit",
+            "--no-fund"
+          ],
+          "exit": 0,
+          "stdout": "added 35 packages in 8s"
+        },
+        {
+          "command": [
+            "node",
+            "scripts/build-company-id.mjs"
+          ],
+          "exit": 0,
+          "stdout": "7255eee31b85"
+        },
+        {
+          "command": [
+            "node",
+            "node_modules/vite/bin/vite.js",
+            "build",
+            "--config",
+            "vite.company.config.js"
+          ],
+          "exit": 0,
+          "stdout": "vite v7.3.8 building client environment for production...\ntransforming...\n✓ 132 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist-company/company.html                    15.97 kB │ gzip:   5.09 kB\ndist-company/assets/company-2NYSi0Cv.css     15.34 kB │ gzip:   4.14 kB\ndist-company/assets/company-B2OWQ31u.js   3,652.47 kB │ gzip: 811.08 kB\n✓ built in 7.04s"
+        }
+      ],
+      "saveDigests": {
+        "data/save.json": "a88d96283a60f946192adfb80c5235e6ecbfa585c26a71cf80c182bd42e72d17",
+        "data/rooms/air-rental/save.json": "42a102efb5903fd3dfddf7cf975003b4ff8c99fbc67354c47547632869c108b4"
+      }
+    }
+  ]
+}

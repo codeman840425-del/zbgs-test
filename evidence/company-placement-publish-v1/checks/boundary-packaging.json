@@ -1,0 +1,72 @@
+{
+  "status": "passed",
+  "changedOnly": "air-rental/ground/live/air.transform.position[2]",
+  "originalZ": 0.08,
+  "contactZ": 0.5,
+  "acceptedZ": 0.5001,
+  "cases": [
+    {
+      "kind": "touching-must-fail",
+      "returnCode": 1,
+      "response": {
+        "ok": false,
+        "code": "blocked-portal",
+        "path": "air-rental/ground/portal-stream-living",
+        "message": "blocked-portal at air-rental/ground/portal-stream-living: Portal interior-to-boundary segment lacks the static envelope and width margin",
+        "details": {
+          "regionId": "air-rental/ground/live",
+          "side": "from",
+          "obstacleId": "air-rental/ground/live/air",
+          "roomKey": "@default",
+          "companyId": "air-rental"
+        }
+      }
+    },
+    {
+      "kind": "default-package",
+      "returnCode": 0,
+      "response": {
+        "ok": true,
+        "buildId": "7255eee31b85",
+        "companyId": "air-rental",
+        "rooms": [],
+        "files": 2180,
+        "output": "F:\\gamemake-company-platform-c1\\output\\placement-release-017\\boundary\\default-package"
+      },
+      "verification": {
+        "ok": true,
+        "build": "7255eee31b85",
+        "manifestSha256": "acb535b959676b455846564a92c15b52727462dd830095b1d8fc0d43227a4aab",
+        "declaredFiles": 2180,
+        "checkedFiles": 2180,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "kind": "named-package",
+      "returnCode": 0,
+      "response": {
+        "ok": true,
+        "buildId": "7255eee31b85",
+        "companyId": "air-home",
+        "rooms": [
+          "air-rental"
+        ],
+        "files": 2184,
+        "output": "F:\\gamemake-company-platform-c1\\output\\placement-release-017\\boundary\\named-package"
+      },
+      "verification": {
+        "ok": true,
+        "build": "7255eee31b85",
+        "manifestSha256": "97be776164ee1ee3e83d86a3ddd2b3c8a568a0dd19c1b989bd7d7a44c8591aa7",
+        "declaredFiles": 2184,
+        "checkedFiles": 2184,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    }
+  ]
+}

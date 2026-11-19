@@ -1,0 +1,437 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "air-rental",
+      "document": {
+        "catalog": {
+          "id": "company-facilities",
+          "version": 1
+        },
+        "id": "air-rental",
+        "name": "整套出租屋 · 直播间的循环扇",
+        "nodes": [
+          {
+            "connections": [
+              {
+                "from": {
+                  "edge": "east",
+                  "offset": 0,
+                  "regionId": "air-rental/ground/live",
+                  "width": 1.4
+                },
+                "id": "air-rental/ground/portal-stream-living",
+                "to": {
+                  "edge": "west",
+                  "offset": 0,
+                  "regionId": "air-rental/ground/living",
+                  "width": 1.4
+                }
+              },
+              {
+                "from": {
+                  "edge": "west",
+                  "offset": 0,
+                  "regionId": "air-rental/ground/work",
+                  "width": 1.4
+                },
+                "id": "air-rental/ground/portal-work-living",
+                "to": {
+                  "edge": "east",
+                  "offset": 0,
+                  "regionId": "air-rental/ground/living",
+                  "width": 1.4
+                }
+              },
+              {
+                "from": {
+                  "edge": "north",
+                  "offset": 0,
+                  "regionId": "air-rental/ground/rest",
+                  "width": 1.4
+                },
+                "id": "air-rental/ground/portal-rest-living",
+                "to": {
+                  "edge": "south",
+                  "offset": 0,
+                  "regionId": "air-rental/ground/living",
+                  "width": 1.4
+                }
+              }
+            ],
+            "id": "air-rental/ground",
+            "kind": "floor",
+            "name": "一层",
+            "parentId": "air-rental",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 1.5707963267948966
+            }
+          },
+          {
+            "bounds": {
+              "depth": 4,
+              "width": 4.5
+            },
+            "entry": {
+              "position": [
+                -1.8,
+                0,
+                1.5
+              ]
+            },
+            "id": "air-rental/ground/live",
+            "kind": "room",
+            "name": "直播间",
+            "parentId": "air-rental/ground",
+            "purpose": "streaming",
+            "transform": {
+              "position": [
+                -4.5,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "bounds": {
+              "depth": 4,
+              "width": 4.5
+            },
+            "entry": {
+              "position": [
+                1.8,
+                0,
+                1.5
+              ]
+            },
+            "id": "air-rental/ground/work",
+            "kind": "room",
+            "name": "剪辑间",
+            "parentId": "air-rental/ground",
+            "purpose": "work",
+            "transform": {
+              "position": [
+                4.5,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "bounds": {
+              "depth": 4,
+              "width": 4.5
+            },
+            "entry": {
+              "position": [
+                1.7,
+                0,
+                1.4
+              ]
+            },
+            "id": "air-rental/ground/rest",
+            "kind": "room",
+            "name": "休息间",
+            "parentId": "air-rental/ground",
+            "purpose": "rest",
+            "transform": {
+              "position": [
+                0,
+                0,
+                4
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "bounds": {
+              "depth": 4,
+              "width": 4.5
+            },
+            "entry": {
+              "position": [
+                -1.6,
+                0,
+                1.5
+              ]
+            },
+            "id": "air-rental/ground/living",
+            "kind": "area",
+            "name": "公共客厅",
+            "parentId": "air-rental/ground",
+            "publicRole": "living",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "air-rental/ground/live/station-1",
+            "kind": "workstation",
+            "name": "air-rental/ground/live/station-1",
+            "parentId": "air-rental/ground/live",
+            "template": {
+              "id": "stream-station",
+              "version": 3
+            },
+            "transform": {
+              "position": [
+                -0.75,
+                0,
+                -0.5
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "air-rental/ground/live/station-1/desk",
+            "kind": "facility",
+            "parentId": "air-rental/ground/live/station-1",
+            "partKey": "desk",
+            "resource": {
+              "id": "desk",
+              "version": 1
+            },
+            "state": {},
+            "stationId": "air-rental/ground/live/station-1",
+            "transform": {
+              "position": [
+                0,
+                0,
+                -0.9
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "air-rental/ground/live/station-1/monitor",
+            "kind": "facility",
+            "parentId": "air-rental/ground/live/station-1/desk",
+            "partKey": "monitor",
+            "resource": {
+              "id": "monitor",
+              "version": 1
+            },
+            "state": {},
+            "stationId": "air-rental/ground/live/station-1",
+            "transform": {
+              "position": [
+                0,
+                0.84,
+                -0.25
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "air-rental/ground/live/station-1/keyboard",
+            "kind": "facility",
+            "parentId": "air-rental/ground/live/station-1/desk",
+            "partKey": "keyboard",
+            "resource": {
+              "id": "keyboard",
+              "version": 1
+            },
+            "state": {},
+            "stationId": "air-rental/ground/live/station-1",
+            "transform": {
+              "position": [
+                0,
+                0.84,
+                0.21
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "air-rental/ground/live/station-1/microphone",
+            "kind": "facility",
+            "parentId": "air-rental/ground/live/station-1/desk",
+            "partKey": "microphone",
+            "resource": {
+              "id": "desk-microphone",
+              "version": 1
+            },
+            "state": {},
+            "stationId": "air-rental/ground/live/station-1",
+            "transform": {
+              "position": [
+                -0.8,
+                0.84,
+                0.18
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "air-rental/ground/live/station-1/chair",
+            "kind": "facility",
+            "parentId": "air-rental/ground/live/station-1",
+            "partKey": "chair",
+            "resource": {
+              "id": "chair-ladder",
+              "version": 1
+            },
+            "state": {},
+            "stationId": "air-rental/ground/live/station-1",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0.55
+              ],
+              "yaw": 3.141592653589793
+            }
+          },
+          {
+            "id": "air-rental/ground/live/station-1/fill-light",
+            "kind": "facility",
+            "parentId": "air-rental/ground/live/station-1",
+            "partKey": "fill-light",
+            "resource": {
+              "id": "fill-light",
+              "version": 1
+            },
+            "state": {},
+            "stationId": "air-rental/ground/live/station-1",
+            "transform": {
+              "position": [
+                -0.75,
+                0,
+                -0.15
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "air-rental/ground/work/desk",
+            "kind": "facility",
+            "parentId": "air-rental/ground/work",
+            "resource": {
+              "id": "desk",
+              "version": 1
+            },
+            "state": {},
+            "transform": {
+              "position": [
+                0,
+                0,
+                -0.8
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "air-rental/ground/work/chair",
+            "kind": "facility",
+            "parentId": "air-rental/ground/work",
+            "resource": {
+              "id": "chair-ladder",
+              "version": 1
+            },
+            "state": {},
+            "transform": {
+              "position": [
+                0,
+                0,
+                0.65
+              ],
+              "yaw": 3.141592653589793
+            }
+          },
+          {
+            "id": "air-rental/ground/living/sofa",
+            "kind": "facility",
+            "parentId": "air-rental/ground/living",
+            "resource": {
+              "id": "lounge-sofa",
+              "version": 1
+            },
+            "state": {},
+            "transform": {
+              "position": [
+                0,
+                0,
+                -0.45
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "air-rental/ground/living/plant",
+            "kind": "facility",
+            "parentId": "air-rental/ground/living",
+            "resource": {
+              "id": "plant",
+              "version": 1
+            },
+            "state": {},
+            "transform": {
+              "position": [
+                1.55,
+                0,
+                -1
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "air-rental/ground/live/air",
+            "kind": "facility",
+            "parentId": "air-rental/ground/live",
+            "resource": {
+              "id": "floor-air-circulator",
+              "version": 1
+            },
+            "state": {
+              "on": true,
+              "speed": 3
+            },
+            "transform": {
+              "position": [
+                1.5,
+                0,
+                -1.45
+              ],
+              "yaw": -1.5707963267948966
+            }
+          }
+        ],
+        "revision": 2,
+        "scale": "rental-home",
+        "schema": "company-layout",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "version": 1
+      },
+      "operations": [
+        {
+          "type": "move",
+          "id": "air-rental/ground/live/air",
+          "transform": {
+            "position": [
+              -0.75,
+              0,
+              0.05
+            ],
+            "yaw": -1.5707963267948966
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,729 @@
+{
+  "status": "passed",
+  "mode": "fixed",
+  "toolPackage": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+  "good": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1",
+  "bad": "F:\\gamemake-company-platform-c1\\evidence\\company-placement-publish-v1\\inputs",
+  "commands": [
+    {
+      "label": "verify-sealed-floor-air",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1\\verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1",
+        "a855f730e8d9ccc6a51b687d43e7333240b2406d681d7df1f5f7761383849375"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1",
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "7255eee31b85",
+        "manifestSha256": "a855f730e8d9ccc6a51b687d43e7333240b2406d681d7df1f5f7761383849375",
+        "declaredFiles": 2190,
+        "checkedFiles": 2190,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "prepare-retained-batch",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source\\scripts\\company-platform\\batch.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\inputs\\two-good-rooms.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retained-batch"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 0,
+      "response": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": true,
+        "results": [
+          {
+            "key": "air-home",
+            "companyId": "air-home",
+            "status": "created",
+            "directory": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retained-batch\\air-home",
+            "files": {
+              "input.json": {
+                "bytes": 5264,
+                "sha256": "61e1cbae5b41c01346c09f19fff89f86f95f59ac3a1376a6bcf896723da87487"
+              },
+              "layout.json": {
+                "bytes": 4771,
+                "sha256": "77dd64052407baebadda396ed5e56348dc679ddd5f8a40c3e4d372317628a546"
+              },
+              "save.json": {
+                "bytes": 6582,
+                "sha256": "a88d96283a60f946192adfb80c5235e6ecbfa585c26a71cf80c182bd42e72d17"
+              }
+            }
+          },
+          {
+            "key": "air-rental",
+            "companyId": "air-rental",
+            "status": "created",
+            "directory": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retained-batch\\air-rental",
+            "files": {
+              "input.json": {
+                "bytes": 9443,
+                "sha256": "5106e676f5bbd6d15279dedd64287c3671f8b313b5615f7f592b54535eee41fb"
+              },
+              "layout.json": {
+                "bytes": 8576,
+                "sha256": "eb4f30261f23365f6072e408af481140a67514e5de5fa7280b914c42a2fcda59"
+              },
+              "save.json": {
+                "bytes": 11064,
+                "sha256": "e3ba0a299efb90d5a8c6b58506b455792981bcd8675338a5144be335351d7888"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "batch-inside-door",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source\\scripts\\company-platform\\batch.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\evidence\\company-placement-publish-v1\\inputs\\inside-door\\batch.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retained-batch",
+        "--only",
+        "air-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 1,
+      "response": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": false,
+        "results": [
+          {
+            "key": "air-rental",
+            "status": "failed",
+            "code": "blocked-portal",
+            "path": "air-rental/ground/portal-stream-living",
+            "message": "blocked-portal at air-rental/ground/portal-stream-living: Portal interior-to-boundary segment lacks the static envelope and width margin",
+            "details": {
+              "regionId": "air-rental/ground/live",
+              "side": "from",
+              "obstacleId": "air-rental/ground/live/air"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "edit-inside-door",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1\\data\\rooms\\air-rental\\save.json",
+        "F:\\gamemake-company-platform-c1\\evidence\\company-placement-publish-v1\\inputs\\inside-door\\operations.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\rejected-edit-inside-door",
+        "--room",
+        "air-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "blocked-portal",
+        "path": "air-rental/ground/portal-stream-living",
+        "message": "blocked-portal at air-rental/ground/portal-stream-living: Portal interior-to-boundary segment lacks the static envelope and width margin",
+        "details": {
+          "regionId": "air-rental/ground/live",
+          "side": "from",
+          "obstacleId": "air-rental/ground/live/air"
+        }
+      }
+    },
+    {
+      "label": "package-default-inside-door",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\viewer",
+        "7255eee31b85",
+        "F:\\gamemake-company-platform-c1\\evidence\\company-placement-publish-v1\\inputs\\inside-door\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retry-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "blocked-portal",
+        "path": "air-rental/ground/portal-stream-living",
+        "message": "blocked-portal at air-rental/ground/portal-stream-living: Portal interior-to-boundary segment lacks the static envelope and width margin",
+        "details": {
+          "regionId": "air-rental/ground/live",
+          "side": "from",
+          "obstacleId": "air-rental/ground/live/air",
+          "roomKey": "@default",
+          "companyId": "air-rental"
+        }
+      }
+    },
+    {
+      "label": "batch-hover",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source\\scripts\\company-platform\\batch.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\evidence\\company-placement-publish-v1\\inputs\\hover\\batch.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retained-batch",
+        "--only",
+        "air-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 1,
+      "response": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": false,
+        "results": [
+          {
+            "key": "air-rental",
+            "status": "failed",
+            "code": "unsupported-height",
+            "path": "air-rental/ground/live/air",
+            "message": "unsupported-height at air-rental/ground/live/air: This ground facility must stay on its floor; use a declared mounting adapter for elevated placement",
+            "details": {}
+          }
+        ]
+      }
+    },
+    {
+      "label": "edit-hover",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1\\data\\rooms\\air-rental\\save.json",
+        "F:\\gamemake-company-platform-c1\\evidence\\company-placement-publish-v1\\inputs\\hover\\operations.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\rejected-edit-hover",
+        "--room",
+        "air-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "unsupported-height",
+        "path": "air-rental/ground/live/air",
+        "message": "unsupported-height at air-rental/ground/live/air: This ground facility must stay on its floor; use a declared mounting adapter for elevated placement",
+        "details": {}
+      }
+    },
+    {
+      "label": "package-default-hover",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\viewer",
+        "7255eee31b85",
+        "F:\\gamemake-company-platform-c1\\evidence\\company-placement-publish-v1\\inputs\\hover\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\package-hover",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "unsupported-height",
+        "path": "air-rental/ground/live/air",
+        "message": "unsupported-height at air-rental/ground/live/air: This ground facility must stay on its floor; use a declared mounting adapter for elevated placement",
+        "details": {}
+      }
+    },
+    {
+      "label": "batch-chair-overlap",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source\\scripts\\company-platform\\batch.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\evidence\\company-placement-publish-v1\\inputs\\chair-overlap\\batch.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retained-batch",
+        "--only",
+        "air-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 1,
+      "response": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": false,
+        "results": [
+          {
+            "key": "air-rental",
+            "status": "failed",
+            "code": "overlapping-facilities",
+            "path": "air-rental/ground/live/station-1/chair",
+            "message": "overlapping-facilities at air-rental/ground/live/station-1/chair: Blocking footprint overlaps air-rental/ground/live/air",
+            "details": {
+              "otherId": "air-rental/ground/live/air"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "edit-chair-overlap",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1\\data\\rooms\\air-rental\\save.json",
+        "F:\\gamemake-company-platform-c1\\evidence\\company-placement-publish-v1\\inputs\\chair-overlap\\operations.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\rejected-edit-chair-overlap",
+        "--room",
+        "air-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "overlapping-facilities",
+        "path": "air-rental/ground/live/station-1/chair",
+        "message": "overlapping-facilities at air-rental/ground/live/station-1/chair: Blocking footprint overlaps air-rental/ground/live/air",
+        "details": {
+          "otherId": "air-rental/ground/live/air"
+        }
+      }
+    },
+    {
+      "label": "package-default-chair-overlap",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\viewer",
+        "7255eee31b85",
+        "F:\\gamemake-company-platform-c1\\evidence\\company-placement-publish-v1\\inputs\\chair-overlap\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\package-chair-overlap",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "overlapping-facilities",
+        "path": "air-rental/ground/live/station-1/chair",
+        "message": "overlapping-facilities at air-rental/ground/live/station-1/chair: Blocking footprint overlaps air-rental/ground/live/air",
+        "details": {
+          "otherId": "air-rental/ground/live/air"
+        }
+      }
+    },
+    {
+      "label": "package-good-default-bad-named",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\viewer",
+        "7255eee31b85",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1\\data\\rooms\\air-home\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\named-door-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source",
+        "--room",
+        "air-home",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1\\data\\rooms\\air-home\\save.json",
+        "--room",
+        "air-rental",
+        "F:\\gamemake-company-platform-c1\\evidence\\company-placement-publish-v1\\inputs\\inside-door\\save.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "blocked-portal",
+        "path": "air-rental/ground/portal-stream-living",
+        "message": "blocked-portal at air-rental/ground/portal-stream-living: Portal interior-to-boundary segment lacks the static envelope and width margin",
+        "details": {
+          "regionId": "air-rental/ground/live",
+          "side": "from",
+          "obstacleId": "air-rental/ground/live/air",
+          "roomKey": "air-rental",
+          "companyId": "air-rental"
+        }
+      }
+    },
+    {
+      "label": "edit-legal-move-and-turn",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1\\data\\rooms\\air-rental\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\inputs\\legal-move-and-turn.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\rental-edited",
+        "--room",
+        "air-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "air-rental",
+        "revision": 3,
+        "floors": [
+          "air-rental/ground"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\rental-edited"
+      }
+    },
+    {
+      "label": "retry-with-good-default-and-two-named-rooms",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\viewer",
+        "7255eee31b85",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1\\data\\rooms\\air-home\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retry-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source",
+        "--room",
+        "air-home",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1\\data\\rooms\\air-home\\batch-result",
+        "--room",
+        "air-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\rental-edited\\save.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "buildId": "7255eee31b85",
+        "companyId": "air-home",
+        "rooms": [
+          "air-home",
+          "air-rental"
+        ],
+        "files": 2191,
+        "output": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retry-package"
+      }
+    },
+    {
+      "label": "verify-good-package",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retry-package\\verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retry-package",
+        "0a4998ac1592644202efbbb66589a5517839e27cec383695b68250e094e61cab"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retry-package",
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "7255eee31b85",
+        "manifestSha256": "0a4998ac1592644202efbbb66589a5517839e27cec383695b68250e094e61cab",
+        "declaredFiles": 2191,
+        "checkedFiles": 2191,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "reject-overwrite-of-good-package",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\viewer",
+        "7255eee31b85",
+        "F:\\gamemake-company-platform-c1\\evidence\\company-placement-publish-v1\\inputs\\inside-door\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retry-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "package-output-exists",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retry-package",
+        "message": "Output already exists and will not be overwritten"
+      }
+    },
+    {
+      "label": "verify-good-package-after-overwrite-attempt",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retry-package\\verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retry-package",
+        "0a4998ac1592644202efbbb66589a5517839e27cec383695b68250e094e61cab"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retry-package",
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "7255eee31b85",
+        "manifestSha256": "0a4998ac1592644202efbbb66589a5517839e27cec383695b68250e094e61cab",
+        "declaredFiles": 2191,
+        "checkedFiles": 2191,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "retry-unchanged-stock-batch",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source\\scripts\\company-platform\\batch.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\inputs\\two-good-rooms.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retained-batch"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work",
+      "exit": 0,
+      "response": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": true,
+        "results": [
+          {
+            "key": "air-home",
+            "companyId": "air-home",
+            "status": "idempotent",
+            "directory": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retained-batch\\air-home",
+            "files": {
+              "input.json": {
+                "bytes": 5264,
+                "sha256": "61e1cbae5b41c01346c09f19fff89f86f95f59ac3a1376a6bcf896723da87487"
+              },
+              "layout.json": {
+                "bytes": 4771,
+                "sha256": "77dd64052407baebadda396ed5e56348dc679ddd5f8a40c3e4d372317628a546"
+              },
+              "save.json": {
+                "bytes": 6582,
+                "sha256": "a88d96283a60f946192adfb80c5235e6ecbfa585c26a71cf80c182bd42e72d17"
+              }
+            }
+          },
+          {
+            "key": "air-rental",
+            "companyId": "air-rental",
+            "status": "idempotent",
+            "directory": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\run-fixed\\retained-batch\\air-rental",
+            "files": {
+              "input.json": {
+                "bytes": 9443,
+                "sha256": "5106e676f5bbd6d15279dedd64287c3671f8b313b5615f7f592b54535eee41fb"
+              },
+              "layout.json": {
+                "bytes": 8576,
+                "sha256": "eb4f30261f23365f6072e408af481140a67514e5de5fa7280b914c42a2fcda59"
+              },
+              "save.json": {
+                "bytes": 11064,
+                "sha256": "e3ba0a299efb90d5a8c6b58506b455792981bcd8675338a5144be335351d7888"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "verify-sealed-floor-air-after-test",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1\\verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1",
+        "a855f730e8d9ccc6a51b687d43e7333240b2406d681d7df1f5f7761383849375"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\floor-air-v1",
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "7255eee31b85",
+        "manifestSha256": "a855f730e8d9ccc6a51b687d43e7333240b2406d681d7df1f5f7761383849375",
+        "declaredFiles": 2190,
+        "checkedFiles": 2190,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    }
+  ],
+  "cases": {
+    "inside-door": {
+      "byBatch": {
+        "code": "blocked-portal",
+        "path": "air-rental/ground/portal-stream-living",
+        "details": {
+          "regionId": "air-rental/ground/live",
+          "side": "from",
+          "obstacleId": "air-rental/ground/live/air"
+        }
+      },
+      "byEdit": {
+        "code": "blocked-portal",
+        "path": "air-rental/ground/portal-stream-living",
+        "details": {
+          "regionId": "air-rental/ground/live",
+          "side": "from",
+          "obstacleId": "air-rental/ground/live/air"
+        }
+      },
+      "byPackage": {
+        "code": "blocked-portal",
+        "path": "air-rental/ground/portal-stream-living",
+        "details": {
+          "regionId": "air-rental/ground/live",
+          "side": "from",
+          "obstacleId": "air-rental/ground/live/air"
+        }
+      },
+      "packageDiagnostic": {
+        "ok": false,
+        "code": "blocked-portal",
+        "path": "air-rental/ground/portal-stream-living",
+        "message": "blocked-portal at air-rental/ground/portal-stream-living: Portal interior-to-boundary segment lacks the static envelope and width margin",
+        "details": {
+          "regionId": "air-rental/ground/live",
+          "side": "from",
+          "obstacleId": "air-rental/ground/live/air",
+          "roomKey": "@default",
+          "companyId": "air-rental"
+        }
+      },
+      "byNamedPackage": {
+        "code": "blocked-portal",
+        "path": "air-rental/ground/portal-stream-living",
+        "details": {
+          "regionId": "air-rental/ground/live",
+          "side": "from",
+          "obstacleId": "air-rental/ground/live/air"
+        }
+      },
+      "namedPackageDiagnostic": {
+        "ok": false,
+        "code": "blocked-portal",
+        "path": "air-rental/ground/portal-stream-living",
+        "message": "blocked-portal at air-rental/ground/portal-stream-living: Portal interior-to-boundary segment lacks the static envelope and width margin",
+        "details": {
+          "regionId": "air-rental/ground/live",
+          "side": "from",
+          "obstacleId": "air-rental/ground/live/air",
+          "roomKey": "air-rental",
+          "companyId": "air-rental"
+        }
+      }
+    },
+    "hover": {
+      "byBatch": {
+        "code": "unsupported-height",
+        "path": "air-rental/ground/live/air",
+        "details": {}
+      },
+      "byEdit": {
+        "code": "unsupported-height",
+        "path": "air-rental/ground/live/air",
+        "details": {}
+      },
+      "byPackage": {
+        "code": "unsupported-height",
+        "path": "air-rental/ground/live/air",
+        "details": {}
+      },
+      "packageDiagnostic": {
+        "ok": false,
+        "code": "unsupported-height",
+        "path": "air-rental/ground/live/air",
+        "message": "unsupported-height at air-rental/ground/live/air: This ground facility must stay on its floor; use a declared mounting adapter for elevated placement",
+        "details": {}
+      }
+    },
+    "chair-overlap": {
+      "byBatch": {
+        "code": "overlapping-facilities",
+        "path": "air-rental/ground/live/station-1/chair",
+        "details": {
+          "otherId": "air-rental/ground/live/air"
+        }
+      },
+      "byEdit": {
+        "code": "overlapping-facilities",
+        "path": "air-rental/ground/live/station-1/chair",
+        "details": {
+          "otherId": "air-rental/ground/live/air"
+        }
+      },
+      "byPackage": {
+        "code": "overlapping-facilities",
+        "path": "air-rental/ground/live/station-1/chair",
+        "details": {
+          "otherId": "air-rental/ground/live/air"
+        }
+      },
+      "packageDiagnostic": {
+        "ok": false,
+        "code": "overlapping-facilities",
+        "path": "air-rental/ground/live/station-1/chair",
+        "message": "overlapping-facilities at air-rental/ground/live/station-1/chair: Blocking footprint overlaps air-rental/ground/live/air",
+        "details": {
+          "otherId": "air-rental/ground/live/air"
+        }
+      }
+    }
+  },
+  "original": {
+    "ok": true,
+    "build": "7255eee31b85",
+    "manifestSha256": "a855f730e8d9ccc6a51b687d43e7333240b2406d681d7df1f5f7761383849375",
+    "declaredFiles": 2190,
+    "checkedFiles": 2190,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "tools": {
+    "build": "7255eee31b85",
+    "manifestSha256": "74034d41ef5865a288f4bb6f45d789a71a18fc19f966a19df691541513bbdec5",
+    "packEntrySha256": "c831433dbbee321e64e1e369c61be60890e5f4eaa597964450e10f2b56fc62bf",
+    "pinnedFiles": 2197,
+    "retained": 2197
+  },
+  "goodPackage": {
+    "ok": true,
+    "build": "7255eee31b85",
+    "manifestSha256": "0a4998ac1592644202efbbb66589a5517839e27cec383695b68250e094e61cab",
+    "declaredFiles": 2191,
+    "checkedFiles": 2191,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "placements": {
+    "data": {
+      "companyId": "air-home",
+      "saveSha256": "a88d96283a60f946192adfb80c5235e6ecbfa585c26a71cf80c182bd42e72d17",
+      "placementSha256": "55df296eaec83c1da2498061488df0b5dabe39438168e779749d768e244313ad",
+      "portals": 1,
+      "usePoints": 1
+    },
+    "data/rooms/air-home": {
+      "companyId": "air-home",
+      "saveSha256": "a88d96283a60f946192adfb80c5235e6ecbfa585c26a71cf80c182bd42e72d17",
+      "placementSha256": "169a820c1e775828bae2dd36a882ecc38877d9502cb779f28f1e342877421655",
+      "portals": 1,
+      "usePoints": 1
+    },
+    "data/rooms/air-rental": {
+      "companyId": "air-rental",
+      "saveSha256": "d5ffee76a8621633fe63370d7f0de033e9074c3a5611dfe87363c90c9dc2a8e2",
+      "placementSha256": "a5ce0f3be9a3d5d1df04f9cc1ef911a75766dd4e4f41c92107db0c4d8a3dbac5",
+      "portals": 6,
+      "usePoints": 4
+    }
+  },
+  "existingOutputGuard": {
+    "ok": true,
+    "build": "7255eee31b85",
+    "manifestSha256": "0a4998ac1592644202efbbb66589a5517839e27cec383695b68250e094e61cab",
+    "declaredFiles": 2191,
+    "checkedFiles": 2191,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "originalRetained": {
+    "ok": true,
+    "build": "7255eee31b85",
+    "manifestSha256": "a855f730e8d9ccc6a51b687d43e7333240b2406d681d7df1f5f7761383849375",
+    "declaredFiles": 2190,
+    "checkedFiles": 2190,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  }
+}

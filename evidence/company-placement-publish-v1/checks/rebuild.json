@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "build": "7255eee31b85",
+  "sourceCommit": "4f478d5d8be3e86f3abeea56a800c74ae5b97d58",
+  "viewers": {
+    "stock": "company-workspace\\deliveries\\floor-air-v1\\viewer",
+    "candidate": "output\\placement-release-017\\candidate-final\\viewer",
+    "working": "company-workspace\\production-trials\\floor-air-placement-v1\\work\\viewer",
+    "rebuilt": "company-workspace\\production-trials\\floor-air-placement-v1\\work\\source\\prototype\\dist-company"
+  },
+  "exactFiles": 615,
+  "digestOfSortedPathsAndDigests": "3e5e69dbde7c3334e46bc8e03d04c2b065c5bb7301e890e8e179eeb2350efb14",
+  "unchangedRooms": {
+    "data/save.json": "a88d96283a60f946192adfb80c5235e6ecbfa585c26a71cf80c182bd42e72d17",
+    "data/layout.json": "77dd64052407baebadda396ed5e56348dc679ddd5f8a40c3e4d372317628a546",
+    "data/rooms/air-home/save.json": "a88d96283a60f946192adfb80c5235e6ecbfa585c26a71cf80c182bd42e72d17",
+    "data/rooms/air-home/layout.json": "77dd64052407baebadda396ed5e56348dc679ddd5f8a40c3e4d372317628a546",
+    "data/rooms/air-rental/save.json": "e3ba0a299efb90d5a8c6b58506b455792981bcd8675338a5144be335351d7888",
+    "data/rooms/air-rental/layout.json": "eb4f30261f23365f6072e408af481140a67514e5de5fa7280b914c42a2fcda59"
+  },
+  "commands": [
+    "npm ci --offline --no-audit --no-fund",
+    "node scripts/build-company-id.mjs",
+    "vite build --config vite.company.config.js"
+  ],
+  "offlineCache": "current machine npm cache"
+}

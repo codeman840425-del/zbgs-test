@@ -1,0 +1,2087 @@
+{
+  "status": "passed",
+  "units": "metres unless noted",
+  "measurement": "Continuous finite door-interior to threshold-centre segment, each point in floor XZ. The whole-mesh measurement projects every loaded triangle; mesh witness XZ is a nearest projected point. Mesh distance to a filled projected face is zero for an intersection; this zero is not a penetration-depth estimate. The circular estimate circumscribes the measured 32-sided ground patch. The production slab check expands the room-local AABB by a square and treats contact as blocked. Connectivity refers to the static same-floor grid.",
+  "packages": [
+    {
+      "package": "F:\\gamemake-company-platform-c1\\output\\placement-release-017\\boundary\\default-package",
+      "manifestSha256": "acb535b959676b455846564a92c15b52727462dd830095b1d8fc0d43227a4aab",
+      "build": "7255eee31b85",
+      "sourceDigest": "7255eee31b85ae9e3647979a0aa809886c7d92e5a02a5d644aa23e92efcc4907",
+      "savePath": "data/save.json",
+      "defaultDocument": "air-rental",
+      "installedSource": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source",
+      "verifiedDomainFiles": 169,
+      "lockSha256": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b",
+      "threeVersion": "0.187.0",
+      "glbURL": "/company-assets/floor-air-v1/floor-air-circulator/v1/model.glb",
+      "glbSha256": "5606c1282df3bb3407d7c24a971a828606e79c864b1b89c49c77e11e986857fb",
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.2,
+          0.2
+        ],
+        "blocking": true
+      },
+      "triangles": 3968,
+      "modelVerticalMetres": [
+        3.8743019036002746e-10,
+        0.800000011920929
+      ],
+      "floorContact": {
+        "meshNames": [
+          "weighted-foot"
+        ],
+        "triangles": 32,
+        "hullVertices": 32,
+        "ringLocalXZ": [
+          [
+            -0.20000000298023224,
+            -3.6739405577555036e-17
+          ],
+          [
+            -0.1961570531129837,
+            -0.039018064737319946
+          ],
+          [
+            -0.18477590382099152,
+            -0.07653668522834778
+          ],
+          [
+            -0.1662939190864563,
+            -0.11111404746770859
+          ],
+          [
+            -0.1414213627576828,
+            -0.1414213627576828
+          ],
+          [
+            -0.11111404746770859,
+            -0.1662939190864563
+          ],
+          [
+            -0.07653668522834778,
+            -0.18477590382099152
+          ],
+          [
+            -0.039018064737319946,
+            -0.1961570531129837
+          ],
+          [
+            2.4492935397342132e-17,
+            -0.20000000298023224
+          ],
+          [
+            0.039018064737319946,
+            -0.1961570531129837
+          ],
+          [
+            0.07653668522834778,
+            -0.18477590382099152
+          ],
+          [
+            0.11111404746770859,
+            -0.1662939190864563
+          ],
+          [
+            0.1414213627576828,
+            -0.1414213627576828
+          ],
+          [
+            0.1662939190864563,
+            -0.11111404746770859
+          ],
+          [
+            0.18477590382099152,
+            -0.07653668522834778
+          ],
+          [
+            0.1961570531129837,
+            -0.039018064737319946
+          ],
+          [
+            0.20000000298023224,
+            1.2246467698671066e-17
+          ],
+          [
+            0.1961570531129837,
+            0.039018064737319946
+          ],
+          [
+            0.18477590382099152,
+            0.07653668522834778
+          ],
+          [
+            0.1662939190864563,
+            0.11111404746770859
+          ],
+          [
+            0.1414213627576828,
+            0.1414213627576828
+          ],
+          [
+            0.11111404746770859,
+            0.1662939190864563
+          ],
+          [
+            0.07653668522834778,
+            0.18477590382099152
+          ],
+          [
+            0.039018064737319946,
+            0.1961570531129837
+          ],
+          [
+            -4.8985870794684264e-17,
+            0.20000000298023224
+          ],
+          [
+            -0.039018064737319946,
+            0.1961570531129837
+          ],
+          [
+            -0.07653668522834778,
+            0.18477590382099152
+          ],
+          [
+            -0.11111404746770859,
+            0.1662939190864563
+          ],
+          [
+            -0.1414213627576828,
+            0.1414213627576828
+          ],
+          [
+            -0.1662939190864563,
+            0.11111404746770859
+          ],
+          [
+            -0.18477590382099152,
+            0.07653668522834778
+          ],
+          [
+            -0.1961570531129837,
+            0.039018064737319946
+          ]
+        ],
+        "areaSquareMetres": 0.12485780545861846
+      },
+      "rules": {
+        "scope": "C1/C2 static conservative placement and same-floor portal connectivity",
+        "envelopeRadius": 0.25,
+        "gridSpacing": 0.2,
+        "gridNeighbours": 4,
+        "obstacleExpansion": "conservative square",
+        "endpointConnectorMaximum": 0.4,
+        "roomRangeMetres": [
+          3,
+          20
+        ],
+        "supportedYaw": "quarter turns",
+        "occupancyState": "not produced",
+        "portalMinimumWidth": 0.6,
+        "portalTotalWidthMargin": 0.1,
+        "portalCrossingEnvelopeRadius": 0.3,
+        "portalInteriorInset": 0.35
+      },
+      "cases": [
+        {
+          "case": "published",
+          "saveSha256": "42a102efb5903fd3dfddf7cf975003b4ff8c99fbc67354c47547632869c108b4",
+          "instanceId": "air-rental/ground/live/air",
+          "z": 0.5001,
+          "deviceLocal": {
+            "position": [
+              1.89,
+              0,
+              0.5001
+            ],
+            "yaw": -1.5707963267948966
+          },
+          "deviceWorld": {
+            "position": [
+              0.5000999999999999,
+              0,
+              2.6100000000000003
+            ],
+            "yaw": 0
+          },
+          "roomWorld": {
+            "position": [
+              -2.755455298081545e-16,
+              0,
+              4.5
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "peerWorld": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "floorWorld": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "portal": {
+            "id": "air-rental/ground/portal-stream-living",
+            "from": {
+              "edge": "east",
+              "offset": 0,
+              "regionId": "air-rental/ground/live",
+              "width": 1.4,
+              "local": {
+                "start": [
+                  2.25,
+                  0,
+                  -0.7
+                ],
+                "end": [
+                  2.25,
+                  0,
+                  0.7
+                ],
+                "center": [
+                  2.25,
+                  0,
+                  0
+                ],
+                "interior": [
+                  1.9,
+                  0,
+                  0
+                ]
+              },
+              "world": {
+                "start": [
+                  -0.7000000000000001,
+                  0,
+                  2.25
+                ],
+                "end": [
+                  0.6999999999999998,
+                  0,
+                  2.25
+                ],
+                "center": [
+                  -1.3777276490407724e-16,
+                  0,
+                  2.25
+                ],
+                "interior": [
+                  -1.5920408388915593e-16,
+                  0,
+                  2.6
+                ],
+                "normal": [
+                  6.123233995736767e-17,
+                  0,
+                  -1
+                ]
+              }
+            },
+            "to": {
+              "edge": "west",
+              "offset": 0,
+              "regionId": "air-rental/ground/living",
+              "width": 1.4,
+              "local": {
+                "start": [
+                  -2.25,
+                  0,
+                  -0.7
+                ],
+                "end": [
+                  -2.25,
+                  0,
+                  0.7
+                ],
+                "center": [
+                  -2.25,
+                  0,
+                  0
+                ],
+                "interior": [
+                  -1.9,
+                  0,
+                  0
+                ]
+              },
+              "world": {
+                "start": [
+                  -0.7000000000000001,
+                  0,
+                  2.25
+                ],
+                "end": [
+                  0.6999999999999998,
+                  0,
+                  2.25
+                ],
+                "center": [
+                  -1.3777276490407724e-16,
+                  0,
+                  2.25
+                ],
+                "interior": [
+                  -1.1634144591899854e-16,
+                  0,
+                  1.9
+                ],
+                "normal": [
+                  -6.123233995736766e-17,
+                  0,
+                  1
+                ]
+              }
+            }
+          },
+          "roomLocalFootprintCornersXZ": [
+            [
+              2.09,
+              0.3000999999999996
+            ],
+            [
+              1.6899999999999995,
+              0.3000999999999998
+            ],
+            [
+              2.09,
+              0.7000999999999997
+            ],
+            [
+              1.6899999999999995,
+              0.7001
+            ]
+          ],
+          "expandedSquareSignedSlack": 0.00009999999999960041,
+          "circumscribedDisk": {
+            "baseRadius": 0.20000000922120037,
+            "minimumAxisToCenter": 0.5001999700119943,
+            "nearestAxisPointWorldXZ": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "axisParameter": 0,
+            "signedAxisToDiskBoundary": 0.300199960790794,
+            "signedSlack": 0.00019996079079398488
+          },
+          "physicalFloorPatchWorldXZ": {
+            "distance": 0.30026656192667317,
+            "line": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "mesh": [
+              0.30009999701976764,
+              2.6100000000000003
+            ],
+            "node": "weighted-foot",
+            "triangle": 119,
+            "clearanceBeyondCrossingRadius": 0.0002665619266731811
+          },
+          "wholeModelHorizontalProjectionWorldXZ": {
+            "distance": 0.30026656192667317,
+            "line": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "mesh": [
+              0.30009999701976764,
+              2.6100000000000003
+            ],
+            "node": "weighted-foot",
+            "triangle": 47,
+            "clearanceBeyondCrossingRadius": 0.0002665619266731811
+          },
+          "peerSideProjectedMeshWorldXZ": {
+            "distance": 0.4131273031694524,
+            "line": [
+              -1.3777276490407724e-16,
+              2.25
+            ],
+            "mesh": [
+              0.31289338896274554,
+              2.519762665629387
+            ],
+            "node": "twin-yoke",
+            "triangle": 63,
+            "clearanceBeyondCrossingRadius": 0.11312730316945241
+          },
+          "interiorToInteriorProjectedMeshWorldXZ": {
+            "distance": 0.30026656192667317,
+            "line": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "mesh": [
+              0.30009999701976764,
+              2.6100000000000003
+            ],
+            "node": "weighted-foot",
+            "triangle": 47,
+            "clearanceBeyondCrossingRadius": 0.0002665619266731811
+          },
+          "placement": {
+            "ok": true,
+            "checkedPortalSides": [
+              {
+                "connectionId": "air-rental/ground/portal-stream-living",
+                "side": "from",
+                "regionId": "air-rental/ground/live",
+                "floorId": "air-rental/ground",
+                "width": 1.4,
+                "interior": {
+                  "local": [
+                    1.9,
+                    0,
+                    0
+                  ],
+                  "world": [
+                    -1.5920408388915593e-16,
+                    0,
+                    2.6
+                  ]
+                },
+                "center": {
+                  "local": [
+                    2.25,
+                    0,
+                    0
+                  ],
+                  "world": [
+                    -1.3777276490407724e-16,
+                    0,
+                    2.25
+                  ]
+                },
+                "connected": true
+              },
+              {
+                "connectionId": "air-rental/ground/portal-stream-living",
+                "side": "to",
+                "regionId": "air-rental/ground/living",
+                "floorId": "air-rental/ground",
+                "width": 1.4,
+                "interior": {
+                  "local": [
+                    -1.9,
+                    0,
+                    0
+                  ],
+                  "world": [
+                    -1.1634144591899854e-16,
+                    0,
+                    1.9
+                  ]
+                },
+                "center": {
+                  "local": [
+                    -2.25,
+                    0,
+                    0
+                  ],
+                  "world": [
+                    -1.3777276490407724e-16,
+                    0,
+                    2.25
+                  ]
+                },
+                "connected": true
+              }
+            ],
+            "grids": [
+              {
+                "id": "air-rental/ground/live",
+                "grid": {
+                  "columns": 21,
+                  "rows": 18,
+                  "reachableCells": 256
+                },
+                "entryWorld": [
+                  1.4999999999999996,
+                  0,
+                  6.3
+                ]
+              },
+              {
+                "id": "air-rental/ground/living",
+                "grid": {
+                  "columns": 21,
+                  "rows": 18,
+                  "reachableCells": 242
+                },
+                "entryWorld": [
+                  1.5,
+                  0,
+                  1.6
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case": "touching",
+          "saveSha256": "ff727af90f0ad938465dc8dc08766345f08639a3dfea5a0cfd784c94b839fbe6",
+          "instanceId": "air-rental/ground/live/air",
+          "z": 0.5,
+          "deviceLocal": {
+            "position": [
+              1.89,
+              0,
+              0.5
+            ],
+            "yaw": -1.5707963267948966
+          },
+          "deviceWorld": {
+            "position": [
+              0.49999999999999983,
+              0,
+              2.6100000000000003
+            ],
+            "yaw": 0
+          },
+          "roomWorld": {
+            "position": [
+              -2.755455298081545e-16,
+              0,
+              4.5
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "peerWorld": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "floorWorld": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "portal": {
+            "id": "air-rental/ground/portal-stream-living",
+            "from": {
+              "edge": "east",
+              "offset": 0,
+              "regionId": "air-rental/ground/live",
+              "width": 1.4,
+              "local": {
+                "start": [
+                  2.25,
+                  0,
+                  -0.7
+                ],
+                "end": [
+                  2.25,
+                  0,
+                  0.7
+                ],
+                "center": [
+                  2.25,
+                  0,
+                  0
+                ],
+                "interior": [
+                  1.9,
+                  0,
+                  0
+                ]
+              },
+              "world": {
+                "start": [
+                  -0.7000000000000001,
+                  0,
+                  2.25
+                ],
+                "end": [
+                  0.6999999999999998,
+                  0,
+                  2.25
+                ],
+                "center": [
+                  -1.3777276490407724e-16,
+                  0,
+                  2.25
+                ],
+                "interior": [
+                  -1.5920408388915593e-16,
+                  0,
+                  2.6
+                ],
+                "normal": [
+                  6.123233995736767e-17,
+                  0,
+                  -1
+                ]
+              }
+            },
+            "to": {
+              "edge": "west",
+              "offset": 0,
+              "regionId": "air-rental/ground/living",
+              "width": 1.4,
+              "local": {
+                "start": [
+                  -2.25,
+                  0,
+                  -0.7
+                ],
+                "end": [
+                  -2.25,
+                  0,
+                  0.7
+                ],
+                "center": [
+                  -2.25,
+                  0,
+                  0
+                ],
+                "interior": [
+                  -1.9,
+                  0,
+                  0
+                ]
+              },
+              "world": {
+                "start": [
+                  -0.7000000000000001,
+                  0,
+                  2.25
+                ],
+                "end": [
+                  0.6999999999999998,
+                  0,
+                  2.25
+                ],
+                "center": [
+                  -1.3777276490407724e-16,
+                  0,
+                  2.25
+                ],
+                "interior": [
+                  -1.1634144591899854e-16,
+                  0,
+                  1.9
+                ],
+                "normal": [
+                  -6.123233995736766e-17,
+                  0,
+                  1
+                ]
+              }
+            }
+          },
+          "roomLocalFootprintCornersXZ": [
+            [
+              2.09,
+              0.2999999999999996
+            ],
+            [
+              1.6899999999999995,
+              0.2999999999999998
+            ],
+            [
+              2.09,
+              0.6999999999999997
+            ],
+            [
+              1.6899999999999997,
+              0.6999999999999998
+            ]
+          ],
+          "expandedSquareSignedSlack": -3.885780586188048e-16,
+          "circumscribedDisk": {
+            "baseRadius": 0.20000000922120037,
+            "minimumAxisToCenter": 0.5000999900019995,
+            "nearestAxisPointWorldXZ": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "axisParameter": 0,
+            "signedAxisToDiskBoundary": 0.3000999807807991,
+            "signedSlack": 0.00009998078079909156
+          },
+          "physicalFloorPatchWorldXZ": {
+            "distance": 0.3001666174174948,
+            "line": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "mesh": [
+              0.2999999970197676,
+              2.6100000000000003
+            ],
+            "node": "weighted-foot",
+            "triangle": 119,
+            "clearanceBeyondCrossingRadius": 0.00016661741749479653
+          },
+          "wholeModelHorizontalProjectionWorldXZ": {
+            "distance": 0.3001666174174948,
+            "line": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "mesh": [
+              0.2999999970197676,
+              2.6100000000000003
+            ],
+            "node": "weighted-foot",
+            "triangle": 47,
+            "clearanceBeyondCrossingRadius": 0.00016661741749479653
+          },
+          "peerSideProjectedMeshWorldXZ": {
+            "distance": 0.41305157056507125,
+            "line": [
+              -1.3777276490407724e-16,
+              2.25
+            ],
+            "mesh": [
+              0.3127933889627455,
+              2.519762665629387
+            ],
+            "node": "twin-yoke",
+            "triangle": 63,
+            "clearanceBeyondCrossingRadius": 0.11305157056507126
+          },
+          "interiorToInteriorProjectedMeshWorldXZ": {
+            "distance": 0.3001666174174948,
+            "line": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "mesh": [
+              0.2999999970197676,
+              2.6100000000000003
+            ],
+            "node": "weighted-foot",
+            "triangle": 47,
+            "clearanceBeyondCrossingRadius": 0.00016661741749479653
+          },
+          "placement": {
+            "ok": false,
+            "code": "blocked-portal",
+            "path": "air-rental/ground/portal-stream-living",
+            "details": {
+              "regionId": "air-rental/ground/live",
+              "side": "from",
+              "obstacleId": "air-rental/ground/live/air"
+            }
+          }
+        },
+        {
+          "case": "original-blocked",
+          "saveSha256": "2e5c46f61eeb0e0837acd38f38b6cb2c9f0539877017f2a110f05c004abe565d",
+          "instanceId": "air-rental/ground/live/air",
+          "z": 0.08,
+          "deviceLocal": {
+            "position": [
+              1.89,
+              0,
+              0.08
+            ],
+            "yaw": -1.5707963267948966
+          },
+          "deviceWorld": {
+            "position": [
+              0.07999999999999984,
+              0,
+              2.6100000000000003
+            ],
+            "yaw": 0
+          },
+          "roomWorld": {
+            "position": [
+              -2.755455298081545e-16,
+              0,
+              4.5
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "peerWorld": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "floorWorld": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "portal": {
+            "id": "air-rental/ground/portal-stream-living",
+            "from": {
+              "edge": "east",
+              "offset": 0,
+              "regionId": "air-rental/ground/live",
+              "width": 1.4,
+              "local": {
+                "start": [
+                  2.25,
+                  0,
+                  -0.7
+                ],
+                "end": [
+                  2.25,
+                  0,
+                  0.7
+                ],
+                "center": [
+                  2.25,
+                  0,
+                  0
+                ],
+                "interior": [
+                  1.9,
+                  0,
+                  0
+                ]
+              },
+              "world": {
+                "start": [
+                  -0.7000000000000001,
+                  0,
+                  2.25
+                ],
+                "end": [
+                  0.6999999999999998,
+                  0,
+                  2.25
+                ],
+                "center": [
+                  -1.3777276490407724e-16,
+                  0,
+                  2.25
+                ],
+                "interior": [
+                  -1.5920408388915593e-16,
+                  0,
+                  2.6
+                ],
+                "normal": [
+                  6.123233995736767e-17,
+                  0,
+                  -1
+                ]
+              }
+            },
+            "to": {
+              "edge": "west",
+              "offset": 0,
+              "regionId": "air-rental/ground/living",
+              "width": 1.4,
+              "local": {
+                "start": [
+                  -2.25,
+                  0,
+                  -0.7
+                ],
+                "end": [
+                  -2.25,
+                  0,
+                  0.7
+                ],
+                "center": [
+                  -2.25,
+                  0,
+                  0
+                ],
+                "interior": [
+                  -1.9,
+                  0,
+                  0
+                ]
+              },
+              "world": {
+                "start": [
+                  -0.7000000000000001,
+                  0,
+                  2.25
+                ],
+                "end": [
+                  0.6999999999999998,
+                  0,
+                  2.25
+                ],
+                "center": [
+                  -1.3777276490407724e-16,
+                  0,
+                  2.25
+                ],
+                "interior": [
+                  -1.1634144591899854e-16,
+                  0,
+                  1.9
+                ],
+                "normal": [
+                  -6.123233995736766e-17,
+                  0,
+                  1
+                ]
+              }
+            }
+          },
+          "roomLocalFootprintCornersXZ": [
+            [
+              2.09,
+              -0.12000000000000055
+            ],
+            [
+              1.6899999999999995,
+              -0.1200000000000001
+            ],
+            [
+              2.09,
+              0.2799999999999998
+            ],
+            [
+              1.6899999999999997,
+              0.28
+            ]
+          ],
+          "expandedSquareSignedSlack": -0.42000000000000054,
+          "circumscribedDisk": {
+            "baseRadius": 0.20000000922120037,
+            "minimumAxisToCenter": 0.08062257748298551,
+            "nearestAxisPointWorldXZ": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "axisParameter": 0,
+            "signedAxisToDiskBoundary": -0.11937743173821486,
+            "signedSlack": -0.41937743173821485
+          },
+          "physicalFloorPatchWorldXZ": {
+            "distance": 0,
+            "line": [
+              -1.486154984296025e-16,
+              2.427075276448269
+            ],
+            "mesh": [
+              -1.486154984296025e-16,
+              2.427075276448269
+            ],
+            "node": "weighted-foot",
+            "triangle": 114,
+            "clearanceBeyondCrossingRadius": -0.3
+          },
+          "wholeModelHorizontalProjectionWorldXZ": {
+            "distance": 0,
+            "line": [
+              -1.4867008315722516e-16,
+              2.4279667127001034
+            ],
+            "mesh": [
+              -1.4867008315722516e-16,
+              2.4279667127001034
+            ],
+            "node": "weighted-foot",
+            "triangle": 36,
+            "clearanceBeyondCrossingRadius": -0.3
+          },
+          "peerSideProjectedMeshWorldXZ": {
+            "distance": 0.1688905866604064,
+            "line": [
+              -1.3777276490407724e-16,
+              2.25
+            ],
+            "mesh": [
+              0.04098193526267989,
+              2.4138429468870166
+            ],
+            "node": "weighted-foot",
+            "triangle": 33,
+            "clearanceBeyondCrossingRadius": -0.13110941333959358
+          },
+          "interiorToInteriorProjectedMeshWorldXZ": {
+            "distance": 0,
+            "line": [
+              -1.4867008315722516e-16,
+              2.4279667127001034
+            ],
+            "mesh": [
+              -1.4867008315722516e-16,
+              2.4279667127001034
+            ],
+            "node": "weighted-foot",
+            "triangle": 36,
+            "clearanceBeyondCrossingRadius": -0.3
+          },
+          "placement": {
+            "ok": false,
+            "code": "blocked-portal",
+            "path": "air-rental/ground/portal-stream-living",
+            "details": {
+              "regionId": "air-rental/ground/live",
+              "side": "from",
+              "obstacleId": "air-rental/ground/live/air"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "package": "F:\\gamemake-company-platform-c1\\output\\placement-release-017\\boundary\\named-package",
+      "manifestSha256": "97be776164ee1ee3e83d86a3ddd2b3c8a568a0dd19c1b989bd7d7a44c8591aa7",
+      "build": "7255eee31b85",
+      "sourceDigest": "7255eee31b85ae9e3647979a0aa809886c7d92e5a02a5d644aa23e92efcc4907",
+      "savePath": "data/rooms/air-rental/save.json",
+      "defaultDocument": "air-home",
+      "installedSource": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\floor-air-placement-v1\\work\\source",
+      "verifiedDomainFiles": 169,
+      "lockSha256": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b",
+      "threeVersion": "0.187.0",
+      "glbURL": "/company-assets/floor-air-v1/floor-air-circulator/v1/model.glb",
+      "glbSha256": "5606c1282df3bb3407d7c24a971a828606e79c864b1b89c49c77e11e986857fb",
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.2,
+          0.2
+        ],
+        "blocking": true
+      },
+      "triangles": 3968,
+      "modelVerticalMetres": [
+        3.8743019036002746e-10,
+        0.800000011920929
+      ],
+      "floorContact": {
+        "meshNames": [
+          "weighted-foot"
+        ],
+        "triangles": 32,
+        "hullVertices": 32,
+        "ringLocalXZ": [
+          [
+            -0.20000000298023224,
+            -3.6739405577555036e-17
+          ],
+          [
+            -0.1961570531129837,
+            -0.039018064737319946
+          ],
+          [
+            -0.18477590382099152,
+            -0.07653668522834778
+          ],
+          [
+            -0.1662939190864563,
+            -0.11111404746770859
+          ],
+          [
+            -0.1414213627576828,
+            -0.1414213627576828
+          ],
+          [
+            -0.11111404746770859,
+            -0.1662939190864563
+          ],
+          [
+            -0.07653668522834778,
+            -0.18477590382099152
+          ],
+          [
+            -0.039018064737319946,
+            -0.1961570531129837
+          ],
+          [
+            2.4492935397342132e-17,
+            -0.20000000298023224
+          ],
+          [
+            0.039018064737319946,
+            -0.1961570531129837
+          ],
+          [
+            0.07653668522834778,
+            -0.18477590382099152
+          ],
+          [
+            0.11111404746770859,
+            -0.1662939190864563
+          ],
+          [
+            0.1414213627576828,
+            -0.1414213627576828
+          ],
+          [
+            0.1662939190864563,
+            -0.11111404746770859
+          ],
+          [
+            0.18477590382099152,
+            -0.07653668522834778
+          ],
+          [
+            0.1961570531129837,
+            -0.039018064737319946
+          ],
+          [
+            0.20000000298023224,
+            1.2246467698671066e-17
+          ],
+          [
+            0.1961570531129837,
+            0.039018064737319946
+          ],
+          [
+            0.18477590382099152,
+            0.07653668522834778
+          ],
+          [
+            0.1662939190864563,
+            0.11111404746770859
+          ],
+          [
+            0.1414213627576828,
+            0.1414213627576828
+          ],
+          [
+            0.11111404746770859,
+            0.1662939190864563
+          ],
+          [
+            0.07653668522834778,
+            0.18477590382099152
+          ],
+          [
+            0.039018064737319946,
+            0.1961570531129837
+          ],
+          [
+            -4.8985870794684264e-17,
+            0.20000000298023224
+          ],
+          [
+            -0.039018064737319946,
+            0.1961570531129837
+          ],
+          [
+            -0.07653668522834778,
+            0.18477590382099152
+          ],
+          [
+            -0.11111404746770859,
+            0.1662939190864563
+          ],
+          [
+            -0.1414213627576828,
+            0.1414213627576828
+          ],
+          [
+            -0.1662939190864563,
+            0.11111404746770859
+          ],
+          [
+            -0.18477590382099152,
+            0.07653668522834778
+          ],
+          [
+            -0.1961570531129837,
+            0.039018064737319946
+          ]
+        ],
+        "areaSquareMetres": 0.12485780545861846
+      },
+      "rules": {
+        "scope": "C1/C2 static conservative placement and same-floor portal connectivity",
+        "envelopeRadius": 0.25,
+        "gridSpacing": 0.2,
+        "gridNeighbours": 4,
+        "obstacleExpansion": "conservative square",
+        "endpointConnectorMaximum": 0.4,
+        "roomRangeMetres": [
+          3,
+          20
+        ],
+        "supportedYaw": "quarter turns",
+        "occupancyState": "not produced",
+        "portalMinimumWidth": 0.6,
+        "portalTotalWidthMargin": 0.1,
+        "portalCrossingEnvelopeRadius": 0.3,
+        "portalInteriorInset": 0.35
+      },
+      "cases": [
+        {
+          "case": "published",
+          "saveSha256": "42a102efb5903fd3dfddf7cf975003b4ff8c99fbc67354c47547632869c108b4",
+          "instanceId": "air-rental/ground/live/air",
+          "z": 0.5001,
+          "deviceLocal": {
+            "position": [
+              1.89,
+              0,
+              0.5001
+            ],
+            "yaw": -1.5707963267948966
+          },
+          "deviceWorld": {
+            "position": [
+              0.5000999999999999,
+              0,
+              2.6100000000000003
+            ],
+            "yaw": 0
+          },
+          "roomWorld": {
+            "position": [
+              -2.755455298081545e-16,
+              0,
+              4.5
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "peerWorld": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "floorWorld": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "portal": {
+            "id": "air-rental/ground/portal-stream-living",
+            "from": {
+              "edge": "east",
+              "offset": 0,
+              "regionId": "air-rental/ground/live",
+              "width": 1.4,
+              "local": {
+                "start": [
+                  2.25,
+                  0,
+                  -0.7
+                ],
+                "end": [
+                  2.25,
+                  0,
+                  0.7
+                ],
+                "center": [
+                  2.25,
+                  0,
+                  0
+                ],
+                "interior": [
+                  1.9,
+                  0,
+                  0
+                ]
+              },
+              "world": {
+                "start": [
+                  -0.7000000000000001,
+                  0,
+                  2.25
+                ],
+                "end": [
+                  0.6999999999999998,
+                  0,
+                  2.25
+                ],
+                "center": [
+                  -1.3777276490407724e-16,
+                  0,
+                  2.25
+                ],
+                "interior": [
+                  -1.5920408388915593e-16,
+                  0,
+                  2.6
+                ],
+                "normal": [
+                  6.123233995736767e-17,
+                  0,
+                  -1
+                ]
+              }
+            },
+            "to": {
+              "edge": "west",
+              "offset": 0,
+              "regionId": "air-rental/ground/living",
+              "width": 1.4,
+              "local": {
+                "start": [
+                  -2.25,
+                  0,
+                  -0.7
+                ],
+                "end": [
+                  -2.25,
+                  0,
+                  0.7
+                ],
+                "center": [
+                  -2.25,
+                  0,
+                  0
+                ],
+                "interior": [
+                  -1.9,
+                  0,
+                  0
+                ]
+              },
+              "world": {
+                "start": [
+                  -0.7000000000000001,
+                  0,
+                  2.25
+                ],
+                "end": [
+                  0.6999999999999998,
+                  0,
+                  2.25
+                ],
+                "center": [
+                  -1.3777276490407724e-16,
+                  0,
+                  2.25
+                ],
+                "interior": [
+                  -1.1634144591899854e-16,
+                  0,
+                  1.9
+                ],
+                "normal": [
+                  -6.123233995736766e-17,
+                  0,
+                  1
+                ]
+              }
+            }
+          },
+          "roomLocalFootprintCornersXZ": [
+            [
+              2.09,
+              0.3000999999999996
+            ],
+            [
+              1.6899999999999995,
+              0.3000999999999998
+            ],
+            [
+              2.09,
+              0.7000999999999997
+            ],
+            [
+              1.6899999999999995,
+              0.7001
+            ]
+          ],
+          "expandedSquareSignedSlack": 0.00009999999999960041,
+          "circumscribedDisk": {
+            "baseRadius": 0.20000000922120037,
+            "minimumAxisToCenter": 0.5001999700119943,
+            "nearestAxisPointWorldXZ": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "axisParameter": 0,
+            "signedAxisToDiskBoundary": 0.300199960790794,
+            "signedSlack": 0.00019996079079398488
+          },
+          "physicalFloorPatchWorldXZ": {
+            "distance": 0.30026656192667317,
+            "line": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "mesh": [
+              0.30009999701976764,
+              2.6100000000000003
+            ],
+            "node": "weighted-foot",
+            "triangle": 119,
+            "clearanceBeyondCrossingRadius": 0.0002665619266731811
+          },
+          "wholeModelHorizontalProjectionWorldXZ": {
+            "distance": 0.30026656192667317,
+            "line": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "mesh": [
+              0.30009999701976764,
+              2.6100000000000003
+            ],
+            "node": "weighted-foot",
+            "triangle": 47,
+            "clearanceBeyondCrossingRadius": 0.0002665619266731811
+          },
+          "peerSideProjectedMeshWorldXZ": {
+            "distance": 0.4131273031694524,
+            "line": [
+              -1.3777276490407724e-16,
+              2.25
+            ],
+            "mesh": [
+              0.31289338896274554,
+              2.519762665629387
+            ],
+            "node": "twin-yoke",
+            "triangle": 63,
+            "clearanceBeyondCrossingRadius": 0.11312730316945241
+          },
+          "interiorToInteriorProjectedMeshWorldXZ": {
+            "distance": 0.30026656192667317,
+            "line": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "mesh": [
+              0.30009999701976764,
+              2.6100000000000003
+            ],
+            "node": "weighted-foot",
+            "triangle": 47,
+            "clearanceBeyondCrossingRadius": 0.0002665619266731811
+          },
+          "placement": {
+            "ok": true,
+            "checkedPortalSides": [
+              {
+                "connectionId": "air-rental/ground/portal-stream-living",
+                "side": "from",
+                "regionId": "air-rental/ground/live",
+                "floorId": "air-rental/ground",
+                "width": 1.4,
+                "interior": {
+                  "local": [
+                    1.9,
+                    0,
+                    0
+                  ],
+                  "world": [
+                    -1.5920408388915593e-16,
+                    0,
+                    2.6
+                  ]
+                },
+                "center": {
+                  "local": [
+                    2.25,
+                    0,
+                    0
+                  ],
+                  "world": [
+                    -1.3777276490407724e-16,
+                    0,
+                    2.25
+                  ]
+                },
+                "connected": true
+              },
+              {
+                "connectionId": "air-rental/ground/portal-stream-living",
+                "side": "to",
+                "regionId": "air-rental/ground/living",
+                "floorId": "air-rental/ground",
+                "width": 1.4,
+                "interior": {
+                  "local": [
+                    -1.9,
+                    0,
+                    0
+                  ],
+                  "world": [
+                    -1.1634144591899854e-16,
+                    0,
+                    1.9
+                  ]
+                },
+                "center": {
+                  "local": [
+                    -2.25,
+                    0,
+                    0
+                  ],
+                  "world": [
+                    -1.3777276490407724e-16,
+                    0,
+                    2.25
+                  ]
+                },
+                "connected": true
+              }
+            ],
+            "grids": [
+              {
+                "id": "air-rental/ground/live",
+                "grid": {
+                  "columns": 21,
+                  "rows": 18,
+                  "reachableCells": 256
+                },
+                "entryWorld": [
+                  1.4999999999999996,
+                  0,
+                  6.3
+                ]
+              },
+              {
+                "id": "air-rental/ground/living",
+                "grid": {
+                  "columns": 21,
+                  "rows": 18,
+                  "reachableCells": 242
+                },
+                "entryWorld": [
+                  1.5,
+                  0,
+                  1.6
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case": "touching",
+          "saveSha256": "ff727af90f0ad938465dc8dc08766345f08639a3dfea5a0cfd784c94b839fbe6",
+          "instanceId": "air-rental/ground/live/air",
+          "z": 0.5,
+          "deviceLocal": {
+            "position": [
+              1.89,
+              0,
+              0.5
+            ],
+            "yaw": -1.5707963267948966
+          },
+          "deviceWorld": {
+            "position": [
+              0.49999999999999983,
+              0,
+              2.6100000000000003
+            ],
+            "yaw": 0
+          },
+          "roomWorld": {
+            "position": [
+              -2.755455298081545e-16,
+              0,
+              4.5
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "peerWorld": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "floorWorld": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "portal": {
+            "id": "air-rental/ground/portal-stream-living",
+            "from": {
+              "edge": "east",
+              "offset": 0,
+              "regionId": "air-rental/ground/live",
+              "width": 1.4,
+              "local": {
+                "start": [
+                  2.25,
+                  0,
+                  -0.7
+                ],
+                "end": [
+                  2.25,
+                  0,
+                  0.7
+                ],
+                "center": [
+                  2.25,
+                  0,
+                  0
+                ],
+                "interior": [
+                  1.9,
+                  0,
+                  0
+                ]
+              },
+              "world": {
+                "start": [
+                  -0.7000000000000001,
+                  0,
+                  2.25
+                ],
+                "end": [
+                  0.6999999999999998,
+                  0,
+                  2.25
+                ],
+                "center": [
+                  -1.3777276490407724e-16,
+                  0,
+                  2.25
+                ],
+                "interior": [
+                  -1.5920408388915593e-16,
+                  0,
+                  2.6
+                ],
+                "normal": [
+                  6.123233995736767e-17,
+                  0,
+                  -1
+                ]
+              }
+            },
+            "to": {
+              "edge": "west",
+              "offset": 0,
+              "regionId": "air-rental/ground/living",
+              "width": 1.4,
+              "local": {
+                "start": [
+                  -2.25,
+                  0,
+                  -0.7
+                ],
+                "end": [
+                  -2.25,
+                  0,
+                  0.7
+                ],
+                "center": [
+                  -2.25,
+                  0,
+                  0
+                ],
+                "interior": [
+                  -1.9,
+                  0,
+                  0
+                ]
+              },
+              "world": {
+                "start": [
+                  -0.7000000000000001,
+                  0,
+                  2.25
+                ],
+                "end": [
+                  0.6999999999999998,
+                  0,
+                  2.25
+                ],
+                "center": [
+                  -1.3777276490407724e-16,
+                  0,
+                  2.25
+                ],
+                "interior": [
+                  -1.1634144591899854e-16,
+                  0,
+                  1.9
+                ],
+                "normal": [
+                  -6.123233995736766e-17,
+                  0,
+                  1
+                ]
+              }
+            }
+          },
+          "roomLocalFootprintCornersXZ": [
+            [
+              2.09,
+              0.2999999999999996
+            ],
+            [
+              1.6899999999999995,
+              0.2999999999999998
+            ],
+            [
+              2.09,
+              0.6999999999999997
+            ],
+            [
+              1.6899999999999997,
+              0.6999999999999998
+            ]
+          ],
+          "expandedSquareSignedSlack": -3.885780586188048e-16,
+          "circumscribedDisk": {
+            "baseRadius": 0.20000000922120037,
+            "minimumAxisToCenter": 0.5000999900019995,
+            "nearestAxisPointWorldXZ": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "axisParameter": 0,
+            "signedAxisToDiskBoundary": 0.3000999807807991,
+            "signedSlack": 0.00009998078079909156
+          },
+          "physicalFloorPatchWorldXZ": {
+            "distance": 0.3001666174174948,
+            "line": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "mesh": [
+              0.2999999970197676,
+              2.6100000000000003
+            ],
+            "node": "weighted-foot",
+            "triangle": 119,
+            "clearanceBeyondCrossingRadius": 0.00016661741749479653
+          },
+          "wholeModelHorizontalProjectionWorldXZ": {
+            "distance": 0.3001666174174948,
+            "line": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "mesh": [
+              0.2999999970197676,
+              2.6100000000000003
+            ],
+            "node": "weighted-foot",
+            "triangle": 47,
+            "clearanceBeyondCrossingRadius": 0.00016661741749479653
+          },
+          "peerSideProjectedMeshWorldXZ": {
+            "distance": 0.41305157056507125,
+            "line": [
+              -1.3777276490407724e-16,
+              2.25
+            ],
+            "mesh": [
+              0.3127933889627455,
+              2.519762665629387
+            ],
+            "node": "twin-yoke",
+            "triangle": 63,
+            "clearanceBeyondCrossingRadius": 0.11305157056507126
+          },
+          "interiorToInteriorProjectedMeshWorldXZ": {
+            "distance": 0.3001666174174948,
+            "line": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "mesh": [
+              0.2999999970197676,
+              2.6100000000000003
+            ],
+            "node": "weighted-foot",
+            "triangle": 47,
+            "clearanceBeyondCrossingRadius": 0.00016661741749479653
+          },
+          "placement": {
+            "ok": false,
+            "code": "blocked-portal",
+            "path": "air-rental/ground/portal-stream-living",
+            "details": {
+              "regionId": "air-rental/ground/live",
+              "side": "from",
+              "obstacleId": "air-rental/ground/live/air"
+            }
+          }
+        },
+        {
+          "case": "original-blocked",
+          "saveSha256": "2e5c46f61eeb0e0837acd38f38b6cb2c9f0539877017f2a110f05c004abe565d",
+          "instanceId": "air-rental/ground/live/air",
+          "z": 0.08,
+          "deviceLocal": {
+            "position": [
+              1.89,
+              0,
+              0.08
+            ],
+            "yaw": -1.5707963267948966
+          },
+          "deviceWorld": {
+            "position": [
+              0.07999999999999984,
+              0,
+              2.6100000000000003
+            ],
+            "yaw": 0
+          },
+          "roomWorld": {
+            "position": [
+              -2.755455298081545e-16,
+              0,
+              4.5
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "peerWorld": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "floorWorld": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "portal": {
+            "id": "air-rental/ground/portal-stream-living",
+            "from": {
+              "edge": "east",
+              "offset": 0,
+              "regionId": "air-rental/ground/live",
+              "width": 1.4,
+              "local": {
+                "start": [
+                  2.25,
+                  0,
+                  -0.7
+                ],
+                "end": [
+                  2.25,
+                  0,
+                  0.7
+                ],
+                "center": [
+                  2.25,
+                  0,
+                  0
+                ],
+                "interior": [
+                  1.9,
+                  0,
+                  0
+                ]
+              },
+              "world": {
+                "start": [
+                  -0.7000000000000001,
+                  0,
+                  2.25
+                ],
+                "end": [
+                  0.6999999999999998,
+                  0,
+                  2.25
+                ],
+                "center": [
+                  -1.3777276490407724e-16,
+                  0,
+                  2.25
+                ],
+                "interior": [
+                  -1.5920408388915593e-16,
+                  0,
+                  2.6
+                ],
+                "normal": [
+                  6.123233995736767e-17,
+                  0,
+                  -1
+                ]
+              }
+            },
+            "to": {
+              "edge": "west",
+              "offset": 0,
+              "regionId": "air-rental/ground/living",
+              "width": 1.4,
+              "local": {
+                "start": [
+                  -2.25,
+                  0,
+                  -0.7
+                ],
+                "end": [
+                  -2.25,
+                  0,
+                  0.7
+                ],
+                "center": [
+                  -2.25,
+                  0,
+                  0
+                ],
+                "interior": [
+                  -1.9,
+                  0,
+                  0
+                ]
+              },
+              "world": {
+                "start": [
+                  -0.7000000000000001,
+                  0,
+                  2.25
+                ],
+                "end": [
+                  0.6999999999999998,
+                  0,
+                  2.25
+                ],
+                "center": [
+                  -1.3777276490407724e-16,
+                  0,
+                  2.25
+                ],
+                "interior": [
+                  -1.1634144591899854e-16,
+                  0,
+                  1.9
+                ],
+                "normal": [
+                  -6.123233995736766e-17,
+                  0,
+                  1
+                ]
+              }
+            }
+          },
+          "roomLocalFootprintCornersXZ": [
+            [
+              2.09,
+              -0.12000000000000055
+            ],
+            [
+              1.6899999999999995,
+              -0.1200000000000001
+            ],
+            [
+              2.09,
+              0.2799999999999998
+            ],
+            [
+              1.6899999999999997,
+              0.28
+            ]
+          ],
+          "expandedSquareSignedSlack": -0.42000000000000054,
+          "circumscribedDisk": {
+            "baseRadius": 0.20000000922120037,
+            "minimumAxisToCenter": 0.08062257748298551,
+            "nearestAxisPointWorldXZ": [
+              -1.5920408388915593e-16,
+              2.6
+            ],
+            "axisParameter": 0,
+            "signedAxisToDiskBoundary": -0.11937743173821486,
+            "signedSlack": -0.41937743173821485
+          },
+          "physicalFloorPatchWorldXZ": {
+            "distance": 0,
+            "line": [
+              -1.486154984296025e-16,
+              2.427075276448269
+            ],
+            "mesh": [
+              -1.486154984296025e-16,
+              2.427075276448269
+            ],
+            "node": "weighted-foot",
+            "triangle": 114,
+            "clearanceBeyondCrossingRadius": -0.3
+          },
+          "wholeModelHorizontalProjectionWorldXZ": {
+            "distance": 0,
+            "line": [
+              -1.4867008315722516e-16,
+              2.4279667127001034
+            ],
+            "mesh": [
+              -1.4867008315722516e-16,
+              2.4279667127001034
+            ],
+            "node": "weighted-foot",
+            "triangle": 36,
+            "clearanceBeyondCrossingRadius": -0.3
+          },
+          "peerSideProjectedMeshWorldXZ": {
+            "distance": 0.1688905866604064,
+            "line": [
+              -1.3777276490407724e-16,
+              2.25
+            ],
+            "mesh": [
+              0.04098193526267989,
+              2.4138429468870166
+            ],
+            "node": "weighted-foot",
+            "triangle": 33,
+            "clearanceBeyondCrossingRadius": -0.13110941333959358
+          },
+          "interiorToInteriorProjectedMeshWorldXZ": {
+            "distance": 0,
+            "line": [
+              -1.4867008315722516e-16,
+              2.4279667127001034
+            ],
+            "mesh": [
+              -1.4867008315722516e-16,
+              2.4279667127001034
+            ],
+            "node": "weighted-foot",
+            "triangle": 36,
+            "clearanceBeyondCrossingRadius": -0.3
+          },
+          "placement": {
+            "ok": false,
+            "code": "blocked-portal",
+            "path": "air-rental/ground/portal-stream-living",
+            "details": {
+              "regionId": "air-rental/ground/live",
+              "side": "from",
+              "obstacleId": "air-rental/ground/live/air"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

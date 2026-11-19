@@ -1,0 +1,50 @@
+{
+  "status": "passed",
+  "build": "7255eee31b85",
+  "cases": [
+    {
+      "label": "missing",
+      "input": "original-studio",
+      "sourceRoom": "no-such-room",
+      "response": {
+        "ok": false,
+        "code": "missing-vocal-origin-room",
+        "path": "data/rooms/no-such-room/save.json",
+        "message": "Expected exactly one pinned file in the selected source room"
+      }
+    },
+    {
+      "label": "changed-pin",
+      "input": "original-studio",
+      "sourceRoom": "singing-studio",
+      "response": {
+        "ok": false,
+        "code": "vocal-origin-manifest-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+        "message": "Source manifest differs from the published digest"
+      }
+    },
+    {
+      "label": "missing-declaration",
+      "input": "without-vocal",
+      "sourceRoom": "singing-studio",
+      "response": {
+        "ok": false,
+        "code": "vocal-slot-binding-mismatch",
+        "path": "singing-studio",
+        "message": "The standing microphone, slot or performer references differ from the reviewed room"
+      }
+    },
+    {
+      "label": "old-version",
+      "input": "original-studio",
+      "sourceRoom": "singing-studio",
+      "response": {
+        "ok": false,
+        "code": "unsupported-vocal-origin-version",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\fixtures\\unsupported-source-version",
+        "message": "Expected company-transfer version 1"
+      }
+    }
+  ]
+}
