@@ -42,3 +42,14 @@ class PersonalAppearanceTests(unittest.TestCase):
         self.assertEqual(self.plan(diagnostic=False)["request"], baseline)
         self.item["appearance"] = {"hairColor": "brown"}
         self.assertIn("default appearance only", self.plan(diagnostic=False)["reason"])
+
+    def test_shared_appearance_is_resolved_after_individual_overrides(self):
+        self.request["sharedLook"]["appearance"] = {"hairColor":"brown", "skinTone":"original"}
+        self.item["appearance"] = {"skinTone":"warm", "lipColor":"rose"}
+        actual = self.plan()
+        self.assertEqual(actual["selection"]["appearance"], {"hairColor":"brown","skinTone":"warm","lipColor":"rose"})
+        self.assertEqual(self.request["sharedLook"]["appearance"]["skinTone"],"original")
+        self.item["appearance"] = {"lipColor":"rose"}
+        self.assertEqual(self.plan()["status"],"rejected")
+        del self.item["appearance"]
+        self.assertEqual(self.plan()["request"]["edits"][1]["values"],{"hairColor":"brown"})

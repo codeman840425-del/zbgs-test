@@ -3,11 +3,11 @@ import {ACCESSORY_SCHEMA,ACCESSORY_RULES,captureAccessories,validateAccessories,
 import {validateHairSelection} from './hair-fit-contract.js';
 import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
 import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
-import {facialPaletteContract,compatiblePaletteVersions,assertPaletteRecipeVersion,keepRestoredPaletteVersion,LEGACY_FACIAL_PALETTE_VERSION as LEGACY_PALETTE} from './facial-palette-contract.js';
+import {activePaletteVersion,compatiblePaletteVersions,assertPaletteRecipeVersion,keepRestoredPaletteVersion,LEGACY_FACIAL_PALETTE_VERSION as LEGACY_PALETTE} from './facial-palette-contract.js';
 import {resolveFacialGeometrySelection,appearanceAdmissionError} from './facial-geometry-selection.js';
 import {SURFACE_LAYER_PACKAGE} from './surface-layer-catalog.js';
 import {validateSurfaceSelection} from './surface-layer-compositor.js';
-import {assertAppearanceColorSelection} from './appearance-color-policy.js';
+import {appearanceColorPresets,assertAppearanceColorSelection} from './appearance-color-policy.js';
 import {nativePaletteContract} from './native-palette-catalog.js';
 import {NATIVE_SKIN_TONE_SCHEMA,NATIVE_SKIN_TONE_RULES,nativeSkinToneContract} from './native-skin-tone-contract.js';
 import {NATIVE_LIP_COLOR_SCHEMA,NATIVE_LIP_COLOR_RULES,nativeLipColorContract} from './native-lip-color-contract.js';
@@ -32,7 +32,7 @@ export function captureAppearanceRecipe(controller){
  const nativeVersion=Boolean(nativePaletteContract(a.profile.sha256)?.eyebrow);
  const skin=s.skinTone!=='original'?nativeSkinToneContract(a.profile.sha256):null;
  const lip=nativeLipColorContract(a.profile.sha256)?.variants[s.lipColor];
- const paletteVersion=(keepRestoredPaletteVersion(a.profile.sha256,s)?restoredOriginalPaletteVersions.get(a):undefined)??facialPaletteContract(a.profile.sha256).version;
+ const paletteVersion=(keepRestoredPaletteVersion(a.profile.sha256,s)?restoredOriginalPaletteVersions.get(a):undefined)??activePaletteVersion(a.profile.sha256,s);
  return{schema:lip?NATIVE_LIP_COLOR_SCHEMA:skin?NATIVE_SKIN_TONE_SCHEMA:nativeVersion?NATIVE_SCHEMA:accessories?ACCESSORY_SCHEMA:hasSurface?SURFACE_SCHEMA:SCHEMA,
   rulesVersion:lip?NATIVE_LIP_COLOR_RULES:skin?NATIVE_SKIN_TONE_RULES:nativeVersion?NATIVE_RULES:accessories?ACCESSORY_RULES:hasSurface?SURFACE_RULES:RULES,paletteVersion,
   ...(skin?{skinToneManifestSha256:skin.sha256}:{}),
@@ -103,7 +103,8 @@ export function validateAppearanceRecipe(controller,record){
   throw appearanceAdmissionError('lipColorManifestSha256','incompatible-resource','原生唇妆与当前身体、款式或肤色不匹配');
  if(!lipVersion&&(Object.hasOwn(record,'lipColorManifestSha256')||lipStyle))
   throw appearanceAdmissionError('lipColorManifestSha256','incompatible-version','原生唇妆须保存明确的资源版本');
- for(const [key,choices] of [['hairColor',HAIR_COLORS],['skinTone',skin?.colors??SKIN_TONES],['eyeColor',EYE_COLORS],['lipColor',lip?.colors??LIP_COLORS]])
+ const skinChoices=skin?.colors??{...SKIN_TONES,...appearanceColorPresets(a.profile.sha256,'skinTone',SKIN_TONES)};
+ for(const [key,choices] of [['hairColor',HAIR_COLORS],['skinTone',skinChoices],['eyeColor',EYE_COLORS],['lipColor',lip?.colors??LIP_COLORS]])
   if(!Object.hasOwn(choices,record.appearance[key]))throw appearanceAdmissionError('appearance.'+key,'unsupported-value','未知配色：'+key);
  assertAppearanceColorSelection(a.profile.sha256,record.appearance);
  assertPaletteRecipeVersion(a.profile.sha256,record.paletteVersion,{...record.appearance,

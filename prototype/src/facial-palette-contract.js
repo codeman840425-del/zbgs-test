@@ -1,6 +1,6 @@
 import {REPRESENTATIVE_PALETTES} from './representative-batch.js';
 import {nativePaletteContract} from './native-palette-catalog.js';
-import {fittedHeadAppearance} from './fitted-head-appearance.js';
+import {fittedHeadAppearance,fittedPaletteVersion} from './fitted-head-appearance.js';
 export const FACIAL_PALETTE_MANIFEST_URL='/assets/appearance-color-v3/runtime-manifest.json';
 export const FACIAL_PALETTE_MANIFEST_SHA256='2eff13c1d3837c4f8f76b7d97007b219059c212c1031d77e27a2f824715af321';
 export const FACIAL_PALETTE_VERSION='appearance-color-v3:'+FACIAL_PALETTE_MANIFEST_SHA256;
@@ -18,11 +18,17 @@ export function facialPaletteContract(bodySha256){
 }
 export function compatiblePaletteVersions(bodySha256){
   const fitted=fittedHeadAppearance(bodySha256);
-  if(fitted)return [fitted.palette.version,...fitted.originalOnlyPaletteVersions];
+  if(fitted)return [fitted.palette.version,...Object.keys(fitted.colors.skinTone??{})
+    .filter(tone=>tone!=='original').map(tone=>fittedPaletteVersion(fitted,tone)),...fitted.originalOnlyPaletteVersions];
   const native=nativePaletteContract(bodySha256);
   if(native)return[...new Set([facialPaletteContract(bodySha256).version,native.version,FACIAL_PALETTE_VERSION,LEGACY_FACIAL_PALETTE_VERSION])];
   const contract=facialPaletteContract(bodySha256);
   return contract.version===FACIAL_PALETTE_VERSION?[FACIAL_PALETTE_VERSION,LEGACY_FACIAL_PALETTE_VERSION]:[contract.version];
+}
+
+export function activePaletteVersion(bodySha256,appearance) {
+  const fitted=fittedHeadAppearance(bodySha256);
+  return fitted ? fittedPaletteVersion(fitted,appearance.skinTone) : facialPaletteContract(bodySha256).version;
 }
 
 // A restored original-only record may keep its signed palette identity until
@@ -39,9 +45,9 @@ export function assertPaletteRecipeVersion(bodySha256,version,appearance) {
   const error=message=>{const e=new Error(message);e.field='paletteVersion';e.code='incompatible-version';throw e;};
   const fitted=fittedHeadAppearance(bodySha256);
   if(fitted){
-    if(!compatiblePaletteVersions(bodySha256).includes(version) ||
-       (version!==fitted.palette.version&&!keepRestoredPaletteVersion(bodySha256,appearance)))
-      error('已选发型与配色需要当前基模的适配版本');
+    if(version===fittedPaletteVersion(fitted,appearance.skinTone))return;
+    if(!(fitted.originalOnlyPaletteVersions.includes(version)&&keepRestoredPaletteVersion(bodySha256,appearance)))
+      error('当前造型与所选肤色的资源版本不匹配');
     return;
   }
   if(!native)return;

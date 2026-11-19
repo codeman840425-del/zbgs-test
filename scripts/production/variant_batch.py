@@ -62,8 +62,12 @@ def batch_items(request):
     if "sharedLook" not in request:
         return items
     shared = request["sharedLook"]
-    check(isinstance(shared, dict) and set(shared) == {"styleId", "variantVersion", "outfitRole"} and
-          all(isinstance(v, str) and ID.fullmatch(v) for v in shared.values()), "Invalid sharedLook")
+    required = {"styleId", "variantVersion", "outfitRole"}
+    check(isinstance(shared, dict) and set(shared) in (required, required | {"appearance"}) and
+          all(isinstance(shared[k], str) and ID.fullmatch(shared[k]) for k in required), "Invalid sharedLook")
+    if "appearance" in shared:
+        check(isinstance(shared["appearance"], dict) and shared["appearance"] and
+              all(isinstance(value, str) for value in shared["appearance"].values()), "Invalid shared appearance")
     expanded = []
     for item in items:
         if not isinstance(item, dict) or set(item) not in ({"bodyType", "identity"}, {"bodyType", "identity", "appearance"}):
@@ -71,6 +75,12 @@ def batch_items(request):
             expanded.append({"itemError": "Shared looks require bodyType, identity and optional appearance per item"})
             continue
         identity = item["identity"]
+        if "appearance" in shared:
+            overrides = item.get("appearance", {})
+            if not isinstance(overrides, dict) or ("appearance" in item and not overrides):
+                expanded.append({"itemError": "Specify a nonempty appearance object"})
+                continue
+            item = {**item, "appearance": {**shared["appearance"], **overrides}}
         expanded.append({**item, "stableId": identity.get("id") if isinstance(identity, dict) else None,
                          "styleId":shared["styleId"], "variantVersion":shared["variantVersion"],
                          "outfit":{"role":shared["outfitRole"]}})

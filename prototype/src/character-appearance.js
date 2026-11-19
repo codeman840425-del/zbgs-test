@@ -7,6 +7,7 @@ import { NO_HAIR_BODIES } from './no-hair-bodies.js';
 import { hairFitIdentity, validateHairSelection, validateHairFitData } from './hair-fit-contract.js';
 import { createHairSpring, validateHairSkin, validateHairEnvironmentColliders } from './hair-spring.js';
 import { assertAppearanceColorSelection } from './appearance-color-policy.js';
+import {fittedHeadAppearance} from './fitted-head-appearance.js';
 import {nativePaletteContract} from './native-palette-catalog.js';
 import {createNativeEyebrowPalette} from './native-eyebrow-palette.js';
 import { loadNativeHairAttachment } from './native-hair-attachment.js';
@@ -24,6 +25,7 @@ const materialsOf = mesh => Array.isArray(mesh.material) ? mesh.material : [mesh
 export function createCharacterAppearance({ vrm, avatarSha256, validateHairChange, preserveHairInBaseMode = false, bodyTextureCoverage }) {
   const facialPalette = createFacialPalette({vrm, avatarSha256});
   const skinContract = nativeSkinToneContract(avatarSha256);
+  const skinMultipliers = fittedHeadAppearance(avatarSha256)?.colors.skinTone ?? SKIN_TONES;
   const lipContract = nativeLipColorContract(avatarSha256);
   const nativeSkin = skinContract ? createNativeSkinTone({vrm, contract:skinContract, coverage:bodyTextureCoverage, lipContract}) : null;
   const nativeEyebrow = nativePaletteContract(avatarSha256)?.eyebrow
@@ -126,7 +128,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
       if (mesh.isMesh) for (const m of materialsOf(mesh)) tintHair(m, value.materialBase.get(m));
     });
     for (const m of tintableSkin) {
-      const base = originals.get(m), tint = SKIN_TONES[skinTone];
+      const base = originals.get(m), tint = skinMultipliers[skinTone];
       if (base.color) { m.color.copy(base.color); if (tint) m.color.multiply(new THREE.Color(tint)); }
       if (base.shade) { m.shadeColorFactor.copy(base.shade); if (tint) m.shadeColorFactor.multiply(new THREE.Color(tint)); }
     }
@@ -233,7 +235,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
     const desiredSkin = input.reset ? 'original' : input.skinTone ?? skinTone;
     const desiredNativeLip = input.reset ? 'original' : input.lipColor ?? nativeLipColor;
     const desiredEyebrow = input.reset ? 'original' : input.eyebrowColor ?? nativeEyebrow?.getState().eyebrowColor ?? 'original';
-    if (!Object.hasOwn(HAIR_COLORS,desiredColor) || !Object.hasOwn(skinContract?.colors ?? SKIN_TONES,desiredSkin))
+    if (!Object.hasOwn(HAIR_COLORS,desiredColor) || !Object.hasOwn(skinContract?.colors ?? skinMultipliers,desiredSkin))
       return { applied: false, reason: '未知颜色预设' };
     if ((input.eyeColor !== undefined && !Object.hasOwn(EYE_COLORS,input.eyeColor)) ||
         (input.lipColor !== undefined && !Object.hasOwn(lipContract?.colors ?? LIP_COLORS,input.lipColor)))

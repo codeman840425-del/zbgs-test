@@ -100,11 +100,11 @@ test('create, sign and cold restore the exact lightweight bob and three colors',
   const choices=queryAppearanceCandidates(restored.controller).appearance;
   for(const [key,selection] of Object.entries(look))
     assert.deepEqual(choices[key].choices.map(x=>x.value),['original',selection]);
-  assert.deepEqual(choices.skinTone.choices.map(x=>x.value),['original']);
+  assert.deepEqual(choices.skinTone.choices.map(x=>x.value),['original','warm']);
   const state=restored.avatar.appearance.getState();
   assert.equal(state.facialTextureCount,4);
   assert.equal(state.neutralTextureCount,4);
-  for(const [key,value] of Object.entries({skinTone:'warm',eyeColor:'green',hairColor:'brown',lipColor:'rose',hairStyle:'female-ponytail-v1'})){
+  for(const [key,value] of Object.entries({skinTone:'deep',eyeColor:'green',hairColor:'brown',lipColor:'rose',hairStyle:'female-ponytail-v1'})){
     const attempt=await restored.avatar.appearance.set({[key]:value});
     assert.equal(attempt.applied,false);
   }
@@ -116,6 +116,28 @@ test('create, sign and cold restore the exact lightweight bob and three colors',
   const changed=await restored.avatar.appearance.set({lipColor:'coral'});
   assert.equal(changed.applied,true,changed.reason);
   assert.equal((await capture()).paletteVersion,registration.palette.version);
+});
+
+test('warm material factor is signed and cannot inherit the original-skin palette identity',async t=>{
+  imageTransport(t);
+  const [saved] = await load('evidence/m2-uniform-lite-head-intake-v1/signed-pair.json');
+  const request = await load('evidence/m2-uniform-lite-head-intake-v1/female-request.json');
+  request.edits.at(-1).values.skinTone='warm';
+  const {record} = await performCharacterProduction(request,env());
+  const recipe = record.appearanceRecipe;
+  assert.equal(recipe.paletteVersion,registration.palette.version+'|skin-multiply-v1:warm:ddc5b4');
+  assert.equal(recipe.appearance.skinTone,'warm');
+  assert.deepEqual(await closure(saved),await closure(record));
+  const loaded=await prepareRecordedCharacter(JSON.parse(JSON.stringify(record)),env());
+  t.after(()=>loaded.dispose());
+  const capture=async()=>(await loaded.capture()).appearanceRecipe;
+  assert.deepEqual(await capture(),recipe);
+  for(const staleVersion of [registration.palette.version,recipe.paletteVersion.replace('ddc5b4','eec5b4')])
+    assert.equal(admitAppearanceCandidate(loaded.controller,{...recipe,paletteVersion:staleVersion}).accepted,false);
+  assert.equal(admitAppearanceCandidate(loaded.controller,{...recipe,appearance:{...recipe.appearance,skinTone:'original'}}).accepted,false);
+  assert.deepEqual(await capture(),recipe);
+  assert.equal((await restoreRuntimeCharacterRecord(loaded.controller,saved)).applied,true);
+  assert.deepEqual(await capture(),saved.appearanceRecipe);
 });
 
 test('historical warm signed female bob and original male retain their recipe and resource identities',async t=>{
