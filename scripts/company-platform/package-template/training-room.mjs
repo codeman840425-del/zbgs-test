@@ -162,6 +162,7 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
       fail('training-edit-mismatch',scope.prefix,'The default manifest and the pinned source disagree.');
     scope.evidence = evidence;
     scope.teaStations = layout.teaStations;
+    scope.publicWashrooms = layout.publicWashrooms;
     scope.vocalSlots = editableVocalBinding(layout);
     candidates.push(scope);
   }
@@ -183,6 +184,10 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
   if (possible.some(scope=>scope.teaStations!==undefined) &&
       !possible.some(scope=>equal(scope.teaStations,document.teaStations)))
     fail('tea-station-binding-mismatch',input,'The tea station declaration differs from the selected saved room.');
+  if(possible.some(scope=>!equal(scope.publicWashrooms,possible[0].publicWashrooms)))
+    fail('ambiguous-washroom',input,'Select the original washroom declaration with --room KEY.');
+  if(possible.some(scope=>scope.publicWashrooms!==undefined)&&!possible.some(scope=>equal(scope.publicWashrooms,document.publicWashrooms)))
+    fail('washroom-binding-mismatch',input,'The washroom declaration differs from the selected saved room.');
   if (inherited) {
     if (possible.length && !possible.some(scope => scope.evidence &&
         equal(scope.evidence.trainingClearance,inherited.trainingClearance)))

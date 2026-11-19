@@ -3,12 +3,22 @@ import {createCompanyScene,validateCeilingDocumentAssets} from './render.js';
 import {createCompanySaveStore,encodeCompanySave,decodeCompanySave} from './persistence.js';
 import {inspectCompanyPlacement} from './placement.js';
 import {installationGeometryFacilities} from './desktop-placement.js';
+import {publicWashroomFloors,measurePublicWashroomFloor,shouldCheckPublicWashrooms} from './public-washroom.js';
 import {prepareTemplateUpgrade} from './upgrade.js';
 
 // Agent-facing authoring transactions. No character, movement, task or lease state.
 export async function createCompanyAuthoring(world,initialDocument,{catalog,templates,storage,assetLibrary,mirrorPreflight,mirrorRenderProfile,isUsePointBusy=()=>false}={}) {
   let generation=0,disposed=false;
   const pendingPreloads=new Map();
+  let verifiedWashroomFloors=new Map();
+  function washroomChecks(document,derived) {
+    return publicWashroomFloors(document,derived).map(group=>{
+      const nodes=document.nodes.filter(node=>derived.floorIds.get(node.id)===group.id);
+      const signature=JSON.stringify([document.id,nodes,group.bindings.map(b=>b.rule),
+        group.resources.map(r=>[r.id,r.version,r.asset?.sha256])]);
+      return {group,signature,changed:verifiedWashroomFloors.get(group.id)!==signature};
+    });
+  }
   const store=createCompanySaveStore({storage,catalog,templates});
   function resources(document,view={},contacts=[]) {
     const derived=deriveCompany(document,catalog,templates);
@@ -21,10 +31,19 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
     const derived=checkInstallation?deriveCompany(document,catalog,templates):null;
     const installations=derived?installationGeometryFacilities(derived):[];
     const heightResources=changedHeightIds.length?derived.facilities.filter(f=>changedHeightIds.includes(f.id)).map(f=>f.resource):[];
-    const requested=[...resources(document,view),...installations.map(f=>f.resource),...heightResources];
+    const washrooms=derived?washroomChecks(document,derived):[];
+    const changed=washrooms.filter(row=>row.changed);
+    const requested=[...resources(document,view),...installations.map(f=>f.resource),...heightResources,
+      ...changed.flatMap(row=>row.group.resources)];
     if(token!==null)pendingPreloads.set(token,requested);
-    inspectCompanyPlacement(document,catalog,templates); await assetLibrary?.preload(requested);
-    if(derived)validateCeilingDocumentAssets(derived,assetLibrary,installations);
+    const placement=inspectCompanyPlacement(document,catalog,templates);
+    await assetLibrary?.preload(requested);
+    if(token!==null)latest(token);
+    if(derived){
+      validateCeilingDocumentAssets(derived,assetLibrary,installations);
+      for(const {group} of changed)measurePublicWashroomFloor(document,derived,placement,group,{catalog,templates,assetLibrary});
+      verifiedWashroomFloors=new Map(washrooms.map(row=>[row.group.id,row.signature]));
+    }
     return document;
   }
   await preload(initialDocument);
@@ -43,6 +62,19 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
     latest(token);
     const floorId=candidate.nodes.some(n=>n.id===scene.view.floorId&&n.kind==='floor')?scene.view.floorId:undefined;
     await preload(candidate,{floorId},token);latest(token);return scene.restore(JSON.stringify(candidate),{isUsePointBusy});
+  }
+  function checkedSnapshot() {
+    const document=scene.document,snapshot={document,token:generation};
+    if(!shouldCheckPublicWashrooms(document,{catalog}))return snapshot;
+    const derived=deriveCompany(document,catalog,templates);
+    if(!washroomChecks(document,derived).some(row=>row.changed))return snapshot;
+    // A host can edit the exposed scene directly. Validate a fresh snapshot before writing it.
+    return transaction(async token=>{
+      await preload(document,scene.view,token);latest(token);
+      if(scene.revision!==document.revision||scene.document.id!==document.id)
+        throw new CompanyError('revision-conflict','washroom','The edited floor changed before it could be saved');
+      return {document,token};
+    });
   }
   return {
     scene,
@@ -72,7 +104,8 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
       });
     },
     async save() {
-      const token=generation,document=scene.document;
+      const checked=checkedSnapshot();
+      const {document,token}=checked instanceof Promise?await checked:checked;
       return store.save(document,{isCurrent:revision=>!disposed&&generation===token&&scene.document.id===document.id&&scene.revision===revision});
     },
     readSavedText(id) { return store.export(id); },
@@ -103,7 +136,7 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
         await replace(result.document,token);return result;
       });
     },
-    export:()=>encodeCompanySave(scene.document,catalog,templates),
+    export:async()=>encodeCompanySave((await checkedSnapshot()).document,catalog,templates),
     dispose(){if(disposed)return;disposed=true;generation++;scene.dispose();},
   };
 }

@@ -1,0 +1,76 @@
+{
+  "id": "washroom-dispenser-cartridge",
+  "version": 1,
+  "displayName": "圆角直压盒式皂液器",
+  "category": "static",
+  "mountRole": "washroom-dispenser",
+  "productionBranch": "sanitary-support",
+  "mount": "wall",
+  "parent": "room.wall",
+  "mounting": {
+    "origin": "center",
+    "width": 0.15,
+    "height": 0.25,
+    "depth": 0.14
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "stateDefaults": {},
+  "usePoints": [],
+  "dispenser": {
+    "backNode": "dispenser-wall-back",
+    "housingNode": "dispenser-housing",
+    "actuatorNode": "dispenser-actuator",
+    "outletNode": "dispenser-outlet",
+    "outletDirection": [
+      0,
+      -1,
+      0
+    ]
+  },
+  "materialSlots": {
+    "housing": [
+      "dispenser-housing"
+    ],
+    "trim": [
+      "dispenser-wall-back",
+      "dispenser-actuator",
+      "dispenser-outlet"
+    ]
+  },
+  "provenance": {
+    "license": "Project-authored editable geometry.",
+    "sourceAuthor": "Gamemake project",
+    "sourceLicense": "project-authored",
+    "sourceDesign": "cartridge",
+    "sourceParameters": "assets-source/company-washroom-dispenser-v1/parameters.json",
+    "sourceParametersSha256": "a1d48230731301ab904bf47fccb354ea8d052903bb585a36bba6b3b3ba91f9b2",
+    "generator": "scripts/company-platform/build-washroom-dispensers.mjs",
+    "generatorSha256": "2cc19d0b0a2a603d78f77ca7603a6cd971cddc09575d662dd380cce08d17ff4f",
+    "functionalContractSource": "assets-source/company-washroom-dispenser-v1/contract.json",
+    "functionalContractSourceSha256": "f7d73a89e7d00ef2712b8c93cbf0c46775dfd8b1a82d38d8814aa7bb22bd5573",
+    "environmentBranch": "sanitary-support",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "dependencies": {
+      "sourceRecord": {
+        "path": "assets-source/company-washroom-dispenser-v1/original/sources.json",
+        "sha256": "07a8da4829c1b5692ecb27c368124fb3f418eca4a2fbbf3c1e584ce2c51a77eb"
+      }
+    },
+    "tools": [
+      "Three.js r187",
+      "Native binary GLB writer",
+      "GLTFLoader mesh readback"
+    ]
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/washroom-dispenser-v1/washroom-dispenser-cartridge/v1/model.glb",
+    "sha256": "513b31ac823c21d36513a0d7253996dd232567fb231ef17f42f563b1cf0c6c1c",
+    "bytes": 40724
+  }
+}

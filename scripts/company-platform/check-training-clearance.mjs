@@ -1,3 +1,5 @@
+import {scanRoomMeshes} from '../../prototype/src/company/room-mesh-geometry.js';
+export {scanRoomMeshes};
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -90,59 +92,6 @@ export function createLocalRoomAssetLibrary() {
     const bytes = await fs.readFile(file);
     return {ok:true, arrayBuffer:async () => bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)};
   }});
-}
-
-export function scanRoomMeshes(scene, room, facilities, regions, failures, onMesh) {
-  const roomGroup = scene.root.getObjectByName(room.id);
-  const worldToRoom = roomGroup.matrixWorld.clone().invert();
-  const facilityGroups = new Map(facilities.map(facility => [scene.root.getObjectByName(facility.id), facility]));
-  const walls = new Set(scene.walls);
-  const transform = new THREE.Matrix4(), bounds = new THREE.Box3(), triangle = new THREE.Triangle();
-  let checkedMeshes = 0;
-  function visit(object, owner, ceiling = false) {
-    const facility = facilityGroups.get(object);
-    if (facility) {
-      owner = facility;
-      ceiling = facility.resource.mount === 'ceiling';
-    }
-    // Ceiling wrappers are hidden in the full-floor view. Geometry beneath them
-    // still occupies the published room, even when the editor hides the ceiling.
-    if (!object.visible && !(facility && ceiling)) return;
-    if (object.isMesh && (owner || walls.has(object))) {
-      const part = object.userData.name || object.name || object.type;
-      const componentId = owner?.id ?? object.name;
-      if (object.isInstancedMesh || object.isSkinnedMesh || object.isBatchedMesh || object.morphTargetInfluences?.some(weight => weight !== 0))
-        fail('unsupported-training-clearance-mesh', componentId, 'Clearance requires individual rigid triangle meshes', {roomId:room.id, part});
-      const geometry = object.geometry;
-      const positions = geometry.getAttribute('position');
-      transform.multiplyMatrices(worldToRoom,object.matrixWorld);
-      bounds.setFromBufferAttribute(positions).applyMatrix4(transform);
-      onMesh?.(object, owner, transform, bounds);
-      const pending = regions.filter(({box}) => box.intersectsBox(bounds));
-      checkedMeshes++;
-      const index = geometry.getIndex();
-      const start = geometry.drawRange.start;
-      const end = Math.min(index?.count ?? positions.count, start + geometry.drawRange.count);
-      const hit = (region, kind) => failures.push({region,kind,componentId,part, ...(owner && {resourceId:owner.resource.id})});
-      if (walls.has(object)) {
-        for (const {name} of pending) hit(name,'structural-wall');
-      } else {
-        for (let offset = start; pending.length && offset + 2 < end; offset += 3) {
-          for (const [step,vertex] of [triangle.a,triangle.b,triangle.c].entries()) {
-            object.getVertexPosition(index ? index.getX(offset + step) : offset + step,vertex).applyMatrix4(transform);
-          }
-          for (let candidate = pending.length - 1; candidate >= 0; candidate--) {
-            if (!pending[candidate].box.intersectsTriangle(triangle)) continue;
-            hit(pending[candidate].name,'mesh-surface');
-            pending.splice(candidate,1);
-          }
-        }
-      }
-    }
-    for (const child of object.children) visit(child,owner,ceiling);
-  }
-  visit(scene.root,null);
-  return {worldToRoom, checkedMeshes};
 }
 
 export async function checkTrainingClearance(document, constraint, {catalog = defaultCatalog, templates = defaultTemplates} = {}) {

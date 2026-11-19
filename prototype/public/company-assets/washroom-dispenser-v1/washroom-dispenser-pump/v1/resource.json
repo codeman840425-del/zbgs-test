@@ -1,0 +1,87 @@
+{
+  "id": "washroom-dispenser-pump",
+  "version": 1,
+  "displayName": "壁挂托座按泵皂液器",
+  "category": "static",
+  "mountRole": "washroom-dispenser",
+  "productionBranch": "sanitary-support",
+  "mount": "wall",
+  "parent": "room.wall",
+  "mounting": {
+    "origin": "center",
+    "width": 0.15,
+    "height": 0.25,
+    "depth": 0.14
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "stateDefaults": {},
+  "usePoints": [],
+  "dispenser": {
+    "backNode": "dispenser-wall-back",
+    "housingNode": "dispenser-housing",
+    "actuatorNode": "dispenser-actuator",
+    "outletNode": "dispenser-outlet",
+    "outletDirection": [
+      0,
+      -1,
+      0
+    ]
+  },
+  "materialSlots": {
+    "housing": [
+      "dispenser-housing"
+    ],
+    "trim": [
+      "dispenser-wall-back",
+      "dispenser-actuator",
+      "dispenser-outlet"
+    ]
+  },
+  "provenance": {
+    "license": "CC0-1.0 MiniPoly bottle. Project-authored wall backing, cradle and outlet.",
+    "sourceAuthor": "MiniPoly",
+    "sourceLicense": "CC0-1.0",
+    "sourceUrl": "https://poly.pizza/m/d4b5btUs1F",
+    "sourceArtifactPath": "assets-source/company-washroom-dispenser-v1/original/hand-wash-bottle.glb",
+    "sourceArtifactSha256": "0aef3409fee6deece2b1dbbb3a3960903f44e8507906619153420a9f83afaa13",
+    "sourceDesign": "pump",
+    "sourceParameters": "assets-source/company-washroom-dispenser-v1/parameters.json",
+    "sourceParametersSha256": "a1d48230731301ab904bf47fccb354ea8d052903bb585a36bba6b3b3ba91f9b2",
+    "generator": "scripts/company-platform/build-washroom-dispensers.mjs",
+    "generatorSha256": "2cc19d0b0a2a603d78f77ca7603a6cd971cddc09575d662dd380cce08d17ff4f",
+    "functionalContractSource": "assets-source/company-washroom-dispenser-v1/contract.json",
+    "functionalContractSourceSha256": "f7d73a89e7d00ef2712b8c93cbf0c46775dfd8b1a82d38d8814aa7bb22bd5573",
+    "environmentBranch": "sanitary-support",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "dependencies": {
+      "sourceRecord": {
+        "path": "assets-source/company-washroom-dispenser-v1/original/sources.json",
+        "sha256": "07a8da4829c1b5692ecb27c368124fb3f418eca4a2fbbf3c1e584ce2c51a77eb"
+      },
+      "originalModel": {
+        "path": "assets-source/company-washroom-dispenser-v1/original/hand-wash-bottle.glb",
+        "sha256": "0aef3409fee6deece2b1dbbb3a3960903f44e8507906619153420a9f83afaa13"
+      },
+      "license": {
+        "path": "assets-source/company-washroom-dispenser-v1/original/CC0-1.0.txt",
+        "sha256": "40b7eb1e9ca7bd79c4cc334a3cac6258d936c5b4461484dfed40293b9d5b61c2"
+      }
+    },
+    "tools": [
+      "Three.js r187",
+      "Native binary GLB writer",
+      "GLTFLoader mesh readback"
+    ]
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/washroom-dispenser-v1/washroom-dispenser-pump/v1/model.glb",
+    "sha256": "f4f70f5e0ca1a28b2f0bf202ac0ef6c4e3b8c29d1843d8232f7a6b9ea7ba39b7",
+    "bytes": 201804
+  }
+}

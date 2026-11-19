@@ -525,6 +525,9 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       const tea = Object.hasOwn(declaration,'teaStations') ? declaration.teaStations : declaration.document?.teaStations;
       if (JSON.stringify(canonical(tea)) !== JSON.stringify(canonical(document.teaStations)))
         fail('tea-station-binding-mismatch',input,'Saved tea station members, service clearance or passage differs from the batch declaration');
+      const washrooms=Object.hasOwn(declaration,'publicWashrooms') ? declaration.publicWashrooms : declaration.document?.publicWashrooms;
+      if (JSON.stringify(canonical(washrooms))!==JSON.stringify(canonical(document.publicWashrooms)))
+        fail('washroom-binding-mismatch',input,'Saved washroom fixtures or service space differ from the authored room');
     }
     // A bare save can be newly authored. Its current doors and use points still require the same
     // clearance as a batch result, including when this is the last named room in the package.
@@ -566,6 +569,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       }
     }
     const derived = documentTools.deriveCompany(document,catalog,templates);
+    if(Object.hasOwn(document,'publicWashrooms')||derived.facilities.some(item=>item.resource.mountRole==='public-washbasin')) {
+      const checker=await noLinks(path.join(source,'scripts/company-platform/check-public-washroom.mjs'));
+      const {checkPublicWashrooms}=await import(pathToFileURL(checker).href);
+      await checkPublicWashrooms(document,{catalog,templates,derived,root:source});
+    }
     if (Object.hasOwn(document,'teaStations') || derived.facilities.some(item=>item.resource.mountRole==='tea-counter')) {
       const checker = path.join(source,'scripts/company-platform/check-tea-station.mjs');
       await noLinks(checker);
@@ -667,6 +675,19 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   let verifyFloorAirSources;
   let verifyWallHvacSources;
   let verifyEquipmentCartSources;
+  let verifyWashbasinSources,verifyWashroomDispenserSources,verifyPrintedSignSources;
+  if(catalog.resources.some(r=>r.productionBranch==='sanitary-support' && ['public-washbasin','washroom-dispenser'].includes(r.mountRole))){
+    const verifier=await noLinks(path.join(source,'scripts/company-platform/validate-resource-provenance.mjs'));
+    ({verifyWashbasinSources,verifyWashroomDispenserSources,verifyPrintedSignSources}=await import(pathToFileURL(verifier).href));
+    if(!verifyWashbasinSources||!verifyWashroomDispenserSources) fail('missing-production-tool',verifier,'Expected the sanitary fixture source verifiers');
+    supplemental.add('scripts/company-platform/check-public-washroom.mjs');
+    supplemental.add('scripts/company-platform/test-public-washroom.mjs');
+    supplemental.add('scripts/company-platform/qa-public-washroom.cjs');
+    supplemental.add('scripts/company-platform/batch-inputs/public-washrooms.json');
+    supplemental.add('docs/research/COMPANY-PUBLIC-WASHROOM-HANDOFF.md');
+    supplemental.add('assets-source/company-public-washbasin-v1/examples/frame-thick-v2.json');
+    supplemental.add('assets-source/company-washroom-dispenser-v1/examples/wide-clad.json');
+  }
   if (catalog.resources.some(resource=>resource.productionBranch==='cart-and-equipment-storage')) {
     const verifier=await noLinks(path.join(source,'scripts/company-platform/validate-resource-provenance.mjs'));
     ({verifyEquipmentCartSources}=await import(pathToFileURL(verifier).href));
@@ -858,7 +879,9 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
         productionSourcePins.set(pin.path,pin.sha256);
       }
     }
-    const equipmentVerifier = resource.productionBranch === 'hvac' ? verifyWallHvacSources :
+    const equipmentVerifier = entry.generator==='scripts/company-platform/build-washroom-sign.mjs' ? verifyPrintedSignSources :
+      resource.mountRole==='washroom-dispenser' ? verifyWashroomDispenserSources :
+      resource.mountRole==='public-washbasin' ? verifyWashbasinSources : resource.productionBranch === 'hvac' ? verifyWallHvacSources :
       resource.productionBranch === 'cart-and-equipment-storage' ? verifyEquipmentCartSources : null;
     if (equipmentVerifier) {
       const recipe = decode(await read(source,entry.sourceParameters),entry.sourceParameters);
@@ -912,7 +935,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(productionSourcePins.has(name)&&hash(bytes)!==productionSourcePins.get(name))fail('production-source-hash-mismatch',name,'Production input changed while preparing the package');
     add(`source/${name}`,bytes,'editable-production-source');
   }
-  const readme=(await read(toolRoot,'package-template/README.template.md')).toString('utf8').replaceAll('{{BUILD_ID}}',buildId).replaceAll('{{SOURCE_DIGEST}}',info.sourceDigest);
+  let readme=(await read(toolRoot,'package-template/README.template.md')).toString('utf8').replaceAll('{{BUILD_ID}}',buildId).replaceAll('{{SOURCE_DIGEST}}',info.sourceDigest);
+  if(document.publicWashrooms?.length)readme+='\n本包的公共洗手区可直接按楼层和区域打开。接收方可制作另一款台面或皂液器，再通过同一命令检查实际门口、站位和台盆。[查看制作与预览说明](source/docs/research/COMPANY-PUBLIC-WASHROOM-HANDOFF.md)\n';
   add('README.md',Buffer.from(readme,'utf8'),'handoff-instructions');add('serve.mjs',await read(toolRoot,'package-template/serve.mjs'),'local-http-viewer');
   add('edit.mjs',await read(toolRoot,'package-template/edit.mjs'),'standalone-data-editor');
   add('check-vocal-origin.mjs',await read(toolRoot,'package-template/check-vocal-origin.mjs'),'reviewed-vocal-room-reader');

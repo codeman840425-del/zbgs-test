@@ -1,3 +1,5 @@
+import {vertices,triangles,rayHit} from '../../prototype/src/company/room-mesh-geometry.js';
+export {triangles,rayHit};
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {isDeepStrictEqual} from 'node:util';
@@ -87,41 +89,7 @@ function scanScene(scene,derived,facilities,room,floorId,protectedBox) {
   return {records,worldToRoom,checkedMeshes};
 }
 
-function vertices(record) {
-  record.points ??= Array.from({length:record.object.geometry.attributes.position.count},(_,i)=>
-    record.object.getVertexPosition(i,p()).applyMatrix4(record.matrix));
-  return record.points;
-}
-
-export function triangles(record) {
-  if (record.faces) return record.faces;
-  const points = vertices(record), geometry = record.object.geometry, index = geometry.index;
-  const vertex = i=>points[index ? index.getX(i) : i], start = geometry.drawRange.start;
-  const end = Math.min(index?.count ?? points.length,start+geometry.drawRange.count);
-  record.faces = [];
-  for (let i = start; i + 2 < end; i += 3) record.faces.push(new T.Triangle(vertex(i),vertex(i+1),vertex(i+2)));
-  return record.faces;
-}
-
 function center(record) { return new T.Box3().setFromPoints(vertices(record)).getCenter(p()); }
-
-export function rayHit(records,from,to) {
-  const direction = to.clone().sub(from), max = direction.length() + 1e-6;
-  if (max <= 1e-6) return null;
-  const segment = new T.Box3().setFromPoints([from,to]).expandByScalar(1e-6);
-  const ray = new T.Ray(from,direction.normalize()), point = p();
-  let first;
-  for (const record of records) {
-    if (!segment.intersectsBox(record.bounds) || !ray.intersectsBox(record.bounds)) continue;
-    for (const face of triangles(record)) {
-      if (!ray.intersectTriangle(face.a,face.b,face.c,false,point)) continue;
-      const distance = from.distanceTo(point);
-      if (distance > 1e-5 && distance <= max && (!first || distance < first.distance))
-        first = {record,distance,point:point.clone(),normal:face.getNormal(p())};
-    }
-  }
-  return first ?? null;
-}
 
 function memberPart(records,member,nodeName) {
   const hits = records.filter(record=>record.id===member.id && component(record.object)===nodeName);

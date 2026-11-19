@@ -1,0 +1,23 @@
+{
+  "schema": "company-washroom-dispenser-contract",
+  "version": 1,
+  "environmentBranch": "sanitary-support",
+  "resource": {
+    "category": "static",
+    "mountRole": "washroom-dispenser",
+    "productionBranch": "sanitary-support",
+    "mount": "wall",
+    "parent": "room.wall",
+    "mounting": {"origin": "center", "width": 0.15, "height": 0.25, "depth": 0.14},
+    "coordinates": {"units": "metres", "up": "+Y", "forward": "+Z"},
+    "stateDefaults": {},
+    "usePoints": [],
+    "dispenser": {
+      "backNode": "dispenser-wall-back",
+      "housingNode": "dispenser-housing",
+      "actuatorNode": "dispenser-actuator",
+      "outletNode": "dispenser-outlet",
+      "outletDirection": [0, -1, 0]
+    }
+  }
+}

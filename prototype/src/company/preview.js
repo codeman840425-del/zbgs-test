@@ -197,6 +197,15 @@ function setView(name){
   }
   orbit.target.copy(target);
   const offset=name==='top'?new THREE.Vector3(0,1,.001).normalize():new THREE.Vector3(.65,.8,1).normalize();
+  // In a fitted washroom, look towards both installed wall faces from inside the room.
+  const washroom=name==='room'&&view.mode==='room'&&doc.publicWashrooms?.find(rule=>rule.regionId===view.roomId);
+  if(washroom){
+    const mirror=session.scene.root.getObjectByName(washroom.roles.mirror), dispenser=session.scene.root.getObjectByName(washroom.roles.dispenser);
+    if(mirror&&dispenser){
+      const inward=mirror.getWorldDirection(new THREE.Vector3()).add(dispenser.getWorldDirection(new THREE.Vector3()));
+      if(inward.lengthSq()>.01){inward.normalize();offset.set(inward.x,.7,inward.z).normalize();}
+    }
+  }
   if(['sofa','cabinet'].includes(name)&&closeObject)offset.applyQuaternion(closeObject.getWorldQuaternion(new THREE.Quaternion()));
   const right=new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0),offset).normalize(),up=new THREE.Vector3().crossVectors(offset,right).normalize();
   const tangent=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));let distance=3;
@@ -533,6 +542,10 @@ async function start(){
       if(target && current.roomIds.get(target) && current.floorIds.get(target)){
         await showSpace('room',current.floorIds.get(target),current.roomIds.get(target));
         facilityEditor.select(target);
+      }else if(query.has('region')){
+        const region=current.nodes.get(query.get('region'));
+        if(!region||!['area','room'].includes(region.kind))throw Error('所选房间或公共区不在此份交付中。');
+        await showSpace('room',current.floorIds.get(region.id),region.id);
       }else await defaultSpace();
       imported=true;
     });

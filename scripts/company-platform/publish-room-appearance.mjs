@@ -9,6 +9,7 @@ import {buildLibrary, planPath, replaceIndex, withCatalogWriteLock} from './buil
 import {editableSources,plantProducer,plantToolchain} from './plant-editable-source.mjs';
 import {showcaseTexturePins} from './validate-resource-provenance.mjs';
 import {checkManagedOutput,findManagedProject} from './package-company.mjs';
+import {verifyWashbasinSources,verifyWashroomDispenserSources} from './validate-resource-provenance.mjs';
 import {compareFacilityFunction} from '../../prototype/src/company/appearance-contract.js';
 import {createCompany, deriveCompany} from '../../prototype/src/company/document.js';
 
@@ -38,6 +39,8 @@ const families = {
   'company-vocal-height': 'vocal-height',
   'company-readable-score': 'readable-score',
   'company-equipment-carts': 'equipment-cart',
+  'company-public-washbasins': 'public-washbasin',
+  'company-washroom-dispensers': 'washroom-dispenser',
   'company-tea-station-collection': 'tea-station',
   'company-floor-air-collection': 'floor-air',
   'company-wall-hvac-collection': 'wall-hvac',
@@ -51,6 +54,8 @@ generatorFiles['vocal-fit'] = 'build-vocal-fit.mjs';
 generatorFiles['vocal-height'] = 'build-vocal-height.mjs';
 generatorFiles['readable-score'] = 'build-readable-score.mjs';
 generatorFiles['equipment-cart'] = 'build-equipment-carts.mjs';
+generatorFiles['public-washbasin'] = 'build-public-washbasins.mjs';
+generatorFiles['washroom-dispenser'] = 'build-washroom-dispensers.mjs';
 const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric', 'wall-ambient':'ambient-led-and-neon', 'desktop-plants':'plant-desktop-installation', 'tea-station':'tea-rest'};
 productionBranches['floor-air'] = 'fan-and-air-purifier';
 productionBranches['wall-hvac'] = 'hvac';
@@ -59,11 +64,13 @@ productionBranches['vocal-fit'] = 'floor-vocal-microphone';
 productionBranches['vocal-height'] = 'floor-vocal-microphone';
 productionBranches['readable-score'] = 'floor-score-stand';
 productionBranches['equipment-cart'] = 'cart-and-equipment-storage';
+productionBranches['public-washbasin'] = 'sanitary-support';
+productionBranches['washroom-dispenser'] = 'sanitary-support';
 
 const garmentBranches = {rack:'garment-rack-wardrobe',garment:'hanging-garment'};
 const singingBranches = {vocal:'floor-vocal-microphone',score:'floor-score-stand'};
 function belongsToFamily(resource,family) {
-  if (['vocal-fit','vocal-height','readable-score'].includes(family)) return resource?.productionBranch === productionBranches[family] &&
+  if (['vocal-fit','vocal-height','readable-score','public-washbasin','washroom-dispenser'].includes(family)) return resource?.productionBranch === productionBranches[family] &&
     resource.provenance?.generator === 'scripts/company-platform/'+generatorFiles[family];
   if (family === 'garment-rack') return Object.values(garmentBranches).includes(resource?.productionBranch);
   if (family === 'singing-stage') return Object.values(singingBranches).includes(resource?.productionBranch);
@@ -274,6 +281,8 @@ async function publish(recipePath,check,explicitFit) {
         branch ? defaultRefs.find(r => r?.productionBranch === branch) : reference;
       assert(functionalReference && (!branch || resource.productionBranch === branch),'Missing matching branch for '+key);
       let expectedDependencies = functionalReference.provenance.dependencies;
+      if(family==='public-washbasin') expectedDependencies=Object.fromEntries(await verifyWashbasinSources(root,resource,input));
+      if(family==='washroom-dispenser') expectedDependencies=Object.fromEntries(await verifyWashroomDispenserSources(root,resource,input));
       if(family==='vocal-height'&&design.observation) expectedDependencies={...expectedDependencies,heightObservation:design.observation.source};
       if (perDesignSource || artwork.has(key)) {
         const source = artwork.get(key);

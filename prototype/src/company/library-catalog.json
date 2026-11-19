@@ -2139,6 +2139,84 @@
       "stateDefaults": {}
     },
     {
+      "id": "information-content-washroom",
+      "displayName": "公共洗手区",
+      "version": 1,
+      "category": "decor",
+      "mountRole": "information-content",
+      "mount": "information-surface",
+      "mounting": {
+        "origin": "center",
+        "width": 0.88,
+        "height": 0.56,
+        "depth": 0.001
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Surface centre",
+        "scale": "Identity only"
+      },
+      "informationContent": {
+        "schema": "information-face-v1",
+        "width": 0.88,
+        "height": 0.56,
+        "pixels": [
+          1100,
+          700
+        ]
+      },
+      "informationNodes": {
+        "face": "information-face"
+      },
+      "stateDefaults": {
+        "visible": true
+      },
+      "stateSchema": {
+        "visible": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "visible": "information-content-visible"
+      },
+      "usePoints": [],
+      "provenance": {
+        "license": "Project-authored content recipe and PNG. Noto Sans SC is bundled under SIL Open Font License 1.1.",
+        "prompt": "Purpose: project-authored wall information board and replaceable Chinese graphic content. Specification: wall board envelope 1.00m x 0.70m x 0.05m with fixed 0.88m x 0.56m information face, and 1100 x 700 sRGB content images. Units are metres, up is +Y, forward is +Z, wall contact is the centred back. Installation: board is wall-mounted information-board, content is an information-surface child with centred origin and no blocking/use points. Budget: deterministic CPU-only BoxGeometry frames and Pillow PNG content with no network fetch. State: content visibility only, no timer. Source/export: project-authored parameters, local Noto Sans SC font, Pillow 12.1.0 and Three.js GLTFExporter/GLTFLoader readback. Content recipe: 公共洗手区",
+        "sourceParameters": "assets-source/company-washroom-sign-v1/parameters.json",
+        "sourceParametersSha256": "e97ccc7da0b93ddfeb9cc9252e5e29aede84ae6c26df33146bbd8f6467a9f7cc",
+        "generator": "scripts/company-platform/build-washroom-sign.mjs",
+        "generatorSha256": "11f17260654264daf615352856f9312a928f861947373e180295c991c1ede432",
+        "contentHelper": "assets-source/company-washroom-sign-v1/draw.py",
+        "contentHelperSha256": "509d70e76832f2275da96e6490e26d31348651d734480a12435f7c27811bb176",
+        "requirements": "assets-source/company-information-v1/requirements.txt",
+        "requirementsSha256": "0ef33a43c91b2c79a2940a32a95064f2c9368c7fa69dc8f0d6749015c7a328f1",
+        "functionalContractSource": "docs/COMPANY-INFORMATION-DISPLAY-CONTRACT-v1.txt",
+        "functionalContractSourceSha256": "364fe8b32db9adab546d511675970b3408ac6922fd398d633fc435263b59980d",
+        "fontFile": "assets-source/company-information-v1/NotoSansSC-VF.ttf",
+        "fontSourceUrl": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/NotoSansSC%5Bwght%5D.ttf",
+        "fontLicenseUrl": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/OFL.txt",
+        "fontLicense": "SIL Open Font License 1.1",
+        "fontSha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+        "fontLicenseFile": "assets-source/company-information-v1/OFL.txt",
+        "fontLicenseSha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+        "contentPngSha256": "6c73f34f7fdd1721a1a29bfbf02be5a6e7c2ac0e90a594bc06d5291e5538c10b",
+        "contentPngBytes": 25030,
+        "sourceImage": "assets-source/company-washroom-sign-v1/art.png",
+        "sourceImageSha256": "6c73f34f7fdd1721a1a29bfbf02be5a6e7c2ac0e90a594bc06d5291e5538c10b",
+        "meshGenerator": "scripts/company-platform/build-information.mjs",
+        "meshGeneratorSha256": "cd6daef591e86096d82a90b625d52608cf7905f375a318f530bd073f17802d73"
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/information-v1/content/washroom/v1/model.glb",
+        "sha256": "87fb4b824e78548ffaf9645317be73a6fe41e4db9257ce7ebcb787df359deecb",
+        "bytes": 26388
+      }
+    },
+    {
       "id": "desk-trestle",
       "version": 1,
       "category": "decor",
@@ -38989,6 +39067,769 @@
         "url": "/company-assets/readable-score-v1/floor-score-stand-tripod-readable/v1/model.glb",
         "bytes": 368952,
         "sha256": "6887442a54622dca48b8b923dfa8f993f75067342a4cabc4261ff8ed9bb2f520"
+      }
+    },
+    {
+      "id": "public-washbasin-frame-round",
+      "version": 1,
+      "displayName": "圆盆钢框洗手台",
+      "category": "decor",
+      "mountRole": "public-washbasin",
+      "productionBranch": "sanitary-support",
+      "mount": "floor-surface",
+      "parent": "floor.public-area",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1.2,
+        "height": 0.9,
+        "depth": 0.6
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.6,
+          0.3
+        ],
+        "blocking": true
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "washbasin": {
+        "bowlNode": "basin-bowl",
+        "faucetNode": "basin-faucet",
+        "counterNode": "wash-countertop",
+        "pedestalFootNode": "pedestal-foot",
+        "front": "+Z"
+      },
+      "materialSlots": {
+        "original": [
+          "basin-bowl",
+          "basin-faucet",
+          "faucet-inset"
+        ],
+        "counter": [
+          "wash-countertop"
+        ],
+        "frame": [
+          "pedestal-foot",
+          "left-front-tube",
+          "left-rear-tube",
+          "right-front-tube",
+          "right-rear-tube",
+          "front-box-rail",
+          "rear-box-rail"
+        ],
+        "trim": [
+          "left-lower-tie",
+          "right-lower-tie",
+          "rear-footrest"
+        ]
+      },
+      "provenance": {
+        "license": "CC0-1.0 Kenney basin ceramic, pedestal and mixer. Project-authored worktop, floor mounting and support structure.",
+        "sourceAuthor": "Kenney",
+        "sourceLicense": "CC0-1.0",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "sourceDesign": "frame-round",
+        "sourceArtifactPath": "assets-source/company-public-washbasin-v1/original/bathroomSink.glb",
+        "sourceArtifactSha256": "39d4f19608cab7e0fed52303b2c689f5f51fae1bad9b6913cb53d838875e797e",
+        "sourceParameters": "assets-source/company-public-washbasin-v1/parameters.json",
+        "sourceParametersSha256": "ab523a52e15b8541a792bdd53b9875524821b04cf929bf119bb35b96e5662d4d",
+        "generator": "scripts/company-platform/build-public-washbasins.mjs",
+        "generatorSha256": "40ab834f42a61f0e9eb12d9cac00ca3227ad31f674414e48a4a8766fe6138e03",
+        "functionalContractSource": "assets-source/company-public-washbasin-v1/contract.json",
+        "functionalContractSourceSha256": "3d7f96c57731c4eef0088e126caddc14bfa3ab7bab4f0556aabc3a95339ff773",
+        "environmentBranch": "sanitary-support",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-public-washbasin-v1/original/sources.json",
+            "sha256": "0c7ac2139cbd5ce7d5dc2a1a7af7e61e451acba461920529d1a0241c3931a159"
+          },
+          "license": {
+            "path": "assets-source/company-public-washbasin-v1/original/License.txt",
+            "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+          },
+          "originalModel": {
+            "path": "assets-source/company-public-washbasin-v1/original/bathroomSink.glb",
+            "sha256": "39d4f19608cab7e0fed52303b2c689f5f51fae1bad9b6913cb53d838875e797e"
+          }
+        },
+        "tools": [
+          "Three.js r187",
+          "GLTFLoader triangle readback"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/public-washbasin-v1/public-washbasin-frame-round/v1/model.glb",
+        "sha256": "294fedade36830f87db9907c47039126190dbc6ab7c9c3be372e933aef503cce",
+        "bytes": 91748
+      }
+    },
+    {
+      "id": "public-washbasin-cabinet-square",
+      "version": 1,
+      "displayName": "方盆条板落地柜",
+      "category": "decor",
+      "mountRole": "public-washbasin",
+      "productionBranch": "sanitary-support",
+      "mount": "floor-surface",
+      "parent": "floor.public-area",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1.2,
+        "height": 0.9,
+        "depth": 0.6
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.6,
+          0.3
+        ],
+        "blocking": true
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "washbasin": {
+        "bowlNode": "basin-bowl",
+        "faucetNode": "basin-faucet",
+        "counterNode": "wash-countertop",
+        "pedestalFootNode": "pedestal-foot",
+        "front": "+Z"
+      },
+      "materialSlots": {
+        "original": [
+          "basin-bowl",
+          "basin-drain",
+          "basin-faucet"
+        ],
+        "counter": [
+          "wash-countertop"
+        ],
+        "frame": [
+          "pedestal-foot",
+          "left-plinth-foot",
+          "right-plinth-foot",
+          "rear-plinth-rail",
+          "front-plinth-rail",
+          "left-cabinet-wall",
+          "right-cabinet-wall",
+          "rear-lower-carcass-rail",
+          "front-lower-carcass-rail",
+          "carcass-back",
+          "left-fluted-front",
+          "right-fluted-front"
+        ],
+        "trim": [
+          "left-flute-0",
+          "left-flute-1",
+          "left-flute-2",
+          "left-flute-3",
+          "left-flute-4",
+          "left-flute-5",
+          "left-flute-6",
+          "left-flute-7",
+          "left-flute-8",
+          "left-flute-9",
+          "left-flute-10",
+          "right-flute-0",
+          "right-flute-1",
+          "right-flute-2",
+          "right-flute-3",
+          "right-flute-4",
+          "right-flute-5",
+          "right-flute-6",
+          "right-flute-7",
+          "right-flute-8",
+          "right-flute-9",
+          "right-flute-10",
+          "cabinet-pull-reveal"
+        ]
+      },
+      "provenance": {
+        "license": "CC0-1.0 Kenney basin ceramic, pedestal and mixer. Project-authored worktop, floor mounting and support structure.",
+        "sourceAuthor": "Kenney",
+        "sourceLicense": "CC0-1.0",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "sourceDesign": "cabinet-square",
+        "sourceArtifactPath": "assets-source/company-public-washbasin-v1/original/bathroomSinkSquare.glb",
+        "sourceArtifactSha256": "360853c822f268e7267c62ef20cf646f170a13d76254cc0804a1d397a4a3ea67",
+        "sourceParameters": "assets-source/company-public-washbasin-v1/parameters.json",
+        "sourceParametersSha256": "ab523a52e15b8541a792bdd53b9875524821b04cf929bf119bb35b96e5662d4d",
+        "generator": "scripts/company-platform/build-public-washbasins.mjs",
+        "generatorSha256": "40ab834f42a61f0e9eb12d9cac00ca3227ad31f674414e48a4a8766fe6138e03",
+        "functionalContractSource": "assets-source/company-public-washbasin-v1/contract.json",
+        "functionalContractSourceSha256": "3d7f96c57731c4eef0088e126caddc14bfa3ab7bab4f0556aabc3a95339ff773",
+        "environmentBranch": "sanitary-support",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-public-washbasin-v1/original/sources.json",
+            "sha256": "0c7ac2139cbd5ce7d5dc2a1a7af7e61e451acba461920529d1a0241c3931a159"
+          },
+          "license": {
+            "path": "assets-source/company-public-washbasin-v1/original/License.txt",
+            "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+          },
+          "originalModel": {
+            "path": "assets-source/company-public-washbasin-v1/original/bathroomSinkSquare.glb",
+            "sha256": "360853c822f268e7267c62ef20cf646f170a13d76254cc0804a1d397a4a3ea67"
+          }
+        },
+        "tools": [
+          "Three.js r187",
+          "GLTFLoader triangle readback"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/public-washbasin-v1/public-washbasin-cabinet-square/v1/model.glb",
+        "sha256": "f57fb60355b9f142cf7dfd041a7c1e38da8cd0e7453721d6b8525e4abc92e9f1",
+        "bytes": 94968
+      }
+    },
+    {
+      "id": "public-washbasin-pier-round",
+      "version": 1,
+      "displayName": "双石墩圆盆洗手台",
+      "category": "decor",
+      "mountRole": "public-washbasin",
+      "productionBranch": "sanitary-support",
+      "mount": "floor-surface",
+      "parent": "floor.public-area",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1.2,
+        "height": 0.9,
+        "depth": 0.6
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.6,
+          0.3
+        ],
+        "blocking": true
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "washbasin": {
+        "bowlNode": "basin-bowl",
+        "faucetNode": "basin-faucet",
+        "counterNode": "wash-countertop",
+        "pedestalFootNode": "pedestal-foot",
+        "front": "+Z"
+      },
+      "materialSlots": {
+        "original": [
+          "basin-bowl",
+          "basin-faucet",
+          "faucet-inset"
+        ],
+        "counter": [
+          "wash-countertop"
+        ],
+        "frame": [
+          "pedestal-foot",
+          "left-stone-pier",
+          "right-stone-pier",
+          "rear-stone-apron"
+        ],
+        "trim": [
+          "low-stone-stretcher"
+        ]
+      },
+      "provenance": {
+        "license": "CC0-1.0 Kenney basin ceramic, pedestal and mixer. Project-authored worktop, floor mounting and support structure.",
+        "sourceAuthor": "Kenney",
+        "sourceLicense": "CC0-1.0",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "sourceDesign": "pier-round",
+        "sourceArtifactPath": "assets-source/company-public-washbasin-v1/original/bathroomSink.glb",
+        "sourceArtifactSha256": "39d4f19608cab7e0fed52303b2c689f5f51fae1bad9b6913cb53d838875e797e",
+        "sourceParameters": "assets-source/company-public-washbasin-v1/parameters.json",
+        "sourceParametersSha256": "ab523a52e15b8541a792bdd53b9875524821b04cf929bf119bb35b96e5662d4d",
+        "generator": "scripts/company-platform/build-public-washbasins.mjs",
+        "generatorSha256": "40ab834f42a61f0e9eb12d9cac00ca3227ad31f674414e48a4a8766fe6138e03",
+        "functionalContractSource": "assets-source/company-public-washbasin-v1/contract.json",
+        "functionalContractSourceSha256": "3d7f96c57731c4eef0088e126caddc14bfa3ab7bab4f0556aabc3a95339ff773",
+        "environmentBranch": "sanitary-support",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-public-washbasin-v1/original/sources.json",
+            "sha256": "0c7ac2139cbd5ce7d5dc2a1a7af7e61e451acba461920529d1a0241c3931a159"
+          },
+          "license": {
+            "path": "assets-source/company-public-washbasin-v1/original/License.txt",
+            "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+          },
+          "originalModel": {
+            "path": "assets-source/company-public-washbasin-v1/original/bathroomSink.glb",
+            "sha256": "39d4f19608cab7e0fed52303b2c689f5f51fae1bad9b6913cb53d838875e797e"
+          }
+        },
+        "tools": [
+          "Three.js r187",
+          "GLTFLoader triangle readback"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/public-washbasin-v1/public-washbasin-pier-round/v1/model.glb",
+        "sha256": "2fd1afb6292cd2d4931bbe6f293ea2b957fccba939b63e73577750a290dd1edf",
+        "bytes": 59644
+      }
+    },
+    {
+      "id": "public-washbasin-shelf-square",
+      "version": 1,
+      "displayName": "方盆侧柜开放架",
+      "category": "decor",
+      "mountRole": "public-washbasin",
+      "productionBranch": "sanitary-support",
+      "mount": "floor-surface",
+      "parent": "floor.public-area",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1.2,
+        "height": 0.9,
+        "depth": 0.6
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.6,
+          0.3
+        ],
+        "blocking": true
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "washbasin": {
+        "bowlNode": "basin-bowl",
+        "faucetNode": "basin-faucet",
+        "counterNode": "wash-countertop",
+        "pedestalFootNode": "pedestal-foot",
+        "front": "+Z"
+      },
+      "materialSlots": {
+        "original": [
+          "basin-bowl",
+          "basin-drain",
+          "basin-faucet"
+        ],
+        "counter": [
+          "wash-countertop"
+        ],
+        "frame": [
+          "pedestal-foot",
+          "left-cupboard-wall",
+          "central-cupboard-wall",
+          "right-shelf-end",
+          "cupboard-base",
+          "inner-shelf-upright"
+        ],
+        "trim": [
+          "tall-cupboard-front",
+          "shelf-low",
+          "shelf-middle",
+          "rear-towel-rail"
+        ]
+      },
+      "provenance": {
+        "license": "CC0-1.0 Kenney basin ceramic, pedestal and mixer. Project-authored worktop, floor mounting and support structure.",
+        "sourceAuthor": "Kenney",
+        "sourceLicense": "CC0-1.0",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "sourceDesign": "shelf-square",
+        "sourceArtifactPath": "assets-source/company-public-washbasin-v1/original/bathroomSinkSquare.glb",
+        "sourceArtifactSha256": "360853c822f268e7267c62ef20cf646f170a13d76254cc0804a1d397a4a3ea67",
+        "sourceParameters": "assets-source/company-public-washbasin-v1/parameters.json",
+        "sourceParametersSha256": "ab523a52e15b8541a792bdd53b9875524821b04cf929bf119bb35b96e5662d4d",
+        "generator": "scripts/company-platform/build-public-washbasins.mjs",
+        "generatorSha256": "40ab834f42a61f0e9eb12d9cac00ca3227ad31f674414e48a4a8766fe6138e03",
+        "functionalContractSource": "assets-source/company-public-washbasin-v1/contract.json",
+        "functionalContractSourceSha256": "3d7f96c57731c4eef0088e126caddc14bfa3ab7bab4f0556aabc3a95339ff773",
+        "environmentBranch": "sanitary-support",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-public-washbasin-v1/original/sources.json",
+            "sha256": "0c7ac2139cbd5ce7d5dc2a1a7af7e61e451acba461920529d1a0241c3931a159"
+          },
+          "license": {
+            "path": "assets-source/company-public-washbasin-v1/original/License.txt",
+            "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+          },
+          "originalModel": {
+            "path": "assets-source/company-public-washbasin-v1/original/bathroomSinkSquare.glb",
+            "sha256": "360853c822f268e7267c62ef20cf646f170a13d76254cc0804a1d397a4a3ea67"
+          }
+        },
+        "tools": [
+          "Three.js r187",
+          "GLTFLoader triangle readback"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/public-washbasin-v1/public-washbasin-shelf-square/v1/model.glb",
+        "sha256": "b4120b9e08eea380f399dca3eab35adb159a5952e65afa842754c181a059a315",
+        "bytes": 49344
+      }
+    },
+    {
+      "id": "washroom-dispenser-pump",
+      "version": 1,
+      "displayName": "壁挂托座按泵皂液器",
+      "category": "static",
+      "mountRole": "washroom-dispenser",
+      "productionBranch": "sanitary-support",
+      "mount": "wall",
+      "parent": "room.wall",
+      "mounting": {
+        "origin": "center",
+        "width": 0.15,
+        "height": 0.25,
+        "depth": 0.14
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "stateDefaults": {},
+      "usePoints": [],
+      "dispenser": {
+        "backNode": "dispenser-wall-back",
+        "housingNode": "dispenser-housing",
+        "actuatorNode": "dispenser-actuator",
+        "outletNode": "dispenser-outlet",
+        "outletDirection": [
+          0,
+          -1,
+          0
+        ]
+      },
+      "materialSlots": {
+        "housing": [
+          "dispenser-housing"
+        ],
+        "trim": [
+          "dispenser-wall-back",
+          "dispenser-actuator",
+          "dispenser-outlet"
+        ]
+      },
+      "provenance": {
+        "license": "CC0-1.0 MiniPoly bottle. Project-authored wall backing, cradle and outlet.",
+        "sourceAuthor": "MiniPoly",
+        "sourceLicense": "CC0-1.0",
+        "sourceUrl": "https://poly.pizza/m/d4b5btUs1F",
+        "sourceArtifactPath": "assets-source/company-washroom-dispenser-v1/original/hand-wash-bottle.glb",
+        "sourceArtifactSha256": "0aef3409fee6deece2b1dbbb3a3960903f44e8507906619153420a9f83afaa13",
+        "sourceDesign": "pump",
+        "sourceParameters": "assets-source/company-washroom-dispenser-v1/parameters.json",
+        "sourceParametersSha256": "a1d48230731301ab904bf47fccb354ea8d052903bb585a36bba6b3b3ba91f9b2",
+        "generator": "scripts/company-platform/build-washroom-dispensers.mjs",
+        "generatorSha256": "2cc19d0b0a2a603d78f77ca7603a6cd971cddc09575d662dd380cce08d17ff4f",
+        "functionalContractSource": "assets-source/company-washroom-dispenser-v1/contract.json",
+        "functionalContractSourceSha256": "f7d73a89e7d00ef2712b8c93cbf0c46775dfd8b1a82d38d8814aa7bb22bd5573",
+        "environmentBranch": "sanitary-support",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-washroom-dispenser-v1/original/sources.json",
+            "sha256": "07a8da4829c1b5692ecb27c368124fb3f418eca4a2fbbf3c1e584ce2c51a77eb"
+          },
+          "originalModel": {
+            "path": "assets-source/company-washroom-dispenser-v1/original/hand-wash-bottle.glb",
+            "sha256": "0aef3409fee6deece2b1dbbb3a3960903f44e8507906619153420a9f83afaa13"
+          },
+          "license": {
+            "path": "assets-source/company-washroom-dispenser-v1/original/CC0-1.0.txt",
+            "sha256": "40b7eb1e9ca7bd79c4cc334a3cac6258d936c5b4461484dfed40293b9d5b61c2"
+          }
+        },
+        "tools": [
+          "Three.js r187",
+          "Native binary GLB writer",
+          "GLTFLoader mesh readback"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/washroom-dispenser-v1/washroom-dispenser-pump/v1/model.glb",
+        "sha256": "f4f70f5e0ca1a28b2f0bf202ac0ef6c4e3b8c29d1843d8232f7a6b9ea7ba39b7",
+        "bytes": 201804
+      }
+    },
+    {
+      "id": "washroom-dispenser-cartridge",
+      "version": 1,
+      "displayName": "圆角直压盒式皂液器",
+      "category": "static",
+      "mountRole": "washroom-dispenser",
+      "productionBranch": "sanitary-support",
+      "mount": "wall",
+      "parent": "room.wall",
+      "mounting": {
+        "origin": "center",
+        "width": 0.15,
+        "height": 0.25,
+        "depth": 0.14
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "stateDefaults": {},
+      "usePoints": [],
+      "dispenser": {
+        "backNode": "dispenser-wall-back",
+        "housingNode": "dispenser-housing",
+        "actuatorNode": "dispenser-actuator",
+        "outletNode": "dispenser-outlet",
+        "outletDirection": [
+          0,
+          -1,
+          0
+        ]
+      },
+      "materialSlots": {
+        "housing": [
+          "dispenser-housing"
+        ],
+        "trim": [
+          "dispenser-wall-back",
+          "dispenser-actuator",
+          "dispenser-outlet"
+        ]
+      },
+      "provenance": {
+        "license": "Project-authored editable geometry.",
+        "sourceAuthor": "Gamemake project",
+        "sourceLicense": "project-authored",
+        "sourceDesign": "cartridge",
+        "sourceParameters": "assets-source/company-washroom-dispenser-v1/parameters.json",
+        "sourceParametersSha256": "a1d48230731301ab904bf47fccb354ea8d052903bb585a36bba6b3b3ba91f9b2",
+        "generator": "scripts/company-platform/build-washroom-dispensers.mjs",
+        "generatorSha256": "2cc19d0b0a2a603d78f77ca7603a6cd971cddc09575d662dd380cce08d17ff4f",
+        "functionalContractSource": "assets-source/company-washroom-dispenser-v1/contract.json",
+        "functionalContractSourceSha256": "f7d73a89e7d00ef2712b8c93cbf0c46775dfd8b1a82d38d8814aa7bb22bd5573",
+        "environmentBranch": "sanitary-support",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-washroom-dispenser-v1/original/sources.json",
+            "sha256": "07a8da4829c1b5692ecb27c368124fb3f418eca4a2fbbf3c1e584ce2c51a77eb"
+          }
+        },
+        "tools": [
+          "Three.js r187",
+          "Native binary GLB writer",
+          "GLTFLoader mesh readback"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/washroom-dispenser-v1/washroom-dispenser-cartridge/v1/model.glb",
+        "sha256": "513b31ac823c21d36513a0d7253996dd232567fb231ef17f42f563b1cf0c6c1c",
+        "bytes": 40724
+      }
+    },
+    {
+      "id": "washroom-dispenser-lever",
+      "version": 1,
+      "displayName": "折臂长柄皂液器",
+      "category": "static",
+      "mountRole": "washroom-dispenser",
+      "productionBranch": "sanitary-support",
+      "mount": "wall",
+      "parent": "room.wall",
+      "mounting": {
+        "origin": "center",
+        "width": 0.15,
+        "height": 0.25,
+        "depth": 0.14
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "stateDefaults": {},
+      "usePoints": [],
+      "dispenser": {
+        "backNode": "dispenser-wall-back",
+        "housingNode": "dispenser-housing",
+        "actuatorNode": "dispenser-actuator",
+        "outletNode": "dispenser-outlet",
+        "outletDirection": [
+          0,
+          -1,
+          0
+        ]
+      },
+      "materialSlots": {
+        "housing": [
+          "dispenser-housing"
+        ],
+        "trim": [
+          "dispenser-wall-back",
+          "dispenser-actuator",
+          "dispenser-outlet"
+        ]
+      },
+      "provenance": {
+        "license": "Project-authored editable geometry.",
+        "sourceAuthor": "Gamemake project",
+        "sourceLicense": "project-authored",
+        "sourceDesign": "lever",
+        "sourceParameters": "assets-source/company-washroom-dispenser-v1/parameters.json",
+        "sourceParametersSha256": "a1d48230731301ab904bf47fccb354ea8d052903bb585a36bba6b3b3ba91f9b2",
+        "generator": "scripts/company-platform/build-washroom-dispensers.mjs",
+        "generatorSha256": "2cc19d0b0a2a603d78f77ca7603a6cd971cddc09575d662dd380cce08d17ff4f",
+        "functionalContractSource": "assets-source/company-washroom-dispenser-v1/contract.json",
+        "functionalContractSourceSha256": "f7d73a89e7d00ef2712b8c93cbf0c46775dfd8b1a82d38d8814aa7bb22bd5573",
+        "environmentBranch": "sanitary-support",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-washroom-dispenser-v1/original/sources.json",
+            "sha256": "07a8da4829c1b5692ecb27c368124fb3f418eca4a2fbbf3c1e584ce2c51a77eb"
+          }
+        },
+        "tools": [
+          "Three.js r187",
+          "Native binary GLB writer",
+          "GLTFLoader mesh readback"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/washroom-dispenser-v1/washroom-dispenser-lever/v1/model.glb",
+        "sha256": "ecd5625707d189673b79d2c1753f3ac4c7231f4d44ed67bb7f7c8aad48765cf6",
+        "bytes": 37000
+      }
+    },
+    {
+      "id": "washroom-dispenser-clad",
+      "version": 1,
+      "displayName": "椭圆箍壳皂液器",
+      "category": "static",
+      "mountRole": "washroom-dispenser",
+      "productionBranch": "sanitary-support",
+      "mount": "wall",
+      "parent": "room.wall",
+      "mounting": {
+        "origin": "center",
+        "width": 0.15,
+        "height": 0.25,
+        "depth": 0.14
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "stateDefaults": {},
+      "usePoints": [],
+      "dispenser": {
+        "backNode": "dispenser-wall-back",
+        "housingNode": "dispenser-housing",
+        "actuatorNode": "dispenser-actuator",
+        "outletNode": "dispenser-outlet",
+        "outletDirection": [
+          0,
+          -1,
+          0
+        ]
+      },
+      "materialSlots": {
+        "housing": [
+          "dispenser-housing"
+        ],
+        "trim": [
+          "dispenser-wall-back",
+          "dispenser-actuator",
+          "dispenser-outlet"
+        ]
+      },
+      "provenance": {
+        "license": "Project-authored editable geometry.",
+        "sourceAuthor": "Gamemake project",
+        "sourceLicense": "project-authored",
+        "sourceDesign": "clad",
+        "sourceParameters": "assets-source/company-washroom-dispenser-v1/parameters.json",
+        "sourceParametersSha256": "a1d48230731301ab904bf47fccb354ea8d052903bb585a36bba6b3b3ba91f9b2",
+        "generator": "scripts/company-platform/build-washroom-dispensers.mjs",
+        "generatorSha256": "2cc19d0b0a2a603d78f77ca7603a6cd971cddc09575d662dd380cce08d17ff4f",
+        "functionalContractSource": "assets-source/company-washroom-dispenser-v1/contract.json",
+        "functionalContractSourceSha256": "f7d73a89e7d00ef2712b8c93cbf0c46775dfd8b1a82d38d8814aa7bb22bd5573",
+        "environmentBranch": "sanitary-support",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-washroom-dispenser-v1/original/sources.json",
+            "sha256": "07a8da4829c1b5692ecb27c368124fb3f418eca4a2fbbf3c1e584ce2c51a77eb"
+          }
+        },
+        "tools": [
+          "Three.js r187",
+          "Native binary GLB writer",
+          "GLTFLoader mesh readback"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/washroom-dispenser-v1/washroom-dispenser-clad/v1/model.glb",
+        "sha256": "e1764077774aab3d9a74896b8afef4f63ad7c7c3ccae686eb5859eabf9d01914",
+        "bytes": 44456
       }
     }
   ]

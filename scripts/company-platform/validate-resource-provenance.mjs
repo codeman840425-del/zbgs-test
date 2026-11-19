@@ -201,6 +201,71 @@ export async function verifyFloorAirSources(root,resource,recipe) {
   return pins;
 }
 
+export async function verifyWashbasinSources(root,resource,recipe) {
+  const base='assets-source/company-public-washbasin-v1/', p=resource.provenance;
+  const mismatch=at=>{throw Object.assign(Error('washbasin-source-mismatch: '+at),{code:'washbasin-source-mismatch',path:at});};
+  const design=recipe.designs?.find(d=>d.id===resource.id&&d.version===resource.version);
+  if(recipe.schema!=='company-public-washbasins'||recipe.version!==1||!['frame-round','cabinet-square','pier-round','shelf-square'].includes(design?.kind)||design.kind!==p.sourceDesign||
+      p.functionalContractSource!==base+'contract.json') mismatch(resource.id);
+  const {resource:contract}=JSON.parse(await readProductionFile(root,p.functionalContractSource));
+  for(const [field,value] of Object.entries(contract)) if(!isDeepStrictEqual(resource[field],value)) mismatch(resource.id+'.'+field);
+  const sourceRecord=base+'original/sources.json', recordBytes=await readProductionFile(root,sourceRecord);
+  const record=JSON.parse(recordBytes);
+  const original=record.originalModels[design.kind.endsWith('-round')?'bathroomSink':'bathroomSinkSquare'];
+  const expected={sourceRecord:{path:sourceRecord,sha256:digest(recordBytes)},
+    license:{path:base+'original/License.txt',sha256:record.licenseSha256},
+    originalModel:{path:original.path,sha256:original.sha256}};
+  if(!isDeepStrictEqual(expected,p.dependencies)||p.sourceArtifactPath!==original.path||p.sourceArtifactSha256!==original.sha256||
+      p.sourceAuthor!==record.author||p.sourceLicense!==record.license||p.sourceUrl!==record.page) mismatch(resource.id);
+  for(const pin of [expected.originalModel,expected.license]) {
+    if(digest(await readProductionFile(root,pin.path))!==pin.sha256) mismatch(pin.path);
+  }
+  return new Map(Object.entries(expected));
+}
+
+export async function verifyWashroomDispenserSources(root,resource,recipe) {
+  const base='assets-source/company-washroom-dispenser-v1/', p=resource.provenance;
+  const mismatch=at=>{throw Object.assign(Error('dispenser-source-mismatch: '+at),{code:'dispenser-source-mismatch',path:at});};
+  const design=recipe.designs?.find(item=>item.id===resource.id && item.version===resource.version);
+  if(recipe.schema!=='company-washroom-dispensers'||recipe.version!==1||!design||design.kind!==p.sourceDesign||
+      p.functionalContractSource!==base+'contract.json') mismatch(resource.id);
+  const {resource:contract}=JSON.parse(await readProductionFile(root,p.functionalContractSource));
+  for(const [field,value] of Object.entries(contract)) if(!isDeepStrictEqual(resource[field],value)) mismatch(resource.id+'.'+field);
+  const sourceRecord=base+'original/sources.json', bytes=await readProductionFile(root,sourceRecord);
+  const {pump,authored}=JSON.parse(bytes);
+  const pins={sourceRecord:{path:sourceRecord,sha256:digest(bytes)}};
+  if(design.kind==='pump') {
+    if(pump.path!==base+'original/hand-wash-bottle.glb'||pump.licensePath!==base+'original/CC0-1.0.txt'||
+        p.sourceArtifactPath!==pump.path||p.sourceArtifactSha256!==pump.sha256||p.sourceAuthor!==pump.author||
+        p.sourceUrl!==pump.page||p.sourceLicense!==pump.license) mismatch(resource.id);
+    pins.originalModel={path:pump.path,sha256:pump.sha256};
+    pins.license={path:pump.licensePath,sha256:pump.licenseSha256};
+    for(const pin of [pins.originalModel,pins.license]) {
+      if(digest(await readProductionFile(root,pin.path))!==pin.sha256) mismatch(pin.path);
+    }
+  } else if(!authored.kinds.includes(design.kind)||p.sourceAuthor!==authored.author||p.sourceLicense!==authored.license||
+      p.sourceArtifactPath||p.sourceArtifactSha256||p.sourceUrl) mismatch(resource.id);
+  if(!isDeepStrictEqual(pins,p.dependencies)) mismatch(resource.id+'.dependencies');
+  return new Map(Object.entries(pins));
+}
+
+export async function verifyPrintedSignSources(root,resource,recipe) {
+  const p=resource.provenance, source='assets-source/company-information-v1/';
+  const pins=new Map();
+  for(const [field,shaField,expected] of [
+    ['fontFile','fontSha256',source+'NotoSansSC-VF.ttf'],['fontLicenseFile','fontLicenseSha256',source+'OFL.txt'],
+    ['requirements','requirementsSha256',source+'requirements.txt'],
+    ['contentHelper','contentHelperSha256','assets-source/company-washroom-sign-v1/draw.py'],
+    ['meshGenerator','meshGeneratorSha256','scripts/company-platform/build-information.mjs']]){
+    const file=path.resolve(root,expected);
+    if(p[field]!==expected||await fs.realpath(file)!==file||digest(await fs.readFile(file))!==p[shaField]||
+        (field==='fontFile'&&(recipe.font!==expected||recipe.fontSha256!==p[shaField])))
+      throw Object.assign(Error('printed-sign-source-mismatch: '+expected),{code:'printed-sign-source-mismatch',path:expected});
+    pins.set(field,{path:expected,sha256:p[shaField]});
+  }
+  return pins;
+}
+
 export async function verifyEquipmentCartSources(root, resource, recipe) {
   const base='assets-source/company-equipment-cart-v1/', p=resource.provenance;
   const mismatch=at=>{throw Object.assign(Error('equipment-cart-source-mismatch: '+at),{code:'equipment-cart-source-mismatch',path:at});};
@@ -295,6 +360,12 @@ export async function validateResourceProvenance({root, resource, label = resour
       await verifyWallHvacSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='cart-and-equipment-storage')
       await verifyEquipmentCartSources(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && resource.mountRole==='public-washbasin')
+      await verifyWashbasinSources(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && resource.mountRole==='washroom-dispenser')
+      await verifyWashroomDispenserSources(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && provenance.generator==='scripts/company-platform/build-washroom-sign.mjs')
+      await verifyPrintedSignSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='plant-desktop-installation')
       await verifyPlantEditableProvenance(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && ['garment-rack-wardrobe','hanging-garment','enclosed-wardrobe'].includes(resource.productionBranch))

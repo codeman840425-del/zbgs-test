@@ -8,9 +8,15 @@ import {inspectCompanyPlacement,inspectCompanyMotionSweep} from '../../prototype
 
 const [command, input, operations, output] = process.argv.slice(2);
 const read = async file => restoreCompany(await fs.readFile(file,'utf8'),catalog,templates);
+async function checkWashroom(document,derived=deriveCompany(document,catalog,templates)) {
+  if(!Object.hasOwn(document,'publicWashrooms')&&!derived.facilities.some(item=>item.resource.mountRole==='public-washbasin')) return [];
+  const {checkPublicWashrooms}=await import('./check-public-washroom.mjs');
+  return checkPublicWashrooms(document,{catalog,templates,derived});
+}
 async function write(file, document) {
   await checkManagedOutput(path.resolve(file),undefined,{allowDelivery:false});
   inspectCompanyPlacement(document,catalog,templates);
+  await checkWashroom(document);
   const bytes=serializeCompany(document,catalog,templates);
   const parent=path.dirname(path.resolve(file));
   if(parent!==path.parse(parent).root)await fs.mkdir(parent,{recursive:true});
@@ -33,7 +39,8 @@ try {
   } else if (command==='validate' && input) {
     const document=await read(input), derived=deriveCompany(document,catalog,templates);
     const placement=inspectCompanyPlacement(document,catalog,templates);
-    console.log(JSON.stringify({ok:true,id:document.id,revision:document.revision,capacity:derived.capacity,usePointIds:derived.usePoints.map(p=>p.id),placement,scope:'Static authoring and conservative room passage checks only. Real character navigation, contact and use remain C3 validation.'},null,2));
+    const publicWashrooms=await checkWashroom(document,derived);
+    console.log(JSON.stringify({ok:true,id:document.id,revision:document.revision,capacity:derived.capacity,usePointIds:derived.usePoints.map(p=>p.id),placement,...(publicWashrooms.length?{publicWashrooms}:{}),scope:'Static authoring and conservative room passage checks only. Real character navigation, contact and use remain C3 validation.'},null,2));
   } else if (command==='apply' && input && operations && output) {
     const previous=await read(input), ops=JSON.parse(await fs.readFile(operations,'utf8'));
     const next=prepareCompanyChange(previous,ops,{catalog,templates}).document;

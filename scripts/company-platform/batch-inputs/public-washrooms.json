@@ -1,0 +1,201 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "public-washroom-floor",
+      "input": {
+        "id": "public-washroom-floor",
+        "name": "独立楼层 · 西壁公共洗手区",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "scale": "leased-floor",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "公共楼层"
+          }
+        ]
+      },
+      "operations": [
+        {"type":"set-room","id":"public-washroom-floor/ground/restroom-access","name":"公共洗手区"},
+        {"type":"move","id":"public-washroom-floor/ground/restroom-access/service-sign","transform":{"position":[1.6,0,0],"yaw":4.71238898038469}},
+        {"type":"add-facility","id":"public-washroom-floor/ground/restroom-access/service-sign/content","parentId":"public-washroom-floor/ground/restroom-access/service-sign","resource":{"id":"information-content-washroom","version":1},"transform":{"position":[0,1.3,0.031],"yaw":0}},
+        {
+          "type": "add-facility",
+          "id": "public-washroom-floor/ground/restroom-access/washbasin",
+          "parentId": "public-washroom-floor/ground/restroom-access",
+          "resource": {
+            "id": "public-washbasin-frame-round",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -2.58,
+              0,
+              -0.72
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "public-washroom-floor/ground/restroom-access/mirror",
+          "parentId": "public-washroom-floor/ground/restroom-access",
+          "resource": {
+            "id": "makeup-wall-mirror-round",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -2.9,
+              1.55,
+              -0.72
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "public-washroom-floor/ground/restroom-access/dispenser",
+          "parentId": "public-washroom-floor/ground/restroom-access",
+          "resource": {
+            "id": "washroom-dispenser-pump",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -1.92,
+              1.12,
+              -1.4
+            ],
+            "yaw": 0
+          }
+        }
+      ],
+      "publicWashrooms": [
+        {
+          "regionId": "public-washroom-floor/ground/restroom-access",
+          "portalId": "public-washroom-floor/ground/portal-stair-restroom",
+          "roles": {
+            "basin": "public-washroom-floor/ground/restroom-access/washbasin",
+            "mirror": "public-washroom-floor/ground/restroom-access/mirror",
+            "dispenser": "public-washroom-floor/ground/restroom-access/dispenser",
+            "sign": "public-washroom-floor/ground/restroom-access/service-sign"
+          },
+          "service": [
+            -1.92,
+            -0.72
+          ]
+        }
+      ]
+    },
+    {
+      "key": "public-washroom-building",
+      "input": {
+        "id": "public-washroom-building",
+        "name": "大楼 · 二层公共洗手区",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "scale": "building",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层"
+          },
+          {
+            "id": "upper",
+            "name": "二层"
+          }
+        ]
+      },
+      "operations": [
+        {"type":"set-room","id":"public-washroom-building/upper/restroom-access","name":"公共洗手区"},
+        {"type":"add-facility","id":"public-washroom-building/upper/restroom-access/service-sign/content","parentId":"public-washroom-building/upper/restroom-access/service-sign","resource":{"id":"information-content-washroom","version":1},"transform":{"position":[0,1.3,0.031],"yaw":0}},
+        {
+          "type": "move",
+          "id": "public-washroom-building/upper/restroom-access/service-sign",
+          "transform": {
+            "position": [
+              -0.9,
+              0,
+              -0.1
+            ],
+            "yaw": 3.141592653589793
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "public-washroom-building/upper/restroom-access/washbasin",
+          "parentId": "public-washroom-building/upper/restroom-access",
+          "resource": {
+            "id": "public-washbasin-cabinet-square",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              2.18,
+              0,
+              1.08
+            ],
+            "yaw": 3.141592653589793
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "public-washroom-building/upper/restroom-access/mirror",
+          "parentId": "public-washroom-building/upper/restroom-access",
+          "resource": {
+            "id": "makeup-wall-mirror-round",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              2.18,
+              1.55,
+              1.4
+            ],
+            "yaw": 3.141592653589793
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "public-washroom-building/upper/restroom-access/dispenser",
+          "parentId": "public-washroom-building/upper/restroom-access",
+          "resource": {
+            "id": "washroom-dispenser-pump",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              2.9,
+              1.12,
+              0.42
+            ],
+            "yaw": 4.71238898038469
+          }
+        }
+      ],
+      "publicWashrooms": [
+        {
+          "regionId": "public-washroom-building/upper/restroom-access",
+          "portalId": "public-washroom-building/upper/portal-stair-restroom",
+          "roles": {
+            "basin": "public-washroom-building/upper/restroom-access/washbasin",
+            "mirror": "public-washroom-building/upper/restroom-access/mirror",
+            "dispenser": "public-washroom-building/upper/restroom-access/dispenser",
+            "sign": "public-washroom-building/upper/restroom-access/service-sign"
+          },
+          "service": [
+            2.18,
+            0.42
+          ]
+        }
+      ]
+    }
+  ]
+}

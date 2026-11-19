@@ -34,6 +34,7 @@ export const appearanceBranches=[
  ['side-table-life-items','边几日用品'],['showcase-product','直播陈列商品'],
  ['side-table','边几与茶几'],
  ['tea-counter','公共茶水柜'],['tea-machine','咖啡设备'],['tea-cup','茶水杯具'],
+ ['public-washbasin','公共洗手台'],['washroom-dispenser','壁挂皂液器'],
  ['makeup-mirror-wall','挂墙化妆镜'],
  ['makeup-storage-drawer','抽屉内化妆收纳'],
  ['makeup-storage','化妆台面收纳'],
@@ -79,7 +80,7 @@ export function latestAppearanceVersions(resources){
 export function appearanceCandidates(catalog,branch) {
  if(branch==='stream-station')return workstationLooks.map(({id,version,displayName})=>({id,version,displayName}));
  const selected=catalog.resources.filter(r=>((r.productionBranch||r.mountRole)===branch ||
-   (r.productionBranch==='tea-rest' && r.mountRole===branch) ||
+   (['tea-rest','sanitary-support'].includes(r.productionBranch) && r.mountRole===branch) ||
    (branch==='sofa' && r.productionBranch==='sofa-textile-host')) && r.asset && r.id!=='lounge-sofa');
  if(branch==='sofa')selected.unshift(catalog.resources.find(r=>r.id==='lounge-sofa'&&r.version===1));
  return latestAppearanceVersions(selected.filter(Boolean)).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
@@ -184,7 +185,7 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
    ],{catalog,templates}).document;
    return {document:doc,target,branch,index,resource};
  }
- if(branch==='camera-mount'){
+ if(branch==='camera-mount'||selected.productionBranch==='sanitary-support'){
    if(selected.mount==='desk-edge-clamp'){
      doc=prepareCompanyChange(doc,[{type:'add-workstation',id:'sample/station',parentId:room.id,
        template:{id:'stream-station',version:1},transform:identityTransform()}],{catalog,templates}).document;
