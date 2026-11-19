@@ -1,7 +1,13 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import path from 'node:path';
+import outputs from './project-output.cjs';
 import { createTurnPolicy, turnAngleDelta } from '../prototype/src/turn-policy.js';
 
+// This archived check expects a fixed support-shoe orientation. The current
+// pivot planner is exercised by qa-turn-transfer-clock.mjs and facility QA.
+const root=await outputs.productionRoot();
+const out=await outputs.projectOutput(path.join(root,'output','turn-policy','regression.json'),root);
 const report = [];
 function run(name, target, fps = 60, steer = null) {
   const planner = createTurnPolicy();
@@ -55,6 +61,6 @@ assert.throws(() => p.requestHeading(NaN), /finite/);
 const previousStepId = p.sample().stepId;
 p.reset(p.sample().yaw); p.requestHeading(1); p.update(1/60);
 assert.ok(p.sample().stepId > previousStepId, 'new sessions cannot reuse contact step ids');
-fs.mkdirSync('output/turn-policy', { recursive: true });
-fs.writeFileSync('output/turn-policy/regression.json', JSON.stringify({ scope: 'Pure planner only; no mesh, foot IK, visual or new-body acceptance claimed', report }, null, 2));
+fs.mkdirSync(path.dirname(out), { recursive: true });
+fs.writeFileSync(out, JSON.stringify({ scope: 'Pure planner only; no mesh, foot IK, visual or new-body acceptance claimed', report }, null, 2));
 console.table(report.map(({ frames, ...summary }) => summary));

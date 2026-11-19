@@ -23,6 +23,7 @@ test('production record and game export reject an escaped path before reading in
     ['qa-garment-basecolor-room.cjs', 'http://127.0.0.1', '0123456789ab', outside],
     ['qa-uniform-replay.cjs', 'http://127.0.0.1', outside],
     ['qa-production-record-room.cjs', 'http://127.0.0.1', 'missing', outside],
+    ['qa-turn-policy-observability.mjs', '--out=' + outside, '--module=missing'],
     ['qa-raw-outfit-room.cjs', 'http://127.0.0.1', 'missing', 'missing', outside],
     ['character-production-cli.cjs', '--out', outside, '--request', 'missing', '--dist', 'missing'],
     ['runtime-package/game-record-cli.mjs', 'inventory', '--out', outside, '--dist', 'missing'],
