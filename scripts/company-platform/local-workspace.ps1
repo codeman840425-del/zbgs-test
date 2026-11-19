@@ -24,6 +24,7 @@ function Assert-LocalWorkspace {
     # A manual move can hide a folder from the drive listing while Git still uses its old path.
     $worktreeList = @(git -C $project worktree list --porcelain)
     if ($LASTEXITCODE -ne 0) { throw '无法读取 Git 工作树登记。' }
+    $managedTrees = [IO.Path]::Combine($project, 'company-workspace', 'worktrees') + [IO.Path]::DirectorySeparatorChar
     foreach ($line in $worktreeList) {
         if (-not $line.StartsWith('worktree ')) { continue }
         $registered = [IO.Path]::GetFullPath($line.Substring(9))
@@ -31,6 +32,18 @@ function Assert-LocalWorkspace {
             [IO.Path]::GetDirectoryName($registered) -eq $driveRoot -and
             [IO.Path]::GetFileName($registered) -like 'gamemake-company-*') {
             throw "Git 仍登记了盘符根目录下的公司工作树：$registered"
+        }
+        if ($Check -and $registered.StartsWith($managedTrees, [StringComparison]::OrdinalIgnoreCase)) {
+            # Check both Git pointers. Merely finding the directory also succeeds after a partial move.
+            $pointer = Join-Path $registered '.git'
+            if (-not [IO.File]::Exists($pointer)) { throw "已登记的工作树缺少 Git 指针：$pointer" }
+            $record = [IO.File]::ReadAllText($pointer).Trim()
+            if (-not $record.StartsWith('gitdir: ')) { throw "工作树的 Git 指针不可读：$pointer" }
+            $metadata = [IO.Path]::GetFullPath([IO.Path]::Combine($registered, $record.Substring(8)))
+            $backlink = Join-Path $metadata 'gitdir'
+            if (-not [IO.File]::Exists($backlink)) { throw "Git 登记缺少工作树回指：$backlink" }
+            $back = [IO.Path]::GetFullPath([IO.Path]::Combine($metadata, [IO.File]::ReadAllText($backlink).Trim()))
+            if ($back -ne $pointer) { throw "Git 登记与实际工作树不一致：$pointer -> $back" }
         }
     }
 }

@@ -3,6 +3,7 @@
 ## 公司场景与设施平台的本机文件管理
 
 - 副总工的主目录为 `F:/gamemake-company-platform-c1`。派工时给出主目录内的输入、输出和证据路径，接手者沿用相同规则。
+- 本机从[工作区索引](company-workspace/README.md)查找正式版本、录像和旧目录的新位置。迁移后运行目录检查，逐个核对固定工作树与 Git 登记的双向指针，包含历史嵌套检出。
 - 可维护源码、配方和可复验证据沿用 `scripts/`、`assets-source/`、`prototype/`、`docs/`、`evidence/`。本机独立检出进 `company-workspace/worktrees/`，独立交付包进 `deliveries/`，试制和独立复产进 `production-trials/`，常驻预览进 `preview/`，单独交接的输入和回执进 `inputs-and-receipts/`；后四项也都位于 `company-workspace/` 下。短时验证使用项目内 `output/`。
 - 已有同一固定源码和构建优先复用。一次性验证结束清理自己创建且可重建的临时副本；未提交修改、唯一源素材、在用预览和回滚版本须保留。历史证据保留原始版本与路径，迁移时留新旧对照。Git 检出用 `git worktree move`，迁移后核 HEAD、嵌套检出和引用。
 - 浏览器用户目录、缓存、失败重试和中间录像先放在项目内 `output/`。验收后只把报告、代表画面及最终录像归入 `evidence/`。本机验收预览复用正式包的产物，只存运行和观看所需文件。
