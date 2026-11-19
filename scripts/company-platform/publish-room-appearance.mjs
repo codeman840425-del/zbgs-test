@@ -8,6 +8,7 @@ import {isDeepStrictEqual, promisify} from 'node:util';
 import {buildLibrary, planPath, replaceIndex, withCatalogWriteLock} from './build-library.mjs';
 import {editableSources,plantProducer,plantToolchain} from './plant-editable-source.mjs';
 import {showcaseTexturePins} from './validate-resource-provenance.mjs';
+import {checkManagedOutput,findManagedProject} from './package-company.mjs';
 import {compareFacilityFunction} from '../../prototype/src/company/appearance-contract.js';
 import {createCompany, deriveCompany} from '../../prototype/src/company/document.js';
 
@@ -33,6 +34,7 @@ const families = {
   'company-showcase-product-collection': 'showcase-product',
   'company-singing-stage-collection': 'singing-stage',
   'company-vocal-mic-looks': 'vocal-mic-looks',
+  'company-vocal-fit': 'vocal-fit',
   'company-tea-station-collection': 'tea-station',
   'company-floor-air-collection': 'floor-air',
   'company-wall-hvac-collection': 'wall-hvac',
@@ -42,14 +44,18 @@ generatorFiles['tea-station'] = 'build-tea-station.mjs';
 generatorFiles['floor-air'] = 'build-floor-air.mjs';
 generatorFiles['wall-hvac'] = 'build-wall-hvac.mjs';
 generatorFiles['vocal-mic-looks'] = 'build-vocal-mic-looks.mjs';
+generatorFiles['vocal-fit'] = 'build-vocal-fit.mjs';
 const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric', 'wall-ambient':'ambient-led-and-neon', 'desktop-plants':'plant-desktop-installation', 'tea-station':'tea-rest'};
 productionBranches['floor-air'] = 'fan-and-air-purifier';
 productionBranches['wall-hvac'] = 'hvac';
 productionBranches['vocal-mic-looks'] = 'floor-vocal-microphone';
+productionBranches['vocal-fit'] = 'floor-vocal-microphone';
 
 const garmentBranches = {rack:'garment-rack-wardrobe',garment:'hanging-garment'};
 const singingBranches = {vocal:'floor-vocal-microphone',score:'floor-score-stand'};
 function belongsToFamily(resource,family) {
+  if (family === 'vocal-fit') return resource?.productionBranch === 'floor-vocal-microphone' &&
+    resource.provenance?.generator === 'scripts/company-platform/build-vocal-fit.mjs';
   if (family === 'garment-rack') return Object.values(garmentBranches).includes(resource?.productionBranch);
   if (family === 'singing-stage') return Object.values(singingBranches).includes(resource?.productionBranch);
   return family === 'baseboard'
@@ -58,9 +64,14 @@ function belongsToFamily(resource,family) {
     : resource?.productionBranch === (productionBranches[family] ?? family);
 }
 
-function validateFunction(reference,resource,family) {
+function validateFunction(reference,resource,family,explicitFit) {
   assert(belongsToFamily(resource,family),'Resource does not belong to '+family);
-  assert(compareFacilityFunction(reference,resource).compatible,'Function or mounting differs from '+reference.id);
+  const comparison = compareFacilityFunction(reference,resource);
+  if (!comparison.compatible) {
+    assert(family === 'vocal-fit' && comparison.differences.every(d => d.field.startsWith('pickupFit.')),
+      'Function or mounting differs from '+reference.id);
+    if (!explicitFit) fail('pickup-fit-requires-explicit-publication','A different physical pickup needs a separate fitting ID and --publish-fit');
+  }
   if (family === 'baseboard') {
     // Use the normal room admission path for surface kind, materials and profile.
     // Profile and tile scale are appearance choices within the common envelope.
@@ -133,12 +144,13 @@ async function writeNew(relative,bytes,owned) {
   try {await handle.writeFile(bytes); await handle.sync();} finally {await handle.close();}
 }
 
-async function publish(recipePath,check) {
+async function publish(recipePath,check,explicitFit) {
   productionSource(recipePath);
   if (!recipePath.endsWith('.json')) fail('invalid-appearance-recipe',recipePath);
   const [originalPlan,originalCatalog,inputBytes] = await Promise.all([planPath,catalogPath,recipePath].map(regularFile));
   const plan = parse(originalPlan), previous = parse(originalCatalog), input = parse(inputBytes);
   const family = families[input.schema];
+  if (explicitFit && family !== 'vocal-fit') fail('invalid-fitting-family','Explicit fitting publication requires a vocal-fit recipe');
   if (typeof family !== 'string' || input.version !== 1 || !Array.isArray(input.designs) || !input.designs.length)
     fail('invalid-appearance-recipe','Expected a version 1 recipe with designs for one of: '+Object.keys(families).join(', '));
   const base = 'assets-source/company-'+family+'-v1';
@@ -209,8 +221,11 @@ async function publish(recipePath,check) {
   // the author's draft lets later edits to that same draft preserve old saves.
   const digest = hash(inputBytes);
   const pinned = recipePath === base+'/parameters.json' ? recipePath : path.posix.join(path.posix.dirname(recipePath),'recipe-'+digest+'.json');
-  const output = path.join(root,'output');
-  await ensureDirectory('output',[]);
+  const output = path.join(await findManagedProject(root) ?? root,'output');
+  await checkManagedOutput(path.join(output,'room-appearance-stage'),root,{allowDelivery:false});
+  await fs.mkdir(output,{recursive:true});
+  if (await fs.realpath(output) !== output || !(await fs.lstat(output)).isDirectory())
+    fail('appearance-output-conflict',output);
   const staging = await fs.mkdtemp(path.join(output,'room-appearance-'));
   const staged = path.join(staging,'candidate');
   const ownedFiles = [], ownedDirs = [];
@@ -275,7 +290,10 @@ async function publish(recipePath,check) {
         }
       }
       assert.deepEqual(resource.provenance.dependencies,expectedDependencies);
-      validateFunction(functionalReference,resource,family);
+      if (family === 'vocal-fit' && previous.resources.some(old=>old.id===resource.id &&
+          !isDeepStrictEqual(old.microphone?.pickupFit,resource.microphone.pickupFit)))
+        fail('pickup-fit-requires-new-id',resource.id);
+      validateFunction(functionalReference,resource,family,explicitFit);
       assert.equal(resource.asset.url,entry.modelPath.slice('prototype/public'.length));
       assert.equal(resource.asset.sha256,hash(model)); assert.equal(resource.asset.bytes,model.length);
       assert.equal(entry.sha256,resource.asset.sha256);
@@ -334,7 +352,7 @@ async function publish(recipePath,check) {
 
 const [mode,recipe,...extra] = process.argv.slice(2);
 try {
-  if (!['--publish','--check'].includes(mode) || !recipe || extra.length)
-    fail('appearance-usage','node scripts/company-platform/publish-room-appearance.mjs --publish|--check assets-source/company-.../recipe.json');
-  console.log(JSON.stringify(await withCatalogWriteLock(()=>publish(recipe,mode==='--check')),null,2));
+  if (!['--publish','--check','--publish-fit','--check-fit'].includes(mode) || !recipe || extra.length)
+    fail('appearance-usage','node scripts/company-platform/publish-room-appearance.mjs --publish|--check|--publish-fit|--check-fit assets-source/company-.../recipe.json');
+  console.log(JSON.stringify(await withCatalogWriteLock(()=>publish(recipe,mode.startsWith('--check'),mode.endsWith('-fit'))),null,2));
 } catch (error) {console.error(JSON.stringify({code:error.code??'appearance-publication-failed',message:error.message})); process.exitCode=1;}

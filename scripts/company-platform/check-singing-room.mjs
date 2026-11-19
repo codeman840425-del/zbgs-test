@@ -105,7 +105,7 @@ function triangles(record) {
 
 function center(record) { return new T.Box3().setFromPoints(vertices(record)).getCenter(p()); }
 
-function rayHit(records,from,to) {
+export function rayHit(records,from,to) {
   const direction = to.clone().sub(from), max = direction.length() + 1e-6;
   if (max <= 1e-6) return null;
   const segment = new T.Box3().setFromPoints([from,to]).expandByScalar(1e-6);
@@ -178,7 +178,10 @@ function joinPoint(from,to) {
 }
 
 function measureMic(records,member,reference) {
-  const names = [member.resource.microphone?.pickupNode,'singing-mic-collar','singing-mic-handle','singing-mic-clip','singing-boom'];
+  const {microphone} = member.resource;
+  const names = [microphone?.pickupNode,'singing-mic-collar','singing-mic-handle','singing-mic-clip'];
+  if (microphone?.pickupFit) names.push('boom-tip-joint','boom-inner-slider');
+  names.push('singing-boom');
   const pieces = names.map(name=>memberPart(records,member,name));
   const [pickup,,handle] = pieces, joins = {};
   for (let i=1;i<pieces.length;i++) {

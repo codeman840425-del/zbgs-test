@@ -1,0 +1,177 @@
+{
+  "schema": "company-vocal-fit-observations",
+  "version": 1,
+  "frame": "Facility-local metres, +Y up, +Z toward singer. Actor yaw is the observed root yaw minus facility yaw. The original runtime measures facing against the installed standing slot yaw.",
+  "baselineMicSha256": "9cbbc83645f96894fa370494b0813be70c247be7e4442ebff204945d4c928a18",
+  "sources": [
+    {
+      "id": "source-1",
+      "path": "evidence/m2-performer-anchor-game-v1/browser-01/report.json",
+      "sha256": "6768586e94d6f9dc2d28fcbc3253ad759bc71bba2afed13cf2253b662b27dc55",
+      "mode": "browser",
+      "characterIdentity": "ddcf40a56d0ef69662f7d0798ca7e6210bd8cc20f6dc52a2cc034d40b20fe28f",
+      "baselineCompanyManifestSha256": "5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012"
+    },
+    {
+      "id": "source-2",
+      "path": "evidence/m2-performer-anchor-game-v1/side-01/report.json",
+      "sha256": "2b2fe2b65dd0f233e2da37407c3b80cb91dfc9958a985ffe39ee41a8dd0f6bab",
+      "mode": "browser",
+      "characterIdentity": "ddcf40a56d0ef69662f7d0798ca7e6210bd8cc20f6dc52a2cc034d40b20fe28f",
+      "baselineCompanyManifestSha256": "5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012"
+    },
+    {
+      "id": "source-3",
+      "path": "evidence/m2-company-vocal-active-v1/browser-02/report.json",
+      "sha256": "fe3c438dd099a71a80e810c5bf49cdb7b2d33385c31d00394ff38dc8afd55be2",
+      "mode": "browser",
+      "characterIdentity": "6c3c7b43ae35c1be316d3a2e5410a6e2385887744e520c28a299e1529d4945e6",
+      "baselineCompanyManifestSha256": "5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012"
+    },
+    {
+      "id": "source-4",
+      "path": "evidence/m2-company-vocal-active-v1/cpu/run-03.json",
+      "sha256": "438f2d73ff8f692aafe6dcc7989d31a0f4ceedc0aaaf64ca8c8bbf2563ffbce6",
+      "mode": "CPU simulation",
+      "characterIdentity": "95adfb2788699077c8b2c1585f38e3c8a6053268",
+      "baselineCompanyManifestSha256": "5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012"
+    }
+  ],
+  "actors": [
+    {
+      "id": "uniform-lite-female-v1",
+      "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+      "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757",
+      "body": "female"
+    },
+    {
+      "id": "uniform-lite-male-v1",
+      "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+      "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2",
+      "body": "male"
+    }
+  ],
+  "rooms": {
+    "singing-studio": {
+      "facility": "singing-studio/ground/live/vocal",
+      "facilityTransform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      },
+      "usePoint": {
+        "approach": [
+          0,
+          0,
+          1.12
+        ],
+        "coordinateSpace": "facility",
+        "exit": [
+          0,
+          0,
+          1.12
+        ],
+        "position": [
+          0,
+          0,
+          0.77
+        ],
+        "yaw": 3.141592653589793
+      },
+      "sourceUsePointsSha256": "6a2f6bc3c41da1543603f761c1d431a1a78f2bc3853c8a9930306a6699b74108"
+    },
+    "singing-rental": {
+      "facility": "singing-rental/ground/live/vocal",
+      "facilityTransform": {
+        "position": [
+          -4.5,
+          0,
+          0
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "usePoint": {
+        "approach": [
+          0,
+          0,
+          1.12
+        ],
+        "coordinateSpace": "facility",
+        "exit": [
+          0,
+          0,
+          1.12
+        ],
+        "position": [
+          0,
+          0,
+          0.77
+        ],
+        "yaw": 3.141592653589793
+      },
+      "sourceUsePointsSha256": "c90e01134bbf134eb5c4614b7708b15cdeef9b071b76053c9c55749b4f584e3e"
+    }
+  },
+  "samples": [
+    {"id": "p01", "report": "source-1", "pointer": "/rooms/0/sessions/0/unsuitableContact", "room": "singing-studio", "actor": "uniform-lite-female-v1", "phase": "arrival-refused", "mouthM": [0.009114429327924752, 1.3702779996298917, 0.6537049823749865], "actorYawRad": -3.1413760875359533, "surfaceM": [0.000734069306825633, 1.5731478776128114, 0.408507759100757], "distanceM": 0.3183521574110663, "incidenceDeg": 25.64485310271805, "facingDeg": 1.957495359827787, "eyeM": [0.010312487753233943, 1.4442429526339031, 0.7089268441768988]},
+    {"id": "p02", "report": "source-1", "pointer": "/rooms/0/sessions/0/arrival/result", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "arrival", "mouthM": [0.011115248835501175, 1.508204288353592, 0.6426937466022742], "actorYawRad": 3.1415911746837923, "surfaceM": [0.0011176648035117736, 1.5826009954625848, 0.41273755686595315], "distanceM": 0.24189805892810476, "incidenceDeg": 4.585701645649701, "facingDeg": 2.4894257984306543, "eyeM": [0.013105266315121999, 1.5902058660097784, 0.6899439536768645]},
+    {"id": "p03", "report": "source-1", "pointer": "/rooms/0/sessions/0/hold/0/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.011568775172909515, 1.5075603424165944, 0.6416945347850014], "actorYawRad": 3.1415911746837923, "surfaceM": [0.0011666672101502944, 1.5825117521797714, 0.41271191177392186], "distanceM": 0.24116168708273442, "incidenceDeg": 4.807495158847187, "facingDeg": 2.6010157692579527, "eyeM": [0.013653853263489273, 1.5896022139087156, 0.687272415437912]},
+    {"id": "p04", "report": "source-1", "pointer": "/rooms/0/sessions/0/hold/1/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.014010323155775916, 1.5007196696266427, 0.6411044637068843], "actorYawRad": 3.1415911746837923, "surfaceM": [0.0014059282907593063, 1.5818667033464089, 0.4125261907636757], "distanceM": 0.2428821498445905, "incidenceDeg": 6.290523723618992, "facingDeg": 3.1562404215038136, "eyeM": [0.01664573460515352, 1.5880507237083235, 0.6840852858350521]},
+    {"id": "p05", "report": "source-1", "pointer": "/rooms/0/sessions/0/hold/2/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.013060612429676901, 1.5134253637777941, 0.6457853362593267], "actorYawRad": 3.1415911746837923, "surfaceM": [0.0013043762145363586, 1.5831787908270676, 0.41287210685836384], "distanceM": 0.24341799872862735, "incidenceDeg": 3.846729180368654, "facingDeg": 2.8895377207167368, "eyeM": [0.015551416231214192, 1.5933671278179475, 0.6937820435424918]},
+    {"id": "p06", "report": "source-1", "pointer": "/rooms/0/sessions/0/hold/3/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.013614625965416622, 1.4966793316192353, 0.6417294278622758], "actorYawRad": 3.1415911746837923, "surfaceM": [0.0013577816264891684, 1.5815196690228965, 0.41243103682134774], "distanceM": 0.2447976005149441, "incidenceDeg": 6.9245358596107875, "facingDeg": 3.059758647659782, "eyeM": [0.015999475399191162, 1.5846957766838092, 0.6771783601418909]},
+    {"id": "p07", "report": "source-1", "pointer": "/rooms/0/sessions/0/hold/4/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.01308935904894765, 1.506821674452478, 0.6401106676027586], "actorYawRad": 3.1415911746837923, "surfaceM": [0.001326313903774301, 1.5823967740931968, 0.412674024484204], "distanceM": 0.23995289443936432, "incidenceDeg": 5.203317649261375, "facingDeg": 2.9607051989059916, "eyeM": [0.01541569310967861, 1.58923607586346, 0.6844919321871055]},
+    {"id": "p08", "report": "source-1", "pointer": "/rooms/0/sessions/1/hold/0/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.009947534890672495, 1.5025035952708297, 0.6456885781396593], "actorYawRad": 3.1415911746837923, "surfaceM": [0.0009843978323903387, 1.5821686580615872, 0.4126265439154717], "distanceM": 0.24646454481749963, "incidenceDeg": 5.297493177751137, "facingDeg": 2.202404889865455, "eyeM": [0.012146796586708145, 1.5874990120404937, 0.6857283105198171]},
+    {"id": "p09", "report": "source-1", "pointer": "/rooms/0/sessions/1/hold/1/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.010271199252522218, 1.5062071857298007, 0.6450457669820403], "actorYawRad": 3.1415911746837923, "surfaceM": [0.001022339768404483, 1.5824863991747866, 0.41271145445332635], "distanceM": 0.24471063030390158, "incidenceDeg": 4.703287344704549, "facingDeg": 2.279650174940023, "eyeM": [0.012474255621452632, 1.5899250504754365, 0.6880666183729249]},
+    {"id": "p10", "report": "source-1", "pointer": "/rooms/0/sessions/1/hold/2/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.014899751404369894, 1.5013327271435282, 0.6361243680573125], "actorYawRad": 3.1415911746837923, "surfaceM": [0.0015230380815307032, 1.5817607371414202, 0.4124921407066835], "distanceM": 0.2380314566634962, "incidenceDeg": 6.615191170440612, "facingDeg": 3.4231072621151886, "eyeM": [0.01753142035411674, 1.587669323270854, 0.6795736102759945]},
+    {"id": "p11", "report": "source-1", "pointer": "/rooms/0/sessions/1/hold/3/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.016256773874147912, 1.5019922088721285, 0.6302747016420389], "actorYawRad": 3.1415911746837923, "surfaceM": [0.0016987485613978188, 1.5816257723663614, 0.4124477668840605], "distanceM": 0.23238333426012564, "incidenceDeg": 7.059479456774319, "facingDeg": 3.8235621776377067, "eyeM": [0.018885766350843085, 1.5858826963634876, 0.6713104938700745]},
+    {"id": "p12", "report": "source-1", "pointer": "/rooms/0/sessions/1/hold/4/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.012181088996861529, 1.4985006549147557, 0.6448544301897218], "actorYawRad": 3.1415911746837923, "surfaceM": [0.0012038643719947967, 1.581784394770271, 0.41251090070005325], "distanceM": 0.24706314269939658, "incidenceDeg": 6.259738983784549, "facingDeg": 2.7049657851912627, "eyeM": [0.014654912756289048, 1.5859305403983233, 0.6816013888439932]},
+    {"id": "p13", "report": "source-1", "pointer": "/rooms/1/sessions/0/unsuitableContact", "room": "singing-rental", "actor": "uniform-lite-female-v1", "phase": "arrival-refused", "mouthM": [0.007209206219636019, 1.3703114615979772, 0.6592276417510035], "actorYawRad": -9.424553406043579, "surfaceM": [0.0005730051846623321, 1.5733837155416657, 0.40866488418553093], "distanceM": 0.3225896386506551, "incidenceDeg": 25.0494735359026, "facingDeg": 1.5171346581721938, "eyeM": [0.008343549776138258, 1.444361586316299, 0.7143365877728822]},
+    {"id": "p14", "report": "source-1", "pointer": "/rooms/1/sessions/0/arrival/result", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "arrival", "mouthM": [0.014348482628974356, 1.498993286232963, 0.6324749036747797], "actorYawRad": -9.424582795159221, "surfaceM": [0.0014829792705402778, 1.5814172298697045, 0.41239777556563517], "distanceM": 0.23535753648028232, "incidenceDeg": 7.241841054456098, "facingDeg": 3.3456500123954345, "eyeM": [0.016806768075475084, 1.5842689195534256, 0.6734971436272961]},
+    {"id": "p15", "report": "source-1", "pointer": "/rooms/1/sessions/0/hold/0/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.014111561227467467, 1.5002907236663474, 0.6342589195593282], "actorYawRad": -9.424582795159221, "surfaceM": [0.0014509460313061775, 1.5815997900648553, 0.412449952231718], "distanceM": 0.23658121954771283, "incidenceDeg": 6.853462683224416, "facingDeg": 3.2668362198458327, "eyeM": [0.016685253211647023, 1.5852249347047542, 0.675909255924739]},
+    {"id": "p16", "report": "source-1", "pointer": "/rooms/1/sessions/0/hold/1/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.012634568636058413, 1.5001202985480457, 0.6350658139980156], "actorYawRad": -9.424582795159221, "surfaceM": [0.001295296118010427, 1.5816094751205594, 0.41245859137483976], "distanceM": 0.23732475758695942, "incidenceDeg": 6.689887905995577, "facingDeg": 2.916039284180401, "eyeM": [0.014818440253765882, 1.5854451617721743, 0.6763277269775818]},
+    {"id": "p17", "report": "source-1", "pointer": "/rooms/1/sessions/0/hold/2/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.011831074239226476, 1.499398408070154, 0.6390903049101881], "actorYawRad": -9.424582795159221, "surfaceM": [0.001194617174676929, 1.581677063408778, 0.4124812018917847], "distanceM": 0.241318455394575, "incidenceDeg": 6.467112831258289, "facingDeg": 2.687346339412583, "eyeM": [0.014051834463801125, 1.5855371443529123, 0.6778769061853467]},
+    {"id": "p18", "report": "source-1", "pointer": "/rooms/1/sessions/0/hold/3/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.012988071919538493, 1.507012852416649, 0.6336598698972704], "actorYawRad": -9.424582795159221, "surfaceM": [0.0013477999332612322, 1.5822110402339384, 0.4126232647934449], "distanceM": 0.233767928037067, "incidenceDeg": 5.57299739600929, "facingDeg": 3.01453661582284, "eyeM": [0.015570630941109557, 1.5900741226149726, 0.6790454912580333]},
+    {"id": "p19", "report": "source-1", "pointer": "/rooms/1/sessions/0/hold/4/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.015113969257896532, 1.4956574181350437, 0.6321844797814], "actorYawRad": -9.424582795159221, "surfaceM": [0.0015581551596986919, 1.581097289677282, 0.41230384175470647], "distanceM": 0.2362863236077046, "incidenceDeg": 7.943640480552899, "facingDeg": 3.527864754147208, "eyeM": [0.0177901376681177, 1.5831120066364783, 0.6678520271412505]},
+    {"id": "p20", "report": "source-1", "pointer": "/rooms/1/sessions/1/hold/0/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.009921974480712113, 1.500967880671318, 0.6416148660515075], "actorYawRad": -9.424582795159221, "surfaceM": [0.0009946499950728971, 1.5819008105272334, 0.4125513725860648], "distanceM": 0.2431047516938477, "incidenceDeg": 5.849785563083158, "facingDeg": 2.231867116558801, "eyeM": [0.012129181698903098, 1.5864153001297998, 0.6806738852682273]},
+    {"id": "p21", "report": "source-1", "pointer": "/rooms/1/sessions/1/hold/1/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.010316426357213193, 1.503986611919529, 0.6380700315676138], "actorYawRad": -9.424582795159221, "surfaceM": [0.0010505942652666038, 1.5820652217791777, 0.4125951292312342], "distanceM": 0.23879082173645466, "incidenceDeg": 5.562741738505567, "facingDeg": 2.3532309630626984, "eyeM": [0.012540063265689006, 1.5883147938932978, 0.6797272708839093]},
+    {"id": "p22", "report": "source-1", "pointer": "/rooms/1/sessions/1/hold/2/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.014782602639811309, 1.4995306344228405, 0.629875898945738], "actorYawRad": -9.424582795159221, "surfaceM": [0.001543371744493678, 1.5813767948443012, 0.4123841864537008], "distanceM": 0.23275892295066583, "incidenceDeg": 7.37825548835597, "facingDeg": 3.4834302395266676, "eyeM": [0.017415816130482393, 1.586225791751807, 0.6721342057465804]},
+    {"id": "p23", "report": "source-1", "pointer": "/rooms/1/sessions/1/hold/3/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.01633729346912116, 1.5007502529070806, 0.6289275124932763], "actorYawRad": -9.424582795159221, "surfaceM": [0.0017135229703559292, 1.5814608897595348, 0.4124011695512291], "distanceM": 0.23154204532349265, "incidenceDeg": 7.3871151633744105, "facingDeg": 3.8637785484424993, "eyeM": [0.018975949648192852, 1.5852305829447872, 0.6694985776263298]},
+    {"id": "p24", "report": "source-1", "pointer": "/rooms/1/sessions/1/hold/4/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.012613713115238059, 1.4990439951174777, 0.6398517228213763], "actorYawRad": -9.424582795159221, "surfaceM": [0.0012695821781585933, 1.5816708509537012, 0.4124767028403449], "distanceM": 0.24218853466560322, "incidenceDeg": 6.544657643028775, "facingDeg": 2.856216703439379, "eyeM": [0.015051576116258947, 1.585721519965836, 0.6781415973524823]},
+    {"id": "p25", "report": "source-2", "pointer": "/rooms/0/sessions/0/unsuitableContact", "room": "singing-studio", "actor": "uniform-lite-female-v1", "phase": "arrival-refused", "mouthM": [0.009115520599099118, 1.3702743900842391, 0.6536989602635656], "actorYawRad": -3.141384791872576, "surfaceM": [0.0007341638501673874, 1.5731474258606832, 0.4085074687191278], "distanceM": 0.3183497813913013, "incidenceDeg": 25.645957403108614, "facingDeg": 1.9577737249521179, "eyeM": [0.010313082694784788, 1.4442393584075353, 0.7089208123124269]},
+    {"id": "p26", "report": "source-2", "pointer": "/rooms/0/sessions/0/arrival/result", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "arrival", "mouthM": [0.011117082667075246, 1.5082051803818401, 0.6426894351700585], "actorYawRad": 3.1415911814368247, "surfaceM": [0.0011178671493817065, 1.5826009516092947, 0.41273753613093034], "distanceM": 0.24189375965327925, "incidenceDeg": 4.5860101734688845, "facingDeg": 2.489877931204295, "eyeM": [0.013107241504542923, 1.5902070339922263, 0.6899391573758755]},
+    {"id": "p27", "report": "source-2", "pointer": "/rooms/0/sessions/0/hold/0/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.011565805064084294, 1.5075864128739356, 0.6417472529969086], "actorYawRad": 3.1415911814368247, "surfaceM": [0.0011661761349961892, 1.5825157614115188, 0.4127130096211189], "distanceM": 0.2412037400059332, "incidenceDeg": 4.799424899468273, "facingDeg": 2.599811465022717, "eyeM": [0.013651465111616575, 1.5896078670585694, 0.6872887310760851]},
+    {"id": "p28", "report": "source-2", "pointer": "/rooms/0/sessions/0/hold/1/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.014055994078347771, 1.5005933481657594, 0.6406810553698996], "actorYawRad": 3.1415911814368247, "surfaceM": [0.00141246171773457, 1.5818414938238115, 0.4125188979643768], "distanceM": 0.24252647310215122, "incidenceDeg": 6.345820162043651, "facingDeg": 3.1717831727442274, "eyeM": [0.016695760687606233, 1.587923267169494, 0.6835757770948659]},
+    {"id": "p29", "report": "source-2", "pointer": "/rooms/0/sessions/0/hold/2/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.013048336530939087, 1.5132135572170227, 0.6456737596890167], "actorYawRad": 3.1415911814368247, "surfaceM": [0.0013034379437113115, 1.5831559239973116, 0.4128666670778064], "distanceM": 0.24337012898820884, "incidenceDeg": 3.879970567156647, "facingDeg": 2.888069632340101, "eyeM": [0.015545816692215591, 1.5933108421134652, 0.6936306878019814]},
+    {"id": "p30", "report": "source-2", "pointer": "/rooms/0/sessions/0/hold/3/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.013617680086228554, 1.49654382131252, 0.6417349307249003], "actorYawRad": 3.1415911814368247, "surfaceM": [0.0013578725218009857, 1.581507635567178, 0.4124275887444956], "distanceM": 0.24484895282670724, "incidenceDeg": 6.948602496917715, "facingDeg": 3.060377733065861, "eyeM": [0.015976838118403135, 1.5845141945096726, 0.6771411714259208]},
+    {"id": "p31", "report": "source-2", "pointer": "/rooms/0/sessions/0/hold/4/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.013205611288110741, 1.5068077915715432, 0.639658765255718], "actorYawRad": 3.1415911814368247, "surfaceM": [0.0013402431549053746, 1.5823816754175677, 0.4126693586624959], "distanceM": 0.23953369196430796, "incidenceDeg": 5.247364896450132, "facingDeg": 2.9922864491557433, "eyeM": [0.015476886025267228, 1.5891567775860214, 0.6845933781854008]},
+    {"id": "p32", "report": "source-3", "pointer": "/rooms/0/sessions/0/unsuitableContact", "room": "singing-studio", "actor": "uniform-lite-female-v1", "phase": "arrival-refused", "mouthM": [0.008941568040757375, 1.3703305601713196, 0.6545045976791268], "actorYawRad": -3.1413908150905137, "surfaceM": [0.0007188076986315572, 1.5731851558630199, 0.4085320905360522], "distanceM": 0.3189358478615051, "incidenceDeg": 25.552397008830987, "facingDeg": 1.914661459449887, "eyeM": [0.010126166370185277, 1.4442817051642165, 0.7097452395905215]},
+    {"id": "p33", "report": "source-3", "pointer": "/rooms/0/sessions/0/arrival/result", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "arrival", "mouthM": [0.010799777775646627, 1.5084050354411083, 0.6439334239649316], "actorYawRad": 3.141584425135856, "surfaceM": [0.001081373413842384, 1.5826560971792585, 0.41275349840626063], "distanceM": 0.243005813786203, "incidenceDeg": 4.442072758915325, "facingDeg": 2.4071981610890556, "eyeM": [0.012766790956858756, 1.5903801995000928, 0.6912304039204422]},
+    {"id": "p34", "report": "source-3", "pointer": "/rooms/0/sessions/0/hold/0/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.01125792674763136, 1.507777860760652, 0.6427931699470967], "actorYawRad": 3.141584425135856, "surfaceM": [0.001131129661388312, 1.5825646288824728, 0.41272752215582753], "distanceM": 0.24212768325606482, "incidenceDeg": 4.668766169791092, "facingDeg": 2.5203608071593337, "eyeM": [0.01331242341265031, 1.5898200577041237, 0.6886273947098457]},
+    {"id": "p35", "report": "source-3", "pointer": "/rooms/0/sessions/0/hold/1/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.014176442392925828, 1.5005150648838816, 0.6399405045830269], "actorYawRad": 3.141584425135856, "surfaceM": [0.0014282153419758557, 1.5818103513456259, 0.41250959785934826], "distanceM": 0.2418599971615691, "incidenceDeg": 6.421950702983263, "facingDeg": 3.208253762465723, "eyeM": [0.01683266710626888, 1.5875505354610686, 0.6821546785973593]},
+    {"id": "p36", "report": "source-3", "pointer": "/rooms/0/sessions/0/hold/2/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.01304381170858841, 1.5134950401014682, 0.6466486039887676], "actorYawRad": 3.141584425135856, "surfaceM": [0.0012987348650231288, 1.5832092749469076, 0.4128794354809283], "distanceM": 0.24422539899648618, "incidenceDeg": 3.792312800304817, "facingDeg": 2.876247374359386, "eyeM": [0.01554199319098589, 1.5935330506182757, 0.6949046667888932]},
+    {"id": "p37", "report": "source-3", "pointer": "/rooms/0/sessions/0/hold/3/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.013625289308535038, 1.4970083006096133, 0.6428349670701377], "actorYawRad": 3.141584425135856, "surfaceM": [0.0013539727695550882, 1.5815860584535286, 0.4124498177536253], "distanceM": 0.24572606568513544, "incidenceDeg": 6.789270527053503, "facingDeg": 3.048941582243557, "eyeM": [0.015971871778872458, 1.584806093848083, 0.678611739166082]},
+    {"id": "p38", "report": "source-3", "pointer": "/rooms/0/sessions/0/hold/4/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.013238812152916552, 1.506870553315593, 0.6396670239511535], "actorYawRad": 3.141584425135856, "surfaceM": [0.0013436474565870458, 1.5823878246375056, 0.41267085962763184], "distanceM": 0.23952371871831693, "incidenceDeg": 5.240055624243256, "facingDeg": 2.99969789353234, "eyeM": [0.015492827452878815, 1.5891783028168227, 0.6848369493307974]},
+    {"id": "p39", "report": "source-3", "pointer": "/rooms/0/sessions/1/hold/0/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.009948208045224694, 1.5027564248181626, 0.6463819437850152], "actorYawRad": 3.141584425135856, "surfaceM": [0.0009823085817102072, 1.5822127832266923, 0.4126389547788416], "distanceM": 0.2470414644432687, "incidenceDeg": 5.206835092864215, "facingDeg": 2.1966711307169593, "eyeM": [0.012147329664718012, 1.587675454283921, 0.6865803424370589]},
+    {"id": "p40", "report": "source-3", "pointer": "/rooms/0/sessions/1/hold/1/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.010273164474416206, 1.5066243783831994, 0.6461765413452145], "actorYawRad": 3.141584425135856, "surfaceM": [0.0010188439098879586, 1.5825582136120797, 0.4127308862397968], "distanceM": 0.24565924299581204, "incidenceDeg": 4.560736341125378, "facingDeg": 2.270147268331685, "eyeM": [0.012476125436909156, 1.5902044392232866, 0.6894621378545743]},
+    {"id": "p41", "report": "source-3", "pointer": "/rooms/0/sessions/1/hold/2/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.014809497467347058, 1.5023319833032593, 0.636914594870181], "actorYawRad": 3.141584425135856, "surfaceM": [0.0015110205533691579, 1.5818795802141827, 0.41252580913946035], "distanceM": 0.2384428586144731, "incidenceDeg": 6.3763853781559705, "facingDeg": 3.391686406733035, "eyeM": [0.017433986431273963, 1.5881703874194324, 0.680879696625093]},
+    {"id": "p42", "report": "source-3", "pointer": "/rooms/0/sessions/1/hold/3/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.01636174451616921, 1.501213982299064, 0.6299995428875895], "actorYawRad": 3.141584425135856, "surfaceM": [0.0017100599790065788, 1.581542573788129, 0.41242410074176294], "distanceM": 0.23239283012895548, "incidenceDeg": 7.228589860761487, "facingDeg": 3.8525220059664234, "eyeM": [0.018992107258458603, 1.5855551895843494, 0.6708287690305883]},
+    {"id": "p43", "report": "source-3", "pointer": "/rooms/0/sessions/1/hold/4/contact", "room": "singing-studio", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.012658104797271407, 1.5001108393452027, 0.642367991019944], "actorYawRad": 3.141584425135856, "surfaceM": [0.001263989883579189, 1.5818504012492156, 0.41252703104258326], "distanceM": 0.24420902669279268, "incidenceDeg": 6.183326736869546, "facingDeg": 2.8380523946150538, "eyeM": [0.015086328878104639, 1.5864595712418814, 0.6813868344837788]},
+    {"id": "p44", "report": "source-3", "pointer": "/rooms/1/sessions/0/unsuitableContact", "room": "singing-rental", "actor": "uniform-lite-female-v1", "phase": "arrival-refused", "mouthM": [0.0069129498166449616, 1.3701886544361188, 0.6603480391769683], "actorYawRad": -9.4245439960313, "surfaceM": [0.0005478845842617383, 1.5734241936942444, 0.40869172746792337], "distanceM": 0.3235368567813466, "incidenceDeg": 24.94787422671817, "facingDeg": 1.4488555231852356, "eyeM": [0.008037404626483767, 1.4443290564612679, 0.7153356743932191]},
+    {"id": "p45", "report": "source-3", "pointer": "/rooms/1/sessions/0/arrival/result", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "arrival", "mouthM": [0.01472391707490591, 1.499012022156617, 0.6308046647501131], "actorYawRad": -9.42477796076938, "surfaceM": [0.0015311419398157176, 1.581360742505948, 0.4123801142593244], "distanceM": 0.2338047161971727, "incidenceDeg": 7.398122444110792, "facingDeg": 3.4564482190933536, "eyeM": [0.017186169798438927, 1.5841691688348947, 0.6720720690470174]},
+    {"id": "p46", "report": "source-3", "pointer": "/rooms/1/sessions/0/hold/0/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.01453166196855626, 1.5000581566294129, 0.6326178860915856], "actorYawRad": -9.42477796076938, "surfaceM": [0.0015027262417891519, 1.5815221957777474, 0.4124263199036484], "distanceM": 0.23513925376429679, "incidenceDeg": 7.055121405622057, "facingDeg": 3.3862951665892767, "eyeM": [0.0171388223450797, 1.5848260666552956, 0.6738394925537099]},
+    {"id": "p47", "report": "source-3", "pointer": "/rooms/1/sessions/0/hold/1/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.012906959270774081, 1.5000947954228867, 0.6329411660729507], "actorYawRad": -9.42477796076938, "surfaceM": [0.0013334739048656732, 1.5815347175202257, 0.4124361054043142], "distanceM": 0.23534844009513767, "incidenceDeg": 6.872912869830577, "facingDeg": 3.004484128787025, "eyeM": [0.015080834001773614, 1.5858553770489752, 0.6760108928625068]},
+    {"id": "p48", "report": "source-3", "pointer": "/rooms/1/sessions/0/hold/2/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.011959007134421343, 1.4989287308319363, 0.6372425616057686], "actorYawRad": -9.42477796076938, "surfaceM": [0.0012149882630096815, 1.581572307264186, 0.41245057269394625], "distanceM": 0.2397432646519089, "incidenceDeg": 6.6958256970764936, "facingDeg": 2.7363912394464838, "eyeM": [0.014179292281652635, 1.5848049181581438, 0.6751455343866501]},
+    {"id": "p49", "report": "source-3", "pointer": "/rooms/1/sessions/0/hold/3/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.012597088999548318, 1.5043146631256812, 0.6339380827514014], "actorYawRad": -9.42477796076938, "surfaceM": [0.0013023925202627139, 1.5819642784489774, 0.41255738163255273], "distanceM": 0.23487538771929267, "incidenceDeg": 5.997230193986306, "facingDeg": 2.9206602771616583, "eyeM": [0.015208811677636363, 1.5889549451585272, 0.6764731493205813]},
+    {"id": "p50", "report": "source-3", "pointer": "/rooms/1/sessions/0/hold/4/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "first-hold", "mouthM": [0.014984573673885426, 1.496532458275812, 0.632379428846273], "actorYawRad": -9.42477796076938, "surfaceM": [0.0015451528851993328, 1.5811853743427218, 0.41232946739979326], "distanceM": 0.23615401703626354, "incidenceDeg": 7.757220247989605, "facingDeg": 3.4949645381410592, "eyeM": [0.017715558459377688, 1.5836665236172065, 0.6678505639816876]},
+    {"id": "p51", "report": "source-3", "pointer": "/rooms/1/sessions/1/hold/0/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.009921144236014468, 1.500344818332873, 0.6407669498256072], "actorYawRad": -9.42477796076938, "surfaceM": [0.000996950270204027, 1.5818165905179167, 0.41252733040562006], "distanceM": 0.24250899936681042, "incidenceDeg": 6.024279821576908, "facingDeg": 2.2391306063136205, "eyeM": [0.012136764518521448, 1.5860108833152857, 0.6789535150055226]},
+    {"id": "p52", "report": "source-3", "pointer": "/rooms/1/sessions/1/hold/1/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.010545034734745218, 1.5044305618450966, 0.6362315387456996], "actorYawRad": -9.42477796076938, "surfaceM": [0.001081539297232604, 1.5820475723745069, 0.412589024687092], "distanceM": 0.2369175640679114, "incidenceDeg": 5.625245714374461, "facingDeg": 2.423041381816384, "eyeM": [0.012795154542940005, 1.588387921368245, 0.6782357325951063]},
+    {"id": "p53", "report": "source-3", "pointer": "/rooms/1/sessions/1/hold/2/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.015088831585936744, 1.4964426437794984, 0.6275902996485674], "actorYawRad": -9.42477796076938, "surfaceM": [0.0015835308276675867, 1.5810031309714123, 0.4122760901544966], "distanceM": 0.2317176686244744, "incidenceDeg": 8.153291338747744, "facingDeg": 3.5891005630186728, "eyeM": [0.017735228375275882, 1.5846004630954786, 0.6681979791695425]},
+    {"id": "p54", "report": "source-3", "pointer": "/rooms/1/sessions/1/hold/3/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.016256567233547896, 1.501451770816413, 0.6289477019966596], "actorYawRad": -9.42477796076938, "surfaceM": [0.0017061950224799365, 1.581528199750085, 0.41242023614713386], "distanceM": 0.2313181602673417, "incidenceDeg": 7.251628323400193, "facingDeg": 3.8444242478786266, "eyeM": [0.01888562039831957, 1.5854938976822104, 0.6696720279959072]},
+    {"id": "p55", "report": "source-3", "pointer": "/rooms/1/sessions/1/hold/4/contact", "room": "singing-rental", "actor": "uniform-lite-male-v1", "phase": "cold-hold", "mouthM": [0.012296532553730423, 1.4970080288693772, 0.6397563979114409], "actorYawRad": -9.42477796076938, "surfaceM": [0.0012355627881424198, 1.5814819277536631, 0.4124240532317689], "distanceM": 0.24277186736198453, "incidenceDeg": 6.895776236682229, "facingDeg": 2.785558267149316, "eyeM": [0.014760272669255529, 1.5847153853061948, 0.6757823315174312]},
+    {"id": "p56", "report": "source-4", "pointer": "/rooms/0/female/contact/controller", "room": "singing-studio", "actor": "uniform-lite-female-v1", "phase": "arrival-refused", "mouthM": [0.00716694372979685, 1.3694723770291182, 0.6627637801093867], "actorYawRad": -3.141592653589793, "surfaceM": [0.0005640819221084314, 1.5734889449167073, 0.4087318759729097], "distanceM": 0.32588121467167597, "incidenceDeg": 24.793882103154026, "facingDeg": 1.4889112202169408, "eyeM": [0.008272288619280664, 1.4440286380627585, 0.7171866226583068]},
+    {"id": "p57", "report": "source-4", "pointer": "/rooms/1/female/contact/controller", "room": "singing-rental", "actor": "uniform-lite-female-v1", "phase": "arrival-refused", "mouthM": [0.006538162396363955, 1.3669969597387086, 0.6610378840393847], "actorYawRad": -9.424629219877987, "surfaceM": [0.0005148299432319013, 1.5732860003138143, 0.40860596674543714], "distanceM": 0.3260572367912372, "incidenceDeg": 25.276607785854715, "facingDeg": 1.3668875827614801, "eyeM": [0.007783564521608791, 1.442972583541583, 0.7134578916610557]}
+  ]
+}

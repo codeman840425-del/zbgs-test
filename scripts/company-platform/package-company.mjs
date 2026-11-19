@@ -333,24 +333,26 @@ async function assertMissing(file){try{await fs.lstat(file);}catch(error){if(err
 
 // Find the owning checkout even when this tool runs from a locally unpacked handoff.
 // A recipient outside the managed workspace can choose their own output directory.
-export async function checkManagedOutput(output, toolSource = defaultSource, {allowDelivery = true} = {}) {
+export async function findManagedProject(toolSource = defaultSource) {
   const checkout = path.resolve(toolSource);
   const candidates = [checkout];
   for (let dir = checkout; dir !== path.dirname(dir); dir = path.dirname(dir)) {
     if (['company-workspace', 'output'].includes(path.basename(dir).toLowerCase()))
       candidates.unshift(path.dirname(dir));
   }
-  let project;
   for (const candidate of candidates) {
     try {
       if ((await fs.stat(path.join(candidate, 'scripts', 'company-platform', 'local-workspace.ps1'))).isFile()) {
-        project = candidate;
-        break;
+        return candidate;
       }
     } catch (error) {
       if (error.code !== 'ENOENT' && error.code !== 'ENOTDIR') throw error;
     }
   }
+}
+
+export async function checkManagedOutput(output, toolSource = defaultSource, {allowDelivery = true} = {}) {
+  const project = await findManagedProject(toolSource);
   if (!project) return;
   const releases = path.join(project, 'company-workspace', 'deliveries');
   const directRelease = allowDelivery && path.relative(releases, path.dirname(output)) === '';
@@ -683,7 +685,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     ({verifyTeaSources}=await import(pathToFileURL(verifier).href));
     if(!verifyTeaSources) fail('missing-production-tool',verifier,'Expected original tea-station source verification');
   }
-  const singingProducers=new Set(['scripts/company-platform/build-singing-stage.mjs','scripts/company-platform/build-vocal-mic-looks.mjs']);
+  const singingProducers=new Set(['scripts/company-platform/build-singing-stage.mjs','scripts/company-platform/build-vocal-mic-looks.mjs','scripts/company-platform/build-vocal-fit.mjs']);
   if (catalog.resources.some(resource=>singingProducers.has(resource.provenance?.generator))) {
     supplemental.add('scripts/company-platform/test-singing-stage-source.mjs');
     const verifier=path.join(source,'scripts/company-platform/validate-resource-provenance.mjs');
@@ -754,6 +756,14 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(!name.endsWith('.json'))fail('unsupported-production-input',name,'Production input folders must contain JSON only');supplemental.add(name);
   }
   const assetDependencies=[],provenance=[];
+  if (supplemental.has('scripts/company-platform/batch-inputs/vocal-fit-rooms.json')) {
+    supplemental.add('scripts/company-platform/test-vocal-fit-handoff.mjs');
+    supplemental.add('assets-source/company-vocal-fit-v1/README.md');
+    supplemental.add('assets-source/company-vocal-fit-v1/examples/shorter.json');
+    supplemental.add('scripts/company-platform/check-vocal-fit-contacts.mjs');
+    supplemental.add('assets-source/company-vocal-fit-check-v1/observations.json');
+    supplemental.add('assets-source/company-vocal-fit-check-v1/README.md');
+  }
   if (supplemental.has('scripts/company-platform/batch-inputs/vocal-mic-look-rooms.json')) {
     for (const name of ['test-vocal-mic-looks.mjs','test-vocal-mic-looks-receiver.mjs','qa-vocal-mic-looks.cjs'])
       supplemental.add('scripts/company-platform/'+name);

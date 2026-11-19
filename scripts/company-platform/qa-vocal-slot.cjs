@@ -5,20 +5,22 @@ const {once} = require('node:events');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const {createInterface} = require('node:readline');
-const {chromium} = require('../../prototype/node_modules/playwright');
+let chromium;
 
 const [rootArg, build, ...options] = process.argv.slice(2);
 const flags = options.filter(value => value.startsWith('--')), paths = options.filter(value => !value.startsWith('--'));
-if (!rootArg || !/^[0-9a-f]{12}$/.test(build) || ![1,2].includes(paths.length) || flags.length > 1 || flags.some(value => value !== '--record'))
-  throw new Error('Usage: node qa-vocal-slot.cjs DIST BUILD BATCH_ROOMS NEW_OUT [--record]\n' +
-    '   or: node qa-vocal-slot.cjs PACKAGE BUILD NEW_OUT [--record]');
+if (!rootArg || !/^[0-9a-f]{12}$/.test(build) || ![1,2].includes(paths.length) || new Set(flags).size !== flags.length || flags.some(value => !['--record','--fit'].includes(value)))
+  throw new Error('Usage: node qa-vocal-slot.cjs DIST BUILD BATCH_ROOMS NEW_OUT [--record] [--fit]\n' +
+    '   or: node qa-vocal-slot.cjs PACKAGE BUILD NEW_OUT [--record] [--fit]');
 const root = path.resolve(rootArg), batch = paths.length === 2 ? path.resolve(paths[0]) : null, out = path.resolve(paths.at(-1));
 const viewport = {width:1600,height:900}, threeUrl = '/__vocal-slot-qa/three.core.js';
 const names = ['mic','score','camera'];
+const fitted = flags.includes('--fit');
+const fittedRef = {id:'floor-vocal-mic-disc-fit-lower',version:1};
 const sha = value => createHash('sha256').update(value).digest('hex');
 const key = ({id,version}) => `${id}@${version}`;
 const find = (document,id) => document.nodes.find(node => node.id === id);
-const report = {status:'running',build,rooms:[],browserErrors:[]};
+const report = {status:'running',build,rooms:[],browserErrors:[],images:[]};
 let manifest, devServer, packageServer, base, threeSource, context, page, responses, stage, created;
 
 async function read(file) {
@@ -182,7 +184,8 @@ async function asset(value) {
 
 async function shot(name) {
   await page.evaluate(()=>company.drawHostFrame());
-  await page.screenshot({path:path.join(out,name)});
+  const image = await page.screenshot({path:path.join(out,name)});
+  report.images.push({file:name,bytes:image.length,sha256:sha(image)});
   return name;
 }
 
@@ -334,6 +337,128 @@ async function certifySlide(doc) {
   return {ok:true,checkedDocumentSha256:sha(JSON.stringify(doc)),microphone:proof.microphone,scorePages:proof.score.length,
     room:doc.singingRooms[0].regionId,routes:Object.keys(proof.access?.routes || {})};
 }
+async function cameraView(room, geometry) {
+  await choose(room.roles.camera);
+  const button=page.locator('.view-toolbar [data-view="camera"]');
+  assert.equal(await button.textContent(),'机位取景');
+  await button.click(); await ready();
+  assert.equal(await button.getAttribute('aria-pressed'),'true');
+  const observation=await page.evaluate(async ({threeUrl,g})=>{
+    const {Vector3}=await import(threeUrl), camera=company.camera, vec=p=>new Vector3(...p);
+    camera.updateMatrixWorld(true);
+    const actual=camera.getWorldPosition(new Vector3()), direction=camera.getWorldDirection(new Vector3());
+    const axis=vec(g.axis), delta=actual.clone().sub(vec(g.lens)), along=delta.dot(axis);
+    return {origin:actual.toArray(),along,lateral:delta.addScaledVector(axis,-along).length(),
+      degrees:direction.angleTo(axis)*180/Math.PI,referenceNdc:[g.mouth,g.eye].map(pt=>vec(pt).project(camera).toArray())};
+  },{threeUrl,g:geometry});
+  assert(observation.along>=-.001 && observation.along<=.025 && observation.lateral<.001 && observation.degrees<.05,
+    'Selected ordinary view must use the installed physical lens');
+  assert(observation.referenceNdc.every(([x,y,z])=>Math.abs(x)<1 && Math.abs(y)<1 && Math.abs(z)<1),'Performer outside lens frame');
+  return observation;
+}
+
+async function detail(room,measured,file) {
+  // A supplemental close-up uses the actual grille centre and a repeatable direction
+  // in the mic's own frame. Both the ordinary viewer photograph and this real geometry
+  // are used, and no target, lighting or material is substituted.
+  const pose=await page.evaluate(async ({id,name,threeUrl})=>{
+    const {Vector3,Box3}=await import(threeUrl);
+    const {session:{scene},camera}=company, host=scene.root.getObjectByName(id), head=host.getObjectByName(name);
+    const center=new Box3().setFromObject(head,true).getCenter(new Vector3());
+    const direction=new Vector3(.77,.23,1).transformDirection(host.matrixWorld).normalize();
+    camera.position.copy(center).addScaledVector(direction,.45);camera.lookAt(center);camera.updateMatrixWorld(true);
+    scene.setWallView({mode:'cutaway',cameraPosition:camera.position.toArray()});company.drawHostFrame();
+    return {distance:.45,center:center.toArray(),worldPosition:camera.position.toArray(),fov:camera.fov};
+  },{id:room.roles.mic,name:measured.grille,threeUrl});
+  const pixels=await drawnPixels(room.roles.mic,measured.grille);assert(pixels.count>100,'Pickup detail is occluded');
+  if(file)await shot(file);
+  return {file,pose,pixels};
+}
+async function fittedCamera(room,sample) {
+  const g=await page.evaluate(async ({threeUrl,id})=>{
+    const {Vector3,Box3,Raycaster}=await import(threeUrl);
+    const host=company.session.scene.root.getObjectByName(id),ref=company.session.document.nodes.find(n=>n.id===id).resource;
+    const resource=company.catalog.resources.find(r=>r.id===ref.id && r.version===ref.version);
+    const lens=host.getObjectByName(resource.camera.lensNode);
+    const center=new Box3().setFromObject(lens,true).getCenter(new Vector3());
+    const axis=new Vector3(0,0,1).transformDirection(host.matrixWorld);
+    const hit=new Raycaster(center.clone().addScaledVector(axis,.15),axis.clone().negate()).intersectObject(lens)[0];
+    if(!hit)throw Error('Missing forward lens surface '+lens.name);
+    return {node:lens.name,glb:resource.asset,lens:hit.point.toArray(),axis:axis.toArray()};
+  },{threeUrl,id:room.roles.camera});
+  await asset(g.glb);
+  return {...g,view:await cameraView(room,{...g,mouth:sample.world.mouth,eye:sample.world.eye})};
+}
+async function fittedMenu(room,reference) {
+  await choose(room.roles.mic);
+  const list=page.locator('#edit-look'),options=await list.locator('option').evaluateAll(ns=>ns.map(o=>o.value));
+  assert.equal(await list.inputValue(),key(reference));
+  if (key(reference)===key(fittedRef)) {
+    for(const style of ['boom','disc','suspension','broadcast'])assert(!options.includes('floor-vocal-mic-'+style+'@1'));
+  } else {
+    assert(options.includes('floor-vocal-mic-disc@1') && options.includes('floor-vocal-mic-boom@1'));
+    assert(!options.includes(key(fittedRef)),'Lower pickup offered as an ordinary high-position skin');
+  }
+  return options;
+}
+async function legacyMenuControl(room) {
+  // Import a comparison copy through the file picker after closing the saved-room profile.
+  const copy=JSON.parse(room.bytes),legacy={id:'floor-vocal-mic-disc',version:1};
+  find(copy.document,room.roles.mic).resource=legacy;
+  const menu=page.locator('.file-menu');
+  if(!(await menu.evaluate(el=>el.open)))await menu.locator('summary').click();
+  const [chooser]=await Promise.all([page.waitForEvent('filechooser'),page.locator('#import').click()]);
+  await chooser.setFiles({name:'legacy-disc-reference.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(copy.document))});
+  await page.waitForFunction(({id,expected})=>company.session.document.nodes.find(n=>n.id===id)?.resource.id===expected,
+    {id:room.roles.mic,expected:legacy.id});
+  await ready();
+  if(await menu.evaluate(el=>el.open))await menu.locator('summary').click();
+  await enter(room);
+  const sample=await observe(room),options=await fittedMenu(room,legacy);
+  assert.deepEqual(sample.ref,legacy);
+  return {derivedFromSave:sha(room.bytes),ref:legacy,glb:sample.glb,options};
+}
+async function verifyFitted(rooms) {
+  report.scope='Company room geometry, ordinary controls and local saves. Mouth and eye are authored reference points. This viewer loads the company scene.';
+  for(const room of rooms) {
+    stage=room.alias+' fitted authored';
+    const profile=path.join(out,room.alias+'-profile');
+    await open(profile);await visit(room);
+    const authored=await observe(room);assert.deepEqual(authored.ref,fittedRef);
+    const roomImage=await shot(room.alias+'-fitted-room.png');
+    const camera=await fittedCamera(room,authored),cameraImage=await shot(room.alias+'-fitted-camera.png');
+    await page.locator('.view-toolbar [data-view="room"]').click();
+    const visible=await ordinaryCloseup(room,'mic',authored.grille),whole=await shot(room.alias+'-fitted-stand.png');
+    const options=await fittedMenu(room,fittedRef);
+    const {mic,tipParts}=await page.evaluate(({id,ref})=>{
+      const r=company.catalog.resources.find(r=>r.id===ref.id && r.version===ref.version);
+      const host=company.session.scene.root.getObjectByName(id);
+      return {mic:r.microphone,tipParts:
+        ['boom-inner-slider','boom-tip-joint','mast-inner-slider','upper-mast-collar'].filter(n=>host.getObjectByName(n)?.isMesh)};
+    },{id:room.roles.mic,ref:fittedRef});
+    assert.deepEqual(mic.pickupFit,{boomPitchDegrees:-4,forwardMetres:.044});
+    assert.equal(tipParts.length,4);
+    const grille=await detail(room,authored,room.alias+'-fitted-grille.png');
+    await page.locator('#save').click();
+    await page.waitForFunction(()=>document.querySelector('#save-state').dataset.dirty==='false');
+    const saved=await savedText(room.document.id);assert.deepEqual(JSON.parse(saved).document,room.document);
+    await close();stage=room.alias+' fitted cold';
+    await open(profile);await visit(room,false);assert.equal(await savedText(room.document.id),saved);
+    const cold=await observe(room);assert.deepEqual(cold,authored);assert.deepEqual(await fittedMenu(room,fittedRef),options);
+    const coldImage=await shot(room.alias+'-fitted-cold.png');
+    await close();stage=room.alias+' original height menu control';
+    await open(path.join(out,room.alias+'-legacy-profile'));await visit(room);
+    const legacyMenu=await legacyMenuControl(room);
+    report.rooms.push({alias:room.alias,sourceSaveSha256:sha(room.bytes),savedSha256:sha(saved),authored,cold,mic,tipParts,
+      options,legacyMenu,camera,visible,grille,roomImage,cameraImage,whole,coldImage});
+    await close();
+  }
+  const [a,b]=report.rooms;
+  assert.notEqual(a.authored.slot.id,b.authored.slot.id);
+  assert(Math.abs(Math.sin(a.authored.world.hostYaw-b.authored.world.hostYaw))>.999,'Fixtures must exercise different axes');
+  assert.deepEqual(a.authored.glb,b.authored.glb);
+  vector(a.authored.localGrille,b.authored.localGrille,'Two room reference intersections');
+}
 async function recordTour(rooms) {
   stage='record authored live rooms';
   await open(path.join(out,'record-profile'),true);
@@ -345,15 +470,21 @@ async function recordTour(rooms) {
     await page.waitForTimeout(1500);
     await page.locator('.view-toolbar [data-view="room"]').click();
     await focus(room,'mic');await page.waitForTimeout(1450);
+    if(fitted) {
+      await detail(room,report.rooms.find(r=>r.alias===room.alias).authored);
+      await page.waitForTimeout(1600);
+      await page.locator('.view-toolbar [data-view="room"]').click();
+      continue;
+    }
     await focus(room,'score');await page.waitForTimeout(950);
     const edited=await position(room,'on-air-slide');
     assert.equal(sha(JSON.stringify(edited)),report.rooms.find(r=>r.alias===room.alias).broadcastEdit.proof.checkedDocumentSha256);
     await focus(room,'mic');await page.waitForTimeout(1050);
     await choose(room.roles.camera);await camera.click();await ready();await page.waitForTimeout(1200);
   }
-  const video=page.video();await close();const file='video/vocal-slot-rooms-normal.webm';
+  const video=page.video();await close();const file=fitted?'video/vocal-fit-rooms-normal.webm':'video/vocal-slot-rooms-normal.webm';
   await fs.rename(await video.path(),path.join(out,file));const bytes=await fs.readFile(path.join(out,file));
-  report.video={file,bytes:bytes.length,sha256:sha(bytes),playbackSpeed:1,scope:'original rooms and geometrically validated 0.10 m microphone translations'};
+  report.video={file,bytes:bytes.length,sha256:sha(bytes),playbackSpeed:1,scope:fitted?'two fitted rooms, installed camera, mic stand and closer inspection camera; company scene only':'original rooms and geometrically validated 0.10 m microphone translations'};
 }
 async function verify(rooms) {
   for(const room of rooms){
@@ -401,10 +532,44 @@ async function verify(rooms) {
   const [a,b]=report.rooms; const diff=a.authored.world.hostYaw-b.authored.world.hostYaw;
   assert(Math.abs(Math.sin(diff))>.999,'The two supplied microphone instances must exercise different axes');
 }
+async function outputDirectory() {
+  const source=await fs.realpath(path.resolve(__dirname,'../..'));
+  const {checkManagedOutput}=await import('./package-company.mjs');
+  await checkManagedOutput(out,source,{allowDelivery:false});
+  const hasFile=async file=>{try{return (await fs.stat(file)).isFile();}
+    catch(e){if(!['ENOENT','ENOTDIR'].includes(e.code))throw e;return false;}};
+  const localMarker=p=>hasFile(path.join(p,'scripts/company-platform/local-workspace.ps1'));
+  let managed;
+  for(let p=source;p!==path.dirname(p);p=path.dirname(p)){
+    if(['company-workspace','output'].includes(path.basename(p).toLowerCase()) && await localMarker(path.dirname(p))) {
+      managed=path.dirname(p);break;
+    }
+  }
+  if(!managed && await localMarker(source))managed=source;
+  // A receiver invoking the tool from their own work area can put evidence anywhere
+  // inside that area, even when the sealed package and the installed tool are siblings.
+  const cwd=await fs.realpath(process.cwd());
+  const owners=managed?[managed]:[source,cwd].filter(p=>p!==path.dirname(p));
+  const inside=(base,target)=>{const rel=path.relative(base,target);return rel.length>0 && rel!=='..' && !rel.startsWith('..'+path.sep) && !path.isAbsolute(rel);};
+  const owner=owners.find(p=>inside(p,out));
+  assert(owner,'Output must belong to the QA project: '+owners.join(' or '));
+  let existing=path.dirname(out);
+  while(true) {
+    try {await fs.lstat(existing);break;}
+    catch(e){if(e.code!=='ENOENT')throw e;existing=path.dirname(existing);}
+  }
+  const resolved=path.resolve(await fs.realpath(existing),path.relative(existing,out));
+  assert(inside(owner,resolved),'Output resolves outside the QA project');
+  assert(!paths.at(-1).split(/[\\/]/).includes('..'),'Evidence path traverses a parent');
+  if(batch) {const input=await fs.realpath(batch);assert(!inside(input,resolved) && input!==resolved,'Keep the batch untouched');}
+  assert(!inside(await fs.realpath(root),resolved) && resolved!==await fs.realpath(root),'Keep the input untouched');
+  await fs.mkdir(path.dirname(out),{recursive:true});await fs.mkdir(out);created=true;
+  const temp=path.join(out,'process-temp');await fs.mkdir(temp);
+  for(const name of ['TMP','TEMP','TMPDIR'])process.env[name]=temp;
+  chromium=require('../../prototype/node_modules/playwright').chromium;
+}
 async function run() {
-  await fs.mkdir(path.dirname(out),{recursive:true});
-  await fs.mkdir(out);
-  created = true;
+  await outputDirectory();
   stage = 'inspect singing room manifests';
   if (!batch) {
     const bytes = await fs.readFile(path.join(root,'transfer-manifest.json'));
@@ -419,7 +584,7 @@ async function run() {
   const inputs = await fixtures();
   base = await serve();
   report.sourceDigest = manifest?.sourceDigest ?? devServer.info.sourceDigest;
-  await verify(inputs);
+  if(fitted)await verifyFitted(inputs);else await verify(inputs);
   if (flags.includes('--record')) await recordTour(inputs);
   assert.deepEqual(report.browserErrors,[]);
   report.status = 'passed';

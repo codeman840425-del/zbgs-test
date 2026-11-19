@@ -37805,6 +37805,158 @@
           "GLTFLoader with decoded JPEGs"
         ]
       }
+    },
+    {
+      "id": "floor-vocal-mic-disc-fit-lower",
+      "version": 1,
+      "displayName": "低位伸臂圆盘唱麦",
+      "category": "decor",
+      "mountRole": "floor-vocal-microphone",
+      "productionBranch": "floor-vocal-microphone",
+      "mount": "floor-surface",
+      "parent": "room.floor",
+      "mounting": {
+        "origin": "bottom",
+        "width": 0.66,
+        "height": 1.75,
+        "depth": 0.96
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.33,
+          0.48
+        ],
+        "blocking": true
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "materialSlots": {
+        "microphone": [
+          "singing-mic-pickup",
+          "singing-mic-collar",
+          "singing-mic-handle",
+          "singing-mic-clip"
+        ],
+        "rubber": [
+          "singing-tripod"
+        ],
+        "frame": [
+          "weighted-disc",
+          "telescoping-mast",
+          "short-arm-hinge",
+          "singing-boom",
+          "mast-inner-slider",
+          "boom-tip-joint",
+          "boom-inner-slider"
+        ],
+        "accent": [
+          "disc-inlay",
+          "mast-socket",
+          "height-lock",
+          "arm-thumbwheel",
+          "upper-mast-collar"
+        ]
+      },
+      "microphone": {
+        "pickupNode": "singing-mic-pickup",
+        "pickupFit": {
+          "boomPitchDegrees": -4,
+          "forwardMetres": 0.044
+        }
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/vocal-fit-v1/floor-vocal-mic-disc-fit-lower/v1/model.glb",
+        "sha256": "c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a",
+        "bytes": 349256
+      },
+      "provenance": {
+        "license": "Grab3D CC0-1.0 capsule, collar, handle, clip and 512px PBR textures. Project-authored floor frame, mount and finishes.",
+        "sourceAuthor": "Grab3D",
+        "sourceLicense": "CC0-1.0",
+        "sourceUrl": "https://grab3d.com/models/music/microphone-stand/",
+        "sourceDesign": "microphone-stand",
+        "sourceParameters": "assets-source/company-vocal-fit-v1/parameters.json",
+        "sourceParametersSha256": "4cb99d627b183cae803d92adb6fe4e0a684a187c43844f01a20dd81e66414977",
+        "generator": "scripts/company-platform/build-vocal-fit.mjs",
+        "generatorSha256": "9eaae8aececc9ab6c28bf808c4dacd77858c0c0b1b89cc2b2643257973a72323",
+        "functionalContractSource": "assets-source/company-singing-stage-v1/contract.json",
+        "functionalContractSourceSha256": "a6a6184dc23fec658b3870b7e016cce423cf007dc0b75e85667c6d45e0a27053",
+        "sourceArtifactPath": "assets-source/company-singing-stage-v1/original/microphone-stand.blend",
+        "sourceArtifactSha256": "bf84f7275e2a3b1d0a5b330105865b2fb78e7f5d506c31758915f1193f6a246d",
+        "environmentBranch": "theme-live-kit",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-singing-stage-v1/original/sources.json",
+            "sha256": "85131d3f5c8b98f8ea6a1f26d9a8f92154ec182a50ffec2d0a5bc241a57056f5"
+          },
+          "license": {
+            "path": "assets-source/company-singing-stage-v1/original/CC0-1.0.txt",
+            "sha256": "40b7eb1e9ca7bd79c4cc334a3cac6258d936c5b4461484dfed40293b9d5b61c2"
+          },
+          "sourceConverter": {
+            "path": "assets-source/company-singing-stage-v1/tools/prepare_master.py",
+            "sha256": "6047f6a712f852e83cf1d7d1faa079ea20f14341d8d2995ce24b2fea1447979e"
+          },
+          "editableReader": {
+            "path": "assets-source/company-singing-stage-v1/tools/read_blend.py",
+            "sha256": "3b7441d662c13624bfc35306ea8e3cfb183b4f44d98854ad97630b644bb43ab2"
+          },
+          "topologyReader": {
+            "path": "assets-source/company-singing-stage-v1/tools/gltf_parts.py",
+            "sha256": "40a9d52fee609c284ef13953c297a23b8901668073124107645fcb71c7682899"
+          },
+          "textureFilter": {
+            "path": "assets-source/company-singing-stage-v1/tools/resize_maps.py",
+            "sha256": "72a42a7912afa00ae32b40fc00fac686d3627f3442fea0ddd9dc87da232d3b9d"
+          },
+          "editableSource": {
+            "path": "assets-source/company-singing-stage-v1/original/microphone-stand.blend",
+            "sha256": "bf84f7275e2a3b1d0a5b330105865b2fb78e7f5d506c31758915f1193f6a246d"
+          },
+          "originalGlb": {
+            "path": "assets-source/company-singing-stage-v1/original/microphone-stand.glb",
+            "sha256": "0c11845d8726f7df5b87b173175908a069bbff05e6e8a2981bfc7eefafdd0336"
+          },
+          "fittedMaster": {
+            "path": "assets-source/company-singing-stage-v1/master/microphone-stand.glb",
+            "sha256": "68762df8f51f99c60ae5a6f256966d00ecae5858fc3be1ceefc13072633900b2"
+          },
+          "donorSidecar": {
+            "path": "prototype/public/company-assets/vocal-mic-looks-v1/floor-vocal-mic-disc/v1/resource.json",
+            "sha256": "5d670085303e1dc2740c92e8cbbe053f9a527870c25d17d07b360b6ec8acb717"
+          },
+          "donorModel": {
+            "path": "prototype/public/company-assets/vocal-mic-looks-v1/floor-vocal-mic-disc/v1/model.glb",
+            "sha256": "510a2bf895a9562d0977b6aef14a55ca533fb39021a6d4fb538c3e2c8e8299ff"
+          },
+          "donorParameters": {
+            "path": "assets-source/company-vocal-mic-looks-v1/parameters.json",
+            "sha256": "6772f398248938e31ecf2168e54ed36b17a4841ef4fee0d31bc714578f793437"
+          },
+          "donorGenerator": {
+            "path": "scripts/company-platform/build-vocal-mic-looks.mjs",
+            "sha256": "4525e9d8671ecf239480fc53265ba06d376ad94864dfdfc301e37bc167af57aa"
+          }
+        },
+        "tools": [
+          "Three.js 187",
+          "Native GLB mesh and texture assembly",
+          "GLTFLoader with decoded JPEGs"
+        ],
+        "mechanicalReference": "https://www.k-m.de/en/kmPdf/datasheet/ordernumber/21090-300-55"
+      }
     }
   ]
 }

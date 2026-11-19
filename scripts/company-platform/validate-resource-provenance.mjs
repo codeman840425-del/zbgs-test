@@ -68,10 +68,29 @@ export async function verifySingingSources(root,resource,recipe) {
     !isDeepStrictEqual(pins.originalGlb,spec.original) || !isDeepStrictEqual(pins.editableSource,spec.editable) ||
     spec.editable.path!==p.sourceArtifactPath || spec.editable.sha256!==p.sourceArtifactSha256) mismatch(resource.id);
   const family=path.posix.dirname(p.functionalContractSource)+'/';
+  const editablePins = new Map(Object.entries(pins));
+  if (p.generator === 'scripts/company-platform/build-vocal-fit.mjs') {
+    const donorDir = 'prototype/public/company-assets/vocal-mic-looks-v1/floor-vocal-mic-disc/v1/';
+    const paths = {donorSidecar:donorDir+'resource.json',donorModel:donorDir+'model.glb',
+      donorParameters:'assets-source/company-vocal-mic-looks-v1/parameters.json',
+      donorGenerator:'scripts/company-platform/build-vocal-mic-looks.mjs'};
+    if (design.kind !== 'vocal' || !isDeepStrictEqual(resource.microphone?.pickupFit,
+        {boomPitchDegrees:design.boomPitchDegrees,forwardMetres:design.forwardMetres})) mismatch(resource.id);
+    for (const [key,file] of Object.entries(paths)) {
+      const actual = path.resolve(root,file);
+      if (pins[key]?.path !== file || await fs.realpath(actual) !== actual ||
+          !(await fs.lstat(actual)).isFile() || digest(await fs.readFile(actual)) !== pins[key].sha256) mismatch(file);
+      editablePins.delete(key);
+    }
+    const donor = JSON.parse(await fs.readFile(path.join(root,paths.donorSidecar)));
+    if (pins.donorModel.sha256 !== donor.asset.sha256 || pins.donorGenerator.sha256 !== donor.provenance.generatorSha256 ||
+        pins.donorParameters.sha256 !== donor.provenance.sourceParametersSha256 ||
+        !isDeepStrictEqual(Object.fromEntries(editablePins),donor.provenance.dependencies)) mismatch(resource.id);
+  }
   for(const name of ['sourceRecord','license','sourceConverter','editableReader','topologyReader','textureFilter']) {
     if(!Object.hasOwn(pins,name)) mismatch(name);
   }
-  for(const pin of Object.values(pins)) {
+  for(const pin of editablePins.values()) {
     if(!pin?.path?.startsWith(family) || digest(await readProductionFile(root,pin.path))!==pin.sha256) mismatch(pin?.path??resource.id);
   }
   return new Map(Object.entries(pins));
@@ -187,7 +206,7 @@ export async function validateResourceProvenance({root, resource, label = resour
     if (provenance[hashField] !== digest(bytes)) throw new Error(`provenance-hash-mismatch: ${label}.${hashField}`);
     if(field==='sourceParameters' && resource.productionBranch==='showcase-product')
       await verifyShowcaseProvenance(root,resource,JSON.parse(bytes));
-    if(field==='sourceParameters' && ['scripts/company-platform/build-singing-stage.mjs','scripts/company-platform/build-vocal-mic-looks.mjs'].includes(provenance.generator))
+    if(field==='sourceParameters' && ['scripts/company-platform/build-singing-stage.mjs','scripts/company-platform/build-vocal-mic-looks.mjs','scripts/company-platform/build-vocal-fit.mjs'].includes(provenance.generator))
       await verifySingingSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='tea-rest')
       await verifyTeaSources(root,resource,JSON.parse(bytes));

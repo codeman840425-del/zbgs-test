@@ -27,6 +27,8 @@ export function describeFacilityFunction(resource) {
     mountRole: decorative ? null : resource.mountRole || resource.id,
     coordinates: {units: resource.coordinates?.units ?? 'metres', up: resource.coordinates?.up ?? '+Y', forward: resource.coordinates?.forward ?? '+Z'},
     mount, mounting:normalized(resource.mounting??null), surface, supportSurfaces, movingParts, footprint, usePoints,
+    // An adapted pickup changes where a performer can use this installation.
+    ...(resource.microphone?.pickupFit ? {pickupFit:normalized(resource.microphone.pickupFit)} : {}),
     ...(resource.supportMotion!==undefined?{supportMotion:normalized(resource.supportMotion)}:{}),
     ...(resource.movingProfile!==undefined?{movingProfile:resource.movingProfile}:{}),
     ...(resource.cablePorts!==undefined?{cablePorts:normalized(resource.cablePorts)}:{}),
