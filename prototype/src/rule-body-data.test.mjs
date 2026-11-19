@@ -6,12 +6,37 @@ import {registerHooks} from 'node:module';
 import {FOUNDATION_PROFILES,foundationProfile,initializeRuleBodyData} from './foundation-profiles.js';
 import {createRuleBodyRegistry} from './rule-body-data.js';
 import {productionRuleBodyPointers,validateCharacterRecordInput} from './character-record-input.js';
+import {registerPublishedProductionBodies} from './published-production-bodies.js';
 import {createInitialAssetReads,createRuleBodyGroupLoads,loadPinnedBytes} from './initial-asset-reads.js';
 
 const source=name=>readFile(new URL('../../'+name,import.meta.url));
 const bytes=value=>Buffer.from(JSON.stringify(value));
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const pin=(path,b)=>({path,sha256:hash(b),bytes:b.length});
+
+test('room and authoring registration only fetch the fixed opt-in sidecar and reject incomplete publication',async t=>{
+  const lifetime=new AbortController(), calls=[];
+  let status=503;
+  let publication={schema:'published-rule-body-packs-v1',ruleBodyDataPacks:[]};
+  t.mock.method(globalThis,'fetch',async(url,options)=>{
+    calls.push(url);
+    assert.equal(options.signal,lifetime.signal);
+    assert.equal(options.redirect,'error');
+    assert.equal(options.credentials,'same-origin');
+    return new Response(JSON.stringify(publication),{status});
+  });
+  const register=query=>registerPublishedProductionBodies(new URLSearchParams(query),lifetime.signal);
+  await register('body=female');
+  await assert.rejects(register('ruleBodyData=1&ruleBodyData=1'),/Invalid rule body data selection/);
+  assert.deepEqual(calls,[]);
+  await assert.rejects(register('ruleBodyData=1'),/HTTP 503/);
+  status=200;
+  await register('ruleBodyData=1');
+  publication={schema:'published-rule-body-packs-v1'};
+  await assert.rejects(register('ruleBodyData=1'),/Invalid published rule body list/);
+  assert.deepEqual(calls,Array(3).fill('/records/rule-body-data.json'));
+  lifetime.abort();
+});
 
 // Reconstruct the publisher wire format from committed real model, equipment,
 // production recipe and first-reception evidence. No dependence on local output/.

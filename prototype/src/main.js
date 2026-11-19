@@ -3,6 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Phaser from "phaser";
 import { loadAvatar } from "./assets.js";
 import { loadFoundationAvatar } from "./foundation-avatar.js";
+import { registerPublishedProductionBodies } from "./published-production-bodies.js";
 import { createRenderContextGuard } from "./render-context-guard.js";
 import { createMotion } from "./motion.js";
 import { loadRetargetedMotions } from "./motion-source.js";
@@ -2420,7 +2421,12 @@ function populateDanceSelect(select) {
   select.value = motion.getDance()?.id;
 }
 const loadStart = performance.now();
-loadAvatar({ scene: world, renderer })
+const roomPublicationLifetime = new AbortController();
+window.addEventListener('pagehide', event => {
+  if (!event.persisted) roomPublicationLifetime.abort();
+});
+registerPublishedProductionBodies(new URLSearchParams(location.search),roomPublicationLifetime.signal)
+  .then(() => loadAvatar({ scene: world, renderer }))
   .then(async (a) => {
     avatar = a;
     bindFoundationControls(a);
@@ -2484,6 +2490,7 @@ loadAvatar({ scene: world, renderer })
   .catch((error) => {
     // A motion/retarget failure can happen after the avatar factory succeeds.
     // No ready scene may retain this half-initialized primary instance.
+    roomPublicationLifetime.abort();
     motion?.dispose?.();
     avatar?.dispose?.();
     motion = null; avatar = null; ready = false;

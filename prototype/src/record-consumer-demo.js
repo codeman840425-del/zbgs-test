@@ -6,7 +6,8 @@ import {createSeatLeases} from './seat-lease.js';
 import {resolveActorRoom,captureFacilityState,restoreFacilityState} from './record-facility-room.js';
 import {createCharacterRecordBatch} from './character-record-batch.js';
 import {performCharacterProduction} from './character-production.js';
-import {productionRuleBodyPointers,validateCharacterRecordInput} from './character-record-input.js';
+import {validateCharacterRecordInput} from './character-record-input.js';
+import {registerPublishedProductionBodies} from './published-production-bodies.js';
 import {initializeRuleBodyData} from './foundation-profiles.js';
 import {createRuleBodyGroupLoads} from './initial-asset-reads.js';
 
@@ -22,7 +23,8 @@ ground.rotation.x=-Math.PI/2;scene.add(ground);
 const resize=()=>{renderer.setSize(stage.clientWidth,stage.clientHeight);camera.aspect=stage.clientWidth/stage.clientHeight;camera.updateProjectionMatrix();};
 const observer=new ResizeObserver(resize);observer.observe(stage);resize();
 let batch=null,generation=0,records=[],selected=0,ready=false;
-let closed=false,game,ruleBodyRegistration,groupLoads,failedSelection;
+let closed=false,game,groupLoads,failedSelection;
+const publicationLifetime = new AbortController();
 let selectionRequest=0;
 const actors=new Map(), attempts=[], errors=[];
 const actorRecords=new WeakMap(), seatLeases=createSeatLeases();
@@ -31,7 +33,7 @@ window.addEventListener('pagehide',event=>{
   if(event.persisted||closed)return;
   closed=true;generation++;batch?.cancel('page closing');observer.disconnect();
   for(const actor of actors.values())actor.dispose();actors.clear();
-  groupLoads?.dispose();ruleBodyRegistration?.dispose();
+  groupLoads?.dispose();publicationLifetime.abort();
   game?.destroy(true);ground.geometry.dispose();ground.material.dispose();renderer.dispose();
 });
 const buildInfo=await fetch('/build-info.json').then(r=>r.json());
@@ -124,11 +126,7 @@ if(!productionMode){
  status.textContent='等待 agent 制作请求 · '+buildInfo.shortId;
  if(parameters.has('ruleBodyData')) {
    try {
-     if(parameters.getAll('ruleBodyData').length!==1 || parameters.get('ruleBodyData')!=='1')
-       throw Error('Invalid rule body data selection');
-     const response=await fetch('/records/rule-body-data.json',{redirect:'error'});
-     if(!response.ok)throw Error('Published rule body list HTTP '+response.status);
-     ruleBodyRegistration=await initializeRuleBodyData(productionRuleBodyPointers(await response.json()));
+     await registerPublishedProductionBodies(parameters,publicationLifetime.signal);
    } catch(error) {
      inputFailure=error.message;errors.push(inputFailure);
      status.textContent='角色数据包加载失败：'+inputFailure;
