@@ -1,6 +1,8 @@
 # 角色系统能力清单（唯一当前状态依据）
 
-本批两条原签已送入正式整套审核函数，批准数为 **0/2**。标准恢复、9 项选款保护与静态预算已取证，单人正式房间动作、四层预算和审核登记尚缺。融合方两份普通包的严格传输复验仍失败，探针保留了页面读满、锁释放、后续实际使用和同一网络编号的终态。受控试验将逐块 reader 换成逐块 pipeTo 后，完整身体在 CfT 145 的严格检查仍失败。[原审核函数实际决定](../evidence/m2-rule-batch-delivery-v1/formal/README.md) · [请求时序](../evidence/m2-rule-stream-lifecycle-v1/README.md) · [有界读取对照](../evidence/m2-rule-stream-ab-v1/README.md)
+**两条外置原签在新候选完成了单人房间动作核验。** 构建 `f90136db446c` 首次进房即按发布清单加载各自身体和三件装备。每人独立完成走近、坐稳、起立和走离，实际释放座位，重新开页后恢复。缺请求号、错构建、错记录、错装备共八项拒绝。普通游戏包也用同两条原签完成两个新浏览器进程的双人回读。旧构建 `60e3934ddd8a` 的整套正式批准数仍为 **0/2**，新候选尚无整套批准。[逐人 1× 录像与复跑](../evidence/m2-rule-formal-room-v1/README.md) · [普通游戏实录](../evidence/m2-rule-formal-room-v1/ordinary-cold/dual-external-cold-1x.webm) · [旧版审核](../evidence/m2-rule-batch-delivery-v1/formal/README.md)
+
+冻结普通包在开发机 CfT 145 分别对 A、B、A+B 采样 12 秒，离场后可见角色纹理句柄均失效。普通机性能、实际显存字节、解码峰值和严格传输仍缺合格证据。受控试验分别更换为 pipeTo 和受限 Blob 后，完整身体在页面内读满并通过 SHA，严格网络检查仍失败，保留产品原读取器。[实测设备与逐帧数据](../evidence/m2-rule-record-cost-v1/README.md) · [请求时序](../evidence/m2-rule-stream-lifecycle-v1/README.md) · [第二次对照](../evidence/m2-rule-framed-read-v1/README.md)
 
 **外置配方角色可进入完整记录的静态预算检查。** `record_budget.py measure --shape-pack` 重读固定版本审查、两条原签、各自身体和三件装备。两名角色单独与共同入场均在暂定静态参考范围内；两人合计纹理估算 211,115,352 字节。实际显存、普通电脑及严格传输分别待验。[完整记录与并发估算](../evidence/m2-rule-batch-delivery-v1/budget/record-measure.json) · [错误输入与历史结果回归](../evidence/m2-rule-batch-delivery-v1/budget/record-measure-checks.json)
 

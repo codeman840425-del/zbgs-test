@@ -1,26 +1,59 @@
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {productionRoot,projectOutput}=require('./project-output.cjs');
-const {launchQABrowser}=require('./qa-browser-workspace.cjs');
-const [base,recordFile,folder]=process.argv.slice(2);
+const {launchQABrowser,resolveBrowserConfig}=require('./qa-browser-workspace.cjs');
+const {roomOptions,checkInput,checkBuild,checkRestore,readActor}=require('./qa-formal-room-record.cjs');
+const [base,recordFile,folder,...args]=process.argv.slice(2);
 (async()=>{const out=await projectOutput(folder,await productionRoot());
- const {canonicalJson}=await import('../prototype/src/character-record.js');const record=JSON.parse(await fs.readFile(recordFile,'utf8'));await fs.mkdir(out,{recursive:false});await fs.copyFile(recordFile,path.join(out,'input-record.json'));await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
+ const {launchOptions,pins}=roomOptions(args);
+ const deployment=launchOptions.browserConfig && await resolveBrowserConfig(launchOptions.browserConfig);
+ const {canonicalJson}=await import('../prototype/src/character-record.js');const record=JSON.parse(await fs.readFile(recordFile,'utf8'));
+ if(pins)await checkInput(record,pins);
+ await fs.mkdir(out,{recursive:false});await fs.copyFile(recordFile,path.join(out,'input-record.json'));await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const report={status:'incomplete',identity:record.identity,recordSha256:record.integrity.recordSha256,errors:[],tasks:[]};
+ if(pins){
+  await fs.copyFile(require.resolve('./qa-formal-room-record.cjs'),path.join(out,'qa-formal-room-record.cjs'));
+  Object.assign(report,{schema:'published-rule-workbench-room-v1',pins,actors:{},positions:[],leases:{}});
+ }
  let session,page;
- const task=async(id,kind,payload={})=>{await page.evaluate(request=>{
+ const task=async(id,kind,payload={})=>{
+   const start=pins && await page.evaluate(()=>__debug.avatar().root.position.toArray());
+   const reply=await page.evaluate(request=>{
    window.__roomProductionFilm.phase=request.kind;
    return __debug.request(request);
- },{requestId:id,kind,payload});await page.waitForFunction(id=>['completed','failed','cancelled'].includes(__debug.tasks().get(id)?.state),id,{timeout:45000});const value=await page.evaluate(id=>__debug.tasks().get(id),id);assert.equal(value.state,'completed',JSON.stringify(value));report.tasks.push(value);};
+ },{requestId:id,kind,payload});
+   if(pins){assert.equal(reply.admission,'accepted',JSON.stringify(reply));assert.equal(reply.task.requestId,id);}
+   await page.waitForFunction(id=>['completed','failed','cancelled'].includes(__debug.tasks().get(id)?.state),id,{timeout:45000});const value=await page.evaluate(id=>__debug.tasks().get(id),id);assert.equal(value.state,'completed',JSON.stringify(value));report.tasks.push(value);
+   if(pins){
+    assert.equal(value.kind,kind);assert.equal(value.requestId,id);assert.deepEqual(value.payload,payload);
+    const end=await page.evaluate(()=>__debug.avatar().root.position.toArray());
+    report.positions.push({requestId:id,start,end});
+    if(kind==='walk'){assert(Math.hypot(end[0]-start[0],end[2]-start[2])>.05);assert(Math.hypot(end[0]-payload.x,end[2]-payload.z)<=.05);}
+    if(kind==='sit'){
+     const lease=await page.evaluate(token=>__debug.seatLeases.get(token),value.result.seatToken);
+     assert.equal(lease.state,'occupied');assert.equal(lease.ownerId,value.ownerId);assert.equal(lease.requestId,id);
+     report.leases.occupied=lease;
+    }else if(report.leases.occupied){
+     const after=await page.evaluate(token=>__debug.seatLeases.get(token),report.leases.occupied.token);
+     report.leases[kind==='stand'?'afterStand':'afterExit']=after;
+     if(kind==='walk')assert.equal(after.state,'released');
+    }
+   }
+ };
  try{
-  session=await launchQABrowser(out,{channel:'chrome'});
+  session=await launchQABrowser(out,launchOptions);
+  if(deployment){assert.deepEqual(session.receipt,deployment.receipt);report.browserLaunch=session.receipt;}
   const {browser}=session;
   page=await browser.newPage({viewport:{width:1440,height:1000}});
   page.on('pageerror',e=>report.errors.push(e.message));
   const url=new URL(base);url.searchParams.set('workbench','appearance');url.searchParams.set('body',record.appearanceRecipe.base.bodyType);
+  if(pins)url.searchParams.set('ruleBodyData','1');
   const previewOverride=process.env.QA_NATIVE_HAIR_CENTER;
   const expectedFit=record.nativeHairCenter?.id ?? previewOverride;
   if(previewOverride)url.searchParams.set('nativeHairCenter',previewOverride);
   await page.goto(url.href);await page.waitForFunction(()=>window.__debug?.ready,null,{timeout:90000});report.build=await page.evaluate(()=>__debug.buildInfo);
+  if(pins){checkBuild(report.build,pins);report.actors.initial=await readActor(page,record);}
   const loaded=await page.evaluate(record=>__debug.restoreCharacterRecord(record),record);assert.equal(loaded.applied,true);report.restored=loaded;
+  if(pins){checkRestore(loaded,record);report.actors.restored=await readActor(page,record);}
   const cameraStart = await page.evaluate(() => {
     __debug.setPlaybackRate(1); __debug.setPaused(false); __debug.camera('room');
     return __debug.snapshot().simulationTime;
@@ -70,6 +103,7 @@ const [base,recordFile,folder]=process.argv.slice(2);
   });
   await fs.writeFile(path.join(out,'room-produced-1x.webm'),Buffer.from(data.split(',')[1],'base64'));await page.screenshot({path:path.join(out,'room-produced.png')});
   const final=await page.evaluate(identity=>__debug.captureCharacterRecord({identity}),record.identity);for(const key of ['appearanceRecipe','liveAccessories','equipmentMaterials'])assert.equal(canonicalJson(final[key]),canonicalJson(record[key]),key);
+  if(pins)report.actors.beforeClose=await readActor(page,record);
   if(expectedFit){
     assert.equal(await page.evaluate(()=>__debug.avatar().nativeHairCenterFit),expectedFit);
     if(record.nativeHairCenter)assert.deepEqual(final.nativeHairCenter,record.nativeHairCenter);
@@ -80,7 +114,14 @@ const [base,recordFile,folder]=process.argv.slice(2);
       fresh.on('pageerror',error=>report.errors.push(error.message));
       await fresh.goto(url.href);
       await fresh.waitForFunction(()=>window.__debug?.ready,null,{timeout:90000});
-      assert.equal((await fresh.evaluate(r=>__debug.restoreCharacterRecord(r),final)).applied,true);
+      if(pins){checkBuild(await fresh.evaluate(()=>__debug.buildInfo),pins);report.actors.reopenedInitial=await readActor(fresh,record);}
+      const reopened=await fresh.evaluate(r=>__debug.restoreCharacterRecord(r),pins?record:final);
+      assert.equal(reopened.applied,true);
+      if(pins){
+       checkRestore(reopened,record);report.reopened=reopened;report.actors.reopenedRestored=await readActor(fresh,record);
+       assert.notEqual(report.actors.reopenedRestored.root,report.actors.beforeClose.root);
+       assert.notEqual(report.actors.reopenedRestored.head,report.actors.beforeClose.head);
+      }
       const fit=await fresh.evaluate(()=>__debug.avatar().nativeHairCenterFit);
       assert.equal(fit,expectedFit??null);
       const reread=await fresh.evaluate(identity=>__debug.captureCharacterRecord({identity}),record.identity);

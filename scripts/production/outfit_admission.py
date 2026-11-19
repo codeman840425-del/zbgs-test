@@ -109,6 +109,56 @@ def verify_room_report(report, record, runtime):
             [task["kind"] for task in report["tasks"]] == ["walk","sit","stand","walk"] and
             all(task["state"] == "completed" for task in report["tasks"]),
             "Room used a different record or an incomplete action chain")
+    if "schema" in report or "pins" in report or "actors" in report:
+        verify_published_room(report, record, runtime)
+
+
+def verify_published_room(report, record, runtime):
+    from math import dist, isfinite
+    require(report.get("schema") == "published-rule-workbench-room-v1", "Unknown published room evidence version")
+    identity, sha = record["identity"], record["integrity"]["recordSha256"]
+    require(report.get("identity") == identity and report.get("pins") == {
+        "id":identity["id"], "recordSha":sha, "buildSha":runtime["sourceDigest"]},
+        "Room did not pin the exact actor and running build")
+    for key in ("restored","reopened"):
+        restored = report.get(key) or {}
+        require(restored.get("applied") is True and restored.get("identity") == identity and
+                restored.get("recordSha256") == sha and restored.get("revision") == record["revision"],
+                "Room did not restore the original signed record")
+    equipment = record["appearanceRecipe"]["equipment"]
+    fields = ("id","slot","url","sha256","compatibleAvatarSha256")
+    selected = sorted(({key:item[key] for key in fields} for item in equipment["resources"].values()),
+                      key=lambda item:item["slot"])
+    actors = report["actors"]
+    for stage in ("initial","restored","beforeClose","reopenedInitial","reopenedRestored"):
+        actor = actors.get(stage,{})
+        require(actor.get("base") == record["appearanceRecipe"]["base"] and actor.get("attached") is True and
+                actor.get("manifestUrl") == equipment["manifestUrl"] and actor.get("equipment") == selected and
+                actor.get("visible") == sorted(item["id"] for item in selected) and actor.get("root") and actor.get("head"),
+                "Wrong actor, body or worn equipment at " + stage)
+    for key in ("root","head"):
+        require(actors["restored"][key] == actors["beforeClose"][key] and
+                actors["beforeClose"][key] != actors["reopenedRestored"][key], "Room instance did not reopen independently")
+    tasks = report["tasks"]
+    ids = [task.get("requestId") for task in tasks]
+    owner = tasks[0].get("ownerId")
+    require(all(isinstance(i,str) and i for i in ids) and len(set(ids)) == 4 and owner and
+            all(t.get("ownerId") == owner and t.get("admission") == "accepted" for t in tasks),
+            "Missing or inconsistent room task identities")
+    points = report.get("positions",[])
+    require([p.get("requestId") for p in points] == ids, "Missing room movement observations")
+    for i in (0,3):
+        start,end = points[i]["start"],points[i]["end"]
+        require(all(len(p)==3 and all(isinstance(v,(float,int)) and isfinite(v) for v in p) for p in (start,end)),
+                "Invalid walk samples")
+        require(dist(start[::2],end[::2]) > .05 and dist(end[::2],[tasks[i]["payload"][axis] for axis in ("x","z")]) <= .05,
+                "Walk did not move to the requested destination")
+    occupied,stand,exit_ = (report["leases"].get(key) or {} for key in ("occupied","afterStand","afterExit"))
+    require(occupied.get("state") == "occupied" and occupied.get("requestId") == ids[1] and
+            occupied.get("ownerId") == owner and occupied.get("token") and occupied.get("seatId") and
+            tasks[1]["result"].get("seatToken") == occupied["token"] and exit_.get("state") == "released" and
+            all(lease.get(k) == occupied[k] for lease in (stand,exit_) for k in ("token","ownerId","seatId","requestId")),
+            "Seat occupancy or release does not belong to the completed sitting task")
 
 
 def verify_runtime_readback(report, inventory, record, runtime):

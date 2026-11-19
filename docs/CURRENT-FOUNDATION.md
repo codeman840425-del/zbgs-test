@@ -1,10 +1,14 @@
 # 当前角色基础工程恢复点
 
+新房间候选源码 `4becd8e4`，构建 `f90136db446c`。两份工程内独立检出重建的 555 个文件一致。两名已签角色均完成逐人房间动作、释放座椅和再开回读，37 文件普通包已完成双人冷开。本次变更只作用于显式启用发布身体清单的房间/制作入口。[逐人录像和重建](../evidence/m2-rule-formal-room-v1/README.md)
+
+固定版本审查命令已接入盘根巡检，跨项目的工作树、意外同名前缀目录或路径异常会在写入审查文件前终止。可从 `F:\` 启动 `node --test F:/gamemake/scripts/runtime-package/review-game-runtime.test.mjs` 和 `node --test F:/gamemake/scripts/project-output.test.cjs` 重放失败清理。[发布入口](../scripts/runtime-package/review-game-runtime.mjs)
+
 参数生产阶段已收到融合独立回执。接收方自选的两个下颌权重均在冻结游戏 `60e3934ddd8a` 完成签发、冷开和座椅使用，严格网络检查为 0/2。本工程现可用一份批次同时制作、签发和打包两个角色。两份独立固定检出用同一对已签记录导出 37 个逐字节相同的文件，三件共用制服各装一份。两个全新浏览器均能逐人招手、移除并回读；33.76 秒房间录像覆盖两人先后走入、坐稳、离开和释放座位。[观看本批与重放](../evidence/m2-rule-batch-delivery-v1/README.md) · [独立接收结果](../evidence/m2-rule-batch-delivery-v1/receiver/received.json)
 
 角色制作产物统一落在主工程。盘根实跑批量命令时，将输出指向 F 盘根、另一检出或回退到源码目录均被拒绝。原 37 个工作树的迁移和其他盘根目录归属见[迁移记录](../evidence/character-worktree-relocation-v1/root-review.json)，本批结果见[实际命令回执](../evidence/m2-rule-batch-delivery-v1/path-guards.json)。
 
-当前补查阶段一的流式请求取消与正式整套审查。新预算器已经按外置包重算两名角色的完整依赖和并发静态估算，普通机性能待测。[预算回执](../evidence/m2-rule-batch-delivery-v1/budget/record-measure.json) · [本地双人录像页](../evidence/m2-rule-batch-delivery-v1/index.html)。4196 在线进程仍展示旧录像索引，更新服务进程的操作被自动审批拒绝。视频行为接入在阶段一反馈之后。公司侧另已提交会议培训区 `1e249616bbb3` 和公共洗手区 `0b6988290fcc`。新的侧向入座、双工位切层、编辑、释放及同姿补光对照排入下一次 C3 联调。
+阶段一现缺严格网络证据、完整资源预算及整套审核。融合已独立确认三组外置记录静态预算、七项错误拒绝；双方的标准组合均无须改普通游戏源码。开发机实测已记录可见图像与纹理句柄。两轮有界读取对照未解决严格网络终态，停止更换读取参数，下一项核对同构建实际传输、解码和发行证据的可取得范围。[开发机采样](../evidence/m2-rule-record-cost-v1/README.md) · [本地双人录像页](../evidence/m2-rule-batch-delivery-v1/index.html)。4196 在线进程仍展示旧录像索引，更新服务进程的操作被自动审批拒绝。视频行为接入在阶段一反馈之后。公司侧已提交会议培训区 `1e249616bbb3` 和公共洗手区 `0b6988290fcc`，双工位联调另行推进。
 
 融合此次使用制作工具 `9c72d4fd`。动作输入已在独立的准备步骤复测。从 F 盘根启动后，视频提取器拒绝越界、同名覆盖及越界目录联接。开发机 CPU 上 240 帧的 PTS、人体及手部检测结果与历史原输入逐帧一致。后续普通游戏接入选用已签男体 `d03-male-b` 和相匹配的平底鞋，保留游戏动作入口、空间和中断的运行验收。[视频取点及实测数值](../evidence/m2-video-record-intake-v1/cpu-pose-replay.json)
 
