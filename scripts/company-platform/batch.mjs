@@ -123,6 +123,7 @@ async function prepare(item,sourceHashes){
     }
     if(operations.length)document=prepareCompanyChange(document,operations,{catalog,templates}).document;
   }
+  if (Object.hasOwn(item,'singingRooms')) document.singingRooms = structuredClone(item.singingRooms);
   const connections=inspectCompanyConnections(document,catalog,templates);
   const placement=inspectCompanyPlacement(document,catalog,templates);
   const context={catalog,templates,createScaledCompany,createCompanyScaleV2,prepareCompanyChange};
@@ -150,10 +151,11 @@ async function prepare(item,sourceHashes){
     const {checkInterviewRooms} = await import('./check-interview-room.mjs');
     interviewRooms = await checkInterviewRooms(document,{catalog,templates});
   }
-  if (Object.hasOwn(item,'singingRooms')) document.singingRooms = structuredClone(item.singingRooms);
   let singingRooms;
   if (Object.hasOwn(document,'singingRooms')) {
     Object.assign(sourceHashes,await sources(['scripts/company-platform/check-singing-room.mjs','scripts/company-platform/public-door-access.mjs']));
+    if(document.singingRooms?.some?.(rule=>rule?.performer?.coordinateSpace==='facility'))
+      Object.assign(sourceHashes,await sources(['prototype/src/company/vocal-use.js','prototype/src/company/vocal-use-geometry.js','prototype/src/company/use-point-data.js']));
     const {checkSingingRooms} = await import('./check-singing-room.mjs');
     singingRooms = await checkSingingRooms(document,{catalog,templates});
   }

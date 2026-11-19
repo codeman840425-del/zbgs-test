@@ -1,5 +1,13 @@
 import {composeTransform,pointInTransform} from './document.js';
 
+function facilityChain(derived,facilityId) {
+  const chain=[];
+  for(let node=derived.nodes.get(facilityId);node;node=derived.nodes.get(node.parentId)) {
+    chain.unshift({id:node.id,parentId:node.parentId,transform:derived.localTransforms.get(node.id)});
+  }
+  return chain;
+}
+
 // Logical facility input for the existing actor runtime. No Mesh, lease or task
 // state is stored here. Coordinates remain available when display is unloaded.
 export function describeCompanyUsePoint(document,derived,id) {
@@ -20,9 +28,10 @@ export function describeCompanyUsePoint(document,derived,id) {
     // the sofa seat offset a second time would send actors to the wrong place.
     approachPosition:point.approach?pointInTransform(point.world,point.approach):null,
     exitPosition:point.exit?pointInTransform(point.world,point.exit):null,
-    seatHeight:point.seatHeight,capacity:point.capacity??null,
+    ...(point.kind==='standing-vocal'?{kind:point.kind,slotId:point.slotId,transformChain:facilityChain(derived,facility.id),
+      performerReferences:point.performerReferences}:{seatHeight:point.seatHeight}),capacity:point.capacity??null,
     clearance:point.clearance??null,footprint:facility.resource.footprint??null,
-    contact:{seatNodeId:point.seatNodeId,backNodeId:point.backNodeId},
+    contact:point.kind==='standing-vocal'?{pickupNodeId:point.pickupNodeId}:{seatNodeId:point.seatNodeId,backNodeId:point.backNodeId},
     missingFields:missing,limitations:[...(point.limits||[]),...(point.limitations||[])],
   });
 }

@@ -10,7 +10,7 @@ const at = p => new T.Vector3(p[0], 0, p[1]);
 
 // All queries are in one region's own coordinates. Include neighbouring meshes: a prop may
 // be owned by the corridor while its material surface projects into the door or the room.
-function clearanceQuery(scene, derived, facilities, region, radius, height) {
+export function clearanceQuery(scene, derived, facilities, region, radius, height) {
   const shapes = [];
   const {worldToRoom} = scanRoomMeshes(scene, region, facilities, [], [], (object, owner, transform, bounds) => {
     if (bounds.max.y < contact || bounds.min.y > height - contact) return;

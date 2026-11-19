@@ -3,6 +3,7 @@ import {Box3, Vector3} from 'three';
 // Installation checks also run for saved rooms on floors outside the current view.
 export function installationGeometryFacilities(derived) {
   const floors = new Set(), desks = new Set();
+  for(const point of derived.usePoints??[]) if(point.kind==='standing-vocal') floors.add(point.floorId);
   for (const item of derived.facilities) {
     if (['ceiling', 'parent-device-endpoints', 'wall-opening'].includes(item.resource.mount)) floors.add(item.floorId);
     if (item.resource.mounting?.reserveDesktopArea) desks.add(item.node.parentId);

@@ -162,6 +162,7 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
       fail('training-edit-mismatch',scope.prefix,'The default manifest and the pinned source disagree.');
     scope.evidence = evidence;
     scope.teaStations = layout.teaStations;
+    scope.vocalSlots = vocalDeclarations(layout);
     candidates.push(scope);
   }
   const choice = selected === undefined ? undefined : candidates.find(scope=>scope.key === selected);
@@ -173,6 +174,10 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
     fail('training-room-origin-mismatch',input,'The saved bytes belong to a different room.');
   const inherited = reconcile(readTrainingBinding(document,context),origin ? undefined : await editedTrainingBinding(input,document),input);
   const possible = origin ? [origin] : choice ? [choice] : identical.length ? identical : candidates;
+  if (possible.some(scope=>!equal(scope.vocalSlots,possible[0].vocalSlots)))
+    fail('ambiguous-vocal-room',input,'Use --room KEY to select the original standing facility declaration.');
+  if (possible[0]?.vocalSlots.length && !equal(possible[0].vocalSlots,vocalDeclarations(document)))
+    fail('vocal-slot-binding-mismatch',input,'The saved microphone, slot or performer targets differ from the selected package room.');
   if (possible.some(scope=>!equal(scope.teaStations,possible[0].teaStations)))
     fail('ambiguous-tea-room',input,'Select the original tea station declaration with --room KEY.');
   if (possible.some(scope=>scope.teaStations!==undefined) &&
@@ -187,4 +192,9 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
   if (possible.some(scope => !equal(scope.evidence?.trainingClearance,possible[0].evidence?.trainingClearance)))
     fail('ambiguous-training-room',input,'Use the original room path or append --room KEY to select its training declaration.');
   if (origin || choice || identical.length) return possible[0]?.evidence;
+}
+
+function vocalDeclarations(layout) {
+  return (layout.singingRooms??[]).filter(rule=>rule.performer?.coordinateSpace==='facility')
+    .map(rule=>({regionId:rule.regionId,micId:rule.roles.mic,performer:rule.performer}));
 }

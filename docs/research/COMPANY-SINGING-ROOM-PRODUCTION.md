@@ -4,6 +4,19 @@
 
 ## 制作输入
 
+[带站立使用位的双房配方](../../scripts/company-platform/batch-inputs/vocal-use-rooms.json)用于向角色接入方交付可使用的麦架。旧配方继续使用房间坐标作为静态取景参考。新版在同一麦架实例上登记如下内容，台前人物面向麦架的局部 −Z 方向。
+
+```json
+{"coordinateSpace":"facility","slotId":"vocal","position":[0,0,0.77],"yaw":3.141592653589793,
+ "approach":[0,0,1.12],"exit":[0,0,1.12],"mouth":[0,1.555,0.23],"eye":[0,1.64,0.215]}
+```
+
+站位、朝向、接近与退出坐标属于麦架。口眼参考属于站位，以人物局部 +Z 为前方。每槽一人，站立净空为 0.50 × 0.50 米、高 1.90 米。发布时会实测入口到各目标、进退的连续净空、嘴到实体拾音面的首个命中、谱面可读性和机位。移动麦架后若挡住原来的谱面或通路，应一起调整相关物件并复查。
+
+游戏通过 `scene.describeUsePoint(micInstanceId+'#vocal')` 读取槽位。返回 `kind: "standing-vocal"`、房间／设施／槽位身份、局部与世界姿态、世界接近／退出位置、人体参考和实际拾音节点名。当前楼层可用 `scene.resolveUsePoint(id).pickupMesh` 找到实物；离屏使用逻辑描述。空闲移位沿用原 ID，重新读取变换。角色侧提供预约、时钟、竞争、取消与恢复，场景事务消费它传入的 `isUsePointBusy`。
+
+交付清单 `usePointReports` 列出默认场景和具名房的 `use-points.json`。它们绑定对应 `save.json` 的 SHA-256。接收方按清单核对初始版本，编辑后从当前布局重新求值。独立封包会从实物检查重新生成使用点快照。[制作回归](../../scripts/company-platform/test-vocal-slots.mjs) · [接收方复跑](../../scripts/company-platform/test-vocal-slot-handoff.mjs)
+
 在批次项的 `singingRooms` 内为每间房写入以下字段。角色名称指向实际已安装的实例，坐标长度单位为米。
 
 | 字段 | 约定 |

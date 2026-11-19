@@ -2,6 +2,7 @@ import {cameraDeskEdgePlacement, cameraWallFootprint, sharesCameraDeskContact, v
 import {deriveExteriorEntrances,floorPortalSides} from './exterior-entrance-data.js';
 import {validateWindowResource,deriveWindowOpenings} from './window-data.js';
 import {deriveCableConnections} from './cable-data.js';
+import {installedVocalSlots} from './vocal-use.js';
 import {validateBaseboardProfile} from './baseboard-profile.js';
 import {validateBackdropResource} from './backdrop-roll.js';
 import {attachGarment,garmentSlotTransform,validateGarmentPlacement,validateGarmentResource} from './garment-rack-data.js';
@@ -71,7 +72,7 @@ function localPoint(world, point) {
   const x = point[0] - world.position[0], z = point[2] - world.position[2];
   return [Math.cos(world.yaw) * x - Math.sin(world.yaw) * z, point[1] - world.position[1], Math.sin(world.yaw) * x + Math.cos(world.yaw) * z];
 }
-function relativeTransform(parent, world) {
+export function relativeTransform(parent, world) {
   return { position: localPoint(parent, world.position), yaw: world.yaw - parent.yaw };
 }
 function validateAppearance(appearance, resource, path) {
@@ -379,6 +380,10 @@ export function deriveCompany(document, catalog, templates) {
       if (usePoints.some(p => p.id === id)) fail('duplicate-use-point', node.id, point.id);
       usePoints.push({ ...point, id, facilityId: node.id, floorId: entry.floorId, roomId: entry.roomId, world });
     }
+  }
+  for (const point of installedVocalSlots(document.singingRooms,facilities,fail)) {
+    if(usePoints.some(other=>other.id===point.id)) fail('duplicate-use-point',point.facilityId,point.id);
+    usePoints.push(point);
   }
   for (let i = 0; i < obstacles.length; i++) for (let j = i + 1; j < obstacles.length; j++) {
     const a = obstacles[i], b = obstacles[j];

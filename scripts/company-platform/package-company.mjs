@@ -433,6 +433,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     fail('seat-contact-check-unavailable', seatCheckerPath, 'The requested fixed source has no seat geometry checker');
   if (seatContacts) await noLinks(seatCheckerFile);
   const seatContactReports = [];
+  const usePointReports = [];
   const trainingContext={catalog,templates,createScaledCompany:space.createScaledCompany,
     createCompanyScaleV2:scale.createCompanyScaleV2,prepareCompanyChange:documentTools.prepareCompanyChange};
   async function includeScene(input,prefix){
@@ -521,11 +522,13 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       const {checkInterviewRooms} = await import(pathToFileURL(checker).href);
       await checkInterviewRooms(document,{catalog,templates});
     }
+    let vocalPoints=[];
     if (Object.hasOwn(document,'singingRooms')) {
       const checker = path.join(source,'scripts/company-platform/check-singing-room.mjs');
       await noLinks(checker);
       const {checkSingingRooms} = await import(pathToFileURL(checker).href);
-      await checkSingingRooms(document,{catalog,templates});
+      const checks=await checkSingingRooms(document,{catalog,templates,root:source});
+      vocalPoints=checks.filter(result=>result.usePoint).map(result=>result.usePoint);
     }
     saved.document=document;
     if(trainingClearance!==undefined){
@@ -559,7 +562,14 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       add(reportPath, json(report), 'measured-seat-contacts');
       seatContactReports.push({path: reportPath, companyId: document.id, seatCount: points.length});
     }
-    add(prefix+'/save.json',json(saved),'complete-pinned-save');add(prefix+'/layout.json',json(document),'complete-editable-layout');
+    const saveBytes=json(saved);
+    if(vocalPoints.length) {
+      const pointPath=prefix+'/use-points.json';
+      add(pointPath,json({schema:'company-installed-use-points',version:1,companyId:document.id,
+        revision:document.revision,saveSha256:hash(saveBytes),points:vocalPoints}),'installed-standing-use-points');
+      usePointReports.push({path:pointPath,companyId:document.id,count:vocalPoints.length});
+    }
+    add(prefix+'/save.json',saveBytes,'complete-pinned-save');add(prefix+'/layout.json',json(document),'complete-editable-layout');
     return {saved,document,trainingClearance};
   }
   const {saved,document,trainingClearance}=await includeScene(input,'data');
@@ -716,6 +726,10 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     }
     supplemental.add('docs/research/COMPANY-SINGING-ROOM-PRODUCTION.md');
   }
+  if (supplemental.has('scripts/company-platform/batch-inputs/vocal-use-rooms.json')) {
+    for(const name of ['test-vocal-slots.mjs','qa-vocal-slot.cjs','test-vocal-slot-handoff.mjs'])
+      supplemental.add('scripts/company-platform/'+name);
+  }
   if (supplemental.has('scripts/company-platform/batch-inputs/interview-rooms.json')) {
     for (const name of ['check-interview-room.mjs','public-door-access.mjs','test-interview-public-door.mjs','test-interview-room.mjs','qa-interview-rooms.cjs'])
       supplemental.add('scripts/company-platform/'+name);
@@ -807,6 +821,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     runtimeInputs,sourceVerification:{method:'SHA256 of each manifest path, NUL, original bytes, NUL in sorted input order',inputs:sourceFiles},
     savedCompany:{id:document.id,revision:document.revision,...(trainingClearance ? {trainingClearance}:{}),floors:document.nodes.filter(node=>node.kind==='floor').map(node=>node.id),dependencies:saved.dependencies},
     ...(seatContacts ? {seatContactReports} : {}),
+    ...(usePointReports.length ? {usePointReports} : {}),
     assetDependencies,productionSources:provenance,runtimeFiles,
     files:[...files].sort(([a],[b])=>a.localeCompare(b)).map(([name,file])=>({path:name,scope:file.scope,bytes:file.bytes.length,sha256:hash(file.bytes)})),
     limits:['Fixed manifest source identity and exact packaged viewer bytes are verified. Rebuild equivalence and browser use require separate acceptance.',

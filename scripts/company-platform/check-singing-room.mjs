@@ -1,17 +1,20 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {isDeepStrictEqual} from 'node:util';
 import {fileURLToPath} from 'node:url';
 import * as T from '../../prototype/node_modules/three/build/three.module.js';
 import catalogDefault from '../../prototype/src/company/library-catalog.json' with {type:'json'};
 import templatesDefault from '../../prototype/src/company/templates-extended.json' with {type:'json'};
-import {CompanyError,deriveCompany} from '../../prototype/src/company/document.js';
+import {CompanyError,deriveCompany,relativeTransform} from '../../prototype/src/company/document.js';
+import {describeCompanyUsePoint} from '../../prototype/src/company/use-point-data.js';
+import {hasVocalSlot} from '../../prototype/src/company/vocal-use.js';
 import {inspectCompanyPlacement} from '../../prototype/src/company/placement.js';
 import {createCompanyScene} from '../../prototype/src/company/render.js';
 import {inspectCompanyConnections} from '../../prototype/src/company/space.js';
 import {overlapsObstacle} from '../../prototype/src/company/wardrobe-footprints.js';
 import {scanRoomMeshes} from './check-training-clearance.mjs';
 import {preflightLibraryAssets} from './preflight-library-assets.mjs';
-import {checkRoomDoorAccess} from './public-door-access.mjs';
+import {checkRoomDoorAccess,clearanceQuery} from './public-door-access.mjs';
 
 const defaultRoot = fileURLToPath(new URL('../../',import.meta.url));
 const roles = {mic:'floor-vocal-microphone',score:'floor-score-stand',camera:'camera-static'};
@@ -32,6 +35,7 @@ function validateRule(rule) {
   if (labels(rule) !== 'performer,portalId,regionId,roles' || !token(rule.regionId) || !token(rule.portalId) ||
       labels(rule.roles) !== 'camera,mic,score' || !Object.values(rule.roles).every(token) || new Set(Object.values(rule.roles)).size !== 3)
     fail('invalid-singing-rule','singingRooms','Specify a room, a connected entrance, and three distinct installed roles.');
+  if (hasVocalSlot(performer)) return; // installedVocalSlots checks the complete facility-local contract.
   if (labels(performer) !== 'eye,mouth,position,yaw' || !coords(performer.position,2) || !Number.isFinite(performer.yaw) ||
       ![performer.mouth,performer.eye].every(value=>coords(value,3) && Math.hypot(value[0],value[2]) <= radius && value[1] > 0 && value[1] < height) ||
       performer.eye[1] <= performer.mouth[1])
@@ -300,19 +304,39 @@ export async function checkSingingRoom(document,rule,{catalog=catalogDefault,tem
   const floor = inspectCompanyConnections(document,catalog,templates).floors.find(item=>item.floorId===floorId);
   if (!placement.checkedPortals.some(portal=>portal.regionId===room.id && portal.connectionId===rule.portalId))
     fail('singing-portal-missing',rule.portalId,'Select an installed entrance of this room.');
-  const reference = standingReserve(rule,room);
+  let performer=rule.performer, slot=null, targets;
+  if(hasVocalSlot(performer)) {
+    slot=describeCompanyUsePoint(document,derived,members.mic.id+'#'+performer.slotId);
+    if(!slot || slot.kind!=='standing-vocal' || !isDeepStrictEqual(document.singingRooms?.find(r=>r.roles?.mic===members.mic.id)?.performer,performer))
+      fail('vocal-use-binding-mismatch',members.mic.id,'The check must use the installed facility-local performer declaration');
+    const roomWorld=derived.worlds.get(room.id), local=relativeTransform(roomWorld,slot.transform);
+    const xz=position=>[position[0],position[2]];
+    performer={...performer,position:xz(local.position),yaw:local.yaw};
+    targets={performer:performer.position,approach:xz(relativeTransform(roomWorld,{position:slot.approachPosition,yaw:0}).position),
+      exit:xz(relativeTransform(roomWorld,{position:slot.exitPosition,yaw:0}).position)};
+  } else targets={performer:performer.position};
+  const reference = standingReserve({performer},room);
   let report;
   await preflightLibraryAssets({root,resources:[...facilities,...derived.surfaceFinishes.filter(f=>f.floorId===floorId)].map(f=>f.resource),validate:library=>{
     const scene = createCompanyScene(new T.Scene(),document,{catalog,templates,visibleFloorId:floorId,assetLibrary:library,mirrorPreflight:()=>{}});
     try {
       const {records,worldToRoom,checkedMeshes} = scanScene(scene,derived,facilities,room,floorId,reference.protectedBox);
-      const access = checkRoomDoorAccess({scene,derived,facilities,floor,placement,room,portalId:rule.portalId,
-        targets:{performer:rule.performer.position},radius,height}).performer;
-      if (access.portalId!==rule.portalId) fail('singing-portal-unreachable',rule.portalId,'The selected entrance must itself reach the performer reference.',{available:access.portalId});
+      const routes = checkRoomDoorAccess({scene,derived,facilities,floor,placement,room,portalId:rule.portalId,targets,radius,height});
+      const access = routes.performer;
+      for(const route of Object.values(routes)) if(route.portalId!==rule.portalId)
+        fail('singing-portal-unreachable',rule.portalId,'The selected entrance must itself reach the performer targets.',{available:route.portalId});
+      if(slot) {
+        const blocker=clearanceQuery(scene,derived,facilities,room,radius,height);
+        for(const name of ['approach','exit']) {
+          const blockedBy=blocker(targets[name],targets.performer);
+          if(blockedBy) fail('vocal-use-path-blocked',slot.id,'Geometry blocks the final standing clearance.',{segment:name,blockedBy});
+        }
+      }
       const supports = Object.fromEntries(['mic','score'].map(role=>[role,tripod(records,members[role])]));
       supports.camera = cameraSupport(records,members.camera);
       report = {ok:true,regionId:room.id,floorId,roles:{...rule.roles},portalId:rule.portalId,access,checkedMeshes,
         standing:{bounds:boxDescription(reference.box),width:2*radius,height,mouth:tuple(reference.mouth),eye:tuple(reference.eye)}, supports,
+        ...(slot?{usePoint:slot,approach:routes.approach,exit:routes.exit}:{}),
         microphone:measureMic(records,members.mic,reference),score:measureScore(scene,records,worldToRoom,members.score,reference),
         camera:measureCamera(scene,records,worldToRoom,members.camera,reference),
         scope:'Installed geometry and fixed performer references for staging and access.'};

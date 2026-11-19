@@ -13,6 +13,7 @@ import defaultTemplates from './templates.json' with {type:'json'};
 import {CompanyError,deriveCompany,prepareCompanyChange,serializeCompany,restoreCompany} from './document.js';
 import {describeArchitecture} from './architecture.js';
 import {describeCompanyUsePoint} from './use-point-data.js';
+import {validateVocalUseGeometry} from './vocal-use-geometry.js';
 import {createContactResourceStore} from './contact-resources.js';
 import {WALL_HEIGHT,WALL_CENTER_Y,evaluateWallVisibility,groupWallSegments,wallEdge} from './wall-visibility.js';
 import {applySurfaceFinish,describeSurfaceMeshes,surfaceMaterialFor} from './surface-finish-render.js';
@@ -98,11 +99,13 @@ export function validateCeilingDocumentAssets(derived,assetLibrary,entries=insta
     validateCableVisualPlacement(temporary,derived.cableConnections,(code,path,message)=>{throw new CompanyError(code,path,message);});
     validateCeilingVisualPlacement(temporary,(code,path,message)=>{throw new CompanyError(code,path,message);});
     validateDesktopReservations(temporary,(code,path,message)=>{throw new CompanyError(code,path,message);});
+    validateVocalUseGeometry(derived,temporary,(...args)=>{throw new CompanyError(...args);});
   }finally{for(const f of temporary.values())disposeTree(f.root);}
 }
 
 // Presentation/provider only: no actor creation, movement, task or lease implementation.
 function validatePlacementGeometry(facilities,derived,groups) {
+      validateVocalUseGeometry(derived,facilities,(...args)=>{throw new CompanyError(...args);});
       for(const facility of facilities.values()) {
         const room=derived.nodes.get(facility.roomId);
         if(room) {
@@ -309,7 +312,17 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       root.updateMatrixWorld(true);
       validatePlacementGeometry(facilities,derived,groups);
       for(const point of derived.usePoints.filter(p=>p.floorId===floorId)) {
-        const facility=facilities.get(point.facilityId),chairSeat=facility.parts.get(point.seatNodeId),chairBack=facility.parts.get(point.backNodeId);
+        const facility=facilities.get(point.facilityId);
+        if(point.kind==='standing-vocal') {
+          const pickupMesh=facility.parts.get(point.pickupNodeId);
+          if(!pickupMesh?.isMesh) throw new CompanyError('missing-contact-mesh',point.id,'Vocal pickup must resolve to the mounted microphone mesh');
+          const anchor=new THREE.Group();
+          anchor.name='UsePoint:'+point.id;anchor.position.fromArray(point.position);anchor.rotation.y=point.yaw;
+          facility.root.add(anchor);
+          points.set(point.id,{...point,anchor,pickupMesh,footprint:facility.resource.footprint});
+          continue;
+        }
+        const chairSeat=facility.parts.get(point.seatNodeId),chairBack=facility.parts.get(point.backNodeId);
         if(!chairSeat?.isMesh || !chairBack?.isMesh)throw new CompanyError('missing-contact-mesh',point.id,'Seat and back must resolve to actual resource meshes');
         let chair=facility.root;
         if(point.position||point.yaw) {chair=new THREE.Group();chair.name=`UsePoint:${point.id}`;chair.position.fromArray(point.position||[0,0,0]);chair.rotation.y=point.yaw||0;facility.root.add(chair);}
@@ -330,6 +343,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
   function contactSource(id,visible) {
     const point=current?.derived.usePoints.find(candidate=>candidate.id===id);
     if(!point)return null;
+    if(point.kind==='standing-vocal') throw new CompanyError('unsupported-seat-contact',id,'Standing vocal slots use their logical pose and named pickup mesh');
     const facility=current.derived.facilities.find(candidate=>candidate.id===point.facilityId);
     if(!facility)return null;
     const local={position:point.position||[0,0,0],yaw:point.yaw||0};
@@ -488,7 +502,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     },
     get presentationInputs(){live();return {...presentationInputs};},
     surfacePresentation(){live();return describeSurfaceMeshes([...current.floors,...current.walls,...current.ceilings]);},
-    snapshot(){return {document:clone(current.document),view:this.view,wallView:clone(current.wallView),visibleFloorId:current.floorId,displayedFacilities:current.facilities.size,points:[...current.points.values()].map(p=>({id:p.id,facilityId:p.facilityId,position:p.chair.getWorldPosition(new THREE.Vector3()).toArray(),yaw:p.world.yaw+(p.yaw||0)})),lights:current.lights.map(l=>({id:l.id,intensity:l.light.intensity,castsShadow:l.light.castShadow})),navigation:navigation().obstacles.map(({object,...o})=>o)};},
+    snapshot(){return {document:clone(current.document),view:this.view,wallView:clone(current.wallView),visibleFloorId:current.floorId,displayedFacilities:current.facilities.size,points:[...current.points.values()].map(p=>({id:p.id,facilityId:p.facilityId,position:(p.anchor??p.chair).getWorldPosition(new THREE.Vector3()).toArray(),yaw:p.world.yaw+(p.yaw||0)})),lights:current.lights.map(l=>({id:l.id,intensity:l.light.intensity,castsShadow:l.light.castShadow})),navigation:navigation().obstacles.map(({object,...o})=>o)};},
     setView({mode='floor',floorId=current.floorId,roomId=null}={}) {
       live();if(!['floor','room','building'].includes(mode))throw new CompanyError('invalid-view',mode,'Use floor, room or building');
       if(current.derived.nodes.get(floorId)?.kind!=='floor')throw new CompanyError('unknown-floor',floorId,'Choose an existing floor');

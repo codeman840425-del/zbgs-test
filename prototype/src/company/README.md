@@ -67,7 +67,8 @@ node scripts/company-platform/serve-company.cjs prototype/dist-company BUILD
 
 `createCompanyScene(world, document)` 只向既有 Three world 添加环境，不创建人物或推进时钟。共享运行入口持有一个实例：
 
-- `resolveUsePoint(id)` 返回 `{id,facilityId,floorId,chair,chairSeat,chairBack,seatHeight,footprint,...}`。接触网格是真实 Mesh，`chair` 为设施局部基点；局部前向 +Z，当前椅实例按工位旋转 π 后面向桌子。世界朝向应读取世界变换，不直接取嵌套节点的局部 `rotation.y`。
+- 座椅通过 `resolveUsePoint(id)` 返回 `{id,facilityId,floorId,chair,chairSeat,chairBack,seatHeight,footprint,...}`。接触网格是真实 Mesh，`chair` 为设施局部基点，局部前向 +Z。读取嵌套节点的世界变换可得到工位旋转后的朝向。
+- 唱播房显式登记的麦架使用位为 `<麦架实例ID>#vocal`。逻辑描述带 `kind: "standing-vocal"`、`slotId`、从楼层到设施的 `transformChain`、当前世界站位及进退位置。设施可见时，`resolveUsePoint(id)` 另外提供 `anchor` 与真实 `pickupMesh`。角色应按槽位类型选择站立行为。席位争用和预约时限由运行侧管理。
 - `listUsePoints()` 列出实际当前楼层使用点。首两个稳定 ID 为 `station-1/chair#seat` 与 `station-2/chair#seat`。
 - `describeUsePoint(id)` / `describeUsePoints({floorId}={})` 返回与观看无关的纯数据。整栋模式零室内网格时及离屏楼层仍可查询全部稳定身份、归属、资源版本、世界使用点 `transform`、`approachPosition` / `exitPosition`、设施世界变换和接触网格名称。接近/离开点原始配置是设施局部坐标，不再叠加双人沙发的座位偏移。返回值可序列化且修改不影响场景，不包含角色租约或任务。历史资源缺接近/离开等字段时返回 null 和 `missingFields`，不假定默认位置。此接口不解决实际 Mesh 的离屏保留/重绑定，后者仍由 C3 集成处理。
 - `navigation(floorId)` 返回 `{floorId,floors,obstacles,regions,connections}`，可查询离屏楼层的逻辑阻挡；离屏 object 为 null。障碍携带实例 ID、真实物体和世界 x/z/hw/hd，区域携带世界 transform、矩形 bounds 与导航 inset；来自与显示及使用点相同的实例数据。
