@@ -223,6 +223,7 @@ async function run(base, sourceDigest, input, output) {
   assert(base&&input&&output&&/^[a-f0-9]{64}$/.test(sourceDigest??''),'Expected BASE SOURCE_DIGEST SIGNED_FLAT_RECORD OUTPUT');
   const root=await productionRoot(),out=await projectOutput(output,root);
   const bytes=await fs.readFile(input),record=signedFlat(bytes);
+  const {canonicalJson}=await import('../prototype/src/character-record.js');
   const url=new URL(base);url.searchParams.set('workbench','appearance');url.searchParams.set('body',body.type);
   const report={schema:'footwear-room-qa-v1',expectedSourceDigest:sourceDigest,body,settings:config,status:'incomplete',
     sourceRecord:{path:path.resolve(input),fileSHA256:sha(bytes),recordSHA256:record.integrity.recordSha256},
@@ -321,7 +322,7 @@ async function run(base, sourceDigest, input, output) {
     assert.deepEqual(result.identity,target.identity);assert.equal(result.recordSha256,target.integrity.recordSha256);
     assert.equal(result.revision,target.revision);
     const actual=await page.evaluate(value=>__debug.captureCharacterRecord({identity:value}),target.identity);
-    assert.deepEqual(recordLook(actual),recordLook(target));
+    assert.equal(canonicalJson(recordLook(actual)),canonicalJson(recordLook(target)),'Restored look differs from the signed JSON');
     const state=await snap(label);report.events.push({label,result,state,faults:soleFaults(state)});
     assert.equal(state.outfit,target.appearanceRecipe.equipment.index);
     return state;

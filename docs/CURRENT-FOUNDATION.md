@@ -1,5 +1,9 @@
 # 当前角色基础工程恢复点
 
+当前角色增量为独立男制服厚底鞋。固定源码 `57407c0e` 与构建 `57621e5c967c` 已完成两款鞋原速房间对照、穿鞋载入、坐稳切换及新页恢复，两个干净检出的 534 个产物逐一相同。开发机上短舞厚底鞋仍有瞬时穿地。人工工作台 4196 的固定指针继续由 delivery/appearance-workbench.json 管理。[原速回放](../evidence/m2-sole-variant-v1/index.html) · [固定构建](../evidence/m2-sole-variant-v1/rebuild/comparison.json)
+
+角色工程的工作树、发布和验收暂存均使用主工程内的目录。最新根目录审计无意外工作树。副总工的公司工程和融合测试工程各自独立。[根目录归属与复查命令](../evidence/character-worktree-relocation-v1/root-review.json)
+
 默认款式目录接入已验证。源码 `51857788`、构建 `3b64a5dad472` 的真实浏览器将两份新签名重新加载，最终装备与旧的专用目录完全相同。独立包冷开和重试对应前一构建 `60c87f62e8b0`。下一项核对已有鞋底参数的可编辑源、准确体型、脚底和动作接触，用真实来源决定独立鞋履变体能否生产。[美术导入与实际画面](../evidence/m2-default-style-intake-v1/README.md)
 
 两具轻量制服的原发眼镜配方已完成签出、导出、独立游戏重开和失败重试。固定源码 `fdbe4548`，构建 `60c87f62e8b0`。工程的独立包、构建和浏览器暂存均在主目录内。下一包让美术 Agent 用现成的两个 1K 上衣版型从标准款式目录制作角色，保留历史片段摘要并验证同键冲突、重复导入和正式准入。[双人原速与房间动作](../evidence/m2-uniform-lite-glasses-game-v1/index.html) · [复建](../evidence/m2-uniform-lite-glasses-game-v1/README.md)

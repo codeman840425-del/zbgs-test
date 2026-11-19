@@ -1,0 +1,79 @@
+{
+  "schema": "zbgs-style-variant-batch-plan-v1",
+  "batchId": "sole-platform-boundary-v1",
+  "mode": "technical-candidate",
+  "items": [
+    {
+      "status": "candidate",
+      "stableId": "sole-platform-male-sample",
+      "selection": {
+        "styleId": "uniform-platform-shoes-v1",
+        "variantVersion": "parallel-20mm-v1",
+        "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "recipeSha256": "1559a231a21c5c3341f90616871d7990a1db695c17938fd67f7b715de6830bc6",
+        "resourceManifest": "/assets/sole-variant-v1/equipment.json#cc0-texture-release-platform-shoes-v1",
+        "resourceManifestSha256": "f1edfc429dcaab20f82c6401eb1419127bda9c167394384c5c8ad8aef6768b70",
+        "fitManifest": "/assets/sole-variant-v1/equipment.json#cc0-texture-release-platform-shoes-v1.bindings",
+        "coverageManifest": "/assets/sole-variant-v1/equipment.json#cc0-texture-release-platform-shoes-v1.preserveOriginalBody",
+        "coverageManifestSha256": "f1edfc429dcaab20f82c6401eb1419127bda9c167394384c5c8ad8aef6768b70",
+        "admissionEvidence": null,
+        "outfit": {
+          "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+          "role": "pants-top-far-platform",
+          "equipment": [
+            {
+              "id": "cc0-texture-release-platform-shoes-v1",
+              "slot": "shoes",
+              "sha256": "8b23ba4f3add78322c1b3246b3ac80387d8eb2f2dd8e300b6443a33b0ed619c7"
+            },
+            {
+              "id": "cc0-texture-release-uniform-pants-v1",
+              "slot": "bottom",
+              "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0"
+            },
+            {
+              "id": "cc0-texture-release-uniform-top-1k-v1",
+              "slot": "top",
+              "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+            }
+          ]
+        }
+      },
+      "requestPin": {
+        "path": "diagnostic-requests/sole-platform-male-sample.request.json",
+        "sha256": "1ffabb8bb72b3700f33645ecf69d2d962fd49f3230296d2a8aadd905b7cfe29e",
+        "bytes": 1095
+      }
+    },
+    {
+      "status": "rejected",
+      "reason": "No exact variant for uniform-platform-shoes-v1/source-female-uniform-texture-v1/parallel-20mm-v1",
+      "stableId": "sole-platform-unfitted-female"
+    }
+  ],
+  "acceptedCount": 0,
+  "candidateCount": 1,
+  "rejectedCount": 1,
+  "source": {
+    "matrix": {
+      "path": "assets-source/sole-variant-v1/style-fragment.json",
+      "sha256": "7b29d332c2899d7ebd0bf110ba2ed8924d6f75a25c801ede2e591360ac562990",
+      "bytes": 1628
+    },
+    "request": {
+      "path": "assets-source/sole-variant-v1/batch-request.json",
+      "sha256": "adf2c1d42dda0965a4d36157d08de8ae20cf0e09aed2a3ac7d24ca614155f787",
+      "bytes": 672
+    }
+  },
+  "creationBatches": [
+    {
+      "ids": [
+        "sole-platform-male-sample"
+      ],
+      "path": "diagnostic-requests/create-001.batch.json",
+      "sha256": "c34eac0165687867bfaac890a3e7c4357b6860e432f5d47efb0cebb16a1f61a3",
+      "bytes": 1315
+    }
+  ]
+}

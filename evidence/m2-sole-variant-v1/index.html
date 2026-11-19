@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>男制服换鞋 · 房间与脚部原速对照</title>
+<style>
+*{box-sizing:border-box}body{max-width:1500px;margin:auto;padding:24px;color:#1c2925;background:#f6f6f0;font:16px/1.55 system-ui,sans-serif}
+h1{font-size:1.7rem;margin:0}h2{font-size:1.1rem;margin:.8rem 0 .3rem}p{max-width:85ch}button{font:inherit;padding:.45rem .85rem;cursor:pointer}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}video{width:100%;background:#202622;display:block}
+.close{max-width:920px}a{color:#185f55}@media(max-width:700px){.pair{grid-template-columns:1fr}}
+</style>
+<h1>同一角色换鞋后的落脚</h1>
+<p>固定游戏构建 <code>57621e5c967c</code>。两段约 26 秒的原速录像使用同一镜头、路径和动作。可观察站立、行走、坐起及短舞中的鞋底。</p>
+<button type="button" id="play">从头同时播放两段房间录像</button> <button type="button" id="pause">同时暂停</button>
+<div class="pair">
+<section><h2>原有平底鞋</h2><video controls playsinline muted preload="metadata" src="room-02/room-flat-1x.webm"></video></section>
+<section><h2>同款增厚 20 毫米</h2><video controls playsinline muted preload="metadata" src="room-02/room-platform-1x.webm"></video></section>
+</div>
+<h2>脚部近景 · 厚底入座、坐稳换回平底、起身</h2>
+<video class="close" controls playsinline muted preload="metadata" poster="room-02/platform-standing.png" src="room-02/feet-swap-1x.webm"></video>
+<p>走路及坐起的采样点最深低于结构地面约 1.5 毫米。短舞中平底与厚底各有瞬间低于地面约 9.9 和 14.5 毫米。这个样件只覆盖当前男性 1K 制服身体和平行厚底。普通电脑实测仍缺。</p>
+<p><a href="asset/comparison.png">两款鞋的原始网格着色对照</a> · <a href="room-02/report.json">实际鞋底与座位读数</a> · <a href="room-02/decode.json">录像解码与时长</a></p>
+<script>
+const pair=[...document.querySelectorAll('.pair video')];
+document.querySelector('#play').onclick=()=>{for(const v of pair){v.currentTime=0;v.playbackRate=1;v.play().catch(()=>{});}};
+document.querySelector('#pause').onclick=()=>{for(const v of pair)v.pause();};
+</script></html>

@@ -1,5 +1,7 @@
 # 角色基础阶段计划
 
+C3 已收到副总工固定的唱播双房包，源码 `ab31a676`、构建 `c2263e74556c`。角色端已只读复核清单 SHA-256 `2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57`，两房分别包含 `singing-studio/ground/live/vocal#vocal` 和 `singing-rental/ground/live/vocal#vocal`，均为容量 1 的 `standing-vocal` 槽位。下列角色联合工况仍待实测，人体口眼取各自骨架实测姿态。
+
 C3 固定麦架合同齐备后，融合复验使用同一真实槽位：移位旋转后以设施最新嵌套变换解析目标，两个角色争用；另在接近中保存，冷开核对所选时钟下的剩余期限、过期拒绝与释放。以同一对角色包和场景包对照旧、新合包器，记录三方提交、构建摘要、退出码与产物清单，同时复验原座位正控制和未知版本拒绝。当前仅登记接收条件。
 
 2026-11-16。最新完整授权见 [M2长目标原文](research/M2-COMPLETE-CUSTOMIZATION-LONG-GOAL-v2-2026-11-16.txt)。该指令取代此前有限A/B、目录暂不制作、等待脸型选型等范围限制；旧计划归档在history/FOUNDATION-MILESTONES-before-full-m2-2026-11-16.md。能力状态唯一来源为CAPABILITIES.md，运行现场见CURRENT-FOUNDATION.md。
