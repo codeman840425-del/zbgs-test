@@ -1,8 +1,10 @@
+const {prepareQaOutput}=require('./qa-output.cjs');
+let out;
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {chromium}=require('../../prototype/node_modules/playwright');
 const {serve}=require('./serve.cjs');
 const root=path.resolve(__dirname,'../..'),dist=path.resolve(process.argv[2]||path.join(root,'prototype/dist-company'));
-const out=path.resolve(process.argv[3]||path.join(root,'evidence/company-facility-editor-browser-v1'));
+
 let server,context,page;const errors=[],report={checks:[],limitations:['Browser software rendering; no ordinary-PC performance or character C3 claim.']};
 async function open(){
  context=await chromium.launchPersistentContext(path.join(out,'profile'),{headless:true,viewport:{width:1440,height:1000},args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
@@ -15,7 +17,7 @@ async function click(id){await page.locator('#'+id).click();await idle();}
 async function choose(id,value){await page.locator('#'+id).selectOption(value);await idle();}
 async function check(name,fn){const result=await fn();report.checks.push({name,passed:true,result});console.log(name);await fs.writeFile(path.join(out,'progress.json'),JSON.stringify(report,null,2));}
 (async()=>{
- await fs.mkdir(out,{recursive:true});const info=JSON.parse(await fs.readFile(path.join(dist,'company-build-info.json')));report.build=info;server=await serve(dist,info.shortId,{manifest:'company-build-info.json',entry:'company.html'});await open();
+ out=await prepareQaOutput(process.argv[3],'company-facility-editor');const info=JSON.parse(await fs.readFile(path.join(dist,'company-build-info.json')));report.build=info;server=await serve(dist,info.shortId,{manifest:'company-build-info.json',entry:'company.html'});await open();
  await check('Room layouts and sample scenes have separate entry points and visible contextual controls',async()=>{
    assert.equal(await page.locator('#mode-room').getAttribute('aria-pressed'),'true');assert.equal(await page.locator('#sample-browser').isVisible(),false);
    const labels=await page.locator('#layout option').allTextContents();assert(!labels.some(x=>x.includes('四款')));assert(await page.locator('#save').isVisible());
@@ -56,4 +58,4 @@ async function check(name,fn){const result=await fn();report.checks.push({name,p
    await page.setViewportSize({width:760,height:900});await shot('08-small-viewport');assert(await page.locator('#save').isVisible());assert(await page.locator('#mode-room').isVisible());assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));return{width:760};
  });
  assert.deepEqual(errors,[]);report.status='passed';
-})().catch(async e=>{report.status='failed';report.error={message:e.message,stack:e.stack};console.error(e);if(page)await shot('failure').catch(()=>{});process.exitCode=1;}).finally(async()=>{report.errors=errors;await fs.mkdir(out,{recursive:true});await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');await context?.close();await server?.close();});
+})().catch(async e=>{report.status='failed';report.error={message:e.message,stack:e.stack};console.error(e);if(page)await shot('failure').catch(()=>{});process.exitCode=1;}).finally(async()=>{report.errors=errors;if(out)await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');await context?.close();await server?.close();});

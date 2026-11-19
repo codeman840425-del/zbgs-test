@@ -8,6 +8,7 @@ import {adaptVocalHeightOrigin,inheritVocalOrigin,readVocalAuthority,validOrigin
 const defaultSource=fileURLToPath(new URL('../../',import.meta.url));
 const fixedInputs=['company.html','vite.company.config.js','scripts/build-company-id.mjs','package.json','package-lock.json'];
 const extraFiles=[
+  'scripts/company-platform/qa-output.cjs',
   'scripts/company-platform/publish-tabletop-ornaments.mjs',
   'scripts/company-platform/test-ornament-publication.mjs',
   'scripts/company-platform/adapt-tabletop-ornament.mjs',

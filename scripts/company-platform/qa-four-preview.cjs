@@ -1,7 +1,9 @@
 const {chromium}=require('../../prototype/node_modules/playwright');
 const {serve}=require('./serve.cjs');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
-const [dist,build,outArg]=process.argv.slice(2),out=path.resolve(outArg);
+const {prepareQaOutput}=require('./qa-output.cjs');
+const [dist,build,outArg]=process.argv.slice(2);
+let out;
 const report={build,status:'running',branches:[],checks:[],limits:['Production preview and preservation only; no real actor usage or ordinary-PC performance claim.']};
 let server,context,page;const errors=[];
 async function open(){context=await chromium.launchPersistentContext(path.join(out,'profile'),{headless:true,viewport:{width:1280,height:900},args:process.argv.includes('--software')?['--use-angle=swiftshader','--enable-unsafe-swiftshader']:[]});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));await page.goto(server.url);await page.waitForFunction(()=>window.company?.ready&&company.buildInfo);assert.equal(await page.evaluate(()=>company.buildInfo.shortId),build);}
@@ -14,7 +16,7 @@ async function frame(){const result=await page.evaluate(async()=>{
  const debug=gl.getExtension('WEBGL_debug_renderer_info');return{sampledColors:colors.size,renderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):'unknown',contextLost:false};
  });report.renderEnvironment=result;}
 (async()=>{
- await fs.mkdir(path.dirname(out),{recursive:true});await fs.mkdir(out);server=await serve(dist,build,{manifest:'company-build-info.json',entry:'company.html'});await open();
+ if(!outArg)throw Error('Expected dist, build and output directory');out=await prepareQaOutput(outArg,'company-four-preview');server=await serve(dist,build,{manifest:'company-build-info.json',entry:'company.html'});await open();
  report.harnessSha256=require('node:crypto').createHash('sha256').update(await fs.readFile(__filename)).digest('hex');
  const selected=process.argv.slice(5).find(value=>!value.startsWith('--'))?.split(',');
  const branches=(await page.evaluate(()=>company.appearanceBranches.filter(([b])=>company.appearanceCandidates(b).length>=4))).filter(([b])=>!selected||selected.includes(b));
@@ -60,4 +62,4 @@ async function frame(){const result=await page.evaluate(async()=>{
  assert.deepEqual(errors,[]);report.status='passed';
  const rows=report.branches.map(b=>`<section><h2>${b.label} · 四款</h2><div class="row">${b.candidates.map(c=>`<figure><img src="${c.screenshot}" alt="${c.resource.id}"><figcaption>${c.resource.id}</figcaption></figure>`).join('')}</div><p>实际替换、功能不变、状态检查、保存及关闭重开：通过</p></section>`).join('');
  await fs.writeFile(path.join(out,'index.html'),`<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>设施四款外观实测</title><style>body{font:16px system-ui;background:#f4f6f1;color:#263f37;margin:30px}h1{font-size:26px}.row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}figure{margin:0;background:white;padding:8px}img{width:100%}figcaption{overflow-wrap:anywhere;font-size:12px}section{margin:35px 0}p{font-size:14px}@media(max-width:800px){.row{grid-template-columns:repeat(2,1fr)}}</style><h1>设施与建筑外观对照</h1><p>构建 ${build}。图片来自实际 Three.js 场景。不同造型沿同一功能规格替换；角色接触与实际使用尚待总工集成。</p>${rows}</html>`);
-})().catch(e=>{report.status='failed';report.error=e.stack;process.exitCode=1;}).finally(async()=>{if(context)await context.close();if(server)await server.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({status:report.status,branches:report.branches.length,error:report.error,output:out}));});
+})().catch(e=>{report.status='failed';report.error=e.stack;console.error(e);process.exitCode=1;}).finally(async()=>{if(context)await context.close();if(server)await server.close();if(out)await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({status:report.status,branches:report.branches.length,error:report.error,output:out}));});

@@ -4,7 +4,7 @@
 
 - 副总工的主目录为 `F:/gamemake-company-platform-c1`。派工时给出主目录内的输入、输出和证据路径，接手者沿用相同规则。
 - 本机从[工作区索引](company-workspace/README.md)查找正式版本、录像和旧目录的新位置。迁移后运行目录检查，逐个核对固定工作树与 Git 登记的双向指针，包含历史嵌套检出。
-- 可维护源码、配方和可复验证据沿用 `scripts/`、`assets-source/`、`prototype/`、`docs/`、`evidence/`。本机独立检出进 `company-workspace/worktrees/`，独立交付包进 `deliveries/`，试制和独立复产进 `production-trials/`，常驻预览进 `preview/`，单独交接的输入和回执进 `inputs-and-receipts/`；后四项也都位于 `company-workspace/` 下。短时验证使用项目内 `output/`。
+- 可维护源码、配方和可复验证据沿用 `scripts/`、`assets-source/`、`prototype/`、`docs/`、`evidence/`。本机独立检出进 `company-workspace/worktrees/`，独立交付包进 `deliveries/`，试制和独立复产进 `production-trials/`，常驻预览进 `preview/`，单独交接的输入和回执进 `inputs-and-receipts/`；后四项也都位于 `company-workspace/` 下。短时验证使用项目内 `output/`。从盘根直接复跑时，省略输出路径的旧预览验收也按制作工程定位。浏览器配置、缓存和失败报告在该次运行目录内，已有回执保留供比对。
 - 已有同一固定源码和构建优先复用。一次性验证结束清理自己创建且可重建的临时副本；未提交修改、唯一源素材、在用预览和回滚版本须保留。历史证据保留原始版本与路径，迁移时留新旧对照。Git 检出用 `git worktree move`，迁移后核 HEAD、嵌套检出和引用。
 - 浏览器用户目录、缓存、失败重试和中间录像先放在项目内 `output/`。旧制作工具、npm 或子进程会使用系统临时目录时，从 PowerShell 用 `& ./scripts/company-platform/local-workspace.ps1 -Run node -RunArguments @('scripts/company-platform/qa-batch.mjs')` 这样的入口运行；它从公司主目录启动，给本次命令及其子进程指定工程内临时目录与 npm 缓存。批量布局、单房编辑和风格配方也会在首次写入前检查目标。验收后只把报告、代表画面及最终录像归入 `evidence/`。本机验收预览复用正式包的产物，只存运行和观看所需文件。
 - 正式交付目录封存时核对清单及完整文件集合。候选打包、录像和失败重试先在试制目录或 `output/` 完成，验证通过后归档正式版本；同一问题重试时复用已有工作树。接收方或本机独立复验在试制目录的副本安装依赖和重新构建，保留正式目录的原始文件集合。

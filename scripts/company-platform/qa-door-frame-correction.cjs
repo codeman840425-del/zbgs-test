@@ -1,6 +1,8 @@
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {chromium}=require('../../prototype/node_modules/playwright'),{serve}=require('./serve.cjs');
-const dist=path.resolve(process.argv[2]||'prototype/dist-company'),out=path.resolve(process.argv[3]||'output/playwright/company-frame-correction-dev1');
+const {defaultDist,prepareQaOutput}=require('./qa-output.cjs');
+const dist=process.argv[2]?path.resolve(process.argv[2]):defaultDist;
+let out;
 let server,context,page;const errors=[],report={checks:[],scope:'Actual room/frame meshes, UI, static navigation and persistence; no real-character crossing or target-device performance claim.'};
 const idle=()=>page.waitForFunction(()=>window.company?.editor&&!document.querySelector('#mode-room').disabled);
 const doc=()=>page.evaluate(()=>company.session.document);
@@ -19,7 +21,7 @@ async function aperture(id){return page.evaluate(id=>{
  }
  return{entry,opening:[-.65,0,.65].flatMap(x=>[.1,1,2.15].map(y=>({x,y,hits:hits(x,y)}))),headerHits:hits(0,2.5),jambHits:[hits(-.78,1),hits(.78,1)],groundBlocked:nav.obstacles.filter(o=>Math.abs(entry.world.center[0]-o.x)<o.hw-1e-6&&Math.abs(entry.world.center[2]-o.z)<o.hd-1e-6).map(o=>o.name),obstacles:nav.obstacles.map(o=>({name:o.name,x:o.x,z:o.z,hw:o.hw,hd:o.hd}))};
  },id);}
-(async()=>{await fs.mkdir(out,{recursive:true});report.build=JSON.parse(await fs.readFile(path.join(dist,'company-build-info.json')));report.playbackSpeed=1;server=await serve(dist,report.build.shortId,{manifest:'company-build-info.json',entry:'company.html'});await open();
+(async()=>{out=await prepareQaOutput(process.argv[3],'company-frame-correction-dev1');report.build=JSON.parse(await fs.readFile(path.join(dist,'company-build-info.json')));report.playbackSpeed=1;server=await serve(dist,report.build.shortId,{manifest:'company-build-info.json',entry:'company.html'});await open();
 let frameId;
 await check('New minimum home exposes a real doorway and installs an existing frame',async()=>{
  await choose('layout','smallHome');const before=await doc();assert.equal(before.nodes.find(n=>n.kind==='floor').exteriorEntrances.length,1);
@@ -68,4 +70,4 @@ await check('Legacy saved home stays unchanged until explicit create-entry-and-f
 await check('Rotated second input retains actual hole orientation, frame and complete restart state',async()=>{
  await page.evaluate(async()=>{const d=structuredClone(company.session.document);d.id='entrance-rotated-input';const floor=d.nodes.find(n=>n.kind==='floor');floor.parentId=d.id;d.nodes.find(n=>n.kind==='room').transform.yaw=Math.PI/2;await company.load(d);});await idle();await choose('edit-instance',frameId);await click('edit-focus');await choose('wall-view','full');const actual=await aperture(frameId);assert(actual.opening.every(p=>!p.hits.length));assert(actual.headerHits.length);assert(Math.abs(actual.entry.world.normal[0]-1)<1e-6);await shot('04-rotated-input');await click('save');const saved=await doc();await fs.writeFile(path.join(out,'layout.json'),JSON.stringify(saved,null,2));await context.close();context=null;await open();assert.deepEqual(await doc(),saved);assert.deepEqual((await aperture(frameId)).groundBlocked,[]);await shot('05-restored');return{entry:actual.entry};
 });
-assert.deepEqual(errors,[]);report.status='passed';})().catch(async e=>{report.status='failed';report.error={message:e.message,stack:e.stack};console.error(e);await shot('failure').catch(()=>{});process.exitCode=1;}).finally(async()=>{report.errors=errors;await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));await context?.close();await server?.close();});
+assert.deepEqual(errors,[]);report.status='passed';})().catch(async e=>{report.status='failed';report.error={message:e.message,stack:e.stack};console.error(e);await shot('failure').catch(()=>{});process.exitCode=1;}).finally(async()=>{report.errors=errors;if(out)await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));await context?.close();await server?.close();});
