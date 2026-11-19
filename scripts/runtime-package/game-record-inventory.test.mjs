@@ -32,7 +32,7 @@ const sourceInputs = new Set([entry, 'package.json', 'package-lock.json', matrix
 const runtimeFiles = [entry, bundle, shared, lazy, build];
 const readJson = async file => JSON.parse(await readFile(file));
 const inputManifest = 'records/manifest.json';
-let reviewed, orderedRecords, sampleRecords;
+let reviewed, orderedRecords, sampleRecords, uniformPair;
 
 async function listFiles(directory, prefix = '') {
   const files = [];
@@ -77,12 +77,11 @@ before(async () => {
   const publicRoot = path.join(root, 'prototype/public');
   orderedRecords = (await readJson(path.join(publicRoot, manifestPath))).entries;
   sampleRecords = await Promise.all(orderedRecords.map(row => readJson(path.join(publicRoot, runtimePath(row.url)))));
-  const assetPaths = new Set([manifestPath]);
-  for (const [index, row] of orderedRecords.entries()) {
-    const relative = runtimePath(row.url);
-    assetPaths.add(relative);
+  uniformPair = await readJson(path.join(root, 'evidence/m2-uniform-lite-operator-v1/records.json'));
+  const assetPaths = new Set([manifestPath, ...orderedRecords.map(row => runtimePath(row.url))]);
+  for (const record of [...sampleRecords, ...uniformPair]) {
     await collectRecordResources({
-      record:sampleRecords[index], sourceRoot:root,
+      record, sourceRoot:root,
       add:async (url, _reason, {parent}) => {
         const asset = runtimePath(url, parent);
         assetPaths.add(asset);
@@ -115,6 +114,46 @@ after(async () => rm(temp, {recursive:true, force:true}));
 
 const options = () => ({dist, sourceRoot, reviewed});
 const rejectsCode = (work, code) => assert.rejects(work, {code});
+
+test('standing vocal exports only the selected body anchors and keeps both original signatures on retry', async () => {
+  const {foundationProfile} = await import(pathToFileURL(path.join(project, 'src/foundation-profiles.js')));
+  const profiles = uniformPair.map(record => foundationProfile(record.appearanceRecipe.base.bodyType));
+  const paths = profiles.map(profile => runtimePath(profile.lipAnchor.url));
+  const selected = {...options(), records:uniformPair};
+  const inventory = await createGameRecordInventory(selected);
+  const catalog = await readJson(path.join(project, 'src/performer-lip-anchors.json'));
+  const registered = new Set(Object.values(catalog).map(ref => runtimePath(ref.url)));
+  const anchors = rows => rows.filter(row => registered.has(row.path));
+  assert.deepEqual(anchors(inventory.files).map(row => row.path).sort(), [...paths].sort());
+  const single = await createGameRecordInventory({...selected, records:[uniformPair[1]]});
+  assert.deepEqual(anchors(single.files).map(row => row.path), [paths[1]]);
+  for (const {lipAnchor} of profiles) {
+    const row = inventory.files.find(file => file.path === runtimePath(lipAnchor.url));
+    assert.equal(row.sha256, lipAnchor.sha256);
+    assert.equal(row.bytes, lipAnchor.bytes);
+  }
+
+  const destination = path.join(temp, 'standing-vocal');
+  const run = () => exportGameRecordInventory({...selected, inventory, out:destination});
+  const missing = path.join(dist, paths[0]), original = await readFile(missing);
+  try {
+    await rm(missing);
+    await rejectsCode(run, 'missing-dependency');
+    await assert.rejects(lstat(destination), {code:'ENOENT'});
+    await writeFile(missing, await readFile(path.join(dist, paths[1])));
+    await rejectsCode(run, 'modified-dependency');
+    await assert.rejects(lstat(destination), {code:'ENOENT'});
+    assert(!(await readdir(temp)).some(name => name.startsWith('standing-vocal.stage-')));
+  } finally {
+    await writeFile(missing, original);
+  }
+  await run();
+  for (const [i, record] of uniformPair.entries()) {
+    assert.equal(inventory.records[i].recordSha256, record.integrity.recordSha256);
+    assert.equal(await readFile(path.join(destination, inventory.records[i].file), 'utf8'), JSON.stringify(record));
+    assert.equal(digest(await readFile(path.join(destination, paths[i]))), profiles[i].lipAnchor.sha256);
+  }
+});
 
 test('the build producer changes identity for an edited imported batch request and restores it byte for byte', async () => {
   const isolated = path.join(temp, 'build-id', 'prototype');

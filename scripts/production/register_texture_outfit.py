@@ -1,7 +1,6 @@
 """Install or check one of the two verified texture outfits in the shared source profile catalog."""
 
 import argparse
-from contextlib import contextmanager
 import json
 import os
 from pathlib import Path
@@ -12,7 +11,7 @@ import texture_body_outfit_fit as male
 from flow import ROOT, require
 from garment_source_mapping import json_bytes
 from native_import import confined, digest, exact_directory
-from production_paths import main_checkout, project_output, publish_new_directory
+from production_paths import catalog_lock, main_checkout, project_output, publish_new_directory
 
 
 PRODUCERS = {'male': male, 'female': female}
@@ -77,20 +76,6 @@ def load_candidate(group, stage):
     return row, files
 
 
-@contextmanager
-def catalog_lock(path):
-    checked(path.parent).mkdir(parents=True, exist_ok=True)
-    with checked(path).open('a+b') as lock:
-        if os.name == 'nt':
-            import msvcrt
-            lock.seek(0)
-            msvcrt.locking(lock.fileno(), msvcrt.LK_NBLCK, 1)
-        else:
-            import fcntl
-            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        yield
-
-
 def next_catalog(previous, profile):
     catalog = json.loads(previous, object_pairs_hook=unique_fields)
     require(isinstance(catalog, dict), 'Expected source profile catalog object')
@@ -130,7 +115,7 @@ def register(group, *, root=ROOT, stage=None, check=False):
         exact_directory(dest, files)
         require(catalog.read_bytes() == previous, 'Catalog changed during readback')
     else:
-        with catalog_lock(lock):
+        with catalog_lock(lock, checked):
             previous = catalog.read_bytes()
             payload = next_catalog(previous, profile)
             if dest.exists():

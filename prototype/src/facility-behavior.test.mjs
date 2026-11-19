@@ -138,6 +138,15 @@ test('standing vocal cancels a stale reservation, rejects a stale or expired sav
   await import('../../scripts/headless-avatar-node.mjs');
   const {prepareRecordedCharacter,createRecordAppearanceController}=await import('./character-record-consumer.js');
   const [,record]=JSON.parse(await fs.readFile(new URL('../../evidence/m2-uniform-lite-operator-v1/records.json',import.meta.url)));
+  const {foundationProfile}=await import('./foundation-profiles.js');
+  const pin=foundationProfile(record.appearanceRecipe.base.bodyType).lipAnchor;
+  assert.ok(pin,'Expected the registered uniform body');
+  const bytes=await fs.readFile(new URL('../public'+pin.url,import.meta.url));
+  const productionFetch=globalThis.fetch,loads=[];
+  globalThis.fetch=(url,options)=>url===pin.url
+    ?new Promise(resolve=>loads.push({resolve,signal:options.signal}))
+    :productionFetch(url,options);
+  t.after(()=>{globalThis.fetch=productionFetch;});
   const f=fixture(),scene=f.room.session.scene;
   const point={id:'studio/mic#vocal',kind:'standing-vocal',slotId:'vocal',capacity:1,
     floorId:'ground',roomId:'studio',companyId:'home',facilityId:'studio/mic',resource:{id:'floor-vocal-mic-boom',version:1},
@@ -156,11 +165,30 @@ test('standing vocal cancels a stale reservation, rejects a stale or expired sav
   scene.resolveUsePoint=id=>id===point.id?resolved:null;
   const seatDescriptor=scene.describeUsePoint;
   scene.describeUsePoint=id=>id===point.id?structuredClone(point):seatDescriptor(id);
-  const a=await prepareRecordedCharacter(record,{scene:f.world,renderer:{},position:[-2,0,1.2],
+  const prepare=()=>prepareRecordedCharacter(record,{scene:f.world,renderer:{},position:[-2,0,1.2],
     createController:ctx=>attachFacilityBehavior(createRecordAppearanceController(ctx.avatar),{...ctx,seatLeases:f.leases,getRoom:()=>f.room})});
+  const a=await prepare();
   a.attach();t.after(()=>a.dispose());
   const start=id=>a.controller.requestBehavior({kind:point.kind,requestId:id,timeoutSeconds:5,payload:{usePointId:point.id}});
-  assert.equal(start('first').admission,'accepted');for(let i=0;i<6;i++)a.controller.simulate(1/60,a.update);
+  async function until(check){
+    for(let i=0;i<1500;i++){if(check())return;await turn();}
+    assert.ok(check(),'Lip anchor did not finish loading');
+  }
+  assert.equal(loads.length,0,'Preparing and dressing the character does not fetch a standing-vocal landmark');
+  assert.equal(start('cancel-pending').admission,'accepted');
+  assert.ok(a.controller.cancelBehavior('cancel-pending'));assert.equal(f.leases.forSeat(point.id),null);
+  assert.equal(loads[0].signal.aborted,true);
+  assert.equal(start('missing').admission,'accepted');loads[0].resolve(new Response(bytes));await turn();
+  assert.equal(f.leases.forSeat(point.id).requestId,'missing');assert.throws(()=>a.controller.captureFacilityPose(),/in-transition/);
+  loads[1].resolve(new Response(null,{status:404}));
+  await until(()=>a.controller.behaviorTasks.get('missing').state==='failed');
+  assert.equal(a.controller.behaviorTasks.get('missing').reason,'vocal-lip-anchor-unavailable');assert.equal(f.leases.forSeat(point.id),null);
+  assert.equal(start('corrupt').admission,'accepted');loads[2].resolve(new Response(bytes.subarray(1)));
+  await until(()=>a.controller.behaviorTasks.get('corrupt').state==='failed');
+  assert.equal(a.controller.behaviorTasks.get('corrupt').reason,'vocal-lip-anchor-integrity-mismatch');assert.equal(f.leases.forSeat(point.id),null);
+  assert.equal(start('first').admission,'accepted');loads[3].resolve(new Response(bytes));
+  await until(()=>{try{return a.controller.captureFacilityPose().phase==='approaching';}catch{return false;}});
+  for(let i=0;i<6;i++)a.controller.simulate(1/60,a.update);
   const saved=a.controller.captureFacilityPose();assert.equal(saved.phase,'approaching');
   assert.equal(saved.remainingSeconds,4.9);assert.equal(saved.seat,null);assert.equal(saved.vocal.id,point.id);
   ++scene.revision;point.transformChain[0].transform.yaw=Math.PI/2;
@@ -170,10 +198,24 @@ test('standing vocal cancels a stale reservation, rejects a stale or expired sav
   await assert.rejects(a.controller.restoreFacilityPose(saved,a.update),/saved-vocal-version-mismatch/);
   point.transform.yaw=anchor.rotation.y=Math.PI/2;
   assert.equal(start('rotated').admission,'accepted');
+  assert.equal(loads.length,4,'Subsequent requests reuse this actor’s verified binding');
   const rotated=a.controller.captureFacilityPose();assert.equal(rotated.vocal.transform.yaw,Math.PI/2);
   a.controller.cancelBehavior('rotated');assert.equal(f.leases.forSeat(point.id),null);
   await assert.rejects(a.controller.restoreFacilityPose({...rotated,remainingSeconds:0},a.update),/positive finite simulation seconds/);
   assert.equal(f.leases.forSeat(point.id),null);
+  const replacement=await prepare();
+  try{
+    const restore=replacement.controller.restoreFacilityPose(rotated,replacement.update);
+    assert.equal(f.leases.forSeat(point.id).state,'reserved');
+    replacement.dispose();
+    assert.equal(loads[4].signal.aborted,true);
+    assert.equal(f.leases.forSeat(point.id),null);
+    assert.equal(start('survivor').admission,'accepted');
+    loads[4].resolve(new Response(bytes));
+    await assert.rejects(restore);
+    assert.equal(f.leases.forSeat(point.id).requestId,'survivor');
+    assert.equal(a.controller.captureFacilityPose().phase,'approaching');
+  }finally{replacement.dispose();}
 });
 test('published rooms use retained GLB seats and signed VRM records on the real motion controller',
   {skip:!company||!records},async t=>{

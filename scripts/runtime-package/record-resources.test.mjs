@@ -7,6 +7,7 @@ import test from 'node:test';
 import {collectRecordResources} from './record-resources.mjs';
 import {digest, localFile, runtimePath} from './files.mjs';
 import {foundationProfile} from '../../prototype/src/foundation-profiles.js';
+import lipAnchors from '../../prototype/src/performer-lip-anchors.json' with {type:'json'};
 import {outfitSelection} from '../../prototype/src/outfit-selection.js';
 import {facialPaletteContract} from '../../prototype/src/facial-palette-contract.js';
 import {facialSampleResource} from '../../prototype/src/facial-geometry-selection.js';
@@ -163,6 +164,30 @@ test('conditional production glasses bind to the signed final head on both 1K un
     assert.throws(() => validateLiveAccessories(actor, live, {...recipe, geometry:{...recipe.geometry, mouthWidth:0.02}}),
       {code:'glasses-head-incompatible'});
   }
+});
+
+test('an authentic anchor from another registered body and an invalid pin both reject the original record', async t => {
+  const [female, male] = await json('evidence/m2-uniform-lite-operator-v1/records.json');
+  const type = female.appearanceRecipe.base.bodyType;
+  const body = female.appearanceRecipe.base.sha256;
+  const original = lipAnchors[body];
+  t.after(() => { lipAnchors[body] = original; });
+  const own = foundationProfile(type).lipAnchor;
+  const foreign = foundationProfile(male.appearanceRecipe.base.bodyType).lipAnchor;
+  assert.ok(own && foreign && own.sha256 !== foreign.sha256);
+  const run = () => collect(female, {assetRoot:publicRoot});
+  lipAnchors[body] = foreign;
+  await assert.rejects(run, /vocal-lip-anchor-body-mismatch/);
+  for (const lipAnchor of [null, {...own, bytes:0}, {...own, sha256:'unbound'}]) {
+    lipAnchors[body] = lipAnchor;
+    await assert.rejects(run, {code:'unsupported-dependency'});
+  }
+  for (const pin of [{bytes:own.bytes + 1}, {sha256:'0'.repeat(64)}]) {
+    lipAnchors[body] = {...own, ...pin};
+    await assert.rejects(run, error => error.code === 'ERR_ASSERTION' && error.message.includes(own.url.slice(1)));
+  }
+  lipAnchors[body] = original;
+  contains((await run()).files, [own.url]);
 });
 
 test('native 7586 adds the independent sock model only to the selected shorts-socks record', async () => {

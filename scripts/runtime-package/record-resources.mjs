@@ -491,6 +491,16 @@ export async function collectRecordResources({record, sourceRoot, add}) {
       ...(catalog.byId.get(config.ids.top)?.sourceLicense ? {sourceLicense:catalog.byId.get(config.ids.top).sourceLicense} : {}),
     }],
   });
+  // Earlier reviewed profiles had no standing-vocal anchor or validator.
+  if (Object.hasOwn(config, 'lipAnchor')) {
+    const ref = config.lipAnchor;
+    requireDependency(typeof ref?.url === 'string' && ref.url.startsWith('/assets/') &&
+      ref.url.endsWith('.json') && POSITIVE_BYTES(ref.bytes), 'Invalid lip anchor resource for ' + bodyType);
+    const {value:anchor} = await io.pin(ref, 'Standing-vocal lip anchor for ' + bodyType);
+    const module = path.join(sourceRoot, 'prototype/src/lip-anchor.js');
+    const {lipAnchorSourceIdentity, validateLipAnchorDescriptor} = await import(pathToFileURL(module).href);
+    await validateLipAnchorDescriptor(anchor, avatarSha256, lipAnchorSourceIdentity(body));
+  }
   if (recipe.appearance.hairStyle === 'none') {
     const hairSurfaces = body.meshes.flatMap(mesh => mesh.primitives.map(row => body.materials?.[row.material]?.name ?? ''));
     requireDependency(hairSurfaces.some(name => /_HAIR/.test(name)), 'Body lacks registered hair surfaces');

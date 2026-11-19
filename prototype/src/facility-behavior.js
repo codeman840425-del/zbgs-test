@@ -3,7 +3,7 @@ import {createTurnPolicy,turnAngleDelta,movingSteering} from './turn-policy.js';
 import {canonicalJson} from './character-record.js';
 import {findFacilityPoint,finitePosition,pointIdentity,retainFacilitySeat} from './facility-contact.js';
 import {createFacilityNavigation,parkingRoute} from './facility-navigation.js';
-import {measureVocalContact,pickupAxis,vocalPerformer,vocalPickup} from './facility-vocal.js';
+import {measureVocalContact,pickupAxis,registeredVocalPerformer,vocalPerformer,vocalPickup} from './facility-vocal.js';
 import {Vector3} from 'three';
 
 // The record host supplies its existing frame clock and instance.update(). The
@@ -27,7 +27,7 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
   let disposed=false, mode='idle', phase='idle', target=null, token=null, binding=null;
   let path=[], speed=0, pendingContact=null, contactTask=null, revision=null, nav=null;
   let alignAfterCollision=false,waitingPoint=null;
-  let performer=null,lastVocal=null,previousPresentation=null;
+  let performer=null,lastVocal=null,previousPresentation=null,vocalLoad=null;
   const isVocal=()=>target?.kind==='standing-vocal';
   const tasks=createBehaviorTasks({ownerId:actorId,onEvent({type,task}) {
     if (['cancelled','failed'].includes(type) && task.requestId===contactTask) {
@@ -46,6 +46,7 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
     if (mode!==next) {mode=next;avatar.livePresentation?.setAction(next);}
   }
   function clearBinding() {
+    vocalLoad?.abort();vocalLoad=null;
     stopVocal();
     token=null;target=null;contactTask=null;path=[];phase='idle';alignAfterCollision=false;waitingPoint=null;
     const previous=binding;binding=null;
@@ -91,27 +92,40 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
       const task=tasks.active();if (task) tasks.fail(task.requestId,error.message);
     }
   }
+  function startVocalApproach(room,point,resumePhase) {
+    const scene=room.session.scene,object=scene.resolveUsePoint(point.id),mesh=vocalPickup(room,point);
+    binding={foot:point.transform.position,mesh,axis:pickupAxis(mesh,object.anchor.parent),
+      scene,revision:scene.revision,object,sceneRoot:scene.root};
+    const navigation=refreshNav(),pos=root.position.toArray();
+    if (!navigation.clear(point.approachPosition,binding.foot) || !navigation.clear(binding.foot,point.exitPosition))
+      throw Error('vocal-contact-path-blocked');
+    if (resumePhase==='fitting' || resumePhase==='vocal') {
+      if (!navigation.clear(pos,binding.foot)) throw Error('vocal-contact-path-blocked');
+      phase='fitting';path=[binding.foot];
+    } else {path=navigation.route(pos,point.approachPosition);phase='approaching';}
+  }
   function startFacility(task,resumePhase=null) {
     const room=getRoom(), point=findFacilityPoint(room,task.payload.usePointId,task.kind);
     const reserved=seatLeases.reserve({seatId:point.id,ownerId:actorId,ownerGeneration,requestId:task.requestId});
     if (!reserved.accepted) throw Error(reserved.reason);
     token=reserved.lease.token;contactTask=task.requestId;target=point;phase='loading';
+    const ownToken=token;
     if (isVocal()) {
       lastVocal=null;pendingContact=null;
-      performer??=vocalPerformer(avatar);
-      const scene=room.session.scene,object=scene.resolveUsePoint(point.id),mesh=vocalPickup(room,point);
-      binding={foot:point.transform.position,mesh,axis:pickupAxis(mesh,object.anchor.parent),
-        scene,revision:scene.revision,object,sceneRoot:scene.root};
-      const navigation=refreshNav(),pos=root.position.toArray();
-      if (!navigation.clear(point.approachPosition,binding.foot) || !navigation.clear(binding.foot,point.exitPosition))
-        throw Error('vocal-contact-path-blocked');
-      if (resumePhase==='fitting' || resumePhase==='vocal') {
-        if (!navigation.clear(pos,binding.foot)) throw Error('vocal-contact-path-blocked');
-        phase='fitting';path=[binding.foot];
-      } else {path=navigation.route(pos,point.approachPosition);phase='approaching';}
+      if (performer || avatar.config?.lipAnchor===undefined) {
+        performer??=vocalPerformer(avatar);startVocalApproach(room,point,resumePhase);
+        return;
+      }
+      vocalLoad=new AbortController();
+      pendingContact=registeredVocalPerformer(avatar,vocalLoad.signal).then(candidate=>{
+        if(disposed || token!==ownToken)return;
+        const currentRoom=getRoom(), current=findFacilityPoint(currentRoom,point.id,task.kind);
+        if(currentRoom.session!==room.session || canonicalJson(pointIdentity(current))!==canonicalJson(pointIdentity(point)))
+          throw Error('stale-vocal-use-point');
+        vocalLoad=null;performer=candidate;startVocalApproach(currentRoom,current,resumePhase);
+      }).catch(error=>{if(token===ownToken)tasks.fail(task.requestId,error.message);});
       return;
     }
-    const ownToken=token;
     pendingContact=retainFacilitySeat(room,point,motion).then(candidate=>{
       if (disposed || token!==ownToken || tasks.active()?.requestId!==task.requestId) {candidate.release();return;}
       binding=candidate;

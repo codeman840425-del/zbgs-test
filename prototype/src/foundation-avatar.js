@@ -5,6 +5,7 @@ import { VRMLoaderPlugin, VRMUtils } from "@pixiv/three-vrm";
 import { createM1Equipment } from "./m1-equipment.js";
 import { outfitSelection } from "./outfit-selection.js";
 import { foundationProfile } from "./foundation-profiles.js";
+import {lipAnchorSourceIdentity} from './lip-anchor.js';
 import { createLivePresentation } from "./live-presentation.js";
 import { createRigidAccessoryLayer } from "./rigid-accessory-layer.js";
 import { createCharacterAppearance } from "./character-appearance.js";
@@ -144,6 +145,7 @@ export async function loadFoundationAvatar({
   loader.register((p) => new VRMLoaderPlugin(p));
   const gltf = await loader.parseAsync(buffer, "/assets/foundation/");
   const vrm = gltf.userData.vrm;
+  const lipAnchorIdentity=config.lipAnchor===undefined?null:lipAnchorSourceIdentity(gltf.parser.json);
   VRMUtils.rotateVRM0(vrm);
   const sourceFloorY = config.sourceFloorY ?? 0;
   if (!Number.isFinite(sourceFloorY)) throw new Error('Invalid measured model floor');
@@ -342,6 +344,7 @@ export async function loadFoundationAvatar({
   if (attachToScene) scene.add(root);
   return {
     vrm,
+    lipAnchorIdentity,
     nativeHairCenterFit,
     get nativeHairCenter() { return nativeHairCenter; },
     root,

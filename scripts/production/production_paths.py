@@ -1,5 +1,6 @@
 """Resolve production writes against the tool's main Git worktree."""
 import os
+from contextlib import contextmanager
 from pathlib import Path
 import re
 import subprocess
@@ -59,3 +60,17 @@ def project_output(path, script_file):
     if output == checkout or not output.is_relative_to(checkout):
         raise ValueError("Output must be inside the production tool main checkout")
     return output
+
+
+@contextmanager
+def catalog_lock(path, checked):
+    checked(path.parent).mkdir(parents=True, exist_ok=True)
+    with checked(path).open('a+b') as lock:
+        if os.name == 'nt':
+            import msvcrt
+            lock.seek(0)
+            msvcrt.locking(lock.fileno(), msvcrt.LK_NBLCK, 1)
+        else:
+            import fcntl
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        yield

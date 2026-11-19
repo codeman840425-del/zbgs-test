@@ -1,5 +1,6 @@
 import {nativeProductionCatalog} from './native-production-catalog.js';
 import sourceOutfits from './source-outfit-profiles.json' with {type:'json'};
+import performerLipAnchors from './performer-lip-anchors.json' with {type:'json'};
 import {REPRESENTATIVE_PROFILES} from './representative-batch.js';
 import {appearanceColorSupport} from './appearance-color-policy.js';
 import layerOutfits from '../public/assets/m2-vest-layer-fit-v1/profiles.json' with {type:'json'};
@@ -189,6 +190,8 @@ export function foundationProfile(bodyType = "female") {
   const profile = FOUNDATION_PROFILES[bodyType];
   if (!profile) throw new Error(`Unknown foundation body type: ${bodyType}`);
   const result = structuredClone(profile);
+  if (Object.hasOwn(performerLipAnchors, result.sha256))
+    result.lipAnchor = structuredClone(performerLipAnchors[result.sha256]);
   if(layerOutfits.schema!=='vest-layer-outfits-v1')throw Error('Unknown layer outfit registry');
   const layer=layerOutfits.profiles[bodyType];
   if(layer){

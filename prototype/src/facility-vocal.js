@@ -1,4 +1,5 @@
 import {MathUtils,Raycaster,Triangle,Vector3} from 'three';
+import {readLipAnchor} from './lip-anchor.js';
 
 // The same 32 welded FaceMouth / facial-skin seam used by the offline VRM
 // mouth-anchor audit. Resolve referenced vertices once and measure their
@@ -21,6 +22,11 @@ function lipSeam(avatar) {
   });
   const rim=[...lips].filter(([key])=>skinPositions.has(key)).map(([,i])=>i);
   if (!mouth || rim.length!==32) throw Error('vocal-lip-seam-unavailable');
+  return posedLipCenter(mouth,rim);
+}
+
+function posedLipCenter(mouth,rim) {
+  const vector=new Vector3();
   return ()=> {
     const center=new Vector3();
     for (const i of rim) center.add(mouth.getVertexPosition(i,vector));
@@ -28,12 +34,31 @@ function lipSeam(avatar) {
   };
 }
 
-export function vocalPerformer(avatar) {
+function performer(avatar,mouth,lipAnchor) {
   const left=avatar.vrm?.humanoid?.getRawBoneNode('leftEye');
   const right=avatar.vrm?.humanoid?.getRawBoneNode('rightEye');
   if (!left || !right || !avatar.livePresentation) throw Error('vocal-performer-landmarks-unavailable');
-  const mouth=lipSeam(avatar);
-  return {mouth,eye:()=>left.getWorldPosition(new Vector3()).lerp(right.getWorldPosition(new Vector3()),.5)};
+  return {mouth,lipAnchor,eye:()=>left.getWorldPosition(new Vector3()).lerp(right.getWorldPosition(new Vector3()),.5)};
+}
+
+export function vocalPerformer(avatar) {
+  return performer(avatar,lipSeam(avatar),{source:'geometry',method:'face-mouth-skin-intersection',descriptorSha256:null});
+}
+
+export async function registeredVocalPerformer(avatar,signal) {
+  const pin=avatar.config.lipAnchor,identity=avatar.lipAnchorIdentity;
+  const rim=await readLipAnchor(pin,avatar.getAssetProfile().sha256,identity,signal);
+  signal.throwIfAborted();
+  const expression=avatar.vrm.expressionManager.getExpression('aa');
+  const bind=expression?.binds[0],mouth=bind?.primitives?.[identity.faceMouth.primitive];
+  const material=Array.isArray(mouth?.material)?mouth.material[0]:mouth?.material;
+  if(expression?.binds.length!==1 || bind?.index!==identity.source.bind.index || bind.weight!==1 ||
+      !mouth?.isSkinnedMesh || material?.name!==identity.faceMouth.material ||
+      mouth.geometry.attributes.position.count!==identity.count || !mouth.geometry.morphAttributes.position?.[bind.index] ||
+      avatar.vrm.scene.getObjectById(mouth.id)!==mouth)throw Error('vocal-lip-anchor-binding-mismatch');
+  const referenced=new Set(mouth.geometry.index?.array);
+  if(!rim.every(i=>referenced.has(i)))throw Error('vocal-lip-anchor-indices-invalid');
+  return performer(avatar,posedLipCenter(mouth,rim),{source:'descriptor',method:'posed-rim-vertices',descriptorSha256:pin.sha256});
 }
 
 // The company provider publishes a visible standing anchor and an actual GLB
@@ -81,7 +106,7 @@ export function measureVocalContact(performer,mesh,point,axis) {
   const incidenceDegrees=MathUtils.radToDeg(axis.angleTo(mouth.clone().sub(hit.point)));
   const facingDegrees=MathUtils.radToDeg(new Vector3(Math.sin(point.transform.yaw),0,Math.cos(point.transform.yaw))
     .angleTo(hit.point.clone().sub(mouth).setY(0)));
-  return {usePointId:point.id,pickupNodeId:mesh.name,pickupWorld:hit.point.toArray(),
+  return {usePointId:point.id,pickupNodeId:mesh.name,pickupWorld:hit.point.toArray(),lipAnchor:performer.lipAnchor,
     mouthWorld:mouth.toArray(),eyeWorld:eye.toArray(),mouthDistance:hit.distance,incidenceDegrees,facingDegrees,
     withinPickupWindow:hit.distance>=.06 && hit.distance<=.26 && incidenceDegrees<=35 && facingDegrees<=45};
 }

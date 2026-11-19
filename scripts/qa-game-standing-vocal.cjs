@@ -96,10 +96,11 @@ async function frameMicSide(page,pointId) {
   },pointId);
 }
 
-async function run(base, build, recordsFile, destination, cameraMode='room') {
+async function run(base, build, recordsFile, destination, cameraMode='room', anchorMode='legacy-or-registered') {
   const out=await projectOutput(destination,await productionRoot());
   assert.match(build,/^[0-9a-f]{12}$/);
   assert(['room','mic-side'].includes(cameraMode));
+  assert(['legacy-or-registered','require-anchors'].includes(anchorMode));
   const origin=new URL(base);
   assert(origin.protocol==='http:' && ['localhost','127.0.0.1','[::1]'].includes(origin.hostname));
   const records=JSON.parse(await fs.readFile(recordsFile,'utf8'));
@@ -114,6 +115,15 @@ async function run(base, build, recordsFile, destination, cameraMode='room') {
   const packageBytes=Buffer.from(await response.arrayBuffer()),published=JSON.parse(packageBytes);
   assert.equal(published.roomManifestSha256,'5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012');
   assert.equal(published.gameRuntime.buildId,build);
+  const anchorDir='assets/performer-lip-anchors-v1/';
+  const anchorUrl=record=>'/'+anchorDir+record.appearanceRecipe.base.sha256+'.json';
+  const requireAnchors=anchorMode==='require-anchors';
+  const expectedPins=new Map(published.files.filter(row=>row.path.startsWith(anchorDir)).map(row=>['/'+row.path,row.sha256]));
+  if(requireAnchors)assert.deepEqual([...expectedPins.keys()].sort(),records.map(anchorUrl).sort());
+  function checkAnchorSource(contact,record) {
+    if(requireAnchors)assert.deepEqual(contact.lipAnchor,{source:'descriptor',method:'posed-rim-vertices',
+      descriptorSha256:expectedPins.get(anchorUrl(record))});
+  }
   assert.deepEqual(published.rooms.map(r=>r.key).sort(),['singing-rental','singing-studio']);
   await fs.mkdir(path.dirname(out),{recursive:true});
   await fs.mkdir(out);
@@ -135,6 +145,11 @@ async function run(base, build, recordsFile, destination, cameraMode='room') {
         const context=await session.browser.newContext({viewport:report.viewport,deviceScaleFactor:1,
           ...(storage?{storageState:storage}:{}),serviceWorkers:'block',recordVideo:{dir:out,size:report.viewport}});
         const page=await context.newPage(),video=page.video();
+        pass.anchorRequests=[];
+        page.on('request',req=>{
+          const route=new URL(req.url()).pathname;
+          if(route.startsWith('/'+anchorDir))pass.anchorRequests.push(route);
+        });
         page.on('pageerror',e=>report.errors.push(e.message));
         const name=entry.key+'-'+passName;
         try {
@@ -150,6 +165,7 @@ async function run(base, build, recordsFile, destination, cameraMode='room') {
             records:Object.fromEntries([...__recordConsumer.actors].map(([key,actor])=>[key,actor.recordSha256])),
             speaking:[...__recordConsumer.actors.values()].map(actor=>actor.avatar.livePresentation.getState().speaking)}));
           assert.deepEqual(pass.loaded,{room:entry.key,build,records:inputRecords,speaking:[false,false]});
+          if(requireAnchors)assert.deepEqual(pass.anchorRequests,[]);
           if(cameraMode==='mic-side')pass.camera=await frameMicSide(page,row.point);
           await startFrameSample(page);
           if (passName==='first') {
@@ -160,6 +176,7 @@ async function run(base, build, recordsFile, destination, cameraMode='room') {
             pass.unsuitableContact=await page.evaluate(key=>__recordConsumer.actors.get(key).controller.vocalContact(),peer);
             assert.equal(pass.unsuitableContact?.requestId,attempt.requestId);
             checkContact(pass.unsuitableContact,false);
+            checkAnchorSource(pass.unsuitableContact,shortPerformer);
             await page.waitForFunction(({peer,point})=>{
               const ctrl=__recordConsumer.actors.get(peer).controller;
               try{return !__recordConsumer.seatLeases.forSeat(point) && ctrl.captureFacilityPose().phase==='idle';}
@@ -184,7 +201,10 @@ async function run(base, build, recordsFile, destination, cameraMode='room') {
           for(const sample of pass.hold) {
             assert.equal(sample.pose.phase,'vocal');assert.equal(sample.live,true);
             checkContact(sample.contact,true);
+            checkAnchorSource(sample.contact,performer);
           }
+          if(requireAnchors)assert.deepEqual(pass.anchorRequests,
+            passName==='first'?[anchorUrl(shortPerformer),anchorUrl(performer)]:[anchorUrl(performer)]);
           pass.activeTimeRatio=(pass.hold.at(-1).simSeconds-pass.hold[0].simSeconds)*1000/(pass.hold.at(-1).wallMs-pass.hold[0].wallMs);
           assert.equal(await page.evaluate(id=>__recordConsumer.actors.get(id).avatar.livePresentation.getState().speaking,peer),false);
           await page.screenshot({path:path.join(out,name+'-room.png')});
