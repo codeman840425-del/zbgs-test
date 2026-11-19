@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>固定麦架 · 双人接替实录</title>
+<style>
+html{background:#f6f5f0;color:#20342d;font:16px/1.55 system-ui,sans-serif}body{max-width:1320px;margin:24px auto;padding:0 20px}
+h1{font-size:1.6rem} label,button,select{font:inherit}select{max-width:100%;padding:.35em}video{display:block;width:100%;margin:.8rem 0;background:#202421}
+a{color:#205c4f}summary{cursor:pointer}small{color:#40574d}p{max-width:78ch}
+</style>
+<main><h1>固定麦架 · 双人接替实录</h1>
+<p>先看女角色走到麦架，因网头过高退出，再看男角色接手。选择“重新进入”可从房间全景看到口部近景和离场。录像保留浏览器实际运行速度。</p>
+<label>房间与片段 <select id="clip">
+<option value="side-after/singing-studio-first">唱播工作室 · 侧面看双人接替</option>
+<option value="browser-02/singing-studio-first">唱播工作室 · 原始房间全景</option>
+<option value="browser-02/singing-studio-cold">唱播工作室 · 重新进入、近景、离场</option>
+<option value="browser-02/singing-rental-first">出租屋唱播间 · 双人接替</option>
+<option value="browser-02/singing-rental-cold">出租屋唱播间 · 重新进入、近景、离场</option>
+</select></label>
+<video id="player" controls preload="metadata" src="side-after/singing-studio-first-1x.webm"></video>
+<small>角色构建 6c3c7b43ae35 · 公司唱播双房 v1.1 · 1K 男女制服 · 画面为讲话动作及程序口型</small>
+<details><summary>查看修复前相同工作室、相同镜头的失败过程</summary>
+<p>旧版在男角色尚未完成收步时测量，误判距离过远。新版等到动作系统给出双脚稳定支撑，再测真实唇部到网面的距离。</p>
+<video controls preload="none" src="side-before/singing-studio-first-1x.webm"></video>
+<a href="browser-01/singing-studio-first-1x.webm">旧版原始房间全景</a></details>
+<p><a href="browser-02/report.json">浏览器过程与帧耗时</a> · <a href="cpu/README.md">每帧接触、退出与竞争</a> · <a href="../m2-company-vocal-active-v2/rebuild/package-comparison.json">独立复建与来源</a></p></main>
+<script>
+const menu=document.getElementById('clip'), player=document.getElementById('player');
+menu.addEventListener('change',()=>{
+  player.pause();
+  player.src=menu.value+'-1x.webm';
+  player.load();
+});
+</script></html>

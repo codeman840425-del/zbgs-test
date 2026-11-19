@@ -1,0 +1,168 @@
+{
+  "schema": "company-vocal-lineage-character-cpu-v1",
+  "companyManifest": "5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012",
+  "companyBuild": "7255eee31b85",
+  "reviewedManifest": "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+  "recordFile": "evidence/m2-uniform-lite-operator-v1/records.json",
+  "recordsSha256": "d38cd555d8b125c606ef28775b08fa96b2834c40c082e7ee06478dc4035f6989",
+  "records": [
+    {
+      "id": "uniform-lite-female-v1",
+      "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+    },
+    {
+      "id": "uniform-lite-male-v1",
+      "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+    }
+  ],
+  "characterCommit": "a0b366e2adcdd4869617bd5bd06346e7798f3648",
+  "runtimeTree": "773dc739200321a84cf9cbdd0aaaba30dbbf1d14",
+  "rooms": [
+    {
+      "key": "singing-studio",
+      "slot": "singing-studio/ground/live/vocal#vocal",
+      "worldTarget": [
+        0,
+        0,
+        0.77
+      ],
+      "kind": "standing-vocal",
+      "capacity": 1,
+      "pickupNode": "singing-mic-pickup",
+      "spatialContractMatchesReleasedReader": true,
+      "signedActors": [
+        {
+          "id": "uniform-lite-female-v1",
+          "vocal": {
+            "admission": "rejected",
+            "reason": "unsupported-facility-behavior",
+            "state": null
+          },
+          "sit": {
+            "admission": "rejected",
+            "reason": "invalid-seat-use-point",
+            "state": null
+          }
+        },
+        {
+          "id": "uniform-lite-male-v1",
+          "vocal": {
+            "admission": "rejected",
+            "reason": "unsupported-facility-behavior",
+            "state": null
+          },
+          "sit": {
+            "admission": "rejected",
+            "reason": "invalid-seat-use-point",
+            "state": null
+          }
+        }
+      ],
+      "foreignSnapshotRejected": false,
+      "liveCompanySwitch": {
+        "from": "singing-studio",
+        "to": "singing-rental",
+        "actorIds": [
+          "uniform-lite-female-v1",
+          "uniform-lite-male-v1"
+        ],
+        "newPoint": "singing-rental/ground/live/vocal#vocal",
+        "oldPointAbsent": true,
+        "oldSnapshotRejected": true
+      }
+    },
+    {
+      "key": "singing-rental",
+      "slot": "singing-rental/ground/live/vocal#vocal",
+      "worldTarget": [
+        -3.73,
+        0,
+        4.71489017671731e-17
+      ],
+      "kind": "standing-vocal",
+      "capacity": 1,
+      "pickupNode": "singing-mic-pickup",
+      "spatialContractMatchesReleasedReader": true,
+      "signedActors": [
+        {
+          "id": "uniform-lite-female-v1",
+          "vocal": {
+            "admission": "rejected",
+            "reason": "unsupported-facility-behavior",
+            "state": null
+          },
+          "sit": {
+            "admission": "rejected",
+            "reason": "invalid-seat-use-point",
+            "state": null
+          }
+        },
+        {
+          "id": "uniform-lite-male-v1",
+          "vocal": {
+            "admission": "rejected",
+            "reason": "unsupported-facility-behavior",
+            "state": null
+          },
+          "sit": {
+            "admission": "rejected",
+            "reason": "invalid-seat-use-point",
+            "state": null
+          }
+        }
+      ],
+      "foreignSnapshotRejected": true,
+      "realSeatControl": {
+        "point": "singing-rental/ground/work/chair#seat",
+        "seatMesh": "chair-seat",
+        "contention": {
+          "admission": "rejected",
+          "reason": "seat-unavailable",
+          "state": null
+        },
+        "reserved": "reserved",
+        "cancelledDuringApproach": "released",
+        "destroyedDuringContactLoad": "released",
+        "destroyedAfterSeated": "released",
+        "blockedWithStandingPeer": "seat-body-space-blocked",
+        "completedAfterPeerRemoval": "completed",
+        "retainedAfterCompletion": "occupied",
+        "activeTime": {
+          "schema": "record-facility-state-v1",
+          "phase": "approaching",
+          "initialSeconds": 0.5,
+          "remainingSeconds": 0.4000000000000001,
+          "restoredRemainingSeconds": 0.4000000000000001,
+          "zeroRemainingRejected": true,
+          "after23Ticks": "running",
+          "afterAdditionalSeconds": 0.02,
+          "termination": "timeout",
+          "leaseReleased": true
+        }
+      }
+    }
+  ],
+  "wrongReviewedRoom": {
+    "key": "singing-rental",
+    "reviewedRoom": "singing-studio",
+    "rejected": "The selected room has no verified inheritance from this reviewed source room"
+  },
+  "existingPackageEntry": {
+    "game": "output/m2-company-seat-fixed/pair",
+    "gameManifest": "3cba17b8df616540b404c8739dcf82c40bb580e49fceb37a6209fb73d2b36d43",
+    "releasedCompanyManifest": "5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012",
+    "exitCode": 1,
+    "reason": "Transfer manifest SHA-256 mismatch: transfer-manifest.json",
+    "outputAbsent": true
+  },
+  "status": "vocal-behavior-unavailable-seat-control-passed",
+  "scope": "Real released room GLBs, source factory, validated character records, VRM skeletons and motion controller. Node uses image metadata only. No GPU, browser, wall-clock simulation, vocal task emulation or business progress.",
+  "unexecuted": [
+    "Accepted vocal approach, active-time save/restore and expiry of a vocal task, vocal slot contention and release, mouth/eye contact and visual room handoff. Current character facility behavior accepts only sit/stand."
+  ],
+  "exitCode": 0,
+  "command": [
+    "node",
+    "scripts/qa-company-vocal-lineage.mjs"
+  ]
+}

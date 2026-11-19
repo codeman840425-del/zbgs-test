@@ -4,7 +4,7 @@
 
 男体踝靴同镜头候选为原版 `07958ad5d085` 和配套裤口 `dca61742f36d`。两版均完成走停、坐起、离开、短舞、换回平底和重开。六个姿势在全景及脚部近景的动作相位、人物位置和镜头矩阵逐项相同。配套版坐稳时裤管能盖住靴筒，站立近景仍有一处棕色靴面穿出。该组合保留为技术候选。普通版拒绝旧诊断记录后仍可恢复原人。[1 倍速并排录像与剩余缺陷](../evidence/m2-ankleboot-room-v2/index.html) · [普通版失败保旧](../evidence/m2-ankleboot-room-v1/ordinary-rejection/run-W0FQII/report.json)
 
-副总工唱播双房 v1.1 的公开清单已在角色端复核。已用真实男女记录分别申请唱播位，现有角色入口明确返回 `unsupported-facility-behavior`。两房切换及原工作椅的二人争用、取消、释放和运行时间恢复已在 CPU 路径验证。下一步补角色端的站姿唱播任务和确切的双房包输入，再验证正常房间里的实际接近、使用和离开。[来源复核](../evidence/m2-company-vocal-lineage-intake-v1/reader.json) · [角色公开接口复现](../evidence/m2-company-vocal-lineage-intake-v1/cpu/report.json)
+唱播双房角色端已冻结为 `95adfb27 / 6c3c7b43ae35`。原签男女、公司 v1.1 和现有椅子保持可回读。旧版过早采样收步姿势的失败保存在 `5c132423 / 07a8411e1fe9`。两套独立检出均重新生成了同一份 656 文件的修正合包。两个房间完成实际双人接替、口部近景、持有状态冷开和离场。普通电脑尚未实测；固定版麦架的高度限制和观感保留在能力清单。4196 当前监听版本与下次启动指针仍有差异。下一项回到角色生产输入，核对批量身体包的可重用唇缝标记与逐身体接触适配。[可打开的同镜头录像](../evidence/m2-company-vocal-active-v1/index.html) · [出包参数与固定身份](../evidence/m2-company-vocal-active-v2/rebuild/package-comparison.json)
 
 角色工程的工作树、发布和验收暂存均使用主工程内的目录。根目录审计已检查工程内的目录联接，当前无意外工作树、同名散落目录或路径重定向。副总工的公司工程和融合测试工程各自独立。[根目录归属与复查命令](../evidence/character-worktree-relocation-v1/root-review.json) · [工作树路径回归](../evidence/character-worktree-relocation-v1/worktree-junction-regression.json)
 

@@ -1,0 +1,374 @@
+{
+  "status": "incomplete",
+  "build": "07a8411e1fe9",
+  "sourceDigest": "07a8411e1fe9a4ad225a05b445c54c441158cb80c2a8f50787aa3e1fc8655b71",
+  "inputRecords": {
+    "uniform-lite-female-v1": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757",
+    "uniform-lite-male-v1": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+  },
+  "combinedSha256": "7c967fa76820a710200d8e65057a12d478fa601649ccf9a3d8ca42d4d86cdac6",
+  "roomManifest": "5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "cameraMode": "mic-side",
+  "rooms": [
+    {
+      "room": "singing-studio",
+      "point": "singing-studio/ground/live/vocal#vocal",
+      "performer": "uniform-lite-male-v1",
+      "peer": "uniform-lite-female-v1",
+      "sessions": [
+        {
+          "name": "first",
+          "loaded": {
+            "room": "singing-studio",
+            "build": "07a8411e1fe9",
+            "records": {
+              "uniform-lite-female-v1": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757",
+              "uniform-lite-male-v1": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+            },
+            "speaking": [
+              false,
+              false
+            ]
+          },
+          "camera": {
+            "position": [
+              -4.25314404564567,
+              2.2911004159759853,
+              -0.7657860114114184
+            ],
+            "target": [
+              -0.35,
+              0.925,
+              0.21000000000000008
+            ],
+            "fov": 36
+          },
+          "shortPerformer": {
+            "requestId": "f1894064-5d73-4d46-90ad-9cd0448a7e48",
+            "ownerId": "uniform-lite-female-v1",
+            "kind": "standing-vocal",
+            "payload": {
+              "usePointId": "singing-studio/ground/live/vocal#vocal"
+            },
+            "admission": "accepted",
+            "state": "failed",
+            "requestedAt": 0.623100000000001,
+            "startedAt": 0.623100000000001,
+            "endedAt": 9.225699999999916,
+            "deadline": 60.6231,
+            "reason": "vocal-performer-outside-pickup-window",
+            "result": null
+          },
+          "unsuitableContact": {
+            "usePointId": "singing-studio/ground/live/vocal#vocal",
+            "pickupNodeId": "singing-mic-pickup",
+            "pickupWorld": [
+              0.0011097145689721276,
+              1.5702192521319194,
+              0.4062549108712865
+            ],
+            "mouthWorld": [
+              0.013618572501395598,
+              1.3368993597537464,
+              0.6229613375849409
+            ],
+            "eyeWorld": [
+              0.011557167338893287,
+              1.413735562322759,
+              0.6740852284900274
+            ],
+            "mouthDistance": 0.318679022034925,
+            "incidenceDegrees": 33.18181380354553,
+            "facingDegrees": 3.303595415433106,
+            "withinPickupWindow": false,
+            "requestId": "f1894064-5d73-4d46-90ad-9cd0448a7e48",
+            "footWorld": [
+              8.979313092974625e-9,
+              0,
+              0.7700429139039261
+            ],
+            "yaw": -3.1413834134102605,
+            "reason": "vocal-performer-outside-pickup-window"
+          },
+          "begin": {
+            "requestId": "07733f65-58f5-40b3-8421-dfc679e4b302",
+            "ownerId": "uniform-lite-male-v1",
+            "kind": "standing-vocal",
+            "payload": {
+              "usePointId": "singing-studio/ground/live/vocal#vocal"
+            },
+            "admission": "accepted",
+            "state": "running",
+            "requestedAt": 12.846599999999913,
+            "startedAt": 12.846599999999913,
+            "endedAt": null,
+            "deadline": 72.84659999999991,
+            "reason": null,
+            "result": null
+          },
+          "peerRequest": {
+            "requestId": "ea631c8c-548d-42cf-8608-7017e25387af",
+            "ownerId": "uniform-lite-female-v1",
+            "kind": "standing-vocal",
+            "payload": {
+              "usePointId": "singing-studio/ground/live/vocal#vocal"
+            },
+            "admission": "rejected",
+            "state": null,
+            "requestedAt": 13.259999999999913,
+            "startedAt": null,
+            "endedAt": 13.259999999999913,
+            "deadline": 73.2599999999999,
+            "reason": "seat-unavailable",
+            "result": null
+          },
+          "failure": "{\"requestId\":\"07733f65-58f5-40b3-8421-dfc679e4b302\",\"ownerId\":\"uniform-lite-male-v1\",\"kind\":\"standing-vocal\",\"payload\":{\"usePointId\":\"singing-studio/ground/live/vocal#vocal\"},\"admission\":\"accepted\",\"state\":\"failed\",\"requestedAt\":12.846599999999913,\"startedAt\":12.846599999999913,\"endedAt\":19.658900000000326,\"deadline\":72.84659999999991,\"reason\":\"vocal-performer-outside-pickup-window\",\"result\":null}\n+ actual - expected\n\n+ 'failed'\n- 'completed'\n",
+          "atFailure": [
+            {
+              "actor": "uniform-lite-female-v1",
+              "position": [
+                -0.6599775436267118,
+                0,
+                1.119999998702798
+              ],
+              "yaw": -1.570738561357981,
+              "contact": {
+                "usePointId": "singing-studio/ground/live/vocal#vocal",
+                "pickupNodeId": "singing-mic-pickup",
+                "pickupWorld": [
+                  0.0011097145689721276,
+                  1.5702192521319194,
+                  0.4062549108712865
+                ],
+                "mouthWorld": [
+                  0.013618572501395598,
+                  1.3368993597537464,
+                  0.6229613375849409
+                ],
+                "eyeWorld": [
+                  0.011557167338893287,
+                  1.413735562322759,
+                  0.6740852284900274
+                ],
+                "mouthDistance": 0.318679022034925,
+                "incidenceDegrees": 33.18181380354553,
+                "facingDegrees": 3.303595415433106,
+                "withinPickupWindow": false,
+                "requestId": "f1894064-5d73-4d46-90ad-9cd0448a7e48",
+                "footWorld": [
+                  8.979313092974625e-9,
+                  0,
+                  0.7700429139039261
+                ],
+                "yaw": -3.1413834134102605,
+                "reason": "vocal-performer-outside-pickup-window"
+              },
+              "events": [
+                {
+                  "type": "accepted",
+                  "ownerId": "uniform-lite-female-v1",
+                  "time": 0.623100000000001,
+                  "task": {
+                    "requestId": "f1894064-5d73-4d46-90ad-9cd0448a7e48",
+                    "ownerId": "uniform-lite-female-v1",
+                    "kind": "standing-vocal",
+                    "payload": {
+                      "usePointId": "singing-studio/ground/live/vocal#vocal"
+                    },
+                    "admission": "accepted",
+                    "state": "pending",
+                    "requestedAt": 0.623100000000001,
+                    "startedAt": null,
+                    "endedAt": null,
+                    "deadline": 60.6231,
+                    "reason": null,
+                    "result": null
+                  }
+                },
+                {
+                  "type": "running",
+                  "ownerId": "uniform-lite-female-v1",
+                  "time": 0.623100000000001,
+                  "task": {
+                    "requestId": "f1894064-5d73-4d46-90ad-9cd0448a7e48",
+                    "ownerId": "uniform-lite-female-v1",
+                    "kind": "standing-vocal",
+                    "payload": {
+                      "usePointId": "singing-studio/ground/live/vocal#vocal"
+                    },
+                    "admission": "accepted",
+                    "state": "running",
+                    "requestedAt": 0.623100000000001,
+                    "startedAt": 0.623100000000001,
+                    "endedAt": null,
+                    "deadline": 60.6231,
+                    "reason": null,
+                    "result": null
+                  }
+                },
+                {
+                  "type": "failed",
+                  "ownerId": "uniform-lite-female-v1",
+                  "time": 9.225699999999916,
+                  "task": {
+                    "requestId": "f1894064-5d73-4d46-90ad-9cd0448a7e48",
+                    "ownerId": "uniform-lite-female-v1",
+                    "kind": "standing-vocal",
+                    "payload": {
+                      "usePointId": "singing-studio/ground/live/vocal#vocal"
+                    },
+                    "admission": "accepted",
+                    "state": "failed",
+                    "requestedAt": 0.623100000000001,
+                    "startedAt": 0.623100000000001,
+                    "endedAt": 9.225699999999916,
+                    "deadline": 60.6231,
+                    "reason": "vocal-performer-outside-pickup-window",
+                    "result": null
+                  }
+                },
+                {
+                  "type": "rejected",
+                  "ownerId": "uniform-lite-female-v1",
+                  "time": 13.259999999999913,
+                  "task": {
+                    "requestId": "ea631c8c-548d-42cf-8608-7017e25387af",
+                    "ownerId": "uniform-lite-female-v1",
+                    "kind": "standing-vocal",
+                    "payload": {
+                      "usePointId": "singing-studio/ground/live/vocal#vocal"
+                    },
+                    "admission": "rejected",
+                    "state": null,
+                    "requestedAt": 13.259999999999913,
+                    "startedAt": null,
+                    "endedAt": 13.259999999999913,
+                    "deadline": 73.2599999999999,
+                    "reason": "seat-unavailable",
+                    "result": null
+                  }
+                }
+              ]
+            },
+            {
+              "actor": "uniform-lite-male-v1",
+              "position": [
+                -3.1102751211222915e-11,
+                0,
+                0.7700405357268636
+              ],
+              "yaw": 3.1410878862974907,
+              "contact": {
+                "usePointId": "singing-studio/ground/live/vocal#vocal",
+                "pickupNodeId": "singing-mic-pickup",
+                "pickupWorld": [
+                  0.0014302444920879023,
+                  1.5755081272221527,
+                  0.40992388548304726
+                ],
+                "mouthWorld": [
+                  0.01985374803936234,
+                  1.3770070968160502,
+                  0.7048290338921592
+                ],
+                "eyeWorld": [
+                  0.018037829016723145,
+                  1.461367093747425,
+                  0.7477346784171641
+                ],
+                "mouthDistance": 0.35596507007491796,
+                "incidenceDegrees": 20.15507021221743,
+                "facingDegrees": 3.5747729323468382,
+                "withinPickupWindow": false,
+                "requestId": "07733f65-58f5-40b3-8421-dfc679e4b302",
+                "footWorld": [
+                  -3.1102751211222915e-11,
+                  0,
+                  0.7700405357268636
+                ],
+                "yaw": 3.1415918862974905,
+                "reason": "vocal-performer-outside-pickup-window"
+              },
+              "events": [
+                {
+                  "type": "accepted",
+                  "ownerId": "uniform-lite-male-v1",
+                  "time": 12.846599999999913,
+                  "task": {
+                    "requestId": "07733f65-58f5-40b3-8421-dfc679e4b302",
+                    "ownerId": "uniform-lite-male-v1",
+                    "kind": "standing-vocal",
+                    "payload": {
+                      "usePointId": "singing-studio/ground/live/vocal#vocal"
+                    },
+                    "admission": "accepted",
+                    "state": "pending",
+                    "requestedAt": 12.846599999999913,
+                    "startedAt": null,
+                    "endedAt": null,
+                    "deadline": 72.84659999999991,
+                    "reason": null,
+                    "result": null
+                  }
+                },
+                {
+                  "type": "running",
+                  "ownerId": "uniform-lite-male-v1",
+                  "time": 12.846599999999913,
+                  "task": {
+                    "requestId": "07733f65-58f5-40b3-8421-dfc679e4b302",
+                    "ownerId": "uniform-lite-male-v1",
+                    "kind": "standing-vocal",
+                    "payload": {
+                      "usePointId": "singing-studio/ground/live/vocal#vocal"
+                    },
+                    "admission": "accepted",
+                    "state": "running",
+                    "requestedAt": 12.846599999999913,
+                    "startedAt": 12.846599999999913,
+                    "endedAt": null,
+                    "deadline": 72.84659999999991,
+                    "reason": null,
+                    "result": null
+                  }
+                },
+                {
+                  "type": "failed",
+                  "ownerId": "uniform-lite-male-v1",
+                  "time": 19.658900000000326,
+                  "task": {
+                    "requestId": "07733f65-58f5-40b3-8421-dfc679e4b302",
+                    "ownerId": "uniform-lite-male-v1",
+                    "kind": "standing-vocal",
+                    "payload": {
+                      "usePointId": "singing-studio/ground/live/vocal#vocal"
+                    },
+                    "admission": "accepted",
+                    "state": "failed",
+                    "requestedAt": 12.846599999999913,
+                    "startedAt": 12.846599999999913,
+                    "endedAt": 19.658900000000326,
+                    "deadline": 72.84659999999991,
+                    "reason": "vocal-performer-outside-pickup-window",
+                    "result": null
+                  }
+                }
+              ]
+            }
+          ],
+          "video": "singing-studio-first-1x.webm"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "failedSessions": [
+    "singing-studio-first"
+  ],
+  "browser": "157.0.8103.79",
+  "failure": "AssertionError [ERR_ASSERTION]: singing-studio-first\n+ actual - expected\n\n+ [\n+   'singing-studio-first'\n+ ]\n- []\n\n    at run (F:\\gamemake\\scripts\\qa-game-standing-vocal.cjs:236:12)"
+}

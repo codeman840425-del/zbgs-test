@@ -77,9 +77,29 @@ async function startFrameSample(page) {
   });
 }
 
-async function run(base, build, recordsFile, destination) {
+async function frameMicSide(page,pointId) {
+  return page.evaluate(id=>{
+    const {three,camera,actors}=__recordConsumer, {session,orbit,floorId}=facilityRoom;
+    const point=session.scene.describeUsePoints({floorId}).find(p=>p.id===id);
+    const bounds=new three.Box3();
+    for (const position of [point.transform.position,point.approachPosition,point.exitPosition,
+      ...[...actors.values()].map(actor=>actor.avatar.root.position.toArray())]) {
+      const foot=new three.Vector3(...position);
+      bounds.expandByPoint(foot);bounds.expandByPoint(foot.add(new three.Vector3(0,1.85,0)));
+    }
+    const center=bounds.getCenter(new three.Vector3()),size=bounds.getSize(new three.Vector3());
+    const direction=new three.Vector3(1,.35,.25).normalize().applyAxisAngle(new three.Vector3(0,1,0),point.transform.yaw);
+    const halfAngle=camera.fov*Math.PI/360;
+    const distance=1.15*Math.max(size.y,Math.hypot(size.x,size.z)/camera.aspect)/(2*Math.tan(halfAngle))+.5*Math.hypot(size.x,size.z);
+    camera.position.copy(center).addScaledVector(direction,distance);orbit.target.copy(center);orbit.update();
+    return {position:camera.position.toArray(),target:orbit.target.toArray(),fov:camera.fov};
+  },pointId);
+}
+
+async function run(base, build, recordsFile, destination, cameraMode='room') {
   const out=await projectOutput(destination,await productionRoot());
   assert.match(build,/^[0-9a-f]{12}$/);
+  assert(['room','mic-side'].includes(cameraMode));
   const origin=new URL(base);
   assert(origin.protocol==='http:' && ['localhost','127.0.0.1','[::1]'].includes(origin.hostname));
   const records=JSON.parse(await fs.readFile(recordsFile,'utf8'));
@@ -99,17 +119,18 @@ async function run(base, build, recordsFile, destination) {
   await fs.mkdir(out);
   const report={status:'incomplete',build,sourceDigest:published.gameRuntime.sourceDigest,inputRecords,
     combinedSha256:createHash('sha256').update(packageBytes).digest('hex'),roomManifest:published.roomManifestSha256,
-    viewport:{width:1440,height:900},rooms:[],errors:[],failedSessions:[]};
+    viewport:{width:1440,height:900},cameraMode,rooms:[],errors:[],failedSessions:[]};
   let session;
   try {
     session=await launchQABrowser(out,{channel:'chrome'});
     report.browser=session.browser.version();
     for (const [index,entry] of published.rooms.entries()) {
+      if(cameraMode==='mic-side' && entry.key!=='singing-studio')continue;
       const id=performer.identity.id,peer=shortPerformer.identity.id;
       const row={room:entry.key,point:entry.primaryUsePointId,performer:id,peer,sessions:[]};
       report.rooms.push(row);
       let storage,saved;
-      for (const passName of ['first','cold']) {
+      for (const passName of (cameraMode==='mic-side'?['first']:['first','cold'])) {
         const pass={name:passName};row.sessions.push(pass);
         const context=await session.browser.newContext({viewport:report.viewport,deviceScaleFactor:1,
           ...(storage?{storageState:storage}:{}),serviceWorkers:'block',recordVideo:{dir:out,size:report.viewport}});
@@ -129,6 +150,7 @@ async function run(base, build, recordsFile, destination) {
             records:Object.fromEntries([...__recordConsumer.actors].map(([key,actor])=>[key,actor.recordSha256])),
             speaking:[...__recordConsumer.actors.values()].map(actor=>actor.avatar.livePresentation.getState().speaking)}));
           assert.deepEqual(pass.loaded,{room:entry.key,build,records:inputRecords,speaking:[false,false]});
+          if(cameraMode==='mic-side')pass.camera=await frameMicSide(page,row.point);
           await startFrameSample(page);
           if (passName==='first') {
             const attempt=await useButton(page,peer,'#facility-sit');
@@ -150,13 +172,13 @@ async function run(base, build, recordsFile, destination) {
             assert.equal(other.admission,'rejected');
             assert.match(other.reason,/unavailable|occupied|busy/);
             pass.arrival=await completed(page,begin);
-            await page.locator('#facility-actor').selectOption(id);
           } else {
             await page.locator('#facility-restore').click();
             await page.waitForFunction(()=>/已恢复|失败|mismatch|invalid|unavailable/.test(document.querySelector('#room-status').textContent),null,{timeout:45000});
             assert.match(await page.locator('#room-status').textContent(),/已恢复/);
             assert.deepEqual(await page.evaluate(()=>__recordConsumer.captureFacilityState()),saved);
           }
+          await page.locator('#facility-actor').selectOption(id);
           pass.hold=[];
           for(let i=0;i<5;i++){pass.hold.push(await readContact(page,id));await page.waitForTimeout(260);}
           for(const sample of pass.hold) {

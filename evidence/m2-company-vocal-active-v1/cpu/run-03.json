@@ -1,0 +1,3138 @@
+{
+  "schema": "company-vocal-active-character-cpu-v1",
+  "status": "passed",
+  "rooms": [
+    {
+      "room": "singing-studio",
+      "point": "singing-studio/ground/live/vocal#vocal",
+      "saveSha256": "4438ffec90df2f56ac3020a748d711d49d3eb715330f47a020914f64d78be6ed",
+      "roster": [
+        {
+          "uuid": "992e808b-b523-453a-a5d4-5382200e29a8",
+          "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+          "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+        },
+        {
+          "uuid": "4a9924c1-21b3-4cc8-a0e6-c079dbc5855c",
+          "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+          "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+        }
+      ],
+      "chairOnly": {
+        "admission": "rejected",
+        "state": null,
+        "reason": "invalid-seat-use-point"
+      },
+      "reservedContention": {
+        "admission": "rejected",
+        "state": null,
+        "reason": "seat-unavailable"
+      },
+      "cancelled": {
+        "task": {
+          "requestId": "cancel-approach",
+          "ownerId": "uniform-lite-female-v1",
+          "kind": "standing-vocal",
+          "payload": {
+            "usePointId": "singing-studio/ground/live/vocal#vocal"
+          },
+          "admission": "accepted",
+          "state": "cancelled",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 0.09999999999999999,
+          "deadline": 60,
+          "reason": "cancelled",
+          "result": null
+        },
+        "release": {
+          "type": "released",
+          "lease": {
+            "token": "seat-lease:1",
+            "seatId": "singing-studio/ground/live/vocal#vocal",
+            "ownerId": "uniform-lite-female-v1",
+            "requestId": "cancel-approach",
+            "state": "released",
+            "releaseRequested": false,
+            "releaseReason": "cancelled"
+          }
+        }
+      },
+      "destroyedDuringApproach": {
+        "task": {
+          "requestId": "destroy-approach",
+          "ownerId": "uniform-lite-male-v1",
+          "kind": "standing-vocal",
+          "payload": {
+            "usePointId": "singing-studio/ground/live/vocal#vocal"
+          },
+          "admission": "accepted",
+          "state": "cancelled",
+          "requestedAt": 0.09999999999999999,
+          "startedAt": 0.09999999999999999,
+          "endedAt": 0.09999999999999999,
+          "deadline": 60.1,
+          "reason": "owner-destroyed",
+          "result": null
+        },
+        "release": {
+          "type": "released",
+          "lease": {
+            "token": "seat-lease:2",
+            "seatId": "singing-studio/ground/live/vocal#vocal",
+            "ownerId": "uniform-lite-male-v1",
+            "requestId": "destroy-approach",
+            "state": "released",
+            "releaseRequested": false,
+            "releaseReason": "owner-destroyed"
+          }
+        }
+      },
+      "activeTime": {
+        "saved": {
+          "phase": "approaching",
+          "position": [
+            -0.7,
+            0,
+            -0.7
+          ],
+          "yaw": 0.16333333333333333,
+          "seat": null,
+          "vocal": {
+            "id": "singing-studio/ground/live/vocal#vocal",
+            "companyId": "singing-studio",
+            "floorId": "singing-studio/ground",
+            "roomId": "singing-studio/ground/live",
+            "facilityId": "singing-studio/ground/live/vocal",
+            "resource": {
+              "id": "floor-vocal-mic-boom",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793
+            },
+            "facilityTransform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            },
+            "approachPosition": [
+              0,
+              0,
+              1.12
+            ],
+            "exitPosition": [
+              0,
+              0,
+              1.12
+            ],
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "kind": "standing-vocal",
+            "slotId": "vocal",
+            "transformChain": [
+              {
+                "id": "singing-studio/ground",
+                "parentId": "singing-studio",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live",
+                "parentId": "singing-studio/ground",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/vocal",
+                "parentId": "singing-studio/ground/live",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              }
+            ],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "mouth": [
+                0,
+                1.555,
+                0.23
+              ],
+              "eye": [
+                0,
+                1.64,
+                0.215
+              ]
+            },
+            "clearance": {
+              "width": 0.5,
+              "depth": 0.5,
+              "height": 1.9
+            },
+            "capacity": 1
+          },
+          "requestId": "timed-approach",
+          "remainingSeconds": 0.4
+        },
+        "restored": {
+          "phase": "approaching",
+          "position": [
+            -0.7,
+            0,
+            -0.7
+          ],
+          "yaw": 0.16333333333333333,
+          "seat": null,
+          "vocal": {
+            "id": "singing-studio/ground/live/vocal#vocal",
+            "companyId": "singing-studio",
+            "floorId": "singing-studio/ground",
+            "roomId": "singing-studio/ground/live",
+            "facilityId": "singing-studio/ground/live/vocal",
+            "resource": {
+              "id": "floor-vocal-mic-boom",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793
+            },
+            "facilityTransform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            },
+            "approachPosition": [
+              0,
+              0,
+              1.12
+            ],
+            "exitPosition": [
+              0,
+              0,
+              1.12
+            ],
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "kind": "standing-vocal",
+            "slotId": "vocal",
+            "transformChain": [
+              {
+                "id": "singing-studio/ground",
+                "parentId": "singing-studio",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live",
+                "parentId": "singing-studio/ground",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/vocal",
+                "parentId": "singing-studio/ground/live",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              }
+            ],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "mouth": [
+                0,
+                1.555,
+                0.23
+              ],
+              "eye": [
+                0,
+                1.64,
+                0.215
+              ]
+            },
+            "clearance": {
+              "width": 0.5,
+              "depth": 0.5,
+              "height": 1.9
+            },
+            "capacity": 1
+          },
+          "requestId": "timed-approach",
+          "remainingSeconds": 0.4
+        },
+        "expired": {
+          "requestId": "timed-approach",
+          "ownerId": "uniform-lite-female-v1",
+          "kind": "standing-vocal",
+          "payload": {
+            "usePointId": "singing-studio/ground/live/vocal#vocal"
+          },
+          "admission": "accepted",
+          "state": "failed",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 0.4033333333333333,
+          "deadline": 0.4,
+          "reason": "timeout",
+          "result": null
+        },
+        "release": {
+          "type": "released",
+          "lease": {
+            "token": "seat-lease:1",
+            "seatId": "singing-studio/ground/live/vocal#vocal",
+            "ownerId": "uniform-lite-female-v1",
+            "requestId": "timed-approach",
+            "state": "released",
+            "releaseRequested": false,
+            "releaseReason": "timeout"
+          }
+        },
+        "zeroBudgetRejected": true,
+        "original": [
+          {
+            "uuid": "1c0843c2-e25b-4fab-86b8-d60abb8d7c7f",
+            "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+            "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+          },
+          {
+            "uuid": "6e05c385-910b-4ef8-bb9b-0e83c33dea99",
+            "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+            "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+          }
+        ],
+        "restoredActor": {
+          "uuid": "b94c9d29-5839-4fb2-ac56-278d3b0b50a1",
+          "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+          "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+        }
+      },
+      "female": {
+        "arrival": {
+          "task": {
+            "requestId": "female-actual-fit",
+            "ownerId": "uniform-lite-female-v1",
+            "kind": "standing-vocal",
+            "payload": {
+              "usePointId": "singing-studio/ground/live/vocal#vocal"
+            },
+            "admission": "accepted",
+            "state": "failed",
+            "requestedAt": 0.19999999999999998,
+            "startedAt": 0.19999999999999998,
+            "endedAt": 9.233333333333372,
+            "deadline": 60.2,
+            "reason": "vocal-performer-outside-pickup-window",
+            "result": null
+          },
+          "travelledM": 5.1930538586056265,
+          "frames": 542,
+          "walkFrames": 422
+        },
+        "retainedAtFailure": {
+          "token": "seat-lease:4",
+          "seatId": "singing-studio/ground/live/vocal#vocal",
+          "ownerId": "uniform-lite-female-v1",
+          "requestId": "female-actual-fit",
+          "state": "reserved",
+          "releaseRequested": false,
+          "releaseReason": null
+        },
+        "contact": {
+          "independent": {
+            "lipPoints": 32,
+            "mouth": [
+              0.00716694372979685,
+              1.3694723770291182,
+              0.6627637801093869
+            ],
+            "eyes": [
+              0.008272288619280664,
+              1.4440286380627585,
+              0.7171866226583068
+            ],
+            "mouthReference": [
+              2.816687638038912e-17,
+              1.555,
+              0.54
+            ],
+            "eyeReference": [
+              2.6329906181668094e-17,
+              1.64,
+              0.555
+            ],
+            "mouthReferenceErrorM": 0.2225821414094078,
+            "eyeReferenceErrorM": 0.2545146479632281,
+            "actualPickupNode": "singing-mic-pickup",
+            "pickupCenter": [
+              0,
+              1.5909180629427722,
+              0.3870299520290654
+            ],
+            "pickupSurface": [
+              0.0005640819221084305,
+              1.5734889449167073,
+              0.4087318759729097
+            ],
+            "physicalAxis": [
+              2.4314698379797792e-18,
+              -0.24192243217941367,
+              0.9702955924914825
+            ],
+            "firstCompanySurface": "singing-mic-pickup",
+            "pickupOccluded": false,
+            "mouthToPickupM": 0.3258812146716761,
+            "eyeToPickupM": 0.334609799996888,
+            "incidenceDegrees": 24.793882103154026,
+            "facingDegrees": 1.4889112202169408,
+            "withinPickupWindow": false,
+            "actorRoot": [
+              0,
+              0,
+              0.77
+            ],
+            "rootYaw": -3.141592653589793,
+            "authoredYaw": 3.141592653589793,
+            "yawErrorRad": 2.4492935982947064e-16,
+            "support": {
+              "ready": true,
+              "hipWorld": [
+                0.0004836891405990459,
+                0.9047742714907216,
+                0.769679747283973
+              ],
+              "feet": [
+                {
+                  "side": "left",
+                  "contact": true,
+                  "ankleWorld": [
+                    -0.04625057912198828,
+                    0.10294508934021018,
+                    0.7952276328392326
+                  ],
+                  "soleSupportWorld": [
+                    -0.04625057912198828,
+                    0.10294508934021018,
+                    0.7952276328392326
+                  ]
+                },
+                {
+                  "side": "right",
+                  "contact": true,
+                  "ankleWorld": [
+                    0.04676028602989393,
+                    0.10294532775878934,
+                    0.7952278740517795
+                  ],
+                  "soleSupportWorld": [
+                    0.04676028602989393,
+                    0.10294532775878934,
+                    0.7952278740517795
+                  ]
+                }
+              ]
+            }
+          },
+          "controller": {
+            "usePointId": "singing-studio/ground/live/vocal#vocal",
+            "pickupNodeId": "singing-mic-pickup",
+            "pickupWorld": [
+              0.0005640819221084314,
+              1.5734889449167073,
+              0.4087318759729097
+            ],
+            "mouthWorld": [
+              0.00716694372979685,
+              1.3694723770291182,
+              0.6627637801093867
+            ],
+            "eyeWorld": [
+              0.008272288619280664,
+              1.4440286380627585,
+              0.7171866226583068
+            ],
+            "mouthDistance": 0.32588121467167597,
+            "incidenceDegrees": 24.793882103154026,
+            "facingDegrees": 1.4889112202169408,
+            "withinPickupWindow": false,
+            "requestId": "female-actual-fit",
+            "footWorld": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": -3.141592653589793,
+            "reason": "vocal-performer-outside-pickup-window"
+          }
+        },
+        "blockedDuringReturn": {
+          "admission": "rejected",
+          "state": null,
+          "reason": "seat-unavailable"
+        },
+        "return": {
+          "frames": 233,
+          "travelledM": 1.0099999999999998,
+          "start": [
+            0,
+            0,
+            0.77
+          ],
+          "end": [
+            -0.66,
+            0,
+            1.12
+          ],
+          "lease": null
+        },
+        "release": {
+          "type": "released",
+          "lease": {
+            "token": "seat-lease:4",
+            "seatId": "singing-studio/ground/live/vocal#vocal",
+            "ownerId": "uniform-lite-female-v1",
+            "requestId": "female-actual-fit",
+            "state": "released",
+            "releaseRequested": false,
+            "releaseReason": "vocal-performer-outside-pickup-window"
+          }
+        }
+      },
+      "male": {
+        "admission": {
+          "admission": "accepted",
+          "duplicate": false,
+          "reason": null,
+          "task": {
+            "requestId": "male-actual-fit",
+            "ownerId": "uniform-lite-male-v1",
+            "kind": "standing-vocal",
+            "payload": {
+              "usePointId": "singing-studio/ground/live/vocal#vocal"
+            },
+            "admission": "accepted",
+            "state": "running",
+            "requestedAt": 13.016666666666893,
+            "startedAt": 13.016666666666893,
+            "endedAt": null,
+            "deadline": 73.0166666666669,
+            "reason": null,
+            "result": null
+          }
+        },
+        "arrival": {
+          "task": {
+            "requestId": "male-actual-fit",
+            "ownerId": "uniform-lite-male-v1",
+            "kind": "standing-vocal",
+            "payload": {
+              "usePointId": "singing-studio/ground/live/vocal#vocal"
+            },
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 13.016666666666893,
+            "startedAt": 13.016666666666893,
+            "endedAt": 20.283333333333463,
+            "deadline": 73.0166666666669,
+            "reason": null,
+            "result": {
+              "mode": "standing-vocal",
+              "usePointId": "singing-studio/ground/live/vocal#vocal",
+              "pickupNodeId": "singing-mic-pickup",
+              "pickupWorld": [
+                0.0007961353248117494,
+                1.5827978927844164,
+                0.41280138626917207
+              ],
+              "mouthWorld": [
+                0.008235427751436675,
+                1.5069209426236594,
+                0.6536162698582424
+              ],
+              "eyeWorld": [
+                0.010132324161347527,
+                1.59001092357125,
+                0.6989291579410333
+              ],
+              "mouthDistance": 0.2525954528401577,
+              "incidenceDegrees": 3.8750942319116644,
+              "facingDegrees": 1.7694277830045664,
+              "withinPickupWindow": true,
+              "requestId": "male-actual-fit",
+              "footWorld": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141586010672096
+            }
+          },
+          "travelledM": 3.8872533797944873,
+          "frames": 436,
+          "walkFrames": 329
+        },
+        "contact": {
+          "independent": {
+            "lipPoints": 32,
+            "mouth": [
+              0.008235427751436673,
+              1.5069209426236596,
+              0.6536162698582424
+            ],
+            "eyes": [
+              0.010132324161347527,
+              1.59001092357125,
+              0.6989291579410333
+            ],
+            "mouthReference": [
+              2.816687638038912e-17,
+              1.555,
+              0.54
+            ],
+            "eyeReference": [
+              2.6329906181668094e-17,
+              1.64,
+              0.555
+            ],
+            "mouthReferenceErrorM": 0.12364495462794878,
+            "eyeReferenceErrorM": 0.15269962102351436,
+            "actualPickupNode": "singing-mic-pickup",
+            "pickupCenter": [
+              0,
+              1.5909180629427722,
+              0.3870299520290654
+            ],
+            "pickupSurface": [
+              0.0007961353248117494,
+              1.5827978927844164,
+              0.41280138626917207
+            ],
+            "physicalAxis": [
+              2.4314698379797792e-18,
+              -0.24192243217941367,
+              0.9702955924914825
+            ],
+            "firstCompanySurface": "singing-mic-pickup",
+            "pickupOccluded": false,
+            "mouthToPickupM": 0.25259545284015766,
+            "eyeToPickupM": 0.2863709027765007,
+            "incidenceDegrees": 3.8750942319116644,
+            "facingDegrees": 1.7698083941521257,
+            "withinPickupWindow": true,
+            "actorRoot": [
+              0,
+              0,
+              0.77
+            ],
+            "rootYaw": 3.141586010672096,
+            "authoredYaw": 3.141592653589793,
+            "yawErrorRad": -0.0000066429176972526705,
+            "support": {
+              "ready": true,
+              "hipWorld": [
+                -0.00031294275380036856,
+                1.002737218382876,
+                0.765852658669706
+              ],
+              "feet": [
+                {
+                  "side": "left",
+                  "contact": true,
+                  "ankleWorld": [
+                    -0.04906060124017736,
+                    0.12082677098038436,
+                    0.8020851626751717
+                  ],
+                  "soleSupportWorld": [
+                    -0.04906060124017736,
+                    0.12082677098038436,
+                    0.8020851626751717
+                  ]
+                },
+                {
+                  "side": "right",
+                  "contact": true,
+                  "ankleWorld": [
+                    0.05007611635733911,
+                    0.12082688998038454,
+                    0.8020858659222287
+                  ],
+                  "soleSupportWorld": [
+                    0.05007611635733911,
+                    0.12082688998038454,
+                    0.8020858659222287
+                  ]
+                }
+              ]
+            }
+          },
+          "controller": {
+            "usePointId": "singing-studio/ground/live/vocal#vocal",
+            "pickupNodeId": "singing-mic-pickup",
+            "pickupWorld": [
+              0.0007961353248117494,
+              1.5827978927844164,
+              0.41280138626917207
+            ],
+            "mouthWorld": [
+              0.008235427751436675,
+              1.5069209426236594,
+              0.6536162698582424
+            ],
+            "eyeWorld": [
+              0.010132324161347527,
+              1.59001092357125,
+              0.6989291579410333
+            ],
+            "mouthDistance": 0.2525954528401577,
+            "incidenceDegrees": 3.8750942319116644,
+            "facingDegrees": 1.7694277830045664,
+            "withinPickupWindow": true,
+            "requestId": "male-actual-fit",
+            "footWorld": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141586010672096
+          }
+        },
+        "hold": {
+          "frames": 900,
+          "minDistanceM": 0.2269353015223257,
+          "maxDistanceM": 0.2587453040305541,
+          "maxIncidenceDegrees": 7.809757893488753,
+          "maxFacingDegrees": 3.9419011713994876,
+          "samples": [
+            {
+              "frame": 75,
+              "mouthWorld": [
+                0.013616045609738383,
+                1.5037913104762548,
+                0.641839312660817
+              ],
+              "eyes": [
+                0.01584030360715,
+                1.5881115562954151,
+                0.6850685217388457
+              ],
+              "mouthToPickupM": 0.24256693261337417,
+              "incidenceDegrees": 5.669516735417882,
+              "facingDegrees": 3.059140573175475,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0,
+                "ee": 0,
+                "oh": 0.32360086051485093
+              }
+            },
+            {
+              "frame": 150,
+              "mouthWorld": [
+                0.008965963964415532,
+                1.507081596813652,
+                0.6590431106885923
+              ],
+              "eyes": [
+                0.015602720630016113,
+                1.59154751641108,
+                0.7018021557128786
+              ],
+              "mouthToPickupM": 0.2577579663605102,
+              "incidenceDegrees": 3.6120033826140854,
+              "facingDegrees": 1.8882524166535548,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0,
+                "ee": 0,
+                "oh": 0.5743795243259009
+              }
+            },
+            {
+              "frame": 225,
+              "mouthWorld": [
+                0.010962074282862362,
+                1.5155570529829439,
+                0.6545365437595624
+              ],
+              "eyes": [
+                0.013060691853608957,
+                1.5949065282432295,
+                0.7061128476373205
+              ],
+              "mouthToPickupM": 0.25115443253565295,
+              "incidenceDegrees": 2.846937437035455,
+              "facingDegrees": 2.3469746588523046,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0,
+                "ee": 0,
+                "oh": 0.0009923294145776803
+              }
+            },
+            {
+              "frame": 300,
+              "mouthWorld": [
+                0.009383670958853448,
+                1.5067932858937083,
+                0.6551982017663703
+              ],
+              "eyes": [
+                0.011362982314708227,
+                1.5903037429810385,
+                0.6967762063239502
+              ],
+              "mouthToPickupM": 0.2541828810560334,
+              "incidenceDegrees": 3.914858157005817,
+              "facingDegrees": 2.0044413802448995,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0,
+                "ee": 0.537178001142734,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 375,
+              "mouthWorld": [
+                0.012358489819270969,
+                1.5020214745310314,
+                0.6428684720898679
+              ],
+              "eyes": [
+                0.01455322729172728,
+                1.5865576717055885,
+                0.6832593164450125
+              ],
+              "mouthToPickupM": 0.2440470623094992,
+              "incidenceDegrees": 5.782858979388324,
+              "facingDegrees": 2.7659505231142916,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0,
+                "ee": 0.3746593289158269,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 450,
+              "mouthWorld": [
+                0.009220561327104438,
+                1.5010179656673868,
+                0.6504714670135358
+              ],
+              "eyes": [
+                0.011316510502632627,
+                1.5871435029492564,
+                0.6904001127612066
+              ],
+              "mouthToPickupM": 0.2514432470655679,
+              "incidenceDegrees": 5.199884581228373,
+              "facingDegrees": 2.004938169129522,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0.06152781681454914,
+                "ee": 0,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 525,
+              "mouthWorld": [
+                0.011875173817586127,
+                1.5076603624754532,
+                0.6470114671633773
+              ],
+              "eyes": [
+                0.01509714850295071,
+                1.5914421682862745,
+                0.6973252360052651
+              ],
+              "mouthToPickupM": 0.24620796822152316,
+              "incidenceDegrees": 4.507007753787237,
+              "facingDegrees": 2.615661705185863,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0.6538142525075836,
+                "ee": 0,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 600,
+              "mouthWorld": [
+                0.012656680604633836,
+                1.5026855008406395,
+                0.6412284614390837
+              ],
+              "eyes": [
+                0.014749271184051836,
+                1.5874065707202307,
+                0.6850245835850919
+              ],
+              "mouthToPickupM": 0.2422958494231486,
+              "incidenceDegrees": 5.802789131709473,
+              "facingDegrees": 2.850814366209864,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0.15404253717257493,
+                "ee": 0,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 675,
+              "mouthWorld": [
+                0.010575182295717708,
+                1.5103649742976926,
+                0.6569453185229911
+              ],
+              "eyes": [
+                0.016461686699692654,
+                1.5922143096011145,
+                0.7034203563174242
+              ],
+              "mouthToPickupM": 0.2548715422348187,
+              "incidenceDegrees": 3.3865498945391868,
+              "facingDegrees": 2.24406007233711,
+              "vowels": {
+                "aa": 0,
+                "ih": 0.24768442246468275,
+                "ou": 0,
+                "ee": 0,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 750,
+              "mouthWorld": [
+                0.009523025335439325,
+                1.5140081644825754,
+                0.65618921871027
+              ],
+              "eyes": [
+                0.011632968647400353,
+                1.594126996431676,
+                0.7048809599273391
+              ],
+              "mouthToPickupM": 0.25310692560297304,
+              "incidenceDegrees": 2.7540500613518604,
+              "facingDegrees": 2.0266963556758864,
+              "vowels": {
+                "aa": 0,
+                "ih": 0.6189342163275334,
+                "ou": 0,
+                "ee": 0,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 825,
+              "mouthWorld": [
+                0.010257605031672504,
+                1.501804768725602,
+                0.6537760690282637
+              ],
+              "eyes": [
+                0.012307585799365804,
+                1.5878660387578571,
+                0.6930925736862874
+              ],
+              "mouthToPickupM": 0.25436688797434426,
+              "incidenceDegrees": 4.935947745949056,
+              "facingDegrees": 2.2025796279807355,
+              "vowels": {
+                "aa": 0,
+                "ih": 0.01575819783680041,
+                "ou": 0,
+                "ee": 0,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 900,
+              "mouthWorld": [
+                0.011227115642758847,
+                1.5013593784856276,
+                0.6429939524269047
+              ],
+              "eyes": [
+                0.01348784602380764,
+                1.5864189135194995,
+                0.6825199957278966
+              ],
+              "mouthToPickupM": 0.24433114316915297,
+              "incidenceDegrees": 5.790355323907801,
+              "facingDegrees": 2.5118833769706357,
+              "vowels": {
+                "aa": 0.47235740167981066,
+                "ih": 0,
+                "ou": 0,
+                "ee": 0,
+                "oh": 0
+              }
+            }
+          ]
+        },
+        "lease": {
+          "token": "seat-lease:5",
+          "seatId": "singing-studio/ground/live/vocal#vocal",
+          "ownerId": "uniform-lite-male-v1",
+          "requestId": "male-actual-fit",
+          "state": "occupied",
+          "releaseRequested": false,
+          "releaseReason": null
+        },
+        "occupiedContention": {
+          "admission": "rejected",
+          "state": null,
+          "reason": "seat-unavailable"
+        },
+        "cold": {
+          "saved": {
+            "phase": "vocal",
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141586010672096,
+            "seat": null,
+            "vocal": {
+              "id": "singing-studio/ground/live/vocal#vocal",
+              "companyId": "singing-studio",
+              "floorId": "singing-studio/ground",
+              "roomId": "singing-studio/ground/live",
+              "facilityId": "singing-studio/ground/live/vocal",
+              "resource": {
+                "id": "floor-vocal-mic-boom",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0.77
+                ],
+                "yaw": 3.141592653589793
+              },
+              "facilityTransform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              },
+              "approachPosition": [
+                0,
+                0,
+                1.12
+              ],
+              "exitPosition": [
+                0,
+                0,
+                1.12
+              ],
+              "contact": {
+                "pickupNodeId": "singing-mic-pickup"
+              },
+              "kind": "standing-vocal",
+              "slotId": "vocal",
+              "transformChain": [
+                {
+                  "id": "singing-studio/ground",
+                  "parentId": "singing-studio",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "singing-studio/ground/live",
+                  "parentId": "singing-studio/ground",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "singing-studio/ground/live/vocal",
+                  "parentId": "singing-studio/ground/live",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                }
+              ],
+              "performerReferences": {
+                "coordinateSpace": "use-point",
+                "mouth": [
+                  0,
+                  1.555,
+                  0.23
+                ],
+                "eye": [
+                  0,
+                  1.64,
+                  0.215
+                ]
+              },
+              "clearance": {
+                "width": 0.5,
+                "depth": 0.5,
+                "height": 1.9
+              },
+              "capacity": 1
+            },
+            "vocalWorkingDistance": 0.2525954528401577,
+            "requestId": "male-actual-fit",
+            "remainingSeconds": null
+          },
+          "restored": {
+            "phase": "vocal",
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141586010672096,
+            "seat": null,
+            "vocal": {
+              "id": "singing-studio/ground/live/vocal#vocal",
+              "companyId": "singing-studio",
+              "floorId": "singing-studio/ground",
+              "roomId": "singing-studio/ground/live",
+              "facilityId": "singing-studio/ground/live/vocal",
+              "resource": {
+                "id": "floor-vocal-mic-boom",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0.77
+                ],
+                "yaw": 3.141592653589793
+              },
+              "facilityTransform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              },
+              "approachPosition": [
+                0,
+                0,
+                1.12
+              ],
+              "exitPosition": [
+                0,
+                0,
+                1.12
+              ],
+              "contact": {
+                "pickupNodeId": "singing-mic-pickup"
+              },
+              "kind": "standing-vocal",
+              "slotId": "vocal",
+              "transformChain": [
+                {
+                  "id": "singing-studio/ground",
+                  "parentId": "singing-studio",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "singing-studio/ground/live",
+                  "parentId": "singing-studio/ground",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "singing-studio/ground/live/vocal",
+                  "parentId": "singing-studio/ground/live",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                }
+              ],
+              "performerReferences": {
+                "coordinateSpace": "use-point",
+                "mouth": [
+                  0,
+                  1.555,
+                  0.23
+                ],
+                "eye": [
+                  0,
+                  1.64,
+                  0.215
+                ]
+              },
+              "clearance": {
+                "width": 0.5,
+                "depth": 0.5,
+                "height": 1.9
+              },
+              "capacity": 1
+            },
+            "vocalWorkingDistance": 0.2525954528401577,
+            "requestId": "male-actual-fit",
+            "remainingSeconds": null
+          },
+          "original": [
+            {
+              "uuid": "381d0e87-ae7c-4ef3-aef3-4ae31b8c6b1d",
+              "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+              "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+            },
+            {
+              "uuid": "142623be-efda-4849-953e-8afc581d0119",
+              "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+              "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+            }
+          ],
+          "misalignedSnapshotRejected": true,
+          "restoredActor": {
+            "uuid": "17efc735-1b87-48b0-880e-ea81d9ad5edc",
+            "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+            "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+          },
+          "contact": {
+            "independent": {
+              "lipPoints": 32,
+              "mouth": [
+                0.009882812950224883,
+                1.5035387006757157,
+                0.6464364627675722
+              ],
+              "eyes": [
+                0.01205044708048816,
+                1.5881862399218707,
+                0.6887554471376197
+              ],
+              "mouthReference": [
+                2.816687638038912e-17,
+                1.555,
+                0.54
+              ],
+              "eyeReference": [
+                2.6329906181668094e-17,
+                1.64,
+                0.555
+              ],
+              "mouthReferenceErrorM": 0.11863665507095805,
+              "eyeReferenceErrorM": 0.14394581844311471,
+              "actualPickupNode": "singing-mic-pickup",
+              "pickupCenter": [
+                0,
+                1.5909180629427722,
+                0.3870299520290654
+              ],
+              "pickupSurface": [
+                0.0009764233084474522,
+                1.5822849696701844,
+                0.41265935174793156
+              ],
+              "physicalAxis": [
+                2.4314698379797792e-18,
+                -0.24192243217941367,
+                0.9702955924914825
+              ],
+              "firstCompanySurface": "singing-mic-pickup",
+              "pickupOccluded": false,
+              "mouthToPickupM": 0.2468441538576309,
+              "eyeToPickupM": 0.27638110080560674,
+              "incidenceDegrees": 5.056798428969844,
+              "facingDegrees": 2.1821676146523643,
+              "withinPickupWindow": true,
+              "actorRoot": [
+                0,
+                0,
+                0.77
+              ],
+              "rootYaw": 3.141586010672096,
+              "authoredYaw": 3.141592653589793,
+              "yawErrorRad": -0.0000066429176972526705,
+              "support": {
+                "ready": true,
+                "hipWorld": [
+                  -0.0003678961418814037,
+                  1.0037613493803843,
+                  0.7658399640151078
+                ],
+                "feet": [
+                  {
+                    "side": "left",
+                    "contact": true,
+                    "ankleWorld": [
+                      -0.04906060124017743,
+                      0.12082677098038413,
+                      0.8020851626751717
+                    ],
+                    "soleSupportWorld": [
+                      -0.04906060124017743,
+                      0.12082677098038413,
+                      0.8020851626751717
+                    ]
+                  },
+                  {
+                    "side": "right",
+                    "contact": true,
+                    "ankleWorld": [
+                      0.0500761163573383,
+                      0.12082688998038443,
+                      0.8020858659222276
+                    ],
+                    "soleSupportWorld": [
+                      0.0500761163573383,
+                      0.12082688998038443,
+                      0.8020858659222276
+                    ]
+                  }
+                ]
+              }
+            },
+            "controller": {
+              "usePointId": "singing-studio/ground/live/vocal#vocal",
+              "pickupNodeId": "singing-mic-pickup",
+              "pickupWorld": [
+                0.0009764233084474522,
+                1.5822849696701844,
+                0.41265935174793167
+              ],
+              "mouthWorld": [
+                0.009882812950224881,
+                1.5035387006757155,
+                0.6464364627675723
+              ],
+              "eyeWorld": [
+                0.01205044708048816,
+                1.5881862399218707,
+                0.6887554471376197
+              ],
+              "mouthDistance": 0.24684415385763095,
+              "incidenceDegrees": 5.056798428969844,
+              "facingDegrees": 2.181787003504736,
+              "withinPickupWindow": true,
+              "requestId": "male-actual-fit",
+              "footWorld": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141586010672096
+            }
+          }
+        },
+        "exitContention": {
+          "admission": "rejected",
+          "state": null,
+          "reason": "seat-unavailable"
+        },
+        "departure": {
+          "task": {
+            "requestId": "depart-after-restore",
+            "ownerId": "uniform-lite-male-v1",
+            "kind": "stand",
+            "payload": {},
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 0,
+            "startedAt": 0,
+            "endedAt": 3.8833333333333244,
+            "deadline": 60,
+            "reason": null,
+            "result": {
+              "mode": "idle"
+            }
+          },
+          "travelledM": 1.0099999999999998,
+          "frames": 233,
+          "walkFrames": 125
+        },
+        "departureLeaseEvents": [
+          {
+            "type": "reserved",
+            "lease": {
+              "token": "seat-lease:1",
+              "seatId": "singing-studio/ground/live/vocal#vocal",
+              "ownerId": "uniform-lite-male-v1",
+              "requestId": "male-actual-fit",
+              "state": "reserved",
+              "releaseRequested": false,
+              "releaseReason": null
+            }
+          },
+          {
+            "type": "occupied",
+            "lease": {
+              "token": "seat-lease:1",
+              "seatId": "singing-studio/ground/live/vocal#vocal",
+              "ownerId": "uniform-lite-male-v1",
+              "requestId": "male-actual-fit",
+              "state": "occupied",
+              "releaseRequested": false,
+              "releaseReason": null
+            }
+          },
+          {
+            "type": "exiting",
+            "lease": {
+              "token": "seat-lease:1",
+              "seatId": "singing-studio/ground/live/vocal#vocal",
+              "ownerId": "uniform-lite-male-v1",
+              "requestId": "male-actual-fit",
+              "state": "exiting",
+              "releaseRequested": false,
+              "releaseReason": null
+            }
+          },
+          {
+            "type": "released",
+            "lease": {
+              "token": "seat-lease:1",
+              "seatId": "singing-studio/ground/live/vocal#vocal",
+              "ownerId": "uniform-lite-male-v1",
+              "requestId": "male-actual-fit",
+              "state": "released",
+              "releaseRequested": false,
+              "releaseReason": "physically-exited"
+            }
+          }
+        ],
+        "destroyedWhileOccupied": {
+          "type": "released",
+          "lease": {
+            "token": "seat-lease:2",
+            "seatId": "singing-studio/ground/live/vocal#vocal",
+            "ownerId": "uniform-lite-male-v1",
+            "requestId": "destroy-occupied",
+            "state": "released",
+            "releaseRequested": false,
+            "releaseReason": "owner-destroyed"
+          }
+        }
+      },
+      "roomSwitch": {
+        "oldPointAbsent": true,
+        "staleSnapshotRejected": true,
+        "activeSwitchRejected": true,
+        "from": "singing-studio",
+        "to": "singing-rental",
+        "sameMountedActors": {
+          "uniform-lite-female-v1": "0fd431d4-d975-43b8-bd76-2f72011d1a4a",
+          "uniform-lite-male-v1": "0c38c9a7-37b9-45c7-a9e2-a874b17a2eea"
+        }
+      }
+    },
+    {
+      "room": "singing-rental",
+      "point": "singing-rental/ground/live/vocal#vocal",
+      "saveSha256": "0c50382d1535571f9071bf3dd7be4f585deacdb98b17765d238b29985e5d770e",
+      "roster": [
+        {
+          "uuid": "cb52a795-4584-4ec9-a120-610c55bfab6f",
+          "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+          "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+        },
+        {
+          "uuid": "58c5e9d3-0a40-4e86-8cd1-dbf34f8926dd",
+          "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+          "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+        }
+      ],
+      "chairOnly": {
+        "admission": "rejected",
+        "state": null,
+        "reason": "invalid-seat-use-point"
+      },
+      "reservedContention": {
+        "admission": "rejected",
+        "state": null,
+        "reason": "seat-unavailable"
+      },
+      "cancelled": {
+        "task": {
+          "requestId": "cancel-approach",
+          "ownerId": "uniform-lite-female-v1",
+          "kind": "standing-vocal",
+          "payload": {
+            "usePointId": "singing-rental/ground/live/vocal#vocal"
+          },
+          "admission": "accepted",
+          "state": "cancelled",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 0.09999999999999999,
+          "deadline": 60,
+          "reason": "cancelled",
+          "result": null
+        },
+        "release": {
+          "type": "released",
+          "lease": {
+            "token": "seat-lease:1",
+            "seatId": "singing-rental/ground/live/vocal#vocal",
+            "ownerId": "uniform-lite-female-v1",
+            "requestId": "cancel-approach",
+            "state": "released",
+            "releaseRequested": false,
+            "releaseReason": "cancelled"
+          }
+        }
+      },
+      "destroyedDuringApproach": {
+        "task": {
+          "requestId": "destroy-approach",
+          "ownerId": "uniform-lite-male-v1",
+          "kind": "standing-vocal",
+          "payload": {
+            "usePointId": "singing-rental/ground/live/vocal#vocal"
+          },
+          "admission": "accepted",
+          "state": "cancelled",
+          "requestedAt": 0.09999999999999999,
+          "startedAt": 0.09999999999999999,
+          "endedAt": 0.09999999999999999,
+          "deadline": 60.1,
+          "reason": "owner-destroyed",
+          "result": null
+        },
+        "release": {
+          "type": "released",
+          "lease": {
+            "token": "seat-lease:2",
+            "seatId": "singing-rental/ground/live/vocal#vocal",
+            "ownerId": "uniform-lite-male-v1",
+            "requestId": "destroy-approach",
+            "state": "released",
+            "releaseRequested": false,
+            "releaseReason": "owner-destroyed"
+          }
+        }
+      },
+      "activeTime": {
+        "saved": {
+          "phase": "approaching",
+          "position": [
+            -5.2,
+            0,
+            0.7
+          ],
+          "yaw": -0.16333333333333333,
+          "seat": null,
+          "vocal": {
+            "id": "singing-rental/ground/live/vocal#vocal",
+            "companyId": "singing-rental",
+            "floorId": "singing-rental/ground",
+            "roomId": "singing-rental/ground/live",
+            "facilityId": "singing-rental/ground/live/vocal",
+            "resource": {
+              "id": "floor-vocal-mic-boom",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                -3.73,
+                0,
+                4.71489017671731e-17
+              ],
+              "yaw": 4.71238898038469
+            },
+            "facilityTransform": {
+              "position": [
+                -4.5,
+                0,
+                0
+              ],
+              "yaw": 1.5707963267948966
+            },
+            "approachPosition": [
+              -3.38,
+              0,
+              6.858022075225179e-17
+            ],
+            "exitPosition": [
+              -3.38,
+              0,
+              6.858022075225179e-17
+            ],
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "kind": "standing-vocal",
+            "slotId": "vocal",
+            "transformChain": [
+              {
+                "id": "singing-rental/ground",
+                "parentId": "singing-rental",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live",
+                "parentId": "singing-rental/ground",
+                "transform": {
+                  "position": [
+                    -4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/vocal",
+                "parentId": "singing-rental/ground/live",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              }
+            ],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "mouth": [
+                0,
+                1.555,
+                0.23
+              ],
+              "eye": [
+                0,
+                1.64,
+                0.215
+              ]
+            },
+            "clearance": {
+              "width": 0.5,
+              "depth": 0.5,
+              "height": 1.9
+            },
+            "capacity": 1
+          },
+          "requestId": "timed-approach",
+          "remainingSeconds": 0.4
+        },
+        "restored": {
+          "phase": "approaching",
+          "position": [
+            -5.2,
+            0,
+            0.7
+          ],
+          "yaw": -0.16333333333333333,
+          "seat": null,
+          "vocal": {
+            "id": "singing-rental/ground/live/vocal#vocal",
+            "companyId": "singing-rental",
+            "floorId": "singing-rental/ground",
+            "roomId": "singing-rental/ground/live",
+            "facilityId": "singing-rental/ground/live/vocal",
+            "resource": {
+              "id": "floor-vocal-mic-boom",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                -3.73,
+                0,
+                4.71489017671731e-17
+              ],
+              "yaw": 4.71238898038469
+            },
+            "facilityTransform": {
+              "position": [
+                -4.5,
+                0,
+                0
+              ],
+              "yaw": 1.5707963267948966
+            },
+            "approachPosition": [
+              -3.38,
+              0,
+              6.858022075225179e-17
+            ],
+            "exitPosition": [
+              -3.38,
+              0,
+              6.858022075225179e-17
+            ],
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "kind": "standing-vocal",
+            "slotId": "vocal",
+            "transformChain": [
+              {
+                "id": "singing-rental/ground",
+                "parentId": "singing-rental",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live",
+                "parentId": "singing-rental/ground",
+                "transform": {
+                  "position": [
+                    -4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/vocal",
+                "parentId": "singing-rental/ground/live",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              }
+            ],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "mouth": [
+                0,
+                1.555,
+                0.23
+              ],
+              "eye": [
+                0,
+                1.64,
+                0.215
+              ]
+            },
+            "clearance": {
+              "width": 0.5,
+              "depth": 0.5,
+              "height": 1.9
+            },
+            "capacity": 1
+          },
+          "requestId": "timed-approach",
+          "remainingSeconds": 0.4
+        },
+        "expired": {
+          "requestId": "timed-approach",
+          "ownerId": "uniform-lite-female-v1",
+          "kind": "standing-vocal",
+          "payload": {
+            "usePointId": "singing-rental/ground/live/vocal#vocal"
+          },
+          "admission": "accepted",
+          "state": "failed",
+          "requestedAt": 0,
+          "startedAt": 0,
+          "endedAt": 0.4033333333333333,
+          "deadline": 0.4,
+          "reason": "timeout",
+          "result": null
+        },
+        "release": {
+          "type": "released",
+          "lease": {
+            "token": "seat-lease:1",
+            "seatId": "singing-rental/ground/live/vocal#vocal",
+            "ownerId": "uniform-lite-female-v1",
+            "requestId": "timed-approach",
+            "state": "released",
+            "releaseRequested": false,
+            "releaseReason": "timeout"
+          }
+        },
+        "zeroBudgetRejected": true,
+        "original": [
+          {
+            "uuid": "aca8bc4b-f827-4376-987c-3671f37da8fd",
+            "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+            "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+          },
+          {
+            "uuid": "f9650422-97c4-4fb7-a83d-77618a40a593",
+            "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+            "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+          }
+        ],
+        "restoredActor": {
+          "uuid": "e6f11ee8-43b2-43d8-b933-818ca3b73c85",
+          "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+          "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+        }
+      },
+      "female": {
+        "arrival": {
+          "task": {
+            "requestId": "female-actual-fit",
+            "ownerId": "uniform-lite-female-v1",
+            "kind": "standing-vocal",
+            "payload": {
+              "usePointId": "singing-rental/ground/live/vocal#vocal"
+            },
+            "admission": "accepted",
+            "state": "failed",
+            "requestedAt": 0.19999999999999998,
+            "startedAt": 0.19999999999999998,
+            "endedAt": 10.316666666666759,
+            "deadline": 60.2,
+            "reason": "vocal-performer-outside-pickup-window",
+            "result": null
+          },
+          "travelledM": 5.0991575398370905,
+          "frames": 607,
+          "walkFrames": 431
+        },
+        "retainedAtFailure": {
+          "token": "seat-lease:4",
+          "seatId": "singing-rental/ground/live/vocal#vocal",
+          "ownerId": "uniform-lite-female-v1",
+          "requestId": "female-actual-fit",
+          "state": "reserved",
+          "releaseRequested": false,
+          "releaseReason": null
+        },
+        "contact": {
+          "independent": {
+            "lipPoints": 32,
+            "mouth": [
+              -3.8389621159606144,
+              1.3669969597387086,
+              -0.006538162396363912
+            ],
+            "eyes": [
+              -3.7865421083389443,
+              1.442972583541583,
+              -0.007783564521608747
+            ],
+            "mouthReference": [
+              -3.96,
+              1.555,
+              9.173721027912778e-17
+            ],
+            "eyeReference": [
+              -3.945,
+              1.64,
+              9.690484955172428e-17
+            ],
+            "mouthReferenceErrorM": 0.22369188650405203,
+            "eyeReferenceErrorM": 0.2529610447136225,
+            "actualPickupNode": "singing-mic-pickup",
+            "pickupCenter": [
+              -4.112970047970935,
+              1.5909180629427722,
+              8.593791279244765e-17
+            ],
+            "pickupSurface": [
+              -4.091394033254563,
+              1.5732860003138145,
+              -0.0005148299432318762
+            ],
+            "physicalAxis": [
+              0.9702955924914823,
+              -0.24192243217941375,
+              3.7483854894999524e-19
+            ],
+            "firstCompanySurface": "singing-mic-pickup",
+            "pickupOccluded": false,
+            "mouthToPickupM": 0.32605723679123805,
+            "eyeToPickupM": 0.33161591822164105,
+            "incidenceDegrees": 25.276607785854672,
+            "facingDegrees": 1.35836535744356,
+            "withinPickupWindow": false,
+            "actorRoot": [
+              -3.73,
+              0,
+              4.714890448627345e-17
+            ],
+            "rootYaw": -7.853832893083091,
+            "authoredYaw": 4.71238898038469,
+            "yawErrorRad": 0.00014874089139254166,
+            "support": {
+              "ready": true,
+              "hipWorld": [
+                -3.7303434341145394,
+                0.9047787796636295,
+                0.0005098080752453683
+              ],
+              "feet": [
+                {
+                  "side": "left",
+                  "contact": true,
+                  "ankleWorld": [
+                    -3.7047654880874927,
+                    0.10294508934020985,
+                    0.04624682622978549
+                  ],
+                  "soleSupportWorld": [
+                    -3.7047654880874927,
+                    0.10294508934020985,
+                    0.04624682622978549
+                  ]
+                },
+                {
+                  "side": "right",
+                  "contact": true,
+                  "ankleWorld": [
+                    -3.7047790813938897,
+                    0.10294532775878906,
+                    -0.04676403792909553
+                  ],
+                  "soleSupportWorld": [
+                    -3.7047790813938897,
+                    0.10294532775878906,
+                    -0.04676403792909553
+                  ]
+                }
+              ]
+            }
+          },
+          "controller": {
+            "usePointId": "singing-rental/ground/live/vocal#vocal",
+            "pickupNodeId": "singing-mic-pickup",
+            "pickupWorld": [
+              -4.091394033254563,
+              1.5732860003138143,
+              -0.0005148299432318762
+            ],
+            "mouthWorld": [
+              -3.8389621159606153,
+              1.3669969597387086,
+              -0.006538162396363914
+            ],
+            "eyeWorld": [
+              -3.7865421083389443,
+              1.442972583541583,
+              -0.007783564521608747
+            ],
+            "mouthDistance": 0.3260572367912372,
+            "incidenceDegrees": 25.276607785854715,
+            "facingDegrees": 1.3668875827614801,
+            "withinPickupWindow": false,
+            "requestId": "female-actual-fit",
+            "footWorld": [
+              -3.73,
+              0,
+              4.714890448627345e-17
+            ],
+            "yaw": -7.853832893083091,
+            "reason": "vocal-performer-outside-pickup-window"
+          }
+        },
+        "blockedDuringReturn": {
+          "admission": "rejected",
+          "state": null,
+          "reason": "seat-unavailable"
+        },
+        "return": {
+          "frames": 233,
+          "travelledM": 1.0099999999999998,
+          "start": [
+            -3.73,
+            0,
+            4.714890448627345e-17
+          ],
+          "end": [
+            -3.38,
+            0,
+            0.6600000000000001
+          ],
+          "lease": null
+        },
+        "release": {
+          "type": "released",
+          "lease": {
+            "token": "seat-lease:4",
+            "seatId": "singing-rental/ground/live/vocal#vocal",
+            "ownerId": "uniform-lite-female-v1",
+            "requestId": "female-actual-fit",
+            "state": "released",
+            "releaseRequested": false,
+            "releaseReason": "vocal-performer-outside-pickup-window"
+          }
+        }
+      },
+      "male": {
+        "admission": {
+          "admission": "accepted",
+          "duplicate": false,
+          "reason": null,
+          "task": {
+            "requestId": "male-actual-fit",
+            "ownerId": "uniform-lite-male-v1",
+            "kind": "standing-vocal",
+            "payload": {
+              "usePointId": "singing-rental/ground/live/vocal#vocal"
+            },
+            "admission": "accepted",
+            "state": "running",
+            "requestedAt": 14.10000000000028,
+            "startedAt": 14.10000000000028,
+            "endedAt": null,
+            "deadline": 74.10000000000028,
+            "reason": null,
+            "result": null
+          }
+        },
+        "arrival": {
+          "task": {
+            "requestId": "male-actual-fit",
+            "ownerId": "uniform-lite-male-v1",
+            "kind": "standing-vocal",
+            "payload": {
+              "usePointId": "singing-rental/ground/live/vocal#vocal"
+            },
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 14.10000000000028,
+            "startedAt": 14.10000000000028,
+            "endedAt": 25.766666666666485,
+            "deadline": 74.10000000000028,
+            "reason": null,
+            "result": {
+              "mode": "standing-vocal",
+              "usePointId": "singing-rental/ground/live/vocal#vocal",
+              "pickupNodeId": "singing-mic-pickup",
+              "pickupWorld": [
+                -4.08748724610378,
+                1.5818307766375133,
+                -0.0014956020056431118
+              ],
+              "mouthWorld": [
+                -3.8694326055850117,
+                1.5040714721891975,
+                -0.014293368883861467
+              ],
+              "eyeWorld": [
+                -3.8242369340829807,
+                1.5872152447097725,
+                -0.01658800279624321
+              ],
+              "mouthDistance": 0.23185797057061572,
+              "incidenceDegrees": 6.4526272608506074,
+              "facingDegrees": 3.3588729804967485,
+              "withinPickupWindow": true,
+              "requestId": "male-actual-fit",
+              "footWorld": [
+                -3.73,
+                0,
+                4.71489017671731e-17
+              ],
+              "yaw": -7.853981633974483
+            }
+          },
+          "travelledM": 5.825663338652593,
+          "frames": 700,
+          "walkFrames": 500
+        },
+        "contact": {
+          "independent": {
+            "lipPoints": 32,
+            "mouth": [
+              -3.8694326055850117,
+              1.5040714721891977,
+              -0.014293368883861467
+            ],
+            "eyes": [
+              -3.8242369340829807,
+              1.5872152447097725,
+              -0.01658800279624321
+            ],
+            "mouthReference": [
+              -3.96,
+              1.555,
+              9.173721027912778e-17
+            ],
+            "eyeReference": [
+              -3.945,
+              1.64,
+              9.690484955172428e-17
+            ],
+            "mouthReferenceErrorM": 0.1048831171835861,
+            "eyeReferenceErrorM": 0.1328348987182799,
+            "actualPickupNode": "singing-mic-pickup",
+            "pickupCenter": [
+              -4.112970047970935,
+              1.5909180629427722,
+              8.593791279244765e-17
+            ],
+            "pickupSurface": [
+              -4.0874872461037794,
+              1.5818307766375135,
+              -0.001495602005643117
+            ],
+            "physicalAxis": [
+              0.9702955924914823,
+              -0.24192243217941375,
+              3.7483854894999524e-19
+            ],
+            "firstCompanySurface": "singing-mic-pickup",
+            "pickupOccluded": false,
+            "mouthToPickupM": 0.23185797057061489,
+            "eyeToPickupM": 0.2637375586394421,
+            "incidenceDegrees": 6.452627260850721,
+            "facingDegrees": 3.3588729804967485,
+            "withinPickupWindow": true,
+            "actorRoot": [
+              -3.73,
+              0,
+              4.71489017671731e-17
+            ],
+            "rootYaw": -7.853981633974483,
+            "authoredYaw": 4.71238898038469,
+            "yawErrorRad": 4.898587196589413e-16,
+            "support": {
+              "ready": true,
+              "hipWorld": [
+                -3.733824169637188,
+                1.0027330238946774,
+                -0.0002492782407494459
+              ],
+              "feet": [
+                {
+                  "side": "left",
+                  "contact": true,
+                  "ankleWorld": [
+                    -3.69791451142,
+                    0.12082677098038425,
+                    0.04906038809999912
+                  ],
+                  "soleSupportWorld": [
+                    -3.69791451142,
+                    0.12082677098038425,
+                    0.04906038809999912
+                  ]
+                },
+                {
+                  "side": "right",
+                  "contact": true,
+                  "ankleWorld": [
+                    -3.6979144667299977,
+                    0.12082688998038477,
+                    -0.05007632950000013
+                  ],
+                  "soleSupportWorld": [
+                    -3.6979144667299977,
+                    0.12082688998038477,
+                    -0.05007632950000013
+                  ]
+                }
+              ]
+            }
+          },
+          "controller": {
+            "usePointId": "singing-rental/ground/live/vocal#vocal",
+            "pickupNodeId": "singing-mic-pickup",
+            "pickupWorld": [
+              -4.08748724610378,
+              1.5818307766375133,
+              -0.0014956020056431118
+            ],
+            "mouthWorld": [
+              -3.8694326055850117,
+              1.5040714721891975,
+              -0.014293368883861467
+            ],
+            "eyeWorld": [
+              -3.8242369340829807,
+              1.5872152447097725,
+              -0.01658800279624321
+            ],
+            "mouthDistance": 0.23185797057061572,
+            "incidenceDegrees": 6.4526272608506074,
+            "facingDegrees": 3.3588729804967485,
+            "withinPickupWindow": true,
+            "requestId": "male-actual-fit",
+            "footWorld": [
+              -3.73,
+              0,
+              4.71489017671731e-17
+            ],
+            "yaw": -7.853981633974483
+          }
+        },
+        "hold": {
+          "frames": 900,
+          "minDistanceM": 0.22690122226649856,
+          "maxDistanceM": 0.2438997231950673,
+          "maxIncidenceDegrees": 9.771452657897706,
+          "maxFacingDegrees": 3.99540555018024,
+          "samples": [
+            {
+              "frame": 75,
+              "mouthWorld": [
+                -3.8708148529991924,
+                1.5080400330168875,
+                -0.014093741475033283
+              ],
+              "eyes": [
+                -3.823760572411272,
+                1.5900841824901835,
+                -0.016735351530150537
+              ],
+              "mouthToPickupM": 0.2292607449853716,
+              "incidenceDegrees": 5.818668292836727,
+              "facingDegrees": 3.330929849740902,
+              "vowels": {
+                "aa": 0.024511090140524622,
+                "ih": 0,
+                "ou": 0,
+                "ee": 0,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 150,
+              "mouthWorld": [
+                -3.869431466621088,
+                1.5028192298941838,
+                -0.013575359854455704
+              ],
+              "eyes": [
+                -3.82796861923826,
+                1.5880767859025955,
+                -0.016145432756357617
+              ],
+              "mouthToPickupM": 0.2322355034139718,
+              "incidenceDegrees": 6.605454775848528,
+              "facingDegrees": 3.1904871848053222,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0,
+                "ee": 0,
+                "oh": 0.44885864918789875
+              }
+            },
+            {
+              "frame": 225,
+              "mouthWorld": [
+                -3.8682499284183596,
+                1.4965362136471156,
+                -0.014571489510865801
+              ],
+              "eyes": [
+                -3.831933810744377,
+                1.5841114839391628,
+                -0.01749313264175199
+              ],
+              "mouthToPickupM": 0.23554206324549587,
+              "incidenceDegrees": 7.767289113020554,
+              "facingDegrees": 3.407567268698582,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0,
+                "ee": 0,
+                "oh": 0.4723574016720483
+              }
+            },
+            {
+              "frame": 300,
+              "mouthWorld": [
+                -3.8704334886579286,
+                1.4944457153913344,
+                -0.012817701574112274
+              ],
+              "eyes": [
+                -3.835508070712696,
+                1.5823445585861284,
+                -0.015506211738226246
+              ],
+              "mouthToPickupM": 0.23416412682788934,
+              "incidenceDegrees": 8.18567880354944,
+              "facingDegrees": 3.0251836266379017,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0,
+                "ee": 0.01575819783941843,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 375,
+              "mouthWorld": [
+                -3.87107386376315,
+                1.503458564425051,
+                -0.014782470682457983
+              ],
+              "eyes": [
+                -3.8298015308755424,
+                1.5868520585393426,
+                -0.01807746183287586
+              ],
+              "mouthToPickupM": 0.2305403047520088,
+              "incidenceDegrees": 6.732716116773968,
+              "facingDegrees": 3.4970422985026333,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0,
+                "ee": 0.618934216331676,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 450,
+              "mouthWorld": [
+                -3.876315993738637,
+                1.4997511756700728,
+                -0.016529393979708706
+              ],
+              "eyes": [
+                -3.835506776512355,
+                1.5844260771551457,
+                -0.019228498042906998
+              ],
+              "mouthToPickupM": 0.22698641114712295,
+              "incidenceDegrees": 7.987254835710077,
+              "facingDegrees": 3.99540555018024,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0,
+                "ee": 0.24768442245635072,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 525,
+              "mouthWorld": [
+                -3.869433913251797,
+                1.5008699961635352,
+                -0.01305103665353988
+              ],
+              "eyes": [
+                -3.8279211854501076,
+                1.5864786206840678,
+                -0.01997893460859401
+              ],
+              "mouthToPickupM": 0.2328608503377063,
+              "incidenceDegrees": 6.916312523675128,
+              "facingDegrees": 3.0675313165293345,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0.1540425371798539,
+                "ee": 0,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 600,
+              "mouthWorld": [
+                -3.873126841570911,
+                1.5061002113519915,
+                -0.013869519152442625
+              ],
+              "eyes": [
+                -3.823361062611319,
+                1.5902290850349399,
+                -0.016505291952237208
+              ],
+              "mouthToPickupM": 0.22768611489289312,
+              "incidenceDegrees": 6.3000007411207655,
+              "facingDegrees": 3.3095825656150066,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0.6538142525059255,
+                "ee": 0,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 675,
+              "mouthWorld": [
+                -3.8725161163180783,
+                1.4980562415955463,
+                -0.01326086933837556
+              ],
+              "eyes": [
+                -3.8338271337923358,
+                1.5847358181522582,
+                -0.01573302737284224
+              ],
+              "mouthToPickupM": 0.23095263322521953,
+              "incidenceDegrees": 7.69865303244312,
+              "facingDegrees": 3.1566252809626856,
+              "vowels": {
+                "aa": 0,
+                "ih": 0,
+                "ou": 0.06152781680954601,
+                "ee": 0,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 750,
+              "mouthWorld": [
+                -3.8729271335278477,
+                1.497677199797471,
+                -0.015185512401658087
+              ],
+              "eyes": [
+                -3.8344258355028824,
+                1.5835251200566653,
+                -0.017930560061752563
+              ],
+              "mouthToPickupM": 0.23080283418448017,
+              "incidenceDegrees": 7.973097374374352,
+              "facingDegrees": 3.619802204773784,
+              "vowels": {
+                "aa": 0,
+                "ih": 0.37465932892435194,
+                "ou": 0,
+                "ee": 0,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 825,
+              "mouthWorld": [
+                -3.8695864955426575,
+                1.4951983127823982,
+                -0.012963034772127398
+              ],
+              "eyes": [
+                -3.835041530017082,
+                1.5824656960717842,
+                -0.015656381565694
+              ],
+              "mouthToPickupM": 0.23468917199033792,
+              "incidenceDegrees": 7.98707617056716,
+              "facingDegrees": 3.0487929087280565,
+              "vowels": {
+                "aa": 0,
+                "ih": 0.5371780011360601,
+                "ou": 0,
+                "ee": 0,
+                "oh": 0
+              }
+            },
+            {
+              "frame": 900,
+              "mouthWorld": [
+                -3.873078389379919,
+                1.5025087772672432,
+                -0.014735683357488165
+              ],
+              "eyes": [
+                -3.830001465656327,
+                1.5867144437217484,
+                -0.0185094988597321
+              ],
+              "mouthToPickupM": 0.22896980561275818,
+              "incidenceDegrees": 7.047033811183479,
+              "facingDegrees": 3.515057469325582,
+              "vowels": {
+                "aa": 0.000992329415242147,
+                "ih": 0,
+                "ou": 0,
+                "ee": 0,
+                "oh": 0
+              }
+            }
+          ]
+        },
+        "lease": {
+          "token": "seat-lease:5",
+          "seatId": "singing-rental/ground/live/vocal#vocal",
+          "ownerId": "uniform-lite-male-v1",
+          "requestId": "male-actual-fit",
+          "state": "occupied",
+          "releaseRequested": false,
+          "releaseReason": null
+        },
+        "occupiedContention": {
+          "admission": "rejected",
+          "state": null,
+          "reason": "seat-unavailable"
+        },
+        "cold": {
+          "saved": {
+            "phase": "vocal",
+            "position": [
+              -3.73,
+              0,
+              4.71489017671731e-17
+            ],
+            "yaw": -7.853981633974483,
+            "seat": null,
+            "vocal": {
+              "id": "singing-rental/ground/live/vocal#vocal",
+              "companyId": "singing-rental",
+              "floorId": "singing-rental/ground",
+              "roomId": "singing-rental/ground/live",
+              "facilityId": "singing-rental/ground/live/vocal",
+              "resource": {
+                "id": "floor-vocal-mic-boom",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -3.73,
+                  0,
+                  4.71489017671731e-17
+                ],
+                "yaw": 4.71238898038469
+              },
+              "facilityTransform": {
+                "position": [
+                  -4.5,
+                  0,
+                  0
+                ],
+                "yaw": 1.5707963267948966
+              },
+              "approachPosition": [
+                -3.38,
+                0,
+                6.858022075225179e-17
+              ],
+              "exitPosition": [
+                -3.38,
+                0,
+                6.858022075225179e-17
+              ],
+              "contact": {
+                "pickupNodeId": "singing-mic-pickup"
+              },
+              "kind": "standing-vocal",
+              "slotId": "vocal",
+              "transformChain": [
+                {
+                  "id": "singing-rental/ground",
+                  "parentId": "singing-rental",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "singing-rental/ground/live",
+                  "parentId": "singing-rental/ground",
+                  "transform": {
+                    "position": [
+                      -4.5,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "singing-rental/ground/live/vocal",
+                  "parentId": "singing-rental/ground/live",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 1.5707963267948966
+                  }
+                }
+              ],
+              "performerReferences": {
+                "coordinateSpace": "use-point",
+                "mouth": [
+                  0,
+                  1.555,
+                  0.23
+                ],
+                "eye": [
+                  0,
+                  1.64,
+                  0.215
+                ]
+              },
+              "clearance": {
+                "width": 0.5,
+                "depth": 0.5,
+                "height": 1.9
+              },
+              "capacity": 1
+            },
+            "vocalWorkingDistance": 0.23185797057061572,
+            "requestId": "male-actual-fit",
+            "remainingSeconds": null
+          },
+          "restored": {
+            "phase": "vocal",
+            "position": [
+              -3.73,
+              0,
+              4.71489017671731e-17
+            ],
+            "yaw": -7.853981633974483,
+            "seat": null,
+            "vocal": {
+              "id": "singing-rental/ground/live/vocal#vocal",
+              "companyId": "singing-rental",
+              "floorId": "singing-rental/ground",
+              "roomId": "singing-rental/ground/live",
+              "facilityId": "singing-rental/ground/live/vocal",
+              "resource": {
+                "id": "floor-vocal-mic-boom",
+                "version": 1
+              },
+              "transform": {
+                "position": [
+                  -3.73,
+                  0,
+                  4.71489017671731e-17
+                ],
+                "yaw": 4.71238898038469
+              },
+              "facilityTransform": {
+                "position": [
+                  -4.5,
+                  0,
+                  0
+                ],
+                "yaw": 1.5707963267948966
+              },
+              "approachPosition": [
+                -3.38,
+                0,
+                6.858022075225179e-17
+              ],
+              "exitPosition": [
+                -3.38,
+                0,
+                6.858022075225179e-17
+              ],
+              "contact": {
+                "pickupNodeId": "singing-mic-pickup"
+              },
+              "kind": "standing-vocal",
+              "slotId": "vocal",
+              "transformChain": [
+                {
+                  "id": "singing-rental/ground",
+                  "parentId": "singing-rental",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "singing-rental/ground/live",
+                  "parentId": "singing-rental/ground",
+                  "transform": {
+                    "position": [
+                      -4.5,
+                      0,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                {
+                  "id": "singing-rental/ground/live/vocal",
+                  "parentId": "singing-rental/ground/live",
+                  "transform": {
+                    "position": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "yaw": 1.5707963267948966
+                  }
+                }
+              ],
+              "performerReferences": {
+                "coordinateSpace": "use-point",
+                "mouth": [
+                  0,
+                  1.555,
+                  0.23
+                ],
+                "eye": [
+                  0,
+                  1.64,
+                  0.215
+                ]
+              },
+              "clearance": {
+                "width": 0.5,
+                "depth": 0.5,
+                "height": 1.9
+              },
+              "capacity": 1
+            },
+            "vocalWorkingDistance": 0.23185797057061572,
+            "requestId": "male-actual-fit",
+            "remainingSeconds": null
+          },
+          "original": [
+            {
+              "uuid": "1ab6b362-f539-4c45-904c-a86f36ff70b1",
+              "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+              "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+            },
+            {
+              "uuid": "2f856780-fafc-4fe8-929e-9401d2300980",
+              "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+              "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+            }
+          ],
+          "misalignedSnapshotRejected": true,
+          "restoredActor": {
+            "uuid": "70d4418e-ec1f-49c1-8830-b56bcd83384d",
+            "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+            "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+          },
+          "contact": {
+            "independent": {
+              "lipPoints": 32,
+              "mouth": [
+                -3.853563602880415,
+                1.5035387006757157,
+                -0.009881992127598485
+              ],
+              "eyes": [
+                -3.8112446329107157,
+                1.5881862399218707,
+                -0.012049907379344147
+              ],
+              "mouthReference": [
+                -3.96,
+                1.555,
+                9.173721027912778e-17
+              ],
+              "eyeReference": [
+                -3.945,
+                1.64,
+                9.690484955172428e-17
+              ],
+              "mouthReferenceErrorM": 0.11863652779962605,
+              "eyeReferenceErrorM": 0.14394569888146666,
+              "actualPickupNode": "singing-mic-pickup",
+              "pickupCenter": [
+                -4.112970047970935,
+                1.5909180629427722,
+                8.593791279244765e-17
+              ],
+              "pickupSurface": [
+                -4.087340646014349,
+                1.5822849667316465,
+                -0.000976342543384525
+              ],
+              "physicalAxis": [
+                0.9702955924914823,
+                -0.24192243217941375,
+                3.7483854894999524e-19
+              ],
+              "firstCompanySurface": "singing-mic-pickup",
+              "pickupOccluded": false,
+              "mouthToPickupM": 0.2468440619271878,
+              "eyeToPickupM": 0.2763810002788966,
+              "incidenceDegrees": 5.056732614107803,
+              "facingDegrees": 2.1816065206162856,
+              "withinPickupWindow": true,
+              "actorRoot": [
+                -3.73,
+                0,
+                4.71489017671731e-17
+              ],
+              "rootYaw": -7.853981633974483,
+              "authoredYaw": 4.71238898038469,
+              "yawErrorRad": 4.898587196589413e-16,
+              "support": {
+                "ready": true,
+                "hipWorld": [
+                  -3.734160033540897,
+                  1.0037613493803843,
+                  0.00036792377665005214
+                ],
+                "feet": [
+                  {
+                    "side": "left",
+                    "contact": true,
+                    "ankleWorld": [
+                      -3.6979145114199996,
+                      0.12082677098038425,
+                      0.04906038810000003
+                    ],
+                    "soleSupportWorld": [
+                      -3.6979145114199996,
+                      0.12082677098038425,
+                      0.04906038810000003
+                    ]
+                  },
+                  {
+                    "side": "right",
+                    "contact": true,
+                    "ankleWorld": [
+                      -3.69791446673,
+                      0.12082688998038443,
+                      -0.05007632949999999
+                    ],
+                    "soleSupportWorld": [
+                      -3.69791446673,
+                      0.12082688998038443,
+                      -0.05007632949999999
+                    ]
+                  }
+                ]
+              }
+            },
+            "controller": {
+              "usePointId": "singing-rental/ground/live/vocal#vocal",
+              "pickupNodeId": "singing-mic-pickup",
+              "pickupWorld": [
+                -4.087340646014349,
+                1.5822849667316465,
+                -0.0009763425433845181
+              ],
+              "mouthWorld": [
+                -3.8535636028804143,
+                1.5035387006757155,
+                -0.009881992127598485
+              ],
+              "eyeWorld": [
+                -3.8112446329107157,
+                1.5881862399218707,
+                -0.012049907379344147
+              ],
+              "mouthDistance": 0.24684406192718872,
+              "incidenceDegrees": 5.056732614107803,
+              "facingDegrees": 2.1816065206162856,
+              "withinPickupWindow": true,
+              "requestId": "male-actual-fit",
+              "footWorld": [
+                -3.73,
+                0,
+                4.71489017671731e-17
+              ],
+              "yaw": -7.853981633974483
+            }
+          }
+        },
+        "exitContention": {
+          "admission": "rejected",
+          "state": null,
+          "reason": "seat-unavailable"
+        },
+        "departure": {
+          "task": {
+            "requestId": "depart-after-restore",
+            "ownerId": "uniform-lite-male-v1",
+            "kind": "stand",
+            "payload": {},
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 0,
+            "startedAt": 0,
+            "endedAt": 3.8833333333333244,
+            "deadline": 60,
+            "reason": null,
+            "result": {
+              "mode": "idle"
+            }
+          },
+          "travelledM": 1.0099999999999998,
+          "frames": 233,
+          "walkFrames": 125
+        },
+        "departureLeaseEvents": [
+          {
+            "type": "reserved",
+            "lease": {
+              "token": "seat-lease:1",
+              "seatId": "singing-rental/ground/live/vocal#vocal",
+              "ownerId": "uniform-lite-male-v1",
+              "requestId": "male-actual-fit",
+              "state": "reserved",
+              "releaseRequested": false,
+              "releaseReason": null
+            }
+          },
+          {
+            "type": "occupied",
+            "lease": {
+              "token": "seat-lease:1",
+              "seatId": "singing-rental/ground/live/vocal#vocal",
+              "ownerId": "uniform-lite-male-v1",
+              "requestId": "male-actual-fit",
+              "state": "occupied",
+              "releaseRequested": false,
+              "releaseReason": null
+            }
+          },
+          {
+            "type": "exiting",
+            "lease": {
+              "token": "seat-lease:1",
+              "seatId": "singing-rental/ground/live/vocal#vocal",
+              "ownerId": "uniform-lite-male-v1",
+              "requestId": "male-actual-fit",
+              "state": "exiting",
+              "releaseRequested": false,
+              "releaseReason": null
+            }
+          },
+          {
+            "type": "released",
+            "lease": {
+              "token": "seat-lease:1",
+              "seatId": "singing-rental/ground/live/vocal#vocal",
+              "ownerId": "uniform-lite-male-v1",
+              "requestId": "male-actual-fit",
+              "state": "released",
+              "releaseRequested": false,
+              "releaseReason": "physically-exited"
+            }
+          }
+        ],
+        "destroyedWhileOccupied": {
+          "type": "released",
+          "lease": {
+            "token": "seat-lease:2",
+            "seatId": "singing-rental/ground/live/vocal#vocal",
+            "ownerId": "uniform-lite-male-v1",
+            "requestId": "destroy-occupied",
+            "state": "released",
+            "releaseRequested": false,
+            "releaseReason": "owner-destroyed"
+          }
+        }
+      },
+      "realChair": {
+        "point": "singing-rental/ground/work/chair#seat",
+        "seatMesh": "chair-seat",
+        "sit": {
+          "task": {
+            "requestId": "real-work-chair",
+            "ownerId": "uniform-lite-male-v1",
+            "kind": "sit",
+            "payload": {
+              "usePointId": "singing-rental/ground/work/chair#seat"
+            },
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 0,
+            "startedAt": 0,
+            "endedAt": 3.1999999999999935,
+            "deadline": 60,
+            "reason": null,
+            "result": {
+              "mode": "sit",
+              "usePointId": "singing-rental/ground/work/chair#seat",
+              "position": [
+                4.5,
+                0,
+                0.1937236610177755
+              ],
+              "surface": [
+                4.49743732854711,
+                0.47000000014901155,
+                0.6499649527888767
+              ]
+            }
+          },
+          "travelledM": 0.1937236610177755,
+          "frames": 192,
+          "walkFrames": 51
+        },
+        "stand": {
+          "task": {
+            "requestId": "real-chair-exit",
+            "ownerId": "uniform-lite-male-v1",
+            "kind": "stand",
+            "payload": {},
+            "admission": "accepted",
+            "state": "completed",
+            "requestedAt": 3.1999999999999935,
+            "startedAt": 3.1999999999999935,
+            "endedAt": 6.799999999999981,
+            "deadline": 63.199999999999996,
+            "reason": null,
+            "result": {
+              "mode": "idle"
+            }
+          },
+          "travelledM": 0.8536269286361424,
+          "frames": 216,
+          "walkFrames": 111
+        }
+      },
+      "roomSwitch": {
+        "oldPointAbsent": true,
+        "staleSnapshotRejected": true,
+        "activeSwitchRejected": true,
+        "from": "singing-rental",
+        "to": "singing-studio",
+        "sameMountedActors": {
+          "uniform-lite-male-v1": "5e10e509-63ca-49e5-8647-712fb13f5a12",
+          "uniform-lite-female-v1": "6284686d-1bdc-4546-a9f6-473f9e67c9b6"
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Released company GLBs and scene, signed costumes and VRM, and real motion/room controllers.",
+    "Simulated 1/60 s steps. CPU image metadata stub, no GPU, playback, sound or visual acceptance."
+  ],
+  "referenceWindow": {
+    "mouthToPickupSurfaceM": [
+      0.06,
+      0.26
+    ],
+    "incidenceDegreesMax": 35,
+    "facingDegreesMax": 45,
+    "yawToleranceRad": 0.015
+  },
+  "characterCommit": "95adfb2788699077c8b2c1585f38e3c8a6053268",
+  "runtimeTree": "41ac08ad17eac841a15beb02aa81cb98ad973025",
+  "runtimePath": "experiments\\worktrees\\standing-vocal-95adfb27",
+  "lockSha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7",
+  "scriptSha256": "d656137e98b3eabaf56e33ad33aa85986904a25a3317ce39adb99ac568397fdb",
+  "nodeVersion": "v24.13.0",
+  "companyManifest": "5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012",
+  "companyBuild": "7255eee31b85",
+  "reviewedManifest": "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+  "recordsSha256": "d38cd555d8b125c606ef28775b08fa96b2834c40c082e7ee06478dc4035f6989",
+  "records": [
+    {
+      "id": "uniform-lite-female-v1",
+      "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+      "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+    },
+    {
+      "id": "uniform-lite-male-v1",
+      "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+      "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+    }
+  ],
+  "wrongReviewedRoom": {
+    "room": "singing-rental",
+    "reviewedRoom": "singing-studio",
+    "rejection": "The selected room has no verified inheritance from this reviewed source room"
+  },
+  "exitCode": 0
+}
