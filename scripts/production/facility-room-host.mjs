@@ -33,12 +33,80 @@ export async function mountCompanyRoom(consumer,roomKey) {
   } catch(error){dispose();throw error;}
 }
 
+export function bindFacilityActorControls(consumer,seatSelect,storageKey,message) {
+  const actorSelect=byId('facility-actor'),sit=byId('facility-sit'),stand=byId('facility-stand');
+  const save=byId('facility-save'),restore=byId('facility-restore');
+  const lastRequest=new WeakMap();
+  let pending=false,closed=false;
+  function refresh() {
+    const previous=actorSelect.value;
+    const actors=[...consumer.actors.values()];
+    const options=actorSelect.options;
+    if(options.length!==actors.length || actors.some(({identity},index)=>
+      options[index].value!==identity.id || options[index].text!==(identity.name??identity.id))) {
+      actorSelect.replaceChildren(...actors.map(({identity})=>new Option(identity.name??identity.id,identity.id)));
+      actorSelect.value=consumer.actors.has(previous)?previous:actors[0]?.identity.id??'';
+    }
+    for(const control of [actorSelect,seatSelect,sit,stand,save,restore]) control.disabled=actors.length===0;
+  }
+  function invalidate() {
+    if(pending || closed) return;
+    pending=true;
+    // Scene events fire inside the consumer's synchronous attach/swap/dispose.
+    queueMicrotask(()=>{pending=false;if(!closed)refresh();});
+  }
+  function taskMessage(task) {
+    const labels={pending:'等待',running:'进行中',completed:'完成',cancelled:'已取消',failed:'失败',rejected:'被拒绝'};
+    const state=task.admission==='rejected'?'rejected':task.state;
+    message([task.kind==='sit'?'入座':'起身',labels[state]??state,task.reason].filter(Boolean).join(' · '));
+    return ['completed','failed','cancelled','rejected'].includes(state);
+  }
+  function request(kind) {
+    const actor=consumer.actors.get(actorSelect.value);
+    refresh();
+    if(!actor){message(consumer.actors.size?'所选角色已离开房间':'房间内没有角色');return;}
+    const requestId=crypto.randomUUID();
+    const reply=actor.controller.requestBehavior({kind,requestId,payload:kind==='sit'?{usePointId:seatSelect.value}:{}});
+    if(taskMessage(reply.task)) lastRequest.delete(actor);else lastRequest.set(actor,requestId);
+  }
+  sit.onclick=()=>request('sit');
+  stand.onclick=()=>request('stand');
+  save.onclick=()=>{
+    refresh();if(!consumer.actors.size)return;
+    try{localStorage.setItem(storageKey,JSON.stringify(consumer.captureFacilityState()));message('角色状态已保存');}
+    catch(error){message(error.message);}
+  };
+  restore.onclick=async()=>{
+    refresh();if(!consumer.actors.size)return;
+    try{
+      const entry=localStorage.getItem(storageKey);if(!entry) throw Error('这个房间还没有保存角色状态');
+      await consumer.restoreFacilityState(JSON.parse(entry));message('角色状态已恢复');
+    }catch(error){message(error.message);}
+  };
+  consumer.scene.addEventListener('childadded',invalidate);
+  consumer.scene.addEventListener('childremoved',invalidate);
+  refresh();
+  // This existing timer reports a requested action. Roster updates are event driven.
+  const report=setInterval(()=>{
+    const actor=consumer.actors.get(actorSelect.value),id=lastRequest.get(actor);
+    if(!id)return;
+    const task=actor.controller.behaviorTasks.get(id);
+    if(task && taskMessage(task)) lastRequest.delete(actor);
+  },300);
+  return ()=>{
+    closed=true;clearInterval(report);
+    consumer.scene.removeEventListener('childadded',invalidate);
+    consumer.scene.removeEventListener('childremoved',invalidate);
+    for(const control of [sit,stand,save,restore]) control.onclick=null;
+  };
+}
+
 export async function openFacilityRoom(consumer,roomKey) {
   const mounted=await mountCompanyRoom(consumer,roomKey);
   const {session,assetLibrary,room,metadata}=mounted;
   const {floorId,roomId}=room;
-  let orbit;
-  const close=()=>{orbit?.dispose();mounted.dispose();};
+  let orbit,releaseControls;
+  const close=()=>{releaseControls?.();orbit?.dispose();mounted.dispose();};
   try {
     await consumer.bindFacilityRoom({session,floorId,roomId});
     const {camera,renderer}=consumer;
@@ -57,8 +125,7 @@ export async function openFacilityRoom(consumer,roomKey) {
       orbit.target.copy(center);orbit.update();updateWalls();
     }
     frameRoom();
-    const actorSelect=byId('facility-actor'),seatSelect=byId('facility-seat');
-    for(const record of consumer.records) actorSelect.add(new Option(record.identity.name??record.identity.id,record.identity.id));
+    const seatSelect=byId('facility-seat');
     const points=session.scene.describeUsePoints({floorId}).filter(p=>p.roomId===roomId);
     for(const point of points) seatSelect.add(new Option(point.id.split('/').slice(-2).join('/'),point.id));
     const station=points.find(p=>p.id===room.seatId);
@@ -66,43 +133,12 @@ export async function openFacilityRoom(consumer,roomKey) {
     seatSelect.value=station.id;
     const status=byId('room-status');
     function message(text){status.textContent=text;}
-    const lastRequest=new Map();
-    function taskMessage(task) {
-      const labels={pending:'等待',running:'进行中',completed:'完成',cancelled:'已取消',failed:'失败',rejected:'被拒绝'};
-      const state=task.admission==='rejected'?'rejected':task.state;
-      message([task.kind==='sit'?'入座':'起身',labels[state]??state,task.reason].filter(Boolean).join(' · '));
-      return ['completed','failed','cancelled','rejected'].includes(state);
-    }
-    function request(kind) {
-      const controller=consumer.actors.get(actorSelect.value).controller;
-      const requestId=crypto.randomUUID();
-      const reply=controller.requestBehavior({kind,requestId,payload:kind==='sit'?{usePointId:seatSelect.value}:{}});
-      lastRequest.set(actorSelect.value,requestId);
-      if(taskMessage(reply.task)) lastRequest.delete(actorSelect.value);
-    }
-    byId('facility-sit').onclick=()=>request('sit');
-    byId('facility-stand').onclick=()=>request('stand');
     byId('facility-frame').onclick=frameRoom;
     const storageKey='facility-room-state:'+metadata.gameInventorySha256+':'+metadata.roomManifestSha256+':'+roomKey;
-    byId('facility-save').onclick=()=>{
-      try{localStorage.setItem(storageKey,JSON.stringify(consumer.captureFacilityState()));message('角色状态已保存');}
-      catch(error){message(error.message);}
-    };
-    byId('facility-restore').onclick=async()=>{
-      try{
-        const entry=localStorage.getItem(storageKey);if(!entry) throw Error('这个房间还没有保存角色状态');
-        await consumer.restoreFacilityState(JSON.parse(entry));message('角色状态已恢复');lastRequest.clear();
-      }catch(error){message(error.message);}
-    };
-    const report=setInterval(()=>{
-      const id=lastRequest.get(actorSelect.value);
-      if(!id)return;
-      const task=consumer.actors.get(actorSelect.value)?.controller.behaviorTasks.get(id);
-      if(task && taskMessage(task)) lastRequest.delete(actorSelect.value);
-    },300);
+    releaseControls=bindFacilityActorControls(consumer,seatSelect,storageKey,message);
     window.facilityRoom={roomKey,floorId,roomId,session,assetLibrary,frameRoom,orbit};
     byId('facility-controls').disabled=false;
     status.dataset.state='ready';message(session.document.name+' · '+roomKey+' · '+consumer.buildInfo.shortId);
-    window.addEventListener('pagehide',event=>{if(!event.persisted){clearInterval(report);close();}});
+    window.addEventListener('pagehide',event=>{if(!event.persisted)close();});
   } catch(error) {close();throw error;}
 }
