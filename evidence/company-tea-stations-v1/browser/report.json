@@ -1,0 +1,2030 @@
+{
+  "status": "passed",
+  "build": "5301d1b046ba",
+  "rooms": [
+    {
+      "id": "tea-rental",
+      "area": "tea-rental/ground/living",
+      "ids": [
+        "tea-rental/ground/living/tea-station",
+        "tea-rental/ground/living/tea-station/machine",
+        "tea-rental/ground/living/tea-station/cup"
+      ],
+      "views": {
+        "floorImage": "tea-rental-whole-floor.png",
+        "areaImage": "tea-rental-public-area.png",
+        "passage": null,
+        "focus": "tea-rental-native-focus.png",
+        "equipment": "tea-rental-machine-and-cup.png",
+        "tray": "tea-rental-cup-and-tray.png"
+      },
+      "sourceSha256": "e895500cfb1e16609a04c82e82d062312c40649e0dd25797916d71197d2f7fa4",
+      "looks": [
+        {
+          "look": "tea-counter-water@1",
+          "on": false,
+          "frame": "tea-rental-tea-counter-water.png",
+          "coldFrame": "tea-rental-tea-counter-water-cold.png",
+          "savedSha256": "d73e1528ba8fb85cb85cf174c4f8147e5542b4f71f74210640acf7d02745fa5c",
+          "warm": {
+            "records": [
+              {
+                "id": "tea-rental/ground/living/tea-station",
+                "ref": {
+                  "id": "tea-counter-water",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-counter-water/v1/model.glb",
+                  "bytes": 33988,
+                  "sha256": "045b80ce41906c8feb3e3dd4aec1502d93cdb5bf7a57af306f7b05b99658282b"
+                },
+                "local": [
+                  -1.52,
+                  0,
+                  -1.5
+                ],
+                "world": [
+                  -1.52,
+                  0,
+                  -1.5
+                ],
+                "state": {},
+                "meshCount": 16,
+                "triangles": 284,
+                "names": [
+                  "countertop",
+                  "recessed-plinth",
+                  "right-filter-housing",
+                  "water-service-front",
+                  "underside-cross-member",
+                  "left-upright",
+                  "filter-vent-1",
+                  "filter-vent-2",
+                  "filter-vent-3",
+                  "filter-vent-4",
+                  "filter-vent-5",
+                  "Mesh_kitchenFridgeSmall",
+                  "Mesh_kitchenFridgeSmall_1",
+                  "Mesh_doorFridge",
+                  "Mesh_doorFridge_1",
+                  "Mesh_doorFridge_2"
+                ],
+                "bounds": [
+                  [
+                    -2.120000023841858,
+                    1.1920928966180355e-9,
+                    -1.800000011920929
+                  ],
+                  [
+                    -0.9199999761581421,
+                    0.9000000008940697,
+                    -1.199999988079071
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "bf0b7e5d38136ecd31d8b0dcbeadf98cb9b36b987413505d3b5646fe6b015e06",
+                "visiblePixels": 164222,
+                "screenBounds": [
+                  188,
+                  197,
+                  787,
+                  659
+                ]
+              },
+              {
+                "id": "tea-rental/ground/living/tea-station/machine",
+                "ref": {
+                  "id": "tea-coffee-machine",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-coffee-machine/v1/model.glb",
+                  "bytes": 31224,
+                  "sha256": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673"
+                },
+                "local": [
+                  0,
+                  0.9,
+                  0
+                ],
+                "attachment": {
+                  "surfaceId": "counter"
+                },
+                "world": [
+                  -1.52,
+                  0.9,
+                  -1.5
+                ],
+                "state": {
+                  "on": false
+                },
+                "meshCount": 13,
+                "triangles": 266,
+                "names": [
+                  "tea-machine-tray",
+                  "tea-machine-base-metal",
+                  "tea-machine-base-metalmedium",
+                  "tea-machine-head-metal",
+                  "tea-machine-head-metalmedium",
+                  "tea-machine-left-metal",
+                  "tea-machine-left-metalmedium",
+                  "tea-machine-rear-metal",
+                  "tea-machine-rear-metalmedium",
+                  "tea-machine-right-metal",
+                  "tea-machine-right-metalmedium",
+                  "tea-machine-indicator-rim",
+                  "tea-machine-indicator"
+                ],
+                "bounds": [
+                  [
+                    -1.6583642107248306,
+                    0.9,
+                    -1.675321951508522
+                  ],
+                  [
+                    -1.3816357892751694,
+                    1.1591339349746703,
+                    -1.324678048491478
+                  ]
+                ],
+                "display": [
+                  {
+                    "label": "status",
+                    "target": "tea-machine-indicator",
+                    "color": "335657",
+                    "emissive": "000000",
+                    "intensity": 0
+                  }
+                ],
+                "geometrySha256": "2e633f693bca22be05ed98386717d112224ef719d6f918b4e17d1b198346290c",
+                "contact": {
+                  "surface": "counter",
+                  "support": "countertop",
+                  "bottom": 0.9,
+                  "hit": [
+                    -1.52,
+                    0.9000000008940697,
+                    -1.5
+                  ]
+                },
+                "visiblePixels": 16564,
+                "screenBounds": [
+                  413,
+                  149,
+                  578,
+                  326
+                ]
+              },
+              {
+                "id": "tea-rental/ground/living/tea-station/cup",
+                "ref": {
+                  "id": "tea-ceramic-cup",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-ceramic-cup/v1/model.glb",
+                  "bytes": 7056,
+                  "sha256": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a"
+                },
+                "local": [
+                  0,
+                  0.051246,
+                  0.09
+                ],
+                "attachment": {
+                  "surfaceId": "tray"
+                },
+                "world": [
+                  -1.52,
+                  0.951246,
+                  -1.41
+                ],
+                "state": {},
+                "meshCount": 1,
+                "triangles": 60,
+                "names": [
+                  "tea-cup-ceramic"
+                ],
+                "bounds": [
+                  [
+                    -1.569395177513361,
+                    0.951246,
+                    -1.4479319116473197
+                  ],
+                  [
+                    -1.470604822486639,
+                    1.0315459958395958,
+                    -1.3720680883526801
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "479c17702246d6c0af2701fbdbfd0a0a1711cd322ca603691979f8a83cb02792",
+                "contact": {
+                  "surface": "tray",
+                  "support": "tea-machine-tray",
+                  "bottom": 0.951246,
+                  "hit": [
+                    -1.52,
+                    0.9512460023164749,
+                    -1.41
+                  ]
+                },
+                "visiblePixels": 2051,
+                "screenBounds": [
+                  434,
+                  240,
+                  490,
+                  291
+                ]
+              }
+            ],
+            "frame": [
+              964,
+              824
+            ],
+            "camera": [
+              0.8574929257125442,
+              2.7755575615628914e-17,
+              -0.5144957554275266,
+              0,
+              -0.26478536167686184,
+              0.857400218763172,
+              -0.44130893612810324,
+              0,
+              0.4411287732562847,
+              0.5146502354656655,
+              0.7352146220938078,
+              0,
+              -0.26859343212380016,
+              2.0395412972722813,
+              0.5856776131269994,
+              1
+            ]
+          },
+          "cold": {
+            "records": [
+              {
+                "id": "tea-rental/ground/living/tea-station",
+                "ref": {
+                  "id": "tea-counter-water",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-counter-water/v1/model.glb",
+                  "bytes": 33988,
+                  "sha256": "045b80ce41906c8feb3e3dd4aec1502d93cdb5bf7a57af306f7b05b99658282b"
+                },
+                "local": [
+                  -1.52,
+                  0,
+                  -1.5
+                ],
+                "world": [
+                  -1.52,
+                  0,
+                  -1.5
+                ],
+                "state": {},
+                "meshCount": 16,
+                "triangles": 284,
+                "names": [
+                  "countertop",
+                  "recessed-plinth",
+                  "right-filter-housing",
+                  "water-service-front",
+                  "underside-cross-member",
+                  "left-upright",
+                  "filter-vent-1",
+                  "filter-vent-2",
+                  "filter-vent-3",
+                  "filter-vent-4",
+                  "filter-vent-5",
+                  "Mesh_kitchenFridgeSmall",
+                  "Mesh_kitchenFridgeSmall_1",
+                  "Mesh_doorFridge",
+                  "Mesh_doorFridge_1",
+                  "Mesh_doorFridge_2"
+                ],
+                "bounds": [
+                  [
+                    -2.120000023841858,
+                    1.1920928966180355e-9,
+                    -1.800000011920929
+                  ],
+                  [
+                    -0.9199999761581421,
+                    0.9000000008940697,
+                    -1.199999988079071
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "bf0b7e5d38136ecd31d8b0dcbeadf98cb9b36b987413505d3b5646fe6b015e06",
+                "visiblePixels": 164222,
+                "screenBounds": [
+                  188,
+                  197,
+                  787,
+                  659
+                ]
+              },
+              {
+                "id": "tea-rental/ground/living/tea-station/machine",
+                "ref": {
+                  "id": "tea-coffee-machine",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-coffee-machine/v1/model.glb",
+                  "bytes": 31224,
+                  "sha256": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673"
+                },
+                "local": [
+                  0,
+                  0.9,
+                  0
+                ],
+                "attachment": {
+                  "surfaceId": "counter"
+                },
+                "world": [
+                  -1.52,
+                  0.9,
+                  -1.5
+                ],
+                "state": {
+                  "on": false
+                },
+                "meshCount": 13,
+                "triangles": 266,
+                "names": [
+                  "tea-machine-tray",
+                  "tea-machine-base-metal",
+                  "tea-machine-base-metalmedium",
+                  "tea-machine-head-metal",
+                  "tea-machine-head-metalmedium",
+                  "tea-machine-left-metal",
+                  "tea-machine-left-metalmedium",
+                  "tea-machine-rear-metal",
+                  "tea-machine-rear-metalmedium",
+                  "tea-machine-right-metal",
+                  "tea-machine-right-metalmedium",
+                  "tea-machine-indicator-rim",
+                  "tea-machine-indicator"
+                ],
+                "bounds": [
+                  [
+                    -1.6583642107248306,
+                    0.9,
+                    -1.675321951508522
+                  ],
+                  [
+                    -1.3816357892751694,
+                    1.1591339349746703,
+                    -1.324678048491478
+                  ]
+                ],
+                "display": [
+                  {
+                    "label": "status",
+                    "target": "tea-machine-indicator",
+                    "color": "335657",
+                    "emissive": "000000",
+                    "intensity": 0
+                  }
+                ],
+                "geometrySha256": "2e633f693bca22be05ed98386717d112224ef719d6f918b4e17d1b198346290c",
+                "contact": {
+                  "surface": "counter",
+                  "support": "countertop",
+                  "bottom": 0.9,
+                  "hit": [
+                    -1.52,
+                    0.9000000008940697,
+                    -1.5
+                  ]
+                },
+                "visiblePixels": 16564,
+                "screenBounds": [
+                  413,
+                  149,
+                  578,
+                  326
+                ]
+              },
+              {
+                "id": "tea-rental/ground/living/tea-station/cup",
+                "ref": {
+                  "id": "tea-ceramic-cup",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-ceramic-cup/v1/model.glb",
+                  "bytes": 7056,
+                  "sha256": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a"
+                },
+                "local": [
+                  0,
+                  0.051246,
+                  0.09
+                ],
+                "attachment": {
+                  "surfaceId": "tray"
+                },
+                "world": [
+                  -1.52,
+                  0.951246,
+                  -1.41
+                ],
+                "state": {},
+                "meshCount": 1,
+                "triangles": 60,
+                "names": [
+                  "tea-cup-ceramic"
+                ],
+                "bounds": [
+                  [
+                    -1.569395177513361,
+                    0.951246,
+                    -1.4479319116473197
+                  ],
+                  [
+                    -1.470604822486639,
+                    1.0315459958395958,
+                    -1.3720680883526801
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "479c17702246d6c0af2701fbdbfd0a0a1711cd322ca603691979f8a83cb02792",
+                "contact": {
+                  "surface": "tray",
+                  "support": "tea-machine-tray",
+                  "bottom": 0.951246,
+                  "hit": [
+                    -1.52,
+                    0.9512460023164749,
+                    -1.41
+                  ]
+                },
+                "visiblePixels": 2051,
+                "screenBounds": [
+                  434,
+                  240,
+                  490,
+                  291
+                ]
+              }
+            ],
+            "frame": [
+              964,
+              824
+            ],
+            "camera": [
+              0.8574929257125442,
+              2.7755575615628914e-17,
+              -0.5144957554275266,
+              0,
+              -0.26478536167686184,
+              0.857400218763172,
+              -0.44130893612810324,
+              0,
+              0.4411287732562847,
+              0.5146502354656655,
+              0.7352146220938078,
+              0,
+              -0.26859343212380016,
+              2.0395412972722813,
+              0.5856776131269994,
+              1
+            ]
+          },
+          "otherPowerDisplay": [
+            {
+              "label": "status",
+              "target": "tea-machine-indicator",
+              "color": "65df9e",
+              "emissive": "46e789",
+              "intensity": 1.25
+            }
+          ]
+        },
+        {
+          "look": "tea-counter-pantry@1",
+          "on": true,
+          "frame": "tea-rental-tea-counter-pantry.png",
+          "coldFrame": "tea-rental-tea-counter-pantry-cold.png",
+          "savedSha256": "2c79d70fbd9395eb7bf920973bed097940508dd11b81d0eca6887ee5e013a656",
+          "warm": {
+            "records": [
+              {
+                "id": "tea-rental/ground/living/tea-station",
+                "ref": {
+                  "id": "tea-counter-pantry",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-counter-pantry/v1/model.glb",
+                  "bytes": 36048,
+                  "sha256": "3dae6e71d27dbf440e4a3d429cf45243d8638e8d01391afe6de01cd7cbfda5a5"
+                },
+                "local": [
+                  -1.52,
+                  0,
+                  -1.5
+                ],
+                "world": [
+                  -1.52,
+                  0,
+                  -1.5
+                ],
+                "state": {},
+                "meshCount": 18,
+                "triangles": 348,
+                "names": [
+                  "countertop",
+                  "wood-plinth",
+                  "left-end-panel",
+                  "right-end-panel",
+                  "center-stile",
+                  "Mesh_kitchenCabinetDrawer",
+                  "Mesh_kitchenCabinetDrawer_1",
+                  "Mesh_door",
+                  "Mesh_door_1",
+                  "Mesh_door_2",
+                  "Mesh_drawer",
+                  "Mesh_drawer_1",
+                  "Mesh_drawer_2",
+                  "Mesh_kitchenCabinet",
+                  "Mesh_kitchenCabinet_1",
+                  "Mesh_door_1",
+                  "Mesh_door_1_1",
+                  "Mesh_door_2_1"
+                ],
+                "bounds": [
+                  [
+                    -2.120000023841858,
+                    -2.0861625621426683e-10,
+                    -1.800000011920929
+                  ],
+                  [
+                    -0.9199999761581421,
+                    0.9000000000745059,
+                    -1.199999988079071
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "97571767dbd8cb35bc0f1b1081a9f7fc7f60ce4fd753f0512222190278a2d057",
+                "visiblePixels": 167553,
+                "screenBounds": [
+                  188,
+                  197,
+                  787,
+                  660
+                ]
+              },
+              {
+                "id": "tea-rental/ground/living/tea-station/machine",
+                "ref": {
+                  "id": "tea-coffee-machine",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-coffee-machine/v1/model.glb",
+                  "bytes": 31224,
+                  "sha256": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673"
+                },
+                "local": [
+                  0,
+                  0.9,
+                  0
+                ],
+                "attachment": {
+                  "surfaceId": "counter"
+                },
+                "world": [
+                  -1.52,
+                  0.9,
+                  -1.5
+                ],
+                "state": {
+                  "on": true
+                },
+                "meshCount": 13,
+                "triangles": 266,
+                "names": [
+                  "tea-machine-tray",
+                  "tea-machine-base-metal",
+                  "tea-machine-base-metalmedium",
+                  "tea-machine-head-metal",
+                  "tea-machine-head-metalmedium",
+                  "tea-machine-left-metal",
+                  "tea-machine-left-metalmedium",
+                  "tea-machine-rear-metal",
+                  "tea-machine-rear-metalmedium",
+                  "tea-machine-right-metal",
+                  "tea-machine-right-metalmedium",
+                  "tea-machine-indicator-rim",
+                  "tea-machine-indicator"
+                ],
+                "bounds": [
+                  [
+                    -1.6583642107248306,
+                    0.9,
+                    -1.675321951508522
+                  ],
+                  [
+                    -1.3816357892751694,
+                    1.1591339349746703,
+                    -1.324678048491478
+                  ]
+                ],
+                "display": [
+                  {
+                    "label": "status",
+                    "target": "tea-machine-indicator",
+                    "color": "65df9e",
+                    "emissive": "46e789",
+                    "intensity": 1.25
+                  }
+                ],
+                "geometrySha256": "2e633f693bca22be05ed98386717d112224ef719d6f918b4e17d1b198346290c",
+                "contact": {
+                  "surface": "counter",
+                  "support": "countertop",
+                  "bottom": 0.9,
+                  "hit": [
+                    -1.52,
+                    0.9000000000745059,
+                    -1.5
+                  ]
+                },
+                "visiblePixels": 17623,
+                "screenBounds": [
+                  413,
+                  149,
+                  578,
+                  326
+                ]
+              },
+              {
+                "id": "tea-rental/ground/living/tea-station/cup",
+                "ref": {
+                  "id": "tea-ceramic-cup",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-ceramic-cup/v1/model.glb",
+                  "bytes": 7056,
+                  "sha256": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a"
+                },
+                "local": [
+                  0,
+                  0.051246,
+                  0.09
+                ],
+                "attachment": {
+                  "surfaceId": "tray"
+                },
+                "world": [
+                  -1.52,
+                  0.951246,
+                  -1.41
+                ],
+                "state": {},
+                "meshCount": 1,
+                "triangles": 60,
+                "names": [
+                  "tea-cup-ceramic"
+                ],
+                "bounds": [
+                  [
+                    -1.569395177513361,
+                    0.951246,
+                    -1.4479319116473197
+                  ],
+                  [
+                    -1.470604822486639,
+                    1.0315459958395958,
+                    -1.3720680883526801
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "479c17702246d6c0af2701fbdbfd0a0a1711cd322ca603691979f8a83cb02792",
+                "contact": {
+                  "surface": "tray",
+                  "support": "tea-machine-tray",
+                  "bottom": 0.951246,
+                  "hit": [
+                    -1.52,
+                    0.9512460023164749,
+                    -1.41
+                  ]
+                },
+                "visiblePixels": 2179,
+                "screenBounds": [
+                  434,
+                  240,
+                  490,
+                  291
+                ]
+              }
+            ],
+            "frame": [
+              964,
+              824
+            ],
+            "camera": [
+              0.8574929257125442,
+              0,
+              -0.5144957554275265,
+              0,
+              -0.26478536167686184,
+              0.857400218763172,
+              -0.44130893612810324,
+              0,
+              0.4411287732562847,
+              0.5146502354656655,
+              0.7352146220938078,
+              0,
+              -0.2685934314774707,
+              2.039541297325978,
+              0.5856776142042155,
+              1
+            ]
+          },
+          "cold": {
+            "records": [
+              {
+                "id": "tea-rental/ground/living/tea-station",
+                "ref": {
+                  "id": "tea-counter-pantry",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-counter-pantry/v1/model.glb",
+                  "bytes": 36048,
+                  "sha256": "3dae6e71d27dbf440e4a3d429cf45243d8638e8d01391afe6de01cd7cbfda5a5"
+                },
+                "local": [
+                  -1.52,
+                  0,
+                  -1.5
+                ],
+                "world": [
+                  -1.52,
+                  0,
+                  -1.5
+                ],
+                "state": {},
+                "meshCount": 18,
+                "triangles": 348,
+                "names": [
+                  "countertop",
+                  "wood-plinth",
+                  "left-end-panel",
+                  "right-end-panel",
+                  "center-stile",
+                  "Mesh_kitchenCabinetDrawer",
+                  "Mesh_kitchenCabinetDrawer_1",
+                  "Mesh_door",
+                  "Mesh_door_1",
+                  "Mesh_door_2",
+                  "Mesh_drawer",
+                  "Mesh_drawer_1",
+                  "Mesh_drawer_2",
+                  "Mesh_kitchenCabinet",
+                  "Mesh_kitchenCabinet_1",
+                  "Mesh_door_1",
+                  "Mesh_door_1_1",
+                  "Mesh_door_2_1"
+                ],
+                "bounds": [
+                  [
+                    -2.120000023841858,
+                    -2.0861625621426683e-10,
+                    -1.800000011920929
+                  ],
+                  [
+                    -0.9199999761581421,
+                    0.9000000000745059,
+                    -1.199999988079071
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "97571767dbd8cb35bc0f1b1081a9f7fc7f60ce4fd753f0512222190278a2d057",
+                "visiblePixels": 167553,
+                "screenBounds": [
+                  188,
+                  197,
+                  787,
+                  660
+                ]
+              },
+              {
+                "id": "tea-rental/ground/living/tea-station/machine",
+                "ref": {
+                  "id": "tea-coffee-machine",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-coffee-machine/v1/model.glb",
+                  "bytes": 31224,
+                  "sha256": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673"
+                },
+                "local": [
+                  0,
+                  0.9,
+                  0
+                ],
+                "attachment": {
+                  "surfaceId": "counter"
+                },
+                "world": [
+                  -1.52,
+                  0.9,
+                  -1.5
+                ],
+                "state": {
+                  "on": true
+                },
+                "meshCount": 13,
+                "triangles": 266,
+                "names": [
+                  "tea-machine-tray",
+                  "tea-machine-base-metal",
+                  "tea-machine-base-metalmedium",
+                  "tea-machine-head-metal",
+                  "tea-machine-head-metalmedium",
+                  "tea-machine-left-metal",
+                  "tea-machine-left-metalmedium",
+                  "tea-machine-rear-metal",
+                  "tea-machine-rear-metalmedium",
+                  "tea-machine-right-metal",
+                  "tea-machine-right-metalmedium",
+                  "tea-machine-indicator-rim",
+                  "tea-machine-indicator"
+                ],
+                "bounds": [
+                  [
+                    -1.6583642107248306,
+                    0.9,
+                    -1.675321951508522
+                  ],
+                  [
+                    -1.3816357892751694,
+                    1.1591339349746703,
+                    -1.324678048491478
+                  ]
+                ],
+                "display": [
+                  {
+                    "label": "status",
+                    "target": "tea-machine-indicator",
+                    "color": "65df9e",
+                    "emissive": "46e789",
+                    "intensity": 1.25
+                  }
+                ],
+                "geometrySha256": "2e633f693bca22be05ed98386717d112224ef719d6f918b4e17d1b198346290c",
+                "contact": {
+                  "surface": "counter",
+                  "support": "countertop",
+                  "bottom": 0.9,
+                  "hit": [
+                    -1.52,
+                    0.9000000000745059,
+                    -1.5
+                  ]
+                },
+                "visiblePixels": 17623,
+                "screenBounds": [
+                  413,
+                  149,
+                  578,
+                  326
+                ]
+              },
+              {
+                "id": "tea-rental/ground/living/tea-station/cup",
+                "ref": {
+                  "id": "tea-ceramic-cup",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-ceramic-cup/v1/model.glb",
+                  "bytes": 7056,
+                  "sha256": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a"
+                },
+                "local": [
+                  0,
+                  0.051246,
+                  0.09
+                ],
+                "attachment": {
+                  "surfaceId": "tray"
+                },
+                "world": [
+                  -1.52,
+                  0.951246,
+                  -1.41
+                ],
+                "state": {},
+                "meshCount": 1,
+                "triangles": 60,
+                "names": [
+                  "tea-cup-ceramic"
+                ],
+                "bounds": [
+                  [
+                    -1.569395177513361,
+                    0.951246,
+                    -1.4479319116473197
+                  ],
+                  [
+                    -1.470604822486639,
+                    1.0315459958395958,
+                    -1.3720680883526801
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "479c17702246d6c0af2701fbdbfd0a0a1711cd322ca603691979f8a83cb02792",
+                "contact": {
+                  "surface": "tray",
+                  "support": "tea-machine-tray",
+                  "bottom": 0.951246,
+                  "hit": [
+                    -1.52,
+                    0.9512460023164749,
+                    -1.41
+                  ]
+                },
+                "visiblePixels": 2179,
+                "screenBounds": [
+                  434,
+                  240,
+                  490,
+                  291
+                ]
+              }
+            ],
+            "frame": [
+              964,
+              824
+            ],
+            "camera": [
+              0.8574929257125442,
+              0,
+              -0.5144957554275265,
+              0,
+              -0.26478536167686184,
+              0.857400218763172,
+              -0.44130893612810324,
+              0,
+              0.4411287732562847,
+              0.5146502354656655,
+              0.7352146220938078,
+              0,
+              -0.2685934314774707,
+              2.039541297325978,
+              0.5856776142042155,
+              1
+            ]
+          },
+          "otherPowerDisplay": [
+            {
+              "label": "status",
+              "target": "tea-machine-indicator",
+              "color": "335657",
+              "emissive": "000000",
+              "intensity": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tea-floor",
+      "area": "tea-floor/ground/corridor-2",
+      "ids": [
+        "tea-floor/ground/corridor-2/tea-station",
+        "tea-floor/ground/corridor-2/tea-station/machine",
+        "tea-floor/ground/corridor-2/tea-station/cup"
+      ],
+      "views": {
+        "floorImage": "tea-floor-whole-floor.png",
+        "areaImage": "tea-floor-public-area.png",
+        "passage": {
+          "pose": {
+            "eye": [
+              -5.184,
+              1.6,
+              -0.725
+            ],
+            "aim": [
+              1,
+              0.83,
+              0.665
+            ],
+            "fov": 38
+          },
+          "portalIds": [
+            "tea-floor/ground/portal-corridor-1-2",
+            "tea-floor/ground/portal-corridor-2-3"
+          ],
+          "image": "tea-floor-along-passage.png"
+        },
+        "focus": "tea-floor-native-focus.png",
+        "equipment": "tea-floor-machine-and-cup.png",
+        "tray": "tea-floor-cup-and-tray.png"
+      },
+      "sourceSha256": "4a1061b4b36990ce28a358e26624d5e429ae733a45725e98c42c7ade2e6b98ff",
+      "looks": [
+        {
+          "look": "tea-counter-coffee@1",
+          "on": false,
+          "frame": "tea-floor-tea-counter-coffee.png",
+          "coldFrame": "tea-floor-tea-counter-coffee-cold.png",
+          "savedSha256": "4f11d7074ccf8d56031f924ddf11b201afe4d996caeb77efd474abb34bb4a586",
+          "warm": {
+            "records": [
+              {
+                "id": "tea-floor/ground/corridor-2/tea-station",
+                "ref": {
+                  "id": "tea-counter-coffee",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-counter-coffee/v1/model.glb",
+                  "bytes": 21364,
+                  "sha256": "9977666f514de0f573f8379ed962a7f051f9b969ee542a597b39f2604c0da545"
+                },
+                "local": [
+                  0,
+                  0,
+                  1.05
+                ],
+                "world": [
+                  0,
+                  0,
+                  1.05
+                ],
+                "state": {},
+                "meshCount": 11,
+                "triangles": 172,
+                "names": [
+                  "countertop",
+                  "service-frame-left",
+                  "service-frame-right",
+                  "service-apron",
+                  "open-shelf-middle",
+                  "open-shelf-low",
+                  "middle-upright",
+                  "warm-back",
+                  "Mesh_kitchenBar",
+                  "Mesh_kitchenBar_1",
+                  "Mesh_kitchenBar_2"
+                ],
+                "bounds": [
+                  [
+                    -0.6000000238418579,
+                    5.72204589266434e-9,
+                    0.7499999880790711
+                  ],
+                  [
+                    0.6000000238418579,
+                    0.8999999993890524,
+                    1.350000011920929
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "b988afb8a403d6854c747b68245a2c620d50d5158e03338ea778387240937fda",
+                "visiblePixels": 260174,
+                "screenBounds": [
+                  187,
+                  197,
+                  785,
+                  768
+                ]
+              },
+              {
+                "id": "tea-floor/ground/corridor-2/tea-station/machine",
+                "ref": {
+                  "id": "tea-coffee-machine",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-coffee-machine/v1/model.glb",
+                  "bytes": 31224,
+                  "sha256": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673"
+                },
+                "local": [
+                  0,
+                  0.9,
+                  0
+                ],
+                "attachment": {
+                  "surfaceId": "counter"
+                },
+                "world": [
+                  0,
+                  0.9,
+                  1.05
+                ],
+                "state": {
+                  "on": false
+                },
+                "meshCount": 13,
+                "triangles": 266,
+                "names": [
+                  "tea-machine-tray",
+                  "tea-machine-base-metal",
+                  "tea-machine-base-metalmedium",
+                  "tea-machine-head-metal",
+                  "tea-machine-head-metalmedium",
+                  "tea-machine-left-metal",
+                  "tea-machine-left-metalmedium",
+                  "tea-machine-rear-metal",
+                  "tea-machine-rear-metalmedium",
+                  "tea-machine-right-metal",
+                  "tea-machine-right-metalmedium",
+                  "tea-machine-indicator-rim",
+                  "tea-machine-indicator"
+                ],
+                "bounds": [
+                  [
+                    -0.13836421072483066,
+                    0.9,
+                    0.874678048491478
+                  ],
+                  [
+                    0.13836421072483066,
+                    1.1591339349746703,
+                    1.225321951508522
+                  ]
+                ],
+                "display": [
+                  {
+                    "label": "status",
+                    "target": "tea-machine-indicator",
+                    "color": "335657",
+                    "emissive": "000000",
+                    "intensity": 0
+                  }
+                ],
+                "geometrySha256": "2e633f693bca22be05ed98386717d112224ef719d6f918b4e17d1b198346290c",
+                "contact": {
+                  "surface": "counter",
+                  "support": "countertop",
+                  "bottom": 0.9,
+                  "hit": [
+                    0,
+                    0.8999999993890524,
+                    1.05
+                  ]
+                },
+                "visiblePixels": 17544,
+                "screenBounds": [
+                  380,
+                  149,
+                  549,
+                  331
+                ]
+              },
+              {
+                "id": "tea-floor/ground/corridor-2/tea-station/cup",
+                "ref": {
+                  "id": "tea-ceramic-cup",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-ceramic-cup/v1/model.glb",
+                  "bytes": 7056,
+                  "sha256": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a"
+                },
+                "local": [
+                  0,
+                  0.051246,
+                  0.09
+                ],
+                "attachment": {
+                  "surfaceId": "tray"
+                },
+                "world": [
+                  1.1021821192326179e-17,
+                  0.951246,
+                  0.9600000000000001
+                ],
+                "state": {},
+                "meshCount": 1,
+                "triangles": 60,
+                "names": [
+                  "tea-cup-ceramic"
+                ],
+                "bounds": [
+                  [
+                    -0.04939517751336097,
+                    0.951246,
+                    0.9220680883526803
+                  ],
+                  [
+                    0.049395177513361,
+                    1.0315459958395958,
+                    0.9979319116473199
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "479c17702246d6c0af2701fbdbfd0a0a1711cd322ca603691979f8a83cb02792",
+                "contact": {
+                  "surface": "tray",
+                  "support": "tea-machine-tray",
+                  "bottom": 0.951246,
+                  "hit": [
+                    1.1021821192326174e-17,
+                    0.9512460023164749,
+                    0.9600000000000001
+                  ]
+                },
+                "visiblePixels": 1987,
+                "screenBounds": [
+                  434,
+                  240,
+                  480,
+                  291
+                ]
+              }
+            ],
+            "frame": [
+              964,
+              824
+            ],
+            "camera": [
+              -0.8574929257125441,
+              0,
+              0.5144957554275266,
+              0,
+              0.2647853616768619,
+              0.857400218763172,
+              0.4413089361281032,
+              0,
+              -0.44112877325628475,
+              0.5146502354656654,
+              -0.7352146220938078,
+              0,
+              -1.2514065657859428,
+              2.0395412970986246,
+              -1.035677609643238,
+              1
+            ]
+          },
+          "cold": {
+            "records": [
+              {
+                "id": "tea-floor/ground/corridor-2/tea-station",
+                "ref": {
+                  "id": "tea-counter-coffee",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-counter-coffee/v1/model.glb",
+                  "bytes": 21364,
+                  "sha256": "9977666f514de0f573f8379ed962a7f051f9b969ee542a597b39f2604c0da545"
+                },
+                "local": [
+                  0,
+                  0,
+                  1.05
+                ],
+                "world": [
+                  0,
+                  0,
+                  1.05
+                ],
+                "state": {},
+                "meshCount": 11,
+                "triangles": 172,
+                "names": [
+                  "countertop",
+                  "service-frame-left",
+                  "service-frame-right",
+                  "service-apron",
+                  "open-shelf-middle",
+                  "open-shelf-low",
+                  "middle-upright",
+                  "warm-back",
+                  "Mesh_kitchenBar",
+                  "Mesh_kitchenBar_1",
+                  "Mesh_kitchenBar_2"
+                ],
+                "bounds": [
+                  [
+                    -0.6000000238418579,
+                    5.72204589266434e-9,
+                    0.7499999880790711
+                  ],
+                  [
+                    0.6000000238418579,
+                    0.8999999993890524,
+                    1.350000011920929
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "b988afb8a403d6854c747b68245a2c620d50d5158e03338ea778387240937fda",
+                "visiblePixels": 260174,
+                "screenBounds": [
+                  187,
+                  197,
+                  785,
+                  768
+                ]
+              },
+              {
+                "id": "tea-floor/ground/corridor-2/tea-station/machine",
+                "ref": {
+                  "id": "tea-coffee-machine",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-coffee-machine/v1/model.glb",
+                  "bytes": 31224,
+                  "sha256": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673"
+                },
+                "local": [
+                  0,
+                  0.9,
+                  0
+                ],
+                "attachment": {
+                  "surfaceId": "counter"
+                },
+                "world": [
+                  0,
+                  0.9,
+                  1.05
+                ],
+                "state": {
+                  "on": false
+                },
+                "meshCount": 13,
+                "triangles": 266,
+                "names": [
+                  "tea-machine-tray",
+                  "tea-machine-base-metal",
+                  "tea-machine-base-metalmedium",
+                  "tea-machine-head-metal",
+                  "tea-machine-head-metalmedium",
+                  "tea-machine-left-metal",
+                  "tea-machine-left-metalmedium",
+                  "tea-machine-rear-metal",
+                  "tea-machine-rear-metalmedium",
+                  "tea-machine-right-metal",
+                  "tea-machine-right-metalmedium",
+                  "tea-machine-indicator-rim",
+                  "tea-machine-indicator"
+                ],
+                "bounds": [
+                  [
+                    -0.13836421072483066,
+                    0.9,
+                    0.874678048491478
+                  ],
+                  [
+                    0.13836421072483066,
+                    1.1591339349746703,
+                    1.225321951508522
+                  ]
+                ],
+                "display": [
+                  {
+                    "label": "status",
+                    "target": "tea-machine-indicator",
+                    "color": "335657",
+                    "emissive": "000000",
+                    "intensity": 0
+                  }
+                ],
+                "geometrySha256": "2e633f693bca22be05ed98386717d112224ef719d6f918b4e17d1b198346290c",
+                "contact": {
+                  "surface": "counter",
+                  "support": "countertop",
+                  "bottom": 0.9,
+                  "hit": [
+                    0,
+                    0.8999999993890524,
+                    1.05
+                  ]
+                },
+                "visiblePixels": 17544,
+                "screenBounds": [
+                  380,
+                  149,
+                  549,
+                  331
+                ]
+              },
+              {
+                "id": "tea-floor/ground/corridor-2/tea-station/cup",
+                "ref": {
+                  "id": "tea-ceramic-cup",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-ceramic-cup/v1/model.glb",
+                  "bytes": 7056,
+                  "sha256": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a"
+                },
+                "local": [
+                  0,
+                  0.051246,
+                  0.09
+                ],
+                "attachment": {
+                  "surfaceId": "tray"
+                },
+                "world": [
+                  1.1021821192326179e-17,
+                  0.951246,
+                  0.9600000000000001
+                ],
+                "state": {},
+                "meshCount": 1,
+                "triangles": 60,
+                "names": [
+                  "tea-cup-ceramic"
+                ],
+                "bounds": [
+                  [
+                    -0.04939517751336097,
+                    0.951246,
+                    0.9220680883526803
+                  ],
+                  [
+                    0.049395177513361,
+                    1.0315459958395958,
+                    0.9979319116473199
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "479c17702246d6c0af2701fbdbfd0a0a1711cd322ca603691979f8a83cb02792",
+                "contact": {
+                  "surface": "tray",
+                  "support": "tea-machine-tray",
+                  "bottom": 0.951246,
+                  "hit": [
+                    1.1021821192326174e-17,
+                    0.9512460023164749,
+                    0.9600000000000001
+                  ]
+                },
+                "visiblePixels": 1987,
+                "screenBounds": [
+                  434,
+                  240,
+                  480,
+                  291
+                ]
+              }
+            ],
+            "frame": [
+              964,
+              824
+            ],
+            "camera": [
+              -0.8574929257125441,
+              0,
+              0.5144957554275266,
+              0,
+              0.2647853616768619,
+              0.857400218763172,
+              0.4413089361281032,
+              0,
+              -0.44112877325628475,
+              0.5146502354656654,
+              -0.7352146220938078,
+              0,
+              -1.2514065657859428,
+              2.0395412970986246,
+              -1.035677609643238,
+              1
+            ]
+          },
+          "otherPowerDisplay": [
+            {
+              "label": "status",
+              "target": "tea-machine-indicator",
+              "color": "65df9e",
+              "emissive": "46e789",
+              "intensity": 1.25
+            }
+          ]
+        },
+        {
+          "look": "tea-counter-open@1",
+          "on": true,
+          "frame": "tea-floor-tea-counter-open.png",
+          "coldFrame": "tea-floor-tea-counter-open-cold.png",
+          "savedSha256": "d335c2672230636c98766919d6e32342333db9051de043548224bbfb3b4dcf73",
+          "warm": {
+            "records": [
+              {
+                "id": "tea-floor/ground/corridor-2/tea-station",
+                "ref": {
+                  "id": "tea-counter-open",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-counter-open/v1/model.glb",
+                  "bytes": 26708,
+                  "sha256": "a829726a61cf2fc2ef565e5f7c9f1a639d3be82b4fba2d4acb19e2e6bf2f5d66"
+                },
+                "local": [
+                  0,
+                  0,
+                  1.05
+                ],
+                "world": [
+                  0,
+                  0,
+                  1.05
+                ],
+                "state": {},
+                "meshCount": 9,
+                "triangles": 280,
+                "names": [
+                  "countertop",
+                  "left-front-leg",
+                  "left-back-leg",
+                  "right-front-leg",
+                  "right-back-leg",
+                  "whole-lower-rack",
+                  "right-high-rack",
+                  "under-top-rail",
+                  "bookcaseOpenLow(Clone)"
+                ],
+                "bounds": [
+                  [
+                    -0.6000000238418579,
+                    -1.2874603272372553e-8,
+                    0.7499999880790711
+                  ],
+                  [
+                    0.6000000238418579,
+                    0.9000000003501774,
+                    1.350000011920929
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "0075b989644fe35bcf1d78078ac739c2c3656b562edd36b3e067d0aef63e861d",
+                "visiblePixels": 236713,
+                "screenBounds": [
+                  187,
+                  197,
+                  785,
+                  768
+                ]
+              },
+              {
+                "id": "tea-floor/ground/corridor-2/tea-station/machine",
+                "ref": {
+                  "id": "tea-coffee-machine",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-coffee-machine/v1/model.glb",
+                  "bytes": 31224,
+                  "sha256": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673"
+                },
+                "local": [
+                  0,
+                  0.9,
+                  0
+                ],
+                "attachment": {
+                  "surfaceId": "counter"
+                },
+                "world": [
+                  0,
+                  0.9,
+                  1.05
+                ],
+                "state": {
+                  "on": true
+                },
+                "meshCount": 13,
+                "triangles": 266,
+                "names": [
+                  "tea-machine-tray",
+                  "tea-machine-base-metal",
+                  "tea-machine-base-metalmedium",
+                  "tea-machine-head-metal",
+                  "tea-machine-head-metalmedium",
+                  "tea-machine-left-metal",
+                  "tea-machine-left-metalmedium",
+                  "tea-machine-rear-metal",
+                  "tea-machine-rear-metalmedium",
+                  "tea-machine-right-metal",
+                  "tea-machine-right-metalmedium",
+                  "tea-machine-indicator-rim",
+                  "tea-machine-indicator"
+                ],
+                "bounds": [
+                  [
+                    -0.13836421072483066,
+                    0.9,
+                    0.874678048491478
+                  ],
+                  [
+                    0.13836421072483066,
+                    1.1591339349746703,
+                    1.225321951508522
+                  ]
+                ],
+                "display": [
+                  {
+                    "label": "status",
+                    "target": "tea-machine-indicator",
+                    "color": "65df9e",
+                    "emissive": "46e789",
+                    "intensity": 1.25
+                  }
+                ],
+                "geometrySha256": "2e633f693bca22be05ed98386717d112224ef719d6f918b4e17d1b198346290c",
+                "contact": {
+                  "surface": "counter",
+                  "support": "countertop",
+                  "bottom": 0.9,
+                  "hit": [
+                    0,
+                    0.9000000003501774,
+                    1.05
+                  ]
+                },
+                "visiblePixels": 17504,
+                "screenBounds": [
+                  380,
+                  149,
+                  549,
+                  330
+                ]
+              },
+              {
+                "id": "tea-floor/ground/corridor-2/tea-station/cup",
+                "ref": {
+                  "id": "tea-ceramic-cup",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-ceramic-cup/v1/model.glb",
+                  "bytes": 7056,
+                  "sha256": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a"
+                },
+                "local": [
+                  0,
+                  0.051246,
+                  0.09
+                ],
+                "attachment": {
+                  "surfaceId": "tray"
+                },
+                "world": [
+                  1.1021821192326179e-17,
+                  0.951246,
+                  0.9600000000000001
+                ],
+                "state": {},
+                "meshCount": 1,
+                "triangles": 60,
+                "names": [
+                  "tea-cup-ceramic"
+                ],
+                "bounds": [
+                  [
+                    -0.04939517751336097,
+                    0.951246,
+                    0.9220680883526803
+                  ],
+                  [
+                    0.049395177513361,
+                    1.0315459958395958,
+                    0.9979319116473199
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "479c17702246d6c0af2701fbdbfd0a0a1711cd322ca603691979f8a83cb02792",
+                "contact": {
+                  "surface": "tray",
+                  "support": "tea-machine-tray",
+                  "bottom": 0.951246,
+                  "hit": [
+                    1.1021821192326174e-17,
+                    0.9512460023164749,
+                    0.9600000000000001
+                  ]
+                },
+                "visiblePixels": 1974,
+                "screenBounds": [
+                  434,
+                  240,
+                  480,
+                  291
+                ]
+              }
+            ],
+            "frame": [
+              964,
+              824
+            ],
+            "camera": [
+              -0.8574929257125441,
+              0,
+              0.5144957554275267,
+              0,
+              0.264785361676862,
+              0.857400218763172,
+              0.4413089361281032,
+              0,
+              -0.44112877325628475,
+              0.5146502354656655,
+              -0.7352146220938078,
+              0,
+              -1.251406574366997,
+              2.03954129781153,
+              -1.0356776239449947,
+              1
+            ]
+          },
+          "cold": {
+            "records": [
+              {
+                "id": "tea-floor/ground/corridor-2/tea-station",
+                "ref": {
+                  "id": "tea-counter-open",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-counter-open/v1/model.glb",
+                  "bytes": 26708,
+                  "sha256": "a829726a61cf2fc2ef565e5f7c9f1a639d3be82b4fba2d4acb19e2e6bf2f5d66"
+                },
+                "local": [
+                  0,
+                  0,
+                  1.05
+                ],
+                "world": [
+                  0,
+                  0,
+                  1.05
+                ],
+                "state": {},
+                "meshCount": 9,
+                "triangles": 280,
+                "names": [
+                  "countertop",
+                  "left-front-leg",
+                  "left-back-leg",
+                  "right-front-leg",
+                  "right-back-leg",
+                  "whole-lower-rack",
+                  "right-high-rack",
+                  "under-top-rail",
+                  "bookcaseOpenLow(Clone)"
+                ],
+                "bounds": [
+                  [
+                    -0.6000000238418579,
+                    -1.2874603272372553e-8,
+                    0.7499999880790711
+                  ],
+                  [
+                    0.6000000238418579,
+                    0.9000000003501774,
+                    1.350000011920929
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "0075b989644fe35bcf1d78078ac739c2c3656b562edd36b3e067d0aef63e861d",
+                "visiblePixels": 236713,
+                "screenBounds": [
+                  187,
+                  197,
+                  785,
+                  768
+                ]
+              },
+              {
+                "id": "tea-floor/ground/corridor-2/tea-station/machine",
+                "ref": {
+                  "id": "tea-coffee-machine",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-coffee-machine/v1/model.glb",
+                  "bytes": 31224,
+                  "sha256": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673"
+                },
+                "local": [
+                  0,
+                  0.9,
+                  0
+                ],
+                "attachment": {
+                  "surfaceId": "counter"
+                },
+                "world": [
+                  0,
+                  0.9,
+                  1.05
+                ],
+                "state": {
+                  "on": true
+                },
+                "meshCount": 13,
+                "triangles": 266,
+                "names": [
+                  "tea-machine-tray",
+                  "tea-machine-base-metal",
+                  "tea-machine-base-metalmedium",
+                  "tea-machine-head-metal",
+                  "tea-machine-head-metalmedium",
+                  "tea-machine-left-metal",
+                  "tea-machine-left-metalmedium",
+                  "tea-machine-rear-metal",
+                  "tea-machine-rear-metalmedium",
+                  "tea-machine-right-metal",
+                  "tea-machine-right-metalmedium",
+                  "tea-machine-indicator-rim",
+                  "tea-machine-indicator"
+                ],
+                "bounds": [
+                  [
+                    -0.13836421072483066,
+                    0.9,
+                    0.874678048491478
+                  ],
+                  [
+                    0.13836421072483066,
+                    1.1591339349746703,
+                    1.225321951508522
+                  ]
+                ],
+                "display": [
+                  {
+                    "label": "status",
+                    "target": "tea-machine-indicator",
+                    "color": "65df9e",
+                    "emissive": "46e789",
+                    "intensity": 1.25
+                  }
+                ],
+                "geometrySha256": "2e633f693bca22be05ed98386717d112224ef719d6f918b4e17d1b198346290c",
+                "contact": {
+                  "surface": "counter",
+                  "support": "countertop",
+                  "bottom": 0.9,
+                  "hit": [
+                    0,
+                    0.9000000003501774,
+                    1.05
+                  ]
+                },
+                "visiblePixels": 17504,
+                "screenBounds": [
+                  380,
+                  149,
+                  549,
+                  330
+                ]
+              },
+              {
+                "id": "tea-floor/ground/corridor-2/tea-station/cup",
+                "ref": {
+                  "id": "tea-ceramic-cup",
+                  "version": 1
+                },
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/tea-station-v1/tea-ceramic-cup/v1/model.glb",
+                  "bytes": 7056,
+                  "sha256": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a"
+                },
+                "local": [
+                  0,
+                  0.051246,
+                  0.09
+                ],
+                "attachment": {
+                  "surfaceId": "tray"
+                },
+                "world": [
+                  1.1021821192326179e-17,
+                  0.951246,
+                  0.9600000000000001
+                ],
+                "state": {},
+                "meshCount": 1,
+                "triangles": 60,
+                "names": [
+                  "tea-cup-ceramic"
+                ],
+                "bounds": [
+                  [
+                    -0.04939517751336097,
+                    0.951246,
+                    0.9220680883526803
+                  ],
+                  [
+                    0.049395177513361,
+                    1.0315459958395958,
+                    0.9979319116473199
+                  ]
+                ],
+                "display": [],
+                "geometrySha256": "479c17702246d6c0af2701fbdbfd0a0a1711cd322ca603691979f8a83cb02792",
+                "contact": {
+                  "surface": "tray",
+                  "support": "tea-machine-tray",
+                  "bottom": 0.951246,
+                  "hit": [
+                    1.1021821192326174e-17,
+                    0.9512460023164749,
+                    0.9600000000000001
+                  ]
+                },
+                "visiblePixels": 1974,
+                "screenBounds": [
+                  434,
+                  240,
+                  480,
+                  291
+                ]
+              }
+            ],
+            "frame": [
+              964,
+              824
+            ],
+            "camera": [
+              -0.8574929257125441,
+              0,
+              0.5144957554275267,
+              0,
+              0.264785361676862,
+              0.857400218763172,
+              0.4413089361281032,
+              0,
+              -0.44112877325628475,
+              0.5146502354656655,
+              -0.7352146220938078,
+              0,
+              -1.251406574366997,
+              2.03954129781153,
+              -1.0356776239449947,
+              1
+            ]
+          },
+          "otherPowerDisplay": [
+            {
+              "label": "status",
+              "target": "tea-machine-indicator",
+              "color": "335657",
+              "emissive": "000000",
+              "intensity": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "browserErrors": [],
+  "manifestSha256": "1306f59e9a6a90f0a83c2d7225c20e439e628e7d41c7b6ed4945c554279e0696",
+  "sourceDigest": "5301d1b046ba2f7057d2a9d3ca136919763830e0ee2623b872f2bccbd12f7bee",
+  "video": {
+    "file": "video/tea-station-rooms-normal.webm",
+    "playbackSpeed": 1,
+    "sha256": "41060d29bc5a3c878955fb97f8bf2c8f2d57f1a70785d54d8b96eabe8976ff8b",
+    "bytes": 2203708
+  }
+}

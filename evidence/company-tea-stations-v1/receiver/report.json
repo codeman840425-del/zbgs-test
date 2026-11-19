@@ -1,0 +1,1011 @@
+{
+  "status": "passed",
+  "sealed": "F:\\gamemake-company-platform-c1\\output\\tea-station\\candidate-v1",
+  "work": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work",
+  "commands": [
+    {
+      "tag": "verify-sealed-original",
+      "cwd": "F:\\gamemake-company-platform-c1\\output\\tea-station\\candidate-v1",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\tea-station\\candidate-v1",
+        "1306f59e9a6a90f0a83c2d7225c20e439e628e7d41c7b6ed4945c554279e0696"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "5301d1b046ba",
+        "manifestSha256": "1306f59e9a6a90f0a83c2d7225c20e439e628e7d41c7b6ed4945c554279e0696",
+        "declaredFiles": 2151,
+        "checkedFiles": 2151,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "tag": "validate-original-rental",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\data\\rooms\\tea-rental\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "tea-rental",
+        "revision": 2,
+        "floors": [
+          "tea-rental/ground"
+        ]
+      }
+    },
+    {
+      "tag": "validate-original-floor",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\data\\rooms\\tea-floor\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "tea-floor",
+        "revision": 2,
+        "floors": [
+          "tea-floor/ground"
+        ]
+      }
+    },
+    {
+      "tag": "appearance-publish",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\source",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+      "args": [
+        "--publish",
+        "assets-source/company-tea-station-v1/examples/open-wide-shelf-v2.json"
+      ],
+      "exit": 0,
+      "response": {
+        "status": "published",
+        "family": "tea-station",
+        "sourceParameters": "assets-source/company-tea-station-v1/examples/recipe-53726c8cedad37c58ba9d031215cb649f2e972637f599772709515a4dc54dcf6.json",
+        "sourceParametersSha256": "53726c8cedad37c58ba9d031215cb649f2e972637f599772709515a4dc54dcf6",
+        "items": [
+          {
+            "id": "tea-counter-open-wide-shelf",
+            "version": 2,
+            "resourcePath": "prototype/public/company-assets/tea-station-v1/tea-counter-open-wide-shelf/v2/resource.json",
+            "sha256": "ec4bcfe6f123c6682a4d1c0f10e9602e13a29e8ebcc2a9559b277e9dd91a7d04",
+            "geometrySha256": "2b456f235f085a705444a494fa7d763e7c0b2c0883f23324f6552e50d15c0193"
+          }
+        ]
+      }
+    },
+    {
+      "tag": "appearance-check",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\source",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+      "args": [
+        "--check",
+        "assets-source/company-tea-station-v1/examples/open-wide-shelf-v2.json"
+      ],
+      "exit": 0,
+      "response": {
+        "status": "unchanged",
+        "family": "tea-station",
+        "sourceParameters": "assets-source/company-tea-station-v1/examples/recipe-53726c8cedad37c58ba9d031215cb649f2e972637f599772709515a4dc54dcf6.json",
+        "sourceParametersSha256": "53726c8cedad37c58ba9d031215cb649f2e972637f599772709515a4dc54dcf6",
+        "items": [
+          {
+            "id": "tea-counter-open-wide-shelf",
+            "version": 2,
+            "resourcePath": "prototype/public/company-assets/tea-station-v1/tea-counter-open-wide-shelf/v2/resource.json",
+            "sha256": "ec4bcfe6f123c6682a4d1c0f10e9602e13a29e8ebcc2a9559b277e9dd91a7d04",
+            "geometrySha256": "2b456f235f085a705444a494fa7d763e7c0b2c0883f23324f6552e50d15c0193"
+          }
+        ]
+      }
+    },
+    {
+      "tag": "check-library-after-registration",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\source",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\source\\scripts\\company-platform\\build-library.mjs",
+      "args": [
+        "--check"
+      ],
+      "exit": 0,
+      "response": "{\"output\":\"prototype/src/company/library-catalog.json\",\"resources\":292,\"mode\":\"checked\"}"
+    },
+    {
+      "tag": "apply-counter-swap-power-and-cup-reattachment",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\data\\rooms\\tea-rental\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\update-rental.ops.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\rental-edited"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "tea-rental",
+        "revision": 3,
+        "floors": [
+          "tea-rental/ground"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\rental-edited"
+      }
+    },
+    {
+      "tag": "cold-validate-edited-rental",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\rental-edited\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "tea-rental",
+        "revision": 3,
+        "floors": [
+          "tea-rental/ground"
+        ]
+      }
+    },
+    {
+      "tag": "reject-cup-over-machine-on-counter",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\rental-edited\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\overlap-cup.ops.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\rejected-cup-move"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "overlapping-supported-props",
+        "path": "tea-rental/ground/living/tea-station/cup",
+        "message": "overlapping-supported-props at tea-rental/ground/living/tea-station/cup: Supported motion envelope overlaps tea-rental/ground/living/tea-station/machine",
+        "details": {}
+      }
+    },
+    {
+      "tag": "build-viewer-id",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\source\\prototype",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\source\\prototype\\scripts\\build-company-id.mjs",
+      "args": [],
+      "exit": 0,
+      "response": "775451b85622"
+    },
+    {
+      "tag": "build-viewer",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\source\\prototype",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\source\\prototype\\node_modules\\vite\\bin\\vite.js",
+      "args": [
+        "build",
+        "--config",
+        "vite.company.config.js"
+      ],
+      "exit": 0,
+      "response": "vite v7.3.8 building client environment for production...\ntransforming...\n✓ 128 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist-company/company.html                    15.97 kB │ gzip:   5.09 kB\ndist-company/assets/company-2NYSi0Cv.css     15.34 kB │ gzip:   4.14 kB\ndist-company/assets/company-BjGQ8Fc6.js   3,635.26 kB │ gzip: 808.00 kB\n✓ built in 5.86s"
+    },
+    {
+      "tag": "package-edited-and-retained-rooms",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\source\\prototype\\dist-company",
+        "775451b85622",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\rental-edited\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\derived-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\source",
+        "--room",
+        "tea-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\rental-edited\\save.json",
+        "--room",
+        "tea-floor",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work\\data\\rooms\\tea-floor\\batch-result"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "buildId": "775451b85622",
+        "companyId": "tea-rental",
+        "rooms": [
+          "tea-rental",
+          "tea-floor"
+        ],
+        "files": 2150,
+        "output": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\derived-package"
+      }
+    },
+    {
+      "tag": "verify-new-clean-package",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\derived-package",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\derived-package",
+        "810217533a69e038811354b79d8c619758144dd0a696b946043fe15740d15c8e"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "775451b85622",
+        "manifestSha256": "810217533a69e038811354b79d8c619758144dd0a696b946043fe15740d15c8e",
+        "declaredFiles": 2150,
+        "checkedFiles": 2150,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "tag": "cold-validate-packaged-rental",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\derived-package\\data\\rooms\\tea-rental\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "tea-rental",
+        "revision": 3,
+        "floors": [
+          "tea-rental/ground"
+        ]
+      }
+    },
+    {
+      "tag": "cold-validate-packaged-floor",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\derived-package\\data\\rooms\\tea-floor\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "tea-floor",
+        "revision": 2,
+        "floors": [
+          "tea-floor/ground"
+        ]
+      }
+    },
+    {
+      "tag": "return-the-same-cup-from-packaged-save",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\derived-package\\data\\rooms\\tea-rental\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\return-cup-to-tray.ops.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\tray-reopened-edit"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "tea-rental",
+        "revision": 4,
+        "floors": [
+          "tea-rental/ground"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\tray-reopened-edit"
+      }
+    },
+    {
+      "tag": "cold-validate-returned-cup",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\work",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\tray-reopened-edit\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "tea-rental",
+        "revision": 4,
+        "floors": [
+          "tea-rental/ground"
+        ]
+      }
+    },
+    {
+      "tag": "verify-sealed-original-after-work",
+      "cwd": "F:\\gamemake-company-platform-c1\\output\\tea-station\\candidate-v1",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\tea-station\\candidate-v1",
+        "1306f59e9a6a90f0a83c2d7225c20e439e628e7d41c7b6ed4945c554279e0696"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "5301d1b046ba",
+        "manifestSha256": "1306f59e9a6a90f0a83c2d7225c20e439e628e7d41c7b6ed4945c554279e0696",
+        "declaredFiles": 2151,
+        "checkedFiles": 2151,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "tag": "verify-derived-after-cold-reads",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\derived-package",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-station-receiver-v1\\run-01\\derived-package",
+        "810217533a69e038811354b79d8c619758144dd0a696b946043fe15740d15c8e"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "775451b85622",
+        "manifestSha256": "810217533a69e038811354b79d8c619758144dd0a696b946043fe15740d15c8e",
+        "declaredFiles": 2150,
+        "checkedFiles": 2150,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    }
+  ],
+  "original": {
+    "ok": true,
+    "build": "5301d1b046ba",
+    "manifestSha256": "1306f59e9a6a90f0a83c2d7225c20e439e628e7d41c7b6ed4945c554279e0696",
+    "declaredFiles": 2151,
+    "checkedFiles": 2151,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "initialWorkingFiles": 2151,
+  "variant": {
+    "id": "tea-counter-open-wide-shelf",
+    "version": 2,
+    "resourcePath": "prototype/public/company-assets/tea-station-v1/tea-counter-open-wide-shelf/v2/resource.json",
+    "sha256": "ec4bcfe6f123c6682a4d1c0f10e9602e13a29e8ebcc2a9559b277e9dd91a7d04",
+    "geometrySha256": "2b456f235f085a705444a494fa7d763e7c0b2c0883f23324f6552e50d15c0193",
+    "recipe": "assets-source/company-tea-station-v1/examples/open-wide-shelf-v2.json",
+    "pin": "assets-source/company-tea-station-v1/examples/recipe-53726c8cedad37c58ba9d031215cb649f2e972637f599772709515a4dc54dcf6.json",
+    "sourceSha256": "53726c8cedad37c58ba9d031215cb649f2e972637f599772709515a4dc54dcf6",
+    "asset": {
+      "format": "glb",
+      "url": "/company-assets/tea-station-v1/tea-counter-open-wide-shelf/v2/model.glb",
+      "bytes": 28540,
+      "sha256": "ec4bcfe6f123c6682a4d1c0f10e9602e13a29e8ebcc2a9559b277e9dd91a7d04"
+    }
+  },
+  "live": {
+    "before": {
+      "contacts": [
+        {
+          "parentId": "tea-rental/ground/living/tea-station",
+          "childId": "tea-rental/ground/living/tea-station/machine",
+          "surfaceId": "counter",
+          "mesh": "countertop",
+          "point": [
+            -1.5891821,
+            0.9,
+            -1.5643319
+          ]
+        },
+        {
+          "parentId": "tea-rental/ground/living/tea-station/machine",
+          "childId": "tea-rental/ground/living/tea-station/cup",
+          "surfaceId": "tray",
+          "mesh": "tea-machine-tray",
+          "point": [
+            -1.5363048,
+            0.951246,
+            -1.3720681
+          ]
+        }
+      ],
+      "serviceDoors": [
+        {
+          "portalId": "tea-rental/ground/portal-stream-living",
+          "fromRegion": "tea-rental/ground/live",
+          "threshold": [
+            -2.25,
+            0
+          ],
+          "approach": [
+            [
+              -1.8,
+              1.5
+            ],
+            [
+              1.8,
+              1.5
+            ],
+            [
+              1.8,
+              0.45
+            ],
+            [
+              2,
+              0.45
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "inside": [
+            [
+              -2,
+              0
+            ],
+            [
+              -2,
+              -0.45
+            ],
+            [
+              -1.8,
+              -0.45
+            ],
+            [
+              -1.8,
+              -0.65
+            ],
+            [
+              -1.56,
+              -0.65
+            ]
+          ]
+        },
+        {
+          "portalId": "tea-rental/ground/portal-work-living",
+          "fromRegion": "tea-rental/ground/work",
+          "threshold": [
+            2.25,
+            0
+          ],
+          "approach": [
+            [
+              1.8,
+              1.5
+            ],
+            [
+              -1.8,
+              1.5
+            ],
+            [
+              -1.8,
+              0.45
+            ],
+            [
+              -2,
+              0.45
+            ],
+            [
+              -2,
+              0
+            ]
+          ],
+          "inside": [
+            [
+              2,
+              0
+            ],
+            [
+              2,
+              0.35
+            ],
+            [
+              -1.4,
+              0.35
+            ],
+            [
+              -1.4,
+              -0.65
+            ],
+            [
+              -1.56,
+              -0.65
+            ]
+          ]
+        },
+        {
+          "portalId": "tea-rental/ground/portal-rest-living",
+          "fromRegion": "tea-rental/ground/rest",
+          "threshold": [
+            0,
+            2
+          ],
+          "approach": [
+            [
+              1.7,
+              1.4
+            ],
+            [
+              1.4,
+              1.4
+            ],
+            [
+              1.4,
+              -0.35
+            ],
+            [
+              0,
+              -0.35
+            ],
+            [
+              0,
+              -1.75
+            ]
+          ],
+          "inside": [
+            [
+              0,
+              1.75
+            ],
+            [
+              0,
+              0.45
+            ],
+            [
+              -1.4,
+              0.45
+            ],
+            [
+              -1.4,
+              -0.65
+            ],
+            [
+              -1.56,
+              -0.65
+            ]
+          ]
+        }
+      ],
+      "indicator": {
+        "node": "tea-machine-indicator",
+        "color": "#335657",
+        "emissiveIntensity": 0
+      }
+    },
+    "countertop": {
+      "contacts": [
+        {
+          "parentId": "tea-rental/ground/living/tea-station",
+          "childId": "tea-rental/ground/living/tea-station/machine",
+          "surfaceId": "counter",
+          "mesh": "countertop",
+          "point": [
+            -1.5891821,
+            0.9,
+            -1.5643319
+          ]
+        },
+        {
+          "parentId": "tea-rental/ground/living/tea-station",
+          "childId": "tea-rental/ground/living/tea-station/cup",
+          "surfaceId": "counter",
+          "mesh": "countertop",
+          "point": [
+            -1.8463048,
+            0.9,
+            -1.3320681
+          ]
+        }
+      ],
+      "serviceDoors": [
+        {
+          "portalId": "tea-rental/ground/portal-stream-living",
+          "fromRegion": "tea-rental/ground/live",
+          "threshold": [
+            -2.25,
+            0
+          ],
+          "approach": [
+            [
+              -1.8,
+              1.5
+            ],
+            [
+              1.8,
+              1.5
+            ],
+            [
+              1.8,
+              0.45
+            ],
+            [
+              2,
+              0.45
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "inside": [
+            [
+              -2,
+              0
+            ],
+            [
+              -2,
+              -0.45
+            ],
+            [
+              -1.8,
+              -0.45
+            ],
+            [
+              -1.8,
+              -0.65
+            ],
+            [
+              -1.56,
+              -0.65
+            ]
+          ]
+        },
+        {
+          "portalId": "tea-rental/ground/portal-work-living",
+          "fromRegion": "tea-rental/ground/work",
+          "threshold": [
+            2.25,
+            0
+          ],
+          "approach": [
+            [
+              1.8,
+              1.5
+            ],
+            [
+              -1.8,
+              1.5
+            ],
+            [
+              -1.8,
+              0.45
+            ],
+            [
+              -2,
+              0.45
+            ],
+            [
+              -2,
+              0
+            ]
+          ],
+          "inside": [
+            [
+              2,
+              0
+            ],
+            [
+              2,
+              0.35
+            ],
+            [
+              -1.4,
+              0.35
+            ],
+            [
+              -1.4,
+              -0.65
+            ],
+            [
+              -1.56,
+              -0.65
+            ]
+          ]
+        },
+        {
+          "portalId": "tea-rental/ground/portal-rest-living",
+          "fromRegion": "tea-rental/ground/rest",
+          "threshold": [
+            0,
+            2
+          ],
+          "approach": [
+            [
+              1.7,
+              1.4
+            ],
+            [
+              1.4,
+              1.4
+            ],
+            [
+              1.4,
+              -0.35
+            ],
+            [
+              0,
+              -0.35
+            ],
+            [
+              0,
+              -1.75
+            ]
+          ],
+          "inside": [
+            [
+              0,
+              1.75
+            ],
+            [
+              0,
+              0.45
+            ],
+            [
+              -1.4,
+              0.45
+            ],
+            [
+              -1.4,
+              -0.65
+            ],
+            [
+              -1.56,
+              -0.65
+            ]
+          ]
+        }
+      ],
+      "indicator": {
+        "node": "tea-machine-indicator",
+        "color": "#65df9e",
+        "emissiveIntensity": 1.25
+      }
+    },
+    "returned": {
+      "contacts": [
+        {
+          "parentId": "tea-rental/ground/living/tea-station",
+          "childId": "tea-rental/ground/living/tea-station/machine",
+          "surfaceId": "counter",
+          "mesh": "countertop",
+          "point": [
+            -1.5891821,
+            0.9,
+            -1.5643319
+          ]
+        },
+        {
+          "parentId": "tea-rental/ground/living/tea-station/machine",
+          "childId": "tea-rental/ground/living/tea-station/cup",
+          "surfaceId": "tray",
+          "mesh": "tea-machine-tray",
+          "point": [
+            -1.5363048,
+            0.951246,
+            -1.3720681
+          ]
+        }
+      ],
+      "serviceDoors": [
+        {
+          "portalId": "tea-rental/ground/portal-stream-living",
+          "fromRegion": "tea-rental/ground/live",
+          "threshold": [
+            -2.25,
+            0
+          ],
+          "approach": [
+            [
+              -1.8,
+              1.5
+            ],
+            [
+              1.8,
+              1.5
+            ],
+            [
+              1.8,
+              0.45
+            ],
+            [
+              2,
+              0.45
+            ],
+            [
+              2,
+              0
+            ]
+          ],
+          "inside": [
+            [
+              -2,
+              0
+            ],
+            [
+              -2,
+              -0.45
+            ],
+            [
+              -1.8,
+              -0.45
+            ],
+            [
+              -1.8,
+              -0.65
+            ],
+            [
+              -1.56,
+              -0.65
+            ]
+          ]
+        },
+        {
+          "portalId": "tea-rental/ground/portal-work-living",
+          "fromRegion": "tea-rental/ground/work",
+          "threshold": [
+            2.25,
+            0
+          ],
+          "approach": [
+            [
+              1.8,
+              1.5
+            ],
+            [
+              -1.8,
+              1.5
+            ],
+            [
+              -1.8,
+              0.45
+            ],
+            [
+              -2,
+              0.45
+            ],
+            [
+              -2,
+              0
+            ]
+          ],
+          "inside": [
+            [
+              2,
+              0
+            ],
+            [
+              2,
+              0.35
+            ],
+            [
+              -1.4,
+              0.35
+            ],
+            [
+              -1.4,
+              -0.65
+            ],
+            [
+              -1.56,
+              -0.65
+            ]
+          ]
+        },
+        {
+          "portalId": "tea-rental/ground/portal-rest-living",
+          "fromRegion": "tea-rental/ground/rest",
+          "threshold": [
+            0,
+            2
+          ],
+          "approach": [
+            [
+              1.7,
+              1.4
+            ],
+            [
+              1.4,
+              1.4
+            ],
+            [
+              1.4,
+              -0.35
+            ],
+            [
+              0,
+              -0.35
+            ],
+            [
+              0,
+              -1.75
+            ]
+          ],
+          "inside": [
+            [
+              0,
+              1.75
+            ],
+            [
+              0,
+              0.45
+            ],
+            [
+              -1.4,
+              0.45
+            ],
+            [
+              -1.4,
+              -0.65
+            ],
+            [
+              -1.56,
+              -0.65
+            ]
+          ]
+        }
+      ],
+      "indicator": {
+        "node": "tea-machine-indicator",
+        "color": "#65df9e",
+        "emissiveIntensity": 1.25
+      }
+    }
+  },
+  "derivative": {
+    "ok": true,
+    "build": "775451b85622",
+    "manifestSha256": "810217533a69e038811354b79d8c619758144dd0a696b946043fe15740d15c8e",
+    "declaredFiles": 2150,
+    "checkedFiles": 2150,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "rooms": {
+    "changed": "tea-rental",
+    "unchanged": "tea-floor",
+    "untouchedNamedFiles": 6,
+    "roles": {
+      "counter": "tea-rental/ground/living/tea-station",
+      "cup": "tea-rental/ground/living/tea-station/cup",
+      "machine": "tea-rental/ground/living/tea-station/machine"
+    },
+    "originalCupAt": [
+      0,
+      0.051246,
+      0.09
+    ],
+    "counterCupAt": [
+      -0.31,
+      0.9,
+      0.13
+    ],
+    "modified": "53df397fa2cef31628c5b01ae40b3f401a18557ed52f7d41c0c4706a027388dc",
+    "unchangedSave": "4a1061b4b36990ce28a358e26624d5e429ae733a45725e98c42c7ade2e6b98ff",
+    "returned": "2245e7201aa74bb20fbb9f7a24556552dc05da9e61c1ec118103815f4078f0f9"
+  },
+  "negative": {
+    "code": "overlapping-supported-props",
+    "path": "tea-rental/ground/living/tea-station/cup"
+  },
+  "unmodifiedWorkingFiles": 2149,
+  "originalPreserved": {
+    "ok": true,
+    "build": "5301d1b046ba",
+    "manifestSha256": "1306f59e9a6a90f0a83c2d7225c20e439e628e7d41c7b6ed4945c554279e0696",
+    "declaredFiles": 2151,
+    "checkedFiles": 2151,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  }
+}
