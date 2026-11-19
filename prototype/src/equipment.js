@@ -4,6 +4,7 @@ import { resolveEquipmentSet, commitLoadedEquipmentSet, prepareLoadedEquipmentSe
 import { createEquipmentLoader, initializeEquipmentMaterials, updateEquipmentMaterials, collectEquipmentTextures } from './equipment-material-loader.js';
 import { shapeFitDescriptor } from './shape-fit-registry.js';
 import { layerFitRequirement, validateLayerFit, assertLayerFitSet } from './garment-layer-fit.js';
+import {loadPinnedBytes} from './initial-asset-reads.js';
 
 // GLTFLoader sanitizes node names and retains the exact glTF name in userData.
 const boneNames = bone => [...new Set([bone.name, bone.userData?.name]
@@ -28,11 +29,19 @@ export async function createEquipment({
   manifestSha256,
   avatarSha256,
   additionalManifests = [],
+  initialAssets,
 }) {
   if (!vrm?.humanoid || !parent) throw new TypeError("A loaded VRM is required");
-  const response = await fetch(manifestUrl, { cache: "no-store" });
-  if (!response.ok) throw new Error(`Equipment manifest HTTP ${response.status}`);
-  const manifest = manifestSha256 === undefined ? await response.json() : await pinnedCatalog(response, manifestSha256);
+  let manifest;
+  if (manifestSha256===undefined) {
+    const response=await fetch(manifestUrl,{cache:'no-store'});
+    if (!response.ok) throw Error('Equipment manifest HTTP '+response.status);
+    manifest=await response.json();
+  } else {
+    const bytes=await loadPinnedBytes(manifestUrl,manifestSha256,initialAssets,{options:{cache:'no-store'},
+      httpError:'Equipment manifest',integrityError:'Equipment manifest integrity mismatch'});
+    manifest=JSON.parse(new TextDecoder().decode(bytes));
+  }
   if (manifest.schema !== "zbgs-equipment-v1" || !Array.isArray(manifest.items))
     throw new Error("Unsupported equipment manifest");
   // Additive catalogs keep the original manifest URL and every legacy entry
@@ -170,11 +179,8 @@ export async function createEquipment({
       mapping.set(binding.sourceBone, { bone, inverse });
     }
     const url = new URL(entry.url, manifestBase);
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Garment HTTP ${response.status}`);
-    const buffer = await response.arrayBuffer();
-    if (buffer.byteLength !== entry.bytes || await sha256(buffer) !== entry.sha256)
-      throw new Error(`Garment integrity check failed for ${entry.id}`);
+    const buffer=await loadPinnedBytes(url,entry.sha256,initialAssets,{bytes:entry.bytes,
+      httpError:'Garment',integrityError:`Garment integrity check failed for ${entry.id}`});
     const gltf = await loader.parseAsync(buffer, new URL(".", url).href);
     const container = new THREE.Group();
     container.name = `Equipment:${entry.id}`;

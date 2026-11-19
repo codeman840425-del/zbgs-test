@@ -30,7 +30,7 @@ export function createRecordAppearanceController(actor) {
  * Aborted network work may finish, but cannot attach and releases its candidate.
  */
 export async function prepareRecordedCharacter(input, {
-  scene, renderer, position = [0, 0, 0], isCurrent = () => true, signal,
+  scene, renderer, position = [0, 0, 0], isCurrent = () => true, signal, initialAssets,
   createController = ({avatar}) => createRecordAppearanceController(avatar),
 } = {}) {
   const record = structuredClone(input);
@@ -59,7 +59,7 @@ export async function prepareRecordedCharacter(input, {
   try {
     avatar = await loadFoundationAvatar({
       scene, renderer, bodyType: base.bodyType, attachToScene: false, initialOutfit: outfitIndex,
-      nativeHairCenter: record.nativeHairCenter ?? null,
+      nativeHairCenter: record.nativeHairCenter ?? null, initialAssets,
     });
     ensureCurrent();
     avatar.root.position.fromArray(worldPosition);

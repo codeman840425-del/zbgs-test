@@ -8,6 +8,7 @@ import {createCharacterRecordBatch} from './character-record-batch.js';
 import {performCharacterProduction} from './character-production.js';
 import {productionRuleBodyPointers,validateCharacterRecordInput} from './character-record-input.js';
 import {initializeRuleBodyData} from './foundation-profiles.js';
+import {createRuleBodyGroupLoads} from './initial-asset-reads.js';
 
 const scene = new THREE.Scene(); scene.background = new THREE.Color('#e7ede3');
 scene.add(new THREE.HemisphereLight(0xe9f4ff, 0xa5aa94, 2.5));
@@ -21,7 +22,8 @@ ground.rotation.x=-Math.PI/2;scene.add(ground);
 const resize=()=>{renderer.setSize(stage.clientWidth,stage.clientHeight);camera.aspect=stage.clientWidth/stage.clientHeight;camera.updateProjectionMatrix();};
 const observer=new ResizeObserver(resize);observer.observe(stage);resize();
 let batch=null,generation=0,records=[],selected=0,ready=false;
-let closed=false,game,ruleBodyRegistration;
+let closed=false,game,ruleBodyRegistration,groupLoads,failedSelection;
+let selectionRequest=0;
 const actors=new Map(), attempts=[], errors=[];
 const actorRecords=new WeakMap(), seatLeases=createSeatLeases();
 let room=null,restoreGeneration=0;
@@ -29,7 +31,7 @@ window.addEventListener('pagehide',event=>{
   if(event.persisted||closed)return;
   closed=true;generation++;batch?.cancel('page closing');observer.disconnect();
   for(const actor of actors.values())actor.dispose();actors.clear();
-  ruleBodyRegistration?.dispose();
+  groupLoads?.dispose();ruleBodyRegistration?.dispose();
   game?.destroy(true);ground.geometry.dispose();ground.material.dispose();renderer.dispose();
 });
 const buildInfo=await fetch('/build-info.json').then(r=>r.json());
@@ -50,12 +52,12 @@ async function prepareRoomActor(record,{getPeers=()=>actors.values(),...options}
   setRoomPresentation(instance);
   return instance;
 }
-async function consume(record,context){
+async function consume(record,context,initialAssets){
   const owner=generation;attempts.push({identityId:record.identity.id,requestId:context.requestId});
   const current=()=>owner===generation&&context.isCurrent();
   const position=room?room.spawns[context.index]:[context.index===0?-.55:.55,0,0];
   if(!position)throw Error('missing-facility-spawn');
-  const instance=await prepareRoomActor(record,{isCurrent:current,signal:context.signal,position});
+  const instance=await prepareRoomActor(record,{isCurrent:current,signal:context.signal,position,initialAssets});
   const release=()=>{if(actors.get(record.identity.id)===instance)actors.delete(record.identity.id);instance.dispose();};
   try{
     if(!current()){release();return{applied:false,cancelled:true};}
@@ -68,13 +70,34 @@ async function selectGroup(index,inputs){
   const group=inputs??records.slice(index*2,index*2+2);
   if(!Array.isArray(group)||group.length<1||group.length>2)throw Error('A group requires one or two character records');
   if(closed)throw Error('The record consumer has closed');
+  const request=++selectionRequest;
+  failedSelection=null;
+  let initialAssets;
+  if(groupLoads){
+    try {
+      const stage=await groupLoads.prepare(group);
+      if(closed||request!==selectionRequest)return;
+      initialAssets=stage?.commit();
+    }
+    catch(error){
+      if(request===selectionRequest&&!closed) failedSelection={index,inputs,message:error.message};
+      throw error;
+    }
+    if(!initialAssets)return;
+  }
   selected=index;generation++;batch?.cancel('另一组人物已被选择');
   for(const actor of actors.values())actor.dispose();actors.clear();
-  const ownBatch=createCharacterRecordBatch(group,{consume,batchId:'record-demo-'+generation});batch=ownBatch;
-  status.textContent='加载人物记录 · '+buildInfo.shortId;show();
-  const result=await ownBatch.run();
-  if(!closed&&batch===ownBatch){status.textContent='当前组读取结束 · '+buildInfo.shortId;show();}
-  return result;
+  try {
+    const ownBatch=createCharacterRecordBatch(group,{consume:(r,c)=>consume(r,c,initialAssets),batchId:'record-demo-'+generation});batch=ownBatch;
+    status.textContent='加载人物记录 · '+buildInfo.shortId;show();
+    const result=await ownBatch.run();
+    if(!closed&&batch===ownBatch){status.textContent='当前组读取结束 · '+buildInfo.shortId;show();}
+    return result;
+  } finally { initialAssets?.dispose(); }
+}
+async function retrySelection(){
+  if(failedSelection)return selectGroup(failedSelection.index,failedSelection.inputs);
+  const result=await batch.retryFailed();show();return result;
 }
 const parameters=new URLSearchParams(location.search);
 const productionMode=parameters.get('production')==='1';
@@ -88,7 +111,7 @@ if(!productionMode){
  const manifest=await manifestResponse.json();
  const entries=externalPath?validateCharacterRecordInput(manifest,externalPath):manifest.entries;
  if(externalPath && Object.hasOwn(manifest,'ruleBodyDataPacks'))
-   ruleBodyRegistration=await initializeRuleBodyData(manifest.ruleBodyDataPacks);
+   groupLoads=createRuleBodyGroupLoads(manifest.ruleBodyDataPacks,initializeRuleBodyData,location.href);
  records=await Promise.all(entries.map(async entry=>{
    const response=await fetch(entry.url,{redirect:'error'});if(!response.ok)throw Error('Record HTTP '+response.status);
    const bytes=await response.text();if(new TextEncoder().encode(bytes).length>512*1024)throw Error('Record exceeds 512 KiB');
@@ -132,7 +155,7 @@ class RecordScene extends Phaser.Scene{update(time){
 if(!closed)game=new Phaser.Game({type:Phaser.HEADLESS,width:1,height:1,audio:{noAudio:true},banner:false,scene:RecordScene});
 document.querySelector('#first').onclick=()=>selectGroup(0).catch(e=>{status.textContent=e.message;errors.push(e.message);});
 document.querySelector('#second').onclick=()=>selectGroup(1).catch(e=>{status.textContent=e.message;errors.push(e.message);});
-document.querySelector('#retry').onclick=async()=>{try{await batch.retryFailed();show();}catch(e){status.textContent=e.message;}};
+document.querySelector('#retry').onclick=()=>retrySelection().catch(e=>{status.textContent=e.message;});
 window.__recordConsumer={buildInfo,scene,renderer,camera,three:THREE,actors,attempts,errors,records,seatLeases,
   bindFacilityRoom(options) {
     if (closed || !ready || batch?.snapshot().phase==='running') throw Error('record-consumer-busy');
@@ -158,10 +181,10 @@ window.__recordConsumer={buildInfo,scene,renderer,camera,three:THREE,actors,atte
     const actor=actors.get(id);if(!actor)return false;
     actors.delete(id);actor.dispose();return true;
   },
-  get inputFailure(){return inputFailure;},
+  get inputFailure(){return inputFailure??failedSelection?.message??null;},
   get ready(){return ready;},get selected(){return selected;},selectGroup,
-  snapshot:()=>batch?.snapshot(),retry:async()=>{const result=await batch.retryFailed();show();return result;},
-  cancel:()=>{generation++;return batch?.cancel('cancelled by game');},
+  snapshot:()=>batch?.snapshot(),retry:retrySelection,
+  cancel:()=>{selectionRequest++;failedSelection=null;groupLoads?.cancel();generation++;return batch?.cancel('cancelled by game');},
   async production(request){
     if(inputFailure)throw Error(inputFailure);
     productionController?.abort();const own=new AbortController();productionController=own;
@@ -170,4 +193,10 @@ window.__recordConsumer={buildInfo,scene,renderer,camera,three:THREE,actors,atte
   },
   cancelProduction:()=>productionController?.abort(),
 };
-if(!closed){if(!productionMode&&!inputFailure)await selectGroup(0);ready=!closed;}
+if(!closed){
+  if(!productionMode&&!inputFailure) {
+    try { await selectGroup(0); }
+    catch(error) { if(!failedSelection)throw error;status.textContent=error.message;errors.push(error.message); }
+  }
+  ready=!closed;
+}

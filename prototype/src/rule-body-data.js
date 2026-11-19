@@ -44,8 +44,8 @@ export function validateRuleBodyPointers(descriptors) {
   requireData(new Set(descriptors.map(row=>row.bodyType)).size===descriptors.length,'duplicate body pointer');
 }
 
-async function browserBytes(url,expectedBytes) {
-  const response=await fetch(url,{redirect:'error',credentials:'same-origin'});
+async function browserBytes(url,expectedBytes,signal) {
+  const response=await fetch(url,{redirect:'error',credentials:'same-origin',signal});
   requireData(response.ok,'HTTP '+response.status+' '+url);
   const reader=response.body.getReader(), data=new Uint8Array(expectedBytes);
   let offset=0;
@@ -151,16 +151,26 @@ export function createRuleBodyRegistry() {
   const installed=new Map();
   return {
     hasSha(sha) { return typeof sha==='string' && installed.get('rule-body-'+sha.slice(0,20))?.sha===sha; },
-    async initialize(profiles,descriptors,{readBytes=browserBytes}={}) {
+    async initialize(profiles,descriptors,{readBytes=browserBytes,initialAssets,signal}={}) {
       validateRuleBodyPointers(descriptors);
       const pointers=structuredClone(descriptors), reads=new Map();
       function read(url,pin) {
         const key=url+' '+pin.bytes+' '+pin.sha256;
-        if (!reads.has(key)) reads.set(key,Promise.resolve(readBytes(url,pin.bytes)).then(async data=>{
+        if (reads.has(key)) return reads.get(key);
+        async function verified() {
+          signal?.throwIfAborted();
+          const data=await readBytes(url,pin.bytes,signal);
           requireData(data instanceof Uint8Array && data.byteLength===pin.bytes &&
             await sha256Hex(data)===pin.sha256,'payload mismatch '+url);
           return data;
-        }));
+        }
+        const bytes=initialAssets && url.startsWith('/assets/')
+          ? initialAssets.read(url,pin.sha256,verified).then(buffer=>{
+              requireData(buffer.byteLength===pin.bytes,'payload size '+url);
+              return new Uint8Array(buffer);
+            })
+          : verified();
+        reads.set(key,bytes);
         return reads.get(key);
       }
       function checkConflicts(rows) {
@@ -176,6 +186,7 @@ export function createRuleBodyRegistry() {
       const pending=await Promise.all(pointers.map(async ptr=>({ptr,profile:installed.has(ptr.bodyType)?
         installed.get(ptr.bodyType).profile:await readPack(ptr,read)})));
       // No await between final conflict validation and installation of the group.
+      signal?.throwIfAborted();
       checkConflicts(pending);
       for (const {ptr,profile} of pending) {
         if (!installed.has(ptr.bodyType)) {

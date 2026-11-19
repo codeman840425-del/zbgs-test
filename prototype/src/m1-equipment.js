@@ -11,7 +11,7 @@ export const M1_AVATAR_SHA256 =
   "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95";
 /** Equipment composition and reversible rendering coverage. Complete body
  * source geometry remains available for diagnostics and contact calibration. */
-export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female", initialOutfit = 0 }) {
+export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female", initialOutfit = 0, initialAssets }) {
   const config = foundationProfile(bodyType), IDS = config.ids;
   const initial = outfitSelection(config, initialOutfit);
   const embeddedClothing = config.embeddedClothing === undefined ? true : config.embeddedClothing;
@@ -31,6 +31,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     avatarSha256,
     manifestUrl: config.manifestUrl,
     manifestSha256: config.manifestSha256,
+    initialAssets,
     additionalManifests: config.additionalEquipmentManifests,
   });
   const sourceClothes = [],

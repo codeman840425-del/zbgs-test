@@ -2,9 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
+import {registerHooks} from 'node:module';
 import {FOUNDATION_PROFILES,foundationProfile,initializeRuleBodyData} from './foundation-profiles.js';
 import {createRuleBodyRegistry} from './rule-body-data.js';
 import {productionRuleBodyPointers,validateCharacterRecordInput} from './character-record-input.js';
+import {createInitialAssetReads,createRuleBodyGroupLoads,loadPinnedBytes} from './initial-asset-reads.js';
 
 const source=name=>readFile(new URL('../../'+name,import.meta.url));
 const bytes=value=>Buffer.from(JSON.stringify(value));
@@ -131,4 +133,104 @@ test('browser byte reader pins response length and rejects a redirected or overs
   assert.equal(catalog[sample.id].sha256,sample.profile.sha256);
   assert.equal(new Set(calls).size,9);
   registration.dispose();
+});
+
+test('the selected pack and two real signed actors read each shared garment once and parse independent rigs',async t=>{
+  const hook=registerHooks({load(url,context,next){
+    return next(url,url.endsWith('.json')?{...context,importAttributes:{type:'json'}}:context);
+  }});
+  t.after(()=>hook.deregister());
+  const {THREE}=await import('../../scripts/headless-avatar-node.mjs');
+  const {prepareRecordedCharacter}=await import('./character-record-consumer.js');
+  const pair=JSON.parse(await source('evidence/m2-first-rule-delivery-v1/game/signed.json'));
+  const sample=await example('candidate'), ptr=sample.publish(), registry=createRuleBodyRegistry();
+  const initialAssets=createInitialAssetReads(window.location.href);
+  const reads=[],normalFetch=globalThis.fetch;
+  let fault;
+  t.mock.method(globalThis,'fetch',(input,options)=>{
+    const url=new URL(input.url??input,window.location.href);
+    reads.push(url.pathname);
+    if(url.pathname===fault)return Promise.resolve(new Response(null,{status:503}));
+    return normalFetch(input,options);
+  });
+  const registration=await registry.initialize({},[ptr],{initialAssets,readBytes:url=>{
+    reads.push(url);return sample.readBytes(url);
+  }});
+  t.after(()=>registration.dispose());
+  const scene=new THREE.Scene(), environment={scene,renderer:{},initialAssets};
+  const actors=await Promise.all(pair.map(r=>prepareRecordedCharacter(r,environment)));
+  t.after(()=>actors.forEach(a=>a.dispose()));
+  initialAssets.dispose();
+  const garments=JSON.parse(sample.store.get(sample.profile.manifestUrl)).items;
+  for(const url of [sample.profile.url,sample.profile.manifestUrl,...garments.map(g=>g.url)])
+    assert.equal(reads.filter(call=>call===url).length,1,url);
+  actors.forEach(a=>a.attach());
+  assert.notEqual(actors[0].avatar.vrm.humanoid.getRawBoneNode('hips'),actors[1].avatar.vrm.humanoid.getRawBoneNode('hips'));
+  const mesh=a=>a.avatar.root.getObjectByProperty('isSkinnedMesh',true);
+  assert.notEqual(mesh(actors[0]).geometry,mesh(actors[1]).geometry);
+  assert.notEqual(mesh(actors[0]).material,mesh(actors[1]).material);
+  actors[0].dispose();
+  assert.deepEqual(scene.children,[actors[1].avatar.root]);
+  fault=garments[0].url;
+  await assert.rejects(prepareRecordedCharacter(pair[0],environment),/Garment HTTP 503/);
+  assert.deepEqual(scene.children,[actors[1].avatar.root]);
+  fault=null;
+  const recovered=await prepareRecordedCharacter(pair[0],environment);
+  assert.equal(recovered.recordSha256,pair[0].integrity.recordSha256);
+  recovered.dispose();
+});
+
+test('unselected published packs are deferred; preflight failure, retry and superseded commits preserve current profiles',async()=>{
+  const [first,later]=await Promise.all(['candidate','control'].map(example));
+  const pointers=[first.publish(),later.publish()], both=new Map([...first.store,...later.store]), catalog={};
+  const registry=createRuleBodyRegistry(), reads=[];
+  let failing=later.profile.url;
+  const groups=createRuleBodyGroupLoads(pointers,(selected,options)=>registry.initialize(catalog,selected,{
+    ...options,readBytes:async url=>{
+      reads.push(url);
+      if(url===failing)throw Error('HTTP 503');
+      return both.get(url);
+    },
+  }),'http://game.local/');
+  const record=id=>({appearanceRecipe:{base:{bodyType:id}}});
+  const current=[record('compiled-body'),record(first.id)],next=[record(later.id)];
+  const firstAssets=(await groups.prepare(current)).commit();
+  const url=first.profile.url, sha=first.profile.sha256;
+  const laterRead=async()=>{throw Error('fresh read');};
+  assert((await firstAssets.read(url,sha,laterRead)).byteLength>0);
+  groups.cancel();
+  await assert.rejects(firstAssets.read(url,sha,laterRead),/fresh read/);
+  assert.deepEqual(Object.keys(catalog),[first.id]);
+  assert(!reads.includes(pointers[1].url));assert(!reads.includes(later.profile.url));
+  await assert.rejects(groups.prepare(next),/503/);
+  assert.deepEqual(Object.keys(catalog),[first.id]);
+  failing=null;
+  const staged=await groups.prepare(next);
+  const winner=await groups.prepare(current);
+  assert.equal(staged.commit(),null);
+  winner.commit().dispose();
+  assert.deepEqual(Object.keys(catalog),[first.id]);
+  (await groups.prepare(next)).commit().dispose();
+  assert.deepEqual(Object.keys(catalog),[later.id]);
+  (await groups.prepare(current)).commit().dispose();
+  assert.deepEqual(Object.keys(catalog),[first.id]);
+  groups.dispose();
+  assert.deepEqual(catalog,{});
+});
+
+test('concurrent readers get private buffers and retry an unsuccessful integrity check',async t=>{
+  const url='https://game.local/a', b=bytes({test:1}), sha=hash(b);
+  const scope=createInitialAssetReads(url);
+  let corrupt=true, calls=0;
+  t.mock.method(globalThis,'fetch',async()=>{calls++;return new Response(corrupt?'broken':b);});
+  const load=()=>loadPinnedBytes(url,sha,scope,{httpError:'test',integrityError:'bad integrity'});
+  const failed=await Promise.allSettled([load(),load()]);
+  assert(failed.every(item=>item.status==='rejected' && /bad integrity/.test(item.reason.message)));
+  assert.equal(calls,1);
+  corrupt=false;
+  const [a,c]=await Promise.all([load(),load()]);
+  new Uint8Array(a).fill(0);
+  assert.deepEqual(Buffer.from(c),b);
+  assert.equal(calls,2);
+  scope.dispose();await load();assert.equal(calls,3);
 });

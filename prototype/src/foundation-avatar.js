@@ -19,6 +19,7 @@ import { validateNativeHairCenterPin } from "./native-hair-center-record.js";
 import { shareBodyNormalSource } from "./shared-body-normal-source.js";
 import { registerUniformNormals } from "./uniform-normal-source.js";
 import { disposeAvatarScene } from "./dispose-avatar-scene.js";
+import {loadPinnedBytes} from './initial-asset-reads.js';
 
 // Each actor owns its prewarm variants. Geometry UUID is deliberately omitted:
 // a new clone with identical layouts/material versions reuses the same program.
@@ -90,7 +91,7 @@ export function createFaceGeometryWarmup(renderer,scene) {
 }
 
 export async function loadFoundationAvatar({
-  scene, renderer, bodyType = "female", attachToScene = true, nativeHairCenter: requestedHairCenter, initialOutfit = 0,
+  scene, renderer, bodyType = "female", attachToScene = true, nativeHairCenter: requestedHairCenter, initialOutfit = 0, initialAssets,
 }) {
   const config = foundationProfile(bodyType), url = config.url;
   const initial = outfitSelection(config, initialOutfit);
@@ -108,15 +109,10 @@ export async function loadFoundationAvatar({
   const sourceBodyDisplay = config.baseBodyDisplay === 'source-with-hair';
   if(config.baseBodyDisplay && !sourceBodyDisplay)throw Error('Unknown base-body display policy');
   for (const look of config.outfits) outfitSelection(config, look.index);
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`Foundation HTTP ${response.status}`);
-  const buffer = await response.arrayBuffer();
-  const sha256 = [
-    ...new Uint8Array(await crypto.subtle.digest("SHA-256", buffer)),
-  ]
-    .map((x) => x.toString(16).padStart(2, "0"))
-    .join("");
-  if (sha256 !== config.sha256) throw new Error("Foundation identity mismatch");
+  const sha256=config.sha256;
+  const buffer=await loadPinnedBytes(url,sha256,initialAssets,{
+    httpError:'Foundation',integrityError:'Foundation identity mismatch',
+  });
   let forearmCollision = null;
   if (config.forearmCollision) {
     const response = await fetch(config.forearmCollision.url);
@@ -231,7 +227,7 @@ export async function loadFoundationAvatar({
     if (materials.some((m) => /Shoes/i.test(m.name))) shoes.push(mesh);
     else if (materials.some((m) => /_CLOTH/.test(m.name))) clothes.push(mesh);
   });
-  equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType, initialOutfit: outfit });
+  equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType, initialOutfit: outfit, initialAssets });
   const surfaces = equipment.getAssetProfile();
   appearance = createCharacterAppearance({ vrm, avatarSha256: sha256, renderer, parser:gltf.parser, preserveHairInBaseMode: sourceBodyDisplay,
     bodyTextureCoverage:equipment.bodyTextureCoverage,
