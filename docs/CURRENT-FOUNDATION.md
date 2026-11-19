@@ -1,5 +1,7 @@
 # 当前角色基础工程恢复点
 
+当前制作增量为 `character-lip-anchor-v1`。已从 1K 男女及两具原生改脸候选的确切身体批次导出四份唇边标记，并以游戏加载器核对口型及转头；原手麦配方保留。下一步将已验证的描述按选中身体纳入制作交付与游戏依赖，检查缺失或错版时的单项拒绝和旧记录恢复。[四体回读](../evidence/m2-lip-anchor-intake-v1/runtime-readback.json)
+
 当前可回读的制作增量为默认目录的上衣与鞋联合选款。固定源码 `eddeb995`，构建 `32d1c2865f09`。只给款式与版本即可从已配置的完整套装中选出唯一匹配项。1K 男体签发、房间动作和独立包两次冷开已跑通，缺少鞋版或多解时有单项回执。普通机和正式整套准入待验。4196 的预览版本以 delivery/appearance-workbench.json 为准。[正常速度录像与复现](../evidence/m2-default-shoe-intake-v1/README.md)
 
 男体踝靴同镜头候选为原版 `07958ad5d085` 和配套裤口 `dca61742f36d`。两版均完成走停、坐起、离开、短舞、换回平底和重开。六个姿势在全景及脚部近景的动作相位、人物位置和镜头矩阵逐项相同。配套版坐稳时裤管能盖住靴筒，站立近景仍有一处棕色靴面穿出。该组合保留为技术候选。普通版拒绝旧诊断记录后仍可恢复原人。[1 倍速并排录像与剩余缺陷](../evidence/m2-ankleboot-room-v2/index.html) · [普通版失败保旧](../evidence/m2-ankleboot-room-v1/ordinary-rejection/run-W0FQII/report.json)
