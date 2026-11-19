@@ -1,11 +1,16 @@
 // Compare two exact-fit candidates through the same room/controller at normal speed.
-const {chromium}=require('../prototype/node_modules/playwright');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
+const {projectOutput,productionRoot}=require('./project-output.cjs');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {verifyCandidate}=require('./qa-m1-common.cjs');
-const [url,build,destination,style='female-ponytail-v1']=process.argv.slice(2),out=path.resolve(destination);
+const [url,build,destination,style='female-ponytail-v1']=process.argv.slice(2);
 (async()=>{
+ const out=await projectOutput(destination,await productionRoot());
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
- const browser=await chromium.launch({channel:'chrome',headless:true});
+ const session=await launchQABrowser(out,{channel:'chrome'});
+ try{await inspect(session.browser,out);}finally{await session.close();}
+})().catch(error=>{console.error(error);process.exitCode=1;});
+async function inspect(browser,out){
  const ctx=await browser.newContext({viewport:{width:1440,height:900},recordVideo:{dir:out,size:{width:1440,height:900}}}),p=await ctx.newPage();
  const report={build,style,status:'running',checks:[],errors:[],scope:'Same original female without hat; exact old/new fit, normal-speed room walk/run and side sit/rise. Not target-PC or continuous visual acceptance.'};
  p.on('pageerror',e=>report.errors.push(String(e)));
@@ -52,8 +57,8 @@ const [url,build,destination,style='female-ponytail-v1']=process.argv.slice(2),o
  }catch(e){report.status='failed';report.error=String(e.stack??e);process.exitCode=1;}
  finally{
   try{report.samples=await p.evaluate(()=>{cancelAnimationFrame(window.__hairReviewRAF);return window.__hairReviewSamples;});}catch{}
-  const video=p.video();await ctx.close();await video.saveAs(path.join(out,'normal1x.webm'));await video.delete();await browser.close();
+  const video=p.video();await ctx.close();await video.saveAs(path.join(out,'normal1x.webm'));await video.delete();
   await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');
  }
  console.log(JSON.stringify({status:report.status,error:report.error}));
-})();
+}

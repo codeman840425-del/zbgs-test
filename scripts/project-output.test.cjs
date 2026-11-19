@@ -7,6 +7,48 @@ const {spawnSync} = require('node:child_process');
 const {productionRoot, projectOutput} = require('./project-output.cjs');
 const {outputPaths} = require('./character-production-cli.cjs');
 
+test('shared motion QA anchors its default in the checkout and checks overrides before mkdir', async t => {
+  const root=await productionRoot(),drive=path.parse(root).root;
+  const scratch=await fs.mkdtemp(await projectOutput(path.join(root,'experiments','motion-output-'),root));
+  const name=path.basename(scratch),alias=path.join(scratch,'junction');
+  const outside=path.join(drive,name),baseline=path.join(root,'output','playwright','m1',name);
+  t.after(async()=>{
+    await fs.unlink(alias).catch(e=>{if(e.code!=='ENOENT')throw e;});
+    for(const dir of [baseline,scratch]) {
+      assert.equal(await projectOutput(dir,root),dir);
+      await fs.rm(dir,{recursive:true,force:true});
+    }
+  });
+  await fs.symlink(drive,alias,process.platform==='win32'?'junction':'dir');
+  const script=path.join(__dirname,'qa-m1-common.cjs');
+  const probe=`
+    const fs=require('node:fs/promises'),path=require('node:path');
+    const [helper,build,root]=process.argv.slice(1);
+    const mkdir=fs.mkdir;
+    fs.mkdir=async function(dir,...args){
+      if(!dir.startsWith(root+path.sep))throw Error('Test intercepted outside mkdir');
+      return mkdir.call(this,dir,...args);
+    };
+    require(helper).prepareOutput(build,'run').then(console.log).catch(e=>{console.error(e.code,e.message);process.exitCode=1;});
+  `;
+  const run=(override,cwd)=>{
+    const env={...process.env};
+    delete env.QA_M1_RUN_ROOT;
+    if(override)env.QA_M1_RUN_ROOT=override;
+    return spawnSync(process.execPath,['-e',probe,script,name,root],{cwd,env,windowsHide:true,encoding:'utf8'});
+  };
+  for(const [override,cwd] of [[outside,drive],[path.relative(scratch,outside),scratch],[path.join(alias,name),drive]]){
+    const result=run(override,cwd);
+    assert.equal(result.status,1);
+    assert.match(result.stderr,/outside-project/);
+  }
+  await assert.rejects(fs.lstat(outside),{code:'ENOENT'});
+  const valid=run(undefined,drive);
+  assert.equal(valid.status,0,valid.stderr);
+  assert.equal(valid.stdout.trim(),path.join(baseline,'run'));
+  assert((await fs.stat(path.join(baseline,'run'))).isDirectory());
+});
+
 test('production record and game export reject an escaped path before reading inputs', async () => {
   const root = await productionRoot();
   const outside = path.join(path.dirname(root), 'outside-character-regression');
@@ -28,6 +70,9 @@ test('production record and game export reject an escaped path before reading in
     ['production/package-facility-room.mjs', '--game','missing','--game-sha256','0'.repeat(64),
       '--room','missing','--room-profile','vocal-use-v1.1','--out',outside],
     ['qa-turn-policy-observability.mjs', '--out=' + outside, '--module=missing'],
+    ['qa-long-hair-room.cjs', 'http://127.0.0.1', '0123456789ab', outside],
+    ['qa-hair-reference-room.cjs', 'http://127.0.0.1', '0123456789ab', outside],
+    ['qa-hair-region-room.cjs', 'http://127.0.0.1', '0123456789ab', outside],
     ['qa-raw-outfit-room.cjs', 'http://127.0.0.1', 'missing', 'missing', outside],
     ['character-production-cli.cjs', '--out', outside, '--request', 'missing', '--dist', 'missing'],
     ['runtime-package/game-record-cli.mjs', 'inventory', '--out', outside, '--dist', 'missing'],

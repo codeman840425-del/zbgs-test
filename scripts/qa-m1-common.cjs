@@ -1,14 +1,19 @@
 // Shared identity guard for fixed-candidate browser evidence. No product imports.
 const fs=require('node:fs/promises'),path=require('node:path');
+const {productionRoot,projectOutput}=require('./project-output.cjs');
 function expectations(){
  const build=process.env.QA_M1_BUILD,sha256=process.env.QA_M1_ASSET_SHA?.toLowerCase(),assetId=process.env.QA_M1_ASSET_ID||'beta-base-female-m1';
  if(!/^[a-f0-9]{12}$/.test(build||''))throw Error('QA_M1_BUILD must be the explicit 12-hex fixed candidate ID');
  if(!/^[a-f0-9]{64}$/.test(sha256||''))throw Error('QA_M1_ASSET_SHA must be the explicit primary-avatar SHA256');
  return {build,sha256,assetId};
 }
-function outputPath(build,leaf){return path.resolve(process.env.QA_M1_RUN_ROOT||path.join('output/playwright/m1',build),leaf);}
+function outputPath(build,leaf,root=path.join(__dirname,'..')){
+ return path.resolve(process.env.QA_M1_RUN_ROOT||path.join(root,'output','playwright','m1',build),leaf);
+}
 async function prepareOutput(build,leaf){
- const out=outputPath(build,leaf);await fs.mkdir(out,{recursive:true});
+ const root=await productionRoot();
+ const out=await projectOutput(outputPath(build,leaf,root),root);
+ await fs.mkdir(out,{recursive:true});
  for(const name of ['observations.json','report.json','matrix.json','failure.json','start-manifest.json']){
   try{await fs.access(path.join(out,name));}catch{continue;}
   throw Error(`Refuse to overwrite evidence ${path.join(out,name)}; use a fresh QA_M1_RUN_ROOT`);

@@ -1,12 +1,18 @@
-const {chromium}=require('../prototype/node_modules/playwright');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
+const {projectOutput,productionRoot}=require('./project-output.cjs');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {verifyCandidate}=require('./qa-m1-common.cjs');
-const [url,build,destination]=process.argv.slice(2),out=path.resolve(destination);
+const [url,build,destination]=process.argv.slice(2);
 const expectedHairSHA=process.env.EXPECTED_HAIR_SHA||'010a615ed5650e106bacd2c1da576a7c42db2a22047c4011596fb43b648cb015';
 const hairAssetPath=process.env.HAIR_ASSET_PATH||'/assets/m2-long-hair-v1/female-ponytail.glb';
 (async()=>{
+ const out=await projectOutput(destination,await productionRoot());
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
- const browser=await chromium.launch({channel:'chrome',headless:true}),ctx=await browser.newContext({viewport:{width:1440,height:900},recordVideo:{dir:out,size:{width:1440,height:900}}}),p=await ctx.newPage();
+ const session=await launchQABrowser(out,{channel:'chrome'});
+ try{await inspect(session.browser,out);}finally{await session.close();}
+})().catch(e=>{console.error(e);process.exitCode=1;});
+async function inspect(browser,out){
+ const ctx=await browser.newContext({viewport:{width:1440,height:900},recordVideo:{dir:out,size:{width:1440,height:900}}}),p=await ctx.newPage();
  const r={build,status:'running',checks:[],errors:[],expectedHairSHA,hairAssetPath,scope:'Original female, exact authored ponytail; normal-speed real room. CPU/static source checks remain separate; no target-PC or universal collision approval.'};
  p.on('pageerror',e=>r.errors.push(String(e)));
  const set=input=>p.evaluate(input=>__debug.command({type:'appearance',...input}),input);
@@ -73,7 +79,7 @@ const hairAssetPath=process.env.HAIR_ASSET_PATH||'/assets/m2-long-hair-v1/female
     r.checks.push({name:'fresh context missing GLB preserves previous whole look; retry restores exact v7',passed:true,fail});
    }catch(e){r.status='failed-or-incomplete';r.restoreError=String(e);process.exitCode=1;}finally{await cold.close();}
   }
-  await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(r,null,2));
+  await fs.writeFile(path.join(out,'report.json'),JSON.stringify(r,null,2));
  }
  console.log(JSON.stringify({out,status:r.status,error:r.error||r.restoreError}));
-})().catch(e=>{console.error(e);process.exitCode=1;});
+}
