@@ -35587,6 +35587,772 @@
         "bytes": 360736,
         "sha256": "38a22e7aadb075bf4713b2ce7cdd4e6d5ce20055acc0144db1d68c6b09b4acd9"
       }
+    },
+    {
+      "id": "tea-counter-water",
+      "version": 1,
+      "displayName": "茶水区 · 饮水服务柜",
+      "category": "decor",
+      "productionBranch": "tea-rest",
+      "mountRole": "tea-counter",
+      "mount": "floor-surface",
+      "parent": "floor.public-area",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1.2,
+        "height": 0.9,
+        "depth": 0.6
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.6,
+          0.3
+        ],
+        "blocking": true
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "supportSurfaces": [
+        {
+          "id": "counter",
+          "center": [
+            0,
+            0
+          ],
+          "topY": 0.9,
+          "halfSize": [
+            0.6,
+            0.3
+          ],
+          "clearanceHeight": 0.65
+        }
+      ],
+      "supportNodes": {
+        "counter": "countertop"
+      },
+      "provenance": {
+        "license": "CC0-1.0 source with project geometry and fitting.",
+        "sourceDesign": "counter",
+        "sourceAuthor": "Kenney",
+        "sourceLicense": "CC0-1.0",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "sourceArtifactPath": "assets-source/company-tea-station-v1/original/kitchenFridgeSmall.glb",
+        "sourceArtifactSha256": "35dab7f63711623be321bfd82072f4ab29fe8006aac9371c6e6b78df2e02f5ed",
+        "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+        "sourceEntry": "Models/GLTF format/kitchenFridgeSmall.glb",
+        "sourceParameters": "assets-source/company-tea-station-v1/parameters.json",
+        "sourceParametersSha256": "fd6836d37875b039c4d38a0f40e0c541bba7e201562ca64de1a844cf109bd495",
+        "generator": "scripts/company-platform/build-tea-station.mjs",
+        "generatorSha256": "e30179ec6d9aa3c36c602d56dda7b35989e368292243049501a876515d62b9b3",
+        "functionalContractSource": "assets-source/company-tea-station-v1/contract.json",
+        "functionalContractSourceSha256": "ca548de6ddbbaafb8c309bdaf637d6afea4bf3cc12749fc3b86597d555a662d8",
+        "environmentBranch": "tea-rest",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-tea-station-v1/original/sources.json",
+            "sha256": "54917f0b39efc84a1e2e6314977b251d9abc54f662fa95198867d8a1ef97cad6"
+          },
+          "sourceArchive": {
+            "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+            "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+          },
+          "geometryValidation": {
+            "path": "prototype/src/company/support-geometry.js",
+            "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+          },
+          "license": {
+            "path": "assets-source/company-tea-station-v1/original/Kenney-Furniture-Kit-License.txt",
+            "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+          },
+          "original-cabinet": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCabinet.glb",
+            "sha256": "7238c57778935ae25db5e57e9f7af3ba7068c71b005ff7cfbff3b6f3b1a13200"
+          },
+          "original-drawer": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCabinetDrawer.glb",
+            "sha256": "6f784807e3cadb15b4d2d3db726d93357ea5e6c4f2b6e4c9c064048a2d1d9cfc"
+          },
+          "original-bar": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenBar.glb",
+            "sha256": "792c3d31e60c8a8d8c7a28cf7d1efe004c5a601adc1b163a8799dde32c1b559d"
+          },
+          "original-fridge": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenFridgeSmall.glb",
+            "sha256": "35dab7f63711623be321bfd82072f4ab29fe8006aac9371c6e6b78df2e02f5ed"
+          },
+          "original-shelf": {
+            "path": "assets-source/company-tea-station-v1/original/bookcaseOpenLow.glb",
+            "sha256": "6d4d625faf977a2dbf155f1313cd32c6310e463114a1cd4c08cb9f80a5fb1d75"
+          },
+          "original-espresso": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCoffeeMachine.glb",
+            "sha256": "063f582c6fa0f00a9f24e3393dac2295491c4becdaf5513c893ab1a2826b6ec3"
+          }
+        },
+        "tools": [
+          "Three.js r187",
+          "GLTFLoader",
+          "GLTFExporter"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/tea-station-v1/tea-counter-water/v1/model.glb",
+        "bytes": 33988,
+        "sha256": "045b80ce41906c8feb3e3dd4aec1502d93cdb5bf7a57af306f7b05b99658282b"
+      }
+    },
+    {
+      "id": "tea-counter-pantry",
+      "version": 1,
+      "displayName": "茶水区 · 双柜茶具台",
+      "category": "decor",
+      "productionBranch": "tea-rest",
+      "mountRole": "tea-counter",
+      "mount": "floor-surface",
+      "parent": "floor.public-area",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1.2,
+        "height": 0.9,
+        "depth": 0.6
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.6,
+          0.3
+        ],
+        "blocking": true
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "supportSurfaces": [
+        {
+          "id": "counter",
+          "center": [
+            0,
+            0
+          ],
+          "topY": 0.9,
+          "halfSize": [
+            0.6,
+            0.3
+          ],
+          "clearanceHeight": 0.65
+        }
+      ],
+      "supportNodes": {
+        "counter": "countertop"
+      },
+      "provenance": {
+        "license": "CC0-1.0 source with project geometry and fitting.",
+        "sourceDesign": "counter",
+        "sourceAuthor": "Kenney",
+        "sourceLicense": "CC0-1.0",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "sourceArtifactPath": "assets-source/company-tea-station-v1/original/kitchenCabinetDrawer.glb",
+        "sourceArtifactSha256": "6f784807e3cadb15b4d2d3db726d93357ea5e6c4f2b6e4c9c064048a2d1d9cfc",
+        "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+        "sourceEntry": "Models/GLTF format/kitchenCabinetDrawer.glb",
+        "sourceParameters": "assets-source/company-tea-station-v1/parameters.json",
+        "sourceParametersSha256": "fd6836d37875b039c4d38a0f40e0c541bba7e201562ca64de1a844cf109bd495",
+        "generator": "scripts/company-platform/build-tea-station.mjs",
+        "generatorSha256": "e30179ec6d9aa3c36c602d56dda7b35989e368292243049501a876515d62b9b3",
+        "functionalContractSource": "assets-source/company-tea-station-v1/contract.json",
+        "functionalContractSourceSha256": "ca548de6ddbbaafb8c309bdaf637d6afea4bf3cc12749fc3b86597d555a662d8",
+        "environmentBranch": "tea-rest",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-tea-station-v1/original/sources.json",
+            "sha256": "54917f0b39efc84a1e2e6314977b251d9abc54f662fa95198867d8a1ef97cad6"
+          },
+          "sourceArchive": {
+            "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+            "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+          },
+          "geometryValidation": {
+            "path": "prototype/src/company/support-geometry.js",
+            "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+          },
+          "license": {
+            "path": "assets-source/company-tea-station-v1/original/Kenney-Furniture-Kit-License.txt",
+            "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+          },
+          "original-cabinet": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCabinet.glb",
+            "sha256": "7238c57778935ae25db5e57e9f7af3ba7068c71b005ff7cfbff3b6f3b1a13200"
+          },
+          "original-drawer": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCabinetDrawer.glb",
+            "sha256": "6f784807e3cadb15b4d2d3db726d93357ea5e6c4f2b6e4c9c064048a2d1d9cfc"
+          },
+          "original-bar": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenBar.glb",
+            "sha256": "792c3d31e60c8a8d8c7a28cf7d1efe004c5a601adc1b163a8799dde32c1b559d"
+          },
+          "original-fridge": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenFridgeSmall.glb",
+            "sha256": "35dab7f63711623be321bfd82072f4ab29fe8006aac9371c6e6b78df2e02f5ed"
+          },
+          "original-shelf": {
+            "path": "assets-source/company-tea-station-v1/original/bookcaseOpenLow.glb",
+            "sha256": "6d4d625faf977a2dbf155f1313cd32c6310e463114a1cd4c08cb9f80a5fb1d75"
+          },
+          "original-espresso": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCoffeeMachine.glb",
+            "sha256": "063f582c6fa0f00a9f24e3393dac2295491c4becdaf5513c893ab1a2826b6ec3"
+          }
+        },
+        "tools": [
+          "Three.js r187",
+          "GLTFLoader",
+          "GLTFExporter"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/tea-station-v1/tea-counter-pantry/v1/model.glb",
+        "bytes": 36048,
+        "sha256": "3dae6e71d27dbf440e4a3d429cf45243d8638e8d01391afe6de01cd7cbfda5a5"
+      }
+    },
+    {
+      "id": "tea-counter-coffee",
+      "version": 1,
+      "displayName": "茶水区 · 半开放咖啡台",
+      "category": "decor",
+      "productionBranch": "tea-rest",
+      "mountRole": "tea-counter",
+      "mount": "floor-surface",
+      "parent": "floor.public-area",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1.2,
+        "height": 0.9,
+        "depth": 0.6
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.6,
+          0.3
+        ],
+        "blocking": true
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "supportSurfaces": [
+        {
+          "id": "counter",
+          "center": [
+            0,
+            0
+          ],
+          "topY": 0.9,
+          "halfSize": [
+            0.6,
+            0.3
+          ],
+          "clearanceHeight": 0.65
+        }
+      ],
+      "supportNodes": {
+        "counter": "countertop"
+      },
+      "provenance": {
+        "license": "CC0-1.0 source with project geometry and fitting.",
+        "sourceDesign": "counter",
+        "sourceAuthor": "Kenney",
+        "sourceLicense": "CC0-1.0",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "sourceArtifactPath": "assets-source/company-tea-station-v1/original/kitchenBar.glb",
+        "sourceArtifactSha256": "792c3d31e60c8a8d8c7a28cf7d1efe004c5a601adc1b163a8799dde32c1b559d",
+        "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+        "sourceEntry": "Models/GLTF format/kitchenBar.glb",
+        "sourceParameters": "assets-source/company-tea-station-v1/parameters.json",
+        "sourceParametersSha256": "fd6836d37875b039c4d38a0f40e0c541bba7e201562ca64de1a844cf109bd495",
+        "generator": "scripts/company-platform/build-tea-station.mjs",
+        "generatorSha256": "e30179ec6d9aa3c36c602d56dda7b35989e368292243049501a876515d62b9b3",
+        "functionalContractSource": "assets-source/company-tea-station-v1/contract.json",
+        "functionalContractSourceSha256": "ca548de6ddbbaafb8c309bdaf637d6afea4bf3cc12749fc3b86597d555a662d8",
+        "environmentBranch": "tea-rest",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-tea-station-v1/original/sources.json",
+            "sha256": "54917f0b39efc84a1e2e6314977b251d9abc54f662fa95198867d8a1ef97cad6"
+          },
+          "sourceArchive": {
+            "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+            "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+          },
+          "geometryValidation": {
+            "path": "prototype/src/company/support-geometry.js",
+            "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+          },
+          "license": {
+            "path": "assets-source/company-tea-station-v1/original/Kenney-Furniture-Kit-License.txt",
+            "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+          },
+          "original-cabinet": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCabinet.glb",
+            "sha256": "7238c57778935ae25db5e57e9f7af3ba7068c71b005ff7cfbff3b6f3b1a13200"
+          },
+          "original-drawer": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCabinetDrawer.glb",
+            "sha256": "6f784807e3cadb15b4d2d3db726d93357ea5e6c4f2b6e4c9c064048a2d1d9cfc"
+          },
+          "original-bar": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenBar.glb",
+            "sha256": "792c3d31e60c8a8d8c7a28cf7d1efe004c5a601adc1b163a8799dde32c1b559d"
+          },
+          "original-fridge": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenFridgeSmall.glb",
+            "sha256": "35dab7f63711623be321bfd82072f4ab29fe8006aac9371c6e6b78df2e02f5ed"
+          },
+          "original-shelf": {
+            "path": "assets-source/company-tea-station-v1/original/bookcaseOpenLow.glb",
+            "sha256": "6d4d625faf977a2dbf155f1313cd32c6310e463114a1cd4c08cb9f80a5fb1d75"
+          },
+          "original-espresso": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCoffeeMachine.glb",
+            "sha256": "063f582c6fa0f00a9f24e3393dac2295491c4becdaf5513c893ab1a2826b6ec3"
+          }
+        },
+        "tools": [
+          "Three.js r187",
+          "GLTFLoader",
+          "GLTFExporter"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/tea-station-v1/tea-counter-coffee/v1/model.glb",
+        "bytes": 21364,
+        "sha256": "9977666f514de0f573f8379ed962a7f051f9b969ee542a597b39f2604c0da545"
+      }
+    },
+    {
+      "id": "tea-counter-open",
+      "version": 1,
+      "displayName": "茶水区 · 通透边台",
+      "category": "decor",
+      "productionBranch": "tea-rest",
+      "mountRole": "tea-counter",
+      "mount": "floor-surface",
+      "parent": "floor.public-area",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1.2,
+        "height": 0.9,
+        "depth": 0.6
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.6,
+          0.3
+        ],
+        "blocking": true
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "supportSurfaces": [
+        {
+          "id": "counter",
+          "center": [
+            0,
+            0
+          ],
+          "topY": 0.9,
+          "halfSize": [
+            0.6,
+            0.3
+          ],
+          "clearanceHeight": 0.65
+        }
+      ],
+      "supportNodes": {
+        "counter": "countertop"
+      },
+      "provenance": {
+        "license": "CC0-1.0 source with project geometry and fitting.",
+        "sourceDesign": "counter",
+        "sourceAuthor": "Kenney",
+        "sourceLicense": "CC0-1.0",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "sourceArtifactPath": "assets-source/company-tea-station-v1/original/bookcaseOpenLow.glb",
+        "sourceArtifactSha256": "6d4d625faf977a2dbf155f1313cd32c6310e463114a1cd4c08cb9f80a5fb1d75",
+        "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+        "sourceEntry": "Models/GLTF format/bookcaseOpenLow.glb",
+        "sourceParameters": "assets-source/company-tea-station-v1/parameters.json",
+        "sourceParametersSha256": "fd6836d37875b039c4d38a0f40e0c541bba7e201562ca64de1a844cf109bd495",
+        "generator": "scripts/company-platform/build-tea-station.mjs",
+        "generatorSha256": "e30179ec6d9aa3c36c602d56dda7b35989e368292243049501a876515d62b9b3",
+        "functionalContractSource": "assets-source/company-tea-station-v1/contract.json",
+        "functionalContractSourceSha256": "ca548de6ddbbaafb8c309bdaf637d6afea4bf3cc12749fc3b86597d555a662d8",
+        "environmentBranch": "tea-rest",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-tea-station-v1/original/sources.json",
+            "sha256": "54917f0b39efc84a1e2e6314977b251d9abc54f662fa95198867d8a1ef97cad6"
+          },
+          "sourceArchive": {
+            "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+            "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+          },
+          "geometryValidation": {
+            "path": "prototype/src/company/support-geometry.js",
+            "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+          },
+          "license": {
+            "path": "assets-source/company-tea-station-v1/original/Kenney-Furniture-Kit-License.txt",
+            "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+          },
+          "original-cabinet": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCabinet.glb",
+            "sha256": "7238c57778935ae25db5e57e9f7af3ba7068c71b005ff7cfbff3b6f3b1a13200"
+          },
+          "original-drawer": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCabinetDrawer.glb",
+            "sha256": "6f784807e3cadb15b4d2d3db726d93357ea5e6c4f2b6e4c9c064048a2d1d9cfc"
+          },
+          "original-bar": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenBar.glb",
+            "sha256": "792c3d31e60c8a8d8c7a28cf7d1efe004c5a601adc1b163a8799dde32c1b559d"
+          },
+          "original-fridge": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenFridgeSmall.glb",
+            "sha256": "35dab7f63711623be321bfd82072f4ab29fe8006aac9371c6e6b78df2e02f5ed"
+          },
+          "original-shelf": {
+            "path": "assets-source/company-tea-station-v1/original/bookcaseOpenLow.glb",
+            "sha256": "6d4d625faf977a2dbf155f1313cd32c6310e463114a1cd4c08cb9f80a5fb1d75"
+          },
+          "original-espresso": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCoffeeMachine.glb",
+            "sha256": "063f582c6fa0f00a9f24e3393dac2295491c4becdaf5513c893ab1a2826b6ec3"
+          }
+        },
+        "tools": [
+          "Three.js r187",
+          "GLTFLoader",
+          "GLTFExporter"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/tea-station-v1/tea-counter-open/v1/model.glb",
+        "bytes": 26708,
+        "sha256": "a829726a61cf2fc2ef565e5f7c9f1a639d3be82b4fba2d4acb19e2e6bf2f5d66"
+      }
+    },
+    {
+      "id": "tea-coffee-machine",
+      "version": 1,
+      "displayName": "茶水器具 · 咖啡机",
+      "category": "dynamic",
+      "productionBranch": "tea-rest",
+      "mountRole": "tea-machine",
+      "mount": "support-surface",
+      "parent": "facility.support-surface",
+      "mounting": {
+        "origin": "bottom",
+        "width": 0.3,
+        "height": 0.28,
+        "depth": 0.36
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.15,
+          0.18
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "on": false
+      },
+      "supportSurfaces": [
+        {
+          "id": "tray",
+          "center": [
+            0,
+            0.09
+          ],
+          "topY": 0.051246,
+          "halfSize": [
+            0.056,
+            0.056
+          ],
+          "clearanceHeight": 0.09
+        }
+      ],
+      "supportNodes": {
+        "tray": "tea-machine-tray"
+      },
+      "stateSchema": {
+        "on": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "on": "tea-machine-powered-v1"
+      },
+      "display": {
+        "status": {
+          "stateField": "on",
+          "nodes": [
+            "tea-machine-indicator"
+          ],
+          "offColor": "#335657",
+          "onColor": "#65df9e",
+          "emissive": "#46e789",
+          "onIntensity": 1.25
+        }
+      },
+      "provenance": {
+        "license": "CC0-1.0 source with project geometry and fitting.",
+        "sourceDesign": "machine",
+        "sourceAuthor": "Kenney",
+        "sourceLicense": "CC0-1.0",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "sourceArtifactPath": "assets-source/company-tea-station-v1/original/kitchenCoffeeMachine.glb",
+        "sourceArtifactSha256": "063f582c6fa0f00a9f24e3393dac2295491c4becdaf5513c893ab1a2826b6ec3",
+        "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+        "sourceEntry": "Models/GLTF format/kitchenCoffeeMachine.glb",
+        "sourceParameters": "assets-source/company-tea-station-v1/parameters.json",
+        "sourceParametersSha256": "fd6836d37875b039c4d38a0f40e0c541bba7e201562ca64de1a844cf109bd495",
+        "generator": "scripts/company-platform/build-tea-station.mjs",
+        "generatorSha256": "e30179ec6d9aa3c36c602d56dda7b35989e368292243049501a876515d62b9b3",
+        "functionalContractSource": "assets-source/company-tea-station-v1/contract.json",
+        "functionalContractSourceSha256": "ca548de6ddbbaafb8c309bdaf637d6afea4bf3cc12749fc3b86597d555a662d8",
+        "environmentBranch": "tea-rest",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-tea-station-v1/original/sources.json",
+            "sha256": "54917f0b39efc84a1e2e6314977b251d9abc54f662fa95198867d8a1ef97cad6"
+          },
+          "sourceArchive": {
+            "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+            "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+          },
+          "geometryValidation": {
+            "path": "prototype/src/company/support-geometry.js",
+            "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+          },
+          "license": {
+            "path": "assets-source/company-tea-station-v1/original/Kenney-Furniture-Kit-License.txt",
+            "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+          },
+          "original-cabinet": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCabinet.glb",
+            "sha256": "7238c57778935ae25db5e57e9f7af3ba7068c71b005ff7cfbff3b6f3b1a13200"
+          },
+          "original-drawer": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCabinetDrawer.glb",
+            "sha256": "6f784807e3cadb15b4d2d3db726d93357ea5e6c4f2b6e4c9c064048a2d1d9cfc"
+          },
+          "original-bar": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenBar.glb",
+            "sha256": "792c3d31e60c8a8d8c7a28cf7d1efe004c5a601adc1b163a8799dde32c1b559d"
+          },
+          "original-fridge": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenFridgeSmall.glb",
+            "sha256": "35dab7f63711623be321bfd82072f4ab29fe8006aac9371c6e6b78df2e02f5ed"
+          },
+          "original-shelf": {
+            "path": "assets-source/company-tea-station-v1/original/bookcaseOpenLow.glb",
+            "sha256": "6d4d625faf977a2dbf155f1313cd32c6310e463114a1cd4c08cb9f80a5fb1d75"
+          },
+          "original-espresso": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCoffeeMachine.glb",
+            "sha256": "063f582c6fa0f00a9f24e3393dac2295491c4becdaf5513c893ab1a2826b6ec3"
+          }
+        },
+        "tools": [
+          "Three.js r187",
+          "GLTFLoader",
+          "GLTFExporter"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/tea-station-v1/tea-coffee-machine/v1/model.glb",
+        "bytes": 31224,
+        "sha256": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673"
+      }
+    },
+    {
+      "id": "tea-ceramic-cup",
+      "version": 1,
+      "displayName": "茶水器具 · 米釉陶瓷杯",
+      "category": "decor",
+      "productionBranch": "tea-rest",
+      "mountRole": "tea-cup",
+      "mount": "support-surface",
+      "parent": "facility.support-surface",
+      "mounting": {
+        "origin": "bottom",
+        "width": 0.1,
+        "height": 0.082,
+        "depth": 0.078
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.05,
+          0.039
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "provenance": {
+        "license": "CC0-1.0 source with project geometry and fitting.",
+        "sourceDesign": "cup",
+        "sourceAuthor": "Kenney",
+        "sourceLicense": "CC0-1.0",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "sourceArtifactPath": "assets-source/company-tea-station-v1/original/kitchenCoffeeMachine.glb",
+        "sourceArtifactSha256": "063f582c6fa0f00a9f24e3393dac2295491c4becdaf5513c893ab1a2826b6ec3",
+        "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+        "sourceEntry": "Models/GLTF format/kitchenCoffeeMachine.glb",
+        "sourceParameters": "assets-source/company-tea-station-v1/parameters.json",
+        "sourceParametersSha256": "fd6836d37875b039c4d38a0f40e0c541bba7e201562ca64de1a844cf109bd495",
+        "generator": "scripts/company-platform/build-tea-station.mjs",
+        "generatorSha256": "e30179ec6d9aa3c36c602d56dda7b35989e368292243049501a876515d62b9b3",
+        "functionalContractSource": "assets-source/company-tea-station-v1/contract.json",
+        "functionalContractSourceSha256": "ca548de6ddbbaafb8c309bdaf637d6afea4bf3cc12749fc3b86597d555a662d8",
+        "environmentBranch": "tea-rest",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "dependencies": {
+          "sourceRecord": {
+            "path": "assets-source/company-tea-station-v1/original/sources.json",
+            "sha256": "54917f0b39efc84a1e2e6314977b251d9abc54f662fa95198867d8a1ef97cad6"
+          },
+          "sourceArchive": {
+            "path": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+            "sha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0"
+          },
+          "geometryValidation": {
+            "path": "prototype/src/company/support-geometry.js",
+            "sha256": "132077b3c87ef931fc3ebb35f5fdd96b778f3ea82097b7d88dfcf1ef191eea68"
+          },
+          "license": {
+            "path": "assets-source/company-tea-station-v1/original/Kenney-Furniture-Kit-License.txt",
+            "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+          },
+          "original-cabinet": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCabinet.glb",
+            "sha256": "7238c57778935ae25db5e57e9f7af3ba7068c71b005ff7cfbff3b6f3b1a13200"
+          },
+          "original-drawer": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCabinetDrawer.glb",
+            "sha256": "6f784807e3cadb15b4d2d3db726d93357ea5e6c4f2b6e4c9c064048a2d1d9cfc"
+          },
+          "original-bar": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenBar.glb",
+            "sha256": "792c3d31e60c8a8d8c7a28cf7d1efe004c5a601adc1b163a8799dde32c1b559d"
+          },
+          "original-fridge": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenFridgeSmall.glb",
+            "sha256": "35dab7f63711623be321bfd82072f4ab29fe8006aac9371c6e6b78df2e02f5ed"
+          },
+          "original-shelf": {
+            "path": "assets-source/company-tea-station-v1/original/bookcaseOpenLow.glb",
+            "sha256": "6d4d625faf977a2dbf155f1313cd32c6310e463114a1cd4c08cb9f80a5fb1d75"
+          },
+          "original-espresso": {
+            "path": "assets-source/company-tea-station-v1/original/kitchenCoffeeMachine.glb",
+            "sha256": "063f582c6fa0f00a9f24e3393dac2295491c4becdaf5513c893ab1a2826b6ec3"
+          }
+        },
+        "tools": [
+          "Three.js r187",
+          "GLTFLoader",
+          "GLTFExporter"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/tea-station-v1/tea-ceramic-cup/v1/model.glb",
+        "bytes": 7056,
+        "sha256": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a"
+      }
     }
   ]
 }

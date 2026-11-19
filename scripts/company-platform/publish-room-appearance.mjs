@@ -32,9 +32,11 @@ const families = {
   'company-enclosed-wardrobe-collection': 'enclosed-wardrobe',
   'company-showcase-product-collection': 'showcase-product',
   'company-singing-stage-collection': 'singing-stage',
+  'company-tea-station-collection': 'tea-station',
 };
 const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs', 'wall-ambient':'build-wall-ambient.mjs', 'desktop-plants':'build-desktop-plants.mjs', 'garment-rack':'build-garment-rack.mjs', 'enclosed-wardrobe':'build-enclosed-wardrobe.mjs', 'showcase-product':'build-showcase-products.mjs', 'singing-stage':'build-singing-stage.mjs'};
-const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric', 'wall-ambient':'ambient-led-and-neon', 'desktop-plants':'plant-desktop-installation'};
+generatorFiles['tea-station'] = 'build-tea-station.mjs';
+const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric', 'wall-ambient':'ambient-led-and-neon', 'desktop-plants':'plant-desktop-installation', 'tea-station':'tea-rest'};
 
 const garmentBranches = {rack:'garment-rack-wardrobe',garment:'hanging-garment'};
 const singingBranches = {vocal:'floor-vocal-microphone',score:'floor-score-stand'};
@@ -150,9 +152,12 @@ async function publish(recipePath,check) {
   const product = family === 'showcase-product';
   const editablePins = plant || garment || product ? await editableSources(root,input) : null;
   const plantTools = plant ? await plantToolchain(root) : null;
-  const perDesignSource = family === 'wall-ambient' || plant || product || family === 'enclosed-wardrobe';
+  const tea = family === 'tea-station';
+  const teaRoles = {counter:'tea-counter',machine:'tea-machine',cup:'tea-cup'};
+  const perDesignSource = family === 'wall-ambient' || plant || product || family === 'enclosed-wardrobe' || tea;
   const artwork = new Map();
   const designBranches = new Map();
+  const designRoles = new Map();
   for (const design of input.designs) {
     if (!/^[a-z][a-z0-9-]{0,70}$/.test(design.id) || /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/.test(design.id) ||
         !Number.isSafeInteger(design.version) || design.version < 1)
@@ -164,8 +169,12 @@ async function publish(recipePath,check) {
     if (family === 'garment-rack' && !Object.hasOwn(garmentBranches,design.type))
       fail('invalid-appearance-recipe','Expected rack or garment for '+design.id);
     if (branch) designBranches.set(design.id+'@'+design.version,branch);
+    if (tea) {
+      if (!Object.hasOwn(teaRoles,design.kind)) fail('invalid-appearance-recipe','Expected counter, machine or cup for '+design.id);
+      designRoles.set(design.id+'@'+design.version,teaRoles[design.kind]);
+    }
     if (previous.resources.some(r => r.id.toLowerCase() === design.id &&
-        (!belongsToFamily(r,family) || (branch && r.productionBranch !== branch))))
+        (!belongsToFamily(r,family) || (branch && r.productionBranch !== branch) || (tea && r.mountRole !== teaRoles[design.kind]))))
       fail('appearance-id-conflict',design.id+' already belongs to a different family');
     if (design.source) {
       const member = input.sources?.[design.source];
@@ -226,7 +235,9 @@ async function publish(recipePath,check) {
       assert.equal(resource.id,entry.id); assert.equal(resource.version,entry.version);
       assert.equal(resource.provenance.sourceParameters,pinned); assert.equal(resource.provenance.sourceParametersSha256,digest);
       const branch = designBranches.get(key);
-      const functionalReference = branch ? defaultRefs.find(r => r?.productionBranch === branch) : reference;
+      const role = designRoles.get(key);
+      const functionalReference = role ? defaultRefs.find(r => r?.mountRole === role) :
+        branch ? defaultRefs.find(r => r?.productionBranch === branch) : reference;
       assert(functionalReference && (!branch || resource.productionBranch === branch),'Missing matching branch for '+key);
       let expectedDependencies = functionalReference.provenance.dependencies;
       if (perDesignSource || artwork.has(key)) {

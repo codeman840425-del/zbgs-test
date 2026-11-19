@@ -1,0 +1,164 @@
+{
+  "schema": "company-tea-station-contract",
+  "version": 1,
+  "environmentBranch": "tea-rest",
+  "resources": {
+    "counter": {
+      "category": "decor",
+      "productionBranch": "tea-rest",
+      "mountRole": "tea-counter",
+      "mount": "floor-surface",
+      "parent": "floor.public-area",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1.2,
+        "height": 0.9,
+        "depth": 0.6
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.6,
+          0.3
+        ],
+        "blocking": true
+      },
+      "usePoints": [],
+      "stateDefaults": {},
+      "supportSurfaces": [
+        {
+          "id": "counter",
+          "center": [
+            0,
+            0
+          ],
+          "topY": 0.9,
+          "halfSize": [
+            0.6,
+            0.3
+          ],
+          "clearanceHeight": 0.65
+        }
+      ],
+      "supportNodes": {
+        "counter": "countertop"
+      }
+    },
+    "machine": {
+      "category": "dynamic",
+      "productionBranch": "tea-rest",
+      "mountRole": "tea-machine",
+      "mount": "support-surface",
+      "parent": "facility.support-surface",
+      "mounting": {
+        "origin": "bottom",
+        "width": 0.3,
+        "height": 0.28,
+        "depth": 0.36
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.15,
+          0.18
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {
+        "on": false
+      },
+      "supportSurfaces": [
+        {
+          "id": "tray",
+          "center": [
+            0,
+            0.09
+          ],
+          "topY": 0.051246,
+          "halfSize": [
+            0.056,
+            0.056
+          ],
+          "clearanceHeight": 0.09
+        }
+      ],
+      "supportNodes": {
+        "tray": "tea-machine-tray"
+      },
+      "stateSchema": {
+        "on": {
+          "type": "boolean"
+        }
+      },
+      "stateSemantics": {
+        "on": "tea-machine-powered-v1"
+      },
+      "display": {
+        "status": {
+          "stateField": "on",
+          "nodes": [
+            "tea-machine-indicator"
+          ],
+          "offColor": "#335657",
+          "onColor": "#65df9e",
+          "emissive": "#46e789",
+          "onIntensity": 1.25
+        }
+      }
+    },
+    "cup": {
+      "category": "decor",
+      "productionBranch": "tea-rest",
+      "mountRole": "tea-cup",
+      "mount": "support-surface",
+      "parent": "facility.support-surface",
+      "mounting": {
+        "origin": "bottom",
+        "width": 0.1,
+        "height": 0.082,
+        "depth": 0.078
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z",
+        "origin": "Bottom centre",
+        "scale": "Identity only"
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.05,
+          0.039
+        ],
+        "blocking": false
+      },
+      "usePoints": [],
+      "stateDefaults": {}
+    }
+  }
+}

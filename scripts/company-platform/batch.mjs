@@ -54,7 +54,7 @@ function validateBatch(batch,only){
   const keys=new Set(),ids=new Set();
   for(const [index,item]of batch.items.entries()){
     const location=`items[${index}]`;
-    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance','productShowcases','interviewRooms','singingRooms'].includes(key))||
+    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance','productShowcases','interviewRooms','singingRooms','teaStations'].includes(key))||
         typeof item.key!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(item.key)||
         /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(item.key))
       fail('invalid-batch-key',location,'Use a portable nonempty directory key with letters, digits, underscore or hyphen');
@@ -158,7 +158,14 @@ async function prepare(item,sourceHashes){
     singingRooms = await checkSingingRooms(document,{catalog,templates});
   }
   const assetDependencies=[];
+  if (Object.hasOwn(item,'teaStations')) document.teaStations = structuredClone(item.teaStations);
   const derived=deriveCompany(document,catalog,templates);
+  let teaStations;
+  if (Object.hasOwn(document,'teaStations') || derived.facilities.some(item=>item.resource.mountRole==='tea-counter')) {
+    Object.assign(sourceHashes,await sources(['scripts/company-platform/check-tea-station.mjs','scripts/company-platform/public-door-access.mjs']));
+    const {checkTeaStations} = await import('./check-tea-station.mjs');
+    teaStations = await checkTeaStations(document,{catalog,templates,derived});
+  }
   const selected=new Map();
   for(const {resource} of [...derived.facilities,...derived.surfaceFinishes]){
     if(resource.asset)selected.set(`${resource.id}@${resource.version}`,resource);
@@ -183,7 +190,7 @@ async function prepare(item,sourceHashes){
     ...(styleRecipe ? {styleRecipe} : {}),
     files:Object.fromEntries(Object.entries(files).map(([name,bytes])=>[name,{bytes:bytes.length,sha256:hash(bytes)}])),
     checks:{connections,placement,...(trainingClearance ? {trainingClearance} : {}),...(productShowcases ? {productShowcases} : {}),
-      ...(interviewRooms ? {interviewRooms} : {}),...(singingRooms ? {singingRooms} : {})},
+      ...(interviewRooms ? {interviewRooms} : {}),...(singingRooms ? {singingRooms} : {}),...(teaStations?.length ? {teaStations} : {})},
     scope:'Complete deterministic authoring result. Static geometry and placement admission only; rendering and character usage require their own evidence.'};
   files['report.json']=jsonBytes(report);
   return {files,report};

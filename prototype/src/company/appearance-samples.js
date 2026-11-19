@@ -33,6 +33,7 @@ export const appearanceBranches=[
  ['wall-shelf','墙装多层壁架'],
  ['side-table-life-items','边几日用品'],['showcase-product','直播陈列商品'],
  ['side-table','边几与茶几'],
+ ['tea-counter','公共茶水柜'],['tea-machine','咖啡设备'],['tea-cup','茶水杯具'],
  ['makeup-mirror-wall','挂墙化妆镜'],
  ['makeup-storage-drawer','抽屉内化妆收纳'],
  ['makeup-storage','化妆台面收纳'],
@@ -75,6 +76,7 @@ export function latestAppearanceVersions(resources){
 export function appearanceCandidates(catalog,branch) {
  if(branch==='stream-station')return workstationLooks.map(({id,version,displayName})=>({id,version,displayName}));
  const selected=catalog.resources.filter(r=>((r.productionBranch||r.mountRole)===branch ||
+   (r.productionBranch==='tea-rest' && r.mountRole===branch) ||
    (branch==='sofa' && r.productionBranch==='sofa-textile-host')) && r.asset && r.id!=='lounge-sofa');
  if(branch==='sofa')selected.unshift(catalog.resources.find(r=>r.id==='lounge-sofa'&&r.version===1));
  return latestAppearanceVersions(selected.filter(Boolean)).map(r=>({...r,displayName:r.displayName||names[r.id]||r.id}));
@@ -133,6 +135,16 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
    selected.productionBranch==='sofa-textile-host' ? 'appearance-sofa-textile-host' : `appearance-${branch}`;
  let doc=createCompany({id:sampleId,name:`${appearanceBranches.find(([key])=>key===branch)?.[1]} · ${selected.displayName||selected.name||selected.id}`,width:9,depth:7},catalog);
  const floor=doc.nodes[0],room=doc.nodes[1],area=`${doc.id}/public`;
+ if (selected.productionBranch==='tea-rest') {
+   const counter=room.id+'/counter', item=room.id+'/item';
+   const resource={id:selected.id,version:selected.version};
+   const showCounter=branch==='tea-counter';
+   const operations=[{type:'add-facility',id:counter,parentId:room.id,
+     resource:showCounter ? resource : {id:'tea-counter-open',version:1}}];
+   if(!showCounter) operations.push({type:'add-facility',id:item,parentId:counter,resource,attachment:{surfaceId:'counter'}});
+   doc=prepareCompanyChange(doc,operations,{catalog,templates}).document;
+   return {document:doc,target:showCounter?counter:item,branch,index,resource,floorId:floor.id,roomId:room.id};
+ }
  if (branch === 'showcase-product') {
    const counter = room.id+'/counter', target = room.id+'/featured';
    doc = prepareCompanyChange(doc,[

@@ -161,6 +161,7 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
         !equal(manifest.savedCompany.trainingClearance,evidence?.trainingClearance ?? undefined)))
       fail('training-edit-mismatch',scope.prefix,'The default manifest and the pinned source disagree.');
     scope.evidence = evidence;
+    scope.teaStations = layout.teaStations;
     candidates.push(scope);
   }
   const choice = selected === undefined ? undefined : candidates.find(scope=>scope.key === selected);
@@ -172,6 +173,11 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
     fail('training-room-origin-mismatch',input,'The saved bytes belong to a different room.');
   const inherited = reconcile(readTrainingBinding(document,context),origin ? undefined : await editedTrainingBinding(input,document),input);
   const possible = origin ? [origin] : choice ? [choice] : identical.length ? identical : candidates;
+  if (possible.some(scope=>!equal(scope.teaStations,possible[0].teaStations)))
+    fail('ambiguous-tea-room',input,'Select the original tea station declaration with --room KEY.');
+  if (possible.some(scope=>scope.teaStations!==undefined) &&
+      !possible.some(scope=>equal(scope.teaStations,document.teaStations)))
+    fail('tea-station-binding-mismatch',input,'The tea station declaration differs from the selected saved room.');
   if (inherited) {
     if (possible.length && !possible.some(scope => scope.evidence &&
         equal(scope.evidence.trainingClearance,inherited.trainingClearance)))

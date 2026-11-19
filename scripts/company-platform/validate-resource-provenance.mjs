@@ -77,6 +77,34 @@ export async function verifySingingSources(root,resource,recipe) {
   return new Map(Object.entries(pins));
 }
 
+export async function verifyTeaSources(root,resource,recipe) {
+  const p=resource.provenance, pins=p.dependencies??{};
+  const recordPath='assets-source/company-tea-station-v1/original/sources.json';
+  const geometryPath='prototype/src/company/support-geometry.js';
+  const roles={counter:'tea-counter',machine:'tea-machine',cup:'tea-cup'};
+  const mismatch = at => {throw Object.assign(Error('tea-source-mismatch: '+at),{code:'tea-source-mismatch',path:at});};
+  const design=recipe.designs?.find(item=>item.id===resource.id && item.version===resource.version);
+  const original=recipe.sources?.[design?.source];
+  if(!original || roles[design.kind]!==resource.mountRole || original.path!==p.sourceArtifactPath ||
+      original.sha256!==p.sourceArtifactSha256 || original.author!==p.sourceAuthor || original.license!==p.sourceLicense) mismatch(resource.id);
+  const recordBytes=await readProductionFile(root,recordPath);
+  const record=JSON.parse(recordBytes);
+  const pin=({path,sha256})=>({path,sha256});
+  const geometry=await fs.readFile(path.join(root,geometryPath));
+  const expected={
+    sourceRecord:{path:recordPath,sha256:digest(recordBytes)}, sourceArchive:pin(record.archive),
+    geometryValidation:{path:geometryPath,sha256:digest(geometry)},
+    license:{path:original.licensePath,sha256:original.licenseSha256},
+  };
+  for(const [key,source] of Object.entries(record.sources)) expected['original-'+key]=pin(source);
+  if(!isDeepStrictEqual(pins,expected)) mismatch(resource.id);
+  for(const [key,entry] of Object.entries(expected)) {
+    if(key==='geometryValidation' || key==='sourceRecord') continue;
+    if(digest(await readProductionFile(root,entry.path))!==entry.sha256) mismatch(entry.path);
+  }
+  return new Map(Object.entries(expected));
+}
+
 export async function validateResourceProvenance({root, resource, label = resource?.id || '?'}) {
   if (!resource?.asset) return;
   const provenance = resource.provenance || {};
@@ -98,6 +126,8 @@ export async function validateResourceProvenance({root, resource, label = resour
       await verifyShowcaseProvenance(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && provenance.generator==='scripts/company-platform/build-singing-stage.mjs')
       await verifySingingSources(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && resource.productionBranch==='tea-rest')
+      await verifyTeaSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='plant-desktop-installation')
       await verifyPlantEditableProvenance(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && ['garment-rack-wardrobe','hanging-garment','enclosed-wardrobe'].includes(resource.productionBranch))

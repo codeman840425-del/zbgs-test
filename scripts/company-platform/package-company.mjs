@@ -505,6 +505,9 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       const singing = Object.hasOwn(declaration,'singingRooms') ? declaration.singingRooms : declaration.document?.singingRooms;
       if (JSON.stringify(canonical(singing)) !== JSON.stringify(canonical(document.singingRooms)))
         fail('singing-batch-binding-mismatch',input,'Saved singing equipment, stage or entrance differs from the batch declaration');
+      const tea = Object.hasOwn(declaration,'teaStations') ? declaration.teaStations : declaration.document?.teaStations;
+      if (JSON.stringify(canonical(tea)) !== JSON.stringify(canonical(document.teaStations)))
+        fail('tea-station-binding-mismatch',input,'Saved tea station members, service clearance or passage differs from the batch declaration');
     }
     if (Object.hasOwn(document,'productShowcases')) {
       const checker = path.join(source,'scripts/company-platform/check-showcase-room.mjs');
@@ -533,8 +536,15 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
         add(prefix+'/training-edit.json',json(receipt),'edited-training-contract');
       }
     }
+    const derived = documentTools.deriveCompany(document,catalog,templates);
+    if (Object.hasOwn(document,'teaStations') || derived.facilities.some(item=>item.resource.mountRole==='tea-counter')) {
+      const checker = path.join(source,'scripts/company-platform/check-tea-station.mjs');
+      await noLinks(checker);
+      const {checkTeaStations}=await import(pathToFileURL(checker).href);
+      await checkTeaStations(document,{catalog,templates,derived,root:source});
+    }
     if (installationChecks.preflightDesktopAreas)
-      await installationChecks.preflightDesktopAreas(source,documentTools.deriveCompany(document,catalog,templates));
+      await installationChecks.preflightDesktopAreas(source,derived);
     if (seatContacts) {
       const {inspectSeatContacts} = await import(pathToFileURL(seatCheckerFile).href);
       const points = await inspectSeatContacts(document, {catalog, templates, publicDirectory: path.join(prototype, 'public')});
@@ -608,6 +618,13 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   let verifyGarmentEditableProvenance;
   let verifyShowcaseProvenance;
   let verifySingingSources;
+  let verifyTeaSources;
+  if (catalog.resources.some(resource=>resource.productionBranch==='tea-rest')) {
+    const verifier=path.join(source,'scripts/company-platform/validate-resource-provenance.mjs');
+    await noLinks(verifier);
+    ({verifyTeaSources}=await import(pathToFileURL(verifier).href));
+    if(!verifyTeaSources) fail('missing-production-tool',verifier,'Expected original tea-station source verification');
+  }
   const singingProducer='scripts/company-platform/build-singing-stage.mjs';
   if (catalog.resources.some(resource=>resource.provenance?.generator===singingProducer)) {
     supplemental.add('scripts/company-platform/test-singing-stage-source.mjs');
@@ -679,6 +696,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(!name.endsWith('.json'))fail('unsupported-production-input',name,'Production input folders must contain JSON only');supplemental.add(name);
   }
   const assetDependencies=[],provenance=[];
+  if (supplemental.has('scripts/company-platform/batch-inputs/tea-station-rooms.json')) {
+    for (const name of ['check-tea-station.mjs','public-door-access.mjs','qa-tea-station-rooms.cjs','test-tea-station-rooms.mjs','test-tea-station-handoff.mjs'])
+      supplemental.add('scripts/company-platform/'+name);
+    supplemental.add('docs/research/COMPANY-TEA-STATION-PRODUCTION.md');
+  }
   if (supplemental.has('scripts/company-platform/batch-inputs/dance-broadcast-rooms.json')) {
     for (const name of ['check-dance-shot.mjs','public-door-access.mjs','qa-dance-broadcast.cjs','test-dance-shot.mjs','test-dance-broadcast-rooms.mjs','test-live-kit-handoff.mjs'])
       supplemental.add('scripts/company-platform/'+name);
@@ -723,7 +745,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     const plant = resource.productionBranch === 'plant-desktop-installation';
     const garment = garmentBranches.includes(resource.productionBranch);
     const product = resource.productionBranch === 'showcase-product';
-    const verifyEditable = entry.generator===singingProducer ? verifySingingSources : product ? verifyShowcaseProvenance : plant ? plantTools?.verifyPlantEditableProvenance : garment ? verifyGarmentEditableProvenance : undefined;
+    const verifyEditable = resource.productionBranch==='tea-rest' ? verifyTeaSources : entry.generator===singingProducer ? verifySingingSources : product ? verifyShowcaseProvenance : plant ? plantTools?.verifyPlantEditableProvenance : garment ? verifyGarmentEditableProvenance : undefined;
     if (verifyEditable) {
       const recipe = decode(await read(source,entry.sourceParameters),entry.sourceParameters);
       const pins = await verifyEditable(source,resource,recipe);

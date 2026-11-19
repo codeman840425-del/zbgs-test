@@ -37,6 +37,10 @@ try{
   }else if(command!=='validate')throw Error('Use validate INPUT_SAVE or apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY');
   const constraint=bindTrainingDocument(document,binding,input,context);
   const derived=documentTools.deriveCompany(document,catalog,templates);
+  if (Object.hasOwn(document,'teaStations') || derived.facilities.some(item=>item.resource.mountRole==='tea-counter')) {
+    const {checkTeaStations}=await import('./source/scripts/company-platform/check-tea-station.mjs');
+    await checkTeaStations(document,{catalog,templates,derived});
+  }
   const {preflightDesktopAreas}=await import('./source/scripts/company-platform/preflight-library-assets.mjs');
   if (preflightDesktopAreas) await preflightDesktopAreas(path.join(root,'source'),derived);
   else if (derived.facilities.some(f=>f.resource.mounting?.reserveDesktopArea || f.resource.garmentRail || f.resource.mount==='garment-rail'))

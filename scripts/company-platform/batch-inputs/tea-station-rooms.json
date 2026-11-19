@@ -1,0 +1,200 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "tea-rental",
+      "input": {
+        "id": "tea-rental",
+        "name": "出租屋 · 公共客厅茶水站",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "scale": "rental-home",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              },
+              {
+                "id": "work",
+                "name": "工作间",
+                "purpose": "work",
+                "furniture": "desk-chair"
+              },
+              {
+                "id": "rest",
+                "name": "休息间",
+                "purpose": "rest",
+                "sofaVersion": 1
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "add-facility",
+          "id": "tea-rental/ground/living/tea-station",
+          "parentId": "tea-rental/ground/living",
+          "resource": {
+            "id": "tea-counter-pantry",
+            "version": 1
+          },
+          "transform": {
+            "position": [-1.52,0,-1.5],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "tea-rental/ground/living/tea-station/machine",
+          "parentId": "tea-rental/ground/living/tea-station",
+          "resource": {
+            "id": "tea-coffee-machine",
+            "version": 1
+          },
+          "attachment": {
+            "surfaceId": "counter"
+          },
+          "state": {
+            "on": false
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "tea-rental/ground/living/tea-station/cup",
+          "parentId": "tea-rental/ground/living/tea-station/machine",
+          "resource": {
+            "id": "tea-ceramic-cup",
+            "version": 1
+          },
+          "attachment": {
+            "surfaceId": "tray"
+          }
+        }
+      ],
+      "teaStations": [
+        {
+          "regionId": "tea-rental/ground/living",
+          "portalId": "tea-rental/ground/portal-rest-living",
+          "roles": {
+            "counter": "tea-rental/ground/living/tea-station",
+            "machine": "tea-rental/ground/living/tea-station/machine",
+            "cup": "tea-rental/ground/living/tea-station/cup"
+          },
+          "service": [-1.56,-0.65]
+        }
+      ]
+    },
+    {
+      "key": "tea-floor",
+      "input": {
+        "id": "tea-floor",
+        "name": "整层 · 中央通道茶水站",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "scale": "leased-floor",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "alpha-stream",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 2
+              },
+              {
+                "id": "alpha-work",
+                "name": "工作间",
+                "purpose": "work",
+                "furniture": "desk-chair"
+              },
+              {
+                "id": "alpha-rest",
+                "name": "休息间",
+                "purpose": "rest",
+                "sofaVersion": 1
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "add-facility",
+          "id": "tea-floor/ground/corridor-2/tea-station",
+          "parentId": "tea-floor/ground/corridor-2",
+          "resource": {
+            "id": "tea-counter-coffee",
+            "version": 1
+          },
+          "transform": {
+            "position": [0,0,1.05],
+            "yaw": 3.141592653589793
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "tea-floor/ground/corridor-2/tea-station/machine",
+          "parentId": "tea-floor/ground/corridor-2/tea-station",
+          "resource": {
+            "id": "tea-coffee-machine",
+            "version": 1
+          },
+          "attachment": {
+            "surfaceId": "counter"
+          },
+          "state": {
+            "on": false
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "tea-floor/ground/corridor-2/tea-station/cup",
+          "parentId": "tea-floor/ground/corridor-2/tea-station/machine",
+          "resource": {
+            "id": "tea-ceramic-cup",
+            "version": 1
+          },
+          "attachment": {
+            "surfaceId": "tray"
+          }
+        }
+      ],
+      "teaStations": [
+        {
+          "regionId": "tea-floor/ground/corridor-2",
+          "portalId": "tea-floor/ground/portal-corridor-1-2",
+          "roles": {
+            "counter": "tea-floor/ground/corridor-2/tea-station",
+            "machine": "tea-floor/ground/corridor-2/tea-station/machine",
+            "cup": "tea-floor/ground/corridor-2/tea-station/cup"
+          },
+          "service": [0,0.28],
+          "passage": {
+            "minX": -7.2,
+            "maxX": 7.2,
+            "minZ": -1.25,
+            "maxZ": -0.2,
+            "portalIds": [
+              "tea-floor/ground/portal-corridor-1-2",
+              "tea-floor/ground/portal-corridor-2-3"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
