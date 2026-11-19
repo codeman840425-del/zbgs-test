@@ -1,5 +1,7 @@
 # 当前角色基础工程恢复点
 
+默认款式目录接入已验证。源码 `51857788`、构建 `3b64a5dad472` 的真实浏览器将两份新签名重新加载，最终装备与旧的专用目录完全相同。独立包冷开和重试对应前一构建 `60c87f62e8b0`。下一项核对已有鞋底参数的可编辑源、准确体型、脚底和动作接触，用真实来源决定独立鞋履变体能否生产。[美术导入与实际画面](../evidence/m2-default-style-intake-v1/README.md)
+
 两具轻量制服的原发眼镜配方已完成签出、导出、独立游戏重开和失败重试。固定源码 `fdbe4548`，构建 `60c87f62e8b0`。工程的独立包、构建和浏览器暂存均在主目录内。下一包让美术 Agent 用现成的两个 1K 上衣版型从标准款式目录制作角色，保留历史片段摘要并验证同键冲突、重复导入和正式准入。[双人原速与房间动作](../evidence/m2-uniform-lite-glasses-game-v1/index.html) · [复建](../evidence/m2-uniform-lite-glasses-game-v1/README.md)
 
 轻量制服已在固定 `da9cae25 / 08253a07fc73` 复验发型与眼镜的双向约束。原发专用镜腿和 bob 的组合被拒，卸镜换发、切回原发重新佩戴成功。生产侧读取最终造型来回读签名及组包。下一步用同一受限条件试制男女两份可签的技术角色，再量实际独立包和同屏成本。[固定对照](../evidence/m2-uniform-glasses-head-v1/README.md) · [批次输入](../assets-source/variant-matrix-v1/uniform-lite-glasses-request.json)
