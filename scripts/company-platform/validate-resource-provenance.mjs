@@ -148,7 +148,7 @@ export async function validateResourceProvenance({root, resource, label = resour
     if (provenance[hashField] !== digest(bytes)) throw new Error(`provenance-hash-mismatch: ${label}.${hashField}`);
     if(field==='sourceParameters' && resource.productionBranch==='showcase-product')
       await verifyShowcaseProvenance(root,resource,JSON.parse(bytes));
-    if(field==='sourceParameters' && provenance.generator==='scripts/company-platform/build-singing-stage.mjs')
+    if(field==='sourceParameters' && ['scripts/company-platform/build-singing-stage.mjs','scripts/company-platform/build-vocal-mic-looks.mjs'].includes(provenance.generator))
       await verifySingingSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='tea-rest')
       await verifyTeaSources(root,resource,JSON.parse(bytes));

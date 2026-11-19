@@ -8,7 +8,8 @@ import catalog from '../../prototype/src/company/library-catalog.json' with {typ
 const [target,...extra]=process.argv.slice(2);
 if(!target || extra.length) throw Error('Usage: node test-singing-stage-source.mjs NEW_TEST_DIRECTORY');
 const root=fileURLToPath(new URL('../..',import.meta.url)), directory=path.resolve(target);
-const assets=catalog.resources.filter(r=>r.provenance?.generator==='scripts/company-platform/build-singing-stage.mjs');
+const producers=new Set(['scripts/company-platform/build-singing-stage.mjs','scripts/company-platform/build-vocal-mic-looks.mjs']);
+const assets=catalog.resources.filter(r=>producers.has(r.provenance?.generator));
 assert(assets.length>=2);
 await fs.mkdir(directory);
 const results=[];

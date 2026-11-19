@@ -669,8 +669,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     ({verifyTeaSources}=await import(pathToFileURL(verifier).href));
     if(!verifyTeaSources) fail('missing-production-tool',verifier,'Expected original tea-station source verification');
   }
-  const singingProducer='scripts/company-platform/build-singing-stage.mjs';
-  if (catalog.resources.some(resource=>resource.provenance?.generator===singingProducer)) {
+  const singingProducers=new Set(['scripts/company-platform/build-singing-stage.mjs','scripts/company-platform/build-vocal-mic-looks.mjs']);
+  if (catalog.resources.some(resource=>singingProducers.has(resource.provenance?.generator))) {
     supplemental.add('scripts/company-platform/test-singing-stage-source.mjs');
     const verifier=path.join(source,'scripts/company-platform/validate-resource-provenance.mjs');
     await noLinks(verifier);
@@ -740,6 +740,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(!name.endsWith('.json'))fail('unsupported-production-input',name,'Production input folders must contain JSON only');supplemental.add(name);
   }
   const assetDependencies=[],provenance=[];
+  if (supplemental.has('scripts/company-platform/batch-inputs/vocal-mic-look-rooms.json')) {
+    for (const name of ['test-vocal-mic-looks.mjs','test-vocal-mic-looks-receiver.mjs','qa-vocal-mic-looks.cjs'])
+      supplemental.add('scripts/company-platform/'+name);
+    supplemental.add('docs/research/COMPANY-VOCAL-MIC-LOOKS.md');
+  }
   if (supplemental.has('scripts/company-platform/batch-inputs/floor-air-rooms.json')) {
     for (const name of ['test-floor-air.mjs','qa-floor-air.cjs','test-floor-air-handoff.mjs']) supplemental.add('scripts/company-platform/'+name);
     supplemental.add('docs/research/COMPANY-FLOOR-AIR-PRODUCTION.md');
@@ -800,7 +805,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     const plant = resource.productionBranch === 'plant-desktop-installation';
     const garment = garmentBranches.includes(resource.productionBranch);
     const product = resource.productionBranch === 'showcase-product';
-    const verifyEditable = resource.productionBranch==='fan-and-air-purifier' ? verifyFloorAirSources : resource.productionBranch==='tea-rest' ? verifyTeaSources : entry.generator===singingProducer ? verifySingingSources : product ? verifyShowcaseProvenance : plant ? plantTools?.verifyPlantEditableProvenance : garment ? verifyGarmentEditableProvenance : undefined;
+    const verifyEditable = resource.productionBranch==='fan-and-air-purifier' ? verifyFloorAirSources : resource.productionBranch==='tea-rest' ? verifyTeaSources : singingProducers.has(entry.generator) ? verifySingingSources : product ? verifyShowcaseProvenance : plant ? plantTools?.verifyPlantEditableProvenance : garment ? verifyGarmentEditableProvenance : undefined;
     if (verifyEditable) {
       const recipe = decode(await read(source,entry.sourceParameters),entry.sourceParameters);
       const pins = await verifyEditable(source,resource,recipe);
