@@ -105,6 +105,30 @@ export async function verifyTeaSources(root,resource,recipe) {
   return new Map(Object.entries(expected));
 }
 
+export async function verifyFloorAirSources(root,resource,recipe) {
+  const p=resource.provenance, family='assets-source/company-floor-air-v1/';
+  const mismatch = at => {throw Object.assign(Error('floor-air-source-mismatch: '+at),{code:'floor-air-source-mismatch',path:at});};
+  const design=recipe.designs?.find(item=>item.id===resource.id && item.version===resource.version);
+  if (!design || !['tower','purifier','circulator','pedestal'].includes(design.mechanism) ||
+      p.sourceManifestPath!==family+'sources.json') mismatch(resource.id);
+  const bytes=await readProductionFile(root,p.sourceManifestPath);
+  if (p.sourceManifestSha256!==digest(bytes)) mismatch(p.sourceManifestPath);
+  const upstream=JSON.parse(bytes).upstream;
+  const pins=new Map([['sources',{path:p.sourceManifestPath,sha256:p.sourceManifestSha256}]]);
+  // The producer always reads the upstream member as an input. Only exposed rotors actually contain its geometry.
+  for (const [name,file,sha] of [['blade',upstream.path,upstream.sha256],['license',upstream.licensePath,upstream.licenseSha256]]) {
+    if (!file?.startsWith(family+'original/') || digest(await readProductionFile(root,file))!==sha) mismatch(file);
+    pins.set(name,{path:file,sha256:sha});
+  }
+  const reused=design.mechanism==='pedestal' || design.mechanism==='circulator';
+  if (reused!==Boolean(resource.visualRotor) || (reused
+    ? p.sourceArtifactPath!==upstream.path || p.sourceArtifactSha256!==upstream.sha256 ||
+      p.sourceLicensePath!==upstream.licensePath || p.sourceLicenseSha256!==upstream.licenseSha256 ||
+      p.sourceLicense!==upstream.license || p.sourceAuthor!==upstream.author
+    : p.sourceArtifactPath!==undefined || p.sourceLicensePath!==undefined)) mismatch(resource.id);
+  return pins;
+}
+
 export async function validateResourceProvenance({root, resource, label = resource?.id || '?'}) {
   if (!resource?.asset) return;
   const provenance = resource.provenance || {};
@@ -128,6 +152,8 @@ export async function validateResourceProvenance({root, resource, label = resour
       await verifySingingSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='tea-rest')
       await verifyTeaSources(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && resource.productionBranch==='fan-and-air-purifier')
+      await verifyFloorAirSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='plant-desktop-installation')
       await verifyPlantEditableProvenance(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && ['garment-rack-wardrobe','hanging-garment','enclosed-wardrobe'].includes(resource.productionBranch))

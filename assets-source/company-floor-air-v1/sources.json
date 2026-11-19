@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "author": "Company facilities production team",
+  "originalLicense": "Project-authorized-original",
+  "upstream": {
+    "author": "Kenney",
+    "license": "CC0-1.0",
+    "url": "https://kenney.nl/assets/furniture-kit",
+    "archive": "assets-source/company-side-table-v1/original/furniture-kit-2.0.zip",
+    "archiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+    "entry": "Models/GLTF format/ceilingFan.glb",
+    "path": "assets-source/company-floor-air-v1/original/ceilingFan.glb",
+    "sha256": "5fdf7b3c4328875462c9887c6b1f2fad08126ea42e758cf86534639b9ea72044",
+    "licenseEntry": "License.txt",
+    "licensePath": "assets-source/company-floor-air-v1/original/Kenney-License.txt",
+    "licenseSha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29",
+    "component": "Positive-X blade from the wood primitive; fit chord, span and pitch, rotate around the new local +Z shaft. Used only in the two exposed rotors."
+  },
+  "productionPrompt": "为中文经营游戏的办公室制作独立落地空气设备。底面中心为原点，+Y 向上、+Z 朝向房间。各款共用 0.40 × 0.80 × 0.40 米安装包络与稳定支撑。正常室内光线下通过风道形状、进出风开口、支架和操作区识别设备。前面留一个电源和三个分档状态灯，外露叶轮须与护罩分离。按本款参数生产，无商标和外部图片。",
+  "references": [
+    { "mechanism": "tower", "author": "Vornado", "url": "https://vornado.com/products/oscr32-32-oscillating-tower-circulator", "observation": "Slender enclosure on a stabilising base with a tall vertical outlet." },
+    { "mechanism": "indicators", "author": "Vornado", "url": "https://www.vornado.com/wp-content/uploads/2020/02/OSCR32.pdf", "observation": "The count of illuminated indicators conveys the selected speed." },
+    { "mechanism": "pedestal", "author": "Vornado", "url": "https://vornado.com/products/683-medium-pedestal-air-circulator", "observation": "Raised propeller, protective grille, single supporting column and front controls." },
+    { "mechanism": "circulator", "author": "Vornado", "url": "https://vornado.com/products/630-medium-air-circulator", "observation": "Deep barrel around a pitched propeller and a tiltable support direct a concentrated stream." },
+    { "mechanism": "purifier", "author": "Coway", "url": "https://cowaymega.com/blogs/blog/airmega-everything-you-need-to-know-about-air-filter-maintenance", "observation": "The Airmega 150 has a front filter intake and separate top outlet." }
+  ],
+  "referenceRights": "Reference pages describe appliance functions. No manufacturer images, diagrams, logos, model files or manuals are distributed.",
+  "implementation": "The in-tree desk-lamp exporter provided the Node FileReader adapter, GLTFExporter and glTF readback pattern. Three.js MIT geometry primitives and BufferGeometryUtils join repeated grille elements into a single draw per finish. Cases, supports, grilles, displays and original finishes are project-authored."
+}

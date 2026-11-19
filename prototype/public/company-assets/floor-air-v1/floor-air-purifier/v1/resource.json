@@ -1,0 +1,157 @@
+{
+  "id": "floor-air-purifier",
+  "version": 1,
+  "displayName": "双面格栅净化器",
+  "category": "dynamic",
+  "mountRole": "floor-air",
+  "productionBranch": "fan-and-air-purifier",
+  "mount": "floor-surface",
+  "parent": "room.floor",
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.4,
+    "height": 0.8,
+    "depth": 0.4
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.2,
+      0.2
+    ],
+    "blocking": true
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": true,
+    "speed": 1
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    },
+    "speed": {
+      "type": "integer",
+      "min": 1,
+      "max": 3
+    }
+  },
+  "stateSemantics": {
+    "on": "floor-air-enabled-v1",
+    "speed": "floor-air-speed-v1"
+  },
+  "display": {
+    "power": {
+      "nodes": [
+        "air-power-indicator"
+      ],
+      "stateField": "on",
+      "onColor": "#83ffc0",
+      "offColor": "#48565a",
+      "emissive": "#38ef91",
+      "onIntensity": 1
+    },
+    "speed1": {
+      "nodes": [
+        "air-speed-1"
+      ],
+      "stateField": "speed",
+      "minimumValue": 1,
+      "enabledBy": "on",
+      "onColor": "#83ffc0",
+      "offColor": "#48565a",
+      "emissive": "#38ef91",
+      "onIntensity": 1
+    },
+    "speed2": {
+      "nodes": [
+        "air-speed-2"
+      ],
+      "stateField": "speed",
+      "minimumValue": 2,
+      "enabledBy": "on",
+      "onColor": "#83ffc0",
+      "offColor": "#48565a",
+      "emissive": "#38ef91",
+      "onIntensity": 1
+    },
+    "speed3": {
+      "nodes": [
+        "air-speed-3"
+      ],
+      "stateField": "speed",
+      "minimumValue": 3,
+      "enabledBy": "on",
+      "onColor": "#83ffc0",
+      "offColor": "#48565a",
+      "emissive": "#38ef91",
+      "onIntensity": 1
+    }
+  },
+  "materialSlots": {
+    "insert": [
+      "weighted-foot",
+      "filter-well-back",
+      "top-discharge-well",
+      "control-bezel"
+    ],
+    "shell": [
+      "base-shoulder",
+      "lower-shell",
+      "filter-side-shells",
+      "filter-door-rails",
+      "upper-control-shell",
+      "top-outlet-rails"
+    ],
+    "trim": [
+      "intake-pleated-screen",
+      "top-discharge-louvres"
+    ],
+    "air-power-indicator": [
+      "air-power-indicator"
+    ],
+    "air-speed-1": [
+      "air-speed-1"
+    ],
+    "air-speed-2": [
+      "air-speed-2"
+    ],
+    "air-speed-3": [
+      "air-speed-3"
+    ]
+  },
+  "provenance": {
+    "license": "Project-authored appliance geometry.",
+    "author": "Company facilities production team",
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "generator": "scripts/company-platform/build-floor-air.mjs",
+    "generatorSha256": "acdc5d896534f502918c14b47cdba20db92444e954f5cbab4a6065e7f58ccc58",
+    "sourceParameters": "assets-source/company-floor-air-v1/parameters.json",
+    "sourceParametersSha256": "180de4311d35f1de368281a711917f543229865a38739ad04ea9768936c7f732",
+    "functionalContractSource": "assets-source/company-floor-air-v1/contract.json",
+    "functionalContractSourceSha256": "d3d1ae531270caaf6cf96236449894657eb7da26f4a3cb4417cb5a6524d39ae7",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "environmentBranch": "fan-and-air-purifier",
+    "sourceManifestPath": "assets-source/company-floor-air-v1/sources.json",
+    "sourceManifestSha256": "1315365b6ad138bc538eeca2ea394b5b5ae6329cd7592d987521ddc48088d5bf"
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/floor-air-v1/floor-air-purifier/v1/model.glb",
+    "sha256": "5386628f1c78e29bbc420243e27859b0338377b10006b1fd539df082006e8ae8",
+    "bytes": 122440
+  }
+}

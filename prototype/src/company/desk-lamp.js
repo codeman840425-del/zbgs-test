@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {hasBaseContact} from './base-contact.js';
 
 const stateSchema = {
   on: {type:'boolean'}, intensity: {type:'number', min:0, max:10}, angle: {type:'number', min:-.35, max:.35},
@@ -45,22 +46,6 @@ function beam(emitter,fixture) {
   return {position,target:position.clone().add(direction)};
 }
 
-function hasDeskContact(scene) {
-  let area = 0;
-  const points = [new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()];
-  scene.traverse(mesh=>{
-    if (!mesh.isMesh) return;
-    const geometry=mesh.geometry, positions=geometry.attributes.position, indices=geometry.index;
-    for (let i=0; i<(indices?.count ?? positions.count); i+=3) {
-      for (let j=0;j<3;j++) points[j].fromBufferAttribute(positions,indices?indices.getX(i+j):i+j).applyMatrix4(mesh.matrixWorld);
-      if (!points.every(p=>Math.abs(p.y)<=tolerance)) continue;
-      const [a,b,c]=points;
-      area+=Math.abs((b.x-a.x)*(c.z-a.z)-(b.z-a.z)*(c.x-a.x))/2;
-    }
-  });
-  return area>1e-6;
-}
-
 export function validateDeskLampGeometry(scene,resource,fail,path=resource.id) {
   if (resource.mountRole!=='desk-lamp') return;
   const unique = name => {
@@ -90,7 +75,7 @@ export function validateDeskLampGeometry(scene,resource,fail,path=resource.id) {
   const neutral=beam(face,scene);
   for (const field of ['position','target']) if (neutral[field].distanceTo(new THREE.Vector3(...resource.light[field]))>tolerance)
     fail('invalid-desk-lamp-calibration',path+'.light.'+field,'The neutral declared light must coincide with the measured diffuser ray');
-  if(!hasDeskContact(scene)) fail('invalid-desk-lamp-base',path,'The actual lamp base must have positive-area contact with the desktop');
+  if(!hasBaseContact(scene)) fail('invalid-desk-lamp-base',path,'The actual lamp base must have positive-area contact with the desktop');
   const original=head.quaternion.clone();
   try {
     for(const angle of [stateSchema.angle.min,0,stateSchema.angle.max]) {

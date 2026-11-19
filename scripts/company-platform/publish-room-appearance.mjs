@@ -33,10 +33,13 @@ const families = {
   'company-showcase-product-collection': 'showcase-product',
   'company-singing-stage-collection': 'singing-stage',
   'company-tea-station-collection': 'tea-station',
+  'company-floor-air-collection': 'floor-air',
 };
 const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs', 'wall-ambient':'build-wall-ambient.mjs', 'desktop-plants':'build-desktop-plants.mjs', 'garment-rack':'build-garment-rack.mjs', 'enclosed-wardrobe':'build-enclosed-wardrobe.mjs', 'showcase-product':'build-showcase-products.mjs', 'singing-stage':'build-singing-stage.mjs'};
 generatorFiles['tea-station'] = 'build-tea-station.mjs';
+generatorFiles['floor-air'] = 'build-floor-air.mjs';
 const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric', 'wall-ambient':'ambient-led-and-neon', 'desktop-plants':'plant-desktop-installation', 'tea-station':'tea-rest'};
+productionBranches['floor-air'] = 'fan-and-air-purifier';
 
 const garmentBranches = {rack:'garment-rack-wardrobe',garment:'hanging-garment'};
 const singingBranches = {vocal:'floor-vocal-microphone',score:'floor-score-stand'};

@@ -1,5 +1,6 @@
 import {WALL_AMBIENT_ROLE,applyWallAmbientLight} from './wall-ambient.js';
 import {poseDeskLamp,poseDeskLampHead} from './desk-lamp.js';
+import {bindFloorAirRotor} from './floor-air.js';
 import {adaptCableGeometry,validateCableVisualPlacement} from './cable-render.js';
 import {validateCeilingVisualPlacement,ceilingVisibleForRegion} from './ceiling-placement.js';
 import {installationGeometryFacilities,validateDesktopReservations} from './desktop-placement.js';
@@ -252,6 +253,8 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           const field=mapping.stateField||(displayKey==='status'?'recording':displayKey==='content'?'visible':null);
           if(!field)continue;
           const value=entry.state[field]??entry.resource.stateDefaults?.[field];
+          const active=(mapping.enabledBy===undefined || entry.state[mapping.enabledBy]===true) &&
+            (mapping.minimumValue===undefined ? Boolean(value) : value>=mapping.minimumValue);
           for(const name of mapping.nodes) {
             const mesh=parts.get(name);
             if(!mesh?.isMesh)throw new CompanyError('missing-display-mesh',`${entry.id}.${name}`,'Display target must resolve to a mesh');
@@ -260,10 +263,10 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
             for(const material of [mesh.material].flat()) {
               if(!material)continue;
               const onColor=mapping.onColor||mapping.accentColor, offColor=mapping.offColor;
-              if(onColor&&offColor&&material.color)material.color.set(value?onColor:offColor);
+              if(onColor&&offColor&&material.color)material.color.set(active?onColor:offColor);
               if(material.emissive&&mapping.emissive) {
-                material.emissive.set(value?mapping.emissive:'#000000');
-                material.emissiveIntensity=value?Number(mapping.onIntensity??1):0;
+                material.emissive.set(active?mapping.emissive:'#000000');
+                material.emissiveIntensity=active?Number(mapping.onIntensity??1):0;
                 if(entry.resource.mountRole==='desk-lamp' && displayKey==='diffuser')
                   material.emissiveIntensity*=entry.state.intensity/entry.resource.stateSchema.intensity.max;
               }
@@ -286,7 +289,8 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         }
         applyInformationDisplay(entry.resource,parts,entry.state);
         facility.clock=bindClockDisplay(entry.resource,parts,entry.state);
-        facility.clock?.apply(presentationInputs);
+        facility.presentation=facility.clock ?? bindFloorAirRotor(entry.resource,parts,entry.state);
+        facility.presentation?.apply(presentationInputs);
         if(['wall','portal','wall-opening'].includes(entry.resource.mount)) {
           const edge=wallEdge(entry.node.transform.yaw);
           const along=['north','south'].includes(edge)?entry.node.transform.position[0]:entry.node.transform.position[2];
@@ -420,7 +424,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       }
     }
     if(latestWallView)candidate.wallView=clone(latestWallView);
-    for(const facility of candidate.facilities.values())facility.clock?.apply(presentationInputs);
+    for(const facility of candidate.facilities.values())facility.presentation?.apply(presentationInputs);
     world.add(candidate.root);candidate.root.updateMatrixWorld(true);
     if(current)disposeTree(current.root);current=candidate;generation++;applyPresentation();
   }
@@ -497,7 +501,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     },
     setPresentationInputs(inputs) {
       live();const next=validatePresentationInputs(inputs);
-      for(const facility of current.facilities.values())facility.clock?.apply(next);
+      for(const facility of current.facilities.values())facility.presentation?.apply(next);
       presentationInputs=next;current.root.updateMatrixWorld(true);return {...next};
     },
     get presentationInputs(){live();return {...presentationInputs};},

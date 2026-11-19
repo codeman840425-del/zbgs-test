@@ -629,6 +629,12 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   let verifyShowcaseProvenance;
   let verifySingingSources;
   let verifyTeaSources;
+  let verifyFloorAirSources;
+  if (catalog.resources.some(resource=>resource.productionBranch==='fan-and-air-purifier')) {
+    const verifier=await noLinks(path.join(source,'scripts/company-platform/validate-resource-provenance.mjs'));
+    ({verifyFloorAirSources}=await import(pathToFileURL(verifier).href));
+    if (!verifyFloorAirSources) fail('missing-production-tool',verifier,'Expected the floor appliance artwork and license verifier');
+  }
   if (catalog.resources.some(resource=>resource.productionBranch==='tea-rest')) {
     const verifier=path.join(source,'scripts/company-platform/validate-resource-provenance.mjs');
     await noLinks(verifier);
@@ -706,6 +712,10 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(!name.endsWith('.json'))fail('unsupported-production-input',name,'Production input folders must contain JSON only');supplemental.add(name);
   }
   const assetDependencies=[],provenance=[];
+  if (supplemental.has('scripts/company-platform/batch-inputs/floor-air-rooms.json')) {
+    for (const name of ['test-floor-air.mjs','qa-floor-air.cjs','test-floor-air-handoff.mjs']) supplemental.add('scripts/company-platform/'+name);
+    supplemental.add('docs/research/COMPANY-FLOOR-AIR-PRODUCTION.md');
+  }
   if (supplemental.has('scripts/company-platform/batch-inputs/tea-station-rooms.json')) {
     for (const name of ['check-tea-station.mjs','public-door-access.mjs','qa-tea-station-rooms.cjs','test-tea-station-rooms.mjs','test-tea-station-handoff.mjs'])
       supplemental.add('scripts/company-platform/'+name);
@@ -759,7 +769,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     const plant = resource.productionBranch === 'plant-desktop-installation';
     const garment = garmentBranches.includes(resource.productionBranch);
     const product = resource.productionBranch === 'showcase-product';
-    const verifyEditable = resource.productionBranch==='tea-rest' ? verifyTeaSources : entry.generator===singingProducer ? verifySingingSources : product ? verifyShowcaseProvenance : plant ? plantTools?.verifyPlantEditableProvenance : garment ? verifyGarmentEditableProvenance : undefined;
+    const verifyEditable = resource.productionBranch==='fan-and-air-purifier' ? verifyFloorAirSources : resource.productionBranch==='tea-rest' ? verifyTeaSources : entry.generator===singingProducer ? verifySingingSources : product ? verifyShowcaseProvenance : plant ? plantTools?.verifyPlantEditableProvenance : garment ? verifyGarmentEditableProvenance : undefined;
     if (verifyEditable) {
       const recipe = decode(await read(source,entry.sourceParameters),entry.sourceParameters);
       const pins = await verifyEditable(source,resource,recipe);

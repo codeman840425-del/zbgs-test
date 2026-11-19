@@ -13,15 +13,17 @@ export function validateFacilityState(resource, patch, fail, path) {
     if(!object(schema)||Object.keys(schema).length!==Object.keys(defaults).length||Object.keys(defaults).some(k=>!Object.hasOwn(schema,k)))
       fail('invalid-state-schema',path,'State schema must define every default field exactly once');
     for(const [field,spec]of Object.entries(schema)) {
-      if(!object(spec)||(!((spec.type==='boolean'&&Object.keys(spec).length===1&&typeof defaults[field]==='boolean')||
-        (spec.type==='number'&&Object.keys(spec).every(k=>['type','min','max'].includes(k))&&Number.isFinite(spec.min)&&Number.isFinite(spec.max)&&spec.min<=spec.max&&
-          Number.isFinite(defaults[field])&&defaults[field]>=spec.min&&defaults[field]<=spec.max))))
-        fail('invalid-state-schema',`${path}.${field}`,'Schema requires a boolean or finite bounded number and a valid default');
+      const numeric=spec?.type==='integer'?Number.isSafeInteger:Number.isFinite;
+      const validBoolean=spec?.type==='boolean'&&Object.keys(spec).length===1&&typeof defaults[field]==='boolean';
+      const validNumber=['number','integer'].includes(spec?.type)&&Object.keys(spec).every(k=>['type','min','max'].includes(k))&&
+        numeric(spec.min)&&numeric(spec.max)&&numeric(defaults[field])&&spec.min<=defaults[field]&&defaults[field]<=spec.max;
+      if(!object(spec)||!(validBoolean||validNumber))
+        fail('invalid-state-schema',`${path}.${field}`,'Expected a boolean, bounded number or bounded integer with a matching default');
     }
   }
   for(const [field,value]of Object.entries(patch)) {
     const expected=defaults[field],spec=schema?.[field];
-    if(expected===undefined||typeof value!==typeof expected||
+    if(expected===undefined||typeof value!==typeof expected||(spec?.type==='integer'&&!Number.isSafeInteger(value))||
         (typeof value==='number'&&(!Number.isFinite(value)||value<(spec?.min??0)||value>(spec?.max??100))))
       fail('invalid-device-state',`${path}.${field}`,'Value must match the declared field type and range');
   }

@@ -1,0 +1,98 @@
+{
+  "schema": "company-floor-air-contract",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "floor-air",
+  "productionBranch": "fan-and-air-purifier",
+  "mount": "floor-surface",
+  "parent": "room.floor",
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.4,
+    "height": 0.8,
+    "depth": 0.4
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.2,
+      0.2
+    ],
+    "blocking": true
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": true,
+    "speed": 1
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    },
+    "speed": {
+      "type": "integer",
+      "min": 1,
+      "max": 3
+    }
+  },
+  "stateSemantics": {
+    "on": "floor-air-enabled-v1",
+    "speed": "floor-air-speed-v1"
+  },
+  "display": {
+    "power": {
+      "nodes": [
+        "air-power-indicator"
+      ],
+      "stateField": "on",
+      "onColor": "#83ffc0",
+      "offColor": "#48565a",
+      "emissive": "#38ef91",
+      "onIntensity": 1
+    },
+    "speed1": {
+      "nodes": [
+        "air-speed-1"
+      ],
+      "stateField": "speed",
+      "minimumValue": 1,
+      "enabledBy": "on",
+      "onColor": "#83ffc0",
+      "offColor": "#48565a",
+      "emissive": "#38ef91",
+      "onIntensity": 1
+    },
+    "speed2": {
+      "nodes": [
+        "air-speed-2"
+      ],
+      "stateField": "speed",
+      "minimumValue": 2,
+      "enabledBy": "on",
+      "onColor": "#83ffc0",
+      "offColor": "#48565a",
+      "emissive": "#38ef91",
+      "onIntensity": 1
+    },
+    "speed3": {
+      "nodes": [
+        "air-speed-3"
+      ],
+      "stateField": "speed",
+      "minimumValue": 3,
+      "enabledBy": "on",
+      "onColor": "#83ffc0",
+      "offColor": "#48565a",
+      "emissive": "#38ef91",
+      "onIntensity": 1
+    }
+  }
+}

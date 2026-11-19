@@ -1,0 +1,39 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "air-home",
+      "input": {
+        "id": "air-home", "name": "民房 · 直播桌旁的塔扇",
+        "spaceProfile": {"id": "company-space-v2", "version": 1}, "furnishingVersion": 2, "scale": "small-home",
+        "floors": [{"id": "ground", "name": "一层", "rooms": [
+          {"id": "live", "name": "直播间", "purpose": "streaming", "stations": 1}
+        ]}]
+      },
+      "operations": [
+        {"type": "add-facility", "id": "air-home/ground/live/air", "parentId": "air-home/ground/live",
+         "resource": {"id": "floor-air-tower", "version": 1}, "state": {"on": true, "speed": 2},
+         "transform": {"position": [0.9, 0, -1.25], "yaw": 0}}
+      ]
+    },
+    {
+      "key": "air-rental",
+      "input": {
+        "id": "air-rental", "name": "整套出租屋 · 直播间的循环扇",
+        "spaceProfile": {"id": "company-space-v2", "version": 1}, "furnishingVersion": 2, "scale": "rental-home",
+        "floors": [{"id": "ground", "name": "一层", "rooms": [
+          {"id": "live", "name": "直播间", "purpose": "streaming", "stations": 1},
+          {"id": "work", "name": "剪辑间", "purpose": "work", "stations": 0, "furniture": "desk-chair"},
+          {"id": "rest", "name": "休息间", "purpose": "rest", "stations": 0}
+        ]}]
+      },
+      "operations": [
+        {"type": "move", "id": "air-rental/ground", "transform": {"position": [0, 0, 0], "yaw": 1.5707963267948966}},
+        {"type": "add-facility", "id": "air-rental/ground/live/air", "parentId": "air-rental/ground/live",
+         "resource": {"id": "floor-air-circulator", "version": 1}, "state": {"on": true, "speed": 3},
+         "transform": {"position": [1.5, 0, -1.45], "yaw": -1.5707963267948966}}
+      ]
+    }
+  ]
+}
