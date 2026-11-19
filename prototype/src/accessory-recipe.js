@@ -1,4 +1,4 @@
-import earManifest from '../public/assets/m2-paired-ear-accessory-v1/manifest.json' with {type:'json'};
+import earCatalog from './ear-style-catalog.json' with {type:'json'};
 import hatManifest from '../public/assets/m2-hat-hair-v1/manifest.json' with {type:'json'};
 import hatFit from '../public/assets/m2-hat-hair-v1/fit.json' with {type:'json'};
 import {assertHatHairSelection,validateHatHairCatalog} from './hat-accessory-contract.js';
@@ -13,15 +13,21 @@ function exactKeys(value,allowed,field){
  if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).length!==allowed.length||allowed.some(key=>!Object.hasOwn(value,key)))
   fail(field,'附件记录字段不完整或包含未支持字段');
 }
-export function accessorySelection(bodySha,kind,selection){
+export function earStyleResource(bodySha,styleId,version){
+ if(styleId===undefined && version===undefined){styleId='compact-gold-stud-v1';version=1;}
+ const matches=earCatalog.styles.filter(row=>row.styleId===styleId && row.version===version);
+ if(matches.length!==1)fail('accessories.ears','耳饰款式或版本未登记');
+ const [{manifestUrl,manifestSha256,assetSha256,fits}]=matches;
+ const exact=fits.filter(row=>row.bodySha256===bodySha);
+ if(exact.length!==1)fail('accessories.ears','此身体尚无唯一的耳饰适配');
+ return {styleId,version,manifestUrl,manifestSha256,assetSha256,fitId:exact[0].fitId,fitSha256:exact[0].fitSha256};
+}
+export function accessorySelection(bodySha,kind,selection,style){
  if(!(kind==='ears'?['none','left','right','pair']:kind==='hat'?['none','single']:[]).includes(selection))fail('accessories.'+kind,'未知附件选择');
  if(selection==='none')return{selection,resource:null};
  let resource;
  if(kind==='ears'){
-  const fit=earManifest.fits.find(entry=>entry.baseAvatarSha256===bodySha);
-  if(!fit)fail('accessories.ears','此身体尚无耳饰适配');
-  resource={styleId:earManifest.styleId,version:earManifest.version,manifestUrl:'/assets/m2-paired-ear-accessory-v1/manifest.json',
-   manifestSha256:EAR_MANIFEST_SHA,assetSha256:earManifest.asset.sha256,fitId:fit.fitId,fitSha256:fit.sha256};
+  resource=earStyleResource(bodySha,style?.styleId,style?.version);
  }else{
   if(hatFit.targetBodySha256!==bodySha)fail('accessories.hat','此身体尚无帽发适配');
   resource={styleId:hatManifest.id,version:hatManifest.version,manifestUrl:'/assets/m2-hat-hair-v1/manifest.json',
@@ -34,7 +40,7 @@ export function validateAccessories(bodySha,value){
  for(const kind of ['ears','hat']){
   const entry=value[kind],field='accessories.'+kind;
   exactKeys(entry,['selection','resource'],field);
-  const expected=accessorySelection(bodySha,kind,entry.selection);
+  const expected=accessorySelection(bodySha,kind,entry.selection,entry.resource);
   if(expected.resource===null){if(entry.resource!==null)fail(field,'未装备附件不能携带资源');}
   else{
    exactKeys(entry.resource,Object.keys(expected.resource),field+'.resource');
@@ -57,16 +63,19 @@ export function captureAccessories(actor){
  for(const [kind,domain] of [['ears',actor.rigidAccessories],['hat',actor.headwear]]){
   const state=domain.getState();
   if(state.status==='loading'||state.status==='prepared')throw Error('请等待附件加载完成后保存');
-  result[kind]=accessorySelection(actor.profile.sha256,kind,state.selection);
+  result[kind]=accessorySelection(actor.profile.sha256,kind,state.selection,state.styleId?{styleId:state.styleId,version:state.version??1}:undefined);
   if(result[kind].resource&&(state.assetSha256!==result[kind].resource.assetSha256||state.fitId!==result[kind].resource.fitId))fail('accessories.'+kind,'当前附件身份与登记资源不符');
  }
  return result;
 }
 export function queryAccessoryCandidates(bodySha){
  const result={recipeSchema:ACCESSORY_SCHEMA,rulesVersion:ACCESSORY_RULES};
- for(const [kind,values] of [['ears',['none','left','right','pair']],['hat',['none','single']]]){
-  result[kind]={choices:values.flatMap(selection=>{try{return[accessorySelection(bodySha,kind,selection)];}catch{return[];}})};
+ result.ears={choices:[accessorySelection(bodySha,'ears','none')]};
+ for(const style of earCatalog.styles.filter(row=>row.fits.some(f=>f.bodySha256===bodySha))){
+  for(const side of ['left','right','pair']) result.ears.choices.push(accessorySelection(bodySha,'ears',side,style));
  }
+ result.hat={choices:[accessorySelection(bodySha,'hat','none')]};
+ if(hatFit.targetBodySha256===bodySha) result.hat.choices.push(accessorySelection(bodySha,'hat','single'));
  result.hat.dependency={bodySha256:hatFit.targetBodySha256,hair:structuredClone(hatFit.hairDependency),geometry:'neutral-only'};
  return result;
 }

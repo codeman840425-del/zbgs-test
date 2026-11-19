@@ -4,6 +4,7 @@ import {resolveFacialGeometrySelection} from './facial-geometry-selection.js';
 import {queryAppearanceCandidates} from './appearance-candidates.js';
 import {queryCharacterProduction} from './character-production-query.js';
 import {canonicalJson,isSafeCharacterRecordId,updateCharacterRecord} from './character-record.js';
+import {EAR_MANIFEST_SHA} from './accessory-recipe.js';
 import {validateNativeHairCenterPin} from './native-hair-center-record.js';
 
 const object=value=>value&&typeof value==='object'&&!Array.isArray(value);
@@ -112,10 +113,20 @@ async function edit(controller,operation){
   applied(await actor.livePresentation.setAccessory(operation.kind,operation.enabled));break;
  }
  case 'accessory': {
-  keys(operation,['domain','kind','selection'],'edit');
-  if(!['ears','hat'].includes(operation.kind)||!query.accessories[operation.kind].choices.some(row=>row.selection===operation.selection))fail('Accessory selection is not registered','accessory');
+  const styled=Object.hasOwn(operation,'styleId')||Object.hasOwn(operation,'version');
+  keys(operation,styled&&operation.kind==='ears'&&operation.selection!=='none'?['domain','kind','selection','styleId','version']:['domain','kind','selection'],'edit');
+  if(styled && (typeof operation.styleId!=='string' || !Number.isSafeInteger(operation.version)))
+   fail('Expected ear styleId and version','accessory');
+  if(!['ears','hat'].includes(operation.kind))fail('Unknown accessory kind','accessory');
+  const choice=query.accessories[operation.kind].choices.find(row=>{
+   if(row.selection!==operation.selection)return false;
+   if(operation.kind!=='ears'||operation.selection==='none')return true;
+   if(!styled)return row.resource.manifestSha256===EAR_MANIFEST_SHA;
+   return row.resource.styleId===operation.styleId && row.resource.version===operation.version;
+  });
+  if(!choice)fail('Accessory selection is not registered','accessory');
   const layer=operation.kind==='ears'?actor.rigidAccessories:actor.headwear;
-  applied(await layer.setSelection(operation.selection));break;
+  applied(await layer.setSelection(operation.selection,styled?{styleId:operation.styleId,version:operation.version}:undefined));break;
  }
  default:fail('Unknown edit domain','edit.domain');
  }

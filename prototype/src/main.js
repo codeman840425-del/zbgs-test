@@ -1100,7 +1100,7 @@ class CharacterScene extends Phaser.Scene {
         if (cmd.kind === "hat" || cmd.kind === "ears") {
           const actor=this.actor;
           const layer=cmd.kind==='hat'?actor.headwear:actor.rigidAccessories;
-          const result=layer?.setSelection(cmd.value) ?? {applied:false,reason:'当前人物没有此附件的适配入口'};
+          const result=layer?.setSelection(cmd.value,cmd.kind==='ears'?cmd.style:undefined) ?? {applied:false,reason:'当前人物没有此附件的适配入口'};
           const settled=outcome=>{
             if(!this.isPeer && this===controller && this.actor===actor)notifyAppearanceStateChanged(actor);
             return outcome;

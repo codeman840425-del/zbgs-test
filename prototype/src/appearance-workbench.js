@@ -12,7 +12,7 @@ import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
 import {CHARACTER_RECORD_MAX_BYTES,isSafeCharacterRecordId} from './character-record.js';
 import {queryCharacterProduction} from './character-production-query.js';
 import representativeBatch from '../../assets-source/variant-matrix-v1/representative-batch-request.json' with {type:'json'};
-import earManifest from '../public/assets/m2-paired-ear-accessory-v1/manifest.json' with {type:'json'};
+import {EAR_MANIFEST_SHA} from './accessory-recipe.js';
 import hatFit from '../public/assets/m2-hat-hair-v1/fit.json' with {type:'json'};
 // DOM binding only: appearance ownership and camera framing stay in the controller.
 export function bindAppearanceWorkbench({ controller }) {
@@ -88,7 +88,7 @@ export function bindAppearanceWorkbench({ controller }) {
       <div><label for="appearance-surface-blush">腮红</label><select id="appearance-surface-blush" aria-describedby="appearance-surface-note appearance-samples-status"></select></div>
     </div><p id="appearance-surface-note" class="appearance-hint"></p>
     <div class="appearance-pair">
-      <div><label for="appearance-ears">耳饰</label><select id="appearance-ears" aria-describedby="appearance-ears-note appearance-samples-status"><option value="none">不装备</option><option value="left">仅左耳</option><option value="right">仅右耳</option><option value="pair">左右成对</option></select></div>
+      <div><label for="appearance-ears">耳饰款式与佩戴位置</label><select id="appearance-ears" aria-describedby="appearance-ears-note appearance-samples-status"></select></div>
       <div><label for="appearance-hat">帽子</label><select id="appearance-hat" aria-describedby="appearance-hat-note appearance-samples-status"><option value="none">不装备</option><option value="single">帽子样件</option></select></div>
     </div><p id="appearance-ears-note" class="appearance-hint"></p><p id="appearance-hat-note" class="appearance-hint"></p>
     <p class="appearance-hint">新配方与草稿一并保存耳饰、帽子和适配版本；旧版配方保留原语义。</p>
@@ -429,12 +429,33 @@ export function bindAppearanceWorkbench({ controller }) {
     samplesStatus.textContent=text;samplesStatus.dataset.error=String(error);
     samplesStatus.setAttribute('role',error?'alert':'status');
   }
+  function earOptions(choices){
+    const sideNames={left:'左耳',right:'右耳',pair:'双耳'};
+    const names={'compact-gold-stud-v1':'金色耳钉 · 2.6 mm','round-gold-stud-3mm-v1':'金色耳钉 · 3.0 mm'};
+    ears.replaceChildren(new Option('不装备','none'));
+    const groups=new Map();
+    for(const {selection,resource} of choices){
+      if(!resource)continue;
+      const key=resource.styleId+'@'+resource.version;
+      let group=groups.get(key);
+      if(!group){
+        group=document.createElement('optgroup');
+        group.label=names[resource.styleId]??key;
+        groups.set(key,group);ears.append(group);
+      }
+      const value=resource.manifestSha256===EAR_MANIFEST_SHA?selection:key+'/'+selection;
+      const option=new Option(group.label+' · '+sideNames[selection],value);
+      Object.assign(option.dataset,{side:selection,styleId:resource.styleId,version:String(resource.version)});
+      group.append(option);
+    }
+  }
   function syncSamples(actual=state(),geometry=actor().facialGeometry?.getState()){
     const current=actor();
     if(sampleActor!==current){sampleActor=current;sampleMessage('');}
     if(candidateActor!==current){
       candidateActor=current;
       try{candidateQuery=queryAppearanceCandidates(controller);}catch(error){candidateQuery={surface:{supported:false,reason:'当前人物的样件信息未读取完成'}};}
+      earOptions(candidateQuery.accessories?.ears.choices??[]);
     }
     const surface=candidateQuery?.surface,earState=current.rigidAccessories?.getState(),hatState=current.headwear?.getState();
     const loading=busy||actual.loading||actual.facialPaletteLoading||geometry?.loading||earState?.status==='loading'||hatState?.status==='loading';
@@ -450,9 +471,11 @@ export function bindAppearanceWorkbench({ controller }) {
       select.value=selected?String(selected.opacity):'none';select.disabled=loading||!surface?.supported||!choice;
     }
     surfaceNote.textContent=surface?.supported?'雀斑与腮红可独立选择或叠加。':surface?.reason||'此基模尚未适配雀斑与腮红。';
-    const earSupported=earManifest.fits.filter(fit=>fit.baseAvatarSha256===current.profile.sha256).length===1;
-    ears.value=earState?.selection??'none';ears.disabled=loading||!earState||(!earSupported&&ears.value==='none');
-    earsNote.textContent=earSupported?'耳饰可分别装备左右两侧。':'此基模尚无耳饰适配。';
+    const earSupported=ears.options.length>1;
+    const worn=[...ears.options].find(option=>option.dataset.side===earState?.selection &&
+      option.dataset.styleId===earState?.styleId && Number(option.dataset.version)===earState?.version);
+    ears.value=worn?.value??'none';ears.disabled=loading||!earState||!earSupported;
+    earsNote.textContent=earSupported?'': '此基模尚无耳饰适配。';
     const dependency=hatFit.hairDependency,bodySupported=current.profile.sha256===hatFit.targetBodySha256;
     const hairMatches=actual.hairStyle===dependency.styleId&&actual.replacementSHA256===dependency.sha256&&
       actual.hairFit?.sha256===dependency.fitSha256&&actual.hairFit?.version===dependency.fitVersion;
@@ -655,7 +678,13 @@ export function bindAppearanceWorkbench({ controller }) {
     if(select.value!=='none')layers.push({id,opacity:Number(select.value)});
     void applySample({type:'appearance',surfaceLayers:layers},'皮肤表面样件已更新。');
   });
-  on(ears,'change',()=>{if(!ears.disabled)void applySample({type:'accessory',kind:'ears',value:ears.value},'耳饰已更新。');});
+  on(ears,'change',()=>{
+    if(ears.disabled)return;
+    const {side,styleId,version}=ears.selectedOptions[0].dataset;
+    const command={type:'accessory',kind:'ears',value:side??'none'};
+    if(styleId)command.style={styleId,version:Number(version)};
+    void applySample(command,'耳饰已更新。');
+  });
   on(hat,'change',()=>{if(!hat.disabled)void applySample({type:'accessory',kind:'hat',value:hat.value},'帽子已更新。');});
   on(form, 'submit', event => event.preventDefault());
   async function changeMouth(value){

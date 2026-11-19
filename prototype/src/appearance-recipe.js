@@ -197,7 +197,9 @@ export async function applyAppearanceRecipe(controller,record,{liveAccessories,e
    }
   }
   if(accessoryVersion){
-   if(!await prepare(actor.rigidAccessories,record.accessories.ears.selection))return{applied:false,cancelled:true};
+   const {selection,resource}=record.accessories.ears;
+   const style=resource?{styleId:resource.styleId,version:resource.version}:undefined;
+   if(!await prepare(actor.rigidAccessories,selection,style))return{applied:false,cancelled:true};
    if(!await prepare(actor.headwear,record.accessories.hat.selection,{hairState:{hairStyle:record.appearance.hairStyle,replacementSHA256:record.hairAssetSha256,hairFit:record.hairFit}}))return{applied:false,cancelled:true};
   }
   if(liveAccessories){

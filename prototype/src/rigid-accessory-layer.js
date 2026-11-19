@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import {earStyleResource} from './accessory-recipe.js';
 import {validateHatManifest,validateHatFit,validateHatHairCatalog,validateHatHairManifest,assertHatHairSelection,validateHatSourceDocument} from './hat-accessory-contract.js';
 
 const hash = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))]
@@ -14,8 +15,24 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
   require(kind==='paired-ear'||kind==='hat','Unsupported rigid accessory contract');
   require(manifestSha256===undefined || (typeof manifestSha256==='string' && /^[a-f0-9]{64}$/.test(manifestSha256)),'Invalid rigid accessory manifest SHA');
   const head = vrm?.humanoid?.getRawBoneNode('head');
-  const base = new URL(manifestUrl, globalThis.location?.href ?? 'http://localhost/');
-  const resource = file => {
+  const styleSlot=(url,pin)=>({base:new URL(url,globalThis.location?.href ?? 'http://localhost/'),pin,
+    manifest:null,fit:null,hairEntry:null,template:null,styleLoading:null,loading:null});
+  const defaultStyle=styleSlot(manifestUrl,manifestSha256), styles=new Map([[manifestUrl,defaultStyle]]);
+  let activeStyle=defaultStyle, requestedStyle=defaultStyle;
+  function selectedStyle(options){
+    if(!Object.hasOwn(options,'styleId') && !Object.hasOwn(options,'version'))return defaultStyle;
+    require(typeof options.styleId==='string' && Number.isSafeInteger(options.version),'Expected ear styleId and version');
+    const expected=earStyleResource(avatarSha256,options.styleId,options.version);
+    let style=styles.get(expected.manifestUrl);
+    if(!style){
+      style=styleSlot(expected.manifestUrl,expected.manifestSha256);styles.set(expected.manifestUrl,style);
+    }
+    require(style.pin===undefined || style.pin===expected.manifestSha256,'Ear style manifest pin mismatch');
+    style.pin=expected.manifestSha256;style.expected=expected;
+    return style;
+  }
+  const wanted=style=>!disposed && desired!=='none' && requestedStyle===style;
+  const resource = (file,base) => {
     require(typeof file === 'string' && /^[a-zA-Z0-9][a-zA-Z0-9._-]*$/.test(file), 'Unsafe rigid accessory resource path');
     return new URL(file, base);
   };
@@ -24,32 +41,32 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
     require(response.ok, `Rigid accessory HTTP ${response.status}: ${url}`);
     return response.arrayBuffer();
   }
-  let manifest = null, fit = null, styleLoading = null, hatHairEntry = null;
   let bodyMode = 'dressed';
-  async function loadStyle() {
-    if (fit) return true;
-    if (styleLoading) return styleLoading;
-    styleLoading = (async () => {
+  async function loadStyle(style) {
+    if (style.fit) return true;
+    if (style.styleLoading) return style.styleLoading;
+    const {base}=style;
+    style.styleLoading = (async () => {
       require(head?.isBone && vrm.scene?.getObjectById(head.id) === head, 'Rigid accessory requires the actual raw head bone');
       require(typeof avatarSha256 === 'string' && /^[a-f0-9]{64}$/.test(avatarSha256), 'Rigid accessory requires an exact body SHA');
       const manifestBytes = await bytes(base);
-      if (disposed || desired === 'none') return null;
-      if(manifestSha256!==undefined)require(await hash(manifestBytes)===manifestSha256,'Rigid accessory manifest integrity mismatch');
+      if (!wanted(style)) return null;
+      if(style.pin!==undefined)require(await hash(manifestBytes)===style.pin,'Rigid accessory manifest integrity mismatch');
       const manifest = JSON.parse(new TextDecoder().decode(manifestBytes));
       if(kind==='hat') {
         const normalized = validateHatManifest(manifest,base);
-        const fitBytes = await bytes(resource(normalized.fit.file));
-        if(disposed || desired==='none')return null;
+        const fitBytes = await bytes(resource(normalized.fit.file,base));
+        if(!wanted(style))return null;
         require(await hash(fitBytes)===normalized.fit.sha256,'Hat fit integrity mismatch');
         const fit = validateHatFit(JSON.parse(new TextDecoder().decode(fitBytes)),normalized,avatarSha256,head);
         const entry = validateHatHairCatalog(fit,avatarSha256);
         const hairManifestBytes = await bytes(new URL(entry.manifestUrl,base));
-        if(disposed || desired==='none')return null;
+        if(!wanted(style))return null;
         require(await hash(hairManifestBytes)===entry.manifestSha256,'Hat hair manifest integrity mismatch');
         validateHatHairManifest(JSON.parse(new TextDecoder().decode(hairManifestBytes)),fit,entry,avatarSha256);
         return {manifest:normalized,fit,hairEntry:entry};
       }
-      require(manifest.schema === 'zbgs-paired-rigid-accessory-style-v1' && manifest.version === 1 &&
+      require(manifest.schema === 'zbgs-paired-rigid-accessory-style-v1' && manifest.version === (style.expected?.version??1) &&
         typeof manifest.styleId === 'string' && manifest.styleId && typeof manifest.pairId === 'string' && manifest.pairId &&
         manifest.physics === 'rigid-head-attachment' && manifest.asset?.units === 'metres' &&
         manifest.asset.localOutwardAxis === '+Z' && manifest.asset.localUpAxis === '+Y' &&
@@ -63,8 +80,12 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
       'Invalid paired rigid accessory instances');
       const fits = manifest.fits?.filter(fit => fit.baseAvatarSha256 === avatarSha256);
       require(fits?.length === 1, 'Rigid accessory has no exact fit for this body');
-      const fitRef = fits[0], fitBytes = await bytes(resource(fitRef.file));
-      if (disposed || desired === 'none') return null;
+      const fitRef = fits[0], expected=style.expected;
+      if(expected)require(expected.styleId===manifest.styleId && expected.version===manifest.version &&
+        expected.assetSha256===manifest.asset.sha256 && expected.fitId===fitRef.fitId && expected.fitSha256===fitRef.sha256,
+        'Ear style catalog does not match the selected manifest');
+      const fitBytes = await bytes(resource(fitRef.file,base));
+      if (!wanted(style)) return null;
       require(await hash(fitBytes) === fitRef.sha256, 'Rigid accessory fit integrity mismatch');
       const fit = JSON.parse(new TextDecoder().decode(fitBytes));
       require(fit.schema === 'zbgs-paired-rigid-accessory-fit-v1' && fit.version === 1 && fit.fitId === fitRef.fitId &&
@@ -83,13 +104,13 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
       return { manifest, fit };
     })().then(prepared => {
       if (!prepared) return false;
-      manifest = prepared.manifest; fit = prepared.fit; hatHairEntry = prepared.hairEntry ?? null;
+      style.manifest = prepared.manifest; style.fit = prepared.fit; style.hairEntry = prepared.hairEntry ?? null;
       return true;
     });
-    try { return await styleLoading; } finally { styleLoading = null; }
+    try { return await style.styleLoading; } finally { style.styleLoading = null; }
   }
   let disposed = false, revision = 0, selection = 'none', desired = 'none';
-  let status = 'ready', error = null, active = null, template = null, loading = null;
+  let status = 'ready', error = null, active = null;
   const candidates = new Set(), releasedGroups = new WeakSet();
   const pendingUpdates = new Set(), committedUpdates = new Set();
   const cleanupErrors = [];
@@ -115,11 +136,12 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
     for (const material of materials) release(material);
     scene.clear();
   }
-  async function loadTemplate() {
-    if (template) return template;
-    if (loading) return loading;
-    loading = (async () => {
-      const buffer = await bytes(resource(manifest.asset.file));
+  async function loadTemplate(style) {
+    if (style.template) return style.template;
+    if (style.loading) return style.loading;
+    const {manifest,base}=style;
+    style.loading = (async () => {
+      const buffer = await bytes(resource(manifest.asset.file,base));
       require(buffer.byteLength === manifest.asset.bytes && await hash(buffer) === manifest.asset.sha256,
         'Rigid accessory asset integrity mismatch');
       // This source contract has no remote buffers, textures, skins or animations.
@@ -150,25 +172,26 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
             for(const attribute of Object.values(mesh.geometry.attributes))require(attribute.array.every(Number.isFinite),'Nonfinite hat source attributes');
           }
         }
-        if (disposed || desired === 'none') { releaseSource(gltf.scene); return null; }
-        template = { scene: gltf.scene, meshes, geometryCount:new Set(meshes.map(mesh=>mesh.geometry)).size };
-        return template;
+        if (!wanted(style)) { releaseSource(gltf.scene); return null; }
+        style.template = { scene: gltf.scene, meshes, geometryCount:new Set(meshes.map(mesh=>mesh.geometry)).size };
+        return style.template;
       } catch (failure) { releaseSource(gltf.scene); throw failure; }
     })();
-    try { return await loading; } finally { loading = null; }
+    try { return await style.loading; } finally { style.loading = null; }
   }
   function assertCurrentHatHair() {
     if(kind!=='hat')return;
     require(typeof getHairState==='function','Hat requires a synchronous current hair state provider');
-    assertHatHairSelection(getHairState(),fit,hatHairEntry);
+    assertHatHairSelection(getHairState(),defaultStyle.fit,defaultStyle.hairEntry);
   }
   function getState() {
+    const {manifest,fit,template,pin}=activeStyle;
     return { schema: 'zbgs-rigid-accessory-layer-state-v1', kind, bodyMode, effectiveSelection:bodyMode==='base'?'none':selection, styleId: manifest?.styleId ?? null, pairId: manifest?.pairId ?? null,
-      fitId: fit?.fitId ?? null, avatarSha256, assetSha256: manifest?.asset.sha256 ?? null, selection,
+      version:manifest?.version??null, fitId: fit?.fitId ?? null, avatarSha256, assetSha256: manifest?.asset.sha256 ?? null, selection,
       requested: status === 'loading' || status === 'prepared' ? desired : null, status, error, disposed, revision,
       instances: selection === 'none' ? [] : manifest.instances.filter(instance => selection === 'pair' || selection === instance.side)
         .map(instance => ({ id: instance.id, side: instance.side, socket: instance.socket })),
-      cachedGeometries: template?.geometryCount ?? 0, hairDependency:fit?.hairDependency ? {...fit.hairDependency} : null, manifestSha256:manifestSha256 ?? null, cleanupErrors: [...cleanupErrors] };
+      cachedGeometries: template?.geometryCount ?? 0, hairDependency:fit?.hairDependency ? {...fit.hairDependency} : null, manifestSha256:pin ?? null, cleanupErrors: [...cleanupErrors] };
   }
   const cancelled = () => ({applied:false,cancelled:true,reason:'cancelled'});
   function markFailure(failure,ticket) {
@@ -177,11 +200,11 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
   function assertTargetHair(value,hairState) {
     if(kind!=='hat' || value==='none')return;
     if(hairState===undefined)assertCurrentHatHair();
-    else assertHatHairSelection(hairState,fit,hatHairEntry);
+    else assertHatHairSelection(hairState,defaultStyle.fit,defaultStyle.hairEntry);
   }
-  function preparedUpdate(value,ticket,candidate,hairState) {
+  function preparedUpdate(value,ticket,candidate,hairState,style) {
     let live=true,committed=false,cleaned=false,previous=null;
-    const previousSelection=selection,previousError=error;
+    const previousSelection=selection,previousError=error,previousStyle=activeStyle;
     const current=()=>live && !disposed && ticket===revision;
     const update={
       revision:ticket,
@@ -202,7 +225,7 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
           require(current(),'Rigid accessory preparation expired');
           previous=active;
           if(previous)previous.visible=false;
-          active=candidate;selection=value;desired=value;status='ready';
+          active=candidate;activeStyle=style;selection=value;desired=value;status='ready';
           if(candidate){candidates.delete(candidate);candidate.visible=bodyMode!=='base';}
           live=false;committed=true;pendingUpdates.delete(update);committedUpdates.add(update);
           return {applied:true,state:getState()};
@@ -211,7 +234,7 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
       rollback(){
         if(!committed||cleaned)return;
         if(candidate)candidate.visible=false;
-        active=previous;selection=previousSelection;desired=previousSelection;error=previousError;status='ready';
+        active=previous;activeStyle=previousStyle;selection=previousSelection;desired=previousSelection;error=previousError;status='ready';
         if(previous)previous.visible=bodyMode!=='base';
         previous=null;committed=false;committedUpdates.delete(update);
       },
@@ -231,8 +254,10 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
   function beginUpdate(value,options={}) {
     require((kind==='hat'?['none','single']:['none','left','right','pair']).includes(value),'Unsupported rigid accessory selection');
     require(!disposed,'Rigid accessory layer is disposed');
+    const optionKeys=kind==='paired-ear' && value!=='none'?['styleId','version']:['hairState'];
     require(options && typeof options==='object' && !Array.isArray(options) &&
-      Object.keys(options).every(key=>key==='hairState'),'Unsupported rigid accessory preparation options');
+      Object.keys(options).every(key=>optionKeys.includes(key)),'Unsupported rigid accessory preparation options');
+    const style=value==='none'?activeStyle:selectedStyle(options);
     let hairState;
     if(Object.hasOwn(options,'hairState')){
       require(options.hairState && typeof options.hairState==='object' && !Array.isArray(options.hairState),
@@ -240,23 +265,24 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
       hairState=structuredClone(options.hairState);
     }
     const ticket=++revision,current=()=>!disposed && ticket===revision;
-    desired=value;error=null;status='loading';
+    desired=value;requestedStyle=style;error=null;status='loading';
     // Superseding a ready preparation releases only its hidden candidate.
     // Successfully committed updates retain their old resources until dispose.
     for(const update of [...pendingUpdates])update.dispose();
     if(!current())return cancelled();
-    if(value==='none')return preparedUpdate(value,ticket,null,hairState);
+    if(value==='none')return preparedUpdate(value,ticket,null,hairState,style);
     return (async()=>{
       let candidate=null;
       try {
-        let ready=await loadStyle();
-        if(!ready && current())ready=await loadStyle();
+        let ready=await loadStyle(style);
+        if(!ready && current())ready=await loadStyle(style);
         if(!current() || !ready)return cancelled();
         assertTargetHair(value,hairState);
-        let source=await loadTemplate();
-        if(!source && current())source=await loadTemplate();
+        let source=await loadTemplate(style);
+        if(!source && current())source=await loadTemplate(style);
         if(!current() || !source)return cancelled();
         assertTargetHair(value,hairState);
+        const {manifest,fit}=style;
         candidate=new THREE.Group();candidate.name=`RigidAccessory:${manifest.pairId??manifest.styleId}`;
         candidate.visible=false;candidates.add(candidate);
         for(const instance of manifest.instances.filter(instance=>value==='pair'||value===instance.side)){
@@ -279,7 +305,7 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
           }
         }
         if(!current())return cancelled();
-        const update=preparedUpdate(value,ticket,candidate,hairState);candidate=null;
+        const update=preparedUpdate(value,ticket,candidate,hairState,style);candidate=null;
         return update;
       }catch(failure){
         if(!current())return cancelled();
@@ -287,8 +313,8 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
       }finally{if(candidate){candidates.delete(candidate);releaseInstances(candidate);}}
     })();
   }
-  async function setSelection(value) {
-    const job=beginUpdate(value),ticket=revision;
+  async function setSelection(value,options) {
+    const job=beginUpdate(value,options),ticket=revision;
     let update,result;
     try {
       // Preserve the existing synchronous removal/cancellation path for none.
@@ -307,7 +333,7 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
     async prepareUpdate(value,options){return beginUpdate(value,options);},
     getState,
     assertHairSelection(descriptor) {
-      if(kind==='hat' && selection!=='none' && !disposed)assertHatHairSelection(descriptor,fit,hatHairEntry);
+      if(kind==='hat' && selection!=='none' && !disposed)assertHatHairSelection(descriptor,defaultStyle.fit,defaultStyle.hairEntry);
     },
     setBodyMode(mode) {
       require(mode==='base'||mode==='dressed','Unsupported rigid accessory body mode');
@@ -318,12 +344,13 @@ export function createRigidAccessoryLayer({ vrm, avatarSha256,
     dispose() {
       if (disposed) return;
       disposed = true; revision++; desired = 'none'; selection = 'none'; status = 'disposed';
-      const previous = active, source = template, preparing = [...candidates];
-      active = null; template = null; candidates.clear();
+      const previous = active, preparing = [...candidates];
+      active = null; candidates.clear();
       for(const update of [...pendingUpdates,...committedUpdates])update.dispose();
       releaseInstances(previous);
       for (const group of preparing) releaseInstances(group);
-      if (source) releaseSource(source.scene);
+      for(const style of styles.values())if(style.template){releaseSource(style.template.scene);style.template=null;}
+      styles.clear();
     },
   };
 }

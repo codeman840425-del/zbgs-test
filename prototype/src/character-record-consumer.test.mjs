@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {resolveObjectURL} from 'node:buffer';
 import {registerHooks} from 'node:module';
 import test from 'node:test';
 import {canonicalJson, sha256Hex, updateCharacterRecord} from './character-record.js';
@@ -139,12 +140,18 @@ test('a selected-only cold record uses actual alternate geometry and coverage an
 
   const fileUrl = entry => new URL(entry.url, new URL(source.config.manifestUrl, globalThis.location.href)).pathname;
   const readLocal = globalThis.fetch;
+  const assetOrigin = new URL(globalThis.location.href).origin;
   const requests = [];
   let omit = fileUrl(oldTop);
   t.mock.method(globalThis, 'fetch', (input, options) => {
     const url = new URL(input instanceof Request ? input.url : input, globalThis.location.href);
-    requests.push(url.pathname);
-    if (url.pathname === omit) return Promise.resolve(new Response(null, {status:404}));
+    // A sibling garment from the 404 attempt may still decode its embedded image.
+    if (url.protocol === 'blob:' && resolveObjectURL(url.href)?.type.startsWith('image/')) {
+      return readLocal(input, options);
+    }
+    const resource = url.origin === assetOrigin ? url.pathname : url.href;
+    requests.push(resource);
+    if (resource === omit) return Promise.resolve(new Response(null, {status:404}));
     return readLocal(input, options);
   });
   const restored = await prepareRecordedCharacter(newRecord, environment);
