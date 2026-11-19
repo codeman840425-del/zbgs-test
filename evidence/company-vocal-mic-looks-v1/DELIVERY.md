@@ -10,6 +10,10 @@
 
 从项目主目录可复核封存包。
 
+独立接收方另完成了空缓存联网安装、查看器逐字节重建、双房修改与失败重试。[空缓存复跑与验收](cold-install/README.md)
+
+融合组从同一正式包另外改制广播款，将立柱从 114 毫米加宽到 134 毫米，实测柱盖也增宽 20 毫米。派生包 `ac04ccd94715a0368cee9fc63217595413eb6f241bb3ed3cdec0773e76e14953` 中的 2,224 项、重建查看器的 623 项均通过独立比对。新款在具名工作室中实际换入、换出并完全关闭后恢复，具名出租屋保留原档。该造型独立于本组的宽圆盘款。融合组回执 SHA-256 为 `ee9d0c6cd02c3ac6a13f03291d09e645a1ed99a2177d07d63643fd9aae41a28a`。[融合组独立回执](F:/gamemake-test/native-studio-round/independent/vocal-looks-ec8d/RECEIPT.md) · [实物画面与录像](F:/gamemake-test/native-studio-round/environment/vocal-mic-looks-browser/watch.html)
+
 ```powershell
 $bundle = './company-workspace/deliveries/vocal-mic-looks-v1'
 node "$bundle/verify.mjs" $bundle ec8dec4d4bebebafab4fb70b834945a32a9826d0e2d58c6cba3861a643e8574e
