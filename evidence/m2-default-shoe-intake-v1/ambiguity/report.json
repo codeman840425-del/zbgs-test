@@ -1,0 +1,122 @@
+{
+  "schema": "whole-outfit-ambiguity-regression-v1",
+  "sourceCommit": "eddeb995d588b12e97e9eabb6479c38e6c416614",
+  "sourceDigest": "32d1c2865f09907510b9516d76618344b0cae29890c1adb20920412a2956b9d0",
+  "runtimeCheckouts": [
+    "experiments/worktrees/style-pair-eddeb995",
+    "experiments/worktrees/style-pair-eddeb995-repeat"
+  ],
+  "productionTool": {
+    "path": "scripts/production/variant_batch.py",
+    "sha256": "6753055f6db0b1b4897af93d39ac1166ad2b903f84ed18bb29815fba8709b8d5",
+    "fixedCommitContainsThisToolVersion": false,
+    "queryScriptSha256": "c0f044b33a9316b4c849549cd93eccfe23213a46aa177a4354ffe717152c6a3c"
+  },
+  "sourceRequest": {
+    "path": "assets-source/sole-variant-v1/uniform-style-pair-request.json",
+    "sha256": "0c87fc3bc1efb3107097e24b6a3cf3e203d354c6c4abf35400217df7b342fd81"
+  },
+  "fixedMatrixSha256": "f03a0903745a83a13f2c3b5ab07e8e7d7de277bfe4d95baa9fb7600924cf22e8",
+  "selection": {
+    "requestedStyle": {
+      "styleId": "uniform-top-v1",
+      "variantVersion": "basecolor-1k-v1"
+    },
+    "explicitRole": "pants-top-far",
+    "matchingOutfitsByBody": {
+      "source-male-cc0-texture-release-v1": [
+        {
+          "role": "pants-top-far",
+          "index": 1,
+          "top": {
+            "id": "cc0-texture-release-uniform-top-1k-v1",
+            "slot": "top",
+            "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+          },
+          "shoe": {
+            "id": "cc0-texture-release-flat-shoes-v1",
+            "slot": "shoes",
+            "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756"
+          }
+        },
+        {
+          "role": "pants-top-far-platform",
+          "index": 2,
+          "top": {
+            "id": "cc0-texture-release-uniform-top-1k-v1",
+            "slot": "top",
+            "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+          },
+          "shoe": {
+            "id": "cc0-texture-release-platform-shoes-v1",
+            "slot": "shoes",
+            "sha256": "8b23ba4f3add78322c1b3246b3ac80387d8eb2f2dd8e300b6443a33b0ed619c7"
+          }
+        }
+      ],
+      "source-female-uniform-texture-v1": [
+        {
+          "role": "pants-top-far",
+          "index": 5,
+          "top": {
+            "id": "source-female-uniform-texture-v1-top-1k",
+            "slot": "top",
+            "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+          },
+          "shoe": {
+            "id": "source-female-uniform-texture-v1-shoes",
+            "slot": "shoes",
+            "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+          }
+        }
+      ]
+    }
+  },
+  "cases": {
+    "top-only": {
+      "counts": {
+        "acceptedCount": 0,
+        "candidateCount": 1,
+        "rejectedCount": 1
+      },
+      "selectedShoes": {
+        "source-female-uniform-texture-v1": {
+          "id": "source-female-uniform-texture-v1-shoes",
+          "slot": "shoes",
+          "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+        }
+      },
+      "outputSHA256": {
+        "diagnostic-requests/create-001.batch.json": "d8d630b06c91c29ca98c63e8dfd10309fd06e18bddbb9d88b9c7e8a8f16d6a45",
+        "diagnostic-requests/sole-platform-unfitted-female.request.json": "7e40c8a6bbb74d07c1f9860e937848da1a09daadeb0728284ef0b789c180c834",
+        "plan.json": "92cd76b3a5bb0a5e391c21e92de6b8a6b1e5a5ef29cca95812d4bd45d2bfb17d"
+      }
+    },
+    "top-explicit-flat": {
+      "counts": {
+        "acceptedCount": 0,
+        "candidateCount": 2,
+        "rejectedCount": 0
+      },
+      "selectedShoes": {
+        "source-male-cc0-texture-release-v1": {
+          "id": "cc0-texture-release-flat-shoes-v1",
+          "slot": "shoes",
+          "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756"
+        },
+        "source-female-uniform-texture-v1": {
+          "id": "source-female-uniform-texture-v1-shoes",
+          "slot": "shoes",
+          "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+        }
+      },
+      "outputSHA256": {
+        "diagnostic-requests/create-001.batch.json": "5c1879ef9e5b5432de7e009d5e91955e4dcd825cae7f06166c1987400cdabb1e",
+        "diagnostic-requests/sole-platform-male-sample.request.json": "e51cc033066d9016b655fe4fc2881efa048f45a53e5c0fed994cde65d9219204",
+        "diagnostic-requests/sole-platform-unfitted-female.request.json": "7e40c8a6bbb74d07c1f9860e937848da1a09daadeb0728284ef0b789c180c834",
+        "plan.json": "ef6819fc140a3e6192c9eea74d94ad10f0f886463ffd3fe63a69439cd526adce"
+      }
+    }
+  },
+  "result": "Both fixed runtimes returned the same eligible outfits. Each pair of independently generated plans and executable request attachments is byte-identical. All candidates remain diagnostic. Composed outfit-specific CPU suite passed 5 tests."
+}

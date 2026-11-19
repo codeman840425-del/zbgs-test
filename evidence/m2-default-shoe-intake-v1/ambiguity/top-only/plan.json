@@ -1,0 +1,93 @@
+{
+  "schema": "zbgs-style-variant-batch-plan-v1",
+  "batchId": "uniform-top-only-pair-v1",
+  "mode": "technical-candidate",
+  "items": [
+    {
+      "status": "rejected",
+      "reason": "Several outfits match the requested styles; specify outfitRole: pants-top-far, pants-top-far-platform",
+      "stableId": "sole-platform-male-sample"
+    },
+    {
+      "status": "candidate",
+      "stableId": "sole-platform-unfitted-female",
+      "selection": {
+        "styleId": "uniform-top-v1",
+        "variantVersion": "basecolor-1k-v1",
+        "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+        "recipeSha256": "4f962e5cfe71db5b8891160750457f02b86433951acaf0e1795118954b159403",
+        "resourceManifest": "/assets/female-uniform-texture-release-v1/equipment.json#source-female-uniform-texture-v1-top-1k",
+        "resourceManifestSha256": "e7252fcc6bf73a6f1bde1790edbd832f1c0e58b676703b254410ed9312f1b6d8",
+        "fitManifest": "/assets/female-uniform-texture-release-v1/equipment.json#source-female-uniform-texture-v1-top-1k.bindings",
+        "coverageManifest": "/assets/female-uniform-texture-release-v1/coverage-top-1k.json",
+        "coverageManifestSha256": "dde4d2f89c988bb57140db140fcc7f62e9a391b5311d16233586ddc280c394b2",
+        "admissionEvidence": null,
+        "outfit": {
+          "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+          "role": "pants-top-far",
+          "equipment": [
+            {
+              "id": "source-female-uniform-texture-v1-pants",
+              "slot": "bottom",
+              "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+            },
+            {
+              "id": "source-female-uniform-texture-v1-shoes",
+              "slot": "shoes",
+              "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+            },
+            {
+              "id": "source-female-uniform-texture-v1-top-1k",
+              "slot": "top",
+              "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+            }
+          ]
+        },
+        "matchedStyles": [
+          {
+            "styleId": "uniform-top-v1",
+            "variantVersion": "basecolor-1k-v1",
+            "recipeSha256": "4f962e5cfe71db5b8891160750457f02b86433951acaf0e1795118954b159403",
+            "equipment": {
+              "id": "source-female-uniform-texture-v1-top-1k",
+              "slot": "top",
+              "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+            }
+          }
+        ]
+      },
+      "requestPin": {
+        "path": "diagnostic-requests/sole-platform-unfitted-female.request.json",
+        "sha256": "7e40c8a6bbb74d07c1f9860e937848da1a09daadeb0728284ef0b789c180c834",
+        "bytes": 1092
+      }
+    }
+  ],
+  "acceptedCount": 0,
+  "candidateCount": 1,
+  "rejectedCount": 1,
+  "source": {
+    "matrix": {
+      "path": "assets-source/variant-matrix-v1/representative-matrix.json",
+      "sha256": "f03a0903745a83a13f2c3b5ab07e8e7d7de277bfe4d95baa9fb7600924cf22e8",
+      "bytes": 18209,
+      "origin": "runtime-root"
+    },
+    "request": {
+      "path": "evidence/m2-default-shoe-intake-v1/ambiguity/top-only.request.json",
+      "sha256": "b2bb80d553668379a2a0021561198b69c0ac44ac4d65386a5a19c89e0c83107d",
+      "bytes": 661,
+      "origin": "input-root"
+    }
+  },
+  "creationBatches": [
+    {
+      "ids": [
+        "sole-platform-unfitted-female"
+      ],
+      "path": "diagnostic-requests/create-001.batch.json",
+      "sha256": "d8d630b06c91c29ca98c63e8dfd10309fd06e18bddbb9d88b9c7e8a8f16d6a45",
+      "bytes": 1312
+    }
+  ]
+}

@@ -258,13 +258,36 @@ class VariantBatchTests(unittest.TestCase):
                     self.assertFalse(output.exists())
                     with self.assertRaisesRegex(ValueError, 'inside the production tool main checkout'):
                         run(matrix_path, request_path, output, operator)
-                    args = [str(script), str(matrix_path), str(request_path), '--root', str(operator),
-                            '--output', str(output)]
-                    with patch('sys.argv', args), redirect_stdout(io.StringIO()) as stdout:
-                        self.assertEqual(main(), 1)
-                    self.assertIn('inside the production tool main checkout', stdout.getvalue())
+                    for inputs in ([str(matrix_path), str(request_path)], [str(request_path)]):
+                        args = [str(script), *inputs, '--root', str(operator), '--output', str(output)]
+                        with patch('sys.argv', args), redirect_stdout(io.StringIO()) as stdout:
+                            self.assertEqual(main(), 1)
+                        self.assertIn('inside the production tool main checkout', stdout.getvalue())
                     self.assertFalse(output.exists())
             self.assertFalse(drive_target.exists())
+
+            escaped_request = operator / 'redirect' / 'request.json'
+            fixed_dir = (operator / FIXED_MATRIX).parent
+            fixed_dir.parent.mkdir()
+            if os.name == 'nt':
+                subprocess.run(['cmd.exe', '/d', '/c', 'mklink', '/j', str(fixed_dir), str(outside)],
+                               check=True, capture_output=True)
+            else:
+                fixed_dir.symlink_to(outside, target_is_directory=True)
+            output = operator / 'must-not-write'
+            with patch('variant_batch.__file__', str(script)), \
+                 patch.object(Path, 'read_bytes', side_effect=AssertionError('input read before boundary check')), \
+                 patch.object(Path, 'mkdir', side_effect=AssertionError('write before boundary check')):
+                with self.assertRaisesRegex(ValueError, 'Request must be inside the selected input checkout'):
+                    run(matrix_path, escaped_request, output, operator, True)
+                with self.assertRaisesRegex(ValueError, 'Matrix must be inside the selected input checkout'):
+                    run(operator / 'redirect' / 'matrix.json', request_path, output, operator, True)
+                with self.assertRaisesRegex(ValueError, 'Default matrix must be inside the fixed runtime checkout'):
+                    run(None, request_path, output, operator, True)
+                with self.assertRaisesRegex(ValueError, 'Request must be inside the selected input checkout'):
+                    run(None, escaped_request.relative_to(operator), output, operator / 'runtime-fixture', True,
+                        input_root=operator)
+            self.assertFalse(output.exists())
             self.assertEqual(list(outside.iterdir()), [])
 
     def test_cli_uses_synthetic_external_review_without_touching_fixed_candidate(self):
@@ -347,9 +370,12 @@ class VariantBatchTests(unittest.TestCase):
                 "buildInfo": evidence_pin(build), "approval": {"syntheticTestOnly": True},
             }}
 
-            def cli(output, index, matrix_input=fixed_matrix):
-                args = ["variant_batch.py", str(matrix_input), str(request), "--root", str(root),
+            def cli(output, index, matrix_input=fixed_matrix, request_input=request, input_root=None):
+                inputs = [str(request_input)] if matrix_input is None else [str(matrix_input), str(request_input)]
+                args = ["variant_batch.py", *inputs, "--root", str(root),
                         "--output", str(operator_output / output)]
+                if input_root:
+                    args.extend(["--input-root", str(input_root)])
                 with patch("sys.argv", args), patch("variant_batch.load_reviewed_admissions", return_value=index), \
                      redirect_stdout(io.StringIO()) as stdout:
                     status = main()
@@ -362,6 +388,7 @@ class VariantBatchTests(unittest.TestCase):
             self.assertEqual(status, 0, stdout)
             result = json.loads(stdout)
             self.assertEqual((result["acceptedCount"], result["rejectedCount"]), (1, 0))
+            self.assertEqual(result["source"], {"matrix": evidence_pin(fixed_matrix, root), "request": evidence_pin(request, root)})
             self.assertIsNone(result["items"][0]["selection"]["admissionEvidence"])
             self.assertEqual(result["items"][0]["selection"]["wholeOutfitAdmission"]["approval"],
                              {"syntheticTestOnly": True})
@@ -389,6 +416,30 @@ batchCreates(parseRequest(fs.readFileSync(process.argv[1])))
             separate = run(detached_matrix, detached_request, operator_output / "separate-inputs", root, True, input_root=input_root)
             self.assertEqual((separate["candidateCount"], separate["source"]["matrix"]["path"]), (1, "matrix.json"))
             self.assertEqual(separate["source"]["request"]["sha256"], evidence_pin(request)["sha256"])
+            # Use the exact same relative name in the two checkouts for files
+            # with different schemas. The default may only read the runtime matrix.
+            operator_request = input_root / FIXED_MATRIX
+            operator_request.parent.mkdir(parents=True)
+            operator_data = self.request("operator-host")
+            operator_data["items"][0]["outfit"]["equipment"] = [member]
+            operator_request.write_text(json.dumps(operator_data), encoding="utf-8")
+            status, stdout = cli("default-with-review", synthetic_index, None, Path(FIXED_MATRIX), input_root)
+            self.assertEqual(status, 0, stdout)
+            default_plan = json.loads(stdout)
+            self.assertEqual(default_plan["acceptedCount"], 1)
+            self.assertEqual(default_plan["items"][0]["stableId"], "operator-host")
+            self.assertEqual(default_plan["source"], {
+                "matrix": {**evidence_pin(fixed_matrix, root), "origin": "runtime-root"},
+                "request": {**evidence_pin(operator_request, input_root), "origin": "input-root"},
+            })
+            status, stdout = cli("default-outside-request", synthetic_index, None, request, input_root)
+            self.assertEqual(status, 1, stdout)
+            self.assertIn("Request must be inside the selected input checkout", stdout)
+            self.assertFalse((operator_output / "default-outside-request").exists())
+            operator_request.write_bytes(matrix_bytes)
+            status, stdout = cli("explicit-shadow", synthetic_index, operator_request, detached_request, input_root)
+            self.assertEqual(status, 1, stdout)
+            self.assertIn("compiled fixed matrix", stdout)
             with self.assertRaisesRegex(ValueError, "selected input checkout"):
                 run(detached_matrix, request, operator_output / "escaped-input", root, True, input_root=input_root)
             status, stdout = cli("alternate", synthetic_index, write("alternate-matrix.json", data))

@@ -1,8 +1,8 @@
 # 当前角色基础工程恢复点
 
-当前角色增量为独立男制服厚底鞋。固定源码 `57407c0e` 与构建 `57621e5c967c` 已完成两款鞋原速房间对照、穿鞋载入、坐稳切换及新页恢复，两个干净检出的 534 个产物逐一相同。开发机上短舞厚底鞋仍有瞬时穿地。人工工作台 4196 的固定指针继续由 delivery/appearance-workbench.json 管理。[原速回放](../evidence/m2-sole-variant-v1/index.html) · [固定构建](../evidence/m2-sole-variant-v1/rebuild/comparison.json)
+当前可回读的制作增量为默认目录的上衣与鞋联合选款。固定源码 `eddeb995`，构建 `32d1c2865f09`。只给款式与版本即可从已配置的完整套装中选出唯一匹配项。1K 男体签发、房间动作和独立包两次冷开已跑通，缺少鞋版或多解时有单项回执。普通机和正式整套准入待验。4196 的预览版本以 delivery/appearance-workbench.json 为准。[正常速度录像与复现](../evidence/m2-default-shoe-intake-v1/README.md)
 
-同一款鞋进一步通过普通游戏消费页两次完整浏览器冷开；批次入口按款式和身体版型新建了男角色，缺少女体版型的那项保留拒绝原因。下一包可沿既有生成、选款与接地流程核对新鞋类的源版型和动作边界。另已收到副总工唱播双房固定槽位，角色联合验收仍待执行。[实际签发](../evidence/m2-sole-variant-v1/producer/report.json) · [独立包冷开](../evidence/m2-sole-variant-v1/standalone/run-dsjZ9R/report.json)
+上一固定构建 `57621e5c967c` 保留男体平底、厚底在同镜头下的换穿和短舞下沉数据。下一项从作者踝靴源件核对真实脚姿、靴筒和裤脚对接，再形成精确男体版型。副总工的唱播双房固定槽位另候联合验收。[换穿对照](../evidence/m2-sole-variant-v1/index.html) · [踝靴来源及固定版本](../evidence/m2-footwear-author-intake-v1/selected-source.json)
 
 角色工程的工作树、发布和验收暂存均使用主工程内的目录。最新根目录审计无意外工作树。副总工的公司工程和融合测试工程各自独立。[根目录归属与复查命令](../evidence/character-worktree-relocation-v1/root-review.json)
 

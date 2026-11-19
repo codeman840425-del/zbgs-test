@@ -116,6 +116,10 @@ Agent 可以在制作阶段编辑内部网格和骨骼组，但交付给运行�
 
 当前输入格式只携带一份装备清单哈希。同一文件中的多个条目可组成套装；跨文件组合、任一件身体或配方哈希错配会拒绝整套。命令行同时复算装备清单文件哈希。脸、发、各颜色和附件的待核项逐域返回，装备全部匹配时整套仍保留候选身份。可用 `evidence/m2-look-intake-v3` 对照两份真实输入。
 
-共用穿搭请求只填写一次 `styleId + variantVersion + outfitRole`，每个主播保留自己的身份和身体。平台展开该身体整套装备的槽位、资源 ID 和 SHA，游戏制作端再次匹配完整集合。代表矩阵现含十行；固定构建 7809b98bd700 上，男女两个既有基模生成并恢复了裤袜造型，缺少同款适配的原生男体被单独拒绝。正式放行数量和证据以 CAPABILITIES 为准。
+旧单款格式在共用穿搭请求填写一次 `styleId + variantVersion + outfitRole`，每个主播保留自己的身份和身体。平台展开该身体整套装备的槽位、资源 ID 和 SHA，游戏制作端再次匹配完整集合。代表矩阵现含十行；固定构建 7809b98bd700 上，男女两个既有基模生成并恢复了裤袜造型，缺少同款适配的原生男体被单独拒绝。正式放行数量和证据以 CAPABILITIES 为准。
+
+多款式请求填写 `sharedLook.styles`，每一项都要有 `styleId` 和 `variantVersion`。逐个身体对照所有指定装备的槽位、资源 ID 与 SHA，从游戏已配置的整套穿搭中选择。只有一个结果时可省略 `outfitRole`；多个结果返回可选穿搭，缺少版型则拒绝该人。正式准入要求每个指定款式的审核都覆盖同一套完整装备和固定来源。
+
+运行 `python scripts/production/variant_batch.py REQUEST --root 固定游戏检出 --input-root 配方工程 --output 工程内新目录`。款式目录取自固定游戏检出，输入和目录的来源及哈希记入回执。追加 `--diagnostic` 可签发技术试穿请求。可重放的[上衣与鞋款配方](../assets-source/sole-variant-v1/uniform-style-pair-request.json)及[游戏回读](../evidence/m2-default-shoe-intake-v1/README.md)使用这一入口。
 
 原生虹膜款式的重复生产输入见 scripts/production/native-facecontour-iris-batch-v1.json。每个身体条目提供身体与包来源的精确版本；native_palette_compatibility.py --stage、--publish、--check-published 依次生成、发布并回读。检查实际虹膜 UV、材质、图片及同图其他消费者后才复用作者款式。登记表随匹配结果生成，原色记录仍按原配方恢复。正式资源适用的许可与运行预算必须单独满足。

@@ -1,0 +1,302 @@
+{
+  "schema": "outfit-admission-evidence-audit-v1",
+  "scope": "Read-only assessment of existing receipts for one male outfit, parallel 20 mm. No approval issued.",
+  "runtime": {
+    "sourceCommit": "57407c0e71ddf1964740b5ae39f4d6d9b146b47d",
+    "sourceDigest": "57621e5c967cffd796b243b2ddd9b9da81d6a8bb819ced92528b4ba17bb81609",
+    "buildId": "57621e5c967c"
+  },
+  "formalSelectionBinding": {
+    "styleId": "uniform-platform-shoes-v1",
+    "variantVersion": "parallel-20mm-v1",
+    "bodyType": "source-male-cc0-texture-release-v1",
+    "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+    "recipeSha256": "1559a231a21c5c3341f90616871d7990a1db695c17938fd67f7b715de6830bc6",
+    "resourceManifest": "/assets/sole-variant-v1/equipment.json#cc0-texture-release-platform-shoes-v1",
+    "resourceManifestSha256": "f1edfc429dcaab20f82c6401eb1419127bda9c167394384c5c8ad8aef6768b70",
+    "fitManifest": "/assets/sole-variant-v1/equipment.json#cc0-texture-release-platform-shoes-v1.bindings",
+    "coverageManifest": "/assets/sole-variant-v1/equipment.json#cc0-texture-release-platform-shoes-v1.preserveOriginalBody",
+    "coverageManifestSha256": "f1edfc429dcaab20f82c6401eb1419127bda9c167394384c5c8ad8aef6768b70",
+    "fitManifestSha256": "f1edfc429dcaab20f82c6401eb1419127bda9c167394384c5c8ad8aef6768b70",
+    "role": "pants-top-far-platform",
+    "equipment": [
+      {
+        "id": "cc0-texture-release-platform-shoes-v1",
+        "slot": "shoes",
+        "sha256": "8b23ba4f3add78322c1b3246b3ac80387d8eb2f2dd8e300b6443a33b0ed619c7"
+      },
+      {
+        "id": "cc0-texture-release-uniform-pants-v1",
+        "slot": "bottom",
+        "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0"
+      },
+      {
+        "id": "cc0-texture-release-uniform-top-1k-v1",
+        "slot": "top",
+        "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+      }
+    ]
+  },
+  "bindingRecipeDistinction": "binding.recipeSha256 hashes the editable shoe recipe. The two character integrity.recipeSha256 values hash the complete appearance recipe.",
+  "records": [
+    {
+      "id": "cc0-uniform-body-texture-v1",
+      "revision": 3,
+      "version": 1,
+      "recipeSha256": "2dee765c35ab34e130f02fd80617d885c32a7ee9e67b943007aa7ce032f22918",
+      "recordSha256": "d7ac3aadcf98e24dc24f6c589f82134229ef52072ebec527d2ad1b5203baad2e",
+      "origin": "original stable actor, flat revision 2 loaded then platform saved as revision 3",
+      "fixedRecordValidatorValid": true
+    },
+    {
+      "id": "sole-platform-male-sample",
+      "revision": 1,
+      "version": 1,
+      "recipeSha256": "2dee765c35ab34e130f02fd80617d885c32a7ee9e67b943007aa7ce032f22918",
+      "recordSha256": "15f5d718f7495f913a01b5f99d610092803325f2ad9d8fdd9b112318042cbd7c",
+      "origin": "new stable actor produced from the diagnostic batch, revision 1",
+      "fixedRecordValidatorValid": true
+    }
+  ],
+  "terminology": {
+    "record": "character-record-v1 integrity SHA-256; both envelopes validated by validateCharacterRecord from fixed checkout. This grants content integrity and graph identity.",
+    "candidate": "Technical testing on the development PC and a usable exported package are evidenced. The diagnostic batch emitted candidate=1, rejected=1, accepted=0. The producer receipt says validated-before-publication.",
+    "formal": "runtime-admitted/accepted requires a pinned passed whole-outfit review in the production tool index and an exact fixed checkout/source. The candidate matrix row already provides recipeSource and its hash. No new row status or global reclassification of the shoe is required for an exact reviewed whole outfit.",
+    "runtimeReview": "The reviewed-game-character-runtime-v1 inventory authenticates this game build for export. It does not approve an outfit or visual quality."
+  },
+  "formalPlanInMemory": {
+    "mode": "readiness-gated",
+    "reviewedApprovalCount": 0,
+    "acceptedCount": 0,
+    "items": [
+      {
+        "status": "rejected",
+        "reason": "Whole-outfit runtime admission evidence is required from the reviewed index",
+        "stableId": "sole-platform-male-sample"
+      },
+      {
+        "status": "rejected",
+        "reason": "No exact variant for uniform-platform-shoes-v1/source-female-uniform-texture-v1/parallel-20mm-v1",
+        "stableId": "sole-platform-unfitted-female"
+      }
+    ]
+  },
+  "currentReceiptsCheckedDirectly": {
+    "wholeOutfitRoom": {
+      "accepted": false,
+      "diagnostic": "ValueError: Room used a different record or an incomplete action chain"
+    },
+    "wholeOutfitReadback": {
+      "accepted": false,
+      "diagnostic": "KeyError: 'build'"
+    },
+    "fourLayerBudget": {
+      "accepted": false,
+      "diagnostic": "GateError: Unsupported budget admission report"
+    }
+  },
+  "lanes": {
+    "equipmentFit": {
+      "reuse": "Exact body, source flat shoe, six skin bindings, original upper and body preservation, platform mesh, independently regenerated bytes and measured contact on this body. Fit JSON records runtimeAccepted=false.",
+      "open": "Attach the pinned whole-outfit fit basis for top, pants and shoe to a reviewed receipt; previous issuance or shared body alone confers no approval."
+    },
+    "normalSpeedMotion": {
+      "reuse": "Same fixed source and body. Room tests both looks and swap in one run; existing platform footage can support human review.",
+      "open": "verify_room_report expects the exact revision 3 SHA loaded/restored before the four completed tasks walk/sit/stand/walk and associated .webm. The observed source record is flat revision 2, followed by live change and derivation of revision 3; its report contains 12 tasks and status technical-pass-visual-pending. Keep it as contact evidence.",
+      "sourceFlatRecordSha256": "2531551d1f1df0ff8fff6e99d086dc3d2a389fbe76d48b2769978769734447c0",
+      "platformFilmWallSeconds": 26.2445,
+      "simulationPerWallSecond": 1.0000038103221998,
+      "minSampleDuringDanceM": -0.014445179866286155
+    },
+    "recordAndRestore": {
+      "reuse": "Package inventory already pins build, exact revision 3, body and all equipment; two full cold sessions verify the actual shoe GLB, visible positions/indices, four weighted patches, running bones and fresh actor roots.",
+      "open": "Verifier requires first and reopened state for that record with sha/expectedSha/body plus actual look, props, materials and hairCenter comparisons, build identity and game resource failures. Cold probe captures the shoe-specific subset. qa-production-package.cjs currently asserts two records; this requirement belongs to the runner, not the admission contract."
+    },
+    "selectionGuards": {
+      "reuse": "Female missing-fit rejection, isolated candidate item, transaction/cancel/rollback measurement, and visible-shoe restore show different portions of the selection path.",
+      "open": "Collect exact record recipe SHA, resourceIdentities and visible entire outfit in before/reopened states, real rejected edit preserving current actor and valid recover/retry. Existing guard runner assumes two distinct bodies and socks or top with specific roles; it cannot directly accept a single platform record as a shoe guard. No such exact guard receipt located."
+    },
+    "runtimeRecordAndBudget": {
+      "reuse": "Exact revision 3 class and static aggregate fit, transport/mesh/texture accounting. Existing probe observes a development GPU renderer and shoe transfer, not a whole-process decode or GPU lifecycle budget.",
+      "staticStatus": "within-static-limits",
+      "textureObjects": 25,
+      "rgba8MipBytes": 105557676,
+      "open": "No native-budget-admission-v1 passed for exact body/record across transport, decodeCanvas, gpu and ordinaryPC; ordinary-PC measurements and transient resource behavior remain open. Bring forward static measurements at their existing scope."
+    },
+    "humanVisualReview": {
+      "reuse": "Existing normal-speed platform and flat clips and close seated swap. User accepts minor intersections when motion is continuous; observed maximum dance depression is recorded for review.",
+      "open": "No human disposition for this exact sample/film identified. General instruction sets the criterion; a report or measured depth alone cannot provide the person-specific acceptance. No numerical zero-contact gate."
+    },
+    "provenanceAndRights": {
+      "reuse": "Authored/base/derived geometry and provenance follow the CC0 male source, its published third-party export, correct editable shoe and recipe, original author credit and actual equipment entries; retain provenance of all pieces and their byte pins.",
+      "open": "Attach checked source/rights to the specific receipt, preserving source statement and attribution scope. No missing purchase or new external permission was established in this audit."
+    }
+  },
+  "constraints": [
+    "Same appearance recipe and equipment across new producer revision 1 and original actor revision 3 do not transfer record-specific proofs.",
+    "Ordinary-PC testing remains an open formal budget layer and does not prevent describing measured technical behavior on the development machine.",
+    "Production index pin, exact runtime/build metadata and seven passed evidence lanes must match. Scope excludes other bodies, shoe heights, heel pitch and future builds."
+  ],
+  "sources": [
+    {
+      "path": "scripts/production/outfit_admissions.json",
+      "sha256": "9801bb21e1efa8e99a37ea9e3ff7923a404bcae9d6675b97a8cee0fbed2f2fd9",
+      "bytes": 72
+    },
+    {
+      "path": "scripts/production/outfit_admission.py",
+      "sha256": "2b338c27d566f56da8cbc36bfb7fe00c2b8bbb9427819d1628fc49b2eb498731",
+      "bytes": 14944
+    },
+    {
+      "path": "scripts/production/variant_batch.py",
+      "sha256": "0fa6a5b48349ec44ac706039b3989ce511c5b7fb043b6383f3e5c0977e5c66b6",
+      "bytes": 29049
+    },
+    {
+      "path": "scripts/production/native_batch_gate.py",
+      "sha256": "72e849caba9a46d8a07c2be51b8fc96314e3a3c0de9555eb964efcb8c02b721f",
+      "bytes": 51353
+    },
+    {
+      "path": "docs/PRODUCTION-PARAMETER-CONTRACT.md",
+      "sha256": "237f87550fc360b9f3f54b0886a4739fa175a9bdf555cd25e2eaf0a0ab7220c2",
+      "bytes": 18274
+    },
+    {
+      "path": "evidence/visual-acceptance-scale-2026-11-15.json",
+      "sha256": "8c4c5594446f31ef219256ff19af0694a529680c943264888e4521bb5b1b806c",
+      "bytes": 864
+    },
+    {
+      "path": "prototype/src/character-record.js",
+      "sha256": "4d09d80055d087afe28cbbf8b910f1d4d7bc7491317f68c62ba25be59f8f772c",
+      "bytes": 10943
+    },
+    {
+      "path": "scripts/qa-production-record-room.cjs",
+      "sha256": "34374269748df0bf359637599bac5695aba0f468f3dec85ae9d3aeab60ec302a",
+      "bytes": 7464
+    },
+    {
+      "path": "scripts/qa-production-package.cjs",
+      "sha256": "e5cf3de837602915356ecac5a1bd12c4d598f601ded08fff480df24924aa3ea7",
+      "bytes": 6269
+    },
+    {
+      "path": "scripts/qa-production-outfit-selection-guards.cjs",
+      "sha256": "b3230f41cb9a4fd8d7f6379ade548d51ac2cc318fb22c02a50b2efa9f249ab80",
+      "bytes": 13229
+    },
+    {
+      "path": "assets-source/sole-variant-v1/style-fragment.json",
+      "sha256": "7b29d332c2899d7ebd0bf110ba2ed8924d6f75a25c801ede2e591360ac562990",
+      "bytes": 1628
+    },
+    {
+      "path": "assets-source/sole-variant-v1/batch-request.json",
+      "sha256": "adf2c1d42dda0965a4d36157d08de8ae20cf0e09aed2a3ac7d24ca614155f787",
+      "bytes": 672
+    },
+    {
+      "path": "assets-source/sole-variant-v1/recipe.json",
+      "sha256": "1559a231a21c5c3341f90616871d7990a1db695c17938fd67f7b715de6830bc6",
+      "bytes": 1108
+    },
+    {
+      "path": "assets-source/sole-variant-v1/generated/fit.json",
+      "sha256": "30cc456e449b31864df4150556a7930f4cc6057aaa07adbb4e8b1e5e81a16ac9",
+      "bytes": 1177
+    },
+    {
+      "path": "assets-source/sole-variant-v1/generated/equipment.json",
+      "sha256": "f1edfc429dcaab20f82c6401eb1419127bda9c167394384c5c8ad8aef6768b70",
+      "bytes": 5290
+    },
+    {
+      "path": "prototype/public/assets/sole-variant-v1/equipment.json",
+      "sha256": "f1edfc429dcaab20f82c6401eb1419127bda9c167394384c5c8ad8aef6768b70",
+      "bytes": 5290
+    },
+    {
+      "path": "assets-source/sole-variant-v1/README.md",
+      "sha256": "59767afa0c457ec3a706786ff834fceff5be9415ca03ad91e658ca0ac9410d5f",
+      "bytes": 3850
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/asset/report.json",
+      "sha256": "6955ec356e274419f05efee5c1b82d2cb7ad9281d2f9a80cacd29e61d46d197a",
+      "bytes": 1418
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/asset/record-budget.json",
+      "sha256": "613774decdfca3ea48537859368c245ceeaa7412ff7a60468f626d9e852dbde5",
+      "bytes": 19491
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/candidate-plan/plan.json",
+      "sha256": "612a3c9109a302d348639d190bee6e66063743d4345aacfae80bed4250c9ff87",
+      "bytes": 3199
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/producer/report.json",
+      "sha256": "bf2aaf9220f6226c2b140c4ed331de0cca7ea7fc148eeb95afc8e9ce9dad8e6e",
+      "bytes": 86534
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/records.json",
+      "sha256": "45d57f153987b8a7522374dc26e4697acc980196e9a73ca7725cd0a693871a6a",
+      "bytes": 29794
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/produced-batch.json",
+      "sha256": "e7a9635e4c68f92bf6b892433153fbf0cc087d9af40d418f9f6e7753bd89be9c",
+      "bytes": 15155
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/inventory.json",
+      "sha256": "08c66c8953e33dfc1d5ee7d8dc459cbbf566d292a9d1ca66e2441d3fc304ce6e",
+      "bytes": 36624
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/room-02/report.json",
+      "sha256": "68c358f63a6be978041eb0566528cb93a8f25218301ad081caecc2623014cdc9",
+      "bytes": 163448
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/room-02/observed-platform-record.json",
+      "sha256": "05f3e4f92ffa4e2e8b99381b58fc7d1964ae5247d3ad42be4dd0a731f8af47c1",
+      "bytes": 27948
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/standalone/run-dsjZ9R/report.json",
+      "sha256": "1c4a70f253c25ec7f1093155163320fdebbce6108b5e3e81ffef822801114b1e",
+      "bytes": 35935
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/rebuild/comparison.json",
+      "sha256": "8d487f0588cfc9725192bb71c0a98a382cc7e1d2bcb55950c44f85156b20c451",
+      "bytes": 838
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/rebuild/game-record-footwear-reviewed.json",
+      "sha256": "b28dff5e8e69efe099afaa080390486a31b91ef633b6985f5f205c57878207c6",
+      "bytes": 1947
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/room-02/room-flat-1x.webm",
+      "sha256": "fdcf892e5d88b8b1781fb2ffa260596196f37c167fdc8cf0cf7c0398862f09d6",
+      "bytes": 5201895
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/room-02/room-platform-1x.webm",
+      "sha256": "7b8a0a232e289a315b3d5c9608dc071e6b6b74304e954428b84f787ead6f0ee7",
+      "bytes": 5204059
+    },
+    {
+      "path": "evidence/m2-sole-variant-v1/room-02/feet-swap-1x.webm",
+      "sha256": "95635d469aa5d8fd9cd19917c69278c5730c40e7d009dba6378757ff80cd8d33",
+      "bytes": 3634567
+    }
+  ]
+}
