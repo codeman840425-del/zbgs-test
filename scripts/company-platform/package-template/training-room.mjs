@@ -165,6 +165,7 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
     scope.publicWashrooms = layout.publicWashrooms;
     scope.meetingRooms = layout.meetingRooms;
     scope.publicStorageRooms = layout.publicStorageRooms;
+    scope.wayfindingRooms = layout.wayfindingRooms;
     scope.vocalSlots = editableVocalBinding(layout);
     candidates.push(scope);
   }
@@ -186,6 +187,10 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
   if (possible.some(scope=>scope.teaStations!==undefined) &&
       !possible.some(scope=>equal(scope.teaStations,document.teaStations)))
     fail('tea-station-binding-mismatch',input,'The tea station declaration differs from the selected saved room.');
+  if (possible.some(scope=>!equal(scope.wayfindingRooms,possible[0].wayfindingRooms)))
+    fail('ambiguous-wayfinding-room',input,'Use --room KEY to select the original signs and their approach paths.');
+  if (possible.length && !equal(possible[0].wayfindingRooms,document.wayfindingRooms))
+    fail('wayfinding-room-binding-mismatch',input,'The selected package has different wayfinding destinations, signs or service points.');
   if (possible.some(scope=>!equal(scope.publicStorageRooms,possible[0].publicStorageRooms)))
     fail('ambiguous-storage-room',input,'Select the original storage room with --room KEY.');
   if (possible.length && !equal(possible[0].publicStorageRooms,document.publicStorageRooms))

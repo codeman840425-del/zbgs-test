@@ -1,0 +1,135 @@
+{
+  "id": "wayfinding-arrivals",
+  "displayName": "来宾签到",
+  "version": 1,
+  "category": "decor",
+  "mountRole": "information-content",
+  "mount": "information-surface",
+  "mounting": {
+    "origin": "center",
+    "width": 0.88,
+    "height": 0.56,
+    "depth": 0.001
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Surface centre",
+    "scale": "Identity only"
+  },
+  "informationContent": {
+    "schema": "information-face-v1",
+    "width": 0.88,
+    "height": 0.56,
+    "pixels": [
+      1100,
+      700
+    ]
+  },
+  "informationNodes": {
+    "face": "information-face"
+  },
+  "stateDefaults": {
+    "visible": true
+  },
+  "stateSchema": {
+    "visible": {
+      "type": "boolean"
+    }
+  },
+  "stateSemantics": {
+    "visible": "information-content-visible"
+  },
+  "usePoints": [],
+  "provenance": {
+    "license": "Project-authored vector print and text; Noto Sans SC under SIL Open Font License 1.1",
+    "prompt": "Editable wayfinding print from signed vector artwork and text. Print size 0.88 × 0.56 m; model contains the full PNG.",
+    "sourceParameters": "assets-source/company-wayfinding-v1/parameters.json",
+    "sourceParametersSha256": "145185d46bb36edf9f89ab741f391b8cd46bee8111dcf4eb07e397357335cd8a",
+    "generator": "scripts/company-platform/build-wayfinding.mjs",
+    "generatorSha256": "5132bc948a36dc5c2dcde3b9d1049645072a97d7c5841d1ce8fa15852fa81edd",
+    "contentHelper": "assets-source/company-wayfinding-v1/render.py",
+    "contentHelperSha256": "83109f51a57e2038eb4737f4d4161010077b5d13e8dcb61578efff72ef451f34",
+    "requirements": "assets-source/company-information-v1/requirements.txt",
+    "requirementsSha256": "0ef33a43c91b2c79a2940a32a95064f2c9368c7fa69dc8f0d6749015c7a328f1",
+    "functionalContractSource": "docs/COMPANY-INFORMATION-DISPLAY-CONTRACT-v1.txt",
+    "functionalContractSourceSha256": "364fe8b32db9adab546d511675970b3408ac6922fd398d633fc435263b59980d",
+    "fontFile": "assets-source/company-information-v1/NotoSansSC-VF.ttf",
+    "fontSourceUrl": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/NotoSansSC%5Bwght%5D.ttf",
+    "fontLicenseUrl": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/OFL.txt",
+    "fontLicense": "SIL Open Font License 1.1",
+    "fontSha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da",
+    "fontLicenseFile": "assets-source/company-information-v1/OFL.txt",
+    "fontLicenseSha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+    "contentPngSha256": "a3b4693e11e4cf0925e967271bd0ac01d596fe1cce416cc6b20d653153316557",
+    "contentPngBytes": 31552,
+    "sourceDesign": "arrivals",
+    "title": "来宾签到",
+    "subtitle": "签到后请等候",
+    "sourceAuthor": "Company Studio 环境制作组",
+    "artworkAuthor": "Company Studio 环境制作组",
+    "sourceImage": "prototype/public/company-assets/wayfinding-v1/wayfinding-arrivals/v1/texture.png",
+    "sourceImageSha256": "a3b4693e11e4cf0925e967271bd0ac01d596fe1cce416cc6b20d653153316557",
+    "meshGenerator": "scripts/company-platform/build-information.mjs",
+    "meshGeneratorSha256": "cd6daef591e86096d82a90b625d52608cf7905f375a318f530bd073f17802d73",
+    "dependencies": {
+      "generator": {
+        "path": "scripts/company-platform/build-wayfinding.mjs",
+        "sha256": "5132bc948a36dc5c2dcde3b9d1049645072a97d7c5841d1ce8fa15852fa81edd"
+      },
+      "renderer": {
+        "path": "assets-source/company-wayfinding-v1/render.py",
+        "sha256": "83109f51a57e2038eb4737f4d4161010077b5d13e8dcb61578efff72ef451f34"
+      },
+      "artwork": {
+        "path": "assets-source/company-wayfinding-v1/artwork.json",
+        "sha256": "f0f1d43189cbc1283b715a62e854b7a212a49a49aafcba7d982284142f249ac9"
+      },
+      "sourceRecord": {
+        "path": "assets-source/company-wayfinding-v1/original/sources.json",
+        "sha256": "7f8c2d26e22ffe46723626a9b3db355cec32e3b2af0fe2351c9a68cd61c2f9ac"
+      },
+      "license": {
+        "path": "assets-source/company-wayfinding-v1/original/PROJECT-SOURCE.txt",
+        "sha256": "891b569ae930c1f41b196b6571baa0e2fc9768a0f15123eab0fc4210a34f9d3b"
+      },
+      "meshGenerator": {
+        "path": "scripts/company-platform/build-information.mjs",
+        "sha256": "cd6daef591e86096d82a90b625d52608cf7905f375a318f530bd073f17802d73"
+      },
+      "contract": {
+        "path": "docs/COMPANY-INFORMATION-DISPLAY-CONTRACT-v1.txt",
+        "sha256": "364fe8b32db9adab546d511675970b3408ac6922fd398d633fc435263b59980d"
+      },
+      "commonParameters": {
+        "path": "assets-source/company-information-v1/parameters.json",
+        "sha256": "2db1f06b5bc7bc787b64529852a7b468871b9a72dfe8d5d75ea7260cc987ba62"
+      },
+      "commonHelper": {
+        "path": "assets-source/company-information-v1/generate-content.py",
+        "sha256": "a2c50c68a399b7891095b3a5f6dcca46076d03eeaa959f5ee92ca127b520cc5b"
+      },
+      "requirements": {
+        "path": "assets-source/company-information-v1/requirements.txt",
+        "sha256": "0ef33a43c91b2c79a2940a32a95064f2c9368c7fa69dc8f0d6749015c7a328f1"
+      },
+      "font": {
+        "path": "assets-source/company-information-v1/NotoSansSC-VF.ttf",
+        "sha256": "a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da"
+      },
+      "fontLicense": {
+        "path": "assets-source/company-information-v1/OFL.txt",
+        "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9"
+      }
+    }
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/wayfinding-v1/wayfinding-arrivals/v1/model.glb",
+    "sha256": "7a8fe4bca360e37bd328c1e8d556d01d71a8fa6b768371cb01386fd2e60d7d36",
+    "bytes": 32908
+  },
+  "productionBranch": "public-wayfinding-content",
+  "wayfindingMeaning": "arrivals"
+}

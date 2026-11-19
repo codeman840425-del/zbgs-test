@@ -37,6 +37,10 @@ try{
   }else if(command!=='validate')throw Error('Use validate INPUT_SAVE or apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY');
   const constraint=bindTrainingDocument(document,binding,input,context);
   const derived=documentTools.deriveCompany(document,catalog,templates);
+  if (Object.hasOwn(document,'wayfindingRooms')) {
+    const {checkWayfindingRooms}=await import('./source/scripts/company-platform/check-wayfinding.mjs');
+    await checkWayfindingRooms(document,{catalog,templates,derived,root:path.join(root,'source')});
+  }
   if (Object.hasOwn(document,'publicStorageRooms') || document.nodes.some(node=>node.publicRole==='storage-cleaning')) {
     const {checkPublicStorageRooms}=await import('./source/scripts/company-platform/check-public-storage.mjs');
     await checkPublicStorageRooms(document,{catalog,templates,derived,root:path.join(root,'source')});

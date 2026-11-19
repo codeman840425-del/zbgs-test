@@ -206,6 +206,15 @@ function setView(name){
       if(inward.lengthSq()>.01){inward.normalize();offset.set(inward.x,.7,inward.z).normalize();}
     }
   }
+  if(name==='room' && view.mode==='room' && doc.wayfindingRooms){
+    const floorSigns=doc.wayfindingRooms.find(rule=>rule.floorId===view.floorId)?.signs;
+    const sign=floorSigns?.find(item=>item.regionId===view.roomId);
+    const board=sign && session.scene.root.getObjectByName(sign.boardId);
+    if(board){
+      const front=board.getWorldDirection(new THREE.Vector3());
+      offset.set(front.x+.52*front.z,.75,front.z-.52*front.x).normalize();
+    }
+  }
   const storage=name==='room'&&view.mode==='room'&&doc.publicStorageRooms?.find(rule=>rule.regionId===view.roomId);
   const cabinet=storage && session.scene.root.getObjectByName(storage.cabinetId);
   if(cabinet){
@@ -245,6 +254,9 @@ function fillSampleLooks(){
   element('sample-look-field').querySelector('label').textContent=branch==='stream-station'?'整套组合造型':'外观造型';
   fillOptions('sample-look',appearanceCandidates(catalog,branch).map((r,i)=>({id:String(i),name:r.displayName||r.name||r.id})),'0');
 }
+const informationKey=resource=>resource.id+'@'+resource.version;
+const informationOptions=catalog.resources.filter(resource=>resource.informationContent)
+  .map(resource=>({id:informationKey(resource),name:(resource.displayName||resource.id)+' · v'+resource.version}));
 const finishChoice=finish=>finish?`${finish.resource.id}@${finish.resource.version}`:'';
 const finishResources=type=>catalog.resources.filter(resource=>resource.kind==='surface-finish'&&resource.finish.allowedSurfaces.includes(type));
 function currentFinishRoom(){return session.document.nodes.find(node=>node.id===element('room').value&&['room','area'].includes(node.kind));}
@@ -368,7 +380,7 @@ function sync(){
   const boards=facilities.filter(n=>derived.floorIds.get(n.id)===view.floorId&&catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationSurface);
   fillOptions('information-board',boards,element('information-board').value);element('information-board').disabled=busy||building||!boards.length;
   const content=facilities.find(n=>n.parentId===element('information-board').value&&catalog.resources.find(r=>r.id===n.resource.id&&r.version===n.resource.version)?.informationContent);
-  fillOptions('information-content',catalog.resources.filter(r=>r.informationContent).map(r=>({id:r.id,name:r.displayName})),content?.resource.id);
+  fillOptions('information-content',informationOptions,content && informationKey(content.resource));
   element('information-content').disabled=busy||building||!content;element('information-visible').disabled=busy||building||!content;
   element('information-visible').textContent=content?.state?.visible===false?'显示图文':'隐藏图文';
   syncFinishes();
@@ -493,7 +505,11 @@ async function start(){
   element('cabinet').onchange=sync;
   element('information-board').onchange=sync;
   const selectedInformation=()=>session.document.nodes.find(n=>n.parentId===element('information-board').value&&catalog.resources.find(r=>r.id===n.resource?.id&&r.version===n.resource?.version)?.informationContent);
-  element('information-content').onchange=()=>perform('正在更换图文…',()=>{const r=catalog.resources.find(r=>r.id===element('information-content').value);return session.apply([{type:'replace-resource',id:selectedInformation().id,resource:{id:r.id,version:r.version}}]);});
+  element('information-content').onchange=()=>perform('正在更换图文…',()=>{
+    const key=element('information-content').value;
+    const resource=catalog.resources.find(r=>r.informationContent && informationKey(r)===key);
+    return session.apply([{type:'replace-resource',id:selectedInformation().id,resource:{id:resource.id,version:resource.version}}]);
+  });
   element('information-visible').onclick=()=>perform('正在更新图文显示…',()=>{const n=selectedInformation();return session.apply([{type:'set-state',id:n.id,state:{visible:n.state?.visible===false}}]);});
   element('makeup-mirror').onchange=sync;
   element('makeup-power').onclick=()=>perform('正在更新镜前补光…',()=>{const n=session.document.nodes.find(n=>n.id===element('makeup-mirror').value);return session.apply([{type:'set-state',id:n.id,state:{on:!n.state.on}}]);});

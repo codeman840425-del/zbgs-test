@@ -289,6 +289,42 @@ export async function verifyCleaningLoadSources(root, resource, recipe) {
   return new Map(Object.entries(pins));
 }
 
+export async function verifyWayfindingSources(root,resource,recipe) {
+  const family='assets-source/company-wayfinding-v1/', common='assets-source/company-information-v1/';
+  const scripts='scripts/company-platform/', p=resource.provenance;
+  const mismatch=at=>{throw Object.assign(Error('wayfinding-source-mismatch: '+at),{code:'wayfinding-source-mismatch',path:at});};
+  const design=recipe.designs?.find(item=>item.id===resource.id && item.version===resource.version);
+  if (recipe.schema!=='company-wayfinding-signs' || recipe.version!==1 || design?.kind!=='wayfinding' ||
+      !['arrivals','training','lift','stairs'].includes(design.purpose) || design.purpose!==resource.wayfindingMeaning ||
+      p.sourceDesign!==design.purpose || resource.mountRole!=='information-content' ||
+      resource.mount!=='information-surface' || resource.productionBranch!=='public-wayfinding-content') mismatch(resource.id);
+  const paths={generator:scripts+'build-wayfinding.mjs', renderer:family+'render.py', artwork:family+'artwork.json',
+    sourceRecord:family+'original/sources.json',license:family+'original/PROJECT-SOURCE.txt',
+    meshGenerator:scripts+'build-information.mjs',contract:'docs/COMPANY-INFORMATION-DISPLAY-CONTRACT-v1.txt',
+    commonParameters:common+'parameters.json',commonHelper:common+'generate-content.py',requirements:common+'requirements.txt',
+    font:common+'NotoSansSC-VF.ttf',fontLicense:common+'OFL.txt'};
+  const pins=p.dependencies;
+  if (!isDeepStrictEqual(Object.keys(paths).sort(),Object.keys(pins??{}).sort()) ||
+      p.generator!==paths.generator || p.functionalContractSource!==paths.contract) mismatch(resource.id);
+  let record;
+  for (const [key,relative] of Object.entries(paths)) {
+    const pin=pins[key], file=path.resolve(root,relative);
+    if (pin?.path!==relative || await fs.realpath(file)!==file || !(await fs.lstat(file)).isFile()) mismatch(relative);
+    const bytes=await fs.readFile(file);
+    if (digest(bytes)!==pin.sha256) mismatch(relative);
+    if (key==='sourceRecord') record=JSON.parse(bytes);
+  }
+  const pngPath='prototype/public/company-assets/wayfinding-v1/'+resource.id+'/v'+resource.version+'/texture.png';
+  if (p.sourceImage!==pngPath || p.contentPngSha256!==p.sourceImageSha256 || p.sourceAuthor!==design.author ||
+      p.title!==design.title || p.subtitle!==design.subtitle || p.artworkAuthor!==(design.iconPaths?design.author:record.author))
+    mismatch(resource.id+'.provenance');
+  if (record?.schema!=='company-wayfinding-art-source' || record.version!==1 || record.license!=='Project-authored' ||
+      !record.author || record.licensePath!==paths.license || record.artwork!==paths.artwork ||
+      record.meshSource!==paths.meshGenerator || record.font!==paths.font || record.fontLicense!==paths.fontLicense ||
+      p.generatorSha256!==pins.generator.sha256 || p.functionalContractSourceSha256!==pins.contract.sha256) mismatch(resource.id);
+  return new Map(Object.entries(pins));
+}
+
 export async function verifyPrintedSignSources(root,resource,recipe) {
   const p=resource.provenance, source='assets-source/company-information-v1/';
   const pins=new Map();
@@ -406,6 +442,8 @@ export async function validateResourceProvenance({root, resource, label = resour
       await verifyWashbasinSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.mountRole==='washroom-dispenser')
       await verifyWashroomDispenserSources(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && (resource.productionBranch==='public-wayfinding-content' || Object.hasOwn(resource,'wayfindingMeaning')))
+      await verifyWayfindingSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && provenance.generator==='scripts/company-platform/build-washroom-sign.mjs')
       await verifyPrintedSignSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='plant-desktop-installation')

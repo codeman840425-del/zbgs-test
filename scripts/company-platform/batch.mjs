@@ -57,7 +57,7 @@ function validateBatch(batch,only){
   const keys=new Set(),ids=new Set();
   for(const [index,item]of batch.items.entries()){
     const location=`items[${index}]`;
-    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance','productShowcases','interviewRooms','singingRooms','teaStations','publicWashrooms','meetingRooms','publicStorageRooms'].includes(key))||
+    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance','productShowcases','interviewRooms','singingRooms','teaStations','publicWashrooms','meetingRooms','publicStorageRooms','wayfindingRooms'].includes(key))||
         typeof item.key!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(item.key)||
         /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(item.key))
       fail('invalid-batch-key',location,'Use a portable nonempty directory key with letters, digits, underscore or hyphen');
@@ -167,7 +167,14 @@ async function prepare(item,sourceHashes){
   if (Object.hasOwn(item,'publicWashrooms')) document.publicWashrooms = structuredClone(item.publicWashrooms);
   if (Object.hasOwn(item,'meetingRooms')) document.meetingRooms=structuredClone(item.meetingRooms);
   if (Object.hasOwn(item,'publicStorageRooms')) document.publicStorageRooms=structuredClone(item.publicStorageRooms);
+  if (Object.hasOwn(item,'wayfindingRooms')) document.wayfindingRooms=structuredClone(item.wayfindingRooms);
   const derived=deriveCompany(document,catalog,templates);
+  let wayfindingRooms;
+  if (Object.hasOwn(document,'wayfindingRooms')) {
+    Object.assign(sourceHashes,await sources(['scripts/company-platform/check-wayfinding.mjs','prototype/src/company/wayfinding.js']));
+    const {checkWayfindingRooms}=await import('./check-wayfinding.mjs');
+    wayfindingRooms=await checkWayfindingRooms(document,{catalog,templates,derived});
+  }
   let publicStorageRooms;
   if (Object.hasOwn(document,'publicStorageRooms') || document.nodes.some(node=>node.publicRole==='storage-cleaning')) {
     Object.assign(sourceHashes,await sources(['scripts/company-platform/check-public-storage.mjs','prototype/src/company/public-storage.js']));
@@ -218,7 +225,7 @@ async function prepare(item,sourceHashes){
     checks:{connections,placement,...(trainingClearance ? {trainingClearance} : {}),...(productShowcases ? {productShowcases} : {}),
       ...(interviewRooms ? {interviewRooms} : {}),...(singingRooms ? {singingRooms} : {}),...(teaStations?.length ? {teaStations} : {}),
       ...(publicWashrooms?.length ? {publicWashrooms} : {}),...(meetingRooms?.length ? {meetingRooms} : {}),
-      ...(publicStorageRooms?.length ? {publicStorageRooms} : {})},
+      ...(publicStorageRooms?.length ? {publicStorageRooms} : {}),...(wayfindingRooms?.length ? {wayfindingRooms} : {})},
     scope:'Complete deterministic authoring result. Static geometry and placement admission only; rendering and character usage require their own evidence.'};
   files['report.json']=jsonBytes(report);
   return {files,report};

@@ -9,7 +9,7 @@ import {buildLibrary, planPath, replaceIndex, withCatalogWriteLock} from './buil
 import {editableSources,plantProducer,plantToolchain} from './plant-editable-source.mjs';
 import {showcaseTexturePins} from './validate-resource-provenance.mjs';
 import {checkManagedOutput,findManagedProject} from './package-company.mjs';
-import {verifyWashbasinSources,verifyWashroomDispenserSources,verifyCleaningLoadSources} from './validate-resource-provenance.mjs';
+import {verifyWashbasinSources,verifyWashroomDispenserSources,verifyCleaningLoadSources,verifyWayfindingSources} from './validate-resource-provenance.mjs';
 import {compareFacilityFunction} from '../../prototype/src/company/appearance-contract.js';
 import {createCompany, deriveCompany} from '../../prototype/src/company/document.js';
 
@@ -42,6 +42,7 @@ const families = {
   'company-public-washbasins': 'public-washbasin',
   'company-washroom-dispensers': 'washroom-dispenser',
   'company-cleaning-loads': 'cleaning-loads',
+  'company-wayfinding-signs': 'wayfinding',
   'company-tea-station-collection': 'tea-station',
   'company-floor-air-collection': 'floor-air',
   'company-wall-hvac-collection': 'wall-hvac',
@@ -54,6 +55,7 @@ generatorFiles['vocal-mic-looks'] = 'build-vocal-mic-looks.mjs';
 generatorFiles['vocal-fit'] = 'build-vocal-fit.mjs';
 generatorFiles['vocal-height'] = 'build-vocal-height.mjs';
 generatorFiles['readable-score'] = 'build-readable-score.mjs';
+generatorFiles['wayfinding'] = 'build-wayfinding.mjs';
 generatorFiles['cleaning-loads'] = 'build-cleaning-loads.mjs';
 generatorFiles['equipment-cart'] = 'build-equipment-carts.mjs';
 generatorFiles['public-washbasin'] = 'build-public-washbasins.mjs';
@@ -65,6 +67,7 @@ productionBranches['vocal-mic-looks'] = 'floor-vocal-microphone';
 productionBranches['vocal-fit'] = 'floor-vocal-microphone';
 productionBranches['vocal-height'] = 'floor-vocal-microphone';
 productionBranches['readable-score'] = 'floor-score-stand';
+productionBranches['wayfinding'] = 'public-wayfinding-content';
 productionBranches['cleaning-loads'] = 'storage-cleaning-shelf';
 productionBranches['equipment-cart'] = 'cart-and-equipment-storage';
 productionBranches['public-washbasin'] = 'sanitary-support';
@@ -103,7 +106,7 @@ function validateFunction(reference,resource,family,explicitFit) {
   }
 }
 
-function validateBaseboardTexture(model,resource,texture,entry) {
+function validateEmbeddedTexture(model,materialNode,texture,entry,{paddedView=false}={}) {
   const invalid = () => fail('appearance-texture-mismatch',entry.texturePath);
   if (hash(texture) !== entry.textureSha256 || !texture.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))
     invalid();
@@ -115,17 +118,20 @@ function validateBaseboardTexture(model,resource,texture,entry) {
       jsonEnd+8+model.readUInt32LE(jsonEnd) !== model.length)
     invalid();
   const gltf = parse(model.subarray(20,jsonEnd));
-  const target = gltf.nodes?.find(node=>node.name === resource.finish.materialNode);
+  const target = gltf.nodes?.find(node=>node.name === materialNode);
   const primitive = gltf.meshes?.[target?.mesh]?.primitives?.[0];
   const slot = gltf.materials?.[primitive?.material]?.pbrMetallicRoughness?.baseColorTexture;
   const image = gltf.images?.[gltf.textures?.[slot?.index]?.source];
   const view = gltf.bufferViews?.[image?.bufferView], offset = view?.byteOffset ?? 0;
+  // The existing information-face exporter includes zero-filled alignment in its image view.
+  const expectedLength=paddedView ? Math.ceil(texture.length/4)*4 : texture.length;
   if (primitive?.attributes?.TEXCOORD_0 === undefined || image?.mimeType !== 'image/png' ||
-      view?.buffer !== 0 || view.byteLength !== texture.length || !Number.isSafeInteger(offset) || offset < 0 ||
+      view?.buffer !== 0 || view.byteLength !== expectedLength || !Number.isSafeInteger(offset) || offset < 0 ||
       offset + view.byteLength > model.readUInt32LE(jsonEnd))
     invalid();
   const start = jsonEnd + 8 + offset;
-  if (!model.subarray(start,start+view.byteLength).equals(texture)) invalid();
+  if (!model.subarray(start,start+texture.length).equals(texture) ||
+      model.subarray(start+texture.length,start+view.byteLength).some(byte=>byte!==0)) invalid();
 }
 
 async function regularFile(relative) {
@@ -284,6 +290,7 @@ async function publish(recipePath,check,explicitFit) {
         branch ? defaultRefs.find(r => r?.productionBranch === branch) : reference;
       assert(functionalReference && (!branch || resource.productionBranch === branch),'Missing matching branch for '+key);
       let expectedDependencies = functionalReference.provenance.dependencies;
+      if(family==='wayfinding') expectedDependencies=Object.fromEntries(await verifyWayfindingSources(root,resource,input));
       if(family==='cleaning-loads') expectedDependencies=Object.fromEntries(await verifyCleaningLoadSources(root,resource,input));
       if(family==='public-washbasin') expectedDependencies=Object.fromEntries(await verifyWashbasinSources(root,resource,input));
       if(family==='washroom-dispenser') expectedDependencies=Object.fromEntries(await verifyWashroomDispenserSources(root,resource,input));
@@ -321,10 +328,12 @@ async function publish(recipePath,check,explicitFit) {
       assert.equal(resource.asset.sha256,hash(model)); assert.equal(resource.asset.bytes,model.length);
       assert.equal(entry.sha256,resource.asset.sha256);
       const files = [[entry.modelPath,model],[entry.resourcePath,sidecar]];
-      if (family === 'baseboard') {
+      const hasTextureFile = family === 'baseboard' || family === 'wayfinding';
+      if (hasTextureFile) {
         assert.equal(entry.texturePath,dir+'/texture.png');
         const texture = await fs.readFile(path.join(staged,entry.texturePath));
-        validateBaseboardTexture(model,resource,texture,entry);
+        const materialNode=family === 'wayfinding' ? resource.informationNodes.face : resource.finish.materialNode;
+        validateEmbeddedTexture(model,materialNode,texture,entry,{paddedView:family==='wayfinding'});
         files.push([entry.texturePath,texture]);
       }
       const existing = previous.resources.find(r=>r.id===entry.id && r.version===entry.version);
@@ -340,7 +349,7 @@ async function publish(recipePath,check,explicitFit) {
         plan.resources.push(entry.resourcePath); additions.add(key);
       }
       items.push({id:entry.id,version:entry.version,resourcePath:entry.resourcePath,sha256:entry.sha256,geometrySha256:entry.geometrySha256,
-        ...(family === 'baseboard' ? {texturePath:entry.texturePath,textureSha256:entry.textureSha256} : {})});
+        ...(hasTextureFile ? {texturePath:entry.texturePath,textureSha256:entry.textureSha256} : {})});
     }
     const next = await buildLibrary(plan);
     const old = {...next,resources:next.resources.filter(r=>!additions.has(r.id+'@'+r.version))};

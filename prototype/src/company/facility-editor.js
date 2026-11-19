@@ -19,6 +19,12 @@ function options(select,rows,value){
 }
 
 export const roomEditMessages={
+  'wayfinding-content-meaning':'这块牌承担指定的接待或楼层指引，请选用同一用途的图文',
+  'wayfinding-sign-facing':'从来客进入的门口看不清牌面，请将印面朝向门口并移开遮挡物',
+  'wayfinding-reader-blocked':'请给来客留出进门读牌的位置',
+  'wayfinding-counter-service':'请把登记本放到台前伸手可及的位置，并留出站位',
+  'wayfinding-counter-contact':'登记本需要平放在指定台面上',
+  'wayfinding-register-view':'请移开遮住登记本的物件',
   'storage-support-contact':'请把耗材平放到所选层板上，让盒底贴住板面',
   'storage-pick-blocked':'耗材取不出来，请清空层板前方或调整层架、推车的朝向',
   'storage-door-sweep':'柜门打开时会碰到物件，请移开门前物件',
@@ -220,9 +226,10 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
       el('edit-look').hidden=!r||Boolean(heightProfiles);
       el('edit-look').labels[0].hidden=Boolean(heightProfiles);
       el('edit-compatibility').hidden=Boolean(heightProfiles);
-      const candidates=r&&heightProfiles?[r]:r?latestAppearanceVersions(catalog.resources.filter(c=>c.asset&&compareFacilityFunction(r,c).compatible)):[];
+      const compatible=r&&!heightProfiles?catalog.resources.filter(c=>c.asset&&compareFacilityFunction(r,c).compatible):[];
+      const candidates=heightProfiles&&r?[r]:r?.informationContent?compatible:latestAppearanceVersions(compatible);
       if(r&&!candidates.some(c=>ref(c)===ref(r)))candidates.unshift(r);
-      options(el('edit-look'),candidates.map(c=>({value:ref(c),label:nice(c)+(candidates.some(other=>other.id===c.id&&other.version>c.version)?` (\u65e7\u7248 v${c.version})`:'')})),r?ref(r):'');
+      options(el('edit-look'),candidates.map(c=>({value:ref(c),label:r?.informationContent?`${nice(c)} · v${c.version}`:nice(c)+(candidates.some(other=>other.id===c.id&&other.version>c.version)?` (\u65e7\u7248 v${c.version})`:'')})),r?ref(r):'');
       el('edit-look').disabled=isBusy()||candidates.length<2;
       el('edit-compatibility').textContent=r?`${new Set(candidates.map(c=>c.id)).size} 种造型符合安装与功能规格；更换不改变位置。${candidates.length>new Set(candidates.map(c=>c.id)).size?' 当前旧版保留，可明确选择新版。':''}`:'选中的是整体；移动、旋转和复制会带上内部部件。选中部件可单独换款。';
       for(const [i,axis]of ['x','y','z'].entries()){el(`edit-${axis}`).value=Number(n.transform.position[i].toFixed(4));el(`edit-${axis}`).disabled=isBusy()||constraints.lockedAxes.includes(axis);}

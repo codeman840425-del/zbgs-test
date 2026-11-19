@@ -1,0 +1,56 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "public-wayfinding-arrivals",
+      "input": {"id":"public-wayfinding-arrivals","name":"整租平层 · 来宾签到与等候","scale":"leased-floor","spaceProfile":{"id":"company-space-v2","version":1},"floors":[{"id":"ground","name":"来宾接待楼层"}]},
+      "operations": [
+        {"type":"move","id":"public-wayfinding-arrivals/ground/lobby/plant","transform":{"position":[0.95,0,-0.99],"yaw":0}},
+        {"type":"move","id":"public-wayfinding-arrivals/ground/lobby/sofa","transform":{"position":[1.55,0,0.86],"yaw":3.141592653589793}},
+        {"type":"move","id":"public-wayfinding-arrivals/ground/lobby/service-sign","transform":{"position":[-1.4,0,-0.84],"yaw":1.5707963267948966}},
+        {"type":"add-facility","id":"public-wayfinding-arrivals/ground/lobby/counter","parentId":"public-wayfinding-arrivals/ground/lobby","resource":{"id":"tea-counter-open","version":1},"name":"来宾登记台","transform":{"position":[-1.9,0,0.95],"yaw":3.141592653589793}},
+        {"type":"add-facility","id":"public-wayfinding-arrivals/ground/lobby/counter/register","parentId":"public-wayfinding-arrivals/ground/lobby/counter","resource":{"id":"side-table-life-pen-notebook","version":1},"name":"登记笔与本","transform":{"position":[0,0.9,0],"yaw":0},"attachment":{"surfaceId":"counter"}},
+        {"type":"add-facility","id":"public-wayfinding-arrivals/ground/lobby/service-sign/content","parentId":"public-wayfinding-arrivals/ground/lobby/service-sign","resource":{"id":"wayfinding-arrivals","version":1},"transform":{"position":[0,1.3,0.031],"yaw":0}},
+        {"type":"move","id":"public-wayfinding-arrivals/ground/lift-access/service-sign","transform":{"position":[1.6,0,0],"yaw":-1.5707963267948966}},
+        {"type":"add-facility","id":"public-wayfinding-arrivals/ground/lift-access/service-sign/content","parentId":"public-wayfinding-arrivals/ground/lift-access/service-sign","resource":{"id":"wayfinding-lift","version":1},"transform":{"position":[0,1.3,0.031],"yaw":0}},
+        {"type":"move","id":"public-wayfinding-arrivals/ground/stair-access/service-sign","transform":{"position":[1.6,0,0],"yaw":-1.5707963267948966}},
+        {"type":"add-facility","id":"public-wayfinding-arrivals/ground/stair-access/service-sign/content","parentId":"public-wayfinding-arrivals/ground/stair-access/service-sign","resource":{"id":"wayfinding-stairs","version":1},"transform":{"position":[0,1.3,0.031],"yaw":0}}
+      ],
+      "wayfindingRooms": [{
+        "floorId": "public-wayfinding-arrivals/ground",
+        "signs": [
+          {"regionId":"public-wayfinding-arrivals/ground/lobby","fromRegionId":"public-wayfinding-arrivals/ground/corridor-1","portalId":"public-wayfinding-arrivals/ground/portal-corridor-lobby","boardId":"public-wayfinding-arrivals/ground/lobby/service-sign","contentId":"public-wayfinding-arrivals/ground/lobby/service-sign/content","meaning":"arrivals"},
+          {"regionId":"public-wayfinding-arrivals/ground/lift-access","fromRegionId":"public-wayfinding-arrivals/ground/lobby","portalId":"public-wayfinding-arrivals/ground/portal-lobby-lift","boardId":"public-wayfinding-arrivals/ground/lift-access/service-sign","contentId":"public-wayfinding-arrivals/ground/lift-access/service-sign/content","meaning":"lift"},
+          {"regionId":"public-wayfinding-arrivals/ground/stair-access","fromRegionId":"public-wayfinding-arrivals/ground/lobby","portalId":"public-wayfinding-arrivals/ground/portal-lobby-stair","boardId":"public-wayfinding-arrivals/ground/stair-access/service-sign","contentId":"public-wayfinding-arrivals/ground/stair-access/service-sign/content","meaning":"stairs"}
+        ],
+        "service": {"regionId":"public-wayfinding-arrivals/ground/lobby","fromRegionId":"public-wayfinding-arrivals/ground/corridor-1","portalId":"public-wayfinding-arrivals/ground/portal-corridor-lobby","counterId":"public-wayfinding-arrivals/ground/lobby/counter","registerId":"public-wayfinding-arrivals/ground/lobby/counter/register","surfaceId":"counter","registerParts":{"book":"life-notebook-cover-top","pen":"life-pen-1"},"stand":[-1.9,0.3],"waitingSeatId":"public-wayfinding-arrivals/ground/lobby/sofa"}
+      }]
+    },
+    {
+      "key": "public-wayfinding-training",
+      "input": {"id":"public-wayfinding-training","name":"大楼二层 · 培训报到与寄衣","scale":"building","spaceProfile":{"id":"company-space-v2","version":1},"floors":[{"id":"ground","name":"一层"},{"id":"upper","name":"培训楼层"}]},
+      "operations": [
+        {"type":"move","id":"public-wayfinding-training/upper/corridor-1/service-sign","transform":{"position":[0,0,-0.8],"yaw":-1.5707963267948966}},
+        {"type":"add-facility","id":"public-wayfinding-training/upper/corridor-1/counter","parentId":"public-wayfinding-training/upper/corridor-1","resource":{"id":"tea-counter-open","version":1},"name":"培训签到台","transform":{"position":[-4,0,-1],"yaw":0}},
+        {"type":"add-facility","id":"public-wayfinding-training/upper/corridor-1/counter/register","parentId":"public-wayfinding-training/upper/corridor-1/counter","resource":{"id":"side-table-life-pen-notebook","version":1},"name":"登记笔与本","transform":{"position":[0,0.9,0],"yaw":0},"attachment":{"surfaceId":"counter"}},
+        {"type":"add-facility","id":"public-wayfinding-training/upper/corridor-1/coat","parentId":"public-wayfinding-training/upper/corridor-1","resource":{"id":"garment-rack-portal","version":1},"name":"寄衣架","transform":{"position":[4,0,1],"yaw":3.141592653589793}},
+        {"type":"add-facility","id":"public-wayfinding-training/upper/corridor-1/coat/jacket","parentId":"public-wayfinding-training/upper/corridor-1/coat","resource":{"id":"garment-hanging-jacket","version":1},"name":"悬挂夹克","attachment":{"slotId":"left"}},
+        {"type":"add-facility","id":"public-wayfinding-training/upper/corridor-1/service-sign/content","parentId":"public-wayfinding-training/upper/corridor-1/service-sign","resource":{"id":"wayfinding-training","version":1},"transform":{"position":[0,1.3,0.031],"yaw":0}},
+        {"type":"move","id":"public-wayfinding-training/upper/lift-access/service-sign","transform":{"position":[1.6,0,0],"yaw":-1.5707963267948966}},
+        {"type":"add-facility","id":"public-wayfinding-training/upper/lift-access/service-sign/content","parentId":"public-wayfinding-training/upper/lift-access/service-sign","resource":{"id":"wayfinding-lift","version":1},"transform":{"position":[0,1.3,0.031],"yaw":0}},
+        {"type":"move","id":"public-wayfinding-training/upper/stair-access/service-sign","transform":{"position":[1.6,0,0],"yaw":-1.5707963267948966}},
+        {"type":"add-facility","id":"public-wayfinding-training/upper/stair-access/service-sign/content","parentId":"public-wayfinding-training/upper/stair-access/service-sign","resource":{"id":"wayfinding-stairs","version":1},"transform":{"position":[0,1.3,0.031],"yaw":0}}
+      ],
+      "wayfindingRooms": [{
+        "floorId": "public-wayfinding-training/upper",
+        "signs": [
+          {"regionId":"public-wayfinding-training/upper/corridor-1","fromRegionId":"public-wayfinding-training/upper/lobby","portalId":"public-wayfinding-training/upper/portal-corridor-lobby","boardId":"public-wayfinding-training/upper/corridor-1/service-sign","contentId":"public-wayfinding-training/upper/corridor-1/service-sign/content","meaning":"training"},
+          {"regionId":"public-wayfinding-training/upper/lift-access","fromRegionId":"public-wayfinding-training/upper/lobby","portalId":"public-wayfinding-training/upper/portal-lobby-lift","boardId":"public-wayfinding-training/upper/lift-access/service-sign","contentId":"public-wayfinding-training/upper/lift-access/service-sign/content","meaning":"lift"},
+          {"regionId":"public-wayfinding-training/upper/stair-access","fromRegionId":"public-wayfinding-training/upper/lobby","portalId":"public-wayfinding-training/upper/portal-lobby-stair","boardId":"public-wayfinding-training/upper/stair-access/service-sign","contentId":"public-wayfinding-training/upper/stair-access/service-sign/content","meaning":"stairs"}
+        ],
+        "service": {"regionId":"public-wayfinding-training/upper/corridor-1","fromRegionId":"public-wayfinding-training/upper/lobby","portalId":"public-wayfinding-training/upper/portal-corridor-lobby","counterId":"public-wayfinding-training/upper/corridor-1/counter","registerId":"public-wayfinding-training/upper/corridor-1/counter/register","surfaceId":"counter","registerParts":{"book":"life-notebook-cover-top","pen":"life-pen-1"},"stand":[-4,-0.35],"coatRackId":"public-wayfinding-training/upper/corridor-1/coat","garmentId":"public-wayfinding-training/upper/corridor-1/coat/jacket"}
+      }]
+    }
+  ]
+}

@@ -525,6 +525,9 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       const tea = Object.hasOwn(declaration,'teaStations') ? declaration.teaStations : declaration.document?.teaStations;
       if (JSON.stringify(canonical(tea)) !== JSON.stringify(canonical(document.teaStations)))
         fail('tea-station-binding-mismatch',input,'Saved tea station members, service clearance or passage differs from the batch declaration');
+      const wayfinding=Object.hasOwn(declaration,'wayfindingRooms') ? declaration.wayfindingRooms : declaration.document?.wayfindingRooms;
+      if (JSON.stringify(canonical(wayfinding))!==JSON.stringify(canonical(document.wayfindingRooms)))
+        fail('wayfinding-room-binding-mismatch',input,'Saved wayfinding destinations and service positions differ from the batch input');
       const storageRooms=Object.hasOwn(declaration,'publicStorageRooms') ? declaration.publicStorageRooms : declaration.document?.publicStorageRooms;
       if (JSON.stringify(canonical(storageRooms))!==JSON.stringify(canonical(document.publicStorageRooms)))
         fail('storage-room-binding-mismatch',input,'Saved storage fixtures, loads or service space differ from the authored room');
@@ -575,6 +578,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       }
     }
     const derived = documentTools.deriveCompany(document,catalog,templates);
+    if (Object.hasOwn(document,'wayfindingRooms')) {
+      const checker=await noLinks(path.join(source,'scripts/company-platform/check-wayfinding.mjs'));
+      const {checkWayfindingRooms}=await import(pathToFileURL(checker).href);
+      await checkWayfindingRooms(document,{catalog,templates,derived,root:source});
+    }
     if (Object.hasOwn(document,'publicStorageRooms') || document.nodes.some(node=>node.publicRole==='storage-cleaning')) {
       const checker=await noLinks(path.join(source,'scripts/company-platform/check-public-storage.mjs'));
       const {checkPublicStorageRooms}=await import(pathToFileURL(checker).href);
@@ -692,6 +700,15 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   let verifyWallHvacSources;
   let verifyEquipmentCartSources;
   let verifyWashbasinSources,verifyWashroomDispenserSources,verifyPrintedSignSources;
+  let verifyWayfindingSources;
+  if (catalog.resources.some(r=>r.productionBranch==='public-wayfinding-content')) {
+    const verifier=await noLinks(path.join(source,'scripts/company-platform/validate-resource-provenance.mjs'));
+    ({verifyWayfindingSources}=await import(pathToFileURL(verifier).href));
+    if (!verifyWayfindingSources) fail('missing-production-tool',verifier,'Expected the printed wayfinding source verifier');
+    for (const entry of ['check-wayfinding.mjs','test-wayfinding.mjs','qa-public-wayfinding.cjs','batch-inputs/public-wayfinding.json'])
+      supplemental.add('scripts/company-platform/'+entry);
+    supplemental.add('docs/research/COMPANY-WAYFINDING-HANDOFF.md');
+  }
   let verifyCleaningLoadSources;
   if (catalog.resources.some(r=>r.productionBranch==='storage-cleaning-shelf')) {
     const verifier=await noLinks(path.join(source,'scripts/company-platform/validate-resource-provenance.mjs'));
@@ -910,7 +927,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
         productionSourcePins.set(pin.path,pin.sha256);
       }
     }
-    const equipmentVerifier = resource.productionBranch==='storage-cleaning-shelf' ? verifyCleaningLoadSources :
+    const equipmentVerifier = resource.productionBranch==='public-wayfinding-content' ? verifyWayfindingSources :
+      resource.productionBranch==='storage-cleaning-shelf' ? verifyCleaningLoadSources :
       entry.generator==='scripts/company-platform/build-washroom-sign.mjs' ? verifyPrintedSignSources :
       resource.mountRole==='washroom-dispenser' ? verifyWashroomDispenserSources :
       resource.mountRole==='public-washbasin' ? verifyWashbasinSources : resource.productionBranch === 'hvac' ? verifyWallHvacSources :
@@ -968,6 +986,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     add(`source/${name}`,bytes,'editable-production-source');
   }
   let readme=(await read(toolRoot,'package-template/README.template.md')).toString('utf8').replaceAll('{{BUILD_ID}}',buildId).replaceAll('{{SOURCE_DIGEST}}',info.sourceDigest);
+  if(document.wayfindingRooms?.length)readme+='\n接待和报到区的观看地址、图文改版与复跑步骤见[接待与导视](source/docs/research/COMPANY-WAYFINDING-HANDOFF.md)。\n';
   if(document.publicStorageRooms?.length)readme+='\n可在实际楼层打开储物间，给层架和车换装耗材。见[制作、试装与复验](source/docs/research/COMPANY-PUBLIC-STORAGE-HANDOFF.md)。\n';
   if(document.meetingRooms?.length)readme+='\n四套公共会议区各自带有楼层入口和座位检查，可按房名直达。见[制作、改款与复验](source/docs/research/COMPANY-MEETING-ROOM-HANDOFF.md)。\n';
   if(document.publicWashrooms?.length)readme+='\n本包的公共洗手区可直接按楼层和区域打开。接收方可制作另一款台面或皂液器，再通过同一命令检查实际门口、站位和台盆。[查看制作与预览说明](source/docs/research/COMPANY-PUBLIC-WASHROOM-HANDOFF.md)\n';
