@@ -37,10 +37,13 @@ async function produceBatch(jobs,items,evidence,produce){
  }
  return records;
 }
-module.exports={verifyCreatedRecord,produceBatch};
+function productionPage(base, shapeData){
+ return base+'record-consumer.html?production=1'+(shapeData==='rule-body-data'?'&ruleBodyData=1':'');
+}
+module.exports={verifyCreatedRecord,produceBatch,productionPage};
 
 if(require.main===module)(async()=>{
- const [base,requestFile,outputArg,expectedDigest,evidenceArg]=process.argv.slice(2);
+ const [base,requestFile,outputArg,expectedDigest,evidenceArg,shapeData]=process.argv.slice(2);
  const {out:output,evidence}=await outputPaths(outputArg,evidenceArg);
  const {writeFresh}=await import('./runtime-package/files.mjs');
  const {canonicalJson}=await import('../prototype/src/character-record.js');
@@ -54,7 +57,7 @@ if(require.main===module)(async()=>{
   const jobs=batchEdit?await batchEdits(request):batchCreate?await batchCreates(request):[request];
   browser=await chromium.launch({channel:'chrome',headless:true});page=await browser.newPage({viewport:{width:1440,height:1000}});
   page.on('pageerror',e=>report.errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base))report.requests.push({path:new URL(r.url()).pathname,status:r.status()});});
-  await page.goto(base+'record-consumer.html?production=1');await page.waitForFunction(()=>window.__recordConsumer?.ready,null,{timeout:120000});
+  await page.goto(productionPage(base,shapeData));await page.waitForFunction(()=>window.__recordConsumer?.ready,null,{timeout:120000});
   report.build=await page.evaluate(()=>__recordConsumer.buildInfo);assert.equal(report.build.sourceDigest,expectedDigest);
   async function produce(job,item,directory){
   const result=await page.evaluate(async request=>{try{return await __recordConsumer.production(request);}catch(e){return{ok:false,code:e.code??'production-error',reason:e.message,field:e.field,editIndex:e.editIndex};}},job);

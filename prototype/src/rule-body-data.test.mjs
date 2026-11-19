@@ -103,6 +103,8 @@ test('manifest selection is explicit, same-site and bound to the body ID',async(
     '/character-data/../index.json',ptr.url+'?code=1'])
     assert.throws(()=>validateCharacterRecordInput({...manifest,ruleBodyDataPacks:[{...ptr,url}]},'/records/manifest.json'),/pointer/);
   assert.throws(()=>productionRuleBodyPointers({schema:'published-rule-body-packs-v1',ruleBodyDataPacks:[ptr,ptr]}),/duplicate/);
+  assert.throws(()=>productionRuleBodyPointers({schema:'published-rule-body-packs-v1',ruleBodyDataPacks:[{...ptr,sha256:[ptr.sha256]}]}),/pointer/);
+  assert.throws(()=>validateCharacterRecordInput({...manifest,ruleBodyDataPacks:[ptr],approved:true},'/records/manifest.json'),/fields/);
   assert.throws(()=>productionRuleBodyPointers({schema:'published-rule-body-packs-v1',approved:true,ruleBodyDataPacks:[ptr]}),/Invalid/);
   assert.throws(()=>foundationProfile('__proto__'),/Unknown foundation/);
   assert.deepEqual(productionRuleBodyPointers({schema:'published-rule-body-packs-v1',ruleBodyDataPacks:[ptr]}),[ptr]);

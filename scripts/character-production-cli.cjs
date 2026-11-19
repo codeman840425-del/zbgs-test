@@ -83,15 +83,20 @@ async function batchCreates(input){
 module.exports={outputPaths,parseRequest,batchEdits,batchCreates,itemError,BATCH_SCHEMA,BATCH_CREATE_SCHEMA};
 
 if(require.main===module)(async()=>{
- const {values}=parseArgs({options:{dist:{type:'string'},request:{type:'string'},out:{type:'string'},evidence:{type:'string'}},strict:true,allowPositionals:false});
+ const {values}=parseArgs({options:{dist:{type:'string'},request:{type:'string'},out:{type:'string'},evidence:{type:'string'},'shape-pack':{type:'string',multiple:true}},strict:true,allowPositionals:false});
  for(const name of ['dist','request','out'])if(!values[name])throw Error('Required --'+name);
+ const shapePacks=values['shape-pack']??[];
+ if(shapePacks.some(directory=>!directory))throw Error('Expected a directory for --shape-pack');
  const dist=path.resolve(values.dist),request=path.resolve(values.request);
  const {out,evidence}=await outputPaths(values.out,values.evidence);
  const build=JSON.parse(await fs.readFile(path.join(dist,'build-info.json'),'utf8'));
  if(!/^[a-f0-9]{64}$/.test(build.sourceDigest)||build.shortId!==build.sourceDigest.slice(0,12))throw Error('Invalid fixed build identity');
  const input=await fs.stat(request);if(!input.isFile()||input.size>MAX_BYTES)throw Error('Production request too large or not a file');
  if(await fs.stat(out).catch(e=>{if(e.code==='ENOENT')return null;throw e;}))throw Error('Output already exists');
- const child=spawn(process.execPath,[path.join(__dirname,'run-fixed-check.cjs'),dist,path.join(__dirname,'character-production-browser.cjs'),request,out,build.sourceDigest,evidence],{stdio:['ignore','pipe','inherit']});
+ const overlayArgs=shapePacks.flatMap(directory=>['--shape-pack',path.resolve(directory)]);
+ const browserArgs=[path.join(__dirname,'character-production-browser.cjs'),request,out,build.sourceDigest,evidence];
+ if(shapePacks.length)browserArgs.push('rule-body-data');
+ const child=spawn(process.execPath,[path.join(__dirname,'run-fixed-check.cjs'),...overlayArgs,dist,...browserArgs],{stdio:['ignore','pipe','inherit']});
  createInterface({input:child.stdout}).on('line',line=>{if(line.startsWith('Temporary fixed-build check:'))process.stderr.write(line+'\n');else process.stdout.write(line+'\n');});
  child.once('error',e=>{console.error(JSON.stringify({ok:false,code:'browser-launch',reason:e.message}));process.exitCode=1;});
  child.once('exit',code=>{process.exitCode=code??1;});

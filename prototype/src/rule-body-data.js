@@ -21,6 +21,7 @@ function keysOf(value,names) {
     Object.keys(value).length===names.length && names.every(name=>Object.hasOwn(value,name));
 }
 function same(left,right) { return canonicalJson(left)===canonicalJson(right); }
+function isHash(value) { return typeof value==='string' && hashPattern.test(value); }
 function freezeJson(value) {
   if (value && typeof value==='object') {
     Object.values(value).forEach(freezeJson);
@@ -29,12 +30,12 @@ function freezeJson(value) {
   return value;
 }
 function validPin(pin,location,limit) {
-  return keysOf(pin,[location,'sha256','bytes']) && hashPattern.test(pin.sha256) &&
+  return keysOf(pin,[location,'sha256','bytes']) && isHash(pin.sha256) &&
     Number.isSafeInteger(pin.bytes) && pin.bytes>0 && pin.bytes<=limit;
 }
 function checkPointer(ptr) {
-  requireData(keysOf(ptr,['bodyType','url','sha256','bytes']) && bodyPattern.test(ptr.bodyType) &&
-    ptr.url==='/character-data/'+ptr.bodyType+'/index.json' && hashPattern.test(ptr.sha256) &&
+  requireData(keysOf(ptr,['bodyType','url','sha256','bytes']) && typeof ptr.bodyType==='string' && bodyPattern.test(ptr.bodyType) &&
+    ptr.url==='/character-data/'+ptr.bodyType+'/index.json' && isHash(ptr.sha256) &&
     Number.isSafeInteger(ptr.bytes) && ptr.bytes>0 && ptr.bytes<=65536,'published index pointer');
 }
 export function validateRuleBodyPointers(descriptors) {
@@ -71,7 +72,7 @@ async function readPack(ptr,read) {
   const index=JSON.parse(text.decode(rawIndex));
   requireData(keysOf(index,['schema','bodyType','templateSha256','sourceBodySha256','recipeSha256','profile','recipe','fit','files']) &&
     index.schema==='shape-data-pack-v1' && index.bodyType===id && index.templateSha256===templateSha &&
-    index.sourceBodySha256===sourceBodySha && parent.sha256===sourceBodySha && hashPattern.test(index.recipeSha256),'index identity');
+    index.sourceBodySha256===sourceBodySha && parent.sha256===sourceBodySha && isHash(index.recipeSha256),'index identity');
   const names=['profile.json','recipe.json','fit.json',assets+'body.vrm',assets+'equipment.json',...clothing.map(item=>item.url.slice(1))];
   requireData(Array.isArray(index.files) && index.files.length===names.length,'payload count');
   const pins=new Map();

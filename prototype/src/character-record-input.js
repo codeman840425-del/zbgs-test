@@ -7,7 +7,11 @@ export function validateCharacterRecordInput(manifest, manifestPath) {
   if (manifestPath !== '/records/manifest.json') throw Error('Unsupported record manifest path');
   if (manifest?.schema !== 'character-record-input-v1' || !Array.isArray(manifest.entries) ||
       manifest.entries.length < 1 || manifest.entries.length > 4) throw Error('Invalid record input manifest');
-  if (Object.hasOwn(manifest,'ruleBodyDataPacks')) validateRuleBodyPointers(manifest.ruleBodyDataPacks);
+  if (Object.hasOwn(manifest,'ruleBodyDataPacks')) {
+    if (Object.keys(manifest).length!==3 || manifest.entries.some(row=>!row || Object.keys(row).length!==3))
+      throw Error('Unexpected published character manifest fields');
+    validateRuleBodyPointers(manifest.ruleBodyDataPacks);
+  }
   const ids = new Set();
   for (const entry of manifest.entries) {
     if (!isSafeCharacterRecordId(entry?.id) || entry.id === 'manifest' || ids.has(entry.id) ||
