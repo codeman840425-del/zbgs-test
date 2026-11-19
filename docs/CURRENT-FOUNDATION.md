@@ -2,6 +2,8 @@
 
 ## 固定入口与备份
 
+最新个性化候选为 `ba9a95f6 / f7ea73f3ec73`。同一套制服、同一具身体的两份外观请求已在浏览器签名、独立游戏加载、关闭恢复。金发与原色在同相位同镜头拍摄，分别核算静态成本并做了开发机短测。制作端可复用该确切头部及三个配色通道的适配数据。男女制服接收版本仍取下方的固定交付单。下一包核对 1K 身体与当前脸部暖肤变体的纹理、覆盖及脸身接缝，只在实际适配成立时开放组合。[本版观看与复建](../evidence/m2-uniform-lite-head-intake-v1/README.md)
+
 盘根治理复查：迁移记录中的 37 个角色工作树全部仍登记在工程内，37 个盘根旧地址均已消失。共用固定包检查会为每个子任务在工程内创建独立临时目录；浏览器冷开、换装失败和预算检查还限定浏览器配置、缓存和崩溃文件路径。已实际测试子任务成功、非零退出、目录联接以及 Chrome 145 整包冷开。Chrome 157 的实际启动参数和关闭回收见[现场回执](../evidence/character-worktree-relocation-v1/browser-scratch-live.json)。复查命令为 `python -B scripts/character-worktree.py audit`。
 
 **游戏制作当前取 [固定交付单](../delivery/character-production-handoff.json)。** 同一条制服款式请求产出男女两条独立签名记录。工具 `9b55bd9a`，游戏源码 `2ad612c2`，构建 `4959572f6d5e`。34 文件实包通过固定检出核验。Chrome 145 和 157 各自冷开并重开三种包，12 次均加载正确的上衣和动作。开发机上女、男各录了一段约 17 秒的走、坐、起、离开。正式套装准入仍为 0/2。接续核对轻量女体短发和配色实际依赖，逐项确定可复用的适配。4196 人工预览单独发布。[直接看 1 倍速](../evidence/m2-motion-response-compat-v1/index.html) · [收件复验](../evidence/m2-motion-response-compat-v1/README.md)

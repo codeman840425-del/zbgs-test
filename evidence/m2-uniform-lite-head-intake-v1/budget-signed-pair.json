@@ -1,0 +1,1419 @@
+{
+  "accountingMode": "reviewed-legacy-appearance-cache-v1",
+  "budgetFileSha256": "b5f792da80d061aa8dfac1045e2f69e699207dd5d4a05b5ea9959ef532dc9d63",
+  "budgetVersion": "m2-technical-v1",
+  "closureUnionFileCount": 21,
+  "closureUnionSourceBytes": 27896903,
+  "inputSha256": "eaeb0b1499896ab7b577a822a238bbf847c2e9f028394f11b59677dd46738da9",
+  "limitations": [
+    "RGBA8 estimates use standalone model texture objects and full mip chains except for the reviewed linear-only native cover, skin and lip maps.",
+    "Record totals start from a fresh actor. Native appearance cache estimates show the effect of prior selections separately from cold totals, where reviewed.",
+    "Native cover and palette additions allow up to four source texture clones per actor and field, derived from two materials and two maps. Source-only palette references contribute no texture objects.",
+    "All parsed model mesh definitions contribute to the estimate. Hidden source geometry, animation, renderer allocations, prior looks and in-flight preparation need runtime measurement.",
+    "Paired ear placements share their one parsed model and source textures by the rigid accessory implementation. Their placed triangles count both instances.",
+    "Transfer closure bytes count each path once. Actor texture estimates sum the per-record values.",
+    "Procedural legacy palette and surface texturing, compressed buffers and unrecognized standalone resources need another budget model.",
+    "Hair sidecar collider totals cover authored body colliders. Runtime room proxies allocate separate collider objects per joint.",
+    "Native hair retains the existing embedded authored joint metric. Its fit separately declares the expected active manager joint count."
+  ],
+  "ordinaryPCPerformance": "unmeasured",
+  "readOnly": true,
+  "records": [
+    {
+      "actions": [
+        "idle",
+        "walk",
+        "jog",
+        "talk",
+        "sitTalk",
+        "sitEnter",
+        "sitExit",
+        "sitIdle",
+        "turn",
+        "greeting",
+        "ual1-dance-reference",
+        "dance-technical-once-v1"
+      ],
+      "avatarSha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+      "bodyType": "source-female-uniform-texture-v1",
+      "closureSourceBytes": 27896903,
+      "earSelection": "none",
+      "equipmentIds": [
+        "source-female-uniform-texture-v1-top-1k",
+        "source-female-uniform-texture-v1-shoes",
+        "source-female-uniform-texture-v1-pants"
+      ],
+      "files": [
+        {
+          "bytes": 4051,
+          "path": "assets/appearance-color-v3/female-iris-mask.png",
+          "provenance": [],
+          "reasons": [
+            "Facial palette mask: iris"
+          ],
+          "sha256": "d6178bb05f53d5dde9186614c2f4019a535cfb15ceec40a1e8ad46343e2eebfe"
+        },
+        {
+          "bytes": 69621,
+          "path": "assets/appearance-color-v3/female-iris-neutral.png",
+          "provenance": [],
+          "reasons": [
+            "Facial palette iris neutral map"
+          ],
+          "sha256": "3cbc5234aee21d3d5b6fb74103fd27901d1f189508a16ed493fa0999a422ac33"
+        },
+        {
+          "bytes": 1282,
+          "path": "assets/appearance-color-v3/female-outer-lip-mask.png",
+          "provenance": [],
+          "reasons": [
+            "Facial palette mask: lips"
+          ],
+          "sha256": "b7f1de3847c7bd89b8c50c14f192c77236fd91031b76783583a51a73a91492ed"
+        },
+        {
+          "bytes": 1073,
+          "path": "assets/female-uniform-head-v1/fit.json",
+          "provenance": [],
+          "reasons": [
+            "Selected hairstyle body fit"
+          ],
+          "sha256": "69414efb8f09b118679f268b540989a5c73a3dd9bf2a464ccd6771fdcec5af2b"
+        },
+        {
+          "bytes": 719,
+          "path": "assets/female-uniform-head-v1/hair-manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Selected hairstyle manifest"
+          ],
+          "sha256": "ef3d0fd87d3de550ab86ce685ba0ce2a4eef220ea01850887fa258d9b474f009"
+        },
+        {
+          "bytes": 1848,
+          "path": "assets/female-uniform-head-v1/palette-manifest.json",
+          "provenance": [],
+          "reasons": [
+            "Selected facial palette manifest"
+          ],
+          "sha256": "f322a155136d960216d32a7ba1a60e847eb01f43a87bb6b28d3dd0a6e4e676bd"
+        },
+        {
+          "bytes": 12135888,
+          "path": "assets/female-uniform-texture-release-v1/body.vrm",
+          "provenance": [
+            {
+              "source": "Base_Female / 1K body color and 512px preview",
+              "sourceLicense": {
+                "candidate": "VRoid beta Base_Female, third-party export",
+                "checkedAt": "2026-11-14",
+                "currentGuidelines": "https://vroid.com/en/studio/guidelines",
+                "download": "https://opengameart.org/sites/default/files/base_female.zip",
+                "files": [
+                  {
+                    "bytes": 13149860,
+                    "file": "base_female.zip",
+                    "sha256": "bf2717cff70b40a278df56e137dbb699c6499551096fa4c005e9aeca1de68eb3"
+                  },
+                  {
+                    "bytes": 16323872,
+                    "file": "Base_Female.vrm",
+                    "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+                  }
+                ],
+                "officialAssetLicense": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "originalEditorSourceRecovered": false,
+                "provenanceStatus": "Third-party exporter states VRoid Studio 0.14.0 with optimization disabled; not yet bitwise matched to official editor export",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "runtimeSource": "prototype/public/assets/foundation/base-female.vrm",
+                "vrmMeta": {
+                  "allowedUserName": "Everyone",
+                  "author": "VRoidプロジェクト",
+                  "commercialUssageName": "Allow",
+                  "contactInformation": "",
+                  "licenseName": "CC0",
+                  "otherLicenseUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "otherPermissionUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "reference": "",
+                  "sexualUssageName": "Allow",
+                  "texture": 24,
+                  "title": "Base_Female",
+                  "version": "",
+                  "violentUssageName": "Allow"
+                }
+              },
+              "sourcePath": "prototype/src/foundation-profiles.js"
+            }
+          ],
+          "reasons": [
+            "Exact foundation body"
+          ],
+          "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+        },
+        {
+          "bytes": 44433,
+          "path": "assets/female-uniform-texture-release-v1/coverage-top-1k.json",
+          "provenance": [],
+          "reasons": [
+            "Startup body coverage for topFar"
+          ],
+          "sha256": "dde4d2f89c988bb57140db140fcc7f62e9a391b5311d16233586ddc280c394b2"
+        },
+        {
+          "bytes": 44372,
+          "path": "assets/female-uniform-texture-release-v1/coverage-top.json",
+          "provenance": [],
+          "reasons": [
+            "Startup body coverage for top"
+          ],
+          "sha256": "f0e3b845fae36754ed60f0488efd08c4eeb98c0f3901e11447602b453fa7a529"
+        },
+        {
+          "bytes": 37362,
+          "path": "assets/female-uniform-texture-release-v1/equipment.json",
+          "provenance": [],
+          "reasons": [
+            "Body equipment catalog"
+          ],
+          "sha256": "e7252fcc6bf73a6f1bde1790edbd832f1c0e58b676703b254410ed9312f1b6d8"
+        },
+        {
+          "bytes": 765288,
+          "path": "assets/garment-basecolor-release-v1/female/m1-female-uniform-top-1k-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "source-female-uniform-texture-v1-top-1k",
+              "sourceLicense": {
+                "candidate": "VRoid beta Base_Female, third-party export",
+                "checkedAt": "2026-11-14",
+                "currentGuidelines": "https://vroid.com/en/studio/guidelines",
+                "download": "https://opengameart.org/sites/default/files/base_female.zip",
+                "files": [
+                  {
+                    "bytes": 13149860,
+                    "file": "base_female.zip",
+                    "sha256": "bf2717cff70b40a278df56e137dbb699c6499551096fa4c005e9aeca1de68eb3"
+                  },
+                  {
+                    "bytes": 16323872,
+                    "file": "Base_Female.vrm",
+                    "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+                  }
+                ],
+                "officialAssetLicense": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "originalEditorSourceRecovered": false,
+                "provenanceStatus": "Third-party exporter states VRoid Studio 0.14.0 with optimization disabled; not yet bitwise matched to official editor export",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "runtimeSource": "prototype/public/assets/foundation/base-female.vrm",
+                "vrmMeta": {
+                  "allowedUserName": "Everyone",
+                  "author": "VRoidプロジェクト",
+                  "commercialUssageName": "Allow",
+                  "contactInformation": "",
+                  "licenseName": "CC0",
+                  "otherLicenseUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "otherPermissionUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "reference": "",
+                  "sexualUssageName": "Allow",
+                  "texture": 24,
+                  "title": "Base_Female",
+                  "version": "",
+                  "violentUssageName": "Allow"
+                }
+              },
+              "sourcePath": "prototype/public/assets/female-uniform-texture-release-v1/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Selected outfit: source-female-uniform-texture-v1-top-1k"
+          ],
+          "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+        },
+        {
+          "bytes": 63520,
+          "path": "assets/m1/m1-training-pants.glb",
+          "provenance": [
+            {
+              "equipmentId": "source-female-uniform-texture-v1-pants",
+              "sourceLicense": {
+                "candidate": "VRoid beta Base_Female, third-party export",
+                "checkedAt": "2026-11-14",
+                "currentGuidelines": "https://vroid.com/en/studio/guidelines",
+                "download": "https://opengameart.org/sites/default/files/base_female.zip",
+                "files": [
+                  {
+                    "bytes": 13149860,
+                    "file": "base_female.zip",
+                    "sha256": "bf2717cff70b40a278df56e137dbb699c6499551096fa4c005e9aeca1de68eb3"
+                  },
+                  {
+                    "bytes": 16323872,
+                    "file": "Base_Female.vrm",
+                    "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+                  }
+                ],
+                "officialAssetLicense": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "originalEditorSourceRecovered": false,
+                "provenanceStatus": "Third-party exporter states VRoid Studio 0.14.0 with optimization disabled; not yet bitwise matched to official editor export",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "runtimeSource": "prototype/public/assets/foundation/base-female.vrm",
+                "vrmMeta": {
+                  "allowedUserName": "Everyone",
+                  "author": "VRoidプロジェクト",
+                  "commercialUssageName": "Allow",
+                  "contactInformation": "",
+                  "licenseName": "CC0",
+                  "otherLicenseUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "otherPermissionUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "reference": "",
+                  "sexualUssageName": "Allow",
+                  "texture": 24,
+                  "title": "Base_Female",
+                  "version": "",
+                  "violentUssageName": "Allow"
+                }
+              },
+              "sourcePath": "prototype/public/assets/female-uniform-texture-release-v1/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Selected outfit: source-female-uniform-texture-v1-pants"
+          ],
+          "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+        },
+        {
+          "bytes": 190988,
+          "path": "assets/m1/m1-uniform-shoes.glb",
+          "provenance": [
+            {
+              "equipmentId": "source-female-uniform-texture-v1-shoes",
+              "sourceLicense": {
+                "candidate": "VRoid beta Base_Female, third-party export",
+                "checkedAt": "2026-11-14",
+                "currentGuidelines": "https://vroid.com/en/studio/guidelines",
+                "download": "https://opengameart.org/sites/default/files/base_female.zip",
+                "files": [
+                  {
+                    "bytes": 13149860,
+                    "file": "base_female.zip",
+                    "sha256": "bf2717cff70b40a278df56e137dbb699c6499551096fa4c005e9aeca1de68eb3"
+                  },
+                  {
+                    "bytes": 16323872,
+                    "file": "Base_Female.vrm",
+                    "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+                  }
+                ],
+                "officialAssetLicense": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "originalEditorSourceRecovered": false,
+                "provenanceStatus": "Third-party exporter states VRoid Studio 0.14.0 with optimization disabled; not yet bitwise matched to official editor export",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "runtimeSource": "prototype/public/assets/foundation/base-female.vrm",
+                "vrmMeta": {
+                  "allowedUserName": "Everyone",
+                  "author": "VRoidプロジェクト",
+                  "commercialUssageName": "Allow",
+                  "contactInformation": "",
+                  "licenseName": "CC0",
+                  "otherLicenseUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "otherPermissionUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "reference": "",
+                  "sexualUssageName": "Allow",
+                  "texture": 24,
+                  "title": "Base_Female",
+                  "version": "",
+                  "violentUssageName": "Allow"
+                }
+              },
+              "sourcePath": "prototype/public/assets/female-uniform-texture-release-v1/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Selected outfit: source-female-uniform-texture-v1-shoes"
+          ],
+          "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+        },
+        {
+          "bytes": 651604,
+          "path": "assets/m2-hairstyle-v1/female-bob.glb",
+          "provenance": [
+            {
+              "sourceBodySha256": "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
+              "sourcePath": "prototype/public/assets/female-uniform-head-v1/hair-manifest.json"
+            }
+          ],
+          "reasons": [
+            "Selected hairstyle model"
+          ],
+          "sha256": "3dcf01957d8ab72dfc128c6950f0e9600c2c7b801ea774a612058dc4b5d68110"
+        },
+        {
+          "bytes": 9195,
+          "path": "assets/motion/m1c/dance-imports.json",
+          "provenance": [],
+          "reasons": [
+            "Startup dance catalog"
+          ],
+          "sha256": "600f7ab75fce550f71d9be5f9240e83f6b58945d67804555feddfe1acf2d67da"
+        },
+        {
+          "bytes": 739436,
+          "path": "assets/motion/m1c/dance-source-reference.glb",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "ual1-dance-reference",
+              "origin": "Unmodified Quaternius Dance_Loop reference",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup dance ual1-dance-reference"
+          ],
+          "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744"
+        },
+        {
+          "bytes": 2984076,
+          "path": "assets/motion/m1c/dance-technical-v1.glb",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "dance-technical-once-v1",
+              "origin": "Original technical choreography, UAL1 idle reference/rig; not professional dance or mocap",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup dance dance-technical-once-v1"
+          ],
+          "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e"
+        },
+        {
+          "bytes": 1566668,
+          "path": "assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            },
+            {
+              "sourcePath": "prototype/public/assets/motion/m1c/greeting/gesture-import.json"
+            }
+          ],
+          "reasons": [
+            "On-demand greeting"
+          ],
+          "sha256": "eec4ef8ab2fb073f7674cc6e839cbad7aea6931e4b19e8e70c0ee46c5fda2d06"
+        },
+        {
+          "bytes": 965540,
+          "path": "assets/motion/m1c/jog-ordinary-derived-v1.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup jog model"
+          ],
+          "sha256": "6ec251d7611f22c6bf918d3401fcf438a8f2bc7b72f2826047dea8beef15c9e5"
+        },
+        {
+          "bytes": 1503,
+          "path": "assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup jog profile"
+          ],
+          "sha256": "2df4d6b86227b6bce60a5ea7ba97a982d974448044a46b903e413bd243e75ec0"
+        },
+        {
+          "bytes": 7618436,
+          "path": "assets/motion/UAL1_Standard.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup shared motion library"
+          ],
+          "sha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997"
+        }
+      ],
+      "hairColor": "blonde",
+      "id": "uniform-head-bob-v1",
+      "materialRecipes": [],
+      "models": [
+        {
+          "assetExcesses": [],
+          "class": "body",
+          "cost": {
+            "metrics": {
+              "colliders": 6,
+              "externalImageBytes": 0,
+              "fileBytes": 12135888,
+              "images": 24,
+              "jointSlots": 166,
+              "materials": 15,
+              "maxImageDimension": 2048,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 83,
+              "morphAccessorBytes": 1380960,
+              "morphTargetsPerPrimitive": 56,
+              "nodeTriangles": 14804,
+              "primitiveVertices": 65445,
+              "primitives": 15,
+              "rgba8MipBytes": 96469680,
+              "skins": 2,
+              "springJoints": 16,
+              "textures": 24,
+              "triangles": 14804,
+              "uniquePositionVertices": 9880
+            }
+          },
+          "id": "body",
+          "path": "assets/female-uniform-texture-release-v1/body.vrm",
+          "placements": 1,
+          "selected": true,
+          "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+        },
+        {
+          "assetExcesses": [],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 765288,
+              "images": 2,
+              "jointSlots": 16,
+              "materials": 2,
+              "maxImageDimension": 1024,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 16,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 2280,
+              "primitiveVertices": 1640,
+              "primitives": 2,
+              "rgba8MipBytes": 5941928,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 2,
+              "triangles": 2280,
+              "uniquePositionVertices": 1640
+            }
+          },
+          "id": "source-female-uniform-texture-v1-top-1k",
+          "path": "assets/garment-basecolor-release-v1/female/m1-female-uniform-top-1k-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+        },
+        {
+          "assetExcesses": [],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 63520,
+              "images": 0,
+              "jointSlots": 8,
+              "materials": 1,
+              "maxImageDimension": 0,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 8,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 1544,
+              "primitiveVertices": 830,
+              "primitives": 1,
+              "rgba8MipBytes": 0,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 0,
+              "triangles": 1544,
+              "uniquePositionVertices": 830
+            }
+          },
+          "id": "source-female-uniform-texture-v1-pants",
+          "path": "assets/m1/m1-training-pants.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+        },
+        {
+          "assetExcesses": [],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 190988,
+              "images": 1,
+              "jointSlots": 6,
+              "materials": 1,
+              "maxImageDimension": 512,
+              "maxInfluences": 2,
+              "maxJointsPerSkin": 6,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 540,
+              "primitiveVertices": 570,
+              "primitives": 1,
+              "rgba8MipBytes": 1398100,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 1,
+              "triangles": 540,
+              "uniquePositionVertices": 570
+            }
+          },
+          "id": "source-female-uniform-texture-v1-shoes",
+          "path": "assets/m1/m1-uniform-shoes.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+        },
+        {
+          "assetExcesses": [],
+          "class": "hair",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 651604,
+              "images": 3,
+              "jointSlots": 0,
+              "materials": 1,
+              "maxImageDimension": 1024,
+              "maxInfluences": 0,
+              "maxJointsPerSkin": 0,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 394,
+              "primitiveVertices": 225,
+              "primitives": 1,
+              "rgba8MipBytes": 11185148,
+              "skins": 0,
+              "springJoints": 0,
+              "textures": 3,
+              "triangles": 394,
+              "uniquePositionVertices": 225
+            }
+          },
+          "hairPhysics": {
+            "colliders": 0,
+            "source": "none",
+            "springJoints": 0
+          },
+          "id": "hair",
+          "path": "assets/m2-hairstyle-v1/female-bob.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "3dcf01957d8ab72dfc128c6950f0e9600c2c7b801ea774a612058dc4b5d68110"
+        }
+      ],
+      "outfitIndex": 5,
+      "recordSha256": "daf7fa868a2359f88980549de9ccc5a036aeb12e24aed5c38b3ef7eabdc9c551",
+      "reviewedLegacyAppearanceCache": {
+        "budgetDescriptorSha256": "2ecae25bc7f7f7402b0f29cb3ef80d18cb4043b0aa3519eb228080e804700895",
+        "excluded": "Mask-analysis scratch, index/weight arrays, native renderer allocations, prior palette visits and actual CPU heap/VRAM are not measured.",
+        "explicitHairFit": {
+          "id": "uniform-lite-female-bob-fit-v1",
+          "kind": "explicit-fit-v1",
+          "sha256": "69414efb8f09b118679f268b540989a5c73a3dd9bf2a464ccd6771fdcec5af2b",
+          "version": 1
+        },
+        "groups": {
+          "brow": {
+            "derivedCanvasRgba8Bytes": 2097152,
+            "distinctDerivedTextures": 2,
+            "field": "hairColor",
+            "format": "RGBA8-equivalent",
+            "generateMipmaps": false,
+            "height": 256,
+            "logicalTextureRgba8Bytes": 2097152,
+            "materialName": "F00_000_00_FaceBrow_00_FACE",
+            "minFilter": "linear",
+            "retainedImageDataBytes": 0,
+            "retainedOriginalPixelArrayBytes": 0,
+            "selection": "blonde",
+            "sourceImageSha256": "d43b5654776cf2eb8e9a9e9e2b4818effc02bb1db8ac760e3a208e64f641654f",
+            "sourceTextureIndex": 16,
+            "transientImageDataAllocationBytes": 2097152,
+            "width": 1024
+          },
+          "hair": {
+            "derivedCanvasRgba8Bytes": 8388608,
+            "distinctDerivedTextures": 2,
+            "field": "hairColor",
+            "format": "RGBA8-equivalent",
+            "generateMipmaps": false,
+            "height": 1024,
+            "logicalTextureRgba8Bytes": 8388608,
+            "materialName": "F00_000_HairBack_00_HAIR",
+            "minFilter": "linear",
+            "retainedImageDataBytes": 0,
+            "retainedOriginalPixelArrayBytes": 0,
+            "selection": "blonde",
+            "sourceImageSha256": "1be9a663f784c4db3c89f8b07319d4b8311f61a9bfd3100f8954e5f539a11c47",
+            "sourceTextureIndex": 9,
+            "transientImageDataAllocationBytes": 8388608,
+            "width": 1024
+          },
+          "iris": {
+            "derivedCanvasRgba8Bytes": 4194304,
+            "distinctDerivedTextures": 2,
+            "field": "eyeColor",
+            "format": "RGBA8-equivalent",
+            "generateMipmaps": false,
+            "height": 512,
+            "logicalTextureRgba8Bytes": 4194304,
+            "materialName": "F00_000_00_EyeIris_00_EYE",
+            "minFilter": "linear",
+            "retainedImageDataBytes": 4194304,
+            "retainedOriginalPixelArrayBytes": 4194304,
+            "selection": "brown",
+            "sourceImageSha256": "7fd6bbe509f0535f895e28981767587c036dd3492c8af45c3ddddba753ad2e79",
+            "sourceTextureIndex": 17,
+            "transientImageDataAllocationBytes": 0,
+            "width": 1024
+          },
+          "lips": {
+            "derivedCanvasRgba8Bytes": 8388608,
+            "distinctDerivedTextures": 2,
+            "field": "lipColor",
+            "format": "RGBA8-equivalent",
+            "generateMipmaps": false,
+            "height": 1024,
+            "logicalTextureRgba8Bytes": 8388608,
+            "materialName": "F00_000_00_Face_00_SKIN",
+            "minFilter": "linear",
+            "retainedImageDataBytes": 8388608,
+            "retainedOriginalPixelArrayBytes": 8388608,
+            "selection": "coral",
+            "sourceImageSha256": "e7ee87522375c3034196d7bb7ea22bff33247e45ce91f378b53c903a03db9554",
+            "sourceTextureIndex": 19,
+            "transientImageDataAllocationBytes": 0,
+            "width": 1024
+          }
+        },
+        "paletteReferencePaths": [
+          "assets/appearance-color-v3/female-iris-mask.png",
+          "assets/appearance-color-v3/female-iris-neutral.png",
+          "assets/appearance-color-v3/female-outer-lip-mask.png"
+        ],
+        "paletteVersion": "female-uniform-head-v1:f322a155136d960216d32a7ba1a60e847eb01f43a87bb6b28d3dd0a6e4e676bd",
+        "recordSha256": "daf7fa868a2359f88980549de9ccc5a036aeb12e24aed5c38b3ef7eabdc9c551",
+        "resourceFamily": "uniform-lite-female-head-v1",
+        "runtimeAdmission": false,
+        "runtimeReconciliation": "not-linked",
+        "schema": "reviewed-legacy-appearance-cache-v1",
+        "scope": "fresh-actor-pixel-payload-static-diagnostic-only",
+        "sharing": "Bob and hidden original hair use the same original map keys within an actor. Base and shade keys are distinct. Face outline reuses the face keys. Derived Sources are actor-local.",
+        "skinTone": {
+          "additionalTextureObjects": 0,
+          "materialFactorsOnly": true,
+          "selection": "original"
+        },
+        "totals": {
+          "derivedCanvasRgba8Bytes": 23068672,
+          "distinctDerivedTextures": 8,
+          "logicalTextureRgba8Bytes": 23068672,
+          "retainedImageDataBytes": 12582912,
+          "retainedOriginalPixelArrayBytes": 12582912,
+          "retainedPixelPayloadUpperBoundBytes": 48234496,
+          "transientImageDataAllocationBytes": 10485760
+        }
+      },
+      "revision": 1,
+      "selectedCost": {
+        "aggregateExcesses": [],
+        "scope": "selected-look",
+        "totals": {
+          "colliders": 6,
+          "externalImageBytes": 0,
+          "fileBytes": 13882242,
+          "images": 30,
+          "jointSlots": 196,
+          "materials": 20,
+          "mergedExternalImageBytes": 74954,
+          "morphAccessorBytes": 1380960,
+          "nodeTriangles": 19562,
+          "placedNodeTriangles": 19562,
+          "primitiveVertices": 68710,
+          "primitives": 20,
+          "rgba8MipBytes": 138063528,
+          "skins": 5,
+          "springJoints": 16,
+          "standaloneEncodedImageBytes": 74954,
+          "textureObjects": 38,
+          "textures": 30,
+          "triangles": 19562,
+          "uniquePositionVertices": 13145
+        }
+      },
+      "standaloneImages": [
+        {
+          "addedRgba8EstimateBytes": 0,
+          "addedTextureObjectUpperBound": 0,
+          "decodedRgba8Bytes": 2097152,
+          "encodedBytes": 4051,
+          "height": 512,
+          "path": "assets/appearance-color-v3/female-iris-mask.png",
+          "sha256": "d6178bb05f53d5dde9186614c2f4019a535cfb15ceec40a1e8ad46343e2eebfe",
+          "usage": "legacy-facial-palette-reference",
+          "width": 1024
+        },
+        {
+          "addedRgba8EstimateBytes": 0,
+          "addedTextureObjectUpperBound": 0,
+          "decodedRgba8Bytes": 2097152,
+          "encodedBytes": 69621,
+          "height": 512,
+          "path": "assets/appearance-color-v3/female-iris-neutral.png",
+          "sha256": "3cbc5234aee21d3d5b6fb74103fd27901d1f189508a16ed493fa0999a422ac33",
+          "usage": "legacy-facial-palette-reference",
+          "width": 1024
+        },
+        {
+          "addedRgba8EstimateBytes": 0,
+          "addedTextureObjectUpperBound": 0,
+          "decodedRgba8Bytes": 4194304,
+          "encodedBytes": 1282,
+          "height": 1024,
+          "path": "assets/appearance-color-v3/female-outer-lip-mask.png",
+          "sha256": "b7f1de3847c7bd89b8c50c14f192c77236fd91031b76783583a51a73a91492ed",
+          "usage": "legacy-facial-palette-reference",
+          "width": 1024
+        }
+      ],
+      "startupAndSelectedCost": {
+        "aggregateExcesses": [],
+        "scope": "startup-and-selected-models",
+        "totals": {
+          "colliders": 6,
+          "externalImageBytes": 0,
+          "fileBytes": 13882242,
+          "images": 30,
+          "jointSlots": 196,
+          "materials": 20,
+          "mergedExternalImageBytes": 74954,
+          "morphAccessorBytes": 1380960,
+          "nodeTriangles": 19562,
+          "placedNodeTriangles": 19562,
+          "primitiveVertices": 68710,
+          "primitives": 20,
+          "rgba8MipBytes": 138063528,
+          "skins": 5,
+          "springJoints": 16,
+          "standaloneEncodedImageBytes": 74954,
+          "textureObjects": 38,
+          "textures": 30,
+          "triangles": 19562,
+          "uniquePositionVertices": 13145
+        }
+      },
+      "status": "within-static-limits",
+      "unsupportedActions": [
+        "rokoko-5359146-30s-v1",
+        "rokoko-5359146-30s-arm-local-v1",
+        "native-rokoko-5359146-30s-v2"
+      ]
+    },
+    {
+      "actions": [
+        "idle",
+        "walk",
+        "jog",
+        "talk",
+        "sitTalk",
+        "sitEnter",
+        "sitExit",
+        "sitIdle",
+        "turn",
+        "greeting",
+        "ual1-dance-reference",
+        "dance-technical-once-v1"
+      ],
+      "avatarSha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+      "bodyType": "source-female-uniform-texture-v1",
+      "closureSourceBytes": 27166705,
+      "earSelection": "none",
+      "equipmentIds": [
+        "source-female-uniform-texture-v1-top-1k",
+        "source-female-uniform-texture-v1-shoes",
+        "source-female-uniform-texture-v1-pants"
+      ],
+      "files": [
+        {
+          "bytes": 12135888,
+          "path": "assets/female-uniform-texture-release-v1/body.vrm",
+          "provenance": [
+            {
+              "source": "Base_Female / 1K body color and 512px preview",
+              "sourceLicense": {
+                "candidate": "VRoid beta Base_Female, third-party export",
+                "checkedAt": "2026-11-14",
+                "currentGuidelines": "https://vroid.com/en/studio/guidelines",
+                "download": "https://opengameart.org/sites/default/files/base_female.zip",
+                "files": [
+                  {
+                    "bytes": 13149860,
+                    "file": "base_female.zip",
+                    "sha256": "bf2717cff70b40a278df56e137dbb699c6499551096fa4c005e9aeca1de68eb3"
+                  },
+                  {
+                    "bytes": 16323872,
+                    "file": "Base_Female.vrm",
+                    "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+                  }
+                ],
+                "officialAssetLicense": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "originalEditorSourceRecovered": false,
+                "provenanceStatus": "Third-party exporter states VRoid Studio 0.14.0 with optimization disabled; not yet bitwise matched to official editor export",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "runtimeSource": "prototype/public/assets/foundation/base-female.vrm",
+                "vrmMeta": {
+                  "allowedUserName": "Everyone",
+                  "author": "VRoidプロジェクト",
+                  "commercialUssageName": "Allow",
+                  "contactInformation": "",
+                  "licenseName": "CC0",
+                  "otherLicenseUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "otherPermissionUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "reference": "",
+                  "sexualUssageName": "Allow",
+                  "texture": 24,
+                  "title": "Base_Female",
+                  "version": "",
+                  "violentUssageName": "Allow"
+                }
+              },
+              "sourcePath": "prototype/src/foundation-profiles.js"
+            }
+          ],
+          "reasons": [
+            "Exact foundation body"
+          ],
+          "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+        },
+        {
+          "bytes": 44433,
+          "path": "assets/female-uniform-texture-release-v1/coverage-top-1k.json",
+          "provenance": [],
+          "reasons": [
+            "Startup body coverage for topFar"
+          ],
+          "sha256": "dde4d2f89c988bb57140db140fcc7f62e9a391b5311d16233586ddc280c394b2"
+        },
+        {
+          "bytes": 44372,
+          "path": "assets/female-uniform-texture-release-v1/coverage-top.json",
+          "provenance": [],
+          "reasons": [
+            "Startup body coverage for top"
+          ],
+          "sha256": "f0e3b845fae36754ed60f0488efd08c4eeb98c0f3901e11447602b453fa7a529"
+        },
+        {
+          "bytes": 37362,
+          "path": "assets/female-uniform-texture-release-v1/equipment.json",
+          "provenance": [],
+          "reasons": [
+            "Body equipment catalog"
+          ],
+          "sha256": "e7252fcc6bf73a6f1bde1790edbd832f1c0e58b676703b254410ed9312f1b6d8"
+        },
+        {
+          "bytes": 765288,
+          "path": "assets/garment-basecolor-release-v1/female/m1-female-uniform-top-1k-v1.glb",
+          "provenance": [
+            {
+              "equipmentId": "source-female-uniform-texture-v1-top-1k",
+              "sourceLicense": {
+                "candidate": "VRoid beta Base_Female, third-party export",
+                "checkedAt": "2026-11-14",
+                "currentGuidelines": "https://vroid.com/en/studio/guidelines",
+                "download": "https://opengameart.org/sites/default/files/base_female.zip",
+                "files": [
+                  {
+                    "bytes": 13149860,
+                    "file": "base_female.zip",
+                    "sha256": "bf2717cff70b40a278df56e137dbb699c6499551096fa4c005e9aeca1de68eb3"
+                  },
+                  {
+                    "bytes": 16323872,
+                    "file": "Base_Female.vrm",
+                    "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+                  }
+                ],
+                "officialAssetLicense": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "originalEditorSourceRecovered": false,
+                "provenanceStatus": "Third-party exporter states VRoid Studio 0.14.0 with optimization disabled; not yet bitwise matched to official editor export",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "runtimeSource": "prototype/public/assets/foundation/base-female.vrm",
+                "vrmMeta": {
+                  "allowedUserName": "Everyone",
+                  "author": "VRoidプロジェクト",
+                  "commercialUssageName": "Allow",
+                  "contactInformation": "",
+                  "licenseName": "CC0",
+                  "otherLicenseUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "otherPermissionUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "reference": "",
+                  "sexualUssageName": "Allow",
+                  "texture": 24,
+                  "title": "Base_Female",
+                  "version": "",
+                  "violentUssageName": "Allow"
+                }
+              },
+              "sourcePath": "prototype/public/assets/female-uniform-texture-release-v1/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Selected outfit: source-female-uniform-texture-v1-top-1k"
+          ],
+          "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+        },
+        {
+          "bytes": 63520,
+          "path": "assets/m1/m1-training-pants.glb",
+          "provenance": [
+            {
+              "equipmentId": "source-female-uniform-texture-v1-pants",
+              "sourceLicense": {
+                "candidate": "VRoid beta Base_Female, third-party export",
+                "checkedAt": "2026-11-14",
+                "currentGuidelines": "https://vroid.com/en/studio/guidelines",
+                "download": "https://opengameart.org/sites/default/files/base_female.zip",
+                "files": [
+                  {
+                    "bytes": 13149860,
+                    "file": "base_female.zip",
+                    "sha256": "bf2717cff70b40a278df56e137dbb699c6499551096fa4c005e9aeca1de68eb3"
+                  },
+                  {
+                    "bytes": 16323872,
+                    "file": "Base_Female.vrm",
+                    "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+                  }
+                ],
+                "officialAssetLicense": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "originalEditorSourceRecovered": false,
+                "provenanceStatus": "Third-party exporter states VRoid Studio 0.14.0 with optimization disabled; not yet bitwise matched to official editor export",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "runtimeSource": "prototype/public/assets/foundation/base-female.vrm",
+                "vrmMeta": {
+                  "allowedUserName": "Everyone",
+                  "author": "VRoidプロジェクト",
+                  "commercialUssageName": "Allow",
+                  "contactInformation": "",
+                  "licenseName": "CC0",
+                  "otherLicenseUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "otherPermissionUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "reference": "",
+                  "sexualUssageName": "Allow",
+                  "texture": 24,
+                  "title": "Base_Female",
+                  "version": "",
+                  "violentUssageName": "Allow"
+                }
+              },
+              "sourcePath": "prototype/public/assets/female-uniform-texture-release-v1/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Selected outfit: source-female-uniform-texture-v1-pants"
+          ],
+          "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+        },
+        {
+          "bytes": 190988,
+          "path": "assets/m1/m1-uniform-shoes.glb",
+          "provenance": [
+            {
+              "equipmentId": "source-female-uniform-texture-v1-shoes",
+              "sourceLicense": {
+                "candidate": "VRoid beta Base_Female, third-party export",
+                "checkedAt": "2026-11-14",
+                "currentGuidelines": "https://vroid.com/en/studio/guidelines",
+                "download": "https://opengameart.org/sites/default/files/base_female.zip",
+                "files": [
+                  {
+                    "bytes": 13149860,
+                    "file": "base_female.zip",
+                    "sha256": "bf2717cff70b40a278df56e137dbb699c6499551096fa4c005e9aeca1de68eb3"
+                  },
+                  {
+                    "bytes": 16323872,
+                    "file": "Base_Female.vrm",
+                    "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+                  }
+                ],
+                "officialAssetLicense": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+                "originalEditorSourceRecovered": false,
+                "provenanceStatus": "Third-party exporter states VRoid Studio 0.14.0 with optimization disabled; not yet bitwise matched to official editor export",
+                "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+                "runtimeSource": "prototype/public/assets/foundation/base-female.vrm",
+                "vrmMeta": {
+                  "allowedUserName": "Everyone",
+                  "author": "VRoidプロジェクト",
+                  "commercialUssageName": "Allow",
+                  "contactInformation": "",
+                  "licenseName": "CC0",
+                  "otherLicenseUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "otherPermissionUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+                  "reference": "",
+                  "sexualUssageName": "Allow",
+                  "texture": 24,
+                  "title": "Base_Female",
+                  "version": "",
+                  "violentUssageName": "Allow"
+                }
+              },
+              "sourcePath": "prototype/public/assets/female-uniform-texture-release-v1/equipment.json"
+            }
+          ],
+          "reasons": [
+            "Selected outfit: source-female-uniform-texture-v1-shoes"
+          ],
+          "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+        },
+        {
+          "bytes": 9195,
+          "path": "assets/motion/m1c/dance-imports.json",
+          "provenance": [],
+          "reasons": [
+            "Startup dance catalog"
+          ],
+          "sha256": "600f7ab75fce550f71d9be5f9240e83f6b58945d67804555feddfe1acf2d67da"
+        },
+        {
+          "bytes": 739436,
+          "path": "assets/motion/m1c/dance-source-reference.glb",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "ual1-dance-reference",
+              "origin": "Unmodified Quaternius Dance_Loop reference",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup dance ual1-dance-reference"
+          ],
+          "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744"
+        },
+        {
+          "bytes": 2984076,
+          "path": "assets/motion/m1c/dance-technical-v1.glb",
+          "provenance": [
+            {
+              "licenseBoundary": "CC0-1.0 source; project technical choreography derivative",
+              "motionId": "dance-technical-once-v1",
+              "origin": "Original technical choreography, UAL1 idle reference/rig; not professional dance or mocap",
+              "sourcePath": "prototype/public/assets/motion/m1c/dance-imports.json"
+            }
+          ],
+          "reasons": [
+            "Startup dance dance-technical-once-v1"
+          ],
+          "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e"
+        },
+        {
+          "bytes": 1566668,
+          "path": "assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            },
+            {
+              "sourcePath": "prototype/public/assets/motion/m1c/greeting/gesture-import.json"
+            }
+          ],
+          "reasons": [
+            "On-demand greeting"
+          ],
+          "sha256": "eec4ef8ab2fb073f7674cc6e839cbad7aea6931e4b19e8e70c0ee46c5fda2d06"
+        },
+        {
+          "bytes": 965540,
+          "path": "assets/motion/m1c/jog-ordinary-derived-v1.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup jog model"
+          ],
+          "sha256": "6ec251d7611f22c6bf918d3401fcf438a8f2bc7b72f2826047dea8beef15c9e5"
+        },
+        {
+          "bytes": 1503,
+          "path": "assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup jog profile"
+          ],
+          "sha256": "2df4d6b86227b6bce60a5ea7ba97a982d974448044a46b903e413bd243e75ec0"
+        },
+        {
+          "bytes": 7618436,
+          "path": "assets/motion/UAL1_Standard.glb",
+          "provenance": [
+            {
+              "sourcePath": "prototype/licenses/quaternius-CC0.txt"
+            }
+          ],
+          "reasons": [
+            "Startup shared motion library"
+          ],
+          "sha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997"
+        }
+      ],
+      "hairColor": "original",
+      "id": "uniform-head-original-v1",
+      "materialRecipes": [],
+      "models": [
+        {
+          "assetExcesses": [],
+          "class": "body",
+          "cost": {
+            "metrics": {
+              "colliders": 6,
+              "externalImageBytes": 0,
+              "fileBytes": 12135888,
+              "images": 24,
+              "jointSlots": 166,
+              "materials": 15,
+              "maxImageDimension": 2048,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 83,
+              "morphAccessorBytes": 1380960,
+              "morphTargetsPerPrimitive": 56,
+              "nodeTriangles": 14804,
+              "primitiveVertices": 65445,
+              "primitives": 15,
+              "rgba8MipBytes": 96469680,
+              "skins": 2,
+              "springJoints": 16,
+              "textures": 24,
+              "triangles": 14804,
+              "uniquePositionVertices": 9880
+            }
+          },
+          "id": "body",
+          "path": "assets/female-uniform-texture-release-v1/body.vrm",
+          "placements": 1,
+          "selected": true,
+          "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+        },
+        {
+          "assetExcesses": [],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 765288,
+              "images": 2,
+              "jointSlots": 16,
+              "materials": 2,
+              "maxImageDimension": 1024,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 16,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 2280,
+              "primitiveVertices": 1640,
+              "primitives": 2,
+              "rgba8MipBytes": 5941928,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 2,
+              "triangles": 2280,
+              "uniquePositionVertices": 1640
+            }
+          },
+          "id": "source-female-uniform-texture-v1-top-1k",
+          "path": "assets/garment-basecolor-release-v1/female/m1-female-uniform-top-1k-v1.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+        },
+        {
+          "assetExcesses": [],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 63520,
+              "images": 0,
+              "jointSlots": 8,
+              "materials": 1,
+              "maxImageDimension": 0,
+              "maxInfluences": 4,
+              "maxJointsPerSkin": 8,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 1544,
+              "primitiveVertices": 830,
+              "primitives": 1,
+              "rgba8MipBytes": 0,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 0,
+              "triangles": 1544,
+              "uniquePositionVertices": 830
+            }
+          },
+          "id": "source-female-uniform-texture-v1-pants",
+          "path": "assets/m1/m1-training-pants.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+        },
+        {
+          "assetExcesses": [],
+          "class": "garment",
+          "cost": {
+            "metrics": {
+              "colliders": 0,
+              "externalImageBytes": 0,
+              "fileBytes": 190988,
+              "images": 1,
+              "jointSlots": 6,
+              "materials": 1,
+              "maxImageDimension": 512,
+              "maxInfluences": 2,
+              "maxJointsPerSkin": 6,
+              "morphAccessorBytes": 0,
+              "morphTargetsPerPrimitive": 0,
+              "nodeTriangles": 540,
+              "primitiveVertices": 570,
+              "primitives": 1,
+              "rgba8MipBytes": 1398100,
+              "skins": 1,
+              "springJoints": 0,
+              "textures": 1,
+              "triangles": 540,
+              "uniquePositionVertices": 570
+            }
+          },
+          "id": "source-female-uniform-texture-v1-shoes",
+          "path": "assets/m1/m1-uniform-shoes.glb",
+          "placements": 1,
+          "selected": true,
+          "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+        }
+      ],
+      "outfitIndex": 5,
+      "recordSha256": "df210521647122d636508cd0ab3d21a51fbd0a2b6e8254a29c36eaa7cd361b2f",
+      "revision": 1,
+      "selectedCost": {
+        "aggregateExcesses": [],
+        "scope": "selected-look",
+        "totals": {
+          "colliders": 6,
+          "externalImageBytes": 0,
+          "fileBytes": 13155684,
+          "images": 27,
+          "jointSlots": 196,
+          "materials": 19,
+          "mergedExternalImageBytes": 0,
+          "morphAccessorBytes": 1380960,
+          "nodeTriangles": 19168,
+          "placedNodeTriangles": 19168,
+          "primitiveVertices": 68485,
+          "primitives": 19,
+          "rgba8MipBytes": 103809708,
+          "skins": 5,
+          "springJoints": 16,
+          "standaloneEncodedImageBytes": 0,
+          "textureObjects": 27,
+          "textures": 27,
+          "triangles": 19168,
+          "uniquePositionVertices": 12920
+        }
+      },
+      "standaloneImages": [],
+      "startupAndSelectedCost": {
+        "aggregateExcesses": [],
+        "scope": "startup-and-selected-models",
+        "totals": {
+          "colliders": 6,
+          "externalImageBytes": 0,
+          "fileBytes": 13155684,
+          "images": 27,
+          "jointSlots": 196,
+          "materials": 19,
+          "mergedExternalImageBytes": 0,
+          "morphAccessorBytes": 1380960,
+          "nodeTriangles": 19168,
+          "placedNodeTriangles": 19168,
+          "primitiveVertices": 68485,
+          "primitives": 19,
+          "rgba8MipBytes": 103809708,
+          "skins": 5,
+          "springJoints": 16,
+          "standaloneEncodedImageBytes": 0,
+          "textureObjects": 27,
+          "textures": 27,
+          "triangles": 19168,
+          "uniquePositionVertices": 12920
+        }
+      },
+      "status": "within-static-limits",
+      "unsupportedActions": [
+        "rokoko-5359146-30s-v1",
+        "rokoko-5359146-30s-arm-local-v1",
+        "native-rokoko-5359146-30s-v2"
+      ]
+    }
+  ],
+  "runtimeAdmission": false,
+  "schema": "zbgs-character-record-budget-result-v1",
+  "sourceCommit": "ba9a95f635db6aee6815d197829683ad7247d37f",
+  "status": "within-static-limits",
+  "sumAcrossSelectedActors": {
+    "placedNodeTriangles": 38730,
+    "rgba8MipBytes": 241873236,
+    "textureObjects": 65
+  },
+  "temporaryAggregateLimits": {
+    "fileBytes": 67108864,
+    "ordinaryPCPerformance": "unmeasured",
+    "rgba8MipBytes": 268435456,
+    "status": "temporary-unmeasured",
+    "textureObjects": 96
+  },
+  "textureEstimateScope": {
+    "included": [
+      "image textures declared by measured models",
+      "supported derived image textures"
+    ],
+    "metrics": [
+      "textureObjects",
+      "rgba8MipBytes"
+    ],
+    "unmodeledRendererAllocations": [
+      "bone data textures",
+      "morph data array textures",
+      "renderer-specific texture, source and sampler allocation"
+    ]
+  }
+}

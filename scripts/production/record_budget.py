@@ -59,14 +59,23 @@ REVIEWED_LEGACY_CACHE_SOURCE = {
 }
 REVIEWED_LEGACY_BODY_SHA = '027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95'
 REVIEWED_LEGACY_BOB_SHA = '3dcf01957d8ab72dfc128c6950f0e9600c2c7b801ea774a612058dc4b5d68110'
+FITTED_HEAD_DESCRIPTOR = ROOT / 'scripts/production/fitted-head-budget-v1.json'
+FITTED_HEAD_BYTES = FITTED_HEAD_DESCRIPTOR.read_bytes()
+FITTED_HEAD_BUDGET = json.loads(FITTED_HEAD_BYTES)
+require(FITTED_HEAD_BUDGET['schema'] == 'fitted-head-budget-v1', 'Unsupported fitted head budget descriptor')
+LEGACY_PALETTE = {'path':'assets/appearance-color-v3/runtime-manifest.json',
+                  'sha256':'2eff13c1d3837c4f8f76b7d97007b219059c212c1031d77e27a2f824715af321'}
+# These selectors index explicit per-body registrations. The texture-allocation
+# code and loader are still checked against the independently reviewed originals.
+REVIEWED_FITTED_HEAD_ROUTES = {
+    'src/hairstyle-catalog.js': 'ec8b933b683adb63688077e732cf6ba344ee64138f8e79b12e0fb890da58f58d',
+    'src/facial-palette-contract.js': '89d7f0808bf91b501effe3c13b67dd5746ac869a1dbe3378d93bc2e25f3ad1c1',
+    'src/appearance-color-policy.js': '623667517b90fe9419a4b55a93b5577960b0ef04e1441a3b55faa7ef46762fbf',
+    'src/fitted-head-appearance.js': '7c0ed6f97f7493075e9e17e7b4fa331cc2027d8763981db90f9a4337d6adfc29',
+}
 # Two distinct original Texture wrappers per part in the reviewed VRM0 loader.
 # Their source PNG is shared, while each derived wrapper gets a new Source.
-REVIEWED_LEGACY_TEXTURES = {
-    'hair': ('F00_000_HairBack_00_HAIR', 9, (1024,1024), '1be9a663f784c4db3c89f8b07319d4b8311f61a9bfd3100f8954e5f539a11c47'),
-    'brow': ('F00_000_00_FaceBrow_00_FACE', 16, (1024,256), 'd43b5654776cf2eb8e9a9e9e2b4818effc02bb1db8ac760e3a208e64f641654f'),
-    'iris': ('F00_000_00_EyeIris_00_EYE', 17, (1024,512), '7fd6bbe509f0535f895e28981767587c036dd3492c8af45c3ddddba753ad2e79'),
-    'lips': ('F00_000_00_Face_00_SKIN', 19, (1024,1024), 'e7ee87522375c3034196d7bb7ea22bff33247e45ce91f378b53c903a03db9554'),
-}
+REVIEWED_LEGACY_TEXTURES = FITTED_HEAD_BUDGET['textureBindingProfiles']['vrm0-female-head-v1']
 SKIN_IMAGE_PREFIX = 'Selected native skin tone PNG: '
 LIP_IMAGE_PREFIX = 'Selected native lip color PNG: '
 SKIN_IMAGE_USAGES = {
@@ -269,14 +278,15 @@ def require_legacy_cache(condition, message):
         raise UnsupportedBudget('unsupported-reviewed-appearance-cache', message)
 
 
-def legacy_texture_groups(body, appearance):
+def legacy_texture_groups(body, appearance, bindings=REVIEWED_LEGACY_TEXTURES):
     doc = body.doc
+    require_legacy_cache(set(bindings) == {'hair', 'brow', 'iris', 'lips'}, 'Unreviewed procedural head texture roles')
     participating = {m['name'] for m in doc['materials'] if '_HAIR' in m['name'] or '_FaceBrow_' in m['name']}
-    require_legacy_cache(participating == {REVIEWED_LEGACY_TEXTURES[k][0] for k in ('hair', 'brow')},
+    require_legacy_cache(participating == {bindings[k][0] for k in ('hair', 'brow')},
                          'Unreviewed source hair or brow materials')
     material_properties = doc['extensions']['VRM']['materialProperties']
     groups = {}
-    for role, (name, index, (width, height), digest) in REVIEWED_LEGACY_TEXTURES.items():
+    for role, (name, index, (width, height), digest) in bindings.items():
         matches = [i for i, material in enumerate(doc['materials']) if material['name'] == name]
         require_legacy_cache(len(matches) == 1, 'Missing or ambiguous appearance material: '+name)
         material = doc['materials'][matches[0]]
@@ -313,13 +323,13 @@ def legacy_texture_groups(body, appearance):
     return groups
 
 
-def legacy_palette_references(public, files, appearance, avatar_sha, groups):
+def legacy_palette_references(public, files, appearance, avatar_sha, groups, palette):
     if appearance['eyeColor'] == appearance['lipColor'] == 'original':
         return []
     reason = 'Selected facial palette manifest'
     manifest_row = [row for row in files if reason in row['reasons']]
-    require_legacy_cache(len(manifest_row) == 1 and
-                         manifest_row[0]['sha256'] == '2eff13c1d3837c4f8f76b7d97007b219059c212c1031d77e27a2f824715af321',
+    require_legacy_cache(len(manifest_row) == 1 and manifest_row[0]['path'] == palette['path'] and
+                         manifest_row[0]['sha256'] == palette['sha256'],
                          'Unreviewed legacy facial palette manifest')
     manifest = json.loads(checked_data(public, manifest_row[0]))
     parts, = [row['parts'] for row in manifest['variants'] if row['avatarSha256'] == avatar_sha]
@@ -354,32 +364,78 @@ def matches_legacy_appearance_family(recipe):
             appearance.get('eyebrowColor', 'original') == 'original')
 
 
-def reviewed_legacy_appearance_cache(source, public, record, recipe):
+def fitted_head_family(recipe):
+    rows = [row for row in FITTED_HEAD_BUDGET['families'] if row['base']['sha256'] == recipe['base']['sha256']]
+    require_legacy_cache(len(rows) <= 1, 'Ambiguous fitted head budget registration')
+    return rows[0] if rows else None
+
+
+def validate_fitted_head_recipe(recipe, family):
+    fit = family['fit']
+    require_legacy_cache(
+        recipe['base'] == family['base'] and recipe['schema'] == family['recipeSchema'] and
+        recipe['rulesVersion'] == family['rulesVersion'] and recipe['appearance'] in family['reviewedLooks'] and
+        recipe['appearance']['skinTone'] == recipe['appearance'].get('eyebrowColor', 'original') == 'original' and
+        recipe.get('hairAssetSha256') == family['model']['sha256'] and
+        recipe.get('hairFit') == {'kind':'explicit-fit-v1', 'id':fit['id'], 'version':fit['version'], 'sha256':fit['sha256']} and
+        recipe.get('paletteVersion') == family['palette']['version'] and
+        not recipe.get('surface', {}).get('layers') and
+        not recipe.get('skinToneManifestSha256') and not recipe.get('lipColorManifestSha256'),
+        'Unreviewed fitted head rules, fit, palette version, or appearance selection')
+
+
+def reviewed_legacy_appearance_cache(source, public, record, recipe, family=None):
     appearance = recipe['appearance']
-    for filename, expected in REVIEWED_LEGACY_CACHE_SOURCE.items():
+    body_sha = recipe['base']['sha256']
+    if family:
+        validate_fitted_head_recipe(recipe, family)
+    pins = REVIEWED_LEGACY_CACHE_SOURCE
+    if family or runtime_source_sha(source, 'hairstyle-catalog.js') == REVIEWED_FITTED_HEAD_ROUTES['src/hairstyle-catalog.js']:
+        pins = {**pins, **REVIEWED_FITTED_HEAD_ROUTES}
+        registry = json.loads(local(source, 'prototype/src/fitted-head-appearances.json').read_bytes())
+        entries = [row for row in registry if row['bodySha256'] == body_sha]
+        if family:
+            require_legacy_cache(len(entries) == 1 and
+                                 all(appearance[key] in entries[0]['colors'][key] for key in ('hairColor','eyeColor','lipColor')) and
+                                 entries[0]['hair']['sourceBodySha256'] == family['sourceBodySha256'] and
+                                 entries[0]['palette']['version'] == recipe['paletteVersion'],
+                                 'Unreviewed fitted head registration')
+        else:
+            require_legacy_cache(not entries, 'Fitted head registration overrides the reviewed legacy body')
+    for filename, expected in pins.items():
         require_implementation(sha(local(source, 'prototype/'+filename).read_bytes()) == expected,
                                'Unsupported legacy appearance cache implementation: prototype/'+filename)
     files = record['files']
     selected = {}
-    for label, path, expected in (
-        ('Exact foundation body', 'assets/foundation/base-female-roundtrip.vrm', REVIEWED_LEGACY_BODY_SHA),
-        ('Selected hairstyle model', 'assets/m2-hairstyle-v1/female-bob.glb', REVIEWED_LEGACY_BOB_SHA),
-        ('Selected hairstyle manifest', 'assets/m2-hairstyle-v1/manifest.json',
-         '98bc1b0874658a22f696834eb622e03aff92f499d41943d285c825a4fe7ee908'),
-    ):
+    if family:
+        resources = [('Exact foundation body', family['bodyPath'], body_sha)]
+        for key, label in [('model','Selected hairstyle model'), ('manifest','Selected hairstyle manifest'),
+                           ('fit','Selected hairstyle body fit')]:
+            resources.append((label, family[key]['path'], family[key]['sha256']))
+        bindings = FITTED_HEAD_BUDGET['textureBindingProfiles'][family['textureBindingProfile']]
+        palette = family['palette']
+    else:
+        resources = [
+            ('Exact foundation body', 'assets/foundation/base-female-roundtrip.vrm', REVIEWED_LEGACY_BODY_SHA),
+            ('Selected hairstyle model', 'assets/m2-hairstyle-v1/female-bob.glb', REVIEWED_LEGACY_BOB_SHA),
+            ('Selected hairstyle manifest', 'assets/m2-hairstyle-v1/manifest.json',
+             '98bc1b0874658a22f696834eb622e03aff92f499d41943d285c825a4fe7ee908'),
+        ]
+        bindings, palette = REVIEWED_LEGACY_TEXTURES, LEGACY_PALETTE
+    for label, path, expected in resources:
         rows = [row for row in files if label in row['reasons']]
         require_legacy_cache(len(rows) == 1 and rows[0]['path'] == path and rows[0]['sha256'] == expected,
                              'Unreviewed legacy cache resource path or identity: '+label)
         selected[label] = rows[0]
     manifest = json.loads(checked_data(public, selected['Selected hairstyle manifest']))
     require_legacy_cache(manifest.get('schema') == 'character-hairstyle-v1' and manifest['physics'] == 'rigid' and
-                         manifest['id'] == appearance['hairStyle'] and manifest['sha256'] == REVIEWED_LEGACY_BOB_SHA and
-                         manifest['sourceMaterial'] == REVIEWED_LEGACY_TEXTURES['hair'][0],
+                         manifest['id'] == appearance['hairStyle'] and manifest['sha256'] == recipe['hairAssetSha256'] and
+                         manifest['sourceMaterial'] == bindings['hair'][0],
                          'Unreviewed hairstyle material cloning contract')
     asset = AssetCost(local(public, selected['Exact foundation body']['path']))
-    require_legacy_cache(sha(asset.raw) == REVIEWED_LEGACY_BODY_SHA, 'Legacy body changed after collection')
-    groups = legacy_texture_groups(asset, appearance)
-    references = legacy_palette_references(public, files, appearance, recipe['base']['sha256'], groups)
+    require_legacy_cache(sha(asset.raw) == body_sha, 'Appearance body changed after collection')
+    groups = legacy_texture_groups(asset, appearance, bindings)
+    references = legacy_palette_references(public, files, appearance, body_sha, groups, palette)
     totals = {key:sum(part[key] for part in groups.values()) for key in (
         'distinctDerivedTextures', 'logicalTextureRgba8Bytes', 'derivedCanvasRgba8Bytes',
         'retainedImageDataBytes', 'retainedOriginalPixelArrayBytes', 'transientImageDataAllocationBytes',
@@ -389,6 +445,8 @@ def reviewed_legacy_appearance_cache(source, public, record, recipe):
     return {'schema':'reviewed-legacy-appearance-cache-v1', 'recordSha256':record['recordSha256'],
             'scope':'fresh-actor-pixel-payload-static-diagnostic-only', 'runtimeReconciliation':'not-linked',
             'runtimeAdmission':False, 'groups':groups, 'totals':totals, 'paletteReferencePaths':references,
+            **({'resourceFamily':family['id'], 'explicitHairFit':recipe['hairFit'], 'paletteVersion':recipe['paletteVersion'],
+                'budgetDescriptorSha256':sha(FITTED_HEAD_BYTES)} if family else {}),
             'skinTone':{'selection':appearance['skinTone'], 'additionalTextureObjects':0, 'materialFactorsOnly':True},
             'sharing':'Bob and hidden original hair use the same original map keys within an actor. Base and shade keys are distinct. Face outline reuses the face keys. Derived Sources are actor-local.',
             'excluded':'Mask-analysis scratch, index/weight arrays, native renderer allocations, prior palette visits and actual CPU heap/VRAM are not measured.'}
@@ -523,7 +581,10 @@ def measure_record(source, record, config, recipe):
     appearance_cache = None
     uses_hair_cache = record['hairColor'] != 'original'
     uses_legacy_palette = any('Selected facial palette manifest' in row['reasons'] for row in record['files'])
-    if (uses_hair_cache or uses_legacy_palette) and matches_legacy_appearance_family(recipe):
+    family = fitted_head_family(recipe)
+    if family and any(value != 'original' for value in recipe['appearance'].values()):
+        appearance_cache = reviewed_legacy_appearance_cache(source, public, record, recipe, family)
+    elif (uses_hair_cache or uses_legacy_palette) and matches_legacy_appearance_family(recipe):
         appearance_cache = reviewed_legacy_appearance_cache(source, public, record, recipe)
     elif uses_hair_cache:
         raise UnsupportedBudget('unsupported-hair-color-budget',

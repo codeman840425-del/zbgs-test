@@ -12,12 +12,13 @@ from unittest.mock import patch
 from asset_budget import AssetCost
 from record_budget import (LIP_IMAGE_PREFIX, ROOT, SKIN_IMAGE_PREFIX, UnsupportedBudget, collected_records,
                            image_cost, legacy_texture_groups, main, measure, model_roles,
-                           runtime_source_sha, skin_cache)
+                           fitted_head_family, runtime_source_sha, skin_cache, validate_fitted_head_recipe)
 
 
 SOCK_RECORDS = ROOT / 'evidence/m2-native-short-socks-room-v1/records.json'
 SOCK_CATALOG = 'assets/native-crew-template-v1/equipment.json'
 SIGNED_LOOKS = ROOT / 'evidence/m2-uniform-agent-handoff-v1/records.json'
+UNIFORM_LITE_RECORDS = ROOT / 'evidence/m2-uniform-lite-operator-v1/records.json'
 FIXED_LEGACY = ROOT / 'experiments/worktrees/garment-80fb16b7'
 
 
@@ -154,6 +155,69 @@ class RecordBudgetTests(unittest.TestCase):
         with patch.object(sys, 'argv', argv), redirect_stdout(stdout):
             code = main()
         return code, json.loads(stdout.getvalue())
+
+    def uniform_head_recipe(self):
+        registry = self.source / 'prototype/src/fitted-head-appearances.json'
+        if not registry.is_file():
+            self.skipTest('Selected source predates the uniform head registration')
+        original = json.loads(UNIFORM_LITE_RECORDS.read_bytes())[0]
+        recipe = deepcopy(original['appearanceRecipe'])
+        head, = [row for row in json.loads(registry.read_bytes()) if row['bodySha256'] == recipe['base']['sha256']]
+        fit = head['hair']['fit']
+        recipe.update(hairAssetSha256=head['hair']['assetSha256'], paletteVersion=head['palette']['version'],
+                      hairFit={'kind':'explicit-fit-v1', 'id':fit['id'], 'version':fit['version'], 'sha256':fit['sha256']})
+        recipe['appearance'].update(hairStyle=head['hair']['id'], hairColor='blonde', eyeColor='brown', lipColor='coral')
+        return original, recipe
+
+    def test_uniform_head_signed_actor_cost_and_original_only_record(self):
+        original, recipe = self.uniform_head_recipe()
+        script = """
+import {readFileSync} from 'node:fs';
+import {createCharacterRecord} from './prototype/src/character-record.js';
+import {deriveCharacterResourceIdentities} from './prototype/src/character-runtime-record.js';
+const {original, appearanceRecipe} = JSON.parse(readFileSync(0, 'utf8'));
+const {liveAccessories,equipmentMaterials,provenance} = original;
+const resourceIdentities = deriveCharacterResourceIdentities(appearanceRecipe,liveAccessories,equipmentMaterials);
+const result = await createCharacterRecord({identity:{...original.identity,id:'budget-uniform-head-candidate'},
+  appearanceRecipe,liveAccessories,equipmentMaterials,provenance,resourceIdentities,now:original.createdAt},
+  {validateResources:()=>({status:'pending'})});
+console.log(JSON.stringify(result));
+"""
+        result = subprocess.run(['node', '--input-type=module', '-e', script], cwd=self.source, check=True,
+                                capture_output=True, encoding='utf-8', input=json.dumps({'original':original, 'appearanceRecipe':recipe}))
+        signed = json.loads(result.stdout)
+        report = self.run_measure([original, signed])
+        original_cost, colored = report['records']
+        self.assertNotIn('reviewedLegacyAppearanceCache', original_cost)
+        self.assertEqual(original_cost['selectedCost']['totals']['rgba8MipBytes'], 103809708)
+        cache = colored['reviewedLegacyAppearanceCache']
+        self.assertEqual(cache['recordSha256'], signed['integrity']['recordSha256'])
+        self.assertEqual(cache['explicitHairFit'], recipe['hairFit'])
+        self.assertEqual(cache['skinTone']['selection'], 'original')
+        self.assertEqual(cache['totals']['logicalTextureRgba8Bytes'], 22 * 1024**2)
+        self.assertEqual(cache['totals']['distinctDerivedTextures'], 8)
+        self.assertEqual(cache['totals']['retainedPixelPayloadUpperBoundBytes'], 46 * 1024**2)
+        self.assertEqual(sum(row['encodedBytes'] for row in colored['standaloneImages']), 74954)
+        self.assertTrue(all(row['addedTextureObjectUpperBound'] == 0 for row in colored['standaloneImages']))
+        self.assertEqual(len(cache['paletteReferencePaths']), 3)
+        self.assertEqual(colored['selectedCost']['totals']['textureObjects'], colored['selectedCost']['totals']['textures'] + 8)
+        self.assertFalse(report['runtimeAdmission'])
+
+    def test_uniform_head_refuses_unreviewed_fit_rules_skin_and_color(self):
+        _, recipe = self.uniform_head_recipe()
+        family = fitted_head_family(recipe)
+        validate_fitted_head_recipe(recipe, family)
+        for section, field, value in [
+            ('base','sha256','0'*64), ('hairFit','sha256','0'*64), (None,'paletteVersion','appearance-color-v3'),
+            (None,'rulesVersion','workbench-appearance-rules-v9'), ('appearance','skinTone','warm'),
+            ('appearance','eyebrowColor','blonde'), ('appearance','lipColor','rose'), ('appearance','eyeColor','blue'),
+            ('appearance','hairColor','brown'), ('appearance','lipColor','original'), (None,'surface',{'layers':['unreviewed']}),
+        ]:
+            with self.subTest(section=section, field=field):
+                bad = deepcopy(recipe)
+                (bad[section] if section else bad)[field] = value
+                with self.assertRaisesRegex(UnsupportedBudget, 'Unreviewed fitted head'):
+                    validate_fitted_head_recipe(bad, family)
 
     def test_exact_records_cover_models_material_and_standalone_textures(self):
         report = self.run_measure(self.records)

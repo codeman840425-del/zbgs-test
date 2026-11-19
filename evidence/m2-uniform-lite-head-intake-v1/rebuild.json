@@ -1,0 +1,86 @@
+{
+  "schema": "uniform-head-fixed-game-rebuild-v1",
+  "status": "technical-build-and-external-record-package-pass",
+  "sourceCommit": "ba9a95f635db6aee6815d197829683ad7247d37f",
+  "sourceDigest": "f7ea73f3ec73ad1dac553408e726555b4a2c2719cad580f784ec59d76b4742a3",
+  "buildId": "f7ea73f3ec73",
+  "cleanBuilds": [
+    {
+      "worktree": "experiments/worktrees/head-ba9a95f6",
+      "checkout": "python -B scripts/character-worktree.py create head-ba9a95f6 ba9a95f635db6aee6815d197829683ad7247d37f --runtime-only",
+      "buildCwd": "experiments/worktrees/head-ba9a95f6/prototype",
+      "build": "npm.cmd run build",
+      "gitCleanBeforeAndAfterBuild": true
+    },
+    {
+      "worktree": "experiments/worktrees/head-ba9a95f6-repeat",
+      "checkout": "python -B scripts/character-worktree.py create head-ba9a95f6-repeat ba9a95f635db6aee6815d197829683ad7247d37f --runtime-only",
+      "buildCwd": "experiments/worktrees/head-ba9a95f6-repeat/prototype",
+      "build": "npm.cmd run build",
+      "gitCleanBeforeAndAfterBuild": true
+    }
+  ],
+  "toolchain": {
+    "nodeVersion": "v24.13.0",
+    "nodeSha256": "d14ba95cdce1ef7dc9ad3ac74949ca5db38b27378ee30f30a23cf26f9e875a11",
+    "npmVersion": "11.6.2",
+    "viteVersion": "7.3.8",
+    "lockSha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7",
+    "viteFileSha256": {
+      "vite/bin/vite.js": "fa03478846d229651a3c6aa64833ba2c6cbf580a798b92bd8f47c7480bafb5d8",
+      "vite/package.json": "4e87f89a19661c197033a55e54dc94790b5a3e28bcc9d2c9ee374ee54eec8dc2",
+      "vite/dist/node/cli.js": "6b9001816eb5fb0979cbe380ed2116db93e315ff22ebf7fe55a4fc60458fa067",
+      "vite/dist/node/index.js": "8b142bd1231a46bf2cad4c05b3f76de5b183064ee771b9934fbaffb70b914652"
+    },
+    "dependenciesFrom": "experiments/worktrees/motion-read-2ad612c2/prototype",
+    "dependencyMethod": "Independent copies of installed project node_modules after package-lock equality, comparison of the listed Vite hashes with both prior fixed builds, and verification of the copies. Build invoked with npm offline configuration.",
+    "tempAndNpmCache": "output/m2-uniform-head-fixed"
+  },
+  "comparison": {
+    "distFiles": 529,
+    "distBytes": 742794560,
+    "inventorySha256": "2d6a5805fc5ecde392bd6f622156383f62ba3d7b52afe0ef317d41101236f605",
+    "distDifference": [],
+    "sourceInputCount": 646,
+    "sourceDifference": [],
+    "sourceDigestRecomputed": true,
+    "distInventoryDigest": "SHA-256 of compact, sorted-key JSON mapping each POSIX path to [file byte count, SHA-256]",
+    "distInventory": "output/m2-uniform-head-fixed/dist-inventory.json",
+    "sourceInventory": "output/m2-uniform-head-fixed/source-inventory.json"
+  },
+  "review": {
+    "path": "scripts/runtime-package/game-record-uniform-head-reviewed.json",
+    "sha256": "c3bc92d6089bfb9a0e7a992b661b0be8c5f88d90d332651d5159c59de9a90495",
+    "compiledEntryClosureFiles": 11,
+    "indexSection": "externalRecords",
+    "existingIndexEntriesPreserved": true,
+    "command": "node scripts/runtime-package/review-game-runtime.mjs experiments/worktrees/head-ba9a95f6/prototype/dist experiments/worktrees/head-ba9a95f6-repeat/prototype/dist experiments/worktrees/head-ba9a95f6-repeat scripts/runtime-package/game-record-uniform-head-reviewed.json",
+    "failureAndRetry": {
+      "fixture": "Separate copy of record-consumer.html with appended bytes",
+      "failure": "rebuild-mismatch",
+      "failureLog": "output/m2-uniform-head-fixed/rejected-review.log",
+      "failedOutputCreated": false,
+      "retryWithExactBuilds": "pass"
+    }
+  },
+  "independentConsumerPackaging": {
+    "fixture": "evidence/m2-motion-response-compat-v1/room-female/input-record.json",
+    "recordId": "uniform-lite-female-v1",
+    "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757",
+    "packagedFiles": 27,
+    "inventorySha256": "873647ebeb53d3ae27a3808c37e4dd4749f50a46add9aa3a2756e4600c51519b",
+    "manifestSha256": "873647ebeb53d3ae27a3808c37e4dd4749f50a46add9aa3a2756e4600c51519b",
+    "firstBuildSecondBuildAndExportedPackageInventoriesEqual": true,
+    "exportedDependencyBytesAndRecordVerified": true,
+    "alteredReviewCopyRejected": "unsupported-build",
+    "alteredEntryBundleRejected": "modified-dependency",
+    "bundledRecordsLookupRejected": "unsupported-build",
+    "failedOutputsCreated": false,
+    "receipt": "output/m2-uniform-head-fixed/consumer-retry/receipt.json"
+  },
+  "verificationNotes": [
+    "The initial build receipt read build-id.json. Both npm builds succeeded. The receipt read was retried against dist/build-info.json.",
+    "The negative package test initially looked up the compiled bundle by a guessed filename. The retry resolved the module URL from built record-consumer.html and checked the actual bundle pin."
+  ],
+  "scope": "CPU fixed rebuild and packaging checks with the previously issued female uniforms record. Candidate look, browser playback and target-device performance require their own evidence."
+}
