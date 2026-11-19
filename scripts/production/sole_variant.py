@@ -18,7 +18,7 @@ from production_paths import project_output, publish_new_directory
 SOURCE = ROOT / 'assets-source/sole-variant-v1'
 RECIPE = SOURCE / 'recipe.json'
 GENERATED = SOURCE / 'generated'
-PUBLIC = ROOT / 'prototype/public/assets/sole-variant-v1'
+PUBLIC_ASSETS = ROOT / 'prototype/public/assets'
 
 
 def geometry(source, recipe):
@@ -122,22 +122,29 @@ def pack(source, recipe, recipe_sha, arrays, triangles):
     return encode(doc, binary)
 
 
-def build():
-    recipe_bytes = RECIPE.read_bytes()
+def build(recipe_path=RECIPE):
+    recipe_bytes = recipe_path.read_bytes()
     r = json.loads(recipe_bytes)
     recipe_sha = digest(recipe_bytes)
     require(r['schema'] == 'cc0-uniform-platform-sole-v1' and re.fullmatch(r'[a-z][a-z0-9-]{1,79}', r['id']),
             'Invalid sole recipe or equipment ID')
     reader = Validator()
-    catalog = reader.json(r['equipmentCatalog'])
+    profile = reader.json('prototype/src/source-outfit-profiles.json').get(r['bodyType'])
+    require(profile and r['body']['sha256'] == profile['sha256'] and r['body']['path'] == reader.url(profile['url'])
+            and r['equipmentCatalog'] == reader.url(profile['manifestUrl']), 'Wrong registered target body or shoe catalog')
+    catalog = json.loads(reader.pin(r['equipmentCatalog'], profile['manifestSha256']))
     parent = reader.item(catalog, r['sourceId'])
-    require(parent['sha256'] == r['sourceSha256'] and parent['compatibleAvatarSha256'] == r['body']['sha256'],
+    require(parent['slot'] == 'shoes' and parent['id'] == profile['ids']['shoes']
+            and parent['sha256'] == r['sourceSha256'] and parent['compatibleAvatarSha256'] == r['body']['sha256'],
             'Different registered source shoe or target body')
     original = GLB(reader.pin(reader.url(parent['url']), parent['sha256'], parent['bytes']))
     body = GLB(reader.pin(r['body']['path'], r['body']['sha256']))
     source_vrm = GLB(reader.pin(r['publisherModel']['path'], r['publisherModel']['sha256']))
+    license_record = parent['sourceLicense']
+    vrm_pins = [license_record['vrmSHA256']] if 'vrmSHA256' in license_record else [
+        row['sha256'] for row in license_record['files'] if row['file'].lower().endswith('.vrm')]
     require(source_vrm.doc['extensions']['VRM']['meta']['licenseName'] == 'CC0'
-            and parent['sourceLicense']['vrmSHA256'] == r['publisherModel']['sha256'], 'Publisher source changed')
+            and vrm_pins == [r['publisherModel']['sha256']], 'Publisher source changed')
     reader.pin(r['editableRoundtripShoe']['path'], r['editableRoundtripShoe']['sha256'])
     arrays, triangles, audit = geometry(original, r)
     raw = pack(original, r, recipe_sha, arrays, triangles)
@@ -149,10 +156,10 @@ def build():
     filename = r['id'] + '.glb'
     multi = int(np.count_nonzero((arrays['WEIGHTS_0'] > 0).sum(axis=1) > 1))
     stats = {'vertices':audit['vertices'], 'triangles':audit['triangles'], 'multiBoneVertices':multi, 'joints':len(result.bind_by_name())}
-    entry = dict(parent, id=r['id'], name='CC0 制服鞋 · 平行厚底', url='/assets/sole-variant-v1/'+filename,
+    entry = dict(parent, id=r['id'], name='CC0 制服鞋 · 平行厚底', url='/assets/'+recipe_path.parent.name+'/'+filename,
                  fitId=r['fitId'], styleId=r['styleId'], version=1, sha256=digest(raw), bytes=len(raw), stats=stats,
                  method='Original upper; orthogonal extrusion of both authored outsole UV islands.',
-                 limits=['Exact authored 1K male body; standing, walking and seated support require independent runtime verification.'])
+                 limits=[f"Exact authored 1K {profile['workbenchGroup']} body; standing, walking and seated support require independent runtime verification."])
     fit = {'schema':'uniform-platform-sole-fit-v1', 'id':r['fitId'], 'styleId':r['styleId'], 'version':1,
            'slot':'shoes', 'equipmentId':r['id'], 'bodyType':r['bodyType'], 'bodySha256':r['body']['sha256'],
            'shoeSha256':entry['sha256'], 'sourceShoeId':parent['id'], 'sourceShoeSha256':parent['sha256'],
@@ -191,16 +198,16 @@ def install(output, files, check_only):
     return {name:digest(data) for name, data in files.items()}
 
 
-def run(output, check_only=False):
-    return install(checked(output), build(), check_only)
+def run(output, check_only=False, recipe_path=RECIPE):
+    return install(checked(output), build(recipe_path), check_only)
 
 
-def publish(check_only=False):
-    output = checked(PUBLIC)
-    source = checked(GENERATED)
-    expected = build()
-    require(set(expected) == {'cc0-texture-release-platform-shoes-v1.glb','equipment.json','fit.json'},
-            'Unexpected shoe publication file set')
+def publish(check_only=False, recipe_path=RECIPE):
+    output = checked(PUBLIC_ASSETS / recipe_path.parent.name)
+    source = checked(recipe_path.parent / 'generated')
+    expected = build(recipe_path)
+    entry, = json.loads(expected['equipment.json'])['items']
+    require(set(expected) == {entry['id']+'.glb', 'equipment.json', 'fit.json'}, 'Unexpected shoe publication file set')
     verify(source, expected)
     files = {name:checked(source/name).read_bytes() for name in expected}
     require(files == expected, 'Generated shoe changed before publication')
@@ -209,9 +216,15 @@ def publish(check_only=False):
 
 if __name__ == '__main__':
     cli = argparse.ArgumentParser(description=__doc__)
+    cli.add_argument('--recipe', type=Path, default=RECIPE, help='Shoe recipe in assets-source/<batch>/recipe.json')
     mode = cli.add_mutually_exclusive_group()
     mode.add_argument('--output', type=Path)
     mode.add_argument('--publish', action='store_true', help='Copy the three verified generated files to the fixed public shoe directory')
     cli.add_argument('--check', action='store_true')
     args = cli.parse_args()
-    print(json.dumps(publish(args.check) if args.publish else run(args.output or GENERATED, args.check), indent=2))
+    recipe = args.recipe.resolve()
+    require(recipe.parent.parent == ROOT/'assets-source' and recipe.name == 'recipe.json'
+            and re.fullmatch(r'[a-z0-9][a-z0-9-]*',recipe.parent.name), 'Expected assets-source/<batch>/recipe.json')
+    result = (publish(args.check, recipe) if args.publish else
+              run(args.output or recipe.parent/'generated', args.check, recipe))
+    print(json.dumps(result, indent=2))
