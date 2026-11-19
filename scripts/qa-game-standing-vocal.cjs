@@ -99,7 +99,7 @@ async function run(base, build, recordsFile, destination) {
   await fs.mkdir(out);
   const report={status:'incomplete',build,sourceDigest:published.gameRuntime.sourceDigest,inputRecords,
     combinedSha256:createHash('sha256').update(packageBytes).digest('hex'),roomManifest:published.roomManifestSha256,
-    viewport:{width:1440,height:900},rooms:[],errors:[]};
+    viewport:{width:1440,height:900},rooms:[],errors:[],failedSessions:[]};
   let session;
   try {
     session=await launchQABrowser(out,{channel:'chrome'});
@@ -136,6 +136,7 @@ async function run(base, build, recordsFile, destination) {
             assert.equal(pass.shortPerformer.state,'failed',JSON.stringify(pass.shortPerformer));
             assert.equal(pass.shortPerformer.reason,'vocal-performer-outside-pickup-window');
             pass.unsuitableContact=await page.evaluate(key=>__recordConsumer.actors.get(key).controller.vocalContact(),peer);
+            assert.equal(pass.unsuitableContact?.requestId,attempt.requestId);
             checkContact(pass.unsuitableContact,false);
             await page.waitForFunction(({peer,point})=>{
               const ctrl=__recordConsumer.actors.get(peer).controller;
@@ -193,6 +194,15 @@ async function run(base, build, recordsFile, destination) {
           }
           pass.frameTiming=await page.evaluate(()=>window.finishFacilityFrameSample());
           assert(pass.frameTiming.frames>0);
+        } catch(error) {
+          pass.failure=String(error.message);
+          pass.atFailure=await page.evaluate(()=>[...(window.__recordConsumer?.actors??[])].map(([key,{avatar,controller}])=>({
+            actor:key,position:avatar.root.position.toArray(),yaw:avatar.root.rotation.y,
+            contact:controller.vocalContact(),events:controller.behaviorTasks.history().slice(-4),
+          }))).catch(()=>null);
+          await page.screenshot({path:path.join(out,name+'-failure.png')}).catch(()=>{});
+          report.failedSessions.push(name);
+          break;
         } finally {
           await context.close();
           pass.video=name+'-1x.webm';
@@ -201,6 +211,7 @@ async function run(base, build, recordsFile, destination) {
       }
     }
     assert.deepEqual(report.errors,[]);
+    assert.deepEqual(report.failedSessions,[],report.failedSessions.join(', '));
     report.status='technical-checked-visual-review-required';
   } catch(error) {report.failure=String(error.stack??error);throw error;}
   finally {try{await session?.close();}finally{await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});}}

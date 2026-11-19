@@ -2008,6 +2008,8 @@ export function createMotion(
       jogPhase: runPhase,
       jogStride: motions?.jogDistance ?? null,
       stopTime,
+      standingSupportReady:requested==="idle" && !wasMoving && !wasTurning &&
+        feet.every(foot=>foot.contact && (!foot.stopFrom || foot.stopBlend===1)),
       frameDt: lastFrameDt,
       phaseDelta: lastPhaseDelta,
       sourceTime: motions ? phase * motions.clips.walk.duration : null,

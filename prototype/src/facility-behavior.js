@@ -32,10 +32,10 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
   const tasks=createBehaviorTasks({ownerId:actorId,onEvent({type,task}) {
     if (['cancelled','failed'].includes(type) && task.requestId===contactTask) {
       path=[];speed=0;turn.reset(root.rotation.y);
-      if (phase==='checking-vocal' && task.reason==='vocal-performer-outside-pickup-window') {
+      if (phase==='checking-vocal') {
         // The body is already standing on the anchor. Keep its reservation
         // until it clears the same physical corridor as a departing performer.
-        phase='exiting';path=[target.exitPosition];setMode('idle');
+        binding.exitReason=task.reason;phase='exiting';path=[target.exitPosition];setMode('idle');
       } else if (token && seatLeases.get(token)?.state==='reserved') {
         seatLeases.requestRelease(token,task.reason);
         clearBinding();
@@ -269,6 +269,9 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
     if (!binding) return;
     const metrics=motion.getMetrics();
     if (phase==='checking-vocal' || phase==='vocal') {
+      // At the end of a walk the feet may still be gathering and the gait IK
+      // may still lower the pelvis. Assess the standing performance pose.
+      if (phase==='checking-vocal' && !metrics.standingSupportReady) return;
       try {lastVocal=sampleVocal();} catch(error) {invalidateVocal(error.message);return;}
       if (!lastVocal.withinPickupWindow) {
         lastVocal.reason='vocal-performer-outside-pickup-window';
@@ -296,7 +299,7 @@ export function attachFacilityBehavior(controller,{actorId,avatar,motion,seatLea
     } else if (phase==='exiting' && !path.length) {
       clearSeatCorridor();
     } else if (phase==='cleared' && isVocal()) {
-      if (seatLeases.get(token)?.state==='reserved') seatLeases.requestRelease(token,lastVocal?.reason);
+      if (seatLeases.get(token)?.state==='reserved') seatLeases.requestRelease(token,binding.exitReason);
       else seatLeases.releaseAfterExit(token);
       clearBinding();
       const active=tasks.active();if (active?.kind==='stand') tasks.complete(active.requestId,{mode:'idle'});
