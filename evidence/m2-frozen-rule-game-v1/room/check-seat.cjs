@@ -2,11 +2,15 @@ const assert = require('node:assert/strict');
 const {createHash} = require('node:crypto');
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const {launchQABrowser} = require('../../../scripts/qa-browser-workspace.cjs');
+const {launchQABrowser,resolveBrowserConfig} = require('../../../scripts/qa-browser-workspace.cjs');
+const {browserConfigArgs} = require('../../../scripts/qa-browser-config-args.cjs');
 const {productionRoot, projectOutput} = require('../../../scripts/project-output.cjs');
 
 // Run with scripts/run-fixed-check.cjs. Only the ordinary room buttons issue actions.
-async function run(base, packageSha, pairFile, destination) {
+async function run(base, packageSha, pairFile, destination, ...args) {
+  const {remaining,launchOptions} = browserConfigArgs(args);
+  assert.equal(remaining.length,0,'Unexpected room check option');
+  if(launchOptions.browserConfig)await resolveBrowserConfig(launchOptions.browserConfig);
   const out = await projectOutput(destination, await productionRoot());
   const pair = JSON.parse(await fs.readFile(pairFile, 'utf8'));
   const bytes = Buffer.from(await (await fetch(new URL('facility-package.json', base))).arrayBuffer());
@@ -18,9 +22,11 @@ async function run(base, packageSha, pairFile, destination) {
   await fs.mkdir(out);
   let browser, context, video;
   try {
-    browser = await launchQABrowser(out, {channel:'chrome'});
+    browser = await launchQABrowser(out, launchOptions);
+    report.browser = browser.browser.version();
+    if(browser.receipt)report.browserLaunch = browser.receipt;
     const size = {width:1280, height:840};
-    context = await browser.browser.newContext({viewport:size, serviceWorkers:'block', recordVideo:{dir:out, size}});
+    context = await browser.browser.newContext({viewport:size, serviceWorkers:'block', recordVideo:{dir:browser.scratch, size}});
     const page = await context.newPage();
     video = page.video();
     page.on('pageerror', e => report.errors.push(e.message));
@@ -114,7 +120,10 @@ async function run(base, packageSha, pairFile, destination) {
   } finally {
     try {
       await context?.close();
-      if (video) await fs.rename(await video.path(), path.join(out,'room-1x.webm'));
+      if (video) {
+        await video.saveAs(await projectOutput(path.join(out,'room-1x.webm'),await productionRoot()));
+        await video.delete();
+      }
     } finally {
       try { await browser?.close(); }
       finally { await fs.writeFile(path.join(out,'report.json'), JSON.stringify(report,null,2)+'\n', {flag:'wx'}); }

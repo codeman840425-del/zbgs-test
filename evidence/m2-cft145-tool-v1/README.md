@@ -12,6 +12,8 @@
 
 独立的游戏功能检查 `--cold-pair` 在两次新进程分别保留旧同伴并通过页面按钮恢复原签。另将真实 VRM 响应的最后一字节从 0 改成 1；游戏指出该身体的摘要不符，场景零人，恢复原响应后同一对原签再次入场。严格网络核查继续保留失败。[真实进程、单字节拒绝和原地恢复](functional-cold-pair/report.json)
 
+座椅入口也支持同一部署文件。公开样本的普通包与已审核的植物房间 v1.1 组合，包摘要 `700759cf26e3f535f668799089344024610d8f151cb589137b75a44f10707ff6`。两条原签经页面按钮分别走近 0.853 米和 1.107 米，坐稳后都起身离开约 0.808 米。34.04 秒影片已完整解码。给该入口传入未授权的部署文件时，连验收目录都没有创建。[同房间坐起 1×](seat/room-1x.webm) · [控制与接触回执](seat/report.json) · [错误配置](seat-negative.json)
+
 按[原交付命令](../m2-frozen-rule-game-v1/README.md)选择固定游戏、配方、人物身份和旧签名，在命令末尾追加 `--browser-config` 及部署 JSON 的**绝对路径**。独立检出中使用本检出的脚本，证据和产物落入该制作主工程。保留独立选择的配方值。成功签发后，在下列命令中使用新的工程内证据目录。
 
 ```powershell
@@ -25,3 +27,9 @@ node scripts/run-fixed-check.cjs "$issued/game" evidence/m2-first-rule-delivery-
 ```
 
 上述实测只覆盖该浏览器和这两份记录。普通机性能、正式发行、独立融合样本仍有各自的验收。
+
+带椅子的独立回放使用 `scripts/production/package-facility-room.mjs` 产生受审组合，然后执行下列命令。`$room` 是该次组合的输出路径，`$roomSha` 是它返回的 manifestSha256。这里的两人功能检查覆盖一个外置新身体及一个旧原签同伴。
+
+```powershell
+node scripts/run-fixed-check.cjs $room evidence/m2-frozen-rule-game-v1/room/check-seat.cjs $roomSha "$issued/records.json" "$p/output/cft-seat-replay" --browser-config $cfg
+```
