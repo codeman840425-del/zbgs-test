@@ -1,0 +1,29 @@
+{
+  "scope": "Character-project worktree creation and project-related top-level F: locations. This does not attribute other projects or scan their contents.",
+  "audit": {
+    "project": "F:\\gamemake",
+    "unexpectedSiblings": [],
+    "unexpectedWorktrees": [],
+    "companyOwnedSiblings": [
+      "gamemake-company-platform-c1"
+    ],
+    "independentFusionTests": [
+      "gamemake-test"
+    ],
+    "worktreePathIssues": []
+  },
+  "regression": {
+    "command": "python -B scripts/test_character_worktree.py",
+    "passed": 8,
+    "covered": [
+      "ordinary and sparse checkout in the managed directory",
+      "existing or dangling junction at the intended target",
+      "redirected worktree parent directories",
+      "directory changed after revision resolution or after initial sparse worktree creation",
+      "recovery using the ordinary path after the fixture redirect is removed"
+    ],
+    "environment": "Windows, local Git, real directory junctions inside the project fixture"
+  },
+  "knownLimits": "Pre-write checks at each stage. An external process modifying paths simultaneously during a filesystem operation is outside these tests.",
+  "scriptSha256": "dae5daa23b9d152cb560d0cf3177bbac488542d5e8de9903b33e9d39f9c610de"
+}

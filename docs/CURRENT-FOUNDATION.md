@@ -4,7 +4,7 @@
 
 上一固定构建 `57621e5c967c` 保留男体平底、厚底在同镜头下的换穿和短舞下沉数据。下一项从作者踝靴源件核对真实脚姿、靴筒和裤脚对接，再形成精确男体版型。副总工的唱播双房固定槽位另候联合验收。[换穿对照](../evidence/m2-sole-variant-v1/index.html) · [踝靴来源及固定版本](../evidence/m2-footwear-author-intake-v1/selected-source.json)
 
-角色工程的工作树、发布和验收暂存均使用主工程内的目录。最新根目录审计无意外工作树。副总工的公司工程和融合测试工程各自独立。[根目录归属与复查命令](../evidence/character-worktree-relocation-v1/root-review.json)
+角色工程的工作树、发布和验收暂存均使用主工程内的目录。根目录审计已检查工程内的目录联接，当前无意外工作树、同名散落目录或路径重定向。副总工的公司工程和融合测试工程各自独立。[根目录归属与复查命令](../evidence/character-worktree-relocation-v1/root-review.json) · [工作树路径回归](../evidence/character-worktree-relocation-v1/worktree-junction-regression.json)
 
 默认款式目录接入已验证。源码 `51857788`、构建 `3b64a5dad472` 的真实浏览器将两份新签名重新加载，最终装备与旧的专用目录完全相同。独立包冷开和重试对应前一构建 `60c87f62e8b0`。下一项核对已有鞋底参数的可编辑源、准确体型、脚底和动作接触，用真实来源决定独立鞋履变体能否生产。[美术导入与实际画面](../evidence/m2-default-style-intake-v1/README.md)
 

@@ -15,21 +15,74 @@ for variable in subprocess.check_output(['git', 'rev-parse', '--local-env-vars']
 
 def worktrees(cwd):
     listing = subprocess.check_output(['git', 'worktree', 'list', '--porcelain', '-z'], cwd=cwd, env=GIT_ENV)
-    return [Path(os.fsdecode(field[9:])).resolve() for field in listing.split(b'\0')
+    return [Path(os.fsdecode(field[9:])) for field in listing.split(b'\0')
             if field.startswith(b'worktree ')]
 
 
 # Git lists the main checkout first, including when git-common-dir is stored separately.
-ROOT = worktrees(SCRIPT_REPO)[0]
+ROOT = worktrees(SCRIPT_REPO)[0].resolve()
 HOME_DIR = ROOT / 'experiments' / 'worktrees'
+
+
+def check_location(path, label):
+    try:
+        resolved = path.resolve()
+    except (OSError, RuntimeError) as error:
+        raise ValueError(f'{label} cannot be resolved: {path}: {error}') from error
+    if resolved != path or path.is_symlink() or getattr(path, 'is_junction', lambda: False)():
+        raise ValueError(f'{label} is redirected: {path} -> {resolved}')
+
+
+def check_home():
+    for directory in (HOME_DIR.parent, HOME_DIR):
+        check_location(directory, 'Worktree parent')
+        if directory.exists() and not directory.is_dir():
+            raise ValueError(f'Worktree parent is not a directory: {directory}')
+
+
+def require_new_destination(destination):
+    check_home()
+    try:
+        # Inspect the entry itself so a dangling junction or symlink still counts.
+        destination.lstat()
+    except FileNotFoundError:
+        pass
+    else:
+        raise ValueError('Worktree destination already exists')
+
+
+def require_created_destination(destination):
+    check_home()
+    check_location(destination, 'Created worktree')
+    if not destination.is_dir():
+        raise ValueError(f'Created worktree directory is missing: {destination}')
 
 
 def audit():
     # Git's NUL-delimited names stay literal even for paths containing whitespace.
     registered = worktrees(ROOT)
     company_root = (ROOT.parent / 'gamemake-company-platform-c1').resolve()
-    unexpected_worktrees = sorted(str(path) for path in registered
-                                  if not path.is_relative_to(ROOT) and not path.is_relative_to(company_root))
+    path_issues = set()
+    unexpected_worktrees = []
+    for path in registered:
+        try:
+            resolved = path.resolve()
+        except (OSError, RuntimeError) as error:
+            path_issues.add(f'Registered worktree cannot be resolved: {path}: {error}')
+            continue
+        if not resolved.is_relative_to(ROOT) and not resolved.is_relative_to(company_root):
+            unexpected_worktrees.append(str(resolved))
+    try:
+        check_home()
+        entries = list(HOME_DIR.iterdir()) if HOME_DIR.is_dir() else []
+    except (OSError, ValueError) as error:
+        path_issues.add(str(error))
+        entries = []
+    for path in set(entries) | {path for path in registered if path.is_relative_to(ROOT)}:
+        try:
+            check_location(path, 'Worktree path')
+        except (OSError, ValueError) as error:
+            path_issues.add(str(error))
     prefixes = tuple(ROOT.name.casefold() + separator for separator in ('-', '_', '.'))
     siblings = sorted(p.name for p in ROOT.parent.iterdir() if p.name.casefold().startswith(prefixes))
     company = [name for name in siblings if (ROOT.parent / name).resolve() == company_root]
@@ -37,9 +90,9 @@ def audit():
               (ROOT.parent / name / 'audit' / 'baseline.mjs').is_file()]
     outside = [name for name in siblings if name not in company + fusion]
     print(json.dumps({'project':str(ROOT), 'unexpectedSiblings':outside,
-                      'unexpectedWorktrees':unexpected_worktrees, 'companyOwnedSiblings':company,
-                      'independentFusionTests':fusion}, ensure_ascii=False))
-    return bool(outside or unexpected_worktrees)
+                      'unexpectedWorktrees':sorted(unexpected_worktrees), 'companyOwnedSiblings':company,
+                      'independentFusionTests':fusion, 'worktreePathIssues':sorted(path_issues)}, ensure_ascii=False))
+    return bool(outside or unexpected_worktrees or path_issues)
 
 
 def runtime_inputs(commit):
@@ -72,25 +125,21 @@ def create(name, revision, runtime_only=False):
         raise ValueError('Use one lowercase directory name')
     if re.fullmatch('con|prn|aux|nul|com[1-9]|lpt[1-9]', name):
         raise ValueError('Worktree name is reserved by Windows')
-    if HOME_DIR.resolve() != HOME_DIR:
-        raise ValueError('Worktree parent is redirected')
     destination = HOME_DIR / name
-    try:
-        # Inspect the entry itself so a dangling junction or symlink still counts.
-        destination.lstat()
-    except FileNotFoundError:
-        pass
-    else:
-        raise ValueError('Worktree destination already exists')
+    require_new_destination(destination)
     commit = subprocess.check_output(['git','rev-parse','--verify','--end-of-options', revision+'^{commit}'],
                                      cwd=ROOT, env=GIT_ENV, text=True).strip()
     if runtime_only:
         directories, attributes, attributes_executable = runtime_inputs(commit)
-    HOME_DIR.mkdir(parents=True,exist_ok=True)
+    for directory in (HOME_DIR.parent, HOME_DIR):
+        require_new_destination(destination)
+        directory.mkdir(exist_ok=True)
+    require_new_destination(destination)
     checkout_options = ['--no-checkout'] if runtime_only else []
     subprocess.run(['git', 'worktree', 'add', '--detach', *checkout_options, str(destination), commit],
                    cwd=ROOT, env=GIT_ENV, check=True)
     if runtime_only:
+        require_created_destination(destination)
         # Populate the exact attributes before Git materializes runtime inputs on Windows.
         if attributes is not None:
             attribute_path = destination / '.gitattributes'
@@ -98,8 +147,10 @@ def create(name, revision, runtime_only=False):
                 stream.write(attributes)
             if attributes_executable:
                 attribute_path.chmod(0o755)
+        require_created_destination(destination)
         subprocess.run(['git', 'sparse-checkout', 'set', '--cone', *directories],
                        cwd=destination, env=GIT_ENV, check=True)
+        require_created_destination(destination)
         subprocess.run(['git', 'checkout', '--detach', commit], cwd=destination, env=GIT_ENV, check=True)
     return 0
 

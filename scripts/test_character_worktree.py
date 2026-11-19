@@ -1,4 +1,5 @@
 """Exercise the real Git layout within a temporary directory inside the project."""
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -7,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 
 class LayoutTest(unittest.TestCase):
@@ -38,6 +40,18 @@ class LayoutTest(unittest.TestCase):
                            check=True, capture_output=True)
         else:
             link.symlink_to(target, target_is_directory=True)
+
+    def unlink_directory(self, link):
+        if os.name == 'nt':
+            link.rmdir()
+        else:
+            link.unlink()
+
+    def load_tool(self):
+        spec = importlib.util.spec_from_file_location('character_worktree_fixture', self.tool)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
 
     def test_rejects_arbitrary_external_checkout_name(self):
         self.cli('create', 'preview', check=True)
@@ -75,17 +89,31 @@ class LayoutTest(unittest.TestCase):
 
     def test_rejects_a_redirected_parent(self):
         outside = self.parent / 'redirect-target'
-        outside.mkdir()
-        self.link_directory(self.home.parent, outside)
-        result = self.cli('create', 'preview')
-        self.assertEqual(result.returncode, 1)
-        self.assertIn('Worktree parent is redirected', result.stderr)
-        self.assertEqual(list(outside.iterdir()), [])
-        outside.rmdir()
-        result = self.cli('create', 'preview')
-        self.assertEqual(result.returncode, 1)
-        self.assertIn('Worktree parent is redirected', result.stderr)
-        self.assertFalse(outside.exists())
+        initial = self.git('worktree', 'list', '--porcelain', '-z')
+        for link in (self.home.parent, self.home):
+            with self.subTest(link=link):
+                link.parent.mkdir(exist_ok=True)
+                outside.mkdir()
+                self.link_directory(link, outside)
+                for dangling in (False, True):
+                    if dangling:
+                        outside.rmdir()
+                    result = self.cli('create', 'preview')
+                    self.assertEqual(result.returncode, 1)
+                    self.assertIn('Worktree parent is redirected', result.stderr)
+                    audit = self.cli('audit')
+                    self.assertEqual(audit.returncode, 1)
+                    issues = json.loads(audit.stdout)['worktreePathIssues']
+                    self.assertTrue(any(str(link) in issue for issue in issues), issues)
+                    self.assertEqual(self.git('worktree', 'list', '--porcelain', '-z'), initial)
+                    if dangling:
+                        self.assertFalse(outside.exists())
+                    else:
+                        self.assertEqual(list(outside.iterdir()), [])
+                self.unlink_directory(link)
+        self.cli('create', 'preview', check=True)
+        self.assertTrue((self.home / 'preview/.git').is_file())
+        self.assertEqual(json.loads(self.cli('audit', check=True).stdout)['worktreePathIssues'], [])
 
     def test_rejects_existing_and_dangling_leaf_links(self):
         self.home.mkdir(parents=True)
@@ -106,6 +134,63 @@ class LayoutTest(unittest.TestCase):
                 self.assertIn('Worktree destination already exists', result.stderr)
         self.assertEqual(list(outside.iterdir()), [])
         self.assertFalse(dangling_target.exists())
+        audit = self.cli('audit')
+        self.assertEqual(audit.returncode, 1)
+        issues = json.loads(audit.stdout)['worktreePathIssues']
+        for name in ('existing-leaf', 'dangling-leaf'):
+            self.assertTrue(any(str(self.home / name) in issue for issue in issues), issues)
+
+    def test_rechecks_parent_changed_during_revision_resolution(self):
+        outside = self.parent / 'changed-parent'
+        outside.mkdir()
+        module = self.load_tool()
+        real_lookup = subprocess.check_output
+        initial = self.git('worktree', 'list', '--porcelain', '-z')
+
+        def lookup(args, *positional, **options):
+            value = real_lookup(args, *positional, **options)
+            if args[1:3] == ['rev-parse', '--verify']:
+                self.link_directory(self.home.parent, outside)
+            return value
+
+        with patch.object(module.subprocess, 'check_output', side_effect=lookup):
+            with self.assertRaisesRegex(ValueError, 'Worktree parent is redirected'):
+                module.create('preview', 'HEAD')
+        self.assertEqual(list(outside.iterdir()), [])
+        self.assertEqual(self.git('worktree', 'list', '--porcelain', '-z'), initial)
+        self.unlink_directory(self.home.parent)
+        self.cli('create', 'preview', check=True)
+
+    def test_rechecks_created_destination_before_sparse_writes(self):
+        outside = self.parent / 'replaced-checkout-target'
+        outside.mkdir()
+        destination = self.home / 'preview'
+        preserved = self.home / 'preserved-preview'
+        self.assertTrue(destination.resolve().is_relative_to(self.root))
+        self.assertTrue(preserved.resolve().is_relative_to(self.root))
+        module = self.load_tool()
+        real_run = subprocess.run
+        commands = []
+
+        def run_git(args, *positional, **options):
+            if args[0] == 'git':
+                commands.append(args[1])
+            value = real_run(args, *positional, **options)
+            if args[:3] == ['git', 'worktree', 'add']:
+                destination.rename(preserved)
+                self.link_directory(destination, outside)
+            return value
+
+        with patch.object(module, 'runtime_inputs', return_value=(['prototype'], b'* text\n', False)), \
+             patch.object(module.subprocess, 'run', side_effect=run_git):
+            with self.assertRaisesRegex(ValueError, 'Created worktree is redirected'):
+                module.create('preview', 'HEAD', runtime_only=True)
+        self.assertEqual(commands, ['rev-parse', 'worktree'])
+        self.assertEqual(list(outside.iterdir()), [])
+        self.assertTrue((preserved / '.git').is_file())
+        audit = self.cli('audit')
+        self.assertEqual(audit.returncode, 1)
+        self.assertTrue(any(str(destination) in issue for issue in json.loads(audit.stdout)['worktreePathIssues']))
 
     def test_runtime_only_checks_out_the_pinned_build_inputs(self):
         self.git('config', 'core.autocrlf', 'true')
