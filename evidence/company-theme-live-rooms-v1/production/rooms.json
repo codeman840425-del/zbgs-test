@@ -1,0 +1,420 @@
+{
+  "status": "passed",
+  "roomKeys": [
+    "rental-dance-broadcast",
+    "upper-floor-dance-broadcast",
+    "singing-studio",
+    "interview-hotel",
+    "showcase-rental"
+  ],
+  "rooms": [
+    {
+      "key": "rental-dance-broadcast",
+      "portal": {
+        "id": "dance-broadcast-rental/ground/portal-work-living",
+        "edge": "west",
+        "center": [
+          -2.25,
+          0,
+          0
+        ],
+        "width": 1.4,
+        "height": 2.8,
+        "kind": "internal"
+      },
+      "activity": {
+        "minX": -1.25,
+        "maxX": 1,
+        "minZ": -0.87,
+        "maxZ": 1.63,
+        "clearHeight": 2.2
+      },
+      "shot": {
+        "ok": true,
+        "roomId": "dance-broadcast-rental/ground/dance-training",
+        "cameraId": "dance-broadcast-rental/ground/dance-training/camera",
+        "lensNode": "camera-lens",
+        "lens": [
+          -0.115,
+          0.877,
+          -0.912
+        ],
+        "forward": [
+          0,
+          0,
+          1
+        ],
+        "backdrop": {
+          "id": "dance-broadcast-rental/ground/dance-training/background",
+          "samples": [
+            {
+              "u": 0.4,
+              "v": 0.65,
+              "first": {
+                "instanceId": "dance-broadcast-rental/ground/dance-training/background",
+                "mesh": "background-soft-step-1.36",
+                "point": [
+                  -0.3367074,
+                  1.3530518,
+                  1.78
+                ],
+                "distance": 2.7427437917816366
+              }
+            },
+            {
+              "u": 0.5,
+              "v": 0.65,
+              "first": {
+                "instanceId": "dance-broadcast-rental/ground/dance-training/background",
+                "mesh": "background-soft-step-1.36",
+                "point": [
+                  -0.115,
+                  1.3530518,
+                  1.78
+                ],
+                "distance": 2.7337683432981765
+              }
+            },
+            {
+              "u": 0.6,
+              "v": 0.65,
+              "first": {
+                "instanceId": "dance-broadcast-rental/ground/dance-training/background",
+                "mesh": "background-soft-step-1.36",
+                "point": [
+                  0.1067074,
+                  1.3530518,
+                  1.78
+                ],
+                "distance": 2.7427437917816357
+              }
+            }
+          ]
+        },
+        "frame": {
+          "start": [
+            -1.1,
+            1.48
+          ],
+          "end": [
+            0.87,
+            1.48
+          ],
+          "bottom": 0,
+          "top": 2
+        },
+        "projection": {
+          "aspect": "16:9",
+          "verticalFovDegrees": 52.11484254212772,
+          "nearClipMetres": 0.05,
+          "farClipMetres": 300,
+          "cornersNdc": [
+            [
+              0.4737094,
+              -0.7498128,
+              0.9585204
+            ],
+            [
+              -0.4737094,
+              -0.7498128,
+              0.9585204
+            ],
+            [
+              -0.4737094,
+              0.9601365,
+              0.9585204
+            ],
+            [
+              0.4737094,
+              0.9601365,
+              0.9585204
+            ]
+          ]
+        },
+        "occlusion": {
+          "method": "continuous-triangle-clip",
+          "contactToleranceMetres": 0.000001,
+          "checkedMeshes": 105,
+          "candidateMeshes": 0,
+          "testedTriangles": 0
+        },
+        "scope": "Continuous room-local shot rectangle. Visible rigid meshes are conservative occluders; texture transparency is not sampled."
+      },
+      "access": {
+        "portalId": "dance-broadcast-rental/ground/portal-work-living",
+        "fromRegion": "dance-broadcast-rental/ground/living",
+        "threshold": [
+          -2.25,
+          0
+        ],
+        "approach": [
+          [
+            -1.6,
+            1.5
+          ],
+          [
+            1.8,
+            1.5
+          ],
+          [
+            1.8,
+            0.45
+          ],
+          [
+            2,
+            0.45
+          ],
+          [
+            2,
+            0
+          ]
+        ],
+        "inside": [
+          [
+            -2,
+            0
+          ],
+          [
+            -2,
+            0.45
+          ],
+          [
+            -1.8,
+            0.45
+          ],
+          [
+            -1.8,
+            1.48
+          ],
+          [
+            -0.115,
+            1.48
+          ]
+        ]
+      },
+      "rotatedFloor": {
+        "position": [
+          -2,
+          0,
+          3
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "rejected": {
+        "key": "rental-dance-broadcast",
+        "status": "failed",
+        "code": "dance-shot-out-of-frame",
+        "path": "dance-broadcast-rental/ground/dance-training/camera",
+        "message": "dance-shot-out-of-frame at dance-broadcast-rental/ground/dance-training/camera: The entire shot rectangle must fit within the installed camera’s 16:9 frame."
+      },
+      "retry": "idempotent"
+    },
+    {
+      "key": "upper-floor-dance-broadcast",
+      "portal": {
+        "id": "dance-broadcast-company/floor-beta/portal-beta-training",
+        "edge": "south",
+        "center": [
+          0,
+          0,
+          3
+        ],
+        "width": 1.4,
+        "height": 2.8,
+        "kind": "internal"
+      },
+      "activity": {
+        "minX": -1.5,
+        "maxX": 1.5,
+        "minZ": -1.5,
+        "maxZ": 1.5,
+        "clearHeight": 2.2
+      },
+      "shot": {
+        "ok": true,
+        "roomId": "dance-broadcast-company/floor-beta/beta-training",
+        "cameraId": "dance-broadcast-company/floor-beta/beta-training/camera",
+        "lensNode": "camera-lens",
+        "lens": [
+          0.72,
+          0.887,
+          1.99
+        ],
+        "forward": [
+          0,
+          0,
+          -1
+        ],
+        "backdrop": {
+          "id": "dance-broadcast-company/floor-beta/beta-training/background",
+          "samples": [
+            {
+              "u": 0.4,
+              "v": 0.65,
+              "first": {
+                "instanceId": "dance-broadcast-company/floor-beta/beta-training/background",
+                "mesh": "background-content",
+                "point": [
+                  -0.8348717,
+                  1.6589992,
+                  -2.613
+                ],
+                "distance": 4.919473309302263
+              }
+            },
+            {
+              "u": 0.5,
+              "v": 0.65,
+              "first": {
+                "instanceId": "dance-broadcast-company/floor-beta/beta-training/background",
+                "mesh": "background-content",
+                "point": [
+                  -0.3854449,
+                  1.6589992,
+                  -2.613
+                ],
+                "distance": 4.796415345732378
+              }
+            },
+            {
+              "u": 0.6,
+              "v": 0.65,
+              "first": {
+                "instanceId": "dance-broadcast-company/floor-beta/beta-training/background",
+                "mesh": "background-content",
+                "point": [
+                  0.0639819,
+                  1.6589992,
+                  -2.613
+                ],
+                "distance": 4.713167888246319
+              }
+            }
+          ]
+        },
+        "frame": {
+          "start": [
+            -1.13,
+            -0.55
+          ],
+          "end": [
+            1.35,
+            -0.55
+          ],
+          "bottom": 0,
+          "top": 2.02
+        },
+        "projection": {
+          "aspect": "16:9",
+          "verticalFovDegrees": 52.11484254212772,
+          "nearClipMetres": 0.05,
+          "farClipMetres": 300,
+          "cornersNdc": [
+            [
+              -0.8378668,
+              -0.7141745,
+              0.9609567
+            ],
+            [
+              0.2853276,
+              -0.7141745,
+              0.9609567
+            ],
+            [
+              0.2853276,
+              0.9122432,
+              0.9609567
+            ],
+            [
+              -0.8378668,
+              0.9122432,
+              0.9609567
+            ]
+          ]
+        },
+        "occlusion": {
+          "method": "continuous-triangle-clip",
+          "contactToleranceMetres": 0.000001,
+          "checkedMeshes": 281,
+          "candidateMeshes": 1,
+          "testedTriangles": 12
+        },
+        "scope": "Continuous room-local shot rectangle. Visible rigid meshes are conservative occluders; texture transparency is not sampled."
+      },
+      "access": {
+        "portalId": "dance-broadcast-company/floor-beta/portal-beta-training",
+        "fromRegion": "dance-broadcast-company/floor-beta/corridor-1",
+        "threshold": [
+          0,
+          3
+        ],
+        "approach": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            -1.25
+          ]
+        ],
+        "inside": [
+          [
+            0,
+            2.75
+          ],
+          [
+            0,
+            -0.55
+          ],
+          [
+            0.11,
+            -0.55
+          ]
+        ]
+      },
+      "rotatedFloor": {
+        "position": [
+          -2,
+          0,
+          3
+        ],
+        "yaw": 1.5707963267948966
+      },
+      "rejected": {
+        "key": "upper-floor-dance-broadcast",
+        "status": "failed",
+        "code": "dance-shot-out-of-frame",
+        "path": "dance-broadcast-company/floor-beta/beta-training/camera",
+        "message": "dance-shot-out-of-frame at dance-broadcast-company/floor-beta/beta-training/camera: The entire shot rectangle must fit within the installed camera’s 16:9 frame."
+      },
+      "retry": "idempotent"
+    }
+  ],
+  "preservedFiles": {
+    "rental-dance-broadcast/input.json": "7e56f5ff54d3ee7e5eb754356b5ed9e40ccf76d6a3ab1928e1ac38af310030f7",
+    "rental-dance-broadcast/layout.json": "d25ae016514163dc6fb64127824c7b24c572c606f345fea66323333df62bdfeb",
+    "rental-dance-broadcast/save.json": "a15135eba087b52c273d8ead6f897ddec18b0ef5e3fdcd0ea551c6d5d9b5de54",
+    "rental-dance-broadcast/report.json": "5c693e5ded9cf1fcbe00b3b7f92d0b84bc2310859ee8f87bb3c5adb86e39299c",
+    "upper-floor-dance-broadcast/input.json": "8d0a9d5df5c0d0875ab4c2023f14859f5f718f965d546f1a123408cc0ae4af0d",
+    "upper-floor-dance-broadcast/layout.json": "2a8758dcfe95ffaff02df61f1e25db808a41dcedfa841f82c76b80c1408828df",
+    "upper-floor-dance-broadcast/save.json": "f78fcbd9f737b6f2ef004852bdf349181515f82fb1026629ab70f6af09fe6325",
+    "upper-floor-dance-broadcast/report.json": "7fd3faf18e4e0ef6bd00b19d19268e0d38c6a1dff02643837fcbd536b7d3d9f6",
+    "singing-studio/input.json": "a84a6d05a3c0a6b65fc6fb3fd810cfb584df200572a17f1a859803d65062daeb",
+    "singing-studio/layout.json": "c1002f3b4d66d27a306f06aaa4a49c9c7f9471c5b80aad44f5550d489538a7ae",
+    "singing-studio/save.json": "11ca3b0bbaa21fc247198e82a7050f555df8fc4bee05a9251be8334a3d669e08",
+    "singing-studio/report.json": "53426e12c0bcc3ac7d9c044ab172a9655c46dfec47e6ebee11a98dce656d2acd",
+    "interview-hotel/input.json": "8dc662db16f6cbe2645d0ae4b76d0244f90020ff883ec0cc639df9243f590306",
+    "interview-hotel/layout.json": "af22945bd4eb05ff336c5970daae2381c086cef7a28e7e56a4bda406a1e7649b",
+    "interview-hotel/save.json": "cda7c5d1c03648d32805fcd064bbfc40490157734707d8a4c080564691c9631a",
+    "interview-hotel/report.json": "2b6faf3a068312d6707e3d4bb81b70dd64a08dc66c3cd8e680f16ff1364f7e08",
+    "showcase-rental/input.json": "9c2c76c666c7b0eef3bd77e3fe5609932e49aba0a46138b850b76d9628298e23",
+    "showcase-rental/layout.json": "2c801dda163f71171ecaf53cb51690c496a7fca5cfd898e048e73f5db999b749",
+    "showcase-rental/save.json": "d845363dd6996aef6c75536eb1a2ea8f284a36e74e20a8a8f43b3144a4842010",
+    "showcase-rental/report.json": "786321266d93678950fc3991613325dbb4b5085ca4305f8c3d1196265d749b69"
+  }
+}
