@@ -144,7 +144,7 @@ async function prepare(item,sourceHashes){
   if (Object.hasOwn(item,'interviewRooms')) document.interviewRooms = structuredClone(item.interviewRooms);
   let interviewRooms;
   if (Object.hasOwn(document,'interviewRooms')) {
-    Object.assign(sourceHashes,await sources(['scripts/company-platform/check-interview-room.mjs']));
+    Object.assign(sourceHashes,await sources(['scripts/company-platform/check-interview-room.mjs','scripts/company-platform/public-door-access.mjs']));
     const {checkInterviewRooms} = await import('./check-interview-room.mjs');
     interviewRooms = await checkInterviewRooms(document,{catalog,templates});
   }

@@ -662,7 +662,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   }
   const assetDependencies=[],provenance=[];
   if (supplemental.has('scripts/company-platform/batch-inputs/interview-rooms.json')) {
-    for (const name of ['check-interview-room.mjs','test-interview-room.mjs','qa-interview-rooms.cjs'])
+    for (const name of ['check-interview-room.mjs','public-door-access.mjs','test-interview-public-door.mjs','test-interview-room.mjs','qa-interview-rooms.cjs'])
       supplemental.add('scripts/company-platform/'+name);
     supplemental.add('docs/research/COMPANY-INTERVIEW-ROOM-PRODUCTION.md');
   }

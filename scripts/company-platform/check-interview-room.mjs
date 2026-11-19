@@ -11,6 +11,7 @@ import {inspectCompanyConnections} from '../../prototype/src/company/space.js';
 import {createCompanyScene} from '../../prototype/src/company/render.js';
 import {WALL_HEIGHT} from '../../prototype/src/company/wall-visibility.js';
 import {scanRoomMeshes} from './check-training-clearance.mjs';
+import {checkRoomDoorAccess} from './public-door-access.mjs';
 import {preflightLibraryAssets} from './preflight-library-assets.mjs';
 
 const defaultRoot=fileURLToPath(new URL('../../',import.meta.url));
@@ -59,7 +60,7 @@ function portalFor(document,rule,options,floorId,placement){
   if(!p||!placement.checkedPortals.some(q=>q.regionId===rule.regionId&&q.connectionId===rule.portalId))
     fail('interview-door-missing',rule.portalId,'Choose a validated entrance to the selected room.');
   if((p.height??WALL_HEIGHT)<height-eps)fail('interview-door-fit',rule.portalId,'The opening is below the route height.');
-  return p;
+  return {portal:p,floor};
 }
 
 function routeRegions(speaker,route,portal,exit,chair,room){
@@ -249,20 +250,22 @@ export async function checkInterviewRoom(document,rule,{catalog=defaultCatalog,t
   if(room?.kind!=='room')fail('interview-room-missing',rule.regionId,'Select a real installed room.');
   const floorId=derived.floorIds.get(room.id),facilities=derived.facilities.filter(f=>f.floorId===floorId);
   const members=findMembers(derived,rule),placement=inspectCompanyPlacement(document,catalog,templates);
-  const portal=portalFor(document,rule,{catalog,templates},floorId,placement);
+  const {portal,floor}=portalFor(document,rule,{catalog,templates},floorId,placement);
   let report;
   await preflightLibraryAssets({root,resources:[...facilities,...derived.surfaceFinishes.filter(f=>f.floorId===floorId)].map(f=>f.resource),validate:library=>{
     const scene=createCompanyScene(new T.Scene(),document,{assetLibrary:library,catalog,templates,visibleFloorId:floorId,mirrorPreflight:()=>{}});
     try{
       const {seats,regions,local}=prepareRegions(rule,scene,members,placement,portal,room);
       const {records,checkedMeshes}=scanInstallation(scene,derived,facilities,room,floorId,regions);
+      const publicAccess=checkRoomDoorAccess({scene,derived,facilities,floor,placement,room,portalId:rule.portalId,radius,height,
+        targets:Object.fromEntries(speakers.map(role=>[role,rule.routes[role][1]]))});
       const tables=facilities.filter(f=>f.roomId===room.id&&f.resource.mountRole==='side-table'&&f.resource.supportNodes?.top);
       const midpoint=seats.host.center.clone().lerp(seats.guest.center,.5);
       const tops=tables.map(f=>({id:f.id,mesh:records.find(r=>r.id===f.id&&component(r.object)===f.resource.supportNodes.top)?.object}))
         .filter(t=>t.mesh).map(t=>({id:t.id,mesh:component(t.mesh),center:tuple(local(new T.Box3().setFromObject(t.mesh,true).getCenter(vec())))}));
       tops.sort((a,b)=>Math.hypot(a.center[0]-midpoint.x,a.center[2]-midpoint.z)-Math.hypot(b.center[0]-midpoint.x,b.center[2]-midpoint.z));
       report={ok:true,regionId:room.id,floorId,roles:{...rule.roles},portalId:rule.portalId,table:tops[0]??null,routes:rule.routes,
-        routeWidth:2*radius,clearHeight:height,checkedRegions:regions.length,checkedMeshes,
+        routeWidth:2*radius,clearHeight:height,checkedRegions:regions.length,checkedMeshes,publicAccess,
         ...measureScene(scene,members,records,seats,local),
         scope:'Installed rigid mesh, static lane and seat contact checks. Framing and microphone distance are layout limits; performer fit, audio and dynamic occupancy require C3.'};
     }finally{scene.dispose();}
