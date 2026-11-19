@@ -1,0 +1,58 @@
+{
+  "status": "failed",
+  "probeCamera": {
+    "distanceMetres": 2,
+    "verticalFovDegrees": 38,
+    "imageHeight": 900
+  },
+  "rooms": [],
+  "variants": [],
+  "rejections": [],
+  "authorRecipeSha256": "180de4311d35f1de368281a711917f543229865a38739ad04ea9768936c7f732",
+  "batch": {
+    "sourceSha256": "454f9a52e996f93582034a3f7cce58938fb63725523fec176a22b8ad97a3d57a",
+    "schema": "company-batch-run",
+    "version": 1,
+    "ok": false,
+    "results": [
+      {
+        "key": "air-home",
+        "companyId": "air-home",
+        "status": "created",
+        "directory": "F:\\gamemake-company-platform-c1\\output\\floor-air\\cpu-dev-01\\published\\air-home",
+        "files": {
+          "input.json": {
+            "bytes": 926,
+            "sha256": "fb605efc57edcd31feaff2f460d7bb410fc33aa1ea2eb05239173731b4bed714"
+          },
+          "layout.json": {
+            "bytes": 4771,
+            "sha256": "77dd64052407baebadda396ed5e56348dc679ddd5f8a40c3e4d372317628a546"
+          },
+          "save.json": {
+            "bytes": 6582,
+            "sha256": "a88d96283a60f946192adfb80c5235e6ecbfa585c26a71cf80c182bd42e72d17"
+          }
+        }
+      },
+      {
+        "key": "air-rental",
+        "status": "failed",
+        "code": "blocked-portal",
+        "path": "air-rental/ground/portal-stream-living",
+        "message": "blocked-portal at air-rental/ground/portal-stream-living: Portal interior-to-boundary segment lacks the static envelope and width margin",
+        "details": {
+          "regionId": "air-rental/ground/live",
+          "side": "from",
+          "obstacleId": "air-rental/ground/live/air"
+        }
+      }
+    ]
+  },
+  "error": {
+    "stage": "production batch",
+    "code": "ERR_ASSERTION",
+    "path": null,
+    "message": "{\"schema\":\"company-batch-run\",\"version\":1,\"ok\":false,\"results\":[{\"key\":\"air-home\",\"companyId\":\"air-home\",\"status\":\"created\",\"directory\":\"F:\\\\gamemake-company-platform-c1\\\\output\\\\floor-air\\\\cpu-dev-01\\\\published\\\\air-home\",\"files\":{\"input.json\":{\"bytes\":926,\"sha256\":\"fb605efc57edcd31feaff2f460d7bb410fc33aa1ea2eb05239173731b4bed714\"},\"layout.json\":{\"bytes\":4771,\"sha256\":\"77dd64052407baebadda396ed5e56348dc679ddd5f8a40c3e4d372317628a546\"},\"save.json\":{\"bytes\":6582,\"sha256\":\"a88d96283a60f946192adfb80c5235e6ecbfa585c26a71cf80c182bd42e72d17\"}}},{\"key\":\"air-rental\",\"status\":\"failed\",\"code\":\"blocked-portal\",\"path\":\"air-rental/ground/portal-stream-living\",\"message\":\"blocked-portal at air-rental/ground/portal-stream-living: Portal interior-to-boundary segment lacks the static envelope and width margin\",\"details\":{\"regionId\":\"air-rental/ground/live\",\"side\":\"from\",\"obstacleId\":\"air-rental/ground/live/air\"}}]}"
+  }
+}
