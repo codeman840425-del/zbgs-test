@@ -189,7 +189,9 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
     }else upgradePanel.hidden=true;
     if(n){
       const heightProfiles=doc.singingRooms?.find(rule=>rule.roles?.mic===n.id)?.heightProfiles;
-      for(const field of [el('edit-look'),el('edit-look').labels[0],el('edit-compatibility')]) field.hidden=Boolean(heightProfiles);
+      el('edit-look').hidden=!r||Boolean(heightProfiles);
+      el('edit-look').labels[0].hidden=Boolean(heightProfiles);
+      el('edit-compatibility').hidden=Boolean(heightProfiles);
       const candidates=r&&heightProfiles?[r]:r?latestAppearanceVersions(catalog.resources.filter(c=>c.asset&&compareFacilityFunction(r,c).compatible)):[];
       if(r&&!candidates.some(c=>ref(c)===ref(r)))candidates.unshift(r);
       options(el('edit-look'),candidates.map(c=>({value:ref(c),label:nice(c)+(candidates.some(other=>other.id===c.id&&other.version>c.version)?` (\u65e7\u7248 v${c.version})`:'')})),r?ref(r):'');
@@ -243,7 +245,6 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
     el('edit-instance').disabled=isBusy()||building;
     el('edit-focus').hidden=!n;
     el('edit-parent').hidden=el('edit-parent').disabled;
-    if(n)el('edit-look').hidden=!r;
     el('placement-tools').hidden=!n;
     if(n)el('edit-empty').hidden=true;
     el('layout-heading').textContent=mode==='room'?'公司方案':'组合验证场景';el('layout-label').textContent=mode==='room'?'切换公司方案':'选择已配置的组合场景';
