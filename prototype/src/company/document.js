@@ -10,7 +10,7 @@ import {companyScaleProfile,validateScaleProfile} from './scale-profile.js';
 // Company authoring data. Actor tasks and seat leases remain in the character platform.
 import {validateCeilingAttachments} from './ceiling-acoustic-data.js';
 import {compareFacilityFunction} from './appearance-contract.js';
-import {validateSupportResource, validateSupportAttachments, effectiveSupportTransform, centeredSupportTransform} from './support-data.js';
+import {validateSupportResource, validateSupportAttachments, effectiveSupportTransform, centeredSupportTransform, isPortableDeskDevice, supportsCartDevice} from './support-data.js';
 import {MAKEUP_STORAGE_PROFILE,validateMakeupStorageAttachments} from './makeup-storage-data.js';
 import {validateMakeupDrawerAttachments} from './makeup-drawer-data.js';
 import {WARDROBE_PROFILE} from './enclosed-wardrobe-data.js';
@@ -298,7 +298,7 @@ export function deriveCompany(document, catalog, templates) {
       const parent = nodes.get(node.parentId);
       validateCameraDeskContact(node, resource, parent, resources.get(key(parent?.resource)), fail);
     }
-    if (resource.mount === 'desk-surface') {
+    if (resource.mount === 'desk-surface' && node.attachment === undefined) {
       const parent = nodes.get(node.parentId), surface = resources.get(key(parent?.resource))?.surface;
       if (!surface) fail('missing-mount-surface', node.id, 'This device requires a parent desk surface');
       if (Math.abs(node.transform.position[1] - surface.topY) > .01 ||
@@ -540,7 +540,7 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
     if (op.type === 'add-facility') {
       const node = { id: op.id, kind: 'facility', parentId: op.parentId, resource: copy(op.resource), transform: copy(op.transform || identityTransform()), state: copy(op.state || {}) };
       const resource = resources.get(key(op.resource));
-      if (op.transform === undefined && op.attachment?.surfaceId && resource?.mount === 'support-surface')
+      if (op.transform === undefined && op.attachment?.surfaceId && (resource?.mount === 'support-surface' || isPortableDeskDevice(resource)))
         node.transform = centerOnParent(resource, op.parentId, op.attachment.surfaceId, op.id);
       if(op.transform===undefined && resource?.mount==='garment-rail')
         node.transform=garmentSlotTransform(op.attachment?.slotId) ?? node.transform;
@@ -588,8 +588,19 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
       node.parentId=op.windowId;node.attachment={windowId:op.windowId};node.transform={position:[0,0,.13],yaw:0};
     }
     else if (op.type === 'attach-surface') {
-      if (node.kind !== 'facility' || resources.get(key(node.resource))?.mount !== 'support-surface')
-        fail('invalid-support-attachment', node.id, 'Only support-surface props can be reattached');
+      const device = resources.get(key(node.resource));
+      const parent = next.nodes.find(n => n.id === op.parentId);
+      const host = resources.get(key(parent?.resource));
+      if (node.stationId && isPortableDeskDevice(device))
+        fail('required-template-part',node.id,'A workstation device belongs to its template mount');
+      if (isPortableDeskDevice(device) && host?.mountRole === 'desk' && host.surface && op.surfaceId === 'desktop') {
+        node.parentId = op.parentId;
+        delete node.attachment;
+        node.transform = copy(op.transform ?? {position:[0,host.surface.topY,0],yaw:0});
+        continue;
+      }
+      if (node.kind !== 'facility' || (device?.mount !== 'support-surface' && !supportsCartDevice(device,host)))
+        fail('invalid-support-attachment', node.id, 'This facility cannot attach to the selected support');
       node.parentId = op.parentId;
       node.attachment = {surfaceId: op.surfaceId};
       node.transform = op.transform === undefined

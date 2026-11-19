@@ -148,6 +148,31 @@ export async function verifyFloorAirSources(root,resource,recipe) {
   return pins;
 }
 
+export async function verifyEquipmentCartSources(root, resource, recipe) {
+  const base='assets-source/company-equipment-cart-v1/', p=resource.provenance;
+  const mismatch=at=>{throw Object.assign(Error('equipment-cart-source-mismatch: '+at),{code:'equipment-cart-source-mismatch',path:at});};
+  const design=recipe.designs?.find(d=>d.id===resource.id && d.version===resource.version);
+  if (recipe.schema!=='company-equipment-carts' || recipe.version!==1 || !design || design.kind!==p.sourceDesign ||
+      p.functionalContractSource!==base+'contract.json') mismatch(resource.id);
+  const {resource:contract}=JSON.parse(await readProductionFile(root,p.functionalContractSource));
+  for (const [field,value] of Object.entries(contract)) if (!isDeepStrictEqual(resource[field],value)) mismatch(resource.id+'.'+field);
+  const original=base+'original/', paths={sourceRecord:original+'sources.json',license:original+'CC0-source-declaration.txt',originalModel:original+'platform-utility-cart.glb'};
+  if (!isDeepStrictEqual(Object.keys(p.dependencies??{}).sort(),Object.keys(paths).sort())) mismatch(resource.id);
+  const inputs={};
+  for (const [key,file] of Object.entries(paths)) {
+    const pin=p.dependencies[key];
+    if (pin?.path!==file) mismatch(file);
+    inputs[key]=await readProductionFile(root,file);
+    if (digest(inputs[key])!==pin.sha256) mismatch(file);
+  }
+  const record=JSON.parse(inputs.sourceRecord);
+  if (record.path!==paths.originalModel || record.bytes!==inputs.originalModel.length || record.sha256!==p.sourceArtifactSha256 ||
+      p.sourceArtifactPath!==record.path || record.sha256!==p.dependencies.originalModel.sha256 ||
+      p.sourceLicense!==record.license || p.sourceAuthor!==record.author || p.sourceUrl!==record.page ||
+      !record.embeddedCopyright || !inputs.license.toString('utf8').includes(record.embeddedCopyright)) mismatch(record.path);
+  return new Map(Object.entries(p.dependencies));
+}
+
 export async function verifyWallHvacSources(root, resource, recipe) {
   const base = 'assets-source/company-wall-hvac-v1/';
   const p = resource.provenance;
@@ -214,6 +239,8 @@ export async function validateResourceProvenance({root, resource, label = resour
       await verifyFloorAirSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='hvac')
       await verifyWallHvacSources(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && resource.productionBranch==='cart-and-equipment-storage')
+      await verifyEquipmentCartSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='plant-desktop-installation')
       await verifyPlantEditableProvenance(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && ['garment-rack-wardrobe','hanging-garment','enclosed-wardrobe'].includes(resource.productionBranch))

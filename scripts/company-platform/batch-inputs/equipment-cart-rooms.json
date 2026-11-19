@@ -1,0 +1,74 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "equipment-cart-studio",
+      "input": {
+        "id": "equipment-cart-studio",
+        "name": "器材工作室",
+        "spaceProfile": {"id":"company-space-v2","version":1},
+        "furnishingVersion": 2,
+        "scale": "single-room",
+        "floors": [{
+          "id": "ground",
+          "name": "一层",
+          "rooms": [{"id":"live","name":"直播工作室","purpose":"streaming","stations":0,"entry":[1.7,0,2]}],
+          "exteriorEntrances": [{"id":"entry","regionId":"live","edge":"south","offset":0,"width":1.4,"height":2.2}]
+        }]
+      },
+      "operations": [
+        {"type":"add-facility","id":"equipment-cart-studio/ground/live/desk","parentId":"equipment-cart-studio/ground/live",
+          "resource":{"id":"desk-frame","version":1},"transform":{"position":[-1.7,0,0.3],"yaw":0}},
+        {"type":"add-facility","id":"equipment-cart-studio/ground/live/desk-camera","parentId":"equipment-cart-studio/ground/live/desk",
+          "resource":{"id":"camera-orbit-eye","version":1},"transform":{"position":[0,0.84,0.1],"yaw":0}},
+        {"type":"add-facility","id":"equipment-cart-studio/ground/live/cart-open","parentId":"equipment-cart-studio/ground/live",
+          "resource":{"id":"equipment-cart-open","version":1},"transform":{"position":[-1.45,0,-1.8],"yaw":0}},
+        {"type":"add-facility","id":"equipment-cart-studio/ground/live/cart-open/camera","parentId":"equipment-cart-studio/ground/live/cart-open",
+          "resource":{"id":"camera-orbit-eye","version":1},"attachment":{"surfaceId":"upper"},"transform":{"position":[-0.11,0.82,0.03],"yaw":1.5707963267948966}},
+        {"type":"add-facility","id":"equipment-cart-studio/ground/live/cart-open/audio","parentId":"equipment-cart-studio/ground/live/cart-open",
+          "resource":{"id":"audio-interface","version":1},"attachment":{"surfaceId":"lower"},"state":{"on":false},"transform":{"position":[0,0.30,0],"yaw":0}},
+        {"type":"add-facility","id":"equipment-cart-studio/ground/live/cart-flightcase","parentId":"equipment-cart-studio/ground/live",
+          "resource":{"id":"equipment-cart-flightcase","version":1},"transform":{"position":[1.55,0,-1.8],"yaw":0}},
+        {"type":"add-facility","id":"equipment-cart-studio/ground/live/cart-flightcase/camera","parentId":"equipment-cart-studio/ground/live/cart-flightcase",
+          "resource":{"id":"camera-cube-slate","version":1},"attachment":{"surfaceId":"lower"},"transform":{"position":[-0.11,0.30,0.02],"yaw":0}},
+        {"type":"add-facility","id":"equipment-cart-studio/ground/live/cart-flightcase/audio","parentId":"equipment-cart-studio/ground/live/cart-flightcase",
+          "resource":{"id":"audio-mixer","version":1},"attachment":{"surfaceId":"upper"},"state":{"on":true},"transform":{"position":[0,0.82,0],"yaw":0}}
+      ]
+    },
+    {
+      "key": "equipment-cart-rental",
+      "input": {
+        "id": "equipment-cart-rental",
+        "name": "出租屋 · 直播器材间",
+        "spaceProfile": {"id":"company-space-v2","version":1},
+        "furnishingVersion": 2,
+        "scale": "rental-home",
+        "floors": [{
+          "id": "ground",
+          "name": "一层",
+          "rooms": [
+            {"id":"live","name":"器材与直播间","purpose":"streaming","stations":0},
+            {"id":"work","name":"剪辑间","purpose":"work","stations":0,"furniture":"desk-chair"},
+            {"id":"rest","name":"休息间","purpose":"rest","stations":0}
+          ]
+        }]
+      },
+      "operations": [
+        {"type":"move","id":"equipment-cart-rental/ground","transform":{"position":[0,0,0],"yaw":1.5707963267948966}},
+        {"type":"add-facility","id":"equipment-cart-rental/ground/live/cart-tool","parentId":"equipment-cart-rental/ground/live",
+          "resource":{"id":"equipment-cart-tool","version":1},"transform":{"position":[-1.05,0,-1.1],"yaw":0}},
+        {"type":"add-facility","id":"equipment-cart-rental/ground/live/cart-tool/camera","parentId":"equipment-cart-rental/ground/live/cart-tool",
+          "resource":{"id":"camera-orbit-eye","version":1},"attachment":{"surfaceId":"upper"},"transform":{"position":[-0.10,0.82,0],"yaw":0}},
+        {"type":"add-facility","id":"equipment-cart-rental/ground/live/cart-tool/audio","parentId":"equipment-cart-rental/ground/live/cart-tool",
+          "resource":{"id":"audio-interface","version":1},"attachment":{"surfaceId":"lower"},"state":{"on":true},"transform":{"position":[0,0.30,0],"yaw":0}},
+        {"type":"add-facility","id":"equipment-cart-rental/ground/live/cart-display","parentId":"equipment-cart-rental/ground/live",
+          "resource":{"id":"equipment-cart-display","version":1},"transform":{"position":[0.60,0,-1.1],"yaw":1.5707963267948966}},
+        {"type":"add-facility","id":"equipment-cart-rental/ground/live/cart-display/camera","parentId":"equipment-cart-rental/ground/live/cart-display",
+          "resource":{"id":"camera-cube-slate","version":1},"attachment":{"surfaceId":"lower"},"transform":{"position":[-0.10,0.30,0],"yaw":1.5707963267948966}},
+        {"type":"add-facility","id":"equipment-cart-rental/ground/live/cart-display/audio","parentId":"equipment-cart-rental/ground/live/cart-display",
+          "resource":{"id":"audio-mixer","version":1},"attachment":{"surfaceId":"upper"},"state":{"on":false},"transform":{"position":[0,0.82,0],"yaw":0}}
+      ]
+    }
+  ]
+}

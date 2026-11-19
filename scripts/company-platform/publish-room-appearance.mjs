@@ -35,6 +35,7 @@ const families = {
   'company-singing-stage-collection': 'singing-stage',
   'company-vocal-mic-looks': 'vocal-mic-looks',
   'company-vocal-fit': 'vocal-fit',
+  'company-equipment-carts': 'equipment-cart',
   'company-tea-station-collection': 'tea-station',
   'company-floor-air-collection': 'floor-air',
   'company-wall-hvac-collection': 'wall-hvac',
@@ -45,11 +46,13 @@ generatorFiles['floor-air'] = 'build-floor-air.mjs';
 generatorFiles['wall-hvac'] = 'build-wall-hvac.mjs';
 generatorFiles['vocal-mic-looks'] = 'build-vocal-mic-looks.mjs';
 generatorFiles['vocal-fit'] = 'build-vocal-fit.mjs';
+generatorFiles['equipment-cart'] = 'build-equipment-carts.mjs';
 const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric', 'wall-ambient':'ambient-led-and-neon', 'desktop-plants':'plant-desktop-installation', 'tea-station':'tea-rest'};
 productionBranches['floor-air'] = 'fan-and-air-purifier';
 productionBranches['wall-hvac'] = 'hvac';
 productionBranches['vocal-mic-looks'] = 'floor-vocal-microphone';
 productionBranches['vocal-fit'] = 'floor-vocal-microphone';
+productionBranches['equipment-cart'] = 'cart-and-equipment-storage';
 
 const garmentBranches = {rack:'garment-rack-wardrobe',garment:'hanging-garment'};
 const singingBranches = {vocal:'floor-vocal-microphone',score:'floor-score-stand'};

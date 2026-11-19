@@ -1,0 +1,68 @@
+{
+  "schema": "company-equipment-cart-contract",
+  "version": 1,
+  "environmentBranch": "cart-and-equipment-storage",
+  "resource": {
+    "category": "decor",
+    "mountRole": "cart-and-equipment-storage",
+    "productionBranch": "cart-and-equipment-storage",
+    "mount": "floor-surface",
+    "parent": "room.floor",
+    "mounting": {
+      "origin": "bottom",
+      "width": 0.7,
+      "height": 1,
+      "depth": 0.5
+    },
+    "coordinates": {
+      "units": "metres",
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "footprint": {
+      "center": [
+        0,
+        0
+      ],
+      "halfSize": [
+        0.35,
+        0.25
+      ],
+      "blocking": true
+    },
+    "supportSurfaces": [
+      {
+        "id": "lower",
+        "center": [
+          0,
+          0
+        ],
+        "topY": 0.3,
+        "halfSize": [
+          0.26,
+          0.18
+        ],
+        "clearanceHeight": 0.34
+      },
+      {
+        "id": "upper",
+        "center": [
+          0,
+          0
+        ],
+        "topY": 0.82,
+        "halfSize": [
+          0.26,
+          0.18
+        ],
+        "clearanceHeight": 0.36
+      }
+    ],
+    "supportNodes": {
+      "lower": "cart-lower-deck",
+      "upper": "cart-upper-deck"
+    },
+    "usePoints": [],
+    "stateDefaults": {}
+  }
+}

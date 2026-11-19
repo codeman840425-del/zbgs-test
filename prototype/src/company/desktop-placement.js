@@ -1,15 +1,44 @@
-import {Box3, Vector3} from 'three';
+import {Box3, Matrix4, Vector3} from 'three';
+import {isPortableDeskDevice} from './support-data.js';
 
 // Installation checks also run for saved rooms on floors outside the current view.
 export function installationGeometryFacilities(derived) {
-  const floors = new Set(), desks = new Set();
+  const floors = new Set(), desks = new Set(), carts = new Set();
   for(const point of derived.usePoints??[]) if(point.kind==='standing-vocal') floors.add(point.floorId);
   for (const item of derived.facilities) {
     if (['ceiling', 'parent-device-endpoints', 'wall-opening'].includes(item.resource.mount)) floors.add(item.floorId);
     if (item.resource.mounting?.reserveDesktopArea) desks.add(item.node.parentId);
+    if (item.node.attachment?.surfaceId && isPortableDeskDevice(item.resource)) carts.add(item.node.parentId);
   }
   return derived.facilities.filter(item => floors.has(item.floorId) || desks.has(item.node.parentId) ||
-    item.resource.garmentRail || item.resource.mount === 'garment-rail');
+    carts.has(item.id) || carts.has(item.node.parentId) || item.resource.garmentRail || item.resource.mount === 'garment-rail');
+}
+
+// Measure the installed model in its shelf coordinates, including hidden floors.
+export function validateCartPayloadGeometry(facilities, fail) {
+  const bounds = new Box3(), point = new Vector3(), transform = new Matrix4(), inverse = new Matrix4();
+  for (const device of facilities.values()) {
+    const shelfId = device.node.attachment?.surfaceId;
+    if (!shelfId || !isPortableDeskDevice(device.resource)) continue;
+    const cart = facilities.get(device.node.parentId);
+    const shelf = cart?.resource.supportSurfaces?.find(s => s.id === shelfId);
+    if (!shelf) return fail('missing-support-surface',device.id,'Missing installed cart shelf');
+    inverse.copy(cart.root.matrixWorld).invert();
+    bounds.makeEmpty();
+    device.visual.traverse(mesh => {
+      if (!mesh.isMesh) return;
+      const vertices = mesh.geometry.getAttribute('position');
+      transform.multiplyMatrices(inverse,mesh.matrixWorld);
+      for (let i=0; i<vertices.count; i++)
+        bounds.expandByPoint(point.fromBufferAttribute(vertices,i).applyMatrix4(transform));
+    });
+    const [x,z] = shelf.center, [halfX,halfZ] = shelf.halfSize, tolerance = .001;
+    if (bounds.isEmpty() || Math.abs(bounds.min.y-shelf.topY)>tolerance ||
+        bounds.max.y>shelf.topY+shelf.clearanceHeight+tolerance ||
+        bounds.min.x<x-halfX-tolerance || bounds.max.x>x+halfX+tolerance ||
+        bounds.min.z<z-halfZ-tolerance || bounds.max.z>z+halfZ+tolerance)
+      fail('invalid-cart-device-contact',device.id,'The actual device must rest on the shelf and fit its clear space');
+  }
 }
 
 function reservedBox(item) {

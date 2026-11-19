@@ -665,6 +665,14 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   let verifyTeaSources;
   let verifyFloorAirSources;
   let verifyWallHvacSources;
+  let verifyEquipmentCartSources;
+  if (catalog.resources.some(resource=>resource.productionBranch==='cart-and-equipment-storage')) {
+    const verifier=await noLinks(path.join(source,'scripts/company-platform/validate-resource-provenance.mjs'));
+    ({verifyEquipmentCartSources}=await import(pathToFileURL(verifier).href));
+    if (!verifyEquipmentCartSources) fail('missing-production-tool',verifier,'Expected the cart artwork and support contract verifier');
+    supplemental.add('scripts/company-platform/test-equipment-cart-rooms.mjs');
+    supplemental.add('scripts/company-platform/qa-equipment-cart.cjs');
+  }
   if (catalog.resources.some(resource=>resource.productionBranch==='hvac')) {
     const verifier=await noLinks(path.join(source,'scripts/company-platform/validate-resource-provenance.mjs'));
     ({verifyWallHvacSources}=await import(pathToFileURL(verifier).href));
@@ -838,9 +846,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
         productionSourcePins.set(pin.path,pin.sha256);
       }
     }
-    if (resource.productionBranch === 'hvac') {
+    const equipmentVerifier = resource.productionBranch === 'hvac' ? verifyWallHvacSources :
+      resource.productionBranch === 'cart-and-equipment-storage' ? verifyEquipmentCartSources : null;
+    if (equipmentVerifier) {
       const recipe = decode(await read(source,entry.sourceParameters),entry.sourceParameters);
-      for (const pin of (await verifyWallHvacSources(source,resource,recipe)).values()) {
+      for (const pin of (await equipmentVerifier(source,resource,recipe)).values()) {
         supplemental.add(pin.path);
         productionSourcePins.set(pin.path,pin.sha256);
       }

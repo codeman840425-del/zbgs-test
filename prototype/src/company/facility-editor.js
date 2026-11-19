@@ -7,6 +7,7 @@ import {deriveCompany,CompanyError} from './document.js';
 import {compareFacilityFunction} from './appearance-contract.js';
 import {appearanceBranches,appearanceCandidates} from './appearance-samples.js';
 import {listPlacementTargets,createFacilityPlacement,getFacilityEditConstraints} from './facility-edit-data.js';
+import {isPortableDeskDevice} from './support-data.js';
 
 const el=id=>document.getElementById(id),ref=r=>`${r.id}@${r.version}`;
 const angle=yaw=>((Math.round(yaw*180/Math.PI)%360)+360)%360;
@@ -183,7 +184,8 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
       el('edit-rotate').disabled=el('edit-yaw').disabled;el('edit-position').disabled=isBusy()||constraints.lockedAxes.length===4;
       el('edit-move').disabled=isBusy()||constraints.lockedAxes.length===4||view.mode==='building';
       el('edit-rule').textContent=constraints.note;
-      const installable=r&&['wall','wall-opening','portal','portal-door','window-cover','support-surface','garment-rail'].includes(r.mount);
+      const installable=r&&(['wall','wall-opening','portal','portal-door','window-cover','support-surface','garment-rail'].includes(r.mount) ||
+        (!n.stationId && isPortableDeskDevice(r)));
       const targets=installable?listPlacementTargets(doc,catalog,r,derived.roomIds.get(n.id),{templates}):[];
       el('edit-installation').hidden=!installable;
       options(el('edit-target'),targets.map(t=>({value:t.id,label:t.label})),el('edit-target').value);
@@ -296,6 +298,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
     if(!t)throw new CompanyError('missing-placement-target',n.id,'Select an installation target');
     if (r.mount === 'garment-rail') return session.apply([{type:'attach-garment',id:n.id,parentId:t.parentId,slotId:t.attachment.slotId}]);
     const transform={position:t.position,yaw:t.yaw};
+    if (isPortableDeskDevice(r)) return session.apply([{type:'attach-surface',id:n.id,parentId:t.parentId,surfaceId:t.attachment?.surfaceId ?? 'desktop',transform}]);
     return session.apply([r.mount==='support-surface'?{type:'attach-surface',id:n.id,parentId:t.parentId,surfaceId:t.attachment.surfaceId,transform}:r.mount==='window-cover'?{type:'attach-window-cover',id:n.id,windowId:t.parentId}: {type:'move',id:n.id,transform}]);
   });
   const order=['desk','chair','sofa','side-table','monitor','fill-light','keyboard','desk-microphone','plant','rug','wall-art'];

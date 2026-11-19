@@ -3,7 +3,7 @@ import {poseDeskLamp,poseDeskLampHead} from './desk-lamp.js';
 import {bindFloorAirRotor} from './floor-air.js';
 import {adaptCableGeometry,validateCableVisualPlacement} from './cable-render.js';
 import {validateCeilingVisualPlacement,ceilingVisibleForRegion} from './ceiling-placement.js';
-import {installationGeometryFacilities,validateDesktopReservations} from './desktop-placement.js';
+import {installationGeometryFacilities,validateDesktopReservations,validateCartPayloadGeometry} from './desktop-placement.js';
 import * as THREE from 'three';
 import {screenMaterials} from './screen-state.js';
 import {applyWindowState,validateWindowVisualPlacement} from './window-geometry.js';
@@ -102,6 +102,7 @@ export function validateCeilingDocumentAssets(derived,assetLibrary,entries=insta
     validateCableVisualPlacement(temporary,derived.cableConnections,(code,path,message)=>{throw new CompanyError(code,path,message);});
     validateCeilingVisualPlacement(temporary,(code,path,message)=>{throw new CompanyError(code,path,message);});
     validateDesktopReservations(temporary,(code,path,message)=>{throw new CompanyError(code,path,message);});
+    validateCartPayloadGeometry(temporary,(code,path,message)=>{throw new CompanyError(code,path,message);});
     validateVocalUseGeometry(derived,temporary,(...args)=>{throw new CompanyError(...args);});
   }finally{for(const f of temporary.values())disposeTree(f.root);}
 }
@@ -131,6 +132,7 @@ function validatePlacementGeometry(facilities,derived,groups) {
       validateCableVisualPlacement(facilities,derived.cableConnections,(code,path,message)=>{throw new CompanyError(code,path,message);});
       validateCeilingVisualPlacement(facilities,(code,path,message)=>{throw new CompanyError(code,path,message);});
       validateDesktopReservations(facilities,(code,path,message)=>{throw new CompanyError(code,path,message);});
+      validateCartPayloadGeometry(facilities,(code,path,message)=>{throw new CompanyError(code,path,message);});
 }
 
 export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog,templates=defaultTemplates,visibleFloorId,maxRealtimeLights=2,assetLibrary,mirrorPreflight,mirrorRenderProfile='single-512-v1'}={}) {

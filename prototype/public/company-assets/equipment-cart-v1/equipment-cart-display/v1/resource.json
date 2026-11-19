@@ -1,0 +1,171 @@
+{
+  "id": "equipment-cart-display",
+  "version": 1,
+  "displayName": "展示推车",
+  "category": "decor",
+  "mountRole": "cart-and-equipment-storage",
+  "productionBranch": "cart-and-equipment-storage",
+  "mount": "floor-surface",
+  "parent": "room.floor",
+  "mounting": {
+    "origin": "bottom",
+    "width": 0.7,
+    "height": 1,
+    "depth": 0.5
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z"
+  },
+  "footprint": {
+    "center": [
+      0,
+      0
+    ],
+    "halfSize": [
+      0.35,
+      0.25
+    ],
+    "blocking": true
+  },
+  "supportSurfaces": [
+    {
+      "id": "lower",
+      "center": [
+        0,
+        0
+      ],
+      "topY": 0.3,
+      "halfSize": [
+        0.26,
+        0.18
+      ],
+      "clearanceHeight": 0.34
+    },
+    {
+      "id": "upper",
+      "center": [
+        0,
+        0
+      ],
+      "topY": 0.82,
+      "halfSize": [
+        0.26,
+        0.18
+      ],
+      "clearanceHeight": 0.36
+    }
+  ],
+  "supportNodes": {
+    "lower": "cart-lower-deck",
+    "upper": "cart-upper-deck"
+  },
+  "usePoints": [],
+  "stateDefaults": {},
+  "materialSlots": {
+    "original": [
+      "Caster_fork",
+      "Caster_fork001",
+      "Caster_fork002",
+      "Caster_fork003",
+      "Caster_fork004",
+      "Caster_fork005",
+      "Caster_fork006",
+      "Caster_fork007",
+      "bearing-left-front",
+      "bearing-left-rear",
+      "bearing-right-front",
+      "bearing-right-rear",
+      "Caster_wheel_hub",
+      "Caster_wheel_hub001",
+      "Caster_wheel_hub002",
+      "Caster_wheel_hub003",
+      "Caster_wheel_hub004",
+      "Caster_wheel_hub005",
+      "Caster_wheel_hub006",
+      "Caster_wheel_hub007",
+      "Folding_cart_push_handle",
+      "Load_deck_traction_surface",
+      "Platform_cart_deck",
+      "wheel-left-front",
+      "wheel-left-rear",
+      "wheel-right-front",
+      "wheel-right-rear"
+    ],
+    "trim": [
+      "fork-bridge-left-front",
+      "caster-stem-left-front",
+      "fork-bridge-left-rear",
+      "caster-stem-left-rear",
+      "fork-bridge-right-front",
+      "caster-stem-right-front",
+      "fork-bridge-right-rear",
+      "caster-stem-right-rear",
+      "display-bracket--0307-03",
+      "display-bracket--0307-082",
+      "display-bracket-0307-03",
+      "display-bracket-0307-082",
+      "lower-curved-nose",
+      "upper-curved-nose"
+    ],
+    "frame": [
+      "bearing-plate-left-front",
+      "bearing-plate-left-rear",
+      "bearing-plate-right-front",
+      "bearing-plate-right-rear",
+      "display-swept-front--0307",
+      "display-swept-back--0307",
+      "display-swept-front-0307",
+      "display-swept-back-0307"
+    ],
+    "deck": [
+      "cart-lower-deck",
+      "cart-upper-deck",
+      "display-rear-plaque"
+    ]
+  },
+  "provenance": {
+    "license": "Innerscene CC0-1.0 industrial cart assembly and original PBR maps. Project-authored upper structures and caster stems.",
+    "sourceAuthor": "Innerscene Corp",
+    "sourceLicense": "CC0-1.0",
+    "sourceUrl": "https://www.innerscene.com/tools/library/3d-parts/roll-platform-platform-cart-8c87f71c",
+    "sourceDesign": "display",
+    "sourceArtifactPath": "assets-source/company-equipment-cart-v1/original/platform-utility-cart.glb",
+    "sourceArtifactSha256": "b799d82d8f570a1be677292be9a875db22b1c0abc807ed337925ecaa056ae542",
+    "sourceParameters": "assets-source/company-equipment-cart-v1/parameters.json",
+    "sourceParametersSha256": "e35714ac76b41efe59c1c91064f3508778484402c673c75a12bd217444d1f5c5",
+    "generator": "scripts/company-platform/build-equipment-carts.mjs",
+    "generatorSha256": "504c990d6d808c057548252af3aeac51f5a4a93a967d1d41f052eda4d02a6371",
+    "functionalContractSource": "assets-source/company-equipment-cart-v1/contract.json",
+    "functionalContractSourceSha256": "e244cfc6ca6af71e497762239d0a5863e3240b6995ccca3a69a00e44edfd27d1",
+    "environmentBranch": "cart-and-equipment-storage",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "dependencies": {
+      "sourceRecord": {
+        "path": "assets-source/company-equipment-cart-v1/original/sources.json",
+        "sha256": "d3c1614dc02f1fdc04812376c05c90d5bde9597dc51435518c95b41b22734a8d"
+      },
+      "license": {
+        "path": "assets-source/company-equipment-cart-v1/original/CC0-source-declaration.txt",
+        "sha256": "3e5c69850a511cef54948bdda18d46466dd061c9c8e1bc4ca43428b80f5457ee"
+      },
+      "originalModel": {
+        "path": "assets-source/company-equipment-cart-v1/original/platform-utility-cart.glb",
+        "sha256": "b799d82d8f570a1be677292be9a875db22b1c0abc807ed337925ecaa056ae542"
+      }
+    },
+    "tools": [
+      "Three.js r187",
+      "Blender-authored GLB assembly",
+      "GLTFLoader with decoded source maps"
+    ]
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/equipment-cart-v1/equipment-cart-display/v1/model.glb",
+    "sha256": "51c8af8facb3563a3726e2c6a3bf0590973f400f2a5e03550e68018e342b642f",
+    "bytes": 325120
+  }
+}

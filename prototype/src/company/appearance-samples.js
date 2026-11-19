@@ -49,6 +49,7 @@ export const appearanceBranches=[
  ['hinged-cabinet','单扇开合柜'],
  ['sliding-drawer-cabinet','单抽屉收纳柜'],
  ['storage-shelf','多层开放架'],['tabletop-ornament','台面陈列摆件'],
+ ['cart-and-equipment-storage','器材推车'],
  ['desk','桌子'],['chair','单人座椅'],['sofa','双人沙发'],['monitor','屏幕'],['fill-light','补光系统'],['desk-lamp','桌面台灯'],
  ['ambient-led-and-neon','墙挂氛围灯'],['plant-desktop-installation','桌面盆栽'],
  ['fan-and-air-purifier','落地风扇与净化器'],
@@ -137,6 +138,15 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
    selected.productionBranch==='sofa-textile-host' ? 'appearance-sofa-textile-host' : `appearance-${branch}`;
  let doc=createCompany({id:sampleId,name:`${appearanceBranches.find(([key])=>key===branch)?.[1]} · ${selected.displayName||selected.name||selected.id}`,width:9,depth:7},catalog);
  const floor=doc.nodes[0],room=doc.nodes[1],area=`${doc.id}/public`;
+ if (branch === 'cart-and-equipment-storage') {
+   const cart=room.id+'/cart', resource={id:selected.id,version:selected.version};
+   doc=prepareCompanyChange(doc,[
+     {type:'add-facility',id:cart,parentId:room.id,resource},
+     {type:'add-facility',id:cart+'/camera',parentId:cart,resource:{id:'camera-orbit-eye',version:1},attachment:{surfaceId:'upper'}},
+     {type:'add-facility',id:cart+'/audio',parentId:cart,resource:{id:'audio-interface',version:1},attachment:{surfaceId:'lower'}},
+   ],{catalog,templates}).document;
+   return {document:doc,target:cart,branch,index,resource,floorId:floor.id,roomId:room.id};
+ }
  if (selected.productionBranch==='tea-rest') {
    const counter=room.id+'/counter', item=room.id+'/item';
    const resource={id:selected.id,version:selected.version};

@@ -12,6 +12,17 @@ const pair = value => Array.isArray(value) && value.length === 2 && value.every(
 const ID = /^[A-Za-z0-9][A-Za-z0-9_.:-]*$/;
 const EPS = 1e-6;
 
+export function isPortableDeskDevice(resource) {
+  return resource?.mount === 'desk-surface' && ['camera-static','audio-control'].includes(resource.mountRole) &&
+    !resource.footprint?.blocking && !resource.usePoints?.length &&
+    ['width','height','depth'].every(key => Number.isFinite(resource.mounting?.[key]) && resource.mounting[key] > 0);
+}
+
+export function supportsCartDevice(device, host) {
+  return isPortableDeskDevice(device) && host?.productionBranch === 'cart-and-equipment-storage' &&
+    host.mountRole === 'cart-and-equipment-storage' && host.mount === 'floor-surface' && Array.isArray(host.supportSurfaces);
+}
+
 export function supportYaw(resource, surface) {
   const box = resource?.mounting;
   if (!box || !surface || !(box.height <= surface.clearanceHeight + 1e-8)) return null;
@@ -115,14 +126,15 @@ export function validateSupportAttachments(nodes, resources, fail) {
   for (const node of nodes.values()) {
     const resource = resources.get(`${node.resource?.id}@${node.resource?.version}`);
     if (node.attachment !== undefined && ['window-cover','garment-rail'].includes(resource?.mount)) continue;
-    if (node.attachment !== undefined && (node.kind !== 'facility' || resource?.mount !== 'support-surface'))
-      fail('invalid-support-attachment', node.id, 'Only support-surface facilities may declare an attachment');
-    if (resource?.mount !== 'support-surface') continue;
     const attachment = node.attachment, parent = nodes.get(node.parentId);
+    const parentResource = resources.get(`${parent?.resource?.id}@${parent?.resource?.version}`);
+    const cartDevice = attachment !== undefined && supportsCartDevice(resource,parentResource);
+    if (attachment !== undefined && (node.kind !== 'facility' || (resource?.mount !== 'support-surface' && !cartDevice)))
+      fail('invalid-support-attachment', node.id, 'Only support-surface facilities may declare an attachment');
+    if (resource?.mount !== 'support-surface' && !cartDevice) continue;
     if (!object(attachment) || Object.keys(attachment).length !== 1 || typeof attachment.surfaceId !== 'string' ||
         parent?.kind !== 'facility')
       fail('invalid-support-attachment', node.id, 'Attach to a parent facility and select exactly one surfaceId');
-    const parentResource = resources.get(`${parent.resource?.id}@${parent.resource?.version}`);
     const surface = parentResource?.supportSurfaces?.find(s => s.id === attachment.surfaceId);
     if (!surface) fail('missing-support-surface', node.id, `Parent has no support surface ${attachment.surfaceId}`);
     if (!matchesTextileRest(resource, parentResource, surface.id))

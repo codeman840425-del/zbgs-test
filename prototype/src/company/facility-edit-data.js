@@ -3,7 +3,7 @@ import {floorPortalSides} from './exterior-entrance-data.js';
 import {wallHvacMountHeight, wallHvacSpans} from './wall-hvac.js';
 import {CompanyError, deriveCompany} from './document.js';
 import {deriveCableConnections} from './cable-data.js';
-import {matchesTextileRest, supportYaw} from './support-data.js';
+import {matchesTextileRest, supportYaw, supportsCartDevice} from './support-data.js';
 
 const quarterTurns = [0, Math.PI / 2, Math.PI, Math.PI * 1.5];
 const EPS = 1e-8;
@@ -64,7 +64,7 @@ function target(id, parentId, label, position, yaw, mode, extra = {}) {
 function surfaceLabel(parentResource, surfaceId) {
   if (parentResource.mountRole === 'sofa' && surfaceId === 'textile-rest') return '软装扶手';
   if (parentResource.mountRole === 'vanity-table') return '台面';
-  return {lower: '下层板', middle: '中层板', top: '上层板', drawer: '抽屉承载面'}[surfaceId] || surfaceId;
+  return {lower: '下层板', middle: '中层板', top: '上层板', upper: '上层板', drawer: '抽屉承载面'}[surfaceId] || surfaceId;
 }
 
 function hostSupports(resource, parentResource, surfaceId) {
@@ -301,8 +301,13 @@ export function listPlacementTargets(document, catalog, resource, regionId, opti
   else if (selected.mount === 'ceiling') { const value = ceilingTarget(region, selected); if (value) result.push(value); }
   else if (selected.mount === 'desk-edge-clamp') result.push(...deskClampTargets(region, derived, selected));
   else if (selected.mount === 'desk-surface') {
-    for (const parent of derived.facilities.filter(entry => entry.roomId === region.id && parentResourceIsDesk(entry.resource))) {
-      result.push(...deskTargets(parent.node, parent.resource, selected));
+    for (const parent of derived.facilities.filter(entry => entry.roomId === region.id)) {
+      if (parentResourceIsDesk(parent.resource)) result.push(...deskTargets(parent.node, parent.resource, selected));
+      if (supportsCartDevice(selected,parent.resource))
+        for (const surface of parent.resource.supportSurfaces) {
+          const value = targetForSupport(parent.node,parent.resource,selected,surface);
+          if (value) result.push(value);
+        }
     }
   } else if (selected.mount === 'support-surface') {
     for (const parent of derived.facilities.filter(entry => entry.roomId === region.id && Array.isArray(entry.resource.supportSurfaces)))
@@ -357,7 +362,7 @@ export function getFacilityEditConstraints(node, resource) {
   if (mount === 'window-cover') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '窗体覆盖绑定真实窗户，位置和朝向固定；开合状态单独保存'};
   if (mount === 'information-surface') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '信息内容固定在宿主槽位，移动或转向请操作宿主'};
   if (mount === 'ceiling') return {lockedAxes: ['y'], note: '顶面 Y 固定在 2.8m'};
-  if (mount === 'support-surface') return {lockedAxes: ['y'], note: '承载面 Y 固定，X/Z 与朝向须满足完整包络'};
+  if (mount === 'support-surface' || node?.attachment?.surfaceId) return {lockedAxes: ['y'], note: '承载面 Y 固定，X/Z 与朝向须满足完整包络'};
   if (mount === 'desk-surface') return {lockedAxes: ['y'], note: '桌面 Y 固定，X/Z 与朝向须满足桌面边界'};
   return {lockedAxes: ['y'], note: '地面 Y 固定，X/Z 与四向朝向可编辑'};
 }
