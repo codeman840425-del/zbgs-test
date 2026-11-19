@@ -1,4 +1,4 @@
-"""Generate candidate matrix rows for an already published skinned, unmasked clothing style."""
+"""Register a published clothing style or a single-style candidate matrix fragment."""
 import argparse
 import hashlib
 import json
@@ -6,7 +6,7 @@ from pathlib import Path
 
 from flow import GLB, Validator, local, require
 from production_paths import project_output
-from variant_matrix import validate_matrix_files
+from variant_matrix import validate_matrix, validate_matrix_files
 
 ROOT = Path(__file__).resolve().parents[2]
 MATRIX = ROOT / 'assets-source/variant-matrix-v1/representative-matrix.json'
@@ -106,16 +106,38 @@ def register(matrix, style):
 
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--spec',required=True,help='Repository-relative author spec')
-    p.add_argument('--publication',required=True,help='Repository-relative published manifest')
-    p.add_argument('--label',required=True)
+    source=p.add_mutually_exclusive_group(required=True)
+    source.add_argument('--spec',help='Repository-relative author spec')
+    source.add_argument('--fragment',help='Repository-relative matrix containing one candidate style')
+    p.add_argument('--publication',help='Published manifest for --spec')
+    p.add_argument('--label',help='Catalog display label; defaults to the fragment label for --fragment')
     p.add_argument('--matrix',type=Path,default=MATRIX)
     p.add_argument('--output',type=Path,help='Fresh output matrix; omitted to verify the existing registration')
     a=p.parse_args(argv)
     output = project_output(a.output, __file__) if a.output is not None else None
-    style, evidence=build_style(ROOT,a.spec,a.publication,a.label)
+    if a.fragment:
+        if a.publication is not None:
+            p.error('--publication is only used with --spec')
+        fragment = local(ROOT, a.fragment).read_bytes()
+        data = json.loads(fragment)
+        require(not (errors:=validate_matrix(data)), '; '.join(errors))
+        require(len(data['styles']) == 1, 'Expected a single style in the matrix fragment')
+        style = data['styles'][0]
+        require(all(v['status'] == 'candidate' for v in style['variants']), 'Expected only candidate variants')
+        if a.label is not None:
+            style = dict(style, label=a.label)
+        require(isinstance(style.get('label'), str) and style['label'].strip(), 'Expected a catalog label')
+        details = {'source':a.fragment, 'sourceSha256':digest(fragment),
+                   'bodies':[{'bodyType':v['bodyType'], 'variantVersion':v['variantVersion']} for v in style['variants']]}
+    else:
+        if not a.publication or not a.label:
+            p.error('--spec requires --publication and --label')
+        style, evidence=build_style(ROOT,a.spec,a.publication,a.label)
+        details = {'source':a.spec,'publication':a.publication,'bodies':evidence}
     raw=a.matrix.read_bytes()
     matrix=json.loads(raw)
+    # A duplicate already in the catalog must not disappear in register's keyed merge.
+    require(not (errors:=validate_matrix(matrix)), '; '.join(errors))
     new=register(matrix,style)
     require(not (errors:=validate_matrix_files(new,ROOT)), '; '.join(errors))
     if output is not None:
@@ -124,8 +146,7 @@ def main(argv=None):
             stream.write(encoded.encode('utf-8'))
     else:
         require(new == matrix, 'Candidate missing; specify a new output matrix to prepare it')
-    print(json.dumps({'styleId':style['styleId'],'status':'candidate','source':a.spec,'publication':a.publication,
-                      'bodies':evidence},indent=2,ensure_ascii=False))
+    print(json.dumps({'styleId':style['styleId'],'status':'candidate',**details},indent=2,ensure_ascii=False))
 
 
 if __name__ == '__main__':

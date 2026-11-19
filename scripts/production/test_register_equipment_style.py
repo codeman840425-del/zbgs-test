@@ -79,6 +79,53 @@ class PublishedStyleTests(unittest.TestCase):
             main(ARGS)
         self.assertEqual(MATRIX.read_bytes(), original)
 
+    def test_uniform_fragment_reuses_registered_label_and_keeps_exact_body_versions(self):
+        source = 'assets-source/variant-matrix-v1/uniform-lite-top-matrix.json'
+        fragment = json.loads((ROOT/source).read_bytes())['styles'][0]
+        current = json.loads(MATRIX.read_bytes())
+        style = next(s for s in current['styles'] if s['styleId'] == fragment['styleId'])
+        args = ['--fragment', source, '--label', style['label']]
+        self.assertNotEqual(fragment['label'], style['label'])
+        with tempfile.TemporaryDirectory(dir=ROOT/'experiments') as directory, redirect_stdout(io.StringIO()):
+            base = Path(directory)/'base.json'
+            output = Path(directory)/'matrix.json'
+            old = dict(style, variants=[v for v in style['variants'] if v not in fragment['variants']])
+            base.write_text(json.dumps(dict(current, styles=[old if s is style else s for s in current['styles']])))
+            before = base.read_bytes()
+            with self.assertRaisesRegex(ValueError, 'Existing style metadata differs'):
+                main(['--fragment',source,'--matrix',str(base),'--output',str(output)])
+            self.assertFalse(output.exists())
+            main([*args,'--matrix',str(base),'--output',str(output)])
+            saved = output.read_bytes()
+            assembled = next(s for s in json.loads(saved)['styles'] if s['styleId'] == style['styleId'])
+            self.assertEqual(assembled['variants'], old['variants'] + fragment['variants'])
+            self.assertEqual(assembled['label'], style['label'])
+            main([*args,'--matrix',str(output)])  # replay without writing
+            main(args)  # compiled catalog also contains the exact entries
+            self.assertEqual(output.read_bytes(), saved)
+            self.assertEqual(base.read_bytes(), before)
+
+            changed = Path(directory)/'different-fit.json'
+            bad = json.loads((ROOT/source).read_bytes())
+            bad['styles'][0]['variants'][1]['fitManifestSha256'] = '0'*64
+            changed.write_text(json.dumps(bad))
+            rejected = Path(directory)/'rejected.json'
+            for matrix, reason in [(base,'fitManifest SHA'), (output,'Existing variant has different data')]:
+                with self.assertRaisesRegex(ValueError, reason):
+                    main(['--fragment',changed.relative_to(ROOT).as_posix(),'--label',style['label'],
+                          '--matrix',str(matrix),'--output',str(rejected)])
+                self.assertFalse(rejected.exists())
+            self.assertEqual(output.read_bytes(), saved)
+            self.assertEqual(base.read_bytes(), before)
+
+            duplicate = dict(old, variants=[*old['variants'], old['variants'][0]])
+            base.write_text(json.dumps(dict(current, styles=[duplicate if s is style else s for s in current['styles']])))
+            invalid = base.read_bytes()
+            with self.assertRaisesRegex(ValueError, 'duplicate bodyType/version'):
+                main([*args,'--matrix',str(base),'--output',str(rejected)])
+            self.assertFalse(rejected.exists())
+            self.assertEqual(base.read_bytes(), invalid)
+
     def test_outside_outputs_rejected_before_loading_publication(self):
         with tempfile.TemporaryDirectory(dir=ROOT/'experiments') as directory:
             parent = Path(directory)

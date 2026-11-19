@@ -364,6 +364,20 @@ test('exposes the configured style matrix per exact body while keeping candidate
   assert.deepEqual(male.runtimeVariants ?? [], []);
 });
 
+test('shared 1K uniform style resolves the exact wearer and version through the default catalog', async () => {
+  const fragment = JSON.parse(await readFile(new URL('../../assets-source/variant-matrix-v1/uniform-lite-top-matrix.json', import.meta.url)));
+  for (const expected of fragment.styles[0].variants) {
+    const query = queryCharacterProduction((await fixture(expected.bodyType)).controller);
+    const style = query.styleVariants.find(row => row.styleId === 'uniform-top-v1');
+    const matching = style.variants.filter(row => row.variantVersion === expected.variantVersion);
+    assert.deepEqual(matching, [expected]);
+    assert.equal(matching[0].bodySha256, query.body.sha256);
+    assert.equal(matching[0].status, 'candidate');
+    assert.equal(query.runtimeVariants.some(row => row.styleId === style.styleId &&
+      row.variantVersion === expected.variantVersion), false);
+  }
+});
+
 test('exposes native parameter packages as exact candidate variants without inheriting admission', async () => {
   for (const entry of productionCatalog.entries) {
     const config = foundationProfile(entry.bodyType);
