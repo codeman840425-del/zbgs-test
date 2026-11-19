@@ -203,6 +203,9 @@ export function createCharacterAppearance({ vrm, avatarSha256, renderer, parser,
         // clone can fail before any of these materials are assigned to mesh.
         const cloned=source.map(m=>{const c=m.clone();materialBase.set(c,originals.get(m));return c;});
         if(mesh===coloredMesh)for(const material of cloned){
+          // MToon 3.5.5 uses vColor as vec3 for lit and shade. Three r187's
+          // color chunk exports vec4. Select RGB explicitly on this clone.
+          material.fragmentShader=material.fragmentShader.replaceAll('.rgb *= vColor;', '.rgb *= vColor.rgb;');
           material.vertexColors=true;material.ignoreVertexColor=false;material.needsUpdate=true;
         }
         mesh.material=cloned.length===1?cloned[0]:cloned;

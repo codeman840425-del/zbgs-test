@@ -90,8 +90,9 @@ test('MToon and real skinned ponytail use the exact per-vertex multipliers, surv
   }
   for(const mat of mats(colored)){
     assert.ok(mat.isMToonMaterial && mat.vertexColors && !mat.ignoreVertexColor);
-    assert.match(mat.fragmentShader,/diffuseColor\.rgb \*= vColor/);
-    assert.match(mat.fragmentShader,/material\.shadeColor\.rgb \*= vColor/);
+    assert.match(mat.fragmentShader,/diffuseColor\.rgb \*= vColor\.rgb;/);
+    assert.match(mat.fragmentShader,/material\.shadeColor\.rgb \*= vColor\.rgb;/);
+    assert.doesNotMatch(mat.fragmentShader,/\.rgb \*= vColor;/);
   }
   for(const [mat,state] of base)assert.deepEqual([mat.color?.toArray(),mat.ignoreVertexColor,mat.vertexColors],state);
   assert.notEqual(colored.geometry,original.geometry);

@@ -38,6 +38,44 @@ async function select(page, selector, value) {
   await page.waitForFunction(() => document.querySelector('#appearance-form')?.getAttribute('aria-busy') !== 'true');
 }
 
+// Use the same paused, bald pose as a background plate. An attached mesh can
+// report all expected vertex colors even when the GPU fails to draw it.
+async function checkVisibleHair(page,out,camera) {
+  const images=[];
+  for(const label of ['none','base','region','base-restored']) {
+    const bytes=await fs.readFile(path.join(out,label+'-'+camera+'.png'));
+    images.push(bytes.toString('base64'));
+  }
+  return page.evaluate(async images => {
+    const frames=[];
+    let width,height;
+    for(const source of images){
+      const bytes=Uint8Array.from(atob(source),c=>c.charCodeAt(0));
+      const bmp=await createImageBitmap(new Blob([bytes],{type:'image/png'}));
+      width=bmp.width;height=bmp.height;
+      const ctx=new OffscreenCanvas(width,height).getContext('2d',{willReadFrequently:true});
+      ctx.drawImage(bmp,0,0);
+      frames.push(ctx.getImageData(0,0,width,height).data);
+      bmp.close();
+    }
+    const [bare,base,region,restored]=frames;
+    const difference=(a,b,i)=>Math.max(...[0,1,2].map(c=>Math.abs(a[i+c]-b[i+c])));
+    let oldHair=0,visible=0,visiblyRecolored=0;
+    for(let y=Math.ceil(height*.05);y<height*.86;y++){
+      for(let x=Math.ceil(width*.07);x<width*.93;x++){
+        const i=4*(width*y+x);
+        if(difference(base,bare,i)<30 || difference(base,restored,i)>3) continue;
+        oldHair++;
+        if(difference(region,bare,i)>=15){
+          visible++;
+          if(difference(region,base,i)>=8)visiblyRecolored++;
+        }
+      }
+    }
+    return {oldHair,visible,visiblyRecolored};
+  },images);
+}
+
 async function inspect(page, style) {
   await select(page, '#appearance-hair-style', style);
   await page.waitForFunction(want => __debug.avatar().appearance.getState().effectiveHairStyle === want, style);
@@ -75,13 +113,19 @@ async function run() {
       recordVideo:{dir:out,size:{width:1440,height:900}}});
     const p = await context.newPage();
     p.on('pageerror',e => report.errors.push(String(e)));
+    p.on('console',msg => {
+      if(/Shader Error|VALIDATE_STATUS false|program not valid/i.test(msg.text())) report.errors.push(msg.text());
+    });
     await p.goto(url);
     await p.waitForFunction(() => window.__debug?.ready,null,{timeout:60000});
     report.identity = await verifyCandidate(p,{build,sha256:body,assetId:'beta-base-female-m1'});
     await select(p,'#appearance-hair-color','blonde');
     await p.evaluate(() => __debug.setPaused(true));
-    for (const [label,style] of [['base',original],['region',colorway],['base-restored',original]]) {
-      report.looks[label] = await inspect(p,style);
+    for (const [label,style] of [['none','none'],['base',original],['region',colorway],['base-restored',original]]) {
+      if(style==='none'){
+        await select(p,'#appearance-hair-style',style);
+        await p.waitForFunction(()=>__debug.avatar().appearance.getState().effectiveHairStyle==='none');
+      } else report.looks[label] = await inspect(p,style);
       for (const camera of cameras) {
         await p.evaluate(camera => __debug.camera(camera),camera);
         await p.waitForTimeout(450);
@@ -89,6 +133,14 @@ async function run() {
       }
     }
     assert.deepEqual(report.looks.base,report.looks['base-restored']);
+    report.pixels={};
+    for(const camera of cameras){
+      const pixels=await checkVisibleHair(p,out,camera);
+      report.pixels[camera]=pixels;
+      assert(pixels.oldHair>100 && pixels.visible/pixels.oldHair>=0.85,
+        'Hair silhouette missing at '+camera+': '+JSON.stringify(pixels));
+      if(camera!=='room')assert(pixels.visiblyRecolored>10,'Palette did not affect visible hair at '+camera);
+    }
     await inspect(p,colorway);
     const recipe = await p.evaluate(() => __debug.exportAppearanceRecipe());
     await fs.writeFile(path.join(out,'recipe.json'),recipe);

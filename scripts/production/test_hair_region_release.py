@@ -88,11 +88,24 @@ class HairRegionReleaseTests(unittest.TestCase):
                     *(region[key] for key in release.regions.PINS)]:
             destination = checkout / ref["path"]
             destination.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(release.ROOT / ref["path"], destination)
+            if ref in rights["sourceRecords"]:
+                # An old Windows work copy used CRLF for an LF Git blob. Read the actual archived byte stream.
+                destination.write_bytes(subprocess.check_output(["git", "show", "HEAD:" + ref["path"]], cwd=release.ROOT))
+            else:
+                shutil.copyfile(release.ROOT / ref["path"], destination)
         out = self.work / "separate-output"
         self.assertEqual(release.publish(release.RECIPE, out, checkout), "published")
         self.assertEqual((out / "manifest.json").read_bytes(),
                          (release.ROOT / "prototype/public/assets/m2-hair-region-v1/manifest.json").read_bytes())
+        original = checkout / rights["sourceRecords"][-1]["path"]
+        raw = original.read_bytes()
+        wrong = raw.replace(b"\r\n", b"\n")
+        self.assertNotEqual(wrong, raw)
+        self.assertEqual(json.loads(raw), json.loads(wrong))
+        original.write_bytes(wrong)
+        with self.assertRaisesRegex(ValueError, "author source SHA-256 mismatch"):
+            release.publish(release.RECIPE, self.work / "wrong-source-bytes", checkout)
+        self.assertFalse((self.work / "wrong-source-bytes").exists())
 
     def test_disk_root_and_path_reversal_rejected_before_reading_recipe(self):
         missing = self.work / "missing-recipe.json"
