@@ -186,6 +186,27 @@ test('publisher VRM0 wears only its own three bindings in the source outfit', as
   assert.equal(liveAccessories.glasses.status, 'unavailable');
 });
 
+test('female texture release retains the two independently fitted torso selections', async () => {
+  const base = foundationProfile('female'), derived = foundationProfile('source-female-uniform-texture-v1');
+  const {controller} = await fixture(derived.id);
+  const choices = queryCharacterProduction(controller);
+  assert.deepEqual(choices.outfits.map(row => row.index), [0, 5]);
+  assert.equal(sha256(await readFile(publicFile(derived.url))), derived.sha256);
+  const coverage = profile => [profile.bodyCoverage, profile.additionalBodyCoverage.find(r => r.role === 'topFar').descriptor];
+  for (const [i, descriptor] of coverage(derived).entries()) {
+    const actual = await readFile(publicFile(descriptor.url));
+    assert.equal(sha256(actual), descriptor.sha256);
+    const before = await json(coverage(base)[i].url), after = JSON.parse(actual);
+    const top = choices.outfits[i].equipment.find(row => row.role === (i === 0 ? 'top' : 'topFar'));
+    assert.equal(after.avatarSha256, derived.sha256);
+    assert.equal(after.topId, top.id);
+    assert.equal(after.topSha256, top.sha256);
+    assert.notEqual(after.topId, before.topId);
+    assert.equal(after.selectedTriangles.length, 252);
+    assert.deepEqual(after.selectedTriangles, before.selectedTriangles);
+  }
+});
+
 test('1K tops are exact additions to the existing female and stripped male pants looks', async () => {
   for (const [body,index,folder] of [['female',5,'female'],['source-male-ab9a-release-v1',1,'male']]) {
     const config = foundationProfile(body);

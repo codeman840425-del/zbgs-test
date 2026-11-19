@@ -12,7 +12,8 @@ async function run(base, build, selectedFile, oppositeFile, directory) {
   const parse = async file => JSON.parse(await fs.readFile(file, 'utf8'));
   const [records, other] = await Promise.all([parse(selectedFile), parse(oppositeFile)]);
   const {canonicalJson} = await import('../prototype/src/character-record.js');
-  assert(Array.isArray(records) && records.length >= 1 && records.length <= 4, 'Expected 1–4 signed records');
+  // This check measures the first visible group before any user selection.
+  assert(Array.isArray(records) && records.length >= 1 && records.length <= 2, 'Cold-load check expects one visible group of 1–2 signed records');
   assert.equal(new Set(records.map(r=>r.identity.id)).size, records.length);
   const top = record => {
     const equipment = record.appearanceRecipe.equipment;
