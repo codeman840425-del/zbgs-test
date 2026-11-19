@@ -79,7 +79,9 @@ async function compileHost(company,root) {
      three.REVISION!==threeLock.version.split('.')[1] ||
      esbuild.version!==localLock.packages['node_modules/esbuild'].version) throw Error('Use the locked Three.js and esbuild versions');
   const host=await readFile(path.join(inputsDir,'facility-room-host.mjs'),'utf8');
-  const built=await esbuild.build({stdin:{contents:host,resolveDir:inputsDir,sourcefile:'facility-room-host.mjs'},
+  // esbuild includes the entry name in the bundle. Use its published logical
+  // path even when the operator itself is running from a different checkout.
+  const built=await esbuild.build({stdin:{contents:host,resolveDir:root,sourcefile:'scripts/production/facility-room-host.mjs'},
     absWorkingDir:root,bundle:true,format:'esm',target:'es2022',write:false,legalComments:'inline',
     plugins:[{name:'transferred-company',setup(build){
       build.onResolve({filter:/^released-company\//},args=>({namespace:'company',path:args.path.slice('released-company/'.length)}));
