@@ -1,0 +1,158 @@
+{
+  "schema": "m2-first-rule-formal-intake-replay-v1",
+  "subject": {
+    "id": "studio-01-yun-lan",
+    "recordSha256": "5a9741a2425caebb71acad1693314ecb0b9f1abbc4cb7e38d8a676e739f9fcc8",
+    "recordFileSha256": "2a7f8fd39a38ddf8bf77e148833ae90d3de040deaca2fd13c821623a708ce2b8",
+    "nativeVrmSha256": "7aa4242c8575d68b84fd23b32a7b525519ef4c7ec5d569807016dd9b21824154",
+    "editableSha256": "352fbefb90dda9e6af602f71391050b13222b6fd02a62369ecf10a1b74d957cf",
+    "gameBodySha256": "bedc5970d9a248aa5870f3bfa6f3413736637db571846622ec4cf154c80a31a1",
+    "gameBodyType": "native-studio-01-yun-lan-v1",
+    "equipment": [
+      {
+        "id": "native-studio-01-yun-lan-top-v1",
+        "slot": "top",
+        "sha256": "3fd3a0eb0f677018bdb8f35abbdcb4d743bd9a75c58ae4023935278db272c5ef"
+      },
+      {
+        "id": "native-studio-01-yun-lan-shorts-v1",
+        "slot": "bottom",
+        "sha256": "1a1ac4c13e1ffa68083455f319fd1f7ef250a4734498e8e299f1a3c3934e3add"
+      },
+      {
+        "id": "native-studio-01-yun-lan-shoes-v1",
+        "slot": "shoes",
+        "sha256": "014286a8766091936e72b8826720865714773e8bb2cc6e68b8d0a632c2c76bad"
+      }
+    ]
+  },
+  "operatorHead": "d58237810347543e0e27e9593f9a242742d00c2c",
+  "candidateSourceCommit": "ef07d4e6146f5de81bbf768f297a4cf09596a4f2",
+  "candidateSourceDigest": "89bb64fabca474f216449d2cd9022a9815a466093b392ef91c7db5edbf114a2a",
+  "candidatePrivateColdFramesFromPriorRecovery": [
+    121,
+    121
+  ],
+  "candidateCatalogBodyMatches": [
+    {
+      "bodyType": "native-studio-01-yun-lan-v1",
+      "profileSha256": "bedc5970d9a248aa5870f3bfa6f3413736637db571846622ec4cf154c80a31a1",
+      "recipeSha256": "f580eee2cc9f3b3ee7b5a7c5d7c566ff5db612007c912e30e13a45d5cc625aa6"
+    }
+  ],
+  "mainCatalogBodyMatches": [],
+  "candidateFixedMatrixBodyRows": 0,
+  "mainFixedMatrixBodyRows": 0,
+  "reviewRegistryCounts": {
+    "outfitApprovals": 0,
+    "matchingExternalRuntimeReview": false
+  },
+  "registryPins": {
+    "runtimeSha256": "1afcc2c22b8a2f2e780f10afedf47d765d44f3299f073f813fbf040b510e74e6",
+    "outfitSha256": "9801bb21e1efa8e99a37ea9e3ff7923a404bcae9d6675b97a8cee0fbed2f2fd9"
+  },
+  "formalOutfit": {
+    "requestedStyleBasis": "Original top equipment ID and v1 used as a probe selector. Exact body matrix count checked independently of selector.",
+    "main": {
+      "command": [
+        "python",
+        "-B",
+        "F:\\gamemake\\scripts\\production\\variant_batch.py",
+        "output\\m2-first-rule-delivery-v1\\intake\\yun-outfit-request.json",
+        "--root",
+        "F:\\gamemake",
+        "--input-root",
+        "F:\\gamemake",
+        "--output",
+        "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\intake\\yun-formal-plan-main"
+      ],
+      "cwd": "F:\\gamemake",
+      "exit": 0,
+      "stderr": "",
+      "expectedOutput": "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\intake\\yun-formal-plan-main",
+      "outputCreated": true,
+      "mode": "readiness-gated",
+      "items": [
+        {
+          "status": "rejected",
+          "reason": "No exact variant for native-studio-01-yun-lan-top-v1/native-studio-01-yun-lan-v1/v1",
+          "stableId": "batch-native-studio-01-yun-lan-v1-f580eee2cc9f"
+        }
+      ],
+      "acceptedCount": 0,
+      "rejectedCount": 1,
+      "creationBatches": [],
+      "planSha256": "fba2816128fe0f9e3b1c1461f41b264047b7e9948db51f8b4006ec41221d30d8"
+    },
+    "candidate": {
+      "command": [
+        "python",
+        "-B",
+        "F:\\gamemake\\scripts\\production\\variant_batch.py",
+        "output\\m2-first-rule-delivery-v1\\intake\\yun-outfit-request.json",
+        "--root",
+        "F:\\gamemake-test\\native-studio-round\\registration\\seven-fixed-89bb64fabca4\\checkout",
+        "--input-root",
+        "F:\\gamemake",
+        "--output",
+        "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\intake\\yun-formal-plan-fusion"
+      ],
+      "cwd": "F:\\gamemake",
+      "exit": 1,
+      "stdout": "lower-shorts-v1/male/v1: invalid resource/fit/coverage: [Errno 2] No such file or directory: 'F:\\\\gamemake-test\\\\native-studio-round\\\\registration\\\\seven-fixed-89bb64fabca4\\\\checkout\\\\assets-source\\\\m1b\\\\shorts\\\\spec.json'; plain-crew-socks-v1/female/v1: recipeSource rejected: [Errno 2] No such file or directory: 'F:\\\\gamemake-test\\\\native-studio-round\\\\registration\\\\seven-fixed-89bb64fabca4\\\\checkout\\\\assets-source\\\\m2-socks-layer-v1\\\\spec.json'; plain-crew-socks-v1/female/v1: fitManifest cannot be read: [Errno 2] No such file or directory: 'F:\\\\gamemake-test\\\\native-studio-round\\\\registration\\\\seven-fixed-89bb64fabca4\\\\checkout\\\\assets-source\\\\m2-socks-layer-v1\\\\generated\\\\female-fit.json'; plain-crew-socks-v1/female/v1: coverageManifest cannot be read: [Errno 2] No such file or directory: 'F:\\\\gamemake-test\\\\native-studio-round\\\\registration\\\\seven-fixed-89bb64fabca4\\\\checkout\\\\assets-source\\\\m2-socks-layer-v1\\\\generated\\\\female-fit.json'; plain-crew-socks-v1/male/v1: recipeSource rejected: [Errno 2] No such file or directory: 'F:\\\\gamemake-test\\\\native-studio-round\\\\registration\\\\seven-fixed-89bb64fabca4\\\\checkout\\\\assets-source\\\\m2-socks-layer-v1\\\\spec.json'; plain-crew-socks-v1/male/v1: fitManifest cannot be read: [Errno 2] No such file or directory: 'F:\\\\gamemake-test\\\\native-studio-round\\\\registration\\\\seven-fixed-89bb64fabca4\\\\checkout\\\\assets-source\\\\m2-socks-layer-v1\\\\generated\\\\male-fit.json'; plain-crew-socks-v1/male/v1: coverageManifest cannot be read: [Errno 2] No such file or directory: 'F:\\\\gamemake-test\\\\native-studio-round\\\\registration\\\\seven-fixed-89bb64fabca4\\\\checkout\\\\assets-source\\\\m2-socks-layer-v1\\\\generated\\\\male-fit.json'; plain-crew-socks-v1/native-male-7586-v1/v1: recipeSource rejected: [Errno 2] No such file or directory: 'F:\\\\gamemake-test\\\\native-studio-round\\\\registration\\\\seven-fixed-89bb64fabca4\\\\checkout\\\\assets-source\\\\native-crew-template-v1\\\\source-lock.json'; plain-crew-socks-v1/native-male-7586-v1/v1: fitManifest cannot be read: [Errno 2] No such file or directory: 'F:\\\\gamemake-test\\\\native-studio-round\\\\registration\\\\seven-fixed-89bb64fabca4\\\\checkout\\\\assets-source\\\\native-crew-template-v1\\\\corrected\\\\fit.json'; plain-crew-socks-v1/native-male-7586-v1/v1: coverageManifest cannot be read: [Errno 2] No such file or directory: 'F:\\\\gamemake-test\\\\native-studio-round\\\\registration\\\\seven-fixed-89bb64fabca4\\\\checkout\\\\assets-source\\\\native-crew-template-v1\\\\corrected\\\\fit.json'\n",
+      "stderr": "",
+      "expectedOutput": "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\intake\\yun-formal-plan-fusion",
+      "outputCreated": false
+    }
+  },
+  "externalReleaseInventory": {
+    "command": [
+      "node",
+      "F:\\gamemake\\scripts\\runtime-package\\game-record-cli.mjs",
+      "inventory",
+      "--dist",
+      "F:\\gamemake-test\\native-studio-round\\registration\\seven-fixed-89bb64fabca4\\checkout\\prototype\\dist",
+      "--source-root",
+      "F:\\gamemake-test\\native-studio-round\\registration\\seven-fixed-89bb64fabca4\\checkout",
+      "--records",
+      "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\intake\\yun-record-array.json",
+      "--out",
+      "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\intake\\yun-public-inventory.json"
+    ],
+    "cwd": "F:\\gamemake",
+    "exit": 1,
+    "stdout": "",
+    "expectedOutput": "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\intake\\yun-public-inventory.json",
+    "outputCreated": false,
+    "receipt": {
+      "ok": false,
+      "code": "unsupported-build",
+      "reason": "No repository review for selected game runtime"
+    }
+  },
+  "externalReleaseInventoryDriveRootRetry": {
+    "command": [
+      "node",
+      "F:\\gamemake\\scripts\\runtime-package\\game-record-cli.mjs",
+      "inventory",
+      "--dist",
+      "F:\\gamemake-test\\native-studio-round\\registration\\seven-fixed-89bb64fabca4\\checkout\\prototype\\dist",
+      "--source-root",
+      "F:\\gamemake-test\\native-studio-round\\registration\\seven-fixed-89bb64fabca4\\checkout",
+      "--records",
+      "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\intake\\yun-record-array.json",
+      "--out",
+      "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\intake\\yun-public-inventory.json"
+    ],
+    "cwd": "F:\\",
+    "exit": 1,
+    "stdout": "",
+    "expectedOutput": "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\intake\\yun-public-inventory.json",
+    "outputCreated": false,
+    "receipt": {
+      "ok": false,
+      "code": "unsupported-build",
+      "reason": "No repository review for selected game runtime"
+    }
+  }
+}

@@ -139,8 +139,8 @@ def save_fit_receipt(path, proof):
 
 def receive(recipe_path, candidate_path, check=False, receipt_path=None):
     receipt = fit_receipt_path(receipt_path) if receipt_path is not None else None
-    recipe = json.loads(recipe_path.read_bytes(), object_pairs_hook=unique_fields)
-    profile, files, proof = prepare(recipe, candidate_path.read_bytes())
+    recipe = json.loads((ROOT / recipe_path).read_bytes(), object_pairs_hook=unique_fields)
+    profile, files, proof = prepare(recipe, (ROOT / candidate_path).read_bytes())
     if receipt is not None:
         # This attests CPU fit only. A failed catalog installation can reuse this
         # immutable evidence, but cannot be mistaken for a successful registration.

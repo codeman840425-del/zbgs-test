@@ -1,0 +1,114 @@
+{
+  "schema": "m2-received-outfit-request-verification-v1",
+  "inputFiles": {
+    "budget.json": "a36a6a1edc7b99a82cada12dc946c46c49a5a7e31d0134a32b6ee5b8a11704bd",
+    "matrix.json": "c7f0da9772b0eeb8cbf51f97a07f8e7dc5dd65b2efa912ae1a9aac452a570ce0",
+    "recipes/rule-body-0beabf44f27c0618b0ff.json": "a29eb9add96176f7590d801be453bb6dc5d705fee62e3fd7cce105ec36de434f",
+    "recipes/rule-body-c6ce7efc3da17fe50ea1.json": "dadb2ac2df646dee670545acda7c105fb29e1fa3550a810530c1a95a7e76a7c0",
+    "request.json": "60dc939d9d8d65e675dc37396b7cc5b468f8ebb369bcb0d265177a5d2d670872"
+  },
+  "technicalFiles": {
+    "diagnostic-requests/create-001.batch.json": "27f00e22409b8ac395eb89e47310b47d99a5f6572825c470feaf39c6cd90625d",
+    "diagnostic-requests/rule-male-0beabf44f27c0618b0ff.request.json": "36cd1850a006106284c0be721118f084db55e5166eb63938ab9b50cabf1d45f0",
+    "diagnostic-requests/rule-male-c6ce7efc3da17fe50ea1.request.json": "5564813dd8d60725d1e121074191fd984584409245de4291cb9a535cd7841020",
+    "plan.json": "134ca33ede0f231f7fd11eccd699dbd16f98c42c65f5702bd7d0b70183972a42"
+  },
+  "formalFiles": {
+    "plan.json": "0a3aa48d462dc2b13f0528762db28aa4cbeeed74b81596e2861e0c014109decc"
+  },
+  "repeatInputPreparation": {
+    "command": [
+      "python",
+      "-B",
+      "F:\\gamemake\\scripts\\production\\received_outfit_request.py",
+      "--pair",
+      "assets-source/rule-body-recipe-v1/candidate.json",
+      "evidence/m2-first-rule-delivery-v1/fit/candidate.json",
+      "--pair",
+      "assets-source/rule-body-recipe-v1/control.json",
+      "evidence/m2-first-rule-delivery-v1/fit/control.json",
+      "--output",
+      "evidence\\m2-first-rule-delivery-v1\\request\\inputs"
+    ],
+    "cwd": "F:\\",
+    "exit": 0,
+    "stdout": "{\"status\": \"reused-identical\"}",
+    "stderr": ""
+  },
+  "repeatTechnicalPlan": {
+    "command": [
+      "python",
+      "-B",
+      "F:\\gamemake\\scripts\\production\\variant_batch.py",
+      "F:\\gamemake\\evidence\\m2-first-rule-delivery-v1\\request\\inputs\\matrix.json",
+      "F:\\gamemake\\evidence\\m2-first-rule-delivery-v1\\request\\inputs\\request.json",
+      "--root",
+      "F:\\gamemake",
+      "--output",
+      "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\request\\technical-evidence-replay",
+      "--diagnostic"
+    ],
+    "cwd": "F:\\",
+    "exit": 0,
+    "stderr": "",
+    "allFilesByteIdentical": true
+  },
+  "wrongRecipe": {
+    "command": [
+      "python",
+      "-B",
+      "F:\\gamemake\\scripts\\production\\received_outfit_request.py",
+      "--pair",
+      "assets-source/rule-body-recipe-v1/control.json",
+      "evidence/m2-first-rule-delivery-v1/fit/candidate.json",
+      "--output",
+      "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\request\\wrong-recipe-probe"
+    ],
+    "cwd": "F:\\",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "{\"status\": \"rejected\", \"reason\": \"Recipe differs from received identity\"}",
+    "outputCreated": false
+  },
+  "wrongBodyTop": {
+    "command": [
+      "python",
+      "-B",
+      "F:\\gamemake\\scripts\\production\\variant_batch.py",
+      "F:\\gamemake\\evidence\\m2-first-rule-delivery-v1\\request\\inputs\\matrix.json",
+      "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\request\\cross-body-pins.request.json",
+      "--root",
+      "F:\\gamemake",
+      "--output",
+      "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\request\\cross-body-plan",
+      "--diagnostic"
+    ],
+    "cwd": "F:\\gamemake",
+    "exit": 0,
+    "stderr": "",
+    "rejected": {
+      "status": "rejected",
+      "reason": "No configured outfit contains all requested exact equipment on this body",
+      "stableId": "rule-male-0beabf44f27c0618b0ff"
+    },
+    "onlyCreationBatch": {
+      "ids": [
+        "rule-male-c6ce7efc3da17fe50ea1"
+      ],
+      "path": "diagnostic-requests/create-001.batch.json",
+      "sha256": "bb448680d3c49ef572458447bdf5c37157bea24911d16c9b0e51977a0c4397c4",
+      "bytes": 1295
+    }
+  },
+  "unitSuite": {
+    "command": "python -B F:/gamemake/scripts/production/test_received_outfit_request.py -v",
+    "cwd": "F:/",
+    "passed": 3,
+    "tests": [
+      "formal and technical with isolated cross-body rejection",
+      "mismatched recipe then retry from another checkout and drive root",
+      "drive-root absolute output, parent traversal and Windows junction rejection"
+    ]
+  },
+  "limits": "CPU request and exact-body guards, no GPU, no record signing, and no approval creation."
+}

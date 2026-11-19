@@ -6,6 +6,14 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit, parse_qsl, unquote, urlencode
 
 ROOT = Path(__file__).resolve().parents[1]
+RULE_REVIEW = '/reviews/production-shapes/'
+RULE_MEDIA = {
+    RULE_REVIEW: 'index.html',
+    **{RULE_REVIEW + name: name for name in (
+        'index.html', 'game/ordinary-cold-02/two-rule-bodies-1x.webm',
+        'game/room-0625-01/room-produced-1x.webm', 'game/room-0375-01/room-produced-1x.webm',
+    )},
+}
 SHARED_LOOK_PREFIX = '/reviews/shared-looks/'
 SHARED_LOOK_FILES = {
     SHARED_LOOK_PREFIX: 'index.html',
@@ -104,6 +112,8 @@ def make_server(config, *, verification=False):
         def translate_path(self, path):
             # Review recordings stay outside the game build and its download budget.
             name = urlsplit(path).path
+            if config.get('ruleBodyReview') and name in RULE_MEDIA:
+                return str(ROOT / 'evidence/m2-first-rule-delivery-v1' / RULE_MEDIA[name])
             if config.get('pairedEarStyleReview') is True and name in PAIRED_EAR_FILES:
                 return str(PAIRED_EAR_EVIDENCE / PAIRED_EAR_FILES[name])
             if config.get('cc0BodyTextureReview') and name.startswith('/reviews/cc0-body-texture/'):

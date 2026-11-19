@@ -19,9 +19,11 @@ function selectedItem(entries, slot) {
 
 async function main() {
   const [base, outArg, recordsArg, expectedBuild, slotOption, ...extra] = process.argv.slice(2);
-  assert(!extra.length && (slotOption === undefined || slotOption === '--slot=top'), 'Optional argument: --slot=top');
+  assert(!extra.length && [undefined,'--slot=top','--default-top'].includes(slotOption),
+    'Optional argument: --slot=top or --default-top');
+  const isDefault = slotOption === '--default-top';
   const slot = slotOption ? 'top' : 'socks';
-  const role = slot === 'socks' ? 'pants-socks' : 'pants-top-far';
+  const role = isDefault ? 'pants' : slot === 'socks' ? 'pants-socks' : 'pants-top-far';
   const slotName = slot === 'socks' ? 'sock' : 'top';
   if (!recordsArg || !/^(?:[a-f0-9]{12}|[a-f0-9]{64})$/.test(expectedBuild ?? ''))
     throw Error('Expected BASE_URL NEW_EVIDENCE_DIR TWO_RECORDS_JSON EXPECTED_BUILD');
@@ -42,10 +44,13 @@ async function main() {
   }
   const firstItem = selectedItem(firstSelection.equipment, slot);
   const secondItem = selectedItem(secondSelection.equipment, slot);
-  assert.notEqual(firstItem.sha256, secondItem.sha256);
+  assert.notEqual(firstItem.id, secondItem.id);
+  const damagedSha = firstItem.sha256 === secondItem.sha256
+    ? (firstItem.sha256[0] === '0' ? '1' : '0') + firstItem.sha256.slice(1)
+    : secondItem.sha256;
 
   const wrongHash = structuredClone(firstSelection);
-  selectedItem(wrongHash.equipment, slot).sha256 = secondItem.sha256;
+  selectedItem(wrongHash.equipment, slot).sha256 = damagedSha;
   const wrongBody = {...secondSelection, bodySha256:firstSelection.bodySha256};
   const mixed = {...firstSelection, equipment:firstSelection.equipment.map(item => item.slot === slot ? secondItem : item)};
   const missing = {...secondSelection, equipment:secondSelection.equipment.filter(item => item.slot !== slot)};
@@ -131,7 +136,7 @@ async function main() {
       report.cases.push({name,actor:record.identity.id,selection,result,activeUnchanged:true});
     }
     const damagedRecord = structuredClone(first);
-    selectedItem(Object.values(damagedRecord.appearanceRecipe.equipment.resources), slot).sha256 = secondItem.sha256;
+    selectedItem(Object.values(damagedRecord.appearanceRecipe.equipment.resources), slot).sha256 = damagedSha;
     const damaged = await production(request('validate',{record:damagedRecord}));
     assert.equal(damaged.ok,false,'tampered complete record');
     assert(!Object.hasOwn(damaged,'record'));
@@ -167,27 +172,33 @@ async function main() {
       const defaultSet = query.query.appearance.equipment.sets.find(item=>item.index===0);
       const fallback = outfitSelection({base:old.appearanceRecipe.base,equipment:defaultSet});
       const original = selectedItem(Object.values(old.appearanceRecipe.equipment.resources), slot);
-      assert(!fallback.equipment.some(item => item.id === original.id));
-      if (slot === 'socks') assert(!fallback.equipment.some(item => item.slot === slot));
-      else assert.notEqual(selectedItem(fallback.equipment, slot).sha256, original.sha256);
-      const removed = await production(editOutfit(old,fallback));
-      assert(removed.ok,removed.reason);
-      assert.equal(removed.record.appearanceRecipe.equipment.index,defaultSet.index);
-      match(outfitSelection(removed.record.appearanceRecipe), fallback, 'replacement equipment');
-      assert(!Object.values(removed.record.appearanceRecipe.equipment.resources).some(item => item.id === original.id));
+      let previous = old;
+      if (isDefault) {
+        match(fallback, outfitSelection(old.appearanceRecipe), 'declared default');
+      } else {
+        assert(!fallback.equipment.some(item => item.id === original.id));
+        if (slot === 'socks') assert(!fallback.equipment.some(item => item.slot === slot));
+        else assert.notEqual(selectedItem(fallback.equipment, slot).sha256, original.sha256);
+        const removed = await production(editOutfit(old,fallback));
+        assert(removed.ok,removed.reason);
+        assert.equal(removed.record.appearanceRecipe.equipment.index,defaultSet.index);
+        match(outfitSelection(removed.record.appearanceRecipe), fallback, 'replacement equipment');
+        assert(!Object.values(removed.record.appearanceRecipe.equipment.resources).some(item => item.id === original.id));
+        previous = removed.record;
+      }
       const valid = outfitSelection(old.appearanceRecipe);
       valid.equipment.reverse();
-      const restored = await production(editOutfit(removed.record,valid));
+      const restored = await production(editOutfit(previous,valid));
       assert(restored.ok,restored.reason);
       for (const field of ['identity','provenance','appearanceRecipe','equipmentMaterials','liveAccessories','resourceIdentities'])
         match(restored.record[field],old[field],field);
-      assert.equal(restored.record.revision,old.revision+2);
+      assert.equal(restored.record.revision,previous.revision+1);
       const validated=await production(request('validate',{record:restored.record}));
       assert(validated.ok,validated.reason);
       match(validated.record,restored.record,'validate after exact selection retry');
       settled.push(restored.record);
       await leftVisible('successful detached edit leaves mounted original untouched');
-      report.cases.push({name:'valid-remove-and-retry',actor:old.identity.id,sourceRevision:old.revision,
+      report.cases.push({name:isDefault ? 'valid-default-retry' : 'valid-remove-and-retry',actor:old.identity.id,sourceRevision:old.revision,
         resultRevision:restored.record.revision,restoredRecipeSha256:restored.record.integrity.recipeSha256,activeUnchanged:true});
     }
     const output = path.join(out,'retry-records.json');

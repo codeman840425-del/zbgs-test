@@ -1,6 +1,8 @@
 # 当前角色基础工程恢复点
 
-新工作包已从同一规则生成两具不同的男体。首次将新角色请求提交给原固定构建时，生产入口返回未知身体类型。制作端现可独立复算参数，核对原装备的实际蒙皮及新下颌与衣物的静止距离，再原子登记两具新体。固定源码 `cb3aca0d`，游戏冷开及整套发行分别验收。[生产输入与验证](../evidence/m2-first-rule-delivery-v1/producer/README.md) · [原入口拒绝回执](../evidence/m2-first-rule-delivery-v1/build/old-runtime-first-rejection.json)
+4196 已运行固定源码 `cb3aca0d` 的构建 `9ce414f65f55`。浏览器从录像页实际播放三段视频，并从两条链接分别载入精确男体。首次将 0.625 请求提交给旧版时，入口返回未知身体类型。两项现在均已完成身体复算、服装静止适配、角色签出、普通包两次冷开和房间走坐起。[4196 原速对照](http://127.0.0.1:4196/reviews/production-shapes/) · [固定包及完整回执](../evidence/m2-first-rule-delivery-v1/game/README.md) · [原入口拒绝](../evidence/m2-first-rule-delivery-v1/build/old-runtime-first-rejection.json)
+
+批量入口已从未登记这两具身体的旧目录接收两组配方和 VRM。第二件被篡改时整批零写入；恢复后同时登记，再跑结果逐字节相同。生产计划的正式整套批准数仍为 0/2。现有发行流程把身体目录编入程序，给另一新参数出包仍会生成新构建，须走对应运行版本审核。下一包处理这个边界，然后再交融合方选陌生参数独立净接。开发机已测，普通机和人工观感待验。公司融合原 20 人的来源与发行另计。上次工作台指针 `3c15a020d62a` 已归档。[批量导入与失败重试](../evidence/m2-first-rule-delivery-v1/request/README.md) · [逐角色正式验收函数回读](../evidence/m2-first-rule-delivery-v1/lane-audit.json)
 
 已完成原女体长束发分区样件的两套独立构建，构建号 `522c64d40786`。在三个镜头下实测原款与发梢变色，独立游戏包两人冷开和两种离场顺序通过。普通电脑与跨发型适配待测。[正常速度对照及故障复现](../evidence/m2-hair-region-game-v1/index.html)
 

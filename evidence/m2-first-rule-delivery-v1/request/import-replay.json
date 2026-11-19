@@ -1,0 +1,139 @@
+{
+  "schema": "received-outfit-batch-import-replay-v1",
+  "preImportCatalogSourceCommit": "d58237810347543e0e27e9593f9a242742d00c2c",
+  "preImportCatalogSha256": "68ffe0178147e7dd2e9630d7ef027111e4cdde983a3af8ba1455738dfb80f4b6",
+  "fixedMaterialAndCandidatesSourceCommit": "cb3aca0dabdfb616eaff13a880fc437835e27964",
+  "fixedInputs": [
+    {
+      "path": "prototype/public/assets/raw-male-equipment-v1/raw-male-ab9a-uniform-pants-v1.glb",
+      "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0",
+      "bytes": 819968
+    },
+    {
+      "path": "prototype/public/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+      "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+      "bytes": 155976
+    },
+    {
+      "path": "prototype/public/assets/garment-basecolor-release-v1/male/raw-male-uniform-top-1k-v1.glb",
+      "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d",
+      "bytes": 743232
+    }
+  ],
+  "initiallyRegisteredRuleBodies": 0,
+  "declaredInputBodyIds": 0,
+  "isolatedTarget": "output\\m2-first-rule-delivery-v1\\request\\import-isolation-v1\\runtime-data",
+  "isolatedFilePinsAfterRegistration": {
+    "prototype/public/assets/garment-basecolor-release-v1/male/raw-male-uniform-top-1k-v1.glb": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d",
+    "prototype/public/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+    "prototype/public/assets/raw-male-equipment-v1/raw-male-ab9a-uniform-pants-v1.glb": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0",
+    "prototype/public/assets/rule-body-0beabf44f27c0618b0ff/body.vrm": "0beabf44f27c0618b0fff7ce21c637206786a6c00ac940778e596396df0c8c0f",
+    "prototype/public/assets/rule-body-0beabf44f27c0618b0ff/equipment.json": "b0d9c9c6d20ca46ebf82bf11a50b0b9f67ab1269c3ddc4b5d2797871975247e2",
+    "prototype/public/assets/rule-body-c6ce7efc3da17fe50ea1/body.vrm": "c6ce7efc3da17fe50ea1ee353c9274bc5caaaf935d11985c64da0665f847b6bd",
+    "prototype/public/assets/rule-body-c6ce7efc3da17fe50ea1/equipment.json": "800b66f12880c4e68be9d9b33d82b076fab4ac734f8b20d43c4d17e9f26fdc10",
+    "prototype/src/source-outfit-profiles.json": "c7cc712fb1657ff637f2f27c193746dc35a7c260850ca5b145a9cfe09e4127ed",
+    "request/budget.json": "a36a6a1edc7b99a82cada12dc946c46c49a5a7e31d0134a32b6ee5b8a11704bd",
+    "request/fits/rule-body-0beabf44f27c0618b0ff.json": "331b45ecd822f0d55639a1d55a4666b67b0d54520512b7fc8154161258dcf369",
+    "request/fits/rule-body-c6ce7efc3da17fe50ea1.json": "50387e460dbb59eb2ea04053222d8379dd1620d056594682e993f57cf6d7db8a",
+    "request/matrix.json": "e41ad53346ac9eb04217ee8f6401af684ba44b31ef56f978953a783d53c2c3b2",
+    "request/recipes/rule-body-0beabf44f27c0618b0ff.json": "a29eb9add96176f7590d801be453bb6dc5d705fee62e3fd7cce105ec36de434f",
+    "request/recipes/rule-body-c6ce7efc3da17fe50ea1.json": "dadb2ac2df646dee670545acda7c105fb29e1fa3550a810530c1a95a7e76a7c0",
+    "request/request.json": "60dc939d9d8d65e675dc37396b7cc5b468f8ebb369bcb0d265177a5d2d670872"
+  },
+  "tamperedSecondInput": {
+    "command": [
+      "python",
+      "-B",
+      "F:\\gamemake\\scripts\\production\\received_outfit_request.py",
+      "--target-root",
+      "output\\m2-first-rule-delivery-v1\\request\\import-isolation-v1\\runtime-data",
+      "--output",
+      "request",
+      "--import",
+      "assets-source/rule-body-recipe-v1/candidate.json",
+      "F:\\gamemake\\experiments\\worktrees\\rule-male-a-cb3aca0d\\prototype\\public\\assets\\rule-body-0beabf44f27c0618b0ff\\body.vrm",
+      "--import",
+      "assets-source/rule-body-recipe-v1/control.json",
+      "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\request\\import-isolation-v1\\modified-second.vrm"
+    ],
+    "cwd": "F:\\",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "{\"status\": \"rejected\", \"reason\": \"Candidate differs from independent recipe replay\"}",
+    "catalogAndAllIsolatedFilesUnchanged": true
+  },
+  "firstImport": {
+    "command": [
+      "python",
+      "-B",
+      "F:\\gamemake\\scripts\\production\\received_outfit_request.py",
+      "--target-root",
+      "output\\m2-first-rule-delivery-v1\\request\\import-isolation-v1\\runtime-data",
+      "--output",
+      "request",
+      "--import",
+      "assets-source/rule-body-recipe-v1/candidate.json",
+      "F:\\gamemake\\experiments\\worktrees\\rule-male-a-cb3aca0d\\prototype\\public\\assets\\rule-body-0beabf44f27c0618b0ff\\body.vrm",
+      "--import",
+      "assets-source/rule-body-recipe-v1/control.json",
+      "F:\\gamemake\\experiments\\worktrees\\rule-male-a-cb3aca0d\\prototype\\public\\assets\\rule-body-c6ce7efc3da17fe50ea1\\body.vrm"
+    ],
+    "cwd": "F:\\",
+    "exit": 0,
+    "stdout": "{\"status\": \"prepared\", \"bodyTypes\": [\"rule-body-0beabf44f27c0618b0ff\", \"rule-body-c6ce7efc3da17fe50ea1\"]}",
+    "stderr": ""
+  },
+  "sameCommandRetry": {
+    "command": [
+      "python",
+      "-B",
+      "F:\\gamemake\\scripts\\production\\received_outfit_request.py",
+      "--target-root",
+      "output\\m2-first-rule-delivery-v1\\request\\import-isolation-v1\\runtime-data",
+      "--output",
+      "request",
+      "--import",
+      "assets-source/rule-body-recipe-v1/candidate.json",
+      "F:\\gamemake\\experiments\\worktrees\\rule-male-a-cb3aca0d\\prototype\\public\\assets\\rule-body-0beabf44f27c0618b0ff\\body.vrm",
+      "--import",
+      "assets-source/rule-body-recipe-v1/control.json",
+      "F:\\gamemake\\experiments\\worktrees\\rule-male-a-cb3aca0d\\prototype\\public\\assets\\rule-body-c6ce7efc3da17fe50ea1\\body.vrm"
+    ],
+    "cwd": "F:\\",
+    "exit": 0,
+    "stdout": "{\"status\": \"reused-identical\", \"bodyTypes\": [\"rule-body-0beabf44f27c0618b0ff\", \"rule-body-c6ce7efc3da17fe50ea1\"]}",
+    "stderr": "",
+    "allFilesByteIdentical": true
+  },
+  "readOnlyStartingProjectAndFixedInputsUnchanged": true,
+  "formalOutfitPlanner": {
+    "command": [
+      "python",
+      "-B",
+      "F:\\gamemake\\scripts\\production\\variant_batch.py",
+      "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\request\\import-isolation-v1\\runtime-data\\request\\matrix.json",
+      "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\request\\import-isolation-v1\\runtime-data\\request\\request.json",
+      "--root",
+      "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\request\\import-isolation-v1\\runtime-data",
+      "--output",
+      "F:\\gamemake\\output\\m2-first-rule-delivery-v1\\request\\import-isolation-v1\\formal-plan"
+    ],
+    "cwd": "F:\\",
+    "exit": 0,
+    "stderr": "",
+    "items": [
+      {
+        "status": "rejected",
+        "reason": "Whole-outfit runtime admission evidence is required from the reviewed index",
+        "stableId": "rule-male-0beabf44f27c0618b0ff"
+      },
+      {
+        "status": "rejected",
+        "reason": "Whole-outfit runtime admission evidence is required from the reviewed index",
+        "stableId": "rule-male-c6ce7efc3da17fe50ea1"
+      }
+    ],
+    "acceptedCount": 0,
+    "creationBatches": []
+  }
+}

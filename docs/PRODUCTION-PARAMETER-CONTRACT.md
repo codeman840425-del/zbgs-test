@@ -1,5 +1,9 @@
 # 参数驱动角色生产契约
 
+同一批交来的多份 `配方 + VRM` 可直接传给 `scripts/production/received_outfit_request.py --import`。工具先复算所有身体和装备闭包，再自动写入不可变工件、角色登记、fit 和款式请求。可以把已授权的生产工具安装在消费方自己管理的工程，使用该工程数据目录。初次从零条新登记开始、错体拒绝、恢复后再导入和重复执行均有实际回执。正式款式规划继续读取制作方的整套审核索引。[复制命令及原始实测](../evidence/m2-first-rule-delivery-v1/request/README.md)
+
+局部几何参数可以用固定模板、模板摘要和参数值交付。制作端的 `rule_body_producer.py` 按作者保存的下颌形态计算新身体；`receive_rule_body.py` 从允许的模板独立重算，逐字节对照收到的模型。两种不同参数都用同一接收程序登记，模特、装备实例和 fit 标识由程序生成。上衣、长裤、鞋保持同款，接收端重验各自绑定，以及发生变化的 268 个脸部三角在静止姿态下与三件装备的距离。含其他体型变化、头戴物、衣领进入变化区域或绑定坐标改变时，需提供相应的适配证据。已登记的新身体随固定游戏版本发布。[制作输入及负例](../evidence/m2-first-rule-delivery-v1/producer/README.md) · [普通游戏包与两个原签](../evidence/m2-first-rule-delivery-v1/game/README.md)
+
 原生上衣的 v2 配方由 `schema` 和 `lineage` 组成。制作方交同一人物的两次导出和原生去组、保存、重开凭据，`native_top_removal_fit.py --discover-top` 自动定位该组，登记时重算保留下来的网格和骨骼绑定。旧显式图元配方继续按原身份读取。拿不到完整来源或无法确定被去掉的部件时，返回具体错误。[实际制作输入、复建和错配对照](../evidence/m2-native-auto-top-v1/README.md)
 
 同款鞋可共用款式和版本，由各身体配方绑定自己的源鞋、鞋底边界、六骨权重和装备身份。`sole_variant.py --recipe` 可分别生成男女版；制作端的一份 `sharedLook.styles` 同时选择上衣与鞋，匹配已登记的完整装备组合，保留原平底的角色记录。女体与男体的原鞋边界索引实测不同。正式制作命令继续核对该固定构建的整套准入回执。[配方与游戏回读](../evidence/m2-cross-body-shoes-v1/README.md)

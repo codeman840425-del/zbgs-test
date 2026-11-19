@@ -1,12 +1,14 @@
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
 const [base,folder,expectedFile]=process.argv.slice(2);
 (async()=>{
  const out=await projectOutput(folder,await productionRoot());
- const {chromium}=require('../prototype/node_modules/playwright');
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
- const browser=await chromium.launch({channel:'chrome',headless:true}),context=await browser.newContext({viewport:{width:1440,height:1000}});
  const expected=expectedFile?JSON.parse(await fs.readFile(expectedFile,'utf8')):null;
+ const session=await launchQABrowser(out,{channel:'chrome'});
+ try {
+ const {browser}=session,context=await browser.newContext({viewport:{width:1440,height:1000}});
  const report={status:'incomplete',browser:browser.version(),errors:[],checks:[],requests:[],failedAssetResponses:[],scope:'Two produced records restored by the shared game consumer; development machine.'};
  context.on('response',r=>{if(r.status()>=400)report.failedAssetResponses.push({url:r.url(),status:r.status()});});
  let page;const open=async(query='records=/records/manifest.json')=>{page=await context.newPage();page.on('pageerror',e=>report.errors.push(e.message));page.on('request',r=>report.requests.push(r.url()));await page.goto(base+'record-consumer.html?'+query);await page.waitForFunction(()=>window.__recordConsumer?.ready,null,{timeout:120000});};
@@ -43,5 +45,6 @@ const [base,folder,expectedFile]=process.argv.slice(2);
   assert.deepEqual(report.requests.filter(url=>/^https?:/.test(url)&&new URL(url).origin!==new URL(base).origin),[]);
   assert.deepEqual(report.failedAssetResponses,[]);assert.equal(report.errors.length,0,JSON.stringify(report.errors));report.status='technical-pass-visual-candidate';
  }catch(error){report.failure=String(error.stack||error);process.exitCode=1;await page?.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});}
- finally{await browser.close();report.requests=[...new Set(report.requests)];await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:report.status,build:report.build?.shortId,failure:report.failure}));}
+ finally{report.requests=[...new Set(report.requests)];await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:report.status,build:report.build?.shortId,failure:report.failure}));}
+ } finally {await session.close();}
 })();
