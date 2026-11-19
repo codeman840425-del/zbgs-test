@@ -1,0 +1,5855 @@
+{
+  "schema": "ankleboot-neutral-cuff-envelope-v1",
+  "pose": "unchanged target glTF bind pose in metres, Y up; anatomical forward is -Z; anatomical left is -X",
+  "inputs": {
+    "boot": {
+      "path": "assets-source/ankle-boot-fit-v1/generated/toigo-cc0-male-ankle-boot-fit-v1.glb",
+      "sha256": "7151301ade15e62870524f670de5b7b5d017e3bbeb60dc93aff2a90167381f53"
+    },
+    "body": {
+      "path": "prototype/public/assets/cc0-body-release-v1/body.vrm",
+      "sha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617"
+    },
+    "pants": {
+      "path": "prototype/public/assets/raw-male-equipment-v1/raw-male-ab9a-uniform-pants-v1.glb",
+      "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0"
+    },
+    "flatReference": {
+      "path": "prototype/public/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+      "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756"
+    }
+  },
+  "method": {
+    "topology": "Weld exported vertices by exact POSITION, find singly used edges and trace closed boundaries in sorted-index order. Boot has two 22-point cuff loops. Both 12-point lower trousers boundaries end below their corresponding ankle. Refer to signed triangle indices in the pinned GLBs.",
+    "rayOrigin": "For each boot direction use the mean XZ of its 22-point cuff. At the rim use that vertex Y; repeat the same XZ unit rays at the preexisting shaft midpoint and ankle heights in fit-report.json. For trouser hems use their own 12-point ring center and each hem vertex Y.",
+    "directions": "atan2(ipsilateral X, -Z) degrees; zero forward, +90 lateral, -90 medial and +/-180 heelward. i is the zero-based position in the welded traced loop, not a bone ID. rayXYZ and the origin define the raw ray.",
+    "intersections": "Two-sided Moller-Trumbore on source mesh triangles at the specified Y; retain positive ray distances, merge hits within 0.000001 m. Use the first skin/trousers intersection only if the count is odd from the same-sided origin. Record all boot hits. For a ray exactly through a real cuff vertex, also include its known radius even if edge/numerical coincidence drops that intersection. The hull of those radii is a radial span of the visible geometry, not the material thickness normal to a sheet.",
+    "pointRule": "allowableRadialDeltaMM = [skinRadius - bootRadius, pantsRadius - bootRadius] for the boundary point or outermost boot surface. A positive lower bound needs an outward move; a negative upper bound needs an inward move.",
+    "spanRule": "For inner/outer observed boot radii [I,O] use allowableSpanDeltaMM = [skinRadius-I, pantsRadius-O]. An interval of nonnegative width allows the whole sampled span to translate radially between the two fixed surfaces. max(lower) > min(upper) excludes a common radial offset. Half the minimum individual window is the largest equal two-sided radial reserve in these independent samples, not a production tolerance.",
+    "groundReference": "Split the planted shoe and flat control at the ankle and ball by projecting onto the horizontal ankle-to-ball axis. Record regional minimum vertex Y. This is neutral geometry, not proof of active heel contact.",
+    "regionProbe": "Re-run surfaces.crossings on all boot triangles classified by min/max Y around each target ankle. Pair counts reproduce the archived full crossing totals. Knee clearance is geometric height to the reference joint.",
+    "software": {
+      "glTFRead": "scripts/production/flow.py",
+      "cuffTraceAndFirstHit": "scripts/production/ankleboot_fit/readback.py",
+      "restCrossings": "scripts/production/ankleboot_fit/surfaces.py"
+    }
+  },
+  "summary": {
+    "left": {
+      "rim": {
+        "validDirections": 22,
+        "zeroOrNegativeSkinToPants": 0,
+        "skinToPantsMM": [
+          9.908427,
+          17.781562
+        ],
+        "observedBootRadialSpanWidthMM": [
+          1.531116,
+          6.194672
+        ],
+        "individualTranslationWindowWidthsMM": [
+          5.981357,
+          15.586128
+        ],
+        "maximumEqualClearanceBothSidesAcrossSampledDirectionsMM": 2.990679,
+        "infeasibleDirectionIndices": [],
+        "needOutward": [
+          0,
+          1,
+          2,
+          18,
+          19,
+          20,
+          21
+        ],
+        "needInward": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "uniformDisplacementLowerBoundMM": 14.762962,
+        "uniformDisplacementUpperBoundMM": -6.932179,
+        "uniformDisplacementFeasible": false
+      },
+      "shaft": {
+        "validDirections": 22,
+        "zeroOrNegativeSkinToPants": 0,
+        "skinToPantsMM": [
+          7.242539,
+          22.444881
+        ],
+        "observedBootRadialSpanWidthMM": [
+          0.0,
+          0.0
+        ],
+        "individualTranslationWindowWidthsMM": [
+          7.242539,
+          22.444881
+        ],
+        "maximumEqualClearanceBothSidesAcrossSampledDirectionsMM": 3.621269,
+        "infeasibleDirectionIndices": [],
+        "needOutward": [
+          0,
+          1
+        ],
+        "needInward": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "uniformDisplacementLowerBoundMM": 4.946862,
+        "uniformDisplacementUpperBoundMM": -15.917468,
+        "uniformDisplacementFeasible": false
+      },
+      "ankle": {
+        "validDirections": 22,
+        "zeroOrNegativeSkinToPants": 0,
+        "skinToPantsMM": [
+          8.857912,
+          21.911609
+        ],
+        "observedBootRadialSpanWidthMM": [
+          0.0,
+          0.0
+        ],
+        "individualTranslationWindowWidthsMM": [
+          8.857912,
+          21.911609
+        ],
+        "maximumEqualClearanceBothSidesAcrossSampledDirectionsMM": 4.428956,
+        "infeasibleDirectionIndices": [],
+        "needOutward": [
+          10,
+          11
+        ],
+        "needInward": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          17,
+          18,
+          19
+        ],
+        "uniformDisplacementLowerBoundMM": 4.452696,
+        "uniformDisplacementUpperBoundMM": -27.144985,
+        "uniformDisplacementFeasible": false
+      }
+    },
+    "right": {
+      "rim": {
+        "validDirections": 22,
+        "zeroOrNegativeSkinToPants": 0,
+        "skinToPantsMM": [
+          9.908456,
+          17.781598
+        ],
+        "observedBootRadialSpanWidthMM": [
+          1.531116,
+          6.194672
+        ],
+        "individualTranslationWindowWidthsMM": [
+          5.981263,
+          15.586165
+        ],
+        "maximumEqualClearanceBothSidesAcrossSampledDirectionsMM": 2.990632,
+        "infeasibleDirectionIndices": [],
+        "needOutward": [
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "needInward": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          21
+        ],
+        "uniformDisplacementLowerBoundMM": 14.763346,
+        "uniformDisplacementUpperBoundMM": -6.932345,
+        "uniformDisplacementFeasible": false
+      },
+      "shaft": {
+        "validDirections": 22,
+        "zeroOrNegativeSkinToPants": 0,
+        "skinToPantsMM": [
+          7.24243,
+          22.444846
+        ],
+        "observedBootRadialSpanWidthMM": [
+          0.0,
+          0.0
+        ],
+        "individualTranslationWindowWidthsMM": [
+          7.24243,
+          22.444846
+        ],
+        "maximumEqualClearanceBothSidesAcrossSampledDirectionsMM": 3.621215,
+        "infeasibleDirectionIndices": [],
+        "needOutward": [
+          10,
+          11
+        ],
+        "needInward": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "uniformDisplacementLowerBoundMM": 4.947102,
+        "uniformDisplacementUpperBoundMM": -15.917652,
+        "uniformDisplacementFeasible": false
+      },
+      "ankle": {
+        "validDirections": 22,
+        "zeroOrNegativeSkinToPants": 0,
+        "skinToPantsMM": [
+          8.857888,
+          21.911661
+        ],
+        "observedBootRadialSpanWidthMM": [
+          0.0,
+          0.0
+        ],
+        "individualTranslationWindowWidthsMM": [
+          8.857888,
+          21.911661
+        ],
+        "maximumEqualClearanceBothSidesAcrossSampledDirectionsMM": 4.428944,
+        "infeasibleDirectionIndices": [],
+        "needOutward": [
+          0,
+          1
+        ],
+        "needInward": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          14,
+          15,
+          16
+        ],
+        "uniformDisplacementLowerBoundMM": 4.452624,
+        "uniformDisplacementUpperBoundMM": -27.145114,
+        "uniformDisplacementFeasible": false
+      }
+    }
+  },
+  "boots": {
+    "left": {
+      "originXZ": [
+        -0.045228,
+        0.033743
+      ],
+      "levels": {
+        "rim": [
+          {
+            "i": 0,
+            "azimuthDeg": 94.398433,
+            "rayXYZ": [
+              -0.997055,
+              0.0,
+              0.076692
+            ],
+            "yM": 0.253331,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 45.369343,
+            "pantsRadiusMM": 57.739105,
+            "bootHitsMM": [
+              30.606381,
+              32.137497
+            ],
+            "bootRadiusMM": 30.606381,
+            "rimVertexXYZ": [
+              -0.075745,
+              0.253331,
+              0.03609
+            ],
+            "freeBandMM": 12.369762,
+            "allowableRadialDeltaMM": [
+              14.762962,
+              27.132724
+            ],
+            "bootRadialSpanMM": [
+              30.606381,
+              32.137497
+            ],
+            "allowableSpanDeltaMM": [
+              14.762962,
+              25.601608
+            ],
+            "spanPlacementWindowMM": 10.838646
+          },
+          {
+            "i": 1,
+            "azimuthDeg": 62.923951,
+            "rayXYZ": [
+              -0.890403,
+              0.0,
+              -0.455173
+            ],
+            "yM": 0.251524,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 41.559067,
+            "pantsRadiusMM": 53.020847,
+            "bootHitsMM": [
+              33.069386,
+              34.83224
+            ],
+            "bootRadiusMM": 33.069386,
+            "rimVertexXYZ": [
+              -0.074673,
+              0.251524,
+              0.01869
+            ],
+            "freeBandMM": 11.46178,
+            "allowableRadialDeltaMM": [
+              8.489681,
+              19.951461
+            ],
+            "bootRadialSpanMM": [
+              33.069386,
+              34.83224
+            ],
+            "allowableSpanDeltaMM": [
+              8.489681,
+              18.188607
+            ],
+            "spanPlacementWindowMM": 9.698926
+          },
+          {
+            "i": 2,
+            "azimuthDeg": 40.257677,
+            "rayXYZ": [
+              -0.646226,
+              0.0,
+              -0.763146
+            ],
+            "yM": 0.250201,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 41.167621,
+            "pantsRadiusMM": 51.076048,
+            "bootHitsMM": [
+              39.95998,
+              42.433467
+            ],
+            "bootRadiusMM": 39.95998,
+            "rimVertexXYZ": [
+              -0.071051,
+              0.250201,
+              0.003247
+            ],
+            "freeBandMM": 9.908427,
+            "allowableRadialDeltaMM": [
+              1.207641,
+              11.116068
+            ],
+            "bootRadialSpanMM": [
+              39.95998,
+              42.433467
+            ],
+            "allowableSpanDeltaMM": [
+              1.207641,
+              8.642581
+            ],
+            "spanPlacementWindowMM": 7.43494
+          },
+          {
+            "i": 3,
+            "azimuthDeg": 24.655222,
+            "rayXYZ": [
+              -0.417157,
+              0.0,
+              -0.908834
+            ],
+            "yM": 0.250763,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 40.850396,
+            "pantsRadiusMM": 54.119285,
+            "bootHitsMM": [
+              50.587548
+            ],
+            "bootRadiusMM": 46.051029,
+            "rimVertexXYZ": [
+              -0.064439,
+              0.250763,
+              -0.00811
+            ],
+            "freeBandMM": 13.268889,
+            "allowableRadialDeltaMM": [
+              -5.200633,
+              8.068256
+            ],
+            "bootRadialSpanMM": [
+              46.051029,
+              50.587548
+            ],
+            "allowableSpanDeltaMM": [
+              -5.200633,
+              3.531737
+            ],
+            "spanPlacementWindowMM": 8.73237
+          },
+          {
+            "i": 4,
+            "azimuthDeg": 15.037927,
+            "rayXYZ": [
+              -0.259458,
+              0.0,
+              -0.965754
+            ],
+            "yM": 0.251985,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 41.136782,
+            "pantsRadiusMM": 56.393351,
+            "bootHitsMM": [
+              49.091766,
+              54.291291
+            ],
+            "bootRadiusMM": 49.091766,
+            "rimVertexXYZ": [
+              -0.057966,
+              0.251985,
+              -0.013668
+            ],
+            "freeBandMM": 15.256569,
+            "allowableRadialDeltaMM": [
+              -7.954984,
+              7.301585
+            ],
+            "bootRadialSpanMM": [
+              49.091766,
+              54.291291
+            ],
+            "allowableSpanDeltaMM": [
+              -7.954984,
+              2.10206
+            ],
+            "spanPlacementWindowMM": 10.057044
+          },
+          {
+            "i": 5,
+            "azimuthDeg": 4.428152,
+            "rayXYZ": [
+              -0.077209,
+              0.0,
+              -0.997015
+            ],
+            "yM": 0.251459,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 37.994897,
+            "pantsRadiusMM": 52.810348,
+            "bootHitsMM": [
+              49.733922,
+              55.794826
+            ],
+            "bootRadiusMM": 49.733922,
+            "rimVertexXYZ": [
+              -0.049068,
+              0.251459,
+              -0.015843
+            ],
+            "freeBandMM": 14.815451,
+            "allowableRadialDeltaMM": [
+              -11.739025,
+              3.076426
+            ],
+            "bootRadialSpanMM": [
+              49.733922,
+              55.794826
+            ],
+            "allowableSpanDeltaMM": [
+              -11.739025,
+              -2.984478
+            ],
+            "spanPlacementWindowMM": 8.754547
+          },
+          {
+            "i": 6,
+            "azimuthDeg": -6.588501,
+            "rayXYZ": [
+              0.114738,
+              0.0,
+              -0.993396
+            ],
+            "yM": 0.250511,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 36.160989,
+            "pantsRadiusMM": 48.337018,
+            "bootHitsMM": [
+              49.074525,
+              55.269197
+            ],
+            "bootRadiusMM": 49.074525,
+            "rimVertexXYZ": [
+              -0.039598,
+              0.250511,
+              -0.015008
+            ],
+            "freeBandMM": 12.176029,
+            "allowableRadialDeltaMM": [
+              -12.913536,
+              -0.737507
+            ],
+            "bootRadialSpanMM": [
+              49.074525,
+              55.269197
+            ],
+            "allowableSpanDeltaMM": [
+              -12.913536,
+              -6.932179
+            ],
+            "spanPlacementWindowMM": 5.981357
+          },
+          {
+            "i": 7,
+            "azimuthDeg": -16.563627,
+            "rayXYZ": [
+              0.28508,
+              0.0,
+              -0.958504
+            ],
+            "yM": 0.251222,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 30.681203,
+            "pantsRadiusMM": 44.589652,
+            "bootHitsMM": [
+              45.261228,
+              50.911449
+            ],
+            "bootRadiusMM": 45.261228,
+            "rimVertexXYZ": [
+              -0.032325,
+              0.251222,
+              -0.00964
+            ],
+            "freeBandMM": 13.908449,
+            "allowableRadialDeltaMM": [
+              -14.580025,
+              -0.671576
+            ],
+            "bootRadialSpanMM": [
+              45.261228,
+              50.911449
+            ],
+            "allowableSpanDeltaMM": [
+              -14.580025,
+              -6.321797
+            ],
+            "spanPlacementWindowMM": 8.258228
+          },
+          {
+            "i": 8,
+            "azimuthDeg": -30.134254,
+            "rayXYZ": [
+              0.502028,
+              0.0,
+              -0.864851
+            ],
+            "yM": 0.252217,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 25.805439,
+            "pantsRadiusMM": 41.377045,
+            "bootHitsMM": [
+              41.097562,
+              45.410957
+            ],
+            "bootRadiusMM": 41.097562,
+            "rimVertexXYZ": [
+              -0.024596,
+              0.252217,
+              -0.001801
+            ],
+            "freeBandMM": 15.571606,
+            "allowableRadialDeltaMM": [
+              -15.292123,
+              0.279483
+            ],
+            "bootRadialSpanMM": [
+              41.097562,
+              45.410957
+            ],
+            "allowableSpanDeltaMM": [
+              -15.292123,
+              -4.033912
+            ],
+            "spanPlacementWindowMM": 11.258211
+          },
+          {
+            "i": 9,
+            "azimuthDeg": -47.543912,
+            "rayXYZ": [
+              0.737795,
+              0.0,
+              -0.675025
+            ],
+            "yM": 0.251863,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 22.037371,
+            "pantsRadiusMM": 37.937977,
+            "bootHitsMM": [
+              37.696005,
+              40.442586
+            ],
+            "bootRadiusMM": 37.696005,
+            "rimVertexXYZ": [
+              -0.017416,
+              0.251863,
+              0.008297
+            ],
+            "freeBandMM": 15.900606,
+            "allowableRadialDeltaMM": [
+              -15.658634,
+              0.241972
+            ],
+            "bootRadialSpanMM": [
+              37.696005,
+              40.442586
+            ],
+            "allowableSpanDeltaMM": [
+              -15.658634,
+              -2.504609
+            ],
+            "spanPlacementWindowMM": 13.154025
+          },
+          {
+            "i": 10,
+            "azimuthDeg": -72.738777,
+            "rayXYZ": [
+              0.954962,
+              0.0,
+              -0.296729
+            ],
+            "yM": 0.252068,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 21.265575,
+            "pantsRadiusMM": 33.958261,
+            "bootHitsMM": [
+              34.823784,
+              36.974664
+            ],
+            "bootRadiusMM": 34.823784,
+            "rimVertexXYZ": [
+              -0.011973,
+              0.252068,
+              0.023409
+            ],
+            "freeBandMM": 12.692686,
+            "allowableRadialDeltaMM": [
+              -13.558209,
+              -0.865523
+            ],
+            "bootRadialSpanMM": [
+              34.823784,
+              36.974664
+            ],
+            "allowableSpanDeltaMM": [
+              -13.558209,
+              -3.016403
+            ],
+            "spanPlacementWindowMM": 10.541806
+          },
+          {
+            "i": 11,
+            "azimuthDeg": -97.727332,
+            "rayXYZ": [
+              0.990919,
+              0.0,
+              0.134459
+            ],
+            "yM": 0.254483,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 20.905451,
+            "pantsRadiusMM": 34.274076,
+            "bootHitsMM": [
+              34.131235,
+              36.11433
+            ],
+            "bootRadiusMM": 34.131235,
+            "rimVertexXYZ": [
+              -0.011407,
+              0.254483,
+              0.038332
+            ],
+            "freeBandMM": 13.368625,
+            "allowableRadialDeltaMM": [
+              -13.225784,
+              0.142841
+            ],
+            "bootRadialSpanMM": [
+              34.131235,
+              36.11433
+            ],
+            "allowableSpanDeltaMM": [
+              -13.225784,
+              -1.840254
+            ],
+            "spanPlacementWindowMM": 11.38553
+          },
+          {
+            "i": 12,
+            "azimuthDeg": -123.858166,
+            "rayXYZ": [
+              0.830419,
+              0.0,
+              0.557139
+            ],
+            "yM": 0.255785,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 24.40247,
+            "pantsRadiusMM": 36.630776,
+            "bootHitsMM": [
+              35.048306,
+              37.006344
+            ],
+            "bootRadiusMM": 35.048306,
+            "rimVertexXYZ": [
+              -0.016124,
+              0.255785,
+              0.053269
+            ],
+            "freeBandMM": 12.228306,
+            "allowableRadialDeltaMM": [
+              -10.645836,
+              1.58247
+            ],
+            "bootRadialSpanMM": [
+              35.048306,
+              37.006344
+            ],
+            "allowableSpanDeltaMM": [
+              -10.645836,
+              -0.375568
+            ],
+            "spanPlacementWindowMM": 10.270268
+          },
+          {
+            "i": 13,
+            "azimuthDeg": -143.060803,
+            "rayXYZ": [
+              0.600967,
+              0.0,
+              0.799274
+            ],
+            "yM": 0.256382,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 28.588157,
+            "pantsRadiusMM": 42.239629,
+            "bootHitsMM": [
+              36.372133,
+              38.511095
+            ],
+            "bootRadiusMM": 36.372133,
+            "rimVertexXYZ": [
+              -0.02337,
+              0.256382,
+              0.062814
+            ],
+            "freeBandMM": 13.651472,
+            "allowableRadialDeltaMM": [
+              -7.783976,
+              5.867496
+            ],
+            "bootRadialSpanMM": [
+              36.372133,
+              38.511095
+            ],
+            "allowableSpanDeltaMM": [
+              -7.783976,
+              3.728534
+            ],
+            "spanPlacementWindowMM": 11.51251
+          },
+          {
+            "i": 14,
+            "azimuthDeg": -157.597838,
+            "rayXYZ": [
+              0.381105,
+              0.0,
+              0.924532
+            ],
+            "yM": 0.256331,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 36.623395,
+            "pantsRadiusMM": 48.493757,
+            "bootHitsMM": [
+              39.978435,
+              42.371225
+            ],
+            "bootRadiusMM": 39.978435,
+            "rimVertexXYZ": [
+              -0.029992,
+              0.256331,
+              0.070704
+            ],
+            "freeBandMM": 11.870362,
+            "allowableRadialDeltaMM": [
+              -3.35504,
+              8.515322
+            ],
+            "bootRadialSpanMM": [
+              39.978435,
+              42.371225
+            ],
+            "allowableSpanDeltaMM": [
+              -3.35504,
+              6.122532
+            ],
+            "spanPlacementWindowMM": 9.477572
+          },
+          {
+            "i": 15,
+            "azimuthDeg": -169.670633,
+            "rayXYZ": [
+              0.179306,
+              0.0,
+              0.983793
+            ],
+            "yM": 0.255581,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 41.34773,
+            "pantsRadiusMM": 55.295963,
+            "bootHitsMM": [
+              42.370249,
+              44.671232
+            ],
+            "bootRadiusMM": 42.370249,
+            "rimVertexXYZ": [
+              -0.037631,
+              0.255581,
+              0.075426
+            ],
+            "freeBandMM": 13.948233,
+            "allowableRadialDeltaMM": [
+              -1.022519,
+              12.925714
+            ],
+            "bootRadialSpanMM": [
+              42.370249,
+              44.671232
+            ],
+            "allowableSpanDeltaMM": [
+              -1.022519,
+              10.624731
+            ],
+            "spanPlacementWindowMM": 11.64725
+          },
+          {
+            "i": 16,
+            "azimuthDeg": -179.960605,
+            "rayXYZ": [
+              0.000688,
+              0.0,
+              1.0
+            ],
+            "yM": 0.255912,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 44.695287,
+            "pantsRadiusMM": 62.476849,
+            "bootHitsMM": [
+              44.725425,
+              46.920859
+            ],
+            "bootRadiusMM": 44.725425,
+            "rimVertexXYZ": [
+              -0.045198,
+              0.255912,
+              0.078468
+            ],
+            "freeBandMM": 17.781562,
+            "allowableRadialDeltaMM": [
+              -0.030138,
+              17.751424
+            ],
+            "bootRadialSpanMM": [
+              44.725425,
+              46.920859
+            ],
+            "allowableSpanDeltaMM": [
+              -0.030138,
+              15.55599
+            ],
+            "spanPlacementWindowMM": 15.586128
+          },
+          {
+            "i": 17,
+            "azimuthDeg": 170.434642,
+            "rayXYZ": [
+              -0.166173,
+              0.0,
+              0.986097
+            ],
+            "yM": 0.255775,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 43.932666,
+            "pantsRadiusMM": 59.303475,
+            "bootHitsMM": [
+              44.026683,
+              46.152926
+            ],
+            "bootRadiusMM": 44.026683,
+            "rimVertexXYZ": [
+              -0.052544,
+              0.255775,
+              0.077157
+            ],
+            "freeBandMM": 15.370809,
+            "allowableRadialDeltaMM": [
+              -0.094017,
+              15.276792
+            ],
+            "bootRadialSpanMM": [
+              44.026683,
+              46.152926
+            ],
+            "allowableSpanDeltaMM": [
+              -0.094017,
+              13.150549
+            ],
+            "spanPlacementWindowMM": 13.244566
+          },
+          {
+            "i": 18,
+            "azimuthDeg": 160.057335,
+            "rayXYZ": [
+              -0.34108,
+              0.0,
+              0.940034
+            ],
+            "yM": 0.256053,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 44.809571,
+            "pantsRadiusMM": 57.974794,
+            "bootHitsMM": [
+              41.653756,
+              43.606726
+            ],
+            "bootRadiusMM": 41.653756,
+            "rimVertexXYZ": [
+              -0.059436,
+              0.256053,
+              0.072899
+            ],
+            "freeBandMM": 13.165223,
+            "allowableRadialDeltaMM": [
+              3.155815,
+              16.321038
+            ],
+            "bootRadialSpanMM": [
+              41.653756,
+              43.606726
+            ],
+            "allowableSpanDeltaMM": [
+              3.155815,
+              14.368068
+            ],
+            "spanPlacementWindowMM": 11.212253
+          },
+          {
+            "i": 19,
+            "azimuthDeg": 152.703195,
+            "rayXYZ": [
+              -0.4586,
+              0.0,
+              0.888643
+            ],
+            "yM": 0.256331,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 43.719253,
+            "pantsRadiusMM": 58.209265,
+            "bootHitsMM": [
+              39.431581,
+              41.292122
+            ],
+            "bootRadiusMM": 39.431581,
+            "rimVertexXYZ": [
+              -0.063312,
+              0.256331,
+              0.068783
+            ],
+            "freeBandMM": 14.490012,
+            "allowableRadialDeltaMM": [
+              4.287672,
+              18.777684
+            ],
+            "bootRadialSpanMM": [
+              39.431581,
+              41.292122
+            ],
+            "allowableSpanDeltaMM": [
+              4.287672,
+              16.917143
+            ],
+            "spanPlacementWindowMM": 12.629471
+          },
+          {
+            "i": 20,
+            "azimuthDeg": 146.152539,
+            "rayXYZ": [
+              -0.556984,
+              0.0,
+              0.830523
+            ],
+            "yM": 0.25632,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 43.305229,
+            "pantsRadiusMM": 57.381575,
+            "bootHitsMM": [
+              37.685245,
+              39.518337
+            ],
+            "bootRadiusMM": 37.685245,
+            "rimVertexXYZ": [
+              -0.066218,
+              0.25632,
+              0.065041
+            ],
+            "freeBandMM": 14.076346,
+            "allowableRadialDeltaMM": [
+              5.619984,
+              19.69633
+            ],
+            "bootRadialSpanMM": [
+              37.685245,
+              39.518337
+            ],
+            "allowableSpanDeltaMM": [
+              5.619984,
+              17.863238
+            ],
+            "spanPlacementWindowMM": 12.243254
+          },
+          {
+            "i": 21,
+            "azimuthDeg": 127.928679,
+            "rayXYZ": [
+              -0.788777,
+              0.0,
+              0.61468
+            ],
+            "yM": 0.254898,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 44.043957,
+            "pantsRadiusMM": 57.558299,
+            "bootHitsMM": [
+              32.598437,
+              34.191939
+            ],
+            "bootRadiusMM": 32.598437,
+            "rimVertexXYZ": [
+              -0.070941,
+              0.254898,
+              0.05378
+            ],
+            "freeBandMM": 13.514342,
+            "allowableRadialDeltaMM": [
+              11.44552,
+              24.959862
+            ],
+            "bootRadialSpanMM": [
+              32.598437,
+              34.191939
+            ],
+            "allowableSpanDeltaMM": [
+              11.44552,
+              23.36636
+            ],
+            "spanPlacementWindowMM": 11.92084
+          }
+        ],
+        "shaft": [
+          {
+            "i": 0,
+            "azimuthDeg": 94.398433,
+            "rayXYZ": [
+              -0.997055,
+              0.0,
+              0.076692
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 35.844591,
+            "pantsRadiusMM": 51.579954,
+            "bootHitsMM": [
+              30.897729
+            ],
+            "bootRadiusMM": 30.897729,
+            "freeBandMM": 15.735363,
+            "allowableRadialDeltaMM": [
+              4.946862,
+              20.682225
+            ],
+            "bootRadialSpanMM": [
+              30.897729,
+              30.897729
+            ],
+            "allowableSpanDeltaMM": [
+              4.946862,
+              20.682225
+            ],
+            "spanPlacementWindowMM": 15.735363
+          },
+          {
+            "i": 1,
+            "azimuthDeg": 62.923951,
+            "rayXYZ": [
+              -0.890403,
+              0.0,
+              -0.455173
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 37.894872,
+            "pantsRadiusMM": 47.151851,
+            "bootHitsMM": [
+              35.788543
+            ],
+            "bootRadiusMM": 35.788543,
+            "freeBandMM": 9.256979,
+            "allowableRadialDeltaMM": [
+              2.106329,
+              11.363308
+            ],
+            "bootRadialSpanMM": [
+              35.788543,
+              35.788543
+            ],
+            "allowableSpanDeltaMM": [
+              2.106329,
+              11.363308
+            ],
+            "spanPlacementWindowMM": 9.256979
+          },
+          {
+            "i": 2,
+            "azimuthDeg": 40.257677,
+            "rayXYZ": [
+              -0.646226,
+              0.0,
+              -0.763146
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 39.508949,
+            "pantsRadiusMM": 54.189953,
+            "bootHitsMM": [
+              45.848098
+            ],
+            "bootRadiusMM": 45.848098,
+            "freeBandMM": 14.681004,
+            "allowableRadialDeltaMM": [
+              -6.339149,
+              8.341855
+            ],
+            "bootRadialSpanMM": [
+              45.848098,
+              45.848098
+            ],
+            "allowableSpanDeltaMM": [
+              -6.339149,
+              8.341855
+            ],
+            "spanPlacementWindowMM": 14.681004
+          },
+          {
+            "i": 3,
+            "azimuthDeg": 24.655222,
+            "rayXYZ": [
+              -0.417157,
+              0.0,
+              -0.908834
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 40.851784,
+            "pantsRadiusMM": 56.415011,
+            "bootHitsMM": [
+              54.79123
+            ],
+            "bootRadiusMM": 54.79123,
+            "freeBandMM": 15.563227,
+            "allowableRadialDeltaMM": [
+              -13.939446,
+              1.623781
+            ],
+            "bootRadialSpanMM": [
+              54.79123,
+              54.79123
+            ],
+            "allowableSpanDeltaMM": [
+              -13.939446,
+              1.623781
+            ],
+            "spanPlacementWindowMM": 15.563227
+          },
+          {
+            "i": 4,
+            "azimuthDeg": 15.037927,
+            "rayXYZ": [
+              -0.259458,
+              0.0,
+              -0.965754
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 42.248655,
+            "pantsRadiusMM": 54.686917,
+            "bootHitsMM": [
+              59.12049
+            ],
+            "bootRadiusMM": 59.12049,
+            "freeBandMM": 12.438262,
+            "allowableRadialDeltaMM": [
+              -16.871835,
+              -4.433573
+            ],
+            "bootRadialSpanMM": [
+              59.12049,
+              59.12049
+            ],
+            "allowableSpanDeltaMM": [
+              -16.871835,
+              -4.433573
+            ],
+            "spanPlacementWindowMM": 12.438262
+          },
+          {
+            "i": 5,
+            "azimuthDeg": 4.428152,
+            "rayXYZ": [
+              -0.077209,
+              0.0,
+              -0.997015
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 39.894767,
+            "pantsRadiusMM": 51.72232,
+            "bootHitsMM": [
+              61.577304
+            ],
+            "bootRadiusMM": 61.577304,
+            "freeBandMM": 11.827553,
+            "allowableRadialDeltaMM": [
+              -21.682537,
+              -9.854984
+            ],
+            "bootRadialSpanMM": [
+              61.577304,
+              61.577304
+            ],
+            "allowableSpanDeltaMM": [
+              -21.682537,
+              -9.854984
+            ],
+            "spanPlacementWindowMM": 11.827553
+          },
+          {
+            "i": 6,
+            "azimuthDeg": -6.588501,
+            "rayXYZ": [
+              0.114738,
+              0.0,
+              -0.993396
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 37.407468,
+            "pantsRadiusMM": 44.650007,
+            "bootHitsMM": [
+              60.567475
+            ],
+            "bootRadiusMM": 60.567475,
+            "freeBandMM": 7.242539,
+            "allowableRadialDeltaMM": [
+              -23.160007,
+              -15.917468
+            ],
+            "bootRadialSpanMM": [
+              60.567475,
+              60.567475
+            ],
+            "allowableSpanDeltaMM": [
+              -23.160007,
+              -15.917468
+            ],
+            "spanPlacementWindowMM": 7.242539
+          },
+          {
+            "i": 7,
+            "azimuthDeg": -16.563627,
+            "rayXYZ": [
+              0.28508,
+              0.0,
+              -0.958504
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 32.392715,
+            "pantsRadiusMM": 40.59471,
+            "bootHitsMM": [
+              55.507005
+            ],
+            "bootRadiusMM": 55.507005,
+            "freeBandMM": 8.201995,
+            "allowableRadialDeltaMM": [
+              -23.11429,
+              -14.912295
+            ],
+            "bootRadialSpanMM": [
+              55.507005,
+              55.507005
+            ],
+            "allowableSpanDeltaMM": [
+              -23.11429,
+              -14.912295
+            ],
+            "spanPlacementWindowMM": 8.201995
+          },
+          {
+            "i": 8,
+            "azimuthDeg": -30.134254,
+            "rayXYZ": [
+              0.502028,
+              0.0,
+              -0.864851
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 27.797994,
+            "pantsRadiusMM": 37.723242,
+            "bootHitsMM": [
+              46.46977
+            ],
+            "bootRadiusMM": 46.46977,
+            "freeBandMM": 9.925248,
+            "allowableRadialDeltaMM": [
+              -18.671776,
+              -8.746528
+            ],
+            "bootRadialSpanMM": [
+              46.46977,
+              46.46977
+            ],
+            "allowableSpanDeltaMM": [
+              -18.671776,
+              -8.746528
+            ],
+            "spanPlacementWindowMM": 9.925248
+          },
+          {
+            "i": 9,
+            "azimuthDeg": -47.543912,
+            "rayXYZ": [
+              0.737795,
+              0.0,
+              -0.675025
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 23.613559,
+            "pantsRadiusMM": 33.7208,
+            "bootHitsMM": [
+              37.753655
+            ],
+            "bootRadiusMM": 37.753655,
+            "freeBandMM": 10.107241,
+            "allowableRadialDeltaMM": [
+              -14.140096,
+              -4.032855
+            ],
+            "bootRadialSpanMM": [
+              37.753655,
+              37.753655
+            ],
+            "allowableSpanDeltaMM": [
+              -14.140096,
+              -4.032855
+            ],
+            "spanPlacementWindowMM": 10.107241
+          },
+          {
+            "i": 10,
+            "azimuthDeg": -72.738777,
+            "rayXYZ": [
+              0.954962,
+              0.0,
+              -0.296729
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 20.374298,
+            "pantsRadiusMM": 30.571048,
+            "bootHitsMM": [
+              30.933805
+            ],
+            "bootRadiusMM": 30.933805,
+            "freeBandMM": 10.19675,
+            "allowableRadialDeltaMM": [
+              -10.559507,
+              -0.362757
+            ],
+            "bootRadialSpanMM": [
+              30.933805,
+              30.933805
+            ],
+            "allowableSpanDeltaMM": [
+              -10.559507,
+              -0.362757
+            ],
+            "spanPlacementWindowMM": 10.19675
+          },
+          {
+            "i": 11,
+            "azimuthDeg": -97.727332,
+            "rayXYZ": [
+              0.990919,
+              0.0,
+              0.134459
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 17.909919,
+            "pantsRadiusMM": 30.912108,
+            "bootHitsMM": [
+              28.769813
+            ],
+            "bootRadiusMM": 28.769813,
+            "freeBandMM": 13.002189,
+            "allowableRadialDeltaMM": [
+              -10.859894,
+              2.142295
+            ],
+            "bootRadialSpanMM": [
+              28.769813,
+              28.769813
+            ],
+            "allowableSpanDeltaMM": [
+              -10.859894,
+              2.142295
+            ],
+            "spanPlacementWindowMM": 13.002189
+          },
+          {
+            "i": 12,
+            "azimuthDeg": -123.858166,
+            "rayXYZ": [
+              0.830419,
+              0.0,
+              0.557139
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 18.439609,
+            "pantsRadiusMM": 33.805723,
+            "bootHitsMM": [
+              28.731939
+            ],
+            "bootRadiusMM": 28.731939,
+            "freeBandMM": 15.366114,
+            "allowableRadialDeltaMM": [
+              -10.29233,
+              5.073784
+            ],
+            "bootRadialSpanMM": [
+              28.731939,
+              28.731939
+            ],
+            "allowableSpanDeltaMM": [
+              -10.29233,
+              5.073784
+            ],
+            "spanPlacementWindowMM": 15.366114
+          },
+          {
+            "i": 13,
+            "azimuthDeg": -143.060803,
+            "rayXYZ": [
+              0.600967,
+              0.0,
+              0.799274
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 21.590865,
+            "pantsRadiusMM": 40.395785,
+            "bootHitsMM": [
+              32.030416
+            ],
+            "bootRadiusMM": 32.030416,
+            "freeBandMM": 18.80492,
+            "allowableRadialDeltaMM": [
+              -10.439551,
+              8.365369
+            ],
+            "bootRadialSpanMM": [
+              32.030416,
+              32.030416
+            ],
+            "allowableSpanDeltaMM": [
+              -10.439551,
+              8.365369
+            ],
+            "spanPlacementWindowMM": 18.80492
+          },
+          {
+            "i": 14,
+            "azimuthDeg": -157.597838,
+            "rayXYZ": [
+              0.381105,
+              0.0,
+              0.924532
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 28.411552,
+            "pantsRadiusMM": 46.416297,
+            "bootHitsMM": [
+              36.753749
+            ],
+            "bootRadiusMM": 36.753749,
+            "freeBandMM": 18.004745,
+            "allowableRadialDeltaMM": [
+              -8.342197,
+              9.662548
+            ],
+            "bootRadialSpanMM": [
+              36.753749,
+              36.753749
+            ],
+            "allowableSpanDeltaMM": [
+              -8.342197,
+              9.662548
+            ],
+            "spanPlacementWindowMM": 18.004745
+          },
+          {
+            "i": 15,
+            "azimuthDeg": -169.670633,
+            "rayXYZ": [
+              0.179306,
+              0.0,
+              0.983793
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 34.856067,
+            "pantsRadiusMM": 51.885436,
+            "bootHitsMM": [
+              40.795154
+            ],
+            "bootRadiusMM": 40.795154,
+            "freeBandMM": 17.029369,
+            "allowableRadialDeltaMM": [
+              -5.939087,
+              11.090282
+            ],
+            "bootRadialSpanMM": [
+              40.795154,
+              40.795154
+            ],
+            "allowableSpanDeltaMM": [
+              -5.939087,
+              11.090282
+            ],
+            "spanPlacementWindowMM": 17.029369
+          },
+          {
+            "i": 16,
+            "azimuthDeg": -179.960605,
+            "rayXYZ": [
+              0.000688,
+              0.0,
+              1.0
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 37.25324,
+            "pantsRadiusMM": 57.378255,
+            "bootHitsMM": [
+              43.933247
+            ],
+            "bootRadiusMM": 43.933247,
+            "freeBandMM": 20.125015,
+            "allowableRadialDeltaMM": [
+              -6.680007,
+              13.445008
+            ],
+            "bootRadialSpanMM": [
+              43.933247,
+              43.933247
+            ],
+            "allowableSpanDeltaMM": [
+              -6.680007,
+              13.445008
+            ],
+            "spanPlacementWindowMM": 20.125015
+          },
+          {
+            "i": 17,
+            "azimuthDeg": 170.434642,
+            "rayXYZ": [
+              -0.166173,
+              0.0,
+              0.986097
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 37.24075,
+            "pantsRadiusMM": 56.241626,
+            "bootHitsMM": [
+              45.237757
+            ],
+            "bootRadiusMM": 45.237757,
+            "freeBandMM": 19.000876,
+            "allowableRadialDeltaMM": [
+              -7.997007,
+              11.003869
+            ],
+            "bootRadialSpanMM": [
+              45.237757,
+              45.237757
+            ],
+            "allowableSpanDeltaMM": [
+              -7.997007,
+              11.003869
+            ],
+            "spanPlacementWindowMM": 19.000876
+          },
+          {
+            "i": 18,
+            "azimuthDeg": 160.057335,
+            "rayXYZ": [
+              -0.34108,
+              0.0,
+              0.940034
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 34.711172,
+            "pantsRadiusMM": 55.79181,
+            "bootHitsMM": [
+              45.757649
+            ],
+            "bootRadiusMM": 45.757649,
+            "freeBandMM": 21.080638,
+            "allowableRadialDeltaMM": [
+              -11.046477,
+              10.034161
+            ],
+            "bootRadialSpanMM": [
+              45.757649,
+              45.757649
+            ],
+            "allowableSpanDeltaMM": [
+              -11.046477,
+              10.034161
+            ],
+            "spanPlacementWindowMM": 21.080638
+          },
+          {
+            "i": 19,
+            "azimuthDeg": 152.703195,
+            "rayXYZ": [
+              -0.4586,
+              0.0,
+              0.888643
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 32.751223,
+            "pantsRadiusMM": 55.196104,
+            "bootHitsMM": [
+              43.705696
+            ],
+            "bootRadiusMM": 43.705696,
+            "freeBandMM": 22.444881,
+            "allowableRadialDeltaMM": [
+              -10.954473,
+              11.490408
+            ],
+            "bootRadialSpanMM": [
+              43.705696,
+              43.705696
+            ],
+            "allowableSpanDeltaMM": [
+              -10.954473,
+              11.490408
+            ],
+            "spanPlacementWindowMM": 22.444881
+          },
+          {
+            "i": 20,
+            "azimuthDeg": 146.152539,
+            "rayXYZ": [
+              -0.556984,
+              0.0,
+              0.830523
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 31.835634,
+            "pantsRadiusMM": 53.633832,
+            "bootHitsMM": [
+              40.894758
+            ],
+            "bootRadiusMM": 40.894758,
+            "freeBandMM": 21.798198,
+            "allowableRadialDeltaMM": [
+              -9.059124,
+              12.739074
+            ],
+            "bootRadialSpanMM": [
+              40.894758,
+              40.894758
+            ],
+            "allowableSpanDeltaMM": [
+              -9.059124,
+              12.739074
+            ],
+            "spanPlacementWindowMM": 21.798198
+          },
+          {
+            "i": 21,
+            "azimuthDeg": 127.928679,
+            "rayXYZ": [
+              -0.788777,
+              0.0,
+              0.61468
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 31.564805,
+            "pantsRadiusMM": 53.846629,
+            "bootHitsMM": [
+              33.935231
+            ],
+            "bootRadiusMM": 33.935231,
+            "freeBandMM": 22.281824,
+            "allowableRadialDeltaMM": [
+              -2.370426,
+              19.911398
+            ],
+            "bootRadialSpanMM": [
+              33.935231,
+              33.935231
+            ],
+            "allowableSpanDeltaMM": [
+              -2.370426,
+              19.911398
+            ],
+            "spanPlacementWindowMM": 22.281824
+          }
+        ],
+        "ankle": [
+          {
+            "i": 0,
+            "azimuthDeg": 94.398433,
+            "rayXYZ": [
+              -0.997055,
+              0.0,
+              0.076692
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 37.516432,
+            "pantsRadiusMM": 54.861962,
+            "bootHitsMM": [
+              49.063045
+            ],
+            "bootRadiusMM": 49.063045,
+            "freeBandMM": 17.34553,
+            "allowableRadialDeltaMM": [
+              -11.546613,
+              5.798917
+            ],
+            "bootRadialSpanMM": [
+              49.063045,
+              49.063045
+            ],
+            "allowableSpanDeltaMM": [
+              -11.546613,
+              5.798917
+            ],
+            "spanPlacementWindowMM": 17.34553
+          },
+          {
+            "i": 1,
+            "azimuthDeg": 62.923951,
+            "rayXYZ": [
+              -0.890403,
+              0.0,
+              -0.455173
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 41.696434,
+            "pantsRadiusMM": 53.545141,
+            "bootHitsMM": [
+              51.918215
+            ],
+            "bootRadiusMM": 51.918215,
+            "freeBandMM": 11.848707,
+            "allowableRadialDeltaMM": [
+              -10.221781,
+              1.626926
+            ],
+            "bootRadialSpanMM": [
+              51.918215,
+              51.918215
+            ],
+            "allowableSpanDeltaMM": [
+              -10.221781,
+              1.626926
+            ],
+            "spanPlacementWindowMM": 11.848707
+          },
+          {
+            "i": 2,
+            "azimuthDeg": 40.257677,
+            "rayXYZ": [
+              -0.646226,
+              0.0,
+              -0.763146
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 43.807462,
+            "pantsRadiusMM": 54.123646,
+            "bootHitsMM": [
+              63.461117
+            ],
+            "bootRadiusMM": 63.461117,
+            "freeBandMM": 10.316184,
+            "allowableRadialDeltaMM": [
+              -19.653655,
+              -9.337471
+            ],
+            "bootRadialSpanMM": [
+              63.461117,
+              63.461117
+            ],
+            "allowableSpanDeltaMM": [
+              -19.653655,
+              -9.337471
+            ],
+            "spanPlacementWindowMM": 10.316184
+          },
+          {
+            "i": 3,
+            "azimuthDeg": 24.655222,
+            "rayXYZ": [
+              -0.417157,
+              0.0,
+              -0.908834
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 50.441563,
+            "pantsRadiusMM": 63.60495,
+            "bootHitsMM": [
+              76.069542
+            ],
+            "bootRadiusMM": 76.069542,
+            "freeBandMM": 13.163387,
+            "allowableRadialDeltaMM": [
+              -25.627979,
+              -12.464592
+            ],
+            "bootRadialSpanMM": [
+              76.069542,
+              76.069542
+            ],
+            "allowableSpanDeltaMM": [
+              -25.627979,
+              -12.464592
+            ],
+            "spanPlacementWindowMM": 13.163387
+          },
+          {
+            "i": 4,
+            "azimuthDeg": 15.037927,
+            "rayXYZ": [
+              -0.259458,
+              0.0,
+              -0.965754
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 53.767058,
+            "pantsRadiusMM": 69.090711,
+            "bootHitsMM": [
+              82.337355
+            ],
+            "bootRadiusMM": 82.337355,
+            "freeBandMM": 15.323653,
+            "allowableRadialDeltaMM": [
+              -28.570297,
+              -13.246644
+            ],
+            "bootRadialSpanMM": [
+              82.337355,
+              82.337355
+            ],
+            "allowableSpanDeltaMM": [
+              -28.570297,
+              -13.246644
+            ],
+            "spanPlacementWindowMM": 15.323653
+          },
+          {
+            "i": 5,
+            "azimuthDeg": 4.428152,
+            "rayXYZ": [
+              -0.077209,
+              0.0,
+              -0.997015
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 56.324541,
+            "pantsRadiusMM": 73.29703,
+            "bootHitsMM": [
+              86.670399
+            ],
+            "bootRadiusMM": 86.670399,
+            "freeBandMM": 16.972489,
+            "allowableRadialDeltaMM": [
+              -30.345858,
+              -13.373369
+            ],
+            "bootRadialSpanMM": [
+              86.670399,
+              86.670399
+            ],
+            "allowableSpanDeltaMM": [
+              -30.345858,
+              -13.373369
+            ],
+            "spanPlacementWindowMM": 16.972489
+          },
+          {
+            "i": 6,
+            "azimuthDeg": -6.588501,
+            "rayXYZ": [
+              0.114738,
+              0.0,
+              -0.993396
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 51.869859,
+            "pantsRadiusMM": 62.18731,
+            "bootHitsMM": [
+              89.332295
+            ],
+            "bootRadiusMM": 89.332295,
+            "freeBandMM": 10.317451,
+            "allowableRadialDeltaMM": [
+              -37.462436,
+              -27.144985
+            ],
+            "bootRadialSpanMM": [
+              89.332295,
+              89.332295
+            ],
+            "allowableSpanDeltaMM": [
+              -37.462436,
+              -27.144985
+            ],
+            "spanPlacementWindowMM": 10.317451
+          },
+          {
+            "i": 7,
+            "azimuthDeg": -16.563627,
+            "rayXYZ": [
+              0.28508,
+              0.0,
+              -0.958504
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 45.025819,
+            "pantsRadiusMM": 54.726985,
+            "bootHitsMM": [
+              77.803703
+            ],
+            "bootRadiusMM": 77.803703,
+            "freeBandMM": 9.701166,
+            "allowableRadialDeltaMM": [
+              -32.777884,
+              -23.076718
+            ],
+            "bootRadialSpanMM": [
+              77.803703,
+              77.803703
+            ],
+            "allowableSpanDeltaMM": [
+              -32.777884,
+              -23.076718
+            ],
+            "spanPlacementWindowMM": 9.701166
+          },
+          {
+            "i": 8,
+            "azimuthDeg": -30.134254,
+            "rayXYZ": [
+              0.502028,
+              0.0,
+              -0.864851
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 38.369875,
+            "pantsRadiusMM": 47.451986,
+            "bootHitsMM": [
+              57.60446
+            ],
+            "bootRadiusMM": 57.60446,
+            "freeBandMM": 9.082111,
+            "allowableRadialDeltaMM": [
+              -19.234585,
+              -10.152474
+            ],
+            "bootRadialSpanMM": [
+              57.60446,
+              57.60446
+            ],
+            "allowableSpanDeltaMM": [
+              -19.234585,
+              -10.152474
+            ],
+            "spanPlacementWindowMM": 9.082111
+          },
+          {
+            "i": 9,
+            "azimuthDeg": -47.543912,
+            "rayXYZ": [
+              0.737795,
+              0.0,
+              -0.675025
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 36.022383,
+            "pantsRadiusMM": 44.880295,
+            "bootHitsMM": [
+              38.961916
+            ],
+            "bootRadiusMM": 38.961916,
+            "freeBandMM": 8.857912,
+            "allowableRadialDeltaMM": [
+              -2.939533,
+              5.918379
+            ],
+            "bootRadialSpanMM": [
+              38.961916,
+              38.961916
+            ],
+            "allowableSpanDeltaMM": [
+              -2.939533,
+              5.918379
+            ],
+            "spanPlacementWindowMM": 8.857912
+          },
+          {
+            "i": 10,
+            "azimuthDeg": -72.738777,
+            "rayXYZ": [
+              0.954962,
+              0.0,
+              -0.296729
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 32.113881,
+            "pantsRadiusMM": 41.523495,
+            "bootHitsMM": [
+              27.661185
+            ],
+            "bootRadiusMM": 27.661185,
+            "freeBandMM": 9.409614,
+            "allowableRadialDeltaMM": [
+              4.452696,
+              13.86231
+            ],
+            "bootRadialSpanMM": [
+              27.661185,
+              27.661185
+            ],
+            "allowableSpanDeltaMM": [
+              4.452696,
+              13.86231
+            ],
+            "spanPlacementWindowMM": 9.409614
+          },
+          {
+            "i": 11,
+            "azimuthDeg": -97.727332,
+            "rayXYZ": [
+              0.990919,
+              0.0,
+              0.134459
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 26.91626,
+            "pantsRadiusMM": 38.614567,
+            "bootHitsMM": [
+              24.929336
+            ],
+            "bootRadiusMM": 24.929336,
+            "freeBandMM": 11.698307,
+            "allowableRadialDeltaMM": [
+              1.986924,
+              13.685231
+            ],
+            "bootRadialSpanMM": [
+              24.929336,
+              24.929336
+            ],
+            "allowableSpanDeltaMM": [
+              1.986924,
+              13.685231
+            ],
+            "spanPlacementWindowMM": 11.698307
+          },
+          {
+            "i": 12,
+            "azimuthDeg": -123.858166,
+            "rayXYZ": [
+              0.830419,
+              0.0,
+              0.557139
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 24.096057,
+            "pantsRadiusMM": 38.607472,
+            "bootHitsMM": [
+              26.591065
+            ],
+            "bootRadiusMM": 26.591065,
+            "freeBandMM": 14.511415,
+            "allowableRadialDeltaMM": [
+              -2.495008,
+              12.016407
+            ],
+            "bootRadialSpanMM": [
+              26.591065,
+              26.591065
+            ],
+            "allowableSpanDeltaMM": [
+              -2.495008,
+              12.016407
+            ],
+            "spanPlacementWindowMM": 14.511415
+          },
+          {
+            "i": 13,
+            "azimuthDeg": -143.060803,
+            "rayXYZ": [
+              0.600967,
+              0.0,
+              0.799274
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 26.045853,
+            "pantsRadiusMM": 41.300732,
+            "bootHitsMM": [
+              30.695566
+            ],
+            "bootRadiusMM": 30.695566,
+            "freeBandMM": 15.254879,
+            "allowableRadialDeltaMM": [
+              -4.649713,
+              10.605166
+            ],
+            "bootRadialSpanMM": [
+              30.695566,
+              30.695566
+            ],
+            "allowableSpanDeltaMM": [
+              -4.649713,
+              10.605166
+            ],
+            "spanPlacementWindowMM": 15.254879
+          },
+          {
+            "i": 14,
+            "azimuthDeg": -157.597838,
+            "rayXYZ": [
+              0.381105,
+              0.0,
+              0.924532
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 32.180748,
+            "pantsRadiusMM": 45.152989,
+            "bootHitsMM": [
+              37.339304
+            ],
+            "bootRadiusMM": 37.339304,
+            "freeBandMM": 12.972241,
+            "allowableRadialDeltaMM": [
+              -5.158556,
+              7.813685
+            ],
+            "bootRadialSpanMM": [
+              37.339304,
+              37.339304
+            ],
+            "allowableSpanDeltaMM": [
+              -5.158556,
+              7.813685
+            ],
+            "spanPlacementWindowMM": 12.972241
+          },
+          {
+            "i": 15,
+            "azimuthDeg": -169.670633,
+            "rayXYZ": [
+              0.179306,
+              0.0,
+              0.983793
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 35.692477,
+            "pantsRadiusMM": 48.467565,
+            "bootHitsMM": [
+              44.623004
+            ],
+            "bootRadiusMM": 44.623004,
+            "freeBandMM": 12.775088,
+            "allowableRadialDeltaMM": [
+              -8.930527,
+              3.844561
+            ],
+            "bootRadialSpanMM": [
+              44.623004,
+              44.623004
+            ],
+            "allowableSpanDeltaMM": [
+              -8.930527,
+              3.844561
+            ],
+            "spanPlacementWindowMM": 12.775088
+          },
+          {
+            "i": 16,
+            "azimuthDeg": -179.960605,
+            "rayXYZ": [
+              0.000688,
+              0.0,
+              1.0
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 35.527632,
+            "pantsRadiusMM": 51.113993,
+            "bootHitsMM": [
+              50.385728
+            ],
+            "bootRadiusMM": 50.385728,
+            "freeBandMM": 15.586361,
+            "allowableRadialDeltaMM": [
+              -14.858096,
+              0.728265
+            ],
+            "bootRadialSpanMM": [
+              50.385728,
+              50.385728
+            ],
+            "allowableSpanDeltaMM": [
+              -14.858096,
+              0.728265
+            ],
+            "spanPlacementWindowMM": 15.586361
+          },
+          {
+            "i": 17,
+            "azimuthDeg": 170.434642,
+            "rayXYZ": [
+              -0.166173,
+              0.0,
+              0.986097
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 34.467035,
+            "pantsRadiusMM": 49.239343,
+            "bootHitsMM": [
+              54.107082
+            ],
+            "bootRadiusMM": 54.107082,
+            "freeBandMM": 14.772308,
+            "allowableRadialDeltaMM": [
+              -19.640047,
+              -4.867739
+            ],
+            "bootRadialSpanMM": [
+              54.107082,
+              54.107082
+            ],
+            "allowableSpanDeltaMM": [
+              -19.640047,
+              -4.867739
+            ],
+            "spanPlacementWindowMM": 14.772308
+          },
+          {
+            "i": 18,
+            "azimuthDeg": 160.057335,
+            "rayXYZ": [
+              -0.34108,
+              0.0,
+              0.940034
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 32.103814,
+            "pantsRadiusMM": 49.754594,
+            "bootHitsMM": [
+              54.069733
+            ],
+            "bootRadiusMM": 54.069733,
+            "freeBandMM": 17.65078,
+            "allowableRadialDeltaMM": [
+              -21.965919,
+              -4.315139
+            ],
+            "bootRadialSpanMM": [
+              54.069733,
+              54.069733
+            ],
+            "allowableSpanDeltaMM": [
+              -21.965919,
+              -4.315139
+            ],
+            "spanPlacementWindowMM": 17.65078
+          },
+          {
+            "i": 19,
+            "azimuthDeg": 152.703195,
+            "rayXYZ": [
+              -0.4586,
+              0.0,
+              0.888643
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 30.389671,
+            "pantsRadiusMM": 49.991882,
+            "bootHitsMM": [
+              51.212331
+            ],
+            "bootRadiusMM": 51.212331,
+            "freeBandMM": 19.602211,
+            "allowableRadialDeltaMM": [
+              -20.82266,
+              -1.220449
+            ],
+            "bootRadialSpanMM": [
+              51.212331,
+              51.212331
+            ],
+            "allowableSpanDeltaMM": [
+              -20.82266,
+              -1.220449
+            ],
+            "spanPlacementWindowMM": 19.602211
+          },
+          {
+            "i": 20,
+            "azimuthDeg": 146.152539,
+            "rayXYZ": [
+              -0.556984,
+              0.0,
+              0.830523
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 29.675134,
+            "pantsRadiusMM": 50.040744,
+            "bootHitsMM": [
+              49.000013
+            ],
+            "bootRadiusMM": 49.000013,
+            "freeBandMM": 20.36561,
+            "allowableRadialDeltaMM": [
+              -19.324879,
+              1.040731
+            ],
+            "bootRadialSpanMM": [
+              49.000013,
+              49.000013
+            ],
+            "allowableSpanDeltaMM": [
+              -19.324879,
+              1.040731
+            ],
+            "spanPlacementWindowMM": 20.36561
+          },
+          {
+            "i": 21,
+            "azimuthDeg": 127.928679,
+            "rayXYZ": [
+              -0.788777,
+              0.0,
+              0.61468
+            ],
+            "yM": 0.121321,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 29.592193,
+            "pantsRadiusMM": 51.503802,
+            "bootHitsMM": [
+              46.74787
+            ],
+            "bootRadiusMM": 46.74787,
+            "freeBandMM": 21.911609,
+            "allowableRadialDeltaMM": [
+              -17.155677,
+              4.755932
+            ],
+            "bootRadialSpanMM": [
+              46.74787,
+              46.74787
+            ],
+            "allowableSpanDeltaMM": [
+              -17.155677,
+              4.755932
+            ],
+            "spanPlacementWindowMM": 21.911609
+          }
+        ]
+      }
+    },
+    "right": {
+      "originXZ": [
+        0.046244,
+        0.033743
+      ],
+      "levels": {
+        "rim": [
+          {
+            "i": 0,
+            "azimuthDeg": -97.727662,
+            "rayXYZ": [
+              -0.990918,
+              0.0,
+              0.134465
+            ],
+            "yM": 0.254485,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 20.905043,
+            "pantsRadiusMM": 34.273657,
+            "bootHitsMM": [
+              34.131227,
+              36.11438
+            ],
+            "bootRadiusMM": 34.131227,
+            "rimVertexXYZ": [
+              0.012423,
+              0.254485,
+              0.038332
+            ],
+            "freeBandMM": 13.368614,
+            "allowableRadialDeltaMM": [
+              -13.226184,
+              0.14243
+            ],
+            "bootRadialSpanMM": [
+              34.131227,
+              36.11438
+            ],
+            "allowableSpanDeltaMM": [
+              -13.226184,
+              -1.840723
+            ],
+            "spanPlacementWindowMM": 11.385461
+          },
+          {
+            "i": 1,
+            "azimuthDeg": -72.739105,
+            "rayXYZ": [
+              -0.954964,
+              0.0,
+              -0.296723
+            ],
+            "yM": 0.252068,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 21.265228,
+            "pantsRadiusMM": 33.957834,
+            "bootHitsMM": [
+              34.823772,
+              36.974651
+            ],
+            "bootRadiusMM": 34.823772,
+            "rimVertexXYZ": [
+              0.012989,
+              0.252068,
+              0.02341
+            ],
+            "freeBandMM": 12.692606,
+            "allowableRadialDeltaMM": [
+              -13.558544,
+              -0.865938
+            ],
+            "bootRadialSpanMM": [
+              34.823772,
+              36.974651
+            ],
+            "allowableSpanDeltaMM": [
+              -13.558544,
+              -3.016817
+            ],
+            "spanPlacementWindowMM": 10.541727
+          },
+          {
+            "i": 2,
+            "azimuthDeg": -47.544226,
+            "rayXYZ": [
+              -0.737799,
+              0.0,
+              -0.675021
+            ],
+            "yM": 0.251863,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 22.036994,
+            "pantsRadiusMM": 37.937585,
+            "bootHitsMM": [
+              40.442574
+            ],
+            "bootRadiusMM": 37.695993,
+            "rimVertexXYZ": [
+              0.018432,
+              0.251863,
+              0.008297
+            ],
+            "freeBandMM": 15.900591,
+            "allowableRadialDeltaMM": [
+              -15.658999,
+              0.241592
+            ],
+            "bootRadialSpanMM": [
+              37.695993,
+              40.442574
+            ],
+            "allowableSpanDeltaMM": [
+              -15.658999,
+              -2.504989
+            ],
+            "spanPlacementWindowMM": 13.15401
+          },
+          {
+            "i": 3,
+            "azimuthDeg": -30.134563,
+            "rayXYZ": [
+              -0.502033,
+              0.0,
+              -0.864849
+            ],
+            "yM": 0.252217,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 25.804962,
+            "pantsRadiusMM": 41.376793,
+            "bootHitsMM": [
+              41.097551,
+              45.411546
+            ],
+            "bootRadiusMM": 41.097551,
+            "rimVertexXYZ": [
+              0.025612,
+              0.252217,
+              -0.0018
+            ],
+            "freeBandMM": 15.571831,
+            "allowableRadialDeltaMM": [
+              -15.292589,
+              0.279242
+            ],
+            "bootRadialSpanMM": [
+              41.097551,
+              45.411546
+            ],
+            "allowableSpanDeltaMM": [
+              -15.292589,
+              -4.034753
+            ],
+            "spanPlacementWindowMM": 11.257836
+          },
+          {
+            "i": 4,
+            "azimuthDeg": -16.563935,
+            "rayXYZ": [
+              -0.285085,
+              0.0,
+              -0.958502
+            ],
+            "yM": 0.251222,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 30.680719,
+            "pantsRadiusMM": 44.589373,
+            "bootHitsMM": [
+              50.911442
+            ],
+            "bootRadiusMM": 45.26122,
+            "rimVertexXYZ": [
+              0.033341,
+              0.251222,
+              -0.00964
+            ],
+            "freeBandMM": 13.908654,
+            "allowableRadialDeltaMM": [
+              -14.580501,
+              -0.671847
+            ],
+            "bootRadialSpanMM": [
+              45.26122,
+              50.911442
+            ],
+            "allowableSpanDeltaMM": [
+              -14.580501,
+              -6.322069
+            ],
+            "spanPlacementWindowMM": 8.258432
+          },
+          {
+            "i": 5,
+            "azimuthDeg": -6.588808,
+            "rayXYZ": [
+              -0.114743,
+              0.0,
+              -0.993395
+            ],
+            "yM": 0.250511,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 36.160911,
+            "pantsRadiusMM": 48.336846,
+            "bootHitsMM": [
+              49.074519,
+              55.269191
+            ],
+            "bootRadiusMM": 49.074519,
+            "rimVertexXYZ": [
+              0.040613,
+              0.250511,
+              -0.015008
+            ],
+            "freeBandMM": 12.175935,
+            "allowableRadialDeltaMM": [
+              -12.913608,
+              -0.737673
+            ],
+            "bootRadialSpanMM": [
+              49.074519,
+              55.269191
+            ],
+            "allowableSpanDeltaMM": [
+              -12.913608,
+              -6.932345
+            ],
+            "spanPlacementWindowMM": 5.981263
+          },
+          {
+            "i": 6,
+            "azimuthDeg": 4.427839,
+            "rayXYZ": [
+              0.077203,
+              0.0,
+              -0.997015
+            ],
+            "yM": 0.251459,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 37.9948,
+            "pantsRadiusMM": 52.810133,
+            "bootHitsMM": [
+              55.794822
+            ],
+            "bootRadiusMM": 49.733916,
+            "rimVertexXYZ": [
+              0.050084,
+              0.251459,
+              -0.015843
+            ],
+            "freeBandMM": 14.815333,
+            "allowableRadialDeltaMM": [
+              -11.739116,
+              3.076217
+            ],
+            "bootRadialSpanMM": [
+              49.733916,
+              55.794822
+            ],
+            "allowableSpanDeltaMM": [
+              -11.739116,
+              -2.984689
+            ],
+            "spanPlacementWindowMM": 8.754427
+          },
+          {
+            "i": 7,
+            "azimuthDeg": 15.037618,
+            "rayXYZ": [
+              0.259453,
+              0.0,
+              -0.965756
+            ],
+            "yM": 0.251985,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 41.13698,
+            "pantsRadiusMM": 56.393605,
+            "bootHitsMM": [
+              49.09176,
+              54.291283
+            ],
+            "bootRadiusMM": 49.09176,
+            "rimVertexXYZ": [
+              0.058981,
+              0.251985,
+              -0.013668
+            ],
+            "freeBandMM": 15.256625,
+            "allowableRadialDeltaMM": [
+              -7.95478,
+              7.301845
+            ],
+            "bootRadialSpanMM": [
+              49.09176,
+              54.291283
+            ],
+            "allowableSpanDeltaMM": [
+              -7.95478,
+              2.102322
+            ],
+            "spanPlacementWindowMM": 10.057102
+          },
+          {
+            "i": 8,
+            "azimuthDeg": 24.654911,
+            "rayXYZ": [
+              0.417152,
+              0.0,
+              -0.908837
+            ],
+            "yM": 0.250763,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 40.850576,
+            "pantsRadiusMM": 54.119571,
+            "bootHitsMM": [
+              50.587538
+            ],
+            "bootRadiusMM": 46.051022,
+            "rimVertexXYZ": [
+              0.065455,
+              0.250763,
+              -0.00811
+            ],
+            "freeBandMM": 13.268995,
+            "allowableRadialDeltaMM": [
+              -5.200446,
+              8.068549
+            ],
+            "bootRadialSpanMM": [
+              46.051022,
+              50.587538
+            ],
+            "allowableSpanDeltaMM": [
+              -5.200446,
+              3.532033
+            ],
+            "spanPlacementWindowMM": 8.732479
+          },
+          {
+            "i": 9,
+            "azimuthDeg": 40.257366,
+            "rayXYZ": [
+              0.646222,
+              0.0,
+              -0.763149
+            ],
+            "yM": 0.250201,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 41.167962,
+            "pantsRadiusMM": 51.076418,
+            "bootHitsMM": [
+              39.95997,
+              42.433461
+            ],
+            "bootRadiusMM": 39.95997,
+            "rimVertexXYZ": [
+              0.072067,
+              0.250201,
+              0.003247
+            ],
+            "freeBandMM": 9.908456,
+            "allowableRadialDeltaMM": [
+              1.207992,
+              11.116448
+            ],
+            "bootRadialSpanMM": [
+              39.95997,
+              42.433461
+            ],
+            "allowableSpanDeltaMM": [
+              1.207992,
+              8.642957
+            ],
+            "spanPlacementWindowMM": 7.434965
+          },
+          {
+            "i": 10,
+            "azimuthDeg": 62.923656,
+            "rayXYZ": [
+              0.890401,
+              0.0,
+              -0.455177
+            ],
+            "yM": 0.251524,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 41.559391,
+            "pantsRadiusMM": 53.021125,
+            "bootHitsMM": [
+              33.069381,
+              34.832229
+            ],
+            "bootRadiusMM": 33.069381,
+            "rimVertexXYZ": [
+              0.075689,
+              0.251524,
+              0.01869
+            ],
+            "freeBandMM": 11.461734,
+            "allowableRadialDeltaMM": [
+              8.49001,
+              19.951744
+            ],
+            "bootRadialSpanMM": [
+              33.069381,
+              34.832229
+            ],
+            "allowableSpanDeltaMM": [
+              8.49001,
+              18.188896
+            ],
+            "spanPlacementWindowMM": 9.698886
+          },
+          {
+            "i": 11,
+            "azimuthDeg": 94.398139,
+            "rayXYZ": [
+              0.997055,
+              0.0,
+              0.076687
+            ],
+            "yM": 0.253332,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 45.369723,
+            "pantsRadiusMM": 57.739459,
+            "bootHitsMM": [
+              32.137493
+            ],
+            "bootRadiusMM": 30.606377,
+            "rimVertexXYZ": [
+              0.076761,
+              0.253332,
+              0.03609
+            ],
+            "freeBandMM": 12.369736,
+            "allowableRadialDeltaMM": [
+              14.763346,
+              27.133082
+            ],
+            "bootRadialSpanMM": [
+              30.606377,
+              32.137493
+            ],
+            "allowableSpanDeltaMM": [
+              14.763346,
+              25.601966
+            ],
+            "spanPlacementWindowMM": 10.83862
+          },
+          {
+            "i": 12,
+            "azimuthDeg": 127.92837,
+            "rayXYZ": [
+              0.78878,
+              0.0,
+              0.614676
+            ],
+            "yM": 0.254898,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 44.044209,
+            "pantsRadiusMM": 57.558559,
+            "bootHitsMM": [
+              32.598432,
+              34.191937
+            ],
+            "bootRadiusMM": 32.598432,
+            "rimVertexXYZ": [
+              0.071957,
+              0.254898,
+              0.05378
+            ],
+            "freeBandMM": 13.51435,
+            "allowableRadialDeltaMM": [
+              11.445777,
+              24.960127
+            ],
+            "bootRadialSpanMM": [
+              32.598432,
+              34.191937
+            ],
+            "allowableSpanDeltaMM": [
+              11.445777,
+              23.366622
+            ],
+            "spanPlacementWindowMM": 11.920845
+          },
+          {
+            "i": 13,
+            "azimuthDeg": 146.152222,
+            "rayXYZ": [
+              0.556988,
+              0.0,
+              0.83052
+            ],
+            "yM": 0.25632,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 43.305437,
+            "pantsRadiusMM": 57.381784,
+            "bootHitsMM": [
+              37.685242,
+              39.518331
+            ],
+            "bootRadiusMM": 37.685242,
+            "rimVertexXYZ": [
+              0.067234,
+              0.25632,
+              0.065041
+            ],
+            "freeBandMM": 14.076347,
+            "allowableRadialDeltaMM": [
+              5.620195,
+              19.696542
+            ],
+            "bootRadialSpanMM": [
+              37.685242,
+              39.518331
+            ],
+            "allowableSpanDeltaMM": [
+              5.620195,
+              17.863453
+            ],
+            "spanPlacementWindowMM": 12.243258
+          },
+          {
+            "i": 14,
+            "azimuthDeg": 152.702876,
+            "rayXYZ": [
+              0.458605,
+              0.0,
+              0.88864
+            ],
+            "yM": 0.256331,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 43.719445,
+            "pantsRadiusMM": 58.209387,
+            "bootHitsMM": [
+              41.292112
+            ],
+            "bootRadiusMM": 39.431577,
+            "rimVertexXYZ": [
+              0.064328,
+              0.256331,
+              0.068783
+            ],
+            "freeBandMM": 14.489942,
+            "allowableRadialDeltaMM": [
+              4.287868,
+              18.77781
+            ],
+            "bootRadialSpanMM": [
+              39.431577,
+              41.292112
+            ],
+            "allowableSpanDeltaMM": [
+              4.287868,
+              16.917275
+            ],
+            "spanPlacementWindowMM": 12.629407
+          },
+          {
+            "i": 15,
+            "azimuthDeg": 160.057019,
+            "rayXYZ": [
+              0.341085,
+              0.0,
+              0.940033
+            ],
+            "yM": 0.256053,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 44.809619,
+            "pantsRadiusMM": 57.9749,
+            "bootHitsMM": [
+              43.606716
+            ],
+            "bootRadiusMM": 41.653744,
+            "rimVertexXYZ": [
+              0.060452,
+              0.256053,
+              0.072899
+            ],
+            "freeBandMM": 13.165281,
+            "allowableRadialDeltaMM": [
+              3.155875,
+              16.321156
+            ],
+            "bootRadialSpanMM": [
+              41.653744,
+              43.606716
+            ],
+            "allowableSpanDeltaMM": [
+              3.155875,
+              14.368184
+            ],
+            "spanPlacementWindowMM": 11.212309
+          },
+          {
+            "i": 16,
+            "azimuthDeg": 170.434325,
+            "rayXYZ": [
+              0.166178,
+              0.0,
+              0.986096
+            ],
+            "yM": 0.255775,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 43.932697,
+            "pantsRadiusMM": 59.303558,
+            "bootHitsMM": [
+              46.152914
+            ],
+            "bootRadiusMM": 44.026672,
+            "rimVertexXYZ": [
+              0.053561,
+              0.255775,
+              0.077157
+            ],
+            "freeBandMM": 15.370861,
+            "allowableRadialDeltaMM": [
+              -0.093975,
+              15.276886
+            ],
+            "bootRadialSpanMM": [
+              44.026672,
+              46.152914
+            ],
+            "allowableSpanDeltaMM": [
+              -0.093975,
+              13.150644
+            ],
+            "spanPlacementWindowMM": 13.244619
+          },
+          {
+            "i": 17,
+            "azimuthDeg": -179.96092,
+            "rayXYZ": [
+              -0.000682,
+              0.0,
+              1.0
+            ],
+            "yM": 0.255912,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 44.695312,
+            "pantsRadiusMM": 62.47691,
+            "bootHitsMM": [
+              44.725417,
+              46.92085
+            ],
+            "bootRadiusMM": 44.725417,
+            "rimVertexXYZ": [
+              0.046214,
+              0.255912,
+              0.078468
+            ],
+            "freeBandMM": 17.781598,
+            "allowableRadialDeltaMM": [
+              -0.030105,
+              17.751493
+            ],
+            "bootRadialSpanMM": [
+              44.725417,
+              46.92085
+            ],
+            "allowableSpanDeltaMM": [
+              -0.030105,
+              15.55606
+            ],
+            "spanPlacementWindowMM": 15.586165
+          },
+          {
+            "i": 18,
+            "azimuthDeg": -169.670953,
+            "rayXYZ": [
+              -0.179301,
+              0.0,
+              0.983794
+            ],
+            "yM": 0.255581,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 41.347422,
+            "pantsRadiusMM": 55.295628,
+            "bootHitsMM": [
+              44.671219
+            ],
+            "bootRadiusMM": 42.370236,
+            "rimVertexXYZ": [
+              0.038647,
+              0.255581,
+              0.075426
+            ],
+            "freeBandMM": 13.948206,
+            "allowableRadialDeltaMM": [
+              -1.022814,
+              12.925392
+            ],
+            "bootRadialSpanMM": [
+              42.370236,
+              44.671219
+            ],
+            "allowableSpanDeltaMM": [
+              -1.022814,
+              10.624409
+            ],
+            "spanPlacementWindowMM": 11.647223
+          },
+          {
+            "i": 19,
+            "azimuthDeg": -157.598155,
+            "rayXYZ": [
+              -0.3811,
+              0.0,
+              0.924534
+            ],
+            "yM": 0.256332,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 36.623194,
+            "pantsRadiusMM": 48.493453,
+            "bootHitsMM": [
+              42.37138
+            ],
+            "bootRadiusMM": 39.978424,
+            "rimVertexXYZ": [
+              0.031008,
+              0.256332,
+              0.070704
+            ],
+            "freeBandMM": 11.870259,
+            "allowableRadialDeltaMM": [
+              -3.35523,
+              8.515029
+            ],
+            "bootRadialSpanMM": [
+              39.978424,
+              42.37138
+            ],
+            "allowableSpanDeltaMM": [
+              -3.35523,
+              6.122073
+            ],
+            "spanPlacementWindowMM": 9.477303
+          },
+          {
+            "i": 20,
+            "azimuthDeg": -143.06112,
+            "rayXYZ": [
+              -0.600963,
+              0.0,
+              0.799277
+            ],
+            "yM": 0.256382,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 28.587704,
+            "pantsRadiusMM": 42.239204,
+            "bootHitsMM": [
+              36.372122,
+              38.511086
+            ],
+            "bootRadiusMM": 36.372122,
+            "rimVertexXYZ": [
+              0.024386,
+              0.256382,
+              0.062814
+            ],
+            "freeBandMM": 13.6515,
+            "allowableRadialDeltaMM": [
+              -7.784418,
+              5.867082
+            ],
+            "bootRadialSpanMM": [
+              36.372122,
+              38.511086
+            ],
+            "allowableSpanDeltaMM": [
+              -7.784418,
+              3.728118
+            ],
+            "spanPlacementWindowMM": 11.512536
+          },
+          {
+            "i": 21,
+            "azimuthDeg": -123.858489,
+            "rayXYZ": [
+              -0.830416,
+              0.0,
+              0.557144
+            ],
+            "yM": 0.255785,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 2
+            },
+            "skinRadiusMM": 24.402063,
+            "pantsRadiusMM": 36.630372,
+            "bootHitsMM": [
+              35.048299,
+              37.006331
+            ],
+            "bootRadiusMM": 35.048299,
+            "rimVertexXYZ": [
+              0.01714,
+              0.255785,
+              0.05327
+            ],
+            "freeBandMM": 12.228309,
+            "allowableRadialDeltaMM": [
+              -10.646236,
+              1.582073
+            ],
+            "bootRadialSpanMM": [
+              35.048299,
+              37.006331
+            ],
+            "allowableSpanDeltaMM": [
+              -10.646236,
+              -0.375959
+            ],
+            "spanPlacementWindowMM": 10.270277
+          }
+        ],
+        "shaft": [
+          {
+            "i": 0,
+            "azimuthDeg": -97.727662,
+            "rayXYZ": [
+              -0.990918,
+              0.0,
+              0.134465
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 17.909692,
+            "pantsRadiusMM": 30.911886,
+            "bootHitsMM": [
+              28.769806
+            ],
+            "bootRadiusMM": 28.769806,
+            "freeBandMM": 13.002194,
+            "allowableRadialDeltaMM": [
+              -10.860114,
+              2.14208
+            ],
+            "bootRadialSpanMM": [
+              28.769806,
+              28.769806
+            ],
+            "allowableSpanDeltaMM": [
+              -10.860114,
+              2.14208
+            ],
+            "spanPlacementWindowMM": 13.002194
+          },
+          {
+            "i": 1,
+            "azimuthDeg": -72.739105,
+            "rayXYZ": [
+              -0.954964,
+              0.0,
+              -0.296723
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 20.37402,
+            "pantsRadiusMM": 30.570799,
+            "bootHitsMM": [
+              30.933794
+            ],
+            "bootRadiusMM": 30.933794,
+            "freeBandMM": 10.196779,
+            "allowableRadialDeltaMM": [
+              -10.559774,
+              -0.362995
+            ],
+            "bootRadialSpanMM": [
+              30.933794,
+              30.933794
+            ],
+            "allowableSpanDeltaMM": [
+              -10.559774,
+              -0.362995
+            ],
+            "spanPlacementWindowMM": 10.196779
+          },
+          {
+            "i": 2,
+            "azimuthDeg": -47.544226,
+            "rayXYZ": [
+              -0.737799,
+              0.0,
+              -0.675021
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 23.613322,
+            "pantsRadiusMM": 33.720546,
+            "bootHitsMM": [
+              37.753643
+            ],
+            "bootRadiusMM": 37.753643,
+            "freeBandMM": 10.107224,
+            "allowableRadialDeltaMM": [
+              -14.140321,
+              -4.033097
+            ],
+            "bootRadialSpanMM": [
+              37.753643,
+              37.753643
+            ],
+            "allowableSpanDeltaMM": [
+              -14.140321,
+              -4.033097
+            ],
+            "spanPlacementWindowMM": 10.107224
+          },
+          {
+            "i": 3,
+            "azimuthDeg": -30.134563,
+            "rayXYZ": [
+              -0.502033,
+              0.0,
+              -0.864849
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 27.797749,
+            "pantsRadiusMM": 37.723096,
+            "bootHitsMM": [
+              46.469783
+            ],
+            "bootRadiusMM": 46.469783,
+            "freeBandMM": 9.925347,
+            "allowableRadialDeltaMM": [
+              -18.672034,
+              -8.746687
+            ],
+            "bootRadialSpanMM": [
+              46.469783,
+              46.469783
+            ],
+            "allowableSpanDeltaMM": [
+              -18.672034,
+              -8.746687
+            ],
+            "spanPlacementWindowMM": 9.925347
+          },
+          {
+            "i": 4,
+            "azimuthDeg": -16.563935,
+            "rayXYZ": [
+              -0.285085,
+              0.0,
+              -0.958502
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 32.392434,
+            "pantsRadiusMM": 40.594537,
+            "bootHitsMM": [
+              55.507
+            ],
+            "bootRadiusMM": 55.507,
+            "freeBandMM": 8.202103,
+            "allowableRadialDeltaMM": [
+              -23.114566,
+              -14.912463
+            ],
+            "bootRadialSpanMM": [
+              55.507,
+              55.507
+            ],
+            "allowableSpanDeltaMM": [
+              -23.114566,
+              -14.912463
+            ],
+            "spanPlacementWindowMM": 8.202103
+          },
+          {
+            "i": 5,
+            "azimuthDeg": -6.588808,
+            "rayXYZ": [
+              -0.114743,
+              0.0,
+              -0.993395
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 37.407389,
+            "pantsRadiusMM": 44.649819,
+            "bootHitsMM": [
+              60.567471
+            ],
+            "bootRadiusMM": 60.567471,
+            "freeBandMM": 7.24243,
+            "allowableRadialDeltaMM": [
+              -23.160082,
+              -15.917652
+            ],
+            "bootRadialSpanMM": [
+              60.567471,
+              60.567471
+            ],
+            "allowableSpanDeltaMM": [
+              -23.160082,
+              -15.917652
+            ],
+            "spanPlacementWindowMM": 7.24243
+          },
+          {
+            "i": 6,
+            "azimuthDeg": 4.427839,
+            "rayXYZ": [
+              0.077203,
+              0.0,
+              -0.997015
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 39.894665,
+            "pantsRadiusMM": 51.722075,
+            "bootHitsMM": [
+              61.577335
+            ],
+            "bootRadiusMM": 61.577335,
+            "freeBandMM": 11.82741,
+            "allowableRadialDeltaMM": [
+              -21.68267,
+              -9.85526
+            ],
+            "bootRadialSpanMM": [
+              61.577335,
+              61.577335
+            ],
+            "allowableSpanDeltaMM": [
+              -21.68267,
+              -9.85526
+            ],
+            "spanPlacementWindowMM": 11.82741
+          },
+          {
+            "i": 7,
+            "azimuthDeg": 15.037618,
+            "rayXYZ": [
+              0.259453,
+              0.0,
+              -0.965756
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 42.248812,
+            "pantsRadiusMM": 54.686937,
+            "bootHitsMM": [
+              59.120487
+            ],
+            "bootRadiusMM": 59.120487,
+            "freeBandMM": 12.438125,
+            "allowableRadialDeltaMM": [
+              -16.871675,
+              -4.43355
+            ],
+            "bootRadialSpanMM": [
+              59.120487,
+              59.120487
+            ],
+            "allowableSpanDeltaMM": [
+              -16.871675,
+              -4.43355
+            ],
+            "spanPlacementWindowMM": 12.438125
+          },
+          {
+            "i": 8,
+            "azimuthDeg": 24.654911,
+            "rayXYZ": [
+              0.417152,
+              0.0,
+              -0.908837
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 40.851916,
+            "pantsRadiusMM": 56.415007,
+            "bootHitsMM": [
+              54.791228
+            ],
+            "bootRadiusMM": 54.791228,
+            "freeBandMM": 15.563091,
+            "allowableRadialDeltaMM": [
+              -13.939312,
+              1.623779
+            ],
+            "bootRadialSpanMM": [
+              54.791228,
+              54.791228
+            ],
+            "allowableSpanDeltaMM": [
+              -13.939312,
+              1.623779
+            ],
+            "spanPlacementWindowMM": 15.563091
+          },
+          {
+            "i": 9,
+            "azimuthDeg": 40.257366,
+            "rayXYZ": [
+              0.646222,
+              0.0,
+              -0.763149
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 39.509165,
+            "pantsRadiusMM": 54.190271,
+            "bootHitsMM": [
+              45.848089
+            ],
+            "bootRadiusMM": 45.848089,
+            "freeBandMM": 14.681106,
+            "allowableRadialDeltaMM": [
+              -6.338924,
+              8.342182
+            ],
+            "bootRadialSpanMM": [
+              45.848089,
+              45.848089
+            ],
+            "allowableSpanDeltaMM": [
+              -6.338924,
+              8.342182
+            ],
+            "spanPlacementWindowMM": 14.681106
+          },
+          {
+            "i": 10,
+            "azimuthDeg": 62.923656,
+            "rayXYZ": [
+              0.890401,
+              0.0,
+              -0.455177
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 37.895063,
+            "pantsRadiusMM": 47.152094,
+            "bootHitsMM": [
+              35.78853
+            ],
+            "bootRadiusMM": 35.78853,
+            "freeBandMM": 9.257031,
+            "allowableRadialDeltaMM": [
+              2.106533,
+              11.363564
+            ],
+            "bootRadialSpanMM": [
+              35.78853,
+              35.78853
+            ],
+            "allowableSpanDeltaMM": [
+              2.106533,
+              11.363564
+            ],
+            "spanPlacementWindowMM": 9.257031
+          },
+          {
+            "i": 11,
+            "azimuthDeg": 94.398139,
+            "rayXYZ": [
+              0.997055,
+              0.0,
+              0.076687
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 35.844825,
+            "pantsRadiusMM": 51.58015,
+            "bootHitsMM": [
+              30.897723
+            ],
+            "bootRadiusMM": 30.897723,
+            "freeBandMM": 15.735325,
+            "allowableRadialDeltaMM": [
+              4.947102,
+              20.682427
+            ],
+            "bootRadialSpanMM": [
+              30.897723,
+              30.897723
+            ],
+            "allowableSpanDeltaMM": [
+              4.947102,
+              20.682427
+            ],
+            "spanPlacementWindowMM": 15.735325
+          },
+          {
+            "i": 12,
+            "azimuthDeg": 127.92837,
+            "rayXYZ": [
+              0.78878,
+              0.0,
+              0.614676
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 31.564963,
+            "pantsRadiusMM": 53.846766,
+            "bootHitsMM": [
+              33.935229
+            ],
+            "bootRadiusMM": 33.935229,
+            "freeBandMM": 22.281803,
+            "allowableRadialDeltaMM": [
+              -2.370266,
+              19.911537
+            ],
+            "bootRadialSpanMM": [
+              33.935229,
+              33.935229
+            ],
+            "allowableSpanDeltaMM": [
+              -2.370266,
+              19.911537
+            ],
+            "spanPlacementWindowMM": 22.281803
+          },
+          {
+            "i": 13,
+            "azimuthDeg": 146.152222,
+            "rayXYZ": [
+              0.556988,
+              0.0,
+              0.83052
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 31.835771,
+            "pantsRadiusMM": 53.633935,
+            "bootHitsMM": [
+              40.894755
+            ],
+            "bootRadiusMM": 40.894755,
+            "freeBandMM": 21.798164,
+            "allowableRadialDeltaMM": [
+              -9.058984,
+              12.73918
+            ],
+            "bootRadialSpanMM": [
+              40.894755,
+              40.894755
+            ],
+            "allowableSpanDeltaMM": [
+              -9.058984,
+              12.73918
+            ],
+            "spanPlacementWindowMM": 21.798164
+          },
+          {
+            "i": 14,
+            "azimuthDeg": 152.702876,
+            "rayXYZ": [
+              0.458605,
+              0.0,
+              0.88864
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 32.751353,
+            "pantsRadiusMM": 55.196199,
+            "bootHitsMM": [
+              43.705688
+            ],
+            "bootRadiusMM": 43.705688,
+            "freeBandMM": 22.444846,
+            "allowableRadialDeltaMM": [
+              -10.954335,
+              11.490511
+            ],
+            "bootRadialSpanMM": [
+              43.705688,
+              43.705688
+            ],
+            "allowableSpanDeltaMM": [
+              -10.954335,
+              11.490511
+            ],
+            "spanPlacementWindowMM": 22.444846
+          },
+          {
+            "i": 15,
+            "azimuthDeg": 160.057019,
+            "rayXYZ": [
+              0.341085,
+              0.0,
+              0.940033
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 34.711303,
+            "pantsRadiusMM": 55.791859,
+            "bootHitsMM": [
+              45.757638
+            ],
+            "bootRadiusMM": 45.757638,
+            "freeBandMM": 21.080556,
+            "allowableRadialDeltaMM": [
+              -11.046335,
+              10.034221
+            ],
+            "bootRadialSpanMM": [
+              45.757638,
+              45.757638
+            ],
+            "allowableSpanDeltaMM": [
+              -11.046335,
+              10.034221
+            ],
+            "spanPlacementWindowMM": 21.080556
+          },
+          {
+            "i": 16,
+            "azimuthDeg": 170.434325,
+            "rayXYZ": [
+              0.166178,
+              0.0,
+              0.986096
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 37.240766,
+            "pantsRadiusMM": 56.241647,
+            "bootHitsMM": [
+              45.237746
+            ],
+            "bootRadiusMM": 45.237746,
+            "freeBandMM": 19.000881,
+            "allowableRadialDeltaMM": [
+              -7.99698,
+              11.003901
+            ],
+            "bootRadialSpanMM": [
+              45.237746,
+              45.237746
+            ],
+            "allowableSpanDeltaMM": [
+              -7.99698,
+              11.003901
+            ],
+            "spanPlacementWindowMM": 19.000881
+          },
+          {
+            "i": 17,
+            "azimuthDeg": -179.96092,
+            "rayXYZ": [
+              -0.000682,
+              0.0,
+              1.0
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 37.253228,
+            "pantsRadiusMM": 57.378258,
+            "bootHitsMM": [
+              43.933233
+            ],
+            "bootRadiusMM": 43.933233,
+            "freeBandMM": 20.12503,
+            "allowableRadialDeltaMM": [
+              -6.680005,
+              13.445025
+            ],
+            "bootRadialSpanMM": [
+              43.933233,
+              43.933233
+            ],
+            "allowableSpanDeltaMM": [
+              -6.680005,
+              13.445025
+            ],
+            "spanPlacementWindowMM": 20.12503
+          },
+          {
+            "i": 18,
+            "azimuthDeg": -169.670953,
+            "rayXYZ": [
+              -0.179301,
+              0.0,
+              0.983794
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 34.855883,
+            "pantsRadiusMM": 51.885307,
+            "bootHitsMM": [
+              40.795139
+            ],
+            "bootRadiusMM": 40.795139,
+            "freeBandMM": 17.029424,
+            "allowableRadialDeltaMM": [
+              -5.939256,
+              11.090168
+            ],
+            "bootRadialSpanMM": [
+              40.795139,
+              40.795139
+            ],
+            "allowableSpanDeltaMM": [
+              -5.939256,
+              11.090168
+            ],
+            "spanPlacementWindowMM": 17.029424
+          },
+          {
+            "i": 19,
+            "azimuthDeg": -157.598155,
+            "rayXYZ": [
+              -0.3811,
+              0.0,
+              0.924534
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 28.411246,
+            "pantsRadiusMM": 46.416134,
+            "bootHitsMM": [
+              36.753739
+            ],
+            "bootRadiusMM": 36.753739,
+            "freeBandMM": 18.004888,
+            "allowableRadialDeltaMM": [
+              -8.342493,
+              9.662395
+            ],
+            "bootRadialSpanMM": [
+              36.753739,
+              36.753739
+            ],
+            "allowableSpanDeltaMM": [
+              -8.342493,
+              9.662395
+            ],
+            "spanPlacementWindowMM": 18.004888
+          },
+          {
+            "i": 20,
+            "azimuthDeg": -143.06112,
+            "rayXYZ": [
+              -0.600963,
+              0.0,
+              0.799277
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 21.59064,
+            "pantsRadiusMM": 40.39556,
+            "bootHitsMM": [
+              32.03041
+            ],
+            "bootRadiusMM": 32.03041,
+            "freeBandMM": 18.80492,
+            "allowableRadialDeltaMM": [
+              -10.43977,
+              8.36515
+            ],
+            "bootRadialSpanMM": [
+              32.03041,
+              32.03041
+            ],
+            "allowableSpanDeltaMM": [
+              -10.43977,
+              8.36515
+            ],
+            "spanPlacementWindowMM": 18.80492
+          },
+          {
+            "i": 21,
+            "azimuthDeg": -123.858489,
+            "rayXYZ": [
+              -0.830416,
+              0.0,
+              0.557144
+            ],
+            "yM": 0.190878,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 18.439399,
+            "pantsRadiusMM": 33.805504,
+            "bootHitsMM": [
+              28.731935
+            ],
+            "bootRadiusMM": 28.731935,
+            "freeBandMM": 15.366105,
+            "allowableRadialDeltaMM": [
+              -10.292536,
+              5.073569
+            ],
+            "bootRadialSpanMM": [
+              28.731935,
+              28.731935
+            ],
+            "allowableSpanDeltaMM": [
+              -10.292536,
+              5.073569
+            ],
+            "spanPlacementWindowMM": 15.366105
+          }
+        ],
+        "ankle": [
+          {
+            "i": 0,
+            "azimuthDeg": -97.727662,
+            "rayXYZ": [
+              -0.990918,
+              0.0,
+              0.134465
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 26.916215,
+            "pantsRadiusMM": 38.614554,
+            "bootHitsMM": [
+              24.92933
+            ],
+            "bootRadiusMM": 24.92933,
+            "freeBandMM": 11.698339,
+            "allowableRadialDeltaMM": [
+              1.986885,
+              13.685224
+            ],
+            "bootRadialSpanMM": [
+              24.92933,
+              24.92933
+            ],
+            "allowableSpanDeltaMM": [
+              1.986885,
+              13.685224
+            ],
+            "spanPlacementWindowMM": 11.698339
+          },
+          {
+            "i": 1,
+            "azimuthDeg": -72.739105,
+            "rayXYZ": [
+              -0.954964,
+              0.0,
+              -0.296723
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 32.113796,
+            "pantsRadiusMM": 41.52344,
+            "bootHitsMM": [
+              27.661172
+            ],
+            "bootRadiusMM": 27.661172,
+            "freeBandMM": 9.409644,
+            "allowableRadialDeltaMM": [
+              4.452624,
+              13.862268
+            ],
+            "bootRadialSpanMM": [
+              27.661172,
+              27.661172
+            ],
+            "allowableSpanDeltaMM": [
+              4.452624,
+              13.862268
+            ],
+            "spanPlacementWindowMM": 9.409644
+          },
+          {
+            "i": 2,
+            "azimuthDeg": -47.544226,
+            "rayXYZ": [
+              -0.737799,
+              0.0,
+              -0.675021
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 36.022361,
+            "pantsRadiusMM": 44.880249,
+            "bootHitsMM": [
+              38.961905
+            ],
+            "bootRadiusMM": 38.961905,
+            "freeBandMM": 8.857888,
+            "allowableRadialDeltaMM": [
+              -2.939544,
+              5.918344
+            ],
+            "bootRadialSpanMM": [
+              38.961905,
+              38.961905
+            ],
+            "allowableSpanDeltaMM": [
+              -2.939544,
+              5.918344
+            ],
+            "spanPlacementWindowMM": 8.857888
+          },
+          {
+            "i": 3,
+            "azimuthDeg": -30.134563,
+            "rayXYZ": [
+              -0.502033,
+              0.0,
+              -0.864849
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 38.369811,
+            "pantsRadiusMM": 47.451964,
+            "bootHitsMM": [
+              57.604459
+            ],
+            "bootRadiusMM": 57.604459,
+            "freeBandMM": 9.082153,
+            "allowableRadialDeltaMM": [
+              -19.234648,
+              -10.152495
+            ],
+            "bootRadialSpanMM": [
+              57.604459,
+              57.604459
+            ],
+            "allowableSpanDeltaMM": [
+              -19.234648,
+              -10.152495
+            ],
+            "spanPlacementWindowMM": 9.082153
+          },
+          {
+            "i": 4,
+            "azimuthDeg": -16.563935,
+            "rayXYZ": [
+              -0.285085,
+              0.0,
+              -0.958502
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 45.025724,
+            "pantsRadiusMM": 54.726881,
+            "bootHitsMM": [
+              77.80372
+            ],
+            "bootRadiusMM": 77.80372,
+            "freeBandMM": 9.701157,
+            "allowableRadialDeltaMM": [
+              -32.777996,
+              -23.076839
+            ],
+            "bootRadialSpanMM": [
+              77.80372,
+              77.80372
+            ],
+            "allowableSpanDeltaMM": [
+              -32.777996,
+              -23.076839
+            ],
+            "spanPlacementWindowMM": 9.701157
+          },
+          {
+            "i": 5,
+            "azimuthDeg": -6.588808,
+            "rayXYZ": [
+              -0.114743,
+              0.0,
+              -0.993395
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 51.869752,
+            "pantsRadiusMM": 62.187199,
+            "bootHitsMM": [
+              89.332313
+            ],
+            "bootRadiusMM": 89.332313,
+            "freeBandMM": 10.317447,
+            "allowableRadialDeltaMM": [
+              -37.462561,
+              -27.145114
+            ],
+            "bootRadialSpanMM": [
+              89.332313,
+              89.332313
+            ],
+            "allowableSpanDeltaMM": [
+              -37.462561,
+              -27.145114
+            ],
+            "spanPlacementWindowMM": 10.317447
+          },
+          {
+            "i": 6,
+            "azimuthDeg": 4.427839,
+            "rayXYZ": [
+              0.077203,
+              0.0,
+              -0.997015
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 56.324338,
+            "pantsRadiusMM": 73.296827,
+            "bootHitsMM": [
+              86.670095
+            ],
+            "bootRadiusMM": 86.670095,
+            "freeBandMM": 16.972489,
+            "allowableRadialDeltaMM": [
+              -30.345757,
+              -13.373268
+            ],
+            "bootRadialSpanMM": [
+              86.670095,
+              86.670095
+            ],
+            "allowableSpanDeltaMM": [
+              -30.345757,
+              -13.373268
+            ],
+            "spanPlacementWindowMM": 16.972489
+          },
+          {
+            "i": 7,
+            "azimuthDeg": 15.037618,
+            "rayXYZ": [
+              0.259453,
+              0.0,
+              -0.965756
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 53.766965,
+            "pantsRadiusMM": 69.090734,
+            "bootHitsMM": [
+              82.33736
+            ],
+            "bootRadiusMM": 82.33736,
+            "freeBandMM": 15.323769,
+            "allowableRadialDeltaMM": [
+              -28.570395,
+              -13.246626
+            ],
+            "bootRadialSpanMM": [
+              82.33736,
+              82.33736
+            ],
+            "allowableSpanDeltaMM": [
+              -28.570395,
+              -13.246626
+            ],
+            "spanPlacementWindowMM": 15.323769
+          },
+          {
+            "i": 8,
+            "azimuthDeg": 24.654911,
+            "rayXYZ": [
+              0.417152,
+              0.0,
+              -0.908837
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 50.441519,
+            "pantsRadiusMM": 63.604932,
+            "bootHitsMM": [
+              76.069548
+            ],
+            "bootRadiusMM": 76.069548,
+            "freeBandMM": 13.163413,
+            "allowableRadialDeltaMM": [
+              -25.628029,
+              -12.464616
+            ],
+            "bootRadialSpanMM": [
+              76.069548,
+              76.069548
+            ],
+            "allowableSpanDeltaMM": [
+              -25.628029,
+              -12.464616
+            ],
+            "spanPlacementWindowMM": 13.163413
+          },
+          {
+            "i": 9,
+            "azimuthDeg": 40.257366,
+            "rayXYZ": [
+              0.646222,
+              0.0,
+              -0.763149
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 43.807456,
+            "pantsRadiusMM": 54.123636,
+            "bootHitsMM": [
+              63.461128
+            ],
+            "bootRadiusMM": 63.461128,
+            "freeBandMM": 10.31618,
+            "allowableRadialDeltaMM": [
+              -19.653672,
+              -9.337492
+            ],
+            "bootRadialSpanMM": [
+              63.461128,
+              63.461128
+            ],
+            "allowableSpanDeltaMM": [
+              -19.653672,
+              -9.337492
+            ],
+            "spanPlacementWindowMM": 10.31618
+          },
+          {
+            "i": 10,
+            "azimuthDeg": 62.923656,
+            "rayXYZ": [
+              0.890401,
+              0.0,
+              -0.455177
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 41.69641,
+            "pantsRadiusMM": 53.545216,
+            "bootHitsMM": [
+              51.918213
+            ],
+            "bootRadiusMM": 51.918213,
+            "freeBandMM": 11.848806,
+            "allowableRadialDeltaMM": [
+              -10.221803,
+              1.627003
+            ],
+            "bootRadialSpanMM": [
+              51.918213,
+              51.918213
+            ],
+            "allowableSpanDeltaMM": [
+              -10.221803,
+              1.627003
+            ],
+            "spanPlacementWindowMM": 11.848806
+          },
+          {
+            "i": 11,
+            "azimuthDeg": 94.398139,
+            "rayXYZ": [
+              0.997055,
+              0.0,
+              0.076687
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 37.516429,
+            "pantsRadiusMM": 54.8621,
+            "bootHitsMM": [
+              49.063041
+            ],
+            "bootRadiusMM": 49.063041,
+            "freeBandMM": 17.345671,
+            "allowableRadialDeltaMM": [
+              -11.546612,
+              5.799059
+            ],
+            "bootRadialSpanMM": [
+              49.063041,
+              49.063041
+            ],
+            "allowableSpanDeltaMM": [
+              -11.546612,
+              5.799059
+            ],
+            "spanPlacementWindowMM": 17.345671
+          },
+          {
+            "i": 12,
+            "azimuthDeg": 127.92837,
+            "rayXYZ": [
+              0.78878,
+              0.0,
+              0.614676
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 29.592204,
+            "pantsRadiusMM": 51.503865,
+            "bootHitsMM": [
+              46.747865
+            ],
+            "bootRadiusMM": 46.747865,
+            "freeBandMM": 21.911661,
+            "allowableRadialDeltaMM": [
+              -17.155661,
+              4.756
+            ],
+            "bootRadialSpanMM": [
+              46.747865,
+              46.747865
+            ],
+            "allowableSpanDeltaMM": [
+              -17.155661,
+              4.756
+            ],
+            "spanPlacementWindowMM": 21.911661
+          },
+          {
+            "i": 13,
+            "azimuthDeg": 146.152222,
+            "rayXYZ": [
+              0.556988,
+              0.0,
+              0.83052
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 29.675142,
+            "pantsRadiusMM": 50.040726,
+            "bootHitsMM": [
+              49.000006
+            ],
+            "bootRadiusMM": 49.000006,
+            "freeBandMM": 20.365584,
+            "allowableRadialDeltaMM": [
+              -19.324864,
+              1.04072
+            ],
+            "bootRadialSpanMM": [
+              49.000006,
+              49.000006
+            ],
+            "allowableSpanDeltaMM": [
+              -19.324864,
+              1.04072
+            ],
+            "spanPlacementWindowMM": 20.365584
+          },
+          {
+            "i": 14,
+            "azimuthDeg": 152.702876,
+            "rayXYZ": [
+              0.458605,
+              0.0,
+              0.88864
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 30.389672,
+            "pantsRadiusMM": 49.991854,
+            "bootHitsMM": [
+              51.212322
+            ],
+            "bootRadiusMM": 51.212322,
+            "freeBandMM": 19.602182,
+            "allowableRadialDeltaMM": [
+              -20.82265,
+              -1.220468
+            ],
+            "bootRadialSpanMM": [
+              51.212322,
+              51.212322
+            ],
+            "allowableSpanDeltaMM": [
+              -20.82265,
+              -1.220468
+            ],
+            "spanPlacementWindowMM": 19.602182
+          },
+          {
+            "i": 15,
+            "azimuthDeg": 160.057019,
+            "rayXYZ": [
+              0.341085,
+              0.0,
+              0.940033
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 32.103796,
+            "pantsRadiusMM": 49.754591,
+            "bootHitsMM": [
+              54.069719
+            ],
+            "bootRadiusMM": 54.069719,
+            "freeBandMM": 17.650795,
+            "allowableRadialDeltaMM": [
+              -21.965923,
+              -4.315128
+            ],
+            "bootRadialSpanMM": [
+              54.069719,
+              54.069719
+            ],
+            "allowableSpanDeltaMM": [
+              -21.965923,
+              -4.315128
+            ],
+            "spanPlacementWindowMM": 17.650795
+          },
+          {
+            "i": 16,
+            "azimuthDeg": 170.434325,
+            "rayXYZ": [
+              0.166178,
+              0.0,
+              0.986096
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 34.467035,
+            "pantsRadiusMM": 49.239325,
+            "bootHitsMM": [
+              54.107068
+            ],
+            "bootRadiusMM": 54.107068,
+            "freeBandMM": 14.77229,
+            "allowableRadialDeltaMM": [
+              -19.640033,
+              -4.867743
+            ],
+            "bootRadialSpanMM": [
+              54.107068,
+              54.107068
+            ],
+            "allowableSpanDeltaMM": [
+              -19.640033,
+              -4.867743
+            ],
+            "spanPlacementWindowMM": 14.77229
+          },
+          {
+            "i": 17,
+            "azimuthDeg": -179.96092,
+            "rayXYZ": [
+              -0.000682,
+              0.0,
+              1.0
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 35.52761,
+            "pantsRadiusMM": 51.11393,
+            "bootHitsMM": [
+              50.385716
+            ],
+            "bootRadiusMM": 50.385716,
+            "freeBandMM": 15.58632,
+            "allowableRadialDeltaMM": [
+              -14.858106,
+              0.728214
+            ],
+            "bootRadialSpanMM": [
+              50.385716,
+              50.385716
+            ],
+            "allowableSpanDeltaMM": [
+              -14.858106,
+              0.728214
+            ],
+            "spanPlacementWindowMM": 15.58632
+          },
+          {
+            "i": 18,
+            "azimuthDeg": -169.670953,
+            "rayXYZ": [
+              -0.179301,
+              0.0,
+              0.983794
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 35.692511,
+            "pantsRadiusMM": 48.467577,
+            "bootHitsMM": [
+              44.622996
+            ],
+            "bootRadiusMM": 44.622996,
+            "freeBandMM": 12.775066,
+            "allowableRadialDeltaMM": [
+              -8.930485,
+              3.844581
+            ],
+            "bootRadialSpanMM": [
+              44.622996,
+              44.622996
+            ],
+            "allowableSpanDeltaMM": [
+              -8.930485,
+              3.844581
+            ],
+            "spanPlacementWindowMM": 12.775066
+          },
+          {
+            "i": 19,
+            "azimuthDeg": -157.598155,
+            "rayXYZ": [
+              -0.3811,
+              0.0,
+              0.924534
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 32.180767,
+            "pantsRadiusMM": 45.153007,
+            "bootHitsMM": [
+              37.339295
+            ],
+            "bootRadiusMM": 37.339295,
+            "freeBandMM": 12.97224,
+            "allowableRadialDeltaMM": [
+              -5.158528,
+              7.813712
+            ],
+            "bootRadialSpanMM": [
+              37.339295,
+              37.339295
+            ],
+            "allowableSpanDeltaMM": [
+              -5.158528,
+              7.813712
+            ],
+            "spanPlacementWindowMM": 12.97224
+          },
+          {
+            "i": 20,
+            "azimuthDeg": -143.06112,
+            "rayXYZ": [
+              -0.600963,
+              0.0,
+              0.799277
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 26.045864,
+            "pantsRadiusMM": 41.300751,
+            "bootHitsMM": [
+              30.69556
+            ],
+            "bootRadiusMM": 30.69556,
+            "freeBandMM": 15.254887,
+            "allowableRadialDeltaMM": [
+              -4.649696,
+              10.605191
+            ],
+            "bootRadialSpanMM": [
+              30.69556,
+              30.69556
+            ],
+            "allowableSpanDeltaMM": [
+              -4.649696,
+              10.605191
+            ],
+            "spanPlacementWindowMM": 15.254887
+          },
+          {
+            "i": 21,
+            "azimuthDeg": -123.858489,
+            "rayXYZ": [
+              -0.830416,
+              0.0,
+              0.557144
+            ],
+            "yM": 0.121322,
+            "hitCount": {
+              "skin": 1,
+              "pants": 1,
+              "boot": 1
+            },
+            "skinRadiusMM": 24.096034,
+            "pantsRadiusMM": 38.607456,
+            "bootHitsMM": [
+              26.591061
+            ],
+            "bootRadiusMM": 26.591061,
+            "freeBandMM": 14.511422,
+            "allowableRadialDeltaMM": [
+              -2.495027,
+              12.016395
+            ],
+            "bootRadialSpanMM": [
+              26.591061,
+              26.591061
+            ],
+            "allowableSpanDeltaMM": [
+              -2.495027,
+              12.016395
+            ],
+            "spanPlacementWindowMM": 14.511422
+          }
+        ]
+      }
+    }
+  },
+  "trouserHems": {
+    "left": {
+      "originXZ": [
+        -0.047486,
+        0.023293
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "vertexXYZ": [
+            -0.099908,
+            0.078072,
+            0.028929
+          ],
+          "azimuthDeg": 96.137122,
+          "rayXYZ": [
+            -0.994269,
+            0.0,
+            0.106908
+          ],
+          "pantsHemRadiusMM": 52.724006,
+          "bootHitsMM": [
+            54.766569
+          ],
+          "skinHitsMM": [
+            31.184634
+          ],
+          "hemMinusBootOuterMM": -2.042563,
+          "hemMinusSkinMM": 21.539372
+        },
+        {
+          "i": 1,
+          "vertexXYZ": [
+            -0.088227,
+            0.086097,
+            -0.004982
+          ],
+          "azimuthDeg": 55.238409,
+          "rayXYZ": [
+            -0.821532,
+            0.0,
+            -0.570163
+          ],
+          "pantsHemRadiusMM": 49.591424,
+          "bootHitsMM": [
+            67.290444
+          ],
+          "skinHitsMM": [
+            37.011152
+          ],
+          "hemMinusBootOuterMM": -17.69902,
+          "hemMinusSkinMM": 12.580272
+        },
+        {
+          "i": 2,
+          "vertexXYZ": [
+            -0.073801,
+            0.096941,
+            -0.036801
+          ],
+          "azimuthDeg": 23.649112,
+          "rayXYZ": [
+            -0.401134,
+            0.0,
+            -0.916019
+          ],
+          "pantsHemRadiusMM": 65.602977,
+          "bootHitsMM": [
+            99.649385
+          ],
+          "skinHitsMM": [
+            57.757821
+          ],
+          "hemMinusBootOuterMM": -34.046407,
+          "hemMinusSkinMM": 7.845156
+        },
+        {
+          "i": 3,
+          "vertexXYZ": [
+            -0.054055,
+            0.103755,
+            -0.051337
+          ],
+          "azimuthDeg": 5.030191,
+          "rayXYZ": [
+            -0.087681,
+            0.0,
+            -0.996149
+          ],
+          "pantsHemRadiusMM": 74.91797,
+          "bootHitsMM": [
+            101.508554
+          ],
+          "skinHitsMM": [
+            63.408547
+          ],
+          "hemMinusBootOuterMM": -26.590584,
+          "hemMinusSkinMM": 11.509423
+        },
+        {
+          "i": 4,
+          "vertexXYZ": [
+            -0.028439,
+            0.095955,
+            -0.032474
+          ],
+          "azimuthDeg": -18.857198,
+          "rayXYZ": [
+            0.323211,
+            0.0,
+            -0.946327
+          ],
+          "pantsHemRadiusMM": 58.929997,
+          "bootHitsMM": [
+            92.858914
+          ],
+          "skinHitsMM": [
+            49.699005
+          ],
+          "hemMinusBootOuterMM": -33.928917,
+          "hemMinusSkinMM": 9.230992
+        },
+        {
+          "i": 5,
+          "vertexXYZ": [
+            -0.014895,
+            0.086839,
+            -0.00768
+          ],
+          "azimuthDeg": -46.458212,
+          "rayXYZ": [
+            0.724872,
+            0.0,
+            -0.688883
+          ],
+          "pantsHemRadiusMM": 44.961229,
+          "bootHitsMM": [
+            43.98822
+          ],
+          "skinHitsMM": [
+            34.352876
+          ],
+          "hemMinusBootOuterMM": 0.973008,
+          "hemMinusSkinMM": 10.608352
+        },
+        {
+          "i": 6,
+          "vertexXYZ": [
+            -0.002405,
+            0.078976,
+            0.017534
+          ],
+          "azimuthDeg": -82.72042,
+          "rayXYZ": [
+            0.99194,
+            0.0,
+            -0.126711
+          ],
+          "pantsHemRadiusMM": 45.447132,
+          "bootHitsMM": [
+            28.458925
+          ],
+          "skinHitsMM": [
+            29.248858
+          ],
+          "hemMinusBootOuterMM": 16.988207,
+          "hemMinusSkinMM": 16.198274
+        },
+        {
+          "i": 7,
+          "vertexXYZ": [
+            -0.004192,
+            0.071333,
+            0.04964
+          ],
+          "azimuthDeg": -121.32366,
+          "rayXYZ": [
+            0.854244,
+            0.0,
+            0.519872
+          ],
+          "pantsHemRadiusMM": 50.681125,
+          "bootHitsMM": [
+            30.227254
+          ],
+          "skinHitsMM": [
+            37.729325
+          ],
+          "hemMinusBootOuterMM": 20.453871,
+          "hemMinusSkinMM": 12.9518
+        },
+        {
+          "i": 8,
+          "vertexXYZ": [
+            -0.014332,
+            0.06451,
+            0.077135
+          ],
+          "azimuthDeg": -148.377201,
+          "rayXYZ": [
+            0.524325,
+            0.0,
+            0.851518
+          ],
+          "pantsHemRadiusMM": 63.230826,
+          "bootHitsMM": [
+            42.763994
+          ],
+          "skinHitsMM": [
+            51.444459
+          ],
+          "hemMinusBootOuterMM": 20.466832,
+          "hemMinusSkinMM": 11.786367
+        },
+        {
+          "i": 9,
+          "vertexXYZ": [
+            -0.039765,
+            0.06009,
+            0.095146
+          ],
+          "azimuthDeg": -173.866675,
+          "rayXYZ": [
+            0.106842,
+            0.0,
+            0.994276
+          ],
+          "pantsHemRadiusMM": 72.266669,
+          "bootHitsMM": [
+            61.795312
+          ],
+          "skinHitsMM": [
+            58.34028
+          ],
+          "hemMinusBootOuterMM": 10.471357,
+          "hemMinusSkinMM": 13.926389
+        },
+        {
+          "i": 10,
+          "vertexXYZ": [
+            -0.06503,
+            0.063823,
+            0.0845
+          ],
+          "azimuthDeg": 164.005784,
+          "rayXYZ": [
+            -0.27554,
+            0.0,
+            0.96129
+          ],
+          "pantsHemRadiusMM": 63.67249,
+          "bootHitsMM": [
+            68.511439
+          ],
+          "skinHitsMM": [
+            48.924101
+          ],
+          "hemMinusBootOuterMM": -4.838949,
+          "hemMinusSkinMM": 14.748389
+        },
+        {
+          "i": 11,
+          "vertexXYZ": [
+            -0.084782,
+            0.069954,
+            0.059902
+          ],
+          "azimuthDeg": 134.46807,
+          "rayXYZ": [
+            -0.713641,
+            0.0,
+            0.700512
+          ],
+          "pantsHemRadiusMM": 52.261405,
+          "bootHitsMM": [
+            64.647425
+          ],
+          "skinHitsMM": [
+            35.934494
+          ],
+          "hemMinusBootOuterMM": -12.38602,
+          "hemMinusSkinMM": 16.326912
+        }
+      ],
+      "summary": {
+        "valid": 12,
+        "pantsHemOutsideOrTouchingSkin": 12,
+        "hemInsideBootOuterDirectionIndices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          10,
+          11
+        ],
+        "hemMinusBootOuterMM": [
+          -34.046407,
+          20.466832
+        ],
+        "heightRangeYM": [
+          0.06009,
+          0.103755
+        ]
+      }
+    },
+    "right": {
+      "originXZ": [
+        0.048501,
+        0.023293
+      ],
+      "rows": [
+        {
+          "i": 0,
+          "vertexXYZ": [
+            0.003421,
+            0.078976,
+            0.017534
+          ],
+          "azimuthDeg": -82.720619,
+          "rayXYZ": [
+            -0.99194,
+            0.0,
+            -0.126708
+          ],
+          "pantsHemRadiusMM": 45.447122,
+          "bootHitsMM": [
+            28.458813
+          ],
+          "skinHitsMM": [
+            29.24884
+          ],
+          "hemMinusBootOuterMM": 16.988309,
+          "hemMinusSkinMM": 16.198282
+        },
+        {
+          "i": 1,
+          "vertexXYZ": [
+            0.005207,
+            0.071333,
+            0.049641
+          ],
+          "azimuthDeg": -121.323842,
+          "rayXYZ": [
+            -0.854243,
+            0.0,
+            0.519875
+          ],
+          "pantsHemRadiusMM": 50.681129,
+          "bootHitsMM": [
+            30.227055
+          ],
+          "skinHitsMM": [
+            37.729323
+          ],
+          "hemMinusBootOuterMM": 20.454074,
+          "hemMinusSkinMM": 12.951806
+        },
+        {
+          "i": 2,
+          "vertexXYZ": [
+            0.015348,
+            0.06451,
+            0.077135
+          ],
+          "azimuthDeg": -148.37737,
+          "rayXYZ": [
+            -0.524322,
+            0.0,
+            0.85152
+          ],
+          "pantsHemRadiusMM": 63.23084,
+          "bootHitsMM": [
+            42.763666
+          ],
+          "skinHitsMM": [
+            51.444464
+          ],
+          "hemMinusBootOuterMM": 20.467174,
+          "hemMinusSkinMM": 11.786376
+        },
+        {
+          "i": 3,
+          "vertexXYZ": [
+            0.040781,
+            0.06009,
+            0.095146
+          ],
+          "azimuthDeg": -173.866827,
+          "rayXYZ": [
+            -0.10684,
+            0.0,
+            0.994276
+          ],
+          "pantsHemRadiusMM": 72.266661,
+          "bootHitsMM": [
+            61.795049
+          ],
+          "skinHitsMM": [
+            58.340272
+          ],
+          "hemMinusBootOuterMM": 10.471612,
+          "hemMinusSkinMM": 13.926389
+        },
+        {
+          "i": 4,
+          "vertexXYZ": [
+            0.066046,
+            0.063823,
+            0.0845
+          ],
+          "azimuthDeg": 164.005645,
+          "rayXYZ": [
+            0.275543,
+            0.0,
+            0.961289
+          ],
+          "pantsHemRadiusMM": 63.67247,
+          "bootHitsMM": [
+            68.511479
+          ],
+          "skinHitsMM": [
+            48.924071
+          ],
+          "hemMinusBootOuterMM": -4.839009,
+          "hemMinusSkinMM": 14.748399
+        },
+        {
+          "i": 5,
+          "vertexXYZ": [
+            0.085797,
+            0.069954,
+            0.059902
+          ],
+          "azimuthDeg": 134.467902,
+          "rayXYZ": [
+            0.713643,
+            0.0,
+            0.70051
+          ],
+          "pantsHemRadiusMM": 52.261362,
+          "bootHitsMM": [
+            64.647764
+          ],
+          "skinHitsMM": [
+            35.934468
+          ],
+          "hemMinusBootOuterMM": -12.386402,
+          "hemMinusSkinMM": 16.326894
+        },
+        {
+          "i": 6,
+          "vertexXYZ": [
+            0.100923,
+            0.078071,
+            0.028929
+          ],
+          "azimuthDeg": 96.136926,
+          "rayXYZ": [
+            0.994269,
+            0.0,
+            0.106905
+          ],
+          "pantsHemRadiusMM": 52.723989,
+          "bootHitsMM": [
+            54.76677
+          ],
+          "skinHitsMM": [
+            31.184635
+          ],
+          "hemMinusBootOuterMM": -2.042781,
+          "hemMinusSkinMM": 21.539354
+        },
+        {
+          "i": 7,
+          "vertexXYZ": [
+            0.089242,
+            0.086097,
+            -0.004983
+          ],
+          "azimuthDeg": 55.238218,
+          "rayXYZ": [
+            0.82153,
+            0.0,
+            -0.570166
+          ],
+          "pantsHemRadiusMM": 49.591433,
+          "bootHitsMM": [
+            67.290546
+          ],
+          "skinHitsMM": [
+            37.011168
+          ],
+          "hemMinusBootOuterMM": -17.699113,
+          "hemMinusSkinMM": 12.580265
+        },
+        {
+          "i": 8,
+          "vertexXYZ": [
+            0.074817,
+            0.096941,
+            -0.036801
+          ],
+          "azimuthDeg": 23.64896,
+          "rayXYZ": [
+            0.401132,
+            0.0,
+            -0.91602
+          ],
+          "pantsHemRadiusMM": 65.602989,
+          "bootHitsMM": [
+            99.649633
+          ],
+          "skinHitsMM": [
+            57.757854
+          ],
+          "hemMinusBootOuterMM": -34.046644,
+          "hemMinusSkinMM": 7.845135
+        },
+        {
+          "i": 9,
+          "vertexXYZ": [
+            0.05507,
+            0.103755,
+            -0.051337
+          ],
+          "azimuthDeg": 5.030053,
+          "rayXYZ": [
+            0.087678,
+            0.0,
+            -0.996149
+          ],
+          "pantsHemRadiusMM": 74.917963,
+          "bootHitsMM": [
+            101.508118
+          ],
+          "skinHitsMM": [
+            63.40852
+          ],
+          "hemMinusBootOuterMM": -26.590155,
+          "hemMinusSkinMM": 11.509444
+        },
+        {
+          "i": 10,
+          "vertexXYZ": [
+            0.029455,
+            0.095955,
+            -0.032474
+          ],
+          "azimuthDeg": -18.857346,
+          "rayXYZ": [
+            -0.323213,
+            0.0,
+            -0.946326
+          ],
+          "pantsHemRadiusMM": 58.929965,
+          "bootHitsMM": [
+            92.859549
+          ],
+          "skinHitsMM": [
+            49.698953
+          ],
+          "hemMinusBootOuterMM": -33.929584,
+          "hemMinusSkinMM": 9.231012
+        },
+        {
+          "i": 11,
+          "vertexXYZ": [
+            0.01591,
+            0.086839,
+            -0.00768
+          ],
+          "azimuthDeg": -46.458386,
+          "rayXYZ": [
+            -0.724874,
+            0.0,
+            -0.688881
+          ],
+          "pantsHemRadiusMM": 44.961208,
+          "bootHitsMM": [
+            43.988145
+          ],
+          "skinHitsMM": [
+            34.352836
+          ],
+          "hemMinusBootOuterMM": 0.973063,
+          "hemMinusSkinMM": 10.608372
+        }
+      ],
+      "summary": {
+        "valid": 12,
+        "pantsHemOutsideOrTouchingSkin": 12,
+        "hemInsideBootOuterDirectionIndices": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "hemMinusBootOuterMM": [
+          -34.046644,
+          20.467174
+        ],
+        "heightRangeYM": [
+          0.06009,
+          0.103755
+        ]
+      }
+    }
+  },
+  "lockedRegionDiagnostics": {
+    "left": {
+      "ankleYM": 0.121321,
+      "kneeYM": 0.576898,
+      "bootTopYM": 0.260434,
+      "kneeAboveBootMM": 316.464058,
+      "fixedNeutralVerticalContactRegions": {
+        "boot": {
+          "rearOfAnkleMinYM": 0.006849,
+          "atOrAheadOfBallMinYM": 0.000495
+        },
+        "flat": {
+          "rearOfAnkleMinYM": 0.000707,
+          "atOrAheadOfBallMinYM": 0.000495
+        }
+      },
+      "measuredCrossingPairsByZone": {
+        "belowAnkle": {
+          "bootTriangles": 1749,
+          "skin": 280,
+          "pants": 51
+        },
+        "aboveAnkle": {
+          "bootTriangles": 264,
+          "skin": 56,
+          "pants": 80
+        },
+        "straddlesAnkle": {
+          "bootTriangles": 47,
+          "skin": 14,
+          "pants": 27
+        }
+      }
+    },
+    "right": {
+      "ankleYM": 0.121322,
+      "kneeYM": 0.576898,
+      "bootTopYM": 0.260434,
+      "kneeAboveBootMM": 316.463975,
+      "fixedNeutralVerticalContactRegions": {
+        "boot": {
+          "rearOfAnkleMinYM": 0.006849,
+          "atOrAheadOfBallMinYM": 0.000495
+        },
+        "flat": {
+          "rearOfAnkleMinYM": 0.000708,
+          "atOrAheadOfBallMinYM": 0.000495
+        }
+      },
+      "measuredCrossingPairsByZone": {
+        "belowAnkle": {
+          "bootTriangles": 1749,
+          "skin": 280,
+          "pants": 51
+        },
+        "aboveAnkle": {
+          "bootTriangles": 264,
+          "skin": 56,
+          "pants": 80
+        },
+        "straddlesAnkle": {
+          "bootTriangles": 47,
+          "skin": 14,
+          "pants": 27
+        }
+      }
+    }
+  },
+  "decision": {
+    "neutralCuff": "Every sampled cuff span has a positive radial placement window. For a visible upper shaft defect, start with the existing boot-specific fit, retaining the source cuff topology and working against both signed bounds. This one pose and finite sample do not guarantee a continuous or animated fit.",
+    "hem": "Seven of twelve actual hem directions per side pass inside the boot outer surface; the others lie outside. If the intended visible order is pants outside boot and that defect is confirmed below the ankle, address the specific trousers hem fit there. If pants are intentionally tucked inside the boot, review the opposite order. The complete leg has no single established layer order in this unmodified fixture.",
+    "frozenGeometry": "Keep tread, original vamp and reference knee/bone axes fixed for any upper-cuff-only trial. The knee is over 316 mm above the boot; preserving the existing skin and sole keeps the original control meaningful. Nonzero intersections already entirely below the ankle mean changing the cuff cannot fix the whole foot. Trouser changes alone also cannot clear bare-foot intersections.",
+    "footContact": "The forefoot regional minimum is shared, but the boot heel region is about 6.14 mm higher than the flat control. Review gait/contact separately if it appears in moving footage, before considering changes to the footbed.",
+    "limits": "Intervals are radial in neutral pose, not Euclidean normal clearances, safe offsets, live visibility or evidence of failure in a moving frame. Intersections, UV islands or influence regions alone do not identify an authored vamp/shaft seam. No deformation or width parameter sweep was executed."
+  }
+}

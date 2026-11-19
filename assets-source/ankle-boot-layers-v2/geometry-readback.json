@@ -1,0 +1,102 @@
+{
+  "schema": "ankleboot-covered-pair-cpu-readback-v1",
+  "fits": {
+    "boot": "f8b39fcfe6d6cca7c0aa5700cf7bd78471750d3afcfea023aef0541e1b130ed9",
+    "pants": "db3d7f9a6161098c293fa3b9df8dc0905f984ccfe9a0299ac155f8738312882f"
+  },
+  "method": "Compare decoded source and derived triangle areas and winding directions. For each triangle incident to a moved vertex, test bounded two-sided segment-triangle intersections against AABB candidates. Exclude pairs sharing an original welded position; count unique noncoplanar intersections. Protected-region comparisons use anatomical ankle, forward ankle-to-ball axis and knee in target bind space.",
+  "results": {
+    "boot": {
+      "changedTriangles": 478,
+      "sourceMinAreaM2": 1.264977440606534e-07,
+      "minAreaRatioAll": 0.237235497248653,
+      "maxAreaRatioAll": 1.5918968636889992,
+      "changedFaceMaxNormalRotationDeg": 76.53656149275481,
+      "changedFacesOver90Deg": 0,
+      "selfCrossingsTouchingChangedTriangles": {
+        "before": 0,
+        "after": 0,
+        "newPairs": 0,
+        "removedPairs": 0
+      },
+      "protectedRegionChecks": {
+        "l_atOrBelowAnkle": {
+          "sourceVerts": 1091,
+          "moved": 0,
+          "maxDeltaM": 0.0
+        },
+        "l_atOrBeyondBall": {
+          "sourceVerts": 222,
+          "moved": 0,
+          "maxDeltaM": 0.0
+        },
+        "l_atOrAboveKnee": {
+          "sourceVerts": 0,
+          "moved": 0,
+          "maxDeltaM": 0.0
+        },
+        "r_atOrBelowAnkle": {
+          "sourceVerts": 1091,
+          "moved": 0,
+          "maxDeltaM": 0.0
+        },
+        "r_atOrBeyondBall": {
+          "sourceVerts": 222,
+          "moved": 0,
+          "maxDeltaM": 0.0
+        },
+        "r_atOrAboveKnee": {
+          "sourceVerts": 0,
+          "moved": 0,
+          "maxDeltaM": 0.0
+        }
+      }
+    },
+    "pants": {
+      "changedTriangles": 178,
+      "sourceMinAreaM2": 4.236551573607909e-05,
+      "minAreaRatioAll": 0.815430640637812,
+      "maxAreaRatioAll": 3.336464925968436,
+      "changedFaceMaxNormalRotationDeg": 42.42508560090991,
+      "changedFacesOver90Deg": 0,
+      "selfCrossingsTouchingChangedTriangles": {
+        "before": 0,
+        "after": 0,
+        "newPairs": 0,
+        "removedPairs": 0
+      },
+      "protectedRegionChecks": {
+        "l_atOrBelowAnkle": {
+          "sourceVerts": 28,
+          "moved": 16,
+          "maxDeltaM": 0.052195147001063
+        },
+        "l_atOrBeyondBall": {
+          "sourceVerts": 27,
+          "moved": 0,
+          "maxDeltaM": 0.0
+        },
+        "l_atOrAboveKnee": {
+          "sourceVerts": 292,
+          "moved": 0,
+          "maxDeltaM": 0.0
+        },
+        "r_atOrBelowAnkle": {
+          "sourceVerts": 28,
+          "moved": 16,
+          "maxDeltaM": 0.05219605145740126
+        },
+        "r_atOrBeyondBall": {
+          "sourceVerts": 50,
+          "moved": 0,
+          "maxDeltaM": 0.0
+        },
+        "r_atOrAboveKnee": {
+          "sourceVerts": 375,
+          "moved": 0,
+          "maxDeltaM": 0.0
+        }
+      }
+    }
+  }
+}

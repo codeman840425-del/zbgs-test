@@ -2,7 +2,7 @@
 
 角色生产工具在第一次写入前按实际解析路径核对输出，包含临时目录、计划、角色记录、游戏包和浏览器证据。制作工具主工程决定输出范围；用作输入的另一份游戏检出不扩大写入范围。新增写入入口用合法跨检出、盘根绝对路径、路径回退和 Windows 目录联接做针对性回归。
 
-Python 制作入口可以调用 `scripts/production/production_paths.py` 的 `project_output(path, __file__)`，Node 入口沿用 `scripts/project-output.cjs`。先解析并验证写入位置，再读取素材和创建输出。多工作树向同一目的地发布时，共享锁也放在主工程内。
+Python 制作入口可以调用 `scripts/production/production_paths.py` 的 `project_output(path, __file__)`，Node 入口沿用 `scripts/project-output.cjs`。配方 ID、资源清单和下载回执派生的文件名也要校验，将文件名与目录拼接后，在写入或下载前检查最终路径。多工作树向同一目的地发布时，共享锁也放在主工程内。
 
 检查制作命令时也要走一次失败和重试。压缩的暂存目录与失败回执、浏览器录屏目录、固定重建的 npm 缓存和子进程临时目录都由制作工程指定。桌面用户的系统配置保持原值。
 

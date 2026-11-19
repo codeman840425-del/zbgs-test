@@ -5,6 +5,7 @@ import copy
 import io
 import json
 from pathlib import Path
+import re
 import sys
 from tempfile import TemporaryDirectory
 
@@ -189,6 +190,11 @@ def pack(flat, pos, uv, corners, skin, names, files, asset_id):
 
 def build():
     recipe = json.loads((SOURCE / "recipe.json").read_bytes())
+    ident = recipe["id"]
+    require(isinstance(ident, str) and re.fullmatch(r"[a-z][a-z0-9-]{1,79}", ident),
+            "Invalid ankle-boot equipment ID")
+    asset = SOURCE / "generated" / (ident + ".glb")
+    require(project_output(asset, __file__) == asset, "Redirected ankle-boot asset")
     fixed = {}
     for key in ("authorReceipt", "donorReference", "body", "flat", "pants"):
         path, sha = recipe[key]

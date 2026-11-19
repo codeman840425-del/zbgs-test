@@ -22,6 +22,10 @@ def main():
     revision = reference["upstreamRevision"]
     base = Path("experiments/tools/mpfb-author-study/source")
     rows = [(Path(r["path"]).relative_to(base), r) for r in reference["referenceInputs"]]
+    for name, _ in rows:
+        target = output / name.name
+        require(name.name not in {"", ".", ".."} and target.parent == output
+                and project_output(target, __file__) == target, "Invalid or redirected MPFB cache filename")
 
     def verify(row, data):
         require(len(data) == row["bytes"] and hashlib.sha256(data).hexdigest() == row["sha256"],
