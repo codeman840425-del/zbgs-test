@@ -3,6 +3,8 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const assert = require('node:assert/strict');
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
 const {execFileSync} = require('node:child_process');
 const esbuild = require('../prototype/node_modules/esbuild');
 const {verifyCandidate} = require('./qa-m1-common.cjs');
@@ -153,7 +155,8 @@ function requestTemplate() {
     nativeSource:{path:'assets-source/vroid-mcp-study-v1/generated/female-native-round-waist.vroid',sha256:null},
     nativeReadback:{path:'evidence/vroid-mcp-study-v1/native-readback.json',sha256:null}};
 }
-async function prepare(out) {
+async function prepare(destination) {
+  const out=await projectOutput(destination,await productionRoot());
   await fs.mkdir(out,{recursive:false});const compiled=await bundle();
   const request=requestTemplate();request.nativeSource=await pin(request.nativeSource.path);request.nativeReadback=await pin(request.nativeReadback.path);
   await fs.writeFile(path.join(out,'loader.mjs'),compiled.bytes);await fs.writeFile(path.join(out,'loader-source.js'),browserSource);
@@ -169,7 +172,8 @@ async function prepare(out) {
     invalidContainerChecks:invalid,scope:'Test overlay uses the actual fixed loader/retarget/motion modules and current room. Full foundation/equipment/appearance factory admission remains pending.'};
   await fs.writeFile(path.join(out,'prepare-report.json'),JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));
 }
-async function run(requestFile,out) {
+async function run(requestFile,destination) {
+  const out=await projectOutput(destination,await productionRoot());
   const request=JSON.parse(await fs.readFile(requestFile,'utf8'));
   assert.equal(request.schema,'native-vroid-room-study-request-v1');assert.equal(request.build,build);
   assert.equal(request.runtimeSourceCommit,sourceCommit);assert.match(request.id,/^[a-z0-9-]+$/);
@@ -191,14 +195,14 @@ async function run(requestFile,out) {
       'No new exact equipment, coverage, palette, hair, accessory, forearm or hand fits.',
       'Footwear selection uses shared motion source material-name semantics and must be inspected.',
       'Technical observations require full visual review. No target-PC performance claim.']};
-  const {chromium}=require('../prototype/node_modules/playwright');
-  const browser=await chromium.launch({channel:'chrome',headless:true});
-  const context=await browser.newContext({viewport:{width:1440,height:1000},recordVideo:{dir:out,size:{width:1440,height:1000}}});
-  const page=await context.newPage();page.on('pageerror',error=>report.errors.push(String(error)));
+  const {browser,close}=await launchQABrowser(out,{channel:'chrome'});
+  let context,page;
   const capture=async name=>{
     await page.screenshot({path:path.join(out,name+'.png')});report.images.push(name+'.png');
   };
   try {
+    context=await browser.newContext({viewport:{width:1440,height:1000},recordVideo:{dir:out,size:{width:1440,height:1000}}});
+    page=await context.newPage();page.on('pageerror',error=>report.errors.push(String(error)));
     await page.route('**/__native_vroid_qa__/loader.mjs',route=>route.fulfill({contentType:'text/javascript',body:compiled.bytes}));
     await page.route('**/__native_vroid_qa__/model.vrm',route=>route.fulfill({contentType:'model/gltf-binary',body:bytes}));
     await page.goto(request.url+'?workbench=appearance&body=female');
@@ -235,8 +239,13 @@ async function run(requestFile,out) {
   }catch(error){report.status='failed-or-incomplete';report.error=String(error.stack??error);process.exitCode=1;try{await capture('failure');}catch{}}
   finally {
     try{report.finalCandidate=await page.evaluate(()=>__nativeVRoidStudy?.snapshot());await page.evaluate(()=>{__nativeVRoidStudy?.dispose();document.querySelector('#native-vroid-study-note')?.remove();});}catch{}
-    const video=page.video();await context.close();if(video){await video.saveAs(path.join(out,'normal1x.webm'));await video.delete();}
-    await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');
+    try {
+      const video=page?.video();await context?.close();
+      if(video){await video.saveAs(path.join(out,'normal1x.webm'));await video.delete();}
+    } catch(error) {
+      report.status='failed-or-incomplete';report.videoError=String(error.stack??error);process.exitCode=1;
+    } finally {await close();}
+    await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');
   }
   console.log(JSON.stringify({status:report.status,error:report.error}));
 }

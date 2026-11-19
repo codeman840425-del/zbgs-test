@@ -3,24 +3,25 @@ const fs=require('node:fs/promises');
 const path=require('node:path');
 const crypto=require('node:crypto');
 const assert=require('node:assert/strict');
-const {chromium}=require('../prototype/node_modules/playwright');
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
 const {verifyCandidate}=require('./qa-m1-common.cjs');
 const [url,build,destination]=process.argv.slice(2);
 assert.equal(url,'http://127.0.0.1:4196/');
 assert.equal(build,'83decd027116');
-const out=path.resolve(destination);
 const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 const originals={female:'027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95',male:'62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff'};
 const expectedV2=['female-round-full-v2','female-square-athletic-v2','female-soft-wide-v2','male-wide-muscular-v2','male-round-stocky-v2','male-angular-athletic-v2'];
 
 (async()=>{
+ const out=await projectOutput(destination,await productionRoot());
  await fs.mkdir(out,{recursive:false});
  await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const report={schema:'nine-preset-static-visual-capture-v1',build,url,status:'capturing',cases:[],
   expectedCases:9,expectedViews:['half-front','face-front','face-side'],videoRecorded:false,
   visualReview:'pending-actual-image-inspection',animationAcceptanceClaimed:false};
  const save=()=>fs.writeFile(path.join(out,'capture-report.json'),JSON.stringify(report,null,2)+'\n');
- const browser=await chromium.launch({channel:'chrome',headless:false});
+ const {browser,close}=await launchQABrowser(out,{channel:'chrome',headless:false});
  try{
   const request=await browser.newContext();
   const json=async resource=>{
@@ -78,7 +79,7 @@ const expectedV2=['female-round-full-v2','female-square-athletic-v2','female-sof
   }
   report.status=report.cases.every(c=>c.status==='static-frames-captured-visual-review-pending')?'nine-static-captures-complete-review-pending':'incomplete-capture';
  }catch(e){report.status='capture-failed';report.error=String(e.stack??e);}
- finally{await browser.close();await save();}
+ finally{await close();await save();}
  console.log(JSON.stringify({status:report.status,cases:report.cases.length,error:report.error}));
  if(report.status!=='nine-static-captures-complete-review-pending')process.exitCode=1;
 })();

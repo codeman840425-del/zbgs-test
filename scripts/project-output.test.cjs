@@ -24,6 +24,7 @@ test('production record and game export reject an escaped path before reading in
     ['qa-uniform-replay.cjs', 'http://127.0.0.1', outside],
     ['qa-production-record-room.cjs', 'http://127.0.0.1', 'missing', outside],
     ['qa-game-standing-vocal.cjs', 'http://127.0.0.1', '0123456789ab', 'missing', outside],
+    ['qa-room-lip-anchor-retry.cjs', 'http://127.0.0.1', '0123456789ab', 'missing', outside, '0'.repeat(64)],
     ['production/package-facility-room.mjs', '--game','missing','--game-sha256','0'.repeat(64),
       '--room','missing','--room-profile','vocal-use-v1.1','--out',outside],
     ['qa-turn-policy-observability.mjs', '--out=' + outside, '--module=missing'],

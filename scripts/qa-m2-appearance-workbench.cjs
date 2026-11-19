@@ -1,9 +1,10 @@
 // Fixed workbench acceptance: real controls, exact assets, existing room runtime.
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {verifyCandidate}=require('./qa-m1-common.cjs');
-const {chromium}=require('../prototype/node_modules/playwright');
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
 const BUILD='b44b5af53491',base='http://127.0.0.1:4196/';
-const out=path.resolve('evidence/m2-appearance-workbench-'+BUILD);
+let out;
 const bodies={
  female:['beta-base-female-m1','027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95'],
  male:['beta-base-male-m1b','62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff'],
@@ -29,9 +30,12 @@ async function collectMaterialState(page,retain=false){return page.evaluate(asyn
 },retain);}
 
 (async()=>{
- await fs.mkdir(out,{recursive:true});try{await fs.access(path.join(out,'report.json'));throw Error('Refuse evidence overwrite');}catch(e){if(e.code!=='ENOENT')throw e;}
+ const project=await productionRoot();
+ out=await projectOutput(process.argv[2]??path.join(project,'evidence','m2-appearance-workbench-'+BUILD),project);
+ await fs.mkdir(path.dirname(out),{recursive:true});
+ await fs.mkdir(out);
  await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));await save();
- const browser=await chromium.launch({channel:'chrome',headless:true});
+ const {browser,close}=await launchQABrowser(out,{channel:'chrome'});
  async function open(body,record=false){const context=await browser.newContext({viewport:report.viewport,...(record?{recordVideo:{dir:path.join(out,'raw-video'),size:report.viewport}}:{})});const page=await context.newPage();page.on('pageerror',e=>report.pageerrors.push({body,error:String(e)}));await page.goto(base+`?body=${body}&workbench=appearance`);await page.waitForFunction(()=>window.__debug?.ready&&!document.querySelector('#appearance-fields').disabled,null,{timeout:60000});report.identities.push(await verifyCandidate(page,{build:BUILD,assetId:bodies[body][0],sha256:bodies[body][1]}));return{page,context};}
  try{
   let {page,context}=await open('female');
@@ -104,5 +108,5 @@ async function collectMaterialState(page,retain=false){return page.evaluate(asyn
   }
   report.status=report.checks.every(c=>c.passed)&&report.pageerrors.length===0?'technical-checks-passed-visual-review-pending':'failures-preserved';
  }catch(error){report.fatal={error:String(error),stack:error.stack};report.status='incomplete';throw error;}
- finally{report.finished=new Date().toISOString();await browser.close();await save();console.log(out);}
+ finally{report.finished=new Date().toISOString();await close();await save();console.log(out);}
 })().catch(e=>{console.error(e);process.exitCode=1;});

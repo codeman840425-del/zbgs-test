@@ -1,12 +1,16 @@
-const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
 const [build,evidencePath,outPath]=process.argv.slice(2);
-const videoCountArg=process.argv.find(v=>v.startsWith('--video-count='));const videoCount=videoCountArg?Number(videoCountArg.split('=')[1]):2;assert(Number.isInteger(videoCount)&&videoCount>=1&&videoCount<=12);assert(/^[a-f0-9]{12}$/.test(build));assert(/^\/evidence\/[a-z0-9-]+\/$/.test(evidencePath));assert(outPath);const out=path.resolve(outPath);
+const videoCountArg=process.argv.find(v=>v.startsWith('--video-count='));const videoCount=videoCountArg?Number(videoCountArg.split('=')[1]):2;assert(Number.isInteger(videoCount)&&videoCount>=1&&videoCount<=12);assert(/^[a-f0-9]{12}$/.test(build));assert(/^\/evidence\/[a-z0-9-]+\/$/.test(evidencePath));assert(outPath);
 (async()=>{
+ const out=await projectOutput(outPath,await productionRoot());
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const r={build,errors:[],videos:[],scope:'Published header/runtime, actual face edit and room movement, explicit-count evidence videos playing >=2s. Not full visual or performance acceptance.'};
- const browser=await chromium.launch({channel:'chrome',headless:true});
+ let session;
  try{
+  session=await launchQABrowser(out,{channel:'chrome'});
+  const browser=session.browser;
   const p=await browser.newPage({viewport:{width:1600,height:1000}});p.on('pageerror',e=>r.errors.push(String(e)));
   const response=await p.goto('http://127.0.0.1:4196/?workbench=appearance');assert.equal((await response.allHeaders())['x-zbgs-candidate'],build);
   await p.waitForFunction(()=>window.__debug?.ready&&!document.querySelector('#appearance-fields').disabled);assert.equal(await p.evaluate(()=>__debug.buildInfo.shortId),build);
@@ -41,5 +45,8 @@ const videoCountArg=process.argv.find(v=>v.startsWith('--video-count='));const v
   }
   assert.equal(r.errors.length,0);r.status='passed';
  }catch(e){r.status='failed';r.failure=String(e);process.exitCode=1;console.error(e);}
- finally{await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(r,null,2));console.log(JSON.stringify({out,status:r.status}));}
-})();
+ finally{
+  try{await session?.close();}
+  finally{await fs.writeFile(path.join(out,'report.json'),JSON.stringify(r,null,2),{flag:'wx'});console.log(JSON.stringify({out,status:r.status}));}
+ }
+})().catch(error=>{console.error(error);process.exitCode=1;});

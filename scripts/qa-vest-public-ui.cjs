@@ -1,16 +1,17 @@
 // Verify the published extra-look buttons through the same UI the user opens.
-const { chromium } = require('../prototype/node_modules/playwright');
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const [build, destination] = process.argv.slice(2);
 assert(/^[a-f0-9]{12}$/.test(build) && destination);
 (async () => {
-  const out = path.resolve(destination);
+  const out = await projectOutput(destination, await productionRoot());
   await fs.mkdir(out, { recursive: false });
   await fs.copyFile(__filename, path.join(out, 'executed-script.cjs'));
   const report = { build, cases: [], errors: [], scope: 'Published UI selects new and original pants looks on three exact bodies; no new animation or performance acceptance.' };
-  const browser = await chromium.launch({ channel: 'chrome', headless: true });
+  const {browser,close}=await launchQABrowser(out,{channel:'chrome'});
   try {
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
     page.on('pageerror', e => report.errors.push(String(e)));
@@ -41,7 +42,7 @@ assert(/^[a-f0-9]{12}$/.test(build) && destination);
   } catch (error) {
     report.status = 'failed'; report.error = String(error.stack || error); process.exitCode = 1;
   } finally {
-    await browser.close();
+    await close();
     await fs.writeFile(path.join(out, 'report.json'), JSON.stringify(report, null, 2) + '\n');
     console.log(JSON.stringify({ status: report.status, cases: report.cases.length, error: report.error }));
   }

@@ -2,8 +2,14 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const {productionRoot, projectOutput} = require('./project-output.cjs');
 
-async function launchQABrowser(out, options = {}) {
+async function launchSession(out, options, profile) {
   const project = await productionRoot();
+  const persistent = profile !== undefined;
+  if (persistent) profile = await projectOutput(profile, project);
+  if (options.recordVideo) {
+    const dir = await projectOutput(options.recordVideo.dir, project);
+    options = {...options, recordVideo:{...options.recordVideo, dir}};
+  }
   const prefix = await projectOutput(path.join(out, '.browser-'), project);
   const scratch = await fs.mkdtemp(prefix);
   async function cleanup() {
@@ -18,17 +24,19 @@ async function launchQABrowser(out, options = {}) {
     // Playwright creates its profile and artifacts in the Node process before Chrome starts.
     Object.assign(process.env, temporary);
     const {chromium} = require('../prototype/node_modules/playwright');
-    const browser = await chromium.launch({
+    const launchOptions = {
       ...options,
-      headless:true,
+      headless:options.headless ?? true,
       downloadsPath:scratch,
       tracesDir:scratch,
       env:{...process.env, CHROME_LOG_FILE:path.join(scratch, 'chrome.log'),
         XDG_CACHE_HOME:scratch, CUDA_CACHE_PATH:scratch, __GL_SHADER_DISK_CACHE_PATH:scratch},
       args:['--disk-cache-dir='+path.join(scratch, 'disk-cache'), '--crash-dumps-dir='+scratch],
-    });
-    return {browser, async close() {
-      try { await browser.close(); }
+    };
+    const resource = persistent ? await chromium.launchPersistentContext(profile, launchOptions)
+      : await chromium.launch(launchOptions);
+    return {...(persistent ? {context:resource} : {browser:resource}), async close() {
+      try { await resource.close(); }
       finally { await cleanup(); }
     }};
   } catch (error) {
@@ -42,4 +50,13 @@ async function launchQABrowser(out, options = {}) {
   }
 }
 
-module.exports = {launchQABrowser};
+function launchQABrowser(out, options = {}) {
+  return launchSession(out, options);
+}
+
+function launchPersistentQABrowser(out, profile, options = {}) {
+  if (!profile) throw Error('A QA browser profile directory is required');
+  return launchSession(out, options, profile);
+}
+
+module.exports = {launchQABrowser, launchPersistentQABrowser};

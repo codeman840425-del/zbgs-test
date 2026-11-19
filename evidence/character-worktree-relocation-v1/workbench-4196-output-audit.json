@@ -1,0 +1,35 @@
+{
+  "checkedUtc": "2026-11-19T05:47:20.837461+00:00",
+  "scope": "Character producer and 24 workbench QA entry points; other projects on the drive keep their own trees.",
+  "oldTreeCount": 37,
+  "registeredInsideAndPresent": 37,
+  "formerLocationsPresent": [],
+  "audit": {
+    "project": "F:\\gamemake",
+    "unexpectedSiblings": [],
+    "unexpectedWorktrees": [],
+    "companyOwnedSiblings": [
+      "gamemake-company-platform-c1"
+    ],
+    "independentFusionTests": [
+      "gamemake-test"
+    ],
+    "worktreePathIssues": []
+  },
+  "driveRootEvidencePresent": false,
+  "liveChromeFailureFromDriveRoot": {
+    "cwd": "F:\\",
+    "tool": "scripts/qa-workbench-release-smoke.cjs",
+    "url": "http://127.0.0.1:4196/?workbench=appearance",
+    "reportDirectory": "output/performer-anchor-545dc941-build/4196-mismatched-build",
+    "expectedBuild": "000000000000",
+    "observedBuild": "0d1ccbf3ff61",
+    "outcome": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ '0d1ccbf3ff61'\n- '000000000000'\n",
+    "browserScratchLeft": 0
+  },
+  "run": [
+    "python -B scripts/character-worktree.py audit",
+    "python -B -m unittest discover -s scripts -p test_character_worktree.py",
+    "node --test scripts/project-output.test.cjs scripts/qa-workbench-output.test.cjs scripts/workbench-legacy-output.test.cjs scripts/workbench-archived-output.test.cjs"
+  ]
+}

@@ -1,11 +1,15 @@
 // Correct the original QA's invalid total mesh == 1 premise. Preserve that failure.
-const { chromium }=require('../prototype/node_modules/playwright');
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
 const {verifyCandidate}=require('./qa-m1-common.cjs');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 (async()=>{
- const out=path.resolve('evidence/m2-appearance-workbench-b44b5af53491/rapid-corrected');await fs.mkdir(out,{recursive:true});
+ const project=await productionRoot();
+ const out=await projectOutput(process.argv[2]??path.join(project,'evidence','m2-appearance-workbench-b44b5af53491','rapid-corrected'),project);
+ await fs.mkdir(path.dirname(out),{recursive:true});
+ await fs.mkdir(out);
  const report={scope:'One replacement plus retained hidden original, not one total hair mesh. No product changes. Original failing assertion remains archived.',errors:[]};
- const browser=await chromium.launch({channel:'chrome',headless:true});
+ const {browser,close}=await launchQABrowser(out,{channel:'chrome'});
  try{
   const page=await browser.newPage({viewport:{width:1600,height:1000}});page.on('pageerror',e=>report.errors.push(String(e)));
   await page.goto('http://127.0.0.1:4196/?body=female&workbench=appearance');await page.waitForFunction(()=>__debug?.ready);
@@ -21,5 +25,5 @@ const fs=require('node:fs/promises'),path=require('node:path'),assert=require('n
   const {fitted,restored}=report.actual;assert.equal(fitted.state.hairStyle,'female-bob-v1');assert.equal(fitted.state.hairColor,'black');assert.equal(fitted.state.loading,false);assert.equal(fitted.state.replacementSHA256,'3dcf01957d8ab72dfc128c6950f0e9600c2c7b801ea774a612058dc4b5d68110');
   assert.equal(fitted.meshes.filter(x=>!x.isOriginal).length,1);assert(fitted.meshes.filter(x=>x.isOriginal).every(x=>!x.effectiveVisible));assert(fitted.meshes.filter(x=>!x.isOriginal).every(x=>x.effectiveVisible&&x.underRawHead));
   assert(restored.meshes.filter(x=>x.isOriginal).every(x=>x.effectiveVisible));assert(restored.meshes.filter(x=>!x.isOriginal).every(x=>!x.effectiveVisible));assert.equal(restored.state.hairColor,'black');assert.equal(report.errors.length,0);report.passed=true;
- }catch(e){report.failure=String(e);throw e;}finally{await browser.close();await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));}
+ }catch(e){report.failure=String(e);throw e;}finally{await close();await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));}
 })().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,16 +1,20 @@
-const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {verifyCandidate}=require('./qa-m1-common.cjs');
-const [url,build,destination]=process.argv.slice(2),out=path.resolve(destination);
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
+const [url,build,destination]=process.argv.slice(2);
 (async()=>{
+ const out=await projectOutput(destination,await productionRoot());
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
- const browser=await chromium.launch({channel:'chrome',headless:true});
- const ctx=await browser.newContext({viewport:{width:1440,height:900},recordVideo:{dir:out,size:{width:1440,height:900}}});
- const p=await ctx.newPage(),r={build,status:'running',checks:[],errors:[],scope:'Actual workbench control paths; no full motion/visual or ordinary-PC approval.'};
- p.on('pageerror',e=>r.errors.push(String(e)));
- const ready=()=>p.waitForFunction(()=>document.querySelector('#appearance-form')?.getAttribute('aria-busy')!=='true');
- const shot=name=>p.screenshot({path:path.join(out,name+'.png')});
+ const r={build,status:'running',checks:[],errors:[],scope:'Actual workbench control paths; no full motion/visual or ordinary-PC approval.'};
+ let session,ctx,p;
  try{
+  session=await launchQABrowser(out,{channel:'chrome'});
+  ctx=await session.browser.newContext({viewport:{width:1440,height:900},recordVideo:{dir:out,size:{width:1440,height:900}}});
+  p=await ctx.newPage();
+  p.on('pageerror',e=>r.errors.push(String(e)));
+  const ready=()=>p.waitForFunction(()=>document.querySelector('#appearance-form')?.getAttribute('aria-busy')!=='true');
+  const shot=name=>p.screenshot({path:path.join(out,name+'.png')});
   await p.goto(url+'?body=female&workbench=appearance&view=inspect-half-side');await p.waitForFunction(()=>window.__debug?.ready,null,{timeout:60000});await ready();
   r.identity=await verifyCandidate(p,{build,assetId:'beta-base-female-m1',sha256:'027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95'});
   assert(await p.locator('#appearance-validation-samples').getAttribute('open')!==null);
@@ -56,6 +60,17 @@ const [url,build,destination]=process.argv.slice(2),out=path.resolve(destination
   r.checks.push({name:'male switch clears hat UI, restricts unavailable sample, existing socks outfit and ears remain usable; UI does not move actor',passed:true});
   assert.deepEqual(r.errors,[]);r.status='technical-checks-passed-visual-pending';
  }catch(e){r.status='failed-or-incomplete';r.error=String(e.stack??e);process.exitCode=1;}
- finally{const video=p.video();await ctx.close();await video.saveAs(path.join(out,'normal1x.webm'));await video.delete();await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(r,null,2));}
+ finally{
+  try{
+   const video=p?.video();
+   await ctx?.close();
+   if(video){await video.saveAs(path.join(out,'normal1x.webm'));await video.delete();}
+  }catch(error){
+   r.status='failed-or-incomplete';r.recordingError=String(error.stack??error);process.exitCode=1;
+  }finally{
+   try{await session?.close();}
+   finally{await fs.writeFile(path.join(out,'report.json'),JSON.stringify(r,null,2),{flag:'wx'});}
+  }
+ }
  console.log(JSON.stringify({out,status:r.status,error:r.error}));
-})();
+})().catch(error=>{console.error(error);process.exitCode=1;});

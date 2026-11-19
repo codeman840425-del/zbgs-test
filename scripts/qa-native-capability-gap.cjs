@@ -1,13 +1,16 @@
 // Actual fixed workbench controls; no fit bypasses or production mutation.
-const {chromium}=require('../prototype/node_modules/playwright');
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
 const fs=require('node:fs/promises'),path=require('node:path');
 const assert=require('node:assert/strict');
-const out=path.resolve(process.argv[2]||'evidence/native-capability-gap-987-v1');
+const destination=process.argv.slice(2).find(arg=>!arg.startsWith('--'));
 const expectConnected=process.argv.includes('--expect-accessories');
 const expectedBuild=process.argv.find(x=>x.startsWith('--build='))?.slice(8);
 (async()=>{
+ const project=await productionRoot();
+ const out=await projectOutput(destination??path.join(project,'evidence','native-capability-gap-987-v1'),project);
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
- const browser=await chromium.launch({channel:'chrome',headless:true});
+ const {browser,close}=await launchQABrowser(out,{channel:'chrome'});
  const report={status:'incomplete',scope:'Actual controls and failure reproduction, not full motion or appearance acceptance',cases:[]};
  try{
   for(const body of ['female','native-female-843ac-v1','native-female-face-v1','native-female-waist-v1','native-male-7586-v1']){
@@ -40,5 +43,5 @@ const expectedBuild=process.argv.find(x=>x.startsWith('--build='))?.slice(8);
   }
   report.status=expectConnected?'actual-controls-connected-visual-limits-retained':'gaps-reproduced-not-fixed';
  }catch(e){report.failure=String(e.stack||e);process.exitCode=1;}
- finally{await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:report.status,cases:report.cases.map(x=>({body:x.body,accessories:x.accessories,dances:x.initial.dances.map(d=>d.id)})),failure:report.failure}));}
+ finally{await close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:report.status,cases:report.cases.map(x=>({body:x.body,accessories:x.accessories,dances:x.initial.dances.map(d=>d.id)})),failure:report.failure}));}
 })();

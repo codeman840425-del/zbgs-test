@@ -1,6 +1,11 @@
-const fs=require('node:fs/promises'),path=require('node:path'),{chromium}=require('../prototype/node_modules/playwright');
-const OUT=path.resolve(process.argv[2]);
-(async()=>{await fs.mkdir(OUT,{recursive:false});await fs.copyFile(__filename,path.join(OUT,'executed-script.cjs'));const r={cases:[],errors:[]},b=await chromium.launch({channel:'chrome',headless:true});
+const fs=require('node:fs/promises'),path=require('node:path');
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
+(async()=>{
+ const OUT=await projectOutput(process.argv[2],await productionRoot());
+ await fs.mkdir(OUT,{recursive:false});await fs.copyFile(__filename,path.join(OUT,'executed-script.cjs'));const r={cases:[],errors:[]};
+ const {browser:b,close}=await launchQABrowser(OUT,{channel:'chrome'});
+
 try{const p=await b.newPage({viewport:{width:1600,height:1000}});p.on('pageerror',e=>r.errors.push(String(e)));await p.goto('http://127.0.0.1:4196/?workbench=appearance');await p.waitForFunction(()=>__debug?.ready);r.build=await p.evaluate(()=>fetch('build-info.json').then(r=>r.json()));
 await p.evaluate(()=>{window.__inputEvents=[];for(const type of ['pointerdown','pointerup','click'])document.addEventListener(type,e=>__inputEvents.push({type,t:performance.now(),x:e.clientX,y:e.clientY,target:e.target.tagName,id:e.target.id,parent:e.target.parentElement?.id}),true)});
 const snap=()=>p.evaluate(()=>{const s=__debug.snapshot();return{body:__debug.avatar().profile.bodyType,position:s.position,mode:s.mode,paused:s.paused,backgroundSuspended:s.backgroundSuspended,speed:s.speed,maxSpeed:s.maxSpeed,sim:s.simulationTime,camera:s.camera,target:s.target,path:s.path,tasks:s.tasks,motion:{action:s.motion?.action,requested:s.motion?.requested,sitProgress:s.motion?.sitProgress,danceMix:s.motion?.danceMix}}});
@@ -23,4 +28,4 @@ await p.locator('[data-action=idle]').click();
 await one('11-dance-request',()=>p.locator('[data-action=dance]').click(),1200);
 await one('12-dance-route-interrupt',()=>p.locator('[data-route=horizontal]').click(),3500);
 r.events=await p.evaluate(()=>__inputEvents);r.dom=await p.evaluate(()=>[...document.querySelectorAll('canvas')].map(c=>({parent:c.parentElement?.id,rect:c.getBoundingClientRect().toJSON(),style:{pointerEvents:getComputedStyle(c).pointerEvents,zIndex:getComputedStyle(c).zIndex}})));r.status='completed';
-}catch(e){r.failure=String(e);console.error(e)}finally{await b.close();await fs.writeFile(path.join(OUT,'report.json'),JSON.stringify(r,null,2));console.log('CLOSED')}})();
+}catch(e){r.failure=String(e);console.error(e)}finally{await close();await fs.writeFile(path.join(OUT,'report.json'),JSON.stringify(r,null,2));console.log('CLOSED')}})();

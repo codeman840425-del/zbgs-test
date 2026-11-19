@@ -1,7 +1,10 @@
 // Final palette/framing-only affected checks. Prior b44 failure/race/peer evidence stays b44.
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
-const {chromium}=require('../prototype/node_modules/playwright'),{verifyCandidate}=require('./qa-m1-common.cjs');
-const BUILD='8b9023a1e89c',base='http://127.0.0.1:4196/',out=path.resolve('evidence/m2-appearance-workbench-'+BUILD);
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
+const {verifyCandidate}=require('./qa-m1-common.cjs');
+const BUILD='8b9023a1e89c',base='http://127.0.0.1:4196/';
+let out;
 const bodies={female:['beta-base-female-m1','027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95'],male:['beta-base-male-m1b','62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff'],'m1a-jaw-v1':['m1a-jaw-v1','3c11caaed49f6db514acb7678551352afdf1c2893ef92ca93b959a8d09691011'],'m1a-waisthip-v1':['m1a-waisthip-v1','10778174ece87e3e3a00ecaf5e0c98eef59cd7d762e9bb52daa50162ee1743b5'],'m2-male-jaw-v1':['m2-male-jaw-v1','25ac8a8174110d7b0a6bb290ac8cab66ad6939ea522f80cdef62571d2ab24153']};
 const report={build:BUILD,viewport:{width:1600,height:1000},started:new Date().toISOString(),checks:[],identities:[],screenshots:[],movies:[],errors:[],status:'running',scope:'Only changed palette/framing plus requested bob/tinted full dance and same simulation-time variant screenshots. b44 race/503/dual-instance checks not relabeled.'};
 const save=()=>fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));
@@ -14,8 +17,11 @@ async function material(page,retain){return page.evaluate(async retain=>{const a
 async function startTrace(page){await page.evaluate(()=>{const d=__debug,a=d.avatar(),camera=d.cameraObject(),V=a.root.position.constructor,q=window.__finalAppearance={start:performance.now(),last:null,rows:[],running:true};const bones=['head','leftMiddleDistal','rightMiddleDistal','leftFoot','rightFoot'].map(n=>[n,a.vrm.humanoid.getRawBoneNode(n)]);function tick(now){if(!q.running)return;const s=d.snapshot(),live=a.livePresentation.getState();q.rows.push({t:(now-q.start)/1000,dt:q.last===null?null:(now-q.last)/1000,simulationTime:s.simulationTime,mode:s.mode,dance:s.motion.dance,appearance:s.appearance,camera:s.camera,task:d.tasks().active(),live:{time:live.time,preset:live.preset,speaking:live.speaking,gaze:live.gaze},expressions:Object.fromEntries(['blink','aa','happy'].map(n=>[n,a.vrm.expressionManager.getValue(n)])),screenBones:Object.fromEntries(bones.map(([n,b])=>[n,b?.getWorldPosition(new V()).project(camera).toArray()]))});q.last=now;requestAnimationFrame(tick);}requestAnimationFrame(tick);});}
 async function endVideo(page,context,name,video){const trace=await page.evaluate(()=>{const q=window.__finalAppearance;q.running=false;return{start:q.start,rows:q.rows};});await fs.writeFile(path.join(out,name+'-trace.json'),JSON.stringify(trace));await context.close();await video.saveAs(path.join(out,name+'.webm'));report.movies.push({file:name+'.webm',trace:name+'-trace.json',frameCount:trace.rows.length,scope:'Full original page 1600x1000, normal 1x. Loading/setup before trace and idle exit retained.'});await save();return trace;}
 (async()=>{
- await fs.mkdir(out,{recursive:true});try{await fs.access(path.join(out,'report.json'));throw Error('Refuse overwrite');}catch(e){if(e.code!=='ENOENT')throw e;}await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));await save();
- const browser=await chromium.launch({channel:'chrome',headless:true});
+ const project=await productionRoot();
+ out=await projectOutput(process.argv[2]??path.join(project,'evidence','m2-appearance-workbench-'+BUILD),project);
+ await fs.mkdir(path.dirname(out),{recursive:true});
+ await fs.mkdir(out);await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));await save();
+ const {browser,close}=await launchQABrowser(out,{channel:'chrome'});
  async function open(body,record=false){const context=await browser.newContext({viewport:report.viewport,...(record?{recordVideo:{dir:path.join(out,'raw-video'),size:report.viewport}}:{})});const page=await context.newPage();page.on('pageerror',e=>report.errors.push({body,error:String(e)}));await page.goto(base+'?body='+body+'&workbench=appearance');await page.waitForFunction(()=>window.__debug?.ready&&!document.querySelector('#appearance-fields').disabled,null,{timeout:60000});report.identities.push(await verifyCandidate(page,{build:BUILD,assetId:bodies[body][0],sha256:bodies[body][1]}));return{context,page};}
  try{
   let {page,context}=await open('female',true);let video=page.video();const original=await material(page,true);await startTrace(page);
@@ -52,5 +58,5 @@ async function endVideo(page,context,name,video){const trace=await page.evaluate
    });await context.close();
   }
   report.status=report.checks.every(x=>x.passed)&&!report.errors.length?'technical-passed-review-pending':'failures-preserved';
- }catch(e){report.fatal=String(e);report.status='incomplete';throw e;}finally{await browser.close();report.finished=new Date().toISOString();await save();console.log(out);}
+ }catch(e){report.fatal=String(e);report.status='incomplete';throw e;}finally{await close();report.finished=new Date().toISOString();await save();console.log(out);}
 })().catch(e=>{console.error(e);process.exitCode=1;});
