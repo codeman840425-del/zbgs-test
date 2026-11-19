@@ -1,5 +1,7 @@
 # 角色系统能力清单（唯一当前状态依据）
 
+本批两条原签已送入正式整套审核函数，批准数为 **0/2**。标准恢复、9 项选款保护与静态预算已取证，单人正式房间动作、四层预算和审核登记尚缺。融合方两份普通包的严格传输复验仍失败，探针保留了页面读满、锁释放、后续实际使用和同一网络编号的终态。受控试验将逐块 reader 换成逐块 pipeTo 后，完整身体在 CfT 145 的严格检查仍失败。[原审核函数实际决定](../evidence/m2-rule-batch-delivery-v1/formal/README.md) · [请求时序](../evidence/m2-rule-stream-lifecycle-v1/README.md) · [有界读取对照](../evidence/m2-rule-stream-ab-v1/README.md)
+
 **外置配方角色可进入完整记录的静态预算检查。** `record_budget.py measure --shape-pack` 重读固定版本审查、两条原签、各自身体和三件装备。两名角色单独与共同入场均在暂定静态参考范围内；两人合计纹理估算 211,115,352 字节。实际显存、普通电脑及严格传输分别待验。[完整记录与并发估算](../evidence/m2-rule-batch-delivery-v1/budget/record-measure.json) · [错误输入与历史结果回归](../evidence/m2-rule-batch-delivery-v1/budget/record-measure-checks.json)
 
 **参数批量制作、签发与普通游戏回读已实测。** 同一 CC0 男体下颌模板的 0.8125、0.1875 各自有独立身份、身体、适配摘要和签名。两人同批在固定游戏 `60e3934ddd8a` 签出。开发机 CfT 145 两次冷开、逐人招手、移除一人保同伴、损坏拒绝及恢复通过。两人也已实际使用同一把椅子。包里三件制服各存一份，各自绑定可追溯。另用完全相同的配方签发两名角色，一个身体包可供两人使用，关闭页面再打开仍恢复各自的记录和实例。同一入口另拒绝了第二项越界权重，清理后原目的地重试成功。此批未取得正式整套发行及普通机性能结论。[1× 录像、命令与限制](../evidence/m2-rule-batch-delivery-v1/README.md)

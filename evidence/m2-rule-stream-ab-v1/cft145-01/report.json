@@ -1,0 +1,3023 @@
+{
+  "game": "F:\\gamemake-test\\rule-blind-9c72d4fd\\output\\receiver-cft-replay\\receiver-jaw-orchid\\game",
+  "pin": "5ae993bf95c95fc807aeee391f21a3d19724c8a6161edb70e0296535d2a45bec",
+  "actor": "receiver-jaw-orchid",
+  "recordSha256": "c216e24a431c85239ca1785df064323e0c6d7f878d43e60b4980e56a12c1145f",
+  "sourceDigest": "60e3934ddd8aa26294978e9791d9f0d5972f97b7a52905954f8828427d2c3582",
+  "execution": "CfT 145 independent process per mode",
+  "runs": [
+    {
+      "mode": "reader",
+      "asset": "body",
+      "scenario": "normal",
+      "expected": {
+        "kind": "body",
+        "url": "/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+        "sha256": "4d13f8b43001a7adeec65273f31fc262a249a49e0c39829c97e5c7d934d864b3",
+        "bytes": 12141256,
+        "limit": 33554432,
+        "shortSha": "fd371578a0b9834b2b3c30700a3a66e3835a8470478b56dc48bee014ca50b147",
+        "corruptSha": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6"
+      },
+      "app": {
+        "http": 200,
+        "copied": 12141256,
+        "received": 12141256,
+        "chunks": 179,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": "4d13f8b43001a7adeec65273f31fc262a249a49e0c39829c97e5c7d934d864b3",
+        "result": "ok"
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "50372.3",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081210777,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+                "method": "GET",
+                "timestamp": 74358.087841,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081210779,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141256",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081210780,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+                "status": 200,
+                "timestamp": 74358.092041,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141256",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081210867,
+                "event": "fail",
+                "requestId": "50372.3",
+                "timestamp": 74358.128807,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Network.loadingFailed for http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm: net::ERR_ABORTED",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [
+        "CDP did not independently verify the completed response"
+      ],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "reader",
+      "asset": "body",
+      "scenario": "truncated",
+      "expected": {
+        "kind": "body",
+        "url": "/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+        "sha256": "4d13f8b43001a7adeec65273f31fc262a249a49e0c39829c97e5c7d934d864b3",
+        "bytes": 12141256,
+        "limit": 33554432,
+        "shortSha": "fd371578a0b9834b2b3c30700a3a66e3835a8470478b56dc48bee014ca50b147",
+        "corruptSha": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6"
+      },
+      "app": {
+        "http": 200,
+        "copied": 12141255,
+        "received": 12141255,
+        "chunks": 174,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": null,
+        "result": "truncated",
+        "error": {
+          "name": "Error",
+          "message": "truncated"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "50372.4",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081210902,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=truncated",
+                "method": "GET",
+                "timestamp": 74358.215296,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081210904,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141255",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081210905,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=truncated",
+                "status": 200,
+                "timestamp": 74358.217126,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141255",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081210951,
+                "event": "fail",
+                "requestId": "50372.4",
+                "timestamp": 74358.253324,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Network.loadingFailed for http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=truncated: net::ERR_ABORTED",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [
+        "CDP did not independently verify the completed response"
+      ],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "reader",
+      "asset": "body",
+      "scenario": "overflow",
+      "expected": {
+        "kind": "body",
+        "url": "/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+        "sha256": "4d13f8b43001a7adeec65273f31fc262a249a49e0c39829c97e5c7d934d864b3",
+        "bytes": 12141256,
+        "limit": 33554432,
+        "shortSha": "fd371578a0b9834b2b3c30700a3a66e3835a8470478b56dc48bee014ca50b147",
+        "corruptSha": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6"
+      },
+      "app": {
+        "http": 200,
+        "copied": 10616832,
+        "received": 12141257,
+        "chunks": 12,
+        "explicitAbort": false,
+        "readerCancel": true,
+        "sha256": null,
+        "result": "overflow",
+        "error": {
+          "name": "Error",
+          "message": "overflow"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "50372.5",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081210988,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=overflow",
+                "method": "GET",
+                "timestamp": 74358.295475,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081210988,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141257",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081210988,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=overflow",
+                "status": 200,
+                "timestamp": 74358.299504,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141257",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211018,
+                "event": "fail",
+                "requestId": "50372.5",
+                "timestamp": 74358.316467,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Network.loadingFailed for http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=overflow: net::ERR_ABORTED",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "reader",
+      "asset": "body",
+      "scenario": "wrong-sha",
+      "expected": {
+        "kind": "body",
+        "url": "/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+        "sha256": "4d13f8b43001a7adeec65273f31fc262a249a49e0c39829c97e5c7d934d864b3",
+        "bytes": 12141256,
+        "limit": 33554432,
+        "shortSha": "fd371578a0b9834b2b3c30700a3a66e3835a8470478b56dc48bee014ca50b147",
+        "corruptSha": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6"
+      },
+      "app": {
+        "http": 200,
+        "copied": 12141256,
+        "received": 12141256,
+        "chunks": 14,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6",
+        "result": "wrong-sha",
+        "error": {
+          "name": "Error",
+          "message": "wrong-sha"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "50372.6",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211060,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=wrong-sha",
+                "method": "GET",
+                "timestamp": 74358.372782,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211062,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141256",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211064,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=wrong-sha",
+                "status": 200,
+                "timestamp": 74358.37641,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141256",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211140,
+                "event": "finish",
+                "timestamp": 74358.384696,
+                "encodedDataLength": 12141443
+              }
+            ]
+          }
+        ],
+        "bodyBytes": 12141256,
+        "sha256": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6",
+        "transferBytes": 12141443,
+        "error": null,
+        "errorKind": null
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "reader",
+      "asset": "body",
+      "scenario": "abort",
+      "expected": {
+        "kind": "body",
+        "url": "/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+        "sha256": "4d13f8b43001a7adeec65273f31fc262a249a49e0c39829c97e5c7d934d864b3",
+        "bytes": 12141256,
+        "limit": 33554432,
+        "shortSha": "fd371578a0b9834b2b3c30700a3a66e3835a8470478b56dc48bee014ca50b147",
+        "corruptSha": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6"
+      },
+      "app": {
+        "http": 200,
+        "copied": 4096,
+        "received": 4096,
+        "chunks": 1,
+        "explicitAbort": true,
+        "readerCancel": false,
+        "sha256": null,
+        "result": "abort",
+        "error": {
+          "name": "AbortError",
+          "message": "BodyStreamBuffer was aborted"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "50372.7",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211227,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=abort",
+                "method": "GET",
+                "timestamp": 74358.539759,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211229,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141256",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211229,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=abort",
+                "status": 200,
+                "timestamp": 74358.541943,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141256",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211230,
+                "event": "fail",
+                "requestId": "50372.7",
+                "timestamp": 74358.542569,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Network.loadingFailed for http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=abort: net::ERR_ABORTED",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "reader",
+      "asset": "body",
+      "scenario": "http503",
+      "expected": {
+        "kind": "body",
+        "url": "/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+        "sha256": "4d13f8b43001a7adeec65273f31fc262a249a49e0c39829c97e5c7d934d864b3",
+        "bytes": 12141256,
+        "limit": 33554432,
+        "shortSha": "fd371578a0b9834b2b3c30700a3a66e3835a8470478b56dc48bee014ca50b147",
+        "corruptSha": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6"
+      },
+      "app": {
+        "http": 503,
+        "copied": 0,
+        "received": 0,
+        "chunks": 0,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": null,
+        "result": "http",
+        "error": {
+          "name": "Error",
+          "message": "http"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "50372.8",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211261,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=http503",
+                "method": "GET",
+                "timestamp": 74358.573828,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211262,
+                "event": "response-extra",
+                "status": 503,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "0",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211263,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=http503",
+                "status": 503,
+                "timestamp": 74358.575265,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "0",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211263,
+                "event": "fail",
+                "requestId": "50372.8",
+                "timestamp": 74358.575573,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Unexpected status for http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=http503\n\n503 !== 200\n",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [
+        "503 response did not finish"
+      ],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "reader",
+      "asset": "shoe",
+      "scenario": "normal",
+      "expected": {
+        "kind": "shoe",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "bytes": 155976,
+        "limit": 1048576,
+        "shortSha": "69642dbbdecb12d4ce84cd5f4e97d5e5b90ed5af0fa3a27a80f6e564c0f7d9e7",
+        "corruptSha": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de"
+      },
+      "app": {
+        "http": 200,
+        "copied": 155976,
+        "received": 155976,
+        "chunks": 1,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "result": "ok"
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "50372.9",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211293,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+                "method": "GET",
+                "timestamp": 74358.60509,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211294,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155976",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211294,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+                "status": 200,
+                "timestamp": 74358.606828,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155976",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211295,
+                "event": "finish",
+                "timestamp": 74358.606818,
+                "encodedDataLength": 156161
+              }
+            ]
+          }
+        ],
+        "bodyBytes": 155976,
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "transferBytes": 156161,
+        "error": null,
+        "errorKind": null
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "reader",
+      "asset": "shoe",
+      "scenario": "truncated",
+      "expected": {
+        "kind": "shoe",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "bytes": 155976,
+        "limit": 1048576,
+        "shortSha": "69642dbbdecb12d4ce84cd5f4e97d5e5b90ed5af0fa3a27a80f6e564c0f7d9e7",
+        "corruptSha": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de"
+      },
+      "app": {
+        "http": 200,
+        "copied": 155975,
+        "received": 155975,
+        "chunks": 1,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": null,
+        "result": "truncated",
+        "error": {
+          "name": "Error",
+          "message": "truncated"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "50372.10",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211326,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=truncated",
+                "method": "GET",
+                "timestamp": 74358.638119,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211326,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155975",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211327,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=truncated",
+                "status": 200,
+                "timestamp": 74358.639939,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155975",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211328,
+                "event": "finish",
+                "timestamp": 74358.639619,
+                "encodedDataLength": 156160
+              }
+            ]
+          }
+        ],
+        "bodyBytes": 155975,
+        "sha256": "69642dbbdecb12d4ce84cd5f4e97d5e5b90ed5af0fa3a27a80f6e564c0f7d9e7",
+        "transferBytes": 156160,
+        "error": null,
+        "errorKind": null
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "reader",
+      "asset": "shoe",
+      "scenario": "overflow",
+      "expected": {
+        "kind": "shoe",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "bytes": 155976,
+        "limit": 1048576,
+        "shortSha": "69642dbbdecb12d4ce84cd5f4e97d5e5b90ed5af0fa3a27a80f6e564c0f7d9e7",
+        "corruptSha": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de"
+      },
+      "app": {
+        "http": 200,
+        "copied": 0,
+        "received": 155977,
+        "chunks": 1,
+        "explicitAbort": false,
+        "readerCancel": true,
+        "sha256": null,
+        "result": "overflow",
+        "error": {
+          "name": "Error",
+          "message": "overflow"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "50372.11",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211357,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=overflow",
+                "method": "GET",
+                "timestamp": 74358.670289,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211358,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155977",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211359,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=overflow",
+                "status": 200,
+                "timestamp": 74358.671609,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155977",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211359,
+                "event": "fail",
+                "requestId": "50372.11",
+                "timestamp": 74358.672205,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Network.loadingFailed for http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=overflow: net::ERR_ABORTED",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "reader",
+      "asset": "shoe",
+      "scenario": "wrong-sha",
+      "expected": {
+        "kind": "shoe",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "bytes": 155976,
+        "limit": 1048576,
+        "shortSha": "69642dbbdecb12d4ce84cd5f4e97d5e5b90ed5af0fa3a27a80f6e564c0f7d9e7",
+        "corruptSha": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de"
+      },
+      "app": {
+        "http": 200,
+        "copied": 155976,
+        "received": 155976,
+        "chunks": 1,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de",
+        "result": "wrong-sha",
+        "error": {
+          "name": "Error",
+          "message": "wrong-sha"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "50372.12",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211404,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=wrong-sha",
+                "method": "GET",
+                "timestamp": 74358.715746,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211404,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155976",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211404,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=wrong-sha",
+                "status": 200,
+                "timestamp": 74358.717301,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155976",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211407,
+                "event": "finish",
+                "timestamp": 74358.716926,
+                "encodedDataLength": 156161
+              }
+            ]
+          }
+        ],
+        "bodyBytes": 155976,
+        "sha256": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de",
+        "transferBytes": 156161,
+        "error": null,
+        "errorKind": null
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "reader",
+      "asset": "shoe",
+      "scenario": "abort",
+      "expected": {
+        "kind": "shoe",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "bytes": 155976,
+        "limit": 1048576,
+        "shortSha": "69642dbbdecb12d4ce84cd5f4e97d5e5b90ed5af0fa3a27a80f6e564c0f7d9e7",
+        "corruptSha": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de"
+      },
+      "app": {
+        "http": 200,
+        "copied": 4096,
+        "received": 4096,
+        "chunks": 1,
+        "explicitAbort": true,
+        "readerCancel": false,
+        "sha256": null,
+        "result": "abort",
+        "error": {
+          "name": "AbortError",
+          "message": "BodyStreamBuffer was aborted"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "50372.13",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211437,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=abort",
+                "method": "GET",
+                "timestamp": 74358.749899,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211438,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155976",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211438,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=abort",
+                "status": 200,
+                "timestamp": 74358.75101,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155976",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211439,
+                "event": "fail",
+                "requestId": "50372.13",
+                "timestamp": 74358.75134,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Network.loadingFailed for http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=abort: net::ERR_ABORTED",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "reader",
+      "asset": "shoe",
+      "scenario": "http503",
+      "expected": {
+        "kind": "shoe",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "bytes": 155976,
+        "limit": 1048576,
+        "shortSha": "69642dbbdecb12d4ce84cd5f4e97d5e5b90ed5af0fa3a27a80f6e564c0f7d9e7",
+        "corruptSha": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de"
+      },
+      "app": {
+        "http": 503,
+        "copied": 0,
+        "received": 0,
+        "chunks": 0,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": null,
+        "result": "http",
+        "error": {
+          "name": "Error",
+          "message": "http"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "50372.14",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211467,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=http503",
+                "method": "GET",
+                "timestamp": 74358.77951,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211468,
+                "event": "response-extra",
+                "status": 503,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "0",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211469,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=http503",
+                "status": 503,
+                "timestamp": 74358.781257,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "0",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081211469,
+                "event": "fail",
+                "requestId": "50372.14",
+                "timestamp": 74358.781596,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Unexpected status for http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=http503\n\n503 !== 200\n",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [
+        "503 response did not finish"
+      ],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "pipe",
+      "asset": "body",
+      "scenario": "normal",
+      "expected": {
+        "kind": "body",
+        "url": "/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+        "sha256": "4d13f8b43001a7adeec65273f31fc262a249a49e0c39829c97e5c7d934d864b3",
+        "bytes": 12141256,
+        "limit": 33554432,
+        "shortSha": "fd371578a0b9834b2b3c30700a3a66e3835a8470478b56dc48bee014ca50b147",
+        "corruptSha": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6"
+      },
+      "app": {
+        "http": 200,
+        "copied": 12141256,
+        "received": 12141256,
+        "chunks": 179,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": "4d13f8b43001a7adeec65273f31fc262a249a49e0c39829c97e5c7d934d864b3",
+        "result": "ok"
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "8276.3",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081212798,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+                "method": "GET",
+                "timestamp": 74360.110455,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081212799,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141256",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081212800,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+                "status": 200,
+                "timestamp": 74360.112296,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141256",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081212872,
+                "event": "fail",
+                "requestId": "8276.3",
+                "timestamp": 74360.142869,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Network.loadingFailed for http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm: net::ERR_ABORTED",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [
+        "CDP did not independently verify the completed response"
+      ],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "pipe",
+      "asset": "body",
+      "scenario": "truncated",
+      "expected": {
+        "kind": "body",
+        "url": "/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+        "sha256": "4d13f8b43001a7adeec65273f31fc262a249a49e0c39829c97e5c7d934d864b3",
+        "bytes": 12141256,
+        "limit": 33554432,
+        "shortSha": "fd371578a0b9834b2b3c30700a3a66e3835a8470478b56dc48bee014ca50b147",
+        "corruptSha": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6"
+      },
+      "app": {
+        "http": 200,
+        "copied": 12141255,
+        "received": 12141255,
+        "chunks": 175,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": null,
+        "result": "truncated",
+        "error": {
+          "name": "Error",
+          "message": "truncated"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "8276.4",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081212900,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=truncated",
+                "method": "GET",
+                "timestamp": 74360.212949,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081212901,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141255",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081212902,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=truncated",
+                "status": 200,
+                "timestamp": 74360.214755,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141255",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081212929,
+                "event": "fail",
+                "requestId": "8276.4",
+                "timestamp": 74360.241766,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Network.loadingFailed for http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=truncated: net::ERR_ABORTED",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [
+        "CDP did not independently verify the completed response"
+      ],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "pipe",
+      "asset": "body",
+      "scenario": "overflow",
+      "expected": {
+        "kind": "body",
+        "url": "/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+        "sha256": "4d13f8b43001a7adeec65273f31fc262a249a49e0c39829c97e5c7d934d864b3",
+        "bytes": 12141256,
+        "limit": 33554432,
+        "shortSha": "fd371578a0b9834b2b3c30700a3a66e3835a8470478b56dc48bee014ca50b147",
+        "corruptSha": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6"
+      },
+      "app": {
+        "http": 200,
+        "copied": 11599872,
+        "received": 12141257,
+        "chunks": 12,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": null,
+        "result": "overflow",
+        "error": {
+          "name": "Error",
+          "message": "overflow"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "8276.5",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081212961,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=overflow",
+                "method": "GET",
+                "timestamp": 74360.274292,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081212963,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141257",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081212965,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=overflow",
+                "status": 200,
+                "timestamp": 74360.278072,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141257",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081212981,
+                "event": "fail",
+                "requestId": "8276.5",
+                "timestamp": 74360.293584,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Network.loadingFailed for http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=overflow: net::ERR_ABORTED",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "pipe",
+      "asset": "body",
+      "scenario": "wrong-sha",
+      "expected": {
+        "kind": "body",
+        "url": "/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+        "sha256": "4d13f8b43001a7adeec65273f31fc262a249a49e0c39829c97e5c7d934d864b3",
+        "bytes": 12141256,
+        "limit": 33554432,
+        "shortSha": "fd371578a0b9834b2b3c30700a3a66e3835a8470478b56dc48bee014ca50b147",
+        "corruptSha": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6"
+      },
+      "app": {
+        "http": 200,
+        "copied": 12141256,
+        "received": 12141256,
+        "chunks": 17,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6",
+        "result": "wrong-sha",
+        "error": {
+          "name": "Error",
+          "message": "wrong-sha"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "8276.6",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213009,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=wrong-sha",
+                "method": "GET",
+                "timestamp": 74360.321498,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213011,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141256",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213012,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=wrong-sha",
+                "status": 200,
+                "timestamp": 74360.325009,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141256",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213096,
+                "event": "finish",
+                "timestamp": 74360.334713,
+                "encodedDataLength": 12141443
+              }
+            ]
+          }
+        ],
+        "bodyBytes": 12141256,
+        "sha256": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6",
+        "transferBytes": 12141443,
+        "error": null,
+        "errorKind": null
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "pipe",
+      "asset": "body",
+      "scenario": "abort",
+      "expected": {
+        "kind": "body",
+        "url": "/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+        "sha256": "4d13f8b43001a7adeec65273f31fc262a249a49e0c39829c97e5c7d934d864b3",
+        "bytes": 12141256,
+        "limit": 33554432,
+        "shortSha": "fd371578a0b9834b2b3c30700a3a66e3835a8470478b56dc48bee014ca50b147",
+        "corruptSha": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6"
+      },
+      "app": {
+        "http": 200,
+        "copied": 4096,
+        "received": 4096,
+        "chunks": 1,
+        "explicitAbort": true,
+        "readerCancel": false,
+        "sha256": null,
+        "result": "abort",
+        "error": {
+          "name": "AbortError",
+          "message": "signal is aborted without reason"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "8276.7",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213197,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=abort",
+                "method": "GET",
+                "timestamp": 74360.509873,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213198,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141256",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213200,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=abort",
+                "status": 200,
+                "timestamp": 74360.51161,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "12141256",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213200,
+                "event": "fail",
+                "requestId": "8276.7",
+                "timestamp": 74360.51237,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Network.loadingFailed for http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=abort: net::ERR_ABORTED",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "pipe",
+      "asset": "body",
+      "scenario": "http503",
+      "expected": {
+        "kind": "body",
+        "url": "/assets/rule-body-4d13f8b43001a7adeec6/body.vrm",
+        "sha256": "4d13f8b43001a7adeec65273f31fc262a249a49e0c39829c97e5c7d934d864b3",
+        "bytes": 12141256,
+        "limit": 33554432,
+        "shortSha": "fd371578a0b9834b2b3c30700a3a66e3835a8470478b56dc48bee014ca50b147",
+        "corruptSha": "24d04e7b153f557bdf0c3b43784f72008249ad251e8aeddd8f6400c3469d85d6"
+      },
+      "app": {
+        "http": 503,
+        "copied": 0,
+        "received": 0,
+        "chunks": 0,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": null,
+        "result": "http",
+        "error": {
+          "name": "Error",
+          "message": "http"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "8276.8",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213239,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=http503",
+                "method": "GET",
+                "timestamp": 74360.551576,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213240,
+                "event": "response-extra",
+                "status": 503,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "0",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213240,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=http503",
+                "status": 503,
+                "timestamp": 74360.553138,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "0",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213241,
+                "event": "fail",
+                "requestId": "8276.8",
+                "timestamp": 74360.553463,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Unexpected status for http://127.0.0.1:61830/assets/rule-body-4d13f8b43001a7adeec6/body.vrm?case=http503\n\n503 !== 200\n",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [
+        "503 response did not finish"
+      ],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "pipe",
+      "asset": "shoe",
+      "scenario": "normal",
+      "expected": {
+        "kind": "shoe",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "bytes": 155976,
+        "limit": 1048576,
+        "shortSha": "69642dbbdecb12d4ce84cd5f4e97d5e5b90ed5af0fa3a27a80f6e564c0f7d9e7",
+        "corruptSha": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de"
+      },
+      "app": {
+        "http": 200,
+        "copied": 155976,
+        "received": 155976,
+        "chunks": 1,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "result": "ok"
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "8276.9",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213276,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+                "method": "GET",
+                "timestamp": 74360.585443,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213276,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155976",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213277,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+                "status": 200,
+                "timestamp": 74360.589119,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155976",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213280,
+                "event": "fail",
+                "requestId": "8276.9",
+                "timestamp": 74360.589763,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Network.loadingFailed for http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb: net::ERR_ABORTED",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [
+        "CDP did not independently verify the completed response"
+      ],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "pipe",
+      "asset": "shoe",
+      "scenario": "truncated",
+      "expected": {
+        "kind": "shoe",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "bytes": 155976,
+        "limit": 1048576,
+        "shortSha": "69642dbbdecb12d4ce84cd5f4e97d5e5b90ed5af0fa3a27a80f6e564c0f7d9e7",
+        "corruptSha": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de"
+      },
+      "app": {
+        "http": 200,
+        "copied": 155975,
+        "received": 155975,
+        "chunks": 1,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": null,
+        "result": "truncated",
+        "error": {
+          "name": "Error",
+          "message": "truncated"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "8276.10",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213317,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=truncated",
+                "method": "GET",
+                "timestamp": 74360.628764,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213320,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155975",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213320,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=truncated",
+                "status": 200,
+                "timestamp": 74360.632507,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155975",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213321,
+                "event": "finish",
+                "timestamp": 74360.632192,
+                "encodedDataLength": 156160
+              }
+            ]
+          }
+        ],
+        "bodyBytes": 155975,
+        "sha256": "69642dbbdecb12d4ce84cd5f4e97d5e5b90ed5af0fa3a27a80f6e564c0f7d9e7",
+        "transferBytes": 156160,
+        "error": null,
+        "errorKind": null
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "pipe",
+      "asset": "shoe",
+      "scenario": "overflow",
+      "expected": {
+        "kind": "shoe",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "bytes": 155976,
+        "limit": 1048576,
+        "shortSha": "69642dbbdecb12d4ce84cd5f4e97d5e5b90ed5af0fa3a27a80f6e564c0f7d9e7",
+        "corruptSha": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de"
+      },
+      "app": {
+        "http": 200,
+        "copied": 0,
+        "received": 155977,
+        "chunks": 1,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": null,
+        "result": "overflow",
+        "error": {
+          "name": "Error",
+          "message": "overflow"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "8276.11",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213363,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=overflow",
+                "method": "GET",
+                "timestamp": 74360.675709,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213363,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155977",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213364,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=overflow",
+                "status": 200,
+                "timestamp": 74360.677127,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155977",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213365,
+                "event": "fail",
+                "requestId": "8276.11",
+                "timestamp": 74360.677756,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Network.loadingFailed for http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=overflow: net::ERR_ABORTED",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "pipe",
+      "asset": "shoe",
+      "scenario": "wrong-sha",
+      "expected": {
+        "kind": "shoe",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "bytes": 155976,
+        "limit": 1048576,
+        "shortSha": "69642dbbdecb12d4ce84cd5f4e97d5e5b90ed5af0fa3a27a80f6e564c0f7d9e7",
+        "corruptSha": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de"
+      },
+      "app": {
+        "http": 200,
+        "copied": 155976,
+        "received": 155976,
+        "chunks": 1,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de",
+        "result": "wrong-sha",
+        "error": {
+          "name": "Error",
+          "message": "wrong-sha"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "8276.12",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213403,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=wrong-sha",
+                "method": "GET",
+                "timestamp": 74360.71535,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213403,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155976",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213404,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=wrong-sha",
+                "status": 200,
+                "timestamp": 74360.716587,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155976",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213405,
+                "event": "finish",
+                "timestamp": 74360.716305,
+                "encodedDataLength": 156161
+              }
+            ]
+          }
+        ],
+        "bodyBytes": 155976,
+        "sha256": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de",
+        "transferBytes": 156161,
+        "error": null,
+        "errorKind": null
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "pipe",
+      "asset": "shoe",
+      "scenario": "abort",
+      "expected": {
+        "kind": "shoe",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "bytes": 155976,
+        "limit": 1048576,
+        "shortSha": "69642dbbdecb12d4ce84cd5f4e97d5e5b90ed5af0fa3a27a80f6e564c0f7d9e7",
+        "corruptSha": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de"
+      },
+      "app": {
+        "http": 200,
+        "copied": 4096,
+        "received": 4096,
+        "chunks": 1,
+        "explicitAbort": true,
+        "readerCancel": false,
+        "sha256": null,
+        "result": "abort",
+        "error": {
+          "name": "AbortError",
+          "message": "signal is aborted without reason"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "8276.13",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213444,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=abort",
+                "method": "GET",
+                "timestamp": 74360.756915,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213445,
+                "event": "response-extra",
+                "status": 200,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155976",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213445,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=abort",
+                "status": 200,
+                "timestamp": 74360.758153,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "155976",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213446,
+                "event": "fail",
+                "requestId": "8276.13",
+                "timestamp": 74360.758588,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Network.loadingFailed for http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=abort: net::ERR_ABORTED",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    },
+    {
+      "mode": "pipe",
+      "asset": "shoe",
+      "scenario": "http503",
+      "expected": {
+        "kind": "shoe",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "bytes": 155976,
+        "limit": 1048576,
+        "shortSha": "69642dbbdecb12d4ce84cd5f4e97d5e5b90ed5af0fa3a27a80f6e564c0f7d9e7",
+        "corruptSha": "8ba90ca574cbd258a59a4623798851b71266a874cbfd1d1880f6a21cd879b4de"
+      },
+      "app": {
+        "http": 503,
+        "copied": 0,
+        "received": 0,
+        "chunks": 0,
+        "explicitAbort": false,
+        "readerCancel": false,
+        "sha256": null,
+        "result": "http",
+        "error": {
+          "name": "Error",
+          "message": "http"
+        }
+      },
+      "cdp": {
+        "attempts": 1,
+        "chains": [
+          {
+            "requestId": "8276.14",
+            "events": [
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213473,
+                "event": "request",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=http503",
+                "method": "GET",
+                "timestamp": 74360.785951,
+                "type": "Fetch",
+                "initiator": {
+                  "type": "script",
+                  "stack": {
+                    "callFrames": [
+                      {
+                        "functionName": "boundedRead",
+                        "scriptId": "13",
+                        "url": "",
+                        "lineNumber": 6,
+                        "columnNumber": 27
+                      },
+                      {
+                        "functionName": "evaluate",
+                        "scriptId": "7",
+                        "url": "",
+                        "lineNumber": 291,
+                        "columnNumber": 15
+                      },
+                      {
+                        "functionName": "",
+                        "scriptId": "12",
+                        "url": "",
+                        "lineNumber": 0,
+                        "columnNumber": 43
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213474,
+                "event": "response-extra",
+                "status": 503,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "0",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213475,
+                "event": "response",
+                "url": "http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=http503",
+                "status": 503,
+                "timestamp": 74360.787574,
+                "type": "Fetch",
+                "protocol": "http/1.1",
+                "fromDiskCache": false,
+                "fromServiceWorker": false,
+                "fromPrefetchCache": false,
+                "headers": {
+                  "cache-control": "no-store",
+                  "content-length": "0",
+                  "content-type": "model/gltf-binary"
+                }
+              },
+              {
+                "phase": "before-navigation",
+                "observedAt": 1795081213475,
+                "event": "fail",
+                "requestId": "8276.14",
+                "timestamp": 74360.788054,
+                "type": "Fetch",
+                "errorText": "net::ERR_ABORTED",
+                "canceled": true
+              }
+            ]
+          }
+        ],
+        "bodyBytes": null,
+        "sha256": null,
+        "transferBytes": null,
+        "error": "Unexpected status for http://127.0.0.1:61830/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb?case=http503\n\n503 !== 200\n",
+        "errorKind": "network-or-integrity-failed"
+      },
+      "issues": [
+        "503 response did not finish"
+      ],
+      "browser": {
+        "executablePath": "F:\\gamemake-test\\formal-round\\combination\\tools\\browsers\\chromium-1208\\chrome-win64\\chrome.exe",
+        "executableSha256": "ff0c99fc5bb2301cad77930aa76e5354cf2a5fefb7efdcf3b3bc10ba0550c015",
+        "playwrightVersion": "1.58.2",
+        "browserVersion": "145.0.7632.6"
+      }
+    }
+  ],
+  "firstFailure": {
+    "mode": "reader",
+    "asset": "body",
+    "scenario": "normal",
+    "issues": [
+      "CDP did not independently verify the completed response"
+    ]
+  }
+}
