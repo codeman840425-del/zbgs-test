@@ -1,0 +1,1830 @@
+{
+  "status": "passed",
+  "build": "7255eee31b85",
+  "rooms": [
+    {
+      "alias": "singing-studio",
+      "room": "singing-studio/ground/live",
+      "sourceSaveSha256": "4438ffec90df2f56ac3020a748d711d49d3eb715330f47a020914f64d78be6ed",
+      "localSaveSha256": "265b13406e7a1eacc49dcf9b8129980a46c5513e0f9d3f4744455bc7fdc17d8a",
+      "authored": {
+        "slot": {
+          "id": "singing-studio/ground/live/vocal#vocal",
+          "companyId": "singing-studio",
+          "revision": 1,
+          "facilityId": "singing-studio/ground/live/vocal",
+          "floorId": "singing-studio/ground",
+          "roomId": "singing-studio/ground/live",
+          "resource": {
+            "id": "floor-vocal-mic-boom",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793
+          },
+          "facilityTransform": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "yaw": 0
+          },
+          "local": {
+            "coordinateSpace": "facility",
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793,
+            "approach": [
+              0,
+              0,
+              1.12
+            ],
+            "exit": [
+              0,
+              0,
+              1.12
+            ]
+          },
+          "approachPosition": [
+            0,
+            0,
+            1.12
+          ],
+          "exitPosition": [
+            0,
+            0,
+            1.12
+          ],
+          "kind": "standing-vocal",
+          "slotId": "vocal",
+          "transformChain": [
+            {
+              "id": "singing-studio/ground",
+              "parentId": "singing-studio",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-studio/ground/live",
+              "parentId": "singing-studio/ground",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-studio/ground/live/vocal",
+              "parentId": "singing-studio/ground/live",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            }
+          ],
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "mouth": [
+              0,
+              1.555,
+              0.23
+            ],
+            "eye": [
+              0,
+              1.64,
+              0.215
+            ]
+          },
+          "capacity": 1,
+          "clearance": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 1.9
+          },
+          "footprint": {
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              0.33,
+              0.48
+            ],
+            "blocking": true
+          },
+          "contact": {
+            "pickupNodeId": "singing-mic-pickup"
+          },
+          "missingFields": [],
+          "limitations": []
+        },
+        "ref": {
+          "id": "floor-vocal-mic-boom",
+          "version": 1
+        },
+        "grille": "singing-mic-pickup",
+        "triangles": 2112,
+        "glb": {
+          "format": "glb",
+          "url": "/company-assets/singing-stage-v1/floor-vocal-mic-boom/v1/model.glb",
+          "bytes": 580300,
+          "sha256": "9cbbc83645f96894fa370494b0813be70c247be7e4442ebff204945d4c928a18"
+        },
+        "world": {
+          "position": [
+            0,
+            0,
+            0.77
+          ],
+          "yaw": 3.141592653589793,
+          "hostPosition": [
+            0,
+            0,
+            0
+          ],
+          "hostYaw": 0,
+          "approach": [
+            0,
+            0,
+            1.12
+          ],
+          "exit": [
+            0,
+            0,
+            1.12
+          ],
+          "mouth": [
+            2.816687638038912e-17,
+            1.555,
+            0.54
+          ],
+          "eye": [
+            2.6329906181668094e-17,
+            1.64,
+            0.555
+          ],
+          "pickupCenter": [
+            0,
+            1.5903437006322356,
+            0.3885893295959775
+          ],
+          "pickupSurface": [
+            4.579181763182789e-18,
+            1.5845977589384237,
+            0.41320466043003856
+          ],
+          "mouthToGrille": 0.13020401480307311
+        },
+        "localGrille": [
+          4.579181763182789e-18,
+          1.5845977589384237,
+          0.41320466043003856
+        ],
+        "masterCount": 1
+      },
+      "rejected": {
+        "panel": "singing-studio/ground/live/background",
+        "attempt": {
+          "position": [
+            0,
+            0,
+            1.25
+          ],
+          "yaw": 0
+        },
+        "old": {
+          "position": [
+            1.4,
+            0,
+            2.18
+          ],
+          "yaw": 3.141592653589793
+        },
+        "slotId": "singing-studio/ground/live/vocal#vocal",
+        "code": "vocal-use-path-blocked",
+        "message": "CompanyError: vocal-use-path-blocked at singing-studio/ground/live/vocal#vocal: The final route to the microphone is obstructed.",
+        "status": "麦架前的进退空间被挡住了。当前有效方案已保留。",
+        "savedSha256": "2be6c68cb784b1f60ab91146b4d3534dabe6e22d50984522c7b641fce5516646",
+        "photo": "singing-studio-blocked-panel-rejected.png"
+      },
+      "broadcastEdit": {
+        "proof": {
+          "ok": true,
+          "checkedDocumentSha256": "c0e4fae7d4c80474ccc76661bac1c4a710b466a74bcd4df52b0239ec213b0869",
+          "microphone": {
+            "node": "singing-mic-pickup",
+            "surface": [
+              0,
+              1.5845978,
+              0.5132047
+            ],
+            "axis": [
+              0,
+              -0.2419224,
+              0.9702956
+            ],
+            "distanceMetres": 0.13020401480307323,
+            "incidenceDegrees": 0.8607899471773773,
+            "facingDegrees": 0,
+            "joins": {
+              "singing-mic-pickup / singing-mic-collar": [
+                0.0250655,
+                1.5967134,
+                0.4708086
+              ],
+              "singing-mic-collar / singing-mic-handle": [
+                0.0217333,
+                1.602065,
+                0.4597755
+              ],
+              "singing-mic-handle / singing-mic-clip": [
+                0.0201616,
+                1.6093277,
+                0.4289051
+              ],
+              "singing-mic-clip / singing-boom": [
+                0,
+                1.6357855,
+                0.4080271
+              ]
+            }
+          },
+          "scorePages": 2,
+          "room": "singing-studio/ground/live",
+          "routes": []
+        },
+        "observation": {
+          "slot": {
+            "id": "singing-studio/ground/live/vocal#vocal",
+            "companyId": "singing-studio",
+            "revision": 2,
+            "facilityId": "singing-studio/ground/live/vocal",
+            "floorId": "singing-studio/ground",
+            "roomId": "singing-studio/ground/live",
+            "resource": {
+              "id": "floor-vocal-mic-boom",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                0,
+                0,
+                0.87
+              ],
+              "yaw": 3.141592653589793
+            },
+            "facilityTransform": {
+              "position": [
+                0,
+                0,
+                0.1
+              ],
+              "yaw": 0
+            },
+            "local": {
+              "coordinateSpace": "facility",
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793,
+              "approach": [
+                0,
+                0,
+                1.12
+              ],
+              "exit": [
+                0,
+                0,
+                1.12
+              ]
+            },
+            "approachPosition": [
+              0,
+              0,
+              1.2200000000000002
+            ],
+            "exitPosition": [
+              0,
+              0,
+              1.2200000000000002
+            ],
+            "kind": "standing-vocal",
+            "slotId": "vocal",
+            "transformChain": [
+              {
+                "id": "singing-studio/ground",
+                "parentId": "singing-studio",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live",
+                "parentId": "singing-studio/ground",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/vocal",
+                "parentId": "singing-studio/ground/live",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0.1
+                  ],
+                  "yaw": 0
+                }
+              }
+            ],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "mouth": [
+                0,
+                1.555,
+                0.23
+              ],
+              "eye": [
+                0,
+                1.64,
+                0.215
+              ]
+            },
+            "capacity": 1,
+            "clearance": {
+              "width": 0.5,
+              "depth": 0.5,
+              "height": 1.9
+            },
+            "footprint": {
+              "center": [
+                0,
+                0
+              ],
+              "halfSize": [
+                0.33,
+                0.48
+              ],
+              "blocking": true
+            },
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "missingFields": [],
+            "limitations": []
+          },
+          "ref": {
+            "id": "floor-vocal-mic-boom",
+            "version": 1
+          },
+          "grille": "singing-mic-pickup",
+          "triangles": 2112,
+          "glb": {
+            "format": "glb",
+            "url": "/company-assets/singing-stage-v1/floor-vocal-mic-boom/v1/model.glb",
+            "bytes": 580300,
+            "sha256": "9cbbc83645f96894fa370494b0813be70c247be7e4442ebff204945d4c928a18"
+          },
+          "world": {
+            "position": [
+              0,
+              0,
+              0.87
+            ],
+            "yaw": 3.141592653589793,
+            "hostPosition": [
+              0,
+              0,
+              0.1
+            ],
+            "hostYaw": 0,
+            "approach": [
+              0,
+              0,
+              1.2200000000000002
+            ],
+            "exit": [
+              0,
+              0,
+              1.2200000000000002
+            ],
+            "mouth": [
+              2.816687638038912e-17,
+              1.555,
+              0.64
+            ],
+            "eye": [
+              2.6329906181668094e-17,
+              1.64,
+              0.655
+            ],
+            "pickupCenter": [
+              0,
+              1.5903437006322356,
+              0.48858932959597745
+            ],
+            "pickupSurface": [
+              4.5791817631828074e-18,
+              1.5845977589384235,
+              0.5132046604300384
+            ],
+            "mouthToGrille": 0.13020401480307317
+          },
+          "localGrille": [
+            4.5791817631828074e-18,
+            1.5845977589384235,
+            0.41320466043003845
+          ],
+          "masterCount": 1
+        },
+        "image": "singing-studio-certified-slide-pickup.png"
+      },
+      "moved": {
+        "slot": {
+          "id": "singing-studio/ground/live/vocal#vocal",
+          "companyId": "singing-studio",
+          "revision": 3,
+          "facilityId": "singing-studio/ground/live/vocal",
+          "floorId": "singing-studio/ground",
+          "roomId": "singing-studio/ground/live",
+          "resource": {
+            "id": "floor-vocal-mic-boom",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -0.030000000000000027,
+              0,
+              0.5
+            ],
+            "yaw": 4.71238898038469
+          },
+          "facilityTransform": {
+            "position": [
+              -0.8,
+              0,
+              0.5
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "local": {
+            "coordinateSpace": "facility",
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793,
+            "approach": [
+              0,
+              0,
+              1.12
+            ],
+            "exit": [
+              0,
+              0,
+              1.12
+            ]
+          },
+          "approachPosition": [
+            0.32000000000000006,
+            0,
+            0.5000000000000001
+          ],
+          "exitPosition": [
+            0.32000000000000006,
+            0,
+            0.5000000000000001
+          ],
+          "kind": "standing-vocal",
+          "slotId": "vocal",
+          "transformChain": [
+            {
+              "id": "singing-studio/ground",
+              "parentId": "singing-studio",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-studio/ground/live",
+              "parentId": "singing-studio/ground",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-studio/ground/live/vocal",
+              "parentId": "singing-studio/ground/live",
+              "transform": {
+                "position": [
+                  -0.8,
+                  0,
+                  0.5
+                ],
+                "yaw": 1.5707963267948966
+              }
+            }
+          ],
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "mouth": [
+              0,
+              1.555,
+              0.23
+            ],
+            "eye": [
+              0,
+              1.64,
+              0.215
+            ]
+          },
+          "capacity": 1,
+          "clearance": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 1.9
+          },
+          "footprint": {
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              0.33,
+              0.48
+            ],
+            "blocking": true
+          },
+          "contact": {
+            "pickupNodeId": "singing-mic-pickup"
+          },
+          "missingFields": [],
+          "limitations": []
+        },
+        "ref": {
+          "id": "floor-vocal-mic-boom",
+          "version": 1
+        },
+        "grille": "singing-mic-pickup",
+        "triangles": 2112,
+        "glb": {
+          "format": "glb",
+          "url": "/company-assets/singing-stage-v1/floor-vocal-mic-boom/v1/model.glb",
+          "bytes": 580300,
+          "sha256": "9cbbc83645f96894fa370494b0813be70c247be7e4442ebff204945d4c928a18"
+        },
+        "world": {
+          "position": [
+            -0.030000000000000027,
+            0,
+            0.5000000000000002
+          ],
+          "yaw": -1.570796326794897,
+          "hostPosition": [
+            -0.8,
+            0,
+            0.5
+          ],
+          "hostYaw": 1.5707963267948963,
+          "approach": [
+            0.32000000000000006,
+            0,
+            0.5000000000000002
+          ],
+          "exit": [
+            0.32000000000000006,
+            0,
+            0.5000000000000002
+          ],
+          "mouth": [
+            -0.26,
+            1.555,
+            0.5000000000000001
+          ],
+          "eye": [
+            -0.24500000000000002,
+            1.64,
+            0.5000000000000001
+          ],
+          "pickupCenter": [
+            -0.41141067040402257,
+            1.5903437006322356,
+            0.5000000000000001
+          ],
+          "pickupSurface": [
+            -0.3867953395699616,
+            1.5845977589384235,
+            0.5000000000000002
+          ],
+          "mouthToGrille": 0.13020401480307317
+        },
+        "localGrille": [
+          -1.1102230246251565e-16,
+          1.5845977589384235,
+          0.41320466043003845
+        ],
+        "masterCount": 1
+      },
+      "cold": {
+        "slot": {
+          "id": "singing-studio/ground/live/vocal#vocal",
+          "companyId": "singing-studio",
+          "revision": 3,
+          "facilityId": "singing-studio/ground/live/vocal",
+          "floorId": "singing-studio/ground",
+          "roomId": "singing-studio/ground/live",
+          "resource": {
+            "id": "floor-vocal-mic-boom",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -0.030000000000000027,
+              0,
+              0.5
+            ],
+            "yaw": 4.71238898038469
+          },
+          "facilityTransform": {
+            "position": [
+              -0.8,
+              0,
+              0.5
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "local": {
+            "coordinateSpace": "facility",
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793,
+            "approach": [
+              0,
+              0,
+              1.12
+            ],
+            "exit": [
+              0,
+              0,
+              1.12
+            ]
+          },
+          "approachPosition": [
+            0.32000000000000006,
+            0,
+            0.5000000000000001
+          ],
+          "exitPosition": [
+            0.32000000000000006,
+            0,
+            0.5000000000000001
+          ],
+          "kind": "standing-vocal",
+          "slotId": "vocal",
+          "transformChain": [
+            {
+              "id": "singing-studio/ground",
+              "parentId": "singing-studio",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-studio/ground/live",
+              "parentId": "singing-studio/ground",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-studio/ground/live/vocal",
+              "parentId": "singing-studio/ground/live",
+              "transform": {
+                "position": [
+                  -0.8,
+                  0,
+                  0.5
+                ],
+                "yaw": 1.5707963267948966
+              }
+            }
+          ],
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "mouth": [
+              0,
+              1.555,
+              0.23
+            ],
+            "eye": [
+              0,
+              1.64,
+              0.215
+            ]
+          },
+          "capacity": 1,
+          "clearance": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 1.9
+          },
+          "footprint": {
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              0.33,
+              0.48
+            ],
+            "blocking": true
+          },
+          "contact": {
+            "pickupNodeId": "singing-mic-pickup"
+          },
+          "missingFields": [],
+          "limitations": []
+        },
+        "ref": {
+          "id": "floor-vocal-mic-boom",
+          "version": 1
+        },
+        "grille": "singing-mic-pickup",
+        "triangles": 2112,
+        "glb": {
+          "format": "glb",
+          "url": "/company-assets/singing-stage-v1/floor-vocal-mic-boom/v1/model.glb",
+          "bytes": 580300,
+          "sha256": "9cbbc83645f96894fa370494b0813be70c247be7e4442ebff204945d4c928a18"
+        },
+        "world": {
+          "position": [
+            -0.030000000000000027,
+            0,
+            0.5000000000000002
+          ],
+          "yaw": -1.570796326794897,
+          "hostPosition": [
+            -0.8,
+            0,
+            0.5
+          ],
+          "hostYaw": 1.5707963267948963,
+          "approach": [
+            0.32000000000000006,
+            0,
+            0.5000000000000002
+          ],
+          "exit": [
+            0.32000000000000006,
+            0,
+            0.5000000000000002
+          ],
+          "mouth": [
+            -0.26,
+            1.555,
+            0.5000000000000001
+          ],
+          "eye": [
+            -0.24500000000000002,
+            1.64,
+            0.5000000000000001
+          ],
+          "pickupCenter": [
+            -0.41141067040402257,
+            1.5903437006322356,
+            0.5000000000000001
+          ],
+          "pickupSurface": [
+            -0.3867953395699616,
+            1.5845977589384235,
+            0.5000000000000002
+          ],
+          "mouthToGrille": 0.13020401480307317
+        },
+        "localGrille": [
+          -1.1102230246251565e-16,
+          1.5845977589384235,
+          0.41320466043003845
+        ],
+        "masterCount": 1
+      },
+      "view": {
+        "firstPixels": 534,
+        "pixels": {
+          "id": "singing-studio/ground/live/vocal",
+          "part": "singing-mic-pickup",
+          "count": 534,
+          "bounds": [
+            433,
+            167,
+            459,
+            194
+          ],
+          "canvas": [
+            1064,
+            774
+          ]
+        }
+      },
+      "coldView": {
+        "firstPixels": 559,
+        "pixels": {
+          "id": "singing-studio/ground/live/vocal",
+          "part": "singing-mic-pickup",
+          "count": 559,
+          "bounds": [
+            433,
+            167,
+            459,
+            194
+          ],
+          "canvas": [
+            1064,
+            774
+          ]
+        }
+      },
+      "lens": [
+        [
+          -0.2232341665588427,
+          0.4752245459386095,
+          0.9590383148077033
+        ],
+        [
+          -0.22186013598910356,
+          0.5315110748083509,
+          0.9592924904791724
+        ]
+      ],
+      "initialImage": "singing-studio-authored-room.png",
+      "cameraImage": "singing-studio-authored-camera.png",
+      "grilleImage": "singing-studio-authored-pickup.png",
+      "coldImage": "singing-studio-edited-cold-pickup.png"
+    },
+    {
+      "alias": "singing-rental",
+      "room": "singing-rental/ground/live",
+      "sourceSaveSha256": "0c50382d1535571f9071bf3dd7be4f585deacdb98b17765d238b29985e5d770e",
+      "localSaveSha256": "5c8653ead349021bbe4143bc90c60538ff6cc4f4f684ccb1e6afedf03db71e38",
+      "authored": {
+        "slot": {
+          "id": "singing-rental/ground/live/vocal#vocal",
+          "companyId": "singing-rental",
+          "revision": 2,
+          "facilityId": "singing-rental/ground/live/vocal",
+          "floorId": "singing-rental/ground",
+          "roomId": "singing-rental/ground/live",
+          "resource": {
+            "id": "floor-vocal-mic-boom",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -3.73,
+              0,
+              4.71489017671731e-17
+            ],
+            "yaw": 4.71238898038469
+          },
+          "facilityTransform": {
+            "position": [
+              -4.5,
+              0,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          },
+          "local": {
+            "coordinateSpace": "facility",
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793,
+            "approach": [
+              0,
+              0,
+              1.12
+            ],
+            "exit": [
+              0,
+              0,
+              1.12
+            ]
+          },
+          "approachPosition": [
+            -3.38,
+            0,
+            6.858022075225179e-17
+          ],
+          "exitPosition": [
+            -3.38,
+            0,
+            6.858022075225179e-17
+          ],
+          "kind": "standing-vocal",
+          "slotId": "vocal",
+          "transformChain": [
+            {
+              "id": "singing-rental/ground",
+              "parentId": "singing-rental",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-rental/ground/live",
+              "parentId": "singing-rental/ground",
+              "transform": {
+                "position": [
+                  -4.5,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-rental/ground/live/vocal",
+              "parentId": "singing-rental/ground/live",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 1.5707963267948966
+              }
+            }
+          ],
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "mouth": [
+              0,
+              1.555,
+              0.23
+            ],
+            "eye": [
+              0,
+              1.64,
+              0.215
+            ]
+          },
+          "capacity": 1,
+          "clearance": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 1.9
+          },
+          "footprint": {
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              0.33,
+              0.48
+            ],
+            "blocking": true
+          },
+          "contact": {
+            "pickupNodeId": "singing-mic-pickup"
+          },
+          "missingFields": [],
+          "limitations": []
+        },
+        "ref": {
+          "id": "floor-vocal-mic-boom",
+          "version": 1
+        },
+        "grille": "singing-mic-pickup",
+        "triangles": 2112,
+        "glb": {
+          "format": "glb",
+          "url": "/company-assets/singing-stage-v1/floor-vocal-mic-boom/v1/model.glb",
+          "bytes": 580300,
+          "sha256": "9cbbc83645f96894fa370494b0813be70c247be7e4442ebff204945d4c928a18"
+        },
+        "world": {
+          "position": [
+            -3.73,
+            0,
+            1.709743457922741e-16
+          ],
+          "yaw": -1.570796326794897,
+          "hostPosition": [
+            -4.5,
+            0,
+            0
+          ],
+          "hostYaw": 1.5707963267948963,
+          "approach": [
+            -3.38,
+            0,
+            2.486899575160351e-16
+          ],
+          "exit": [
+            -3.38,
+            0,
+            2.486899575160351e-16
+          ],
+          "mouth": [
+            -3.96,
+            1.555,
+            9.173721027912778e-17
+          ],
+          "eye": [
+            -3.945,
+            1.64,
+            9.690484955172428e-17
+          ],
+          "pickupCenter": [
+            -4.111410670404023,
+            1.5903437006322356,
+            8.326672684688674e-17
+          ],
+          "pickupSurface": [
+            -4.086795339569962,
+            1.5845977589384237,
+            8.464380120665755e-17
+          ],
+          "mouthToGrille": 0.13020401480307353
+        },
+        "localGrille": [
+          7.10606437171188e-18,
+          1.5845977589384237,
+          0.4132046604300381
+        ],
+        "masterCount": 1
+      },
+      "rejected": null,
+      "broadcastEdit": {
+        "proof": {
+          "ok": true,
+          "checkedDocumentSha256": "6954cf1a350fbeeac02616891313fb3e64844df90dd3d37cedc0d883735cdfe0",
+          "microphone": {
+            "node": "singing-mic-pickup",
+            "surface": [
+              0.5132047,
+              1.5845978,
+              0
+            ],
+            "axis": [
+              0.9702956,
+              -0.2419224,
+              0
+            ],
+            "distanceMetres": 0.13020401480307323,
+            "incidenceDegrees": 0.8607899471773773,
+            "facingDegrees": 0,
+            "joins": {
+              "singing-mic-pickup / singing-mic-collar": [
+                0.4708086,
+                1.5967134,
+                -0.0250655
+              ],
+              "singing-mic-collar / singing-mic-handle": [
+                0.4597755,
+                1.602065,
+                -0.0217333
+              ],
+              "singing-mic-handle / singing-mic-clip": [
+                0.4289051,
+                1.6093277,
+                -0.0201616
+              ],
+              "singing-mic-clip / singing-boom": [
+                0.4080271,
+                1.6357855,
+                0
+              ]
+            }
+          },
+          "scorePages": 2,
+          "room": "singing-rental/ground/live",
+          "routes": []
+        },
+        "observation": {
+          "slot": {
+            "id": "singing-rental/ground/live/vocal#vocal",
+            "companyId": "singing-rental",
+            "revision": 3,
+            "facilityId": "singing-rental/ground/live/vocal",
+            "floorId": "singing-rental/ground",
+            "roomId": "singing-rental/ground/live",
+            "resource": {
+              "id": "floor-vocal-mic-boom",
+              "version": 1
+            },
+            "transform": {
+              "position": [
+                -3.6300000000000003,
+                0,
+                4.71489017671731e-17
+              ],
+              "yaw": 4.71238898038469
+            },
+            "facilityTransform": {
+              "position": [
+                -4.4,
+                0,
+                0
+              ],
+              "yaw": 1.5707963267948966
+            },
+            "local": {
+              "coordinateSpace": "facility",
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793,
+              "approach": [
+                0,
+                0,
+                1.12
+              ],
+              "exit": [
+                0,
+                0,
+                1.12
+              ]
+            },
+            "approachPosition": [
+              -3.2800000000000002,
+              0,
+              6.858022075225179e-17
+            ],
+            "exitPosition": [
+              -3.2800000000000002,
+              0,
+              6.858022075225179e-17
+            ],
+            "kind": "standing-vocal",
+            "slotId": "vocal",
+            "transformChain": [
+              {
+                "id": "singing-rental/ground",
+                "parentId": "singing-rental",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live",
+                "parentId": "singing-rental/ground",
+                "transform": {
+                  "position": [
+                    -4.5,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-rental/ground/live/vocal",
+                "parentId": "singing-rental/ground/live",
+                "transform": {
+                  "position": [
+                    0.1,
+                    0,
+                    0
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              }
+            ],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "mouth": [
+                0,
+                1.555,
+                0.23
+              ],
+              "eye": [
+                0,
+                1.64,
+                0.215
+              ]
+            },
+            "capacity": 1,
+            "clearance": {
+              "width": 0.5,
+              "depth": 0.5,
+              "height": 1.9
+            },
+            "footprint": {
+              "center": [
+                0,
+                0
+              ],
+              "halfSize": [
+                0.33,
+                0.48
+              ],
+              "blocking": true
+            },
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "missingFields": [],
+            "limitations": []
+          },
+          "ref": {
+            "id": "floor-vocal-mic-boom",
+            "version": 1
+          },
+          "grille": "singing-mic-pickup",
+          "triangles": 2112,
+          "glb": {
+            "format": "glb",
+            "url": "/company-assets/singing-stage-v1/floor-vocal-mic-boom/v1/model.glb",
+            "bytes": 580300,
+            "sha256": "9cbbc83645f96894fa370494b0813be70c247be7e4442ebff204945d4c928a18"
+          },
+          "world": {
+            "position": [
+              -3.6300000000000003,
+              0,
+              1.709743457922741e-16
+            ],
+            "yaw": -1.570796326794897,
+            "hostPosition": [
+              -4.4,
+              0,
+              0
+            ],
+            "hostYaw": 1.5707963267948963,
+            "approach": [
+              -3.2800000000000002,
+              0,
+              2.486899575160351e-16
+            ],
+            "exit": [
+              -3.2800000000000002,
+              0,
+              2.486899575160351e-16
+            ],
+            "mouth": [
+              -3.8600000000000003,
+              1.555,
+              9.173721027912778e-17
+            ],
+            "eye": [
+              -3.845,
+              1.64,
+              9.690484955172428e-17
+            ],
+            "pickupCenter": [
+              -4.0114106704040235,
+              1.5903437006322356,
+              8.326672684688674e-17
+            ],
+            "pickupSurface": [
+              -3.986795339569962,
+              1.5845977589384237,
+              8.464380120665743e-17
+            ],
+            "mouthToGrille": 0.13020401480307311
+          },
+          "localGrille": [
+            7.106064371712274e-18,
+            1.5845977589384237,
+            0.41320466043003856
+          ],
+          "masterCount": 1
+        },
+        "image": "singing-rental-certified-slide-pickup.png"
+      },
+      "moved": {
+        "slot": {
+          "id": "singing-rental/ground/live/vocal#vocal",
+          "companyId": "singing-rental",
+          "revision": 4,
+          "facilityId": "singing-rental/ground/live/vocal",
+          "floorId": "singing-rental/ground",
+          "roomId": "singing-rental/ground/live",
+          "resource": {
+            "id": "floor-vocal-mic-boom",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -3.7,
+              0,
+              -0.67
+            ],
+            "yaw": 6.283185307179586
+          },
+          "facilityTransform": {
+            "position": [
+              -3.7,
+              0,
+              0.1
+            ],
+            "yaw": 3.141592653589793
+          },
+          "local": {
+            "coordinateSpace": "facility",
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793,
+            "approach": [
+              0,
+              0,
+              1.12
+            ],
+            "exit": [
+              0,
+              0,
+              1.12
+            ]
+          },
+          "approachPosition": [
+            -3.7,
+            0,
+            -1.02
+          ],
+          "exitPosition": [
+            -3.7,
+            0,
+            -1.02
+          ],
+          "kind": "standing-vocal",
+          "slotId": "vocal",
+          "transformChain": [
+            {
+              "id": "singing-rental/ground",
+              "parentId": "singing-rental",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-rental/ground/live",
+              "parentId": "singing-rental/ground",
+              "transform": {
+                "position": [
+                  -4.5,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-rental/ground/live/vocal",
+              "parentId": "singing-rental/ground/live",
+              "transform": {
+                "position": [
+                  0.8,
+                  0,
+                  0.1
+                ],
+                "yaw": 3.141592653589793
+              }
+            }
+          ],
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "mouth": [
+              0,
+              1.555,
+              0.23
+            ],
+            "eye": [
+              0,
+              1.64,
+              0.215
+            ]
+          },
+          "capacity": 1,
+          "clearance": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 1.9
+          },
+          "footprint": {
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              0.33,
+              0.48
+            ],
+            "blocking": true
+          },
+          "contact": {
+            "pickupNodeId": "singing-mic-pickup"
+          },
+          "missingFields": [],
+          "limitations": []
+        },
+        "ref": {
+          "id": "floor-vocal-mic-boom",
+          "version": 1
+        },
+        "grille": "singing-mic-pickup",
+        "triangles": 2112,
+        "glb": {
+          "format": "glb",
+          "url": "/company-assets/singing-stage-v1/floor-vocal-mic-boom/v1/model.glb",
+          "bytes": 580300,
+          "sha256": "9cbbc83645f96894fa370494b0813be70c247be7e4442ebff204945d4c928a18"
+        },
+        "world": {
+          "position": [
+            -3.7,
+            0,
+            -0.67
+          ],
+          "yaw": -2.4492935982947064e-16,
+          "hostPosition": [
+            -3.7,
+            0,
+            0.1
+          ],
+          "hostYaw": 3.141592653589793,
+          "approach": [
+            -3.7,
+            0,
+            -1.02
+          ],
+          "exit": [
+            -3.7,
+            0,
+            -1.02
+          ],
+          "mouth": [
+            -3.7,
+            1.555,
+            -0.44000000000000006
+          ],
+          "eye": [
+            -3.7,
+            1.64,
+            -0.45500000000000007
+          ],
+          "pickupCenter": [
+            -3.7,
+            1.5903437006322356,
+            -0.2885893295959775
+          ],
+          "pickupSurface": [
+            -3.7000000000000006,
+            1.5845977589384237,
+            -0.3132046604300386
+          ],
+          "mouthToGrille": 0.13020401480307311
+        },
+        "localGrille": [
+          4.440892098500626e-16,
+          1.5845977589384237,
+          0.4132046604300386
+        ],
+        "masterCount": 1
+      },
+      "cold": {
+        "slot": {
+          "id": "singing-rental/ground/live/vocal#vocal",
+          "companyId": "singing-rental",
+          "revision": 4,
+          "facilityId": "singing-rental/ground/live/vocal",
+          "floorId": "singing-rental/ground",
+          "roomId": "singing-rental/ground/live",
+          "resource": {
+            "id": "floor-vocal-mic-boom",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -3.7,
+              0,
+              -0.67
+            ],
+            "yaw": 6.283185307179586
+          },
+          "facilityTransform": {
+            "position": [
+              -3.7,
+              0,
+              0.1
+            ],
+            "yaw": 3.141592653589793
+          },
+          "local": {
+            "coordinateSpace": "facility",
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793,
+            "approach": [
+              0,
+              0,
+              1.12
+            ],
+            "exit": [
+              0,
+              0,
+              1.12
+            ]
+          },
+          "approachPosition": [
+            -3.7,
+            0,
+            -1.02
+          ],
+          "exitPosition": [
+            -3.7,
+            0,
+            -1.02
+          ],
+          "kind": "standing-vocal",
+          "slotId": "vocal",
+          "transformChain": [
+            {
+              "id": "singing-rental/ground",
+              "parentId": "singing-rental",
+              "transform": {
+                "position": [
+                  0,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-rental/ground/live",
+              "parentId": "singing-rental/ground",
+              "transform": {
+                "position": [
+                  -4.5,
+                  0,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            {
+              "id": "singing-rental/ground/live/vocal",
+              "parentId": "singing-rental/ground/live",
+              "transform": {
+                "position": [
+                  0.8,
+                  0,
+                  0.1
+                ],
+                "yaw": 3.141592653589793
+              }
+            }
+          ],
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "mouth": [
+              0,
+              1.555,
+              0.23
+            ],
+            "eye": [
+              0,
+              1.64,
+              0.215
+            ]
+          },
+          "capacity": 1,
+          "clearance": {
+            "width": 0.5,
+            "depth": 0.5,
+            "height": 1.9
+          },
+          "footprint": {
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              0.33,
+              0.48
+            ],
+            "blocking": true
+          },
+          "contact": {
+            "pickupNodeId": "singing-mic-pickup"
+          },
+          "missingFields": [],
+          "limitations": []
+        },
+        "ref": {
+          "id": "floor-vocal-mic-boom",
+          "version": 1
+        },
+        "grille": "singing-mic-pickup",
+        "triangles": 2112,
+        "glb": {
+          "format": "glb",
+          "url": "/company-assets/singing-stage-v1/floor-vocal-mic-boom/v1/model.glb",
+          "bytes": 580300,
+          "sha256": "9cbbc83645f96894fa370494b0813be70c247be7e4442ebff204945d4c928a18"
+        },
+        "world": {
+          "position": [
+            -3.7,
+            0,
+            -0.67
+          ],
+          "yaw": -2.4492935982947064e-16,
+          "hostPosition": [
+            -3.7,
+            0,
+            0.1
+          ],
+          "hostYaw": 3.141592653589793,
+          "approach": [
+            -3.7,
+            0,
+            -1.02
+          ],
+          "exit": [
+            -3.7,
+            0,
+            -1.02
+          ],
+          "mouth": [
+            -3.7,
+            1.555,
+            -0.44000000000000006
+          ],
+          "eye": [
+            -3.7,
+            1.64,
+            -0.45500000000000007
+          ],
+          "pickupCenter": [
+            -3.7,
+            1.5903437006322356,
+            -0.2885893295959775
+          ],
+          "pickupSurface": [
+            -3.7000000000000006,
+            1.5845977589384237,
+            -0.3132046604300386
+          ],
+          "mouthToGrille": 0.13020401480307311
+        },
+        "localGrille": [
+          4.440892098500626e-16,
+          1.5845977589384237,
+          0.4132046604300386
+        ],
+        "masterCount": 1
+      },
+      "view": {
+        "firstPixels": 572,
+        "pixels": {
+          "id": "singing-rental/ground/live/vocal",
+          "part": "singing-mic-pickup",
+          "count": 572,
+          "bounds": [
+            433,
+            167,
+            459,
+            194
+          ],
+          "canvas": [
+            1064,
+            774
+          ]
+        }
+      },
+      "coldView": {
+        "firstPixels": 447,
+        "pixels": {
+          "id": "singing-rental/ground/live/vocal",
+          "part": "singing-mic-pickup",
+          "count": 447,
+          "bounds": [
+            376,
+            143,
+            398,
+            168
+          ],
+          "canvas": [
+            1064,
+            774
+          ]
+        }
+      },
+      "lens": [
+        [
+          -0.25296059219239825,
+          0.5937264606760827,
+          0.9479686404917511
+        ],
+        [
+          -0.2509894706945739,
+          0.6640603527003731,
+          0.9483766774923663
+        ]
+      ],
+      "initialImage": "singing-rental-authored-room.png",
+      "cameraImage": "singing-rental-authored-camera.png",
+      "grilleImage": "singing-rental-authored-pickup.png",
+      "coldImage": "singing-rental-edited-cold-pickup.png"
+    }
+  ],
+  "browserErrors": [],
+  "manifestSha256": "5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012",
+  "sourceDigest": "7255eee31b85ae9e3647979a0aa809886c7d92e5a02a5d644aa23e92efcc4907",
+  "video": {
+    "file": "video/vocal-slot-rooms-normal.webm",
+    "bytes": 2361440,
+    "sha256": "ffec11457c7f4eacfddc6acccec47437dac9dbc97684d53a4791a2a91b3b3334",
+    "playbackSpeed": 1,
+    "scope": "original rooms and geometrically validated 0.10 m microphone translations"
+  }
+}

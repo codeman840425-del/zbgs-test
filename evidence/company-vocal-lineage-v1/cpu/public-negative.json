@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "originalManifest": "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+  "candidateManifest": "5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012",
+  "checks": [
+    {
+      "case": "removed",
+      "roomKey": "singing-studio",
+      "input": "without-vocal.save.json",
+      "code": "vocal-slot-binding-mismatch",
+      "path": "singing-studio",
+      "exit": 1,
+      "publishedFiles": false
+    },
+    {
+      "case": "eye-5mm",
+      "roomKey": "singing-studio",
+      "input": "with-eye-edited.save.json",
+      "code": "vocal-slot-binding-mismatch",
+      "path": "singing-studio",
+      "exit": 1,
+      "publishedFiles": false
+    },
+    {
+      "case": "bad-pin",
+      "roomKey": "singing-studio",
+      "input": "original-studio.save.json",
+      "code": "vocal-origin-manifest-mismatch",
+      "path": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+      "exit": 1,
+      "publishedFiles": false
+    },
+    {
+      "case": "unsupported",
+      "roomKey": "singing-studio",
+      "input": "original-studio.save.json",
+      "code": "unsupported-vocal-origin-version",
+      "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\fixtures\\unsupported-source-version",
+      "exit": 1,
+      "publishedFiles": false
+    },
+    {
+      "case": "absent-room",
+      "roomKey": "missing-room",
+      "input": "original-studio.save.json",
+      "code": "missing-vocal-origin-room",
+      "path": "data/rooms/missing-room/save.json",
+      "exit": 1,
+      "publishedFiles": false
+    },
+    {
+      "case": "wrong-room",
+      "roomKey": "singing-rental",
+      "input": "original-studio.save.json",
+      "code": "vocal-origin-room-mismatch",
+      "path": "singing-studio",
+      "exit": 1,
+      "publishedFiles": false
+    }
+  ]
+}

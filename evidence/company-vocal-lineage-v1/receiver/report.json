@@ -1,0 +1,746 @@
+{
+  "status": "passed",
+  "fixtures": {
+    "original": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+    "moved": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package"
+  },
+  "commands": [
+    {
+      "label": "verify-original",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1\\verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+        "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "c2263e74556c",
+        "manifestSha256": "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+        "declaredFiles": 2160,
+        "checkedFiles": 2160,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "verify-moved",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package\\verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package",
+        "21b4a370b62ee6580a4d8b017f0acbe98293cdb331c60c3cc098120cfe7fca93"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package",
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "c2263e74556c",
+        "manifestSha256": "21b4a370b62ee6580a4d8b017f0acbe98293cdb331c60c3cc098120cfe7fca93",
+        "declaredFiles": 2154,
+        "checkedFiles": 2154,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "reject-strict-deletion-through-cli",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\work\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\work\\viewer",
+        "7255eee31b85",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\fixtures\\original-studio.save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\failed-strict-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\work\\source",
+        "--room",
+        "singing-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\fixtures\\without-vocal.save.json",
+        "--inherit-vocal",
+        "singing-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+        "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+        "singing-studio"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\work",
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "vocal-slot-binding-mismatch",
+        "path": "singing-studio",
+        "message": "The standing microphone, slot or performer references differ from the reviewed room"
+      }
+    },
+    {
+      "label": "package-mixed-origin-rooms",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\work\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\work\\viewer",
+        "7255eee31b85",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\fixtures\\original-studio.save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\vocal-lineage-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\work\\source",
+        "--room",
+        "singing-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\fixtures\\moved-studio.save.json",
+        "--room",
+        "singing-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\fixtures\\rental.save.json",
+        "--room",
+        "rental-from-batch",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1\\data\\rooms\\singing-rental\\batch-result",
+        "--room",
+        "studio-without-vocal",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\fixtures\\without-vocal.save.json",
+        "--room",
+        "studio-with-eye-edited",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\fixtures\\with-eye-edited.save.json",
+        "--inherit-vocal",
+        "@default",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+        "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+        "@default",
+        "--inherit-vocal",
+        "singing-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+        "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+        "singing-studio",
+        "--inherit-vocal",
+        "singing-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package",
+        "21b4a370b62ee6580a4d8b017f0acbe98293cdb331c60c3cc098120cfe7fca93",
+        "singing-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\work",
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "buildId": "7255eee31b85",
+        "companyId": "singing-studio",
+        "rooms": [
+          "singing-studio",
+          "singing-rental",
+          "rental-from-batch",
+          "studio-without-vocal",
+          "studio-with-eye-edited"
+        ],
+        "files": 2202,
+        "output": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\vocal-lineage-package"
+      }
+    },
+    {
+      "label": "verify-mixed-package",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\vocal-lineage-package\\verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\vocal-lineage-package",
+        "ed3d3ad7fc0209fe6d1c8305d6b48e054c639518a9ba331f2a2979ff860540e1"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\vocal-lineage-package",
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "7255eee31b85",
+        "manifestSha256": "ed3d3ad7fc0209fe6d1c8305d6b48e054c639518a9ba331f2a2979ff860540e1",
+        "declaredFiles": 2202,
+        "checkedFiles": 2202,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "read-inherited-moved-studio",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\vocal-lineage-package\\check-vocal-origin.mjs",
+      "args": [
+        "singing-studio",
+        "ed3d3ad7fc0209fe6d1c8305d6b48e054c639518a9ba331f2a2979ff860540e1",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+        "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+        "singing-studio"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\vocal-lineage-package",
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "key": "singing-studio",
+        "companyId": "singing-studio",
+        "saveSha256": "bf1e0372d6a0dbb7d9658423b3722562e14156d5c63099fc09f8309f61d6adbc",
+        "sourceManifestSha256": "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+        "points": [
+          {
+            "approachPosition": [
+              1.1700000000000002,
+              0,
+              0.05000000000000007
+            ],
+            "capacity": 1,
+            "clearance": {
+              "depth": 0.5,
+              "height": 1.9,
+              "width": 0.5
+            },
+            "companyId": "singing-studio",
+            "contact": {
+              "pickupNodeId": "singing-mic-pickup"
+            },
+            "exitPosition": [
+              1.1700000000000002,
+              0,
+              0.05000000000000007
+            ],
+            "facilityId": "singing-studio/ground/live/vocal",
+            "facilityTransform": {
+              "position": [
+                0.05,
+                0,
+                0.05
+              ],
+              "yaw": 1.5707963267948966
+            },
+            "floorId": "singing-studio/ground",
+            "footprint": {
+              "blocking": true,
+              "center": [
+                0,
+                0
+              ],
+              "halfSize": [
+                0.33,
+                0.48
+              ]
+            },
+            "id": "singing-studio/ground/live/vocal#vocal",
+            "kind": "standing-vocal",
+            "limitations": [],
+            "local": {
+              "approach": [
+                0,
+                0,
+                1.12
+              ],
+              "coordinateSpace": "facility",
+              "exit": [
+                0,
+                0,
+                1.12
+              ],
+              "position": [
+                0,
+                0,
+                0.77
+              ],
+              "yaw": 3.141592653589793
+            },
+            "missingFields": [],
+            "performerReferences": {
+              "coordinateSpace": "use-point",
+              "eye": [
+                0,
+                1.64,
+                0.215
+              ],
+              "mouth": [
+                0,
+                1.555,
+                0.23
+              ]
+            },
+            "resource": {
+              "id": "floor-vocal-mic-boom",
+              "version": 1
+            },
+            "revision": 2,
+            "roomId": "singing-studio/ground/live",
+            "slotId": "vocal",
+            "transform": {
+              "position": [
+                0.8200000000000001,
+                0,
+                0.05000000000000005
+              ],
+              "yaw": 4.71238898038469
+            },
+            "transformChain": [
+              {
+                "id": "singing-studio/ground",
+                "parentId": "singing-studio",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live",
+                "parentId": "singing-studio/ground",
+                "transform": {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "yaw": 0
+                }
+              },
+              {
+                "id": "singing-studio/ground/live/vocal",
+                "parentId": "singing-studio/ground/live",
+                "transform": {
+                  "position": [
+                    0.05,
+                    0,
+                    0.05
+                  ],
+                  "yaw": 1.5707963267948966
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "label": "reader-rejects-independently-edited-eye",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\vocal-lineage-package\\check-vocal-origin.mjs",
+      "args": [
+        "studio-with-eye-edited",
+        "ed3d3ad7fc0209fe6d1c8305d6b48e054c639518a9ba331f2a2979ff860540e1",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+        "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+        "singing-studio"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\vocal-lineage-package",
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "vocal-origin-not-inherited",
+        "path": "studio-with-eye-edited",
+        "message": "The selected room has no verified inheritance from this reviewed source room"
+      }
+    },
+    {
+      "label": "reader-rejects-missing-stand-slot",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\vocal-lineage-package\\check-vocal-origin.mjs",
+      "args": [
+        "studio-without-vocal",
+        "ed3d3ad7fc0209fe6d1c8305d6b48e054c639518a9ba331f2a2979ff860540e1",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+        "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+        "singing-studio"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\vocal-lineage-package",
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "missing-vocal-origin-points",
+        "path": "data/rooms/studio-without-vocal/use-points.json",
+        "message": "Expected exactly one pinned file in the selected source room"
+      }
+    },
+    {
+      "label": "reader-rejects-default-source-for-named-room",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\vocal-lineage-package\\check-vocal-origin.mjs",
+      "args": [
+        "singing-studio",
+        "ed3d3ad7fc0209fe6d1c8305d6b48e054c639518a9ba331f2a2979ff860540e1",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+        "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+        "@default"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\vocal-lineage-package",
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "vocal-origin-not-inherited",
+        "path": "singing-studio",
+        "message": "The selected room has no verified inheritance from this reviewed source room"
+      }
+    },
+    {
+      "label": "verify-original-after-inheritance",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1\\verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+        "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "c2263e74556c",
+        "manifestSha256": "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+        "declaredFiles": 2160,
+        "checkedFiles": 2160,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "verify-moved-after-inheritance",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package\\verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package",
+        "21b4a370b62ee6580a4d8b017f0acbe98293cdb331c60c3cc098120cfe7fca93"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package",
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "c2263e74556c",
+        "manifestSha256": "21b4a370b62ee6580a4d8b017f0acbe98293cdb331c60c3cc098120cfe7fca93",
+        "declaredFiles": 2154,
+        "checkedFiles": 2154,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    }
+  ],
+  "rejections": [
+    {
+      "label": "delete the authoritative studio declaration",
+      "code": "vocal-slot-binding-mismatch",
+      "path": "singing-studio",
+      "message": "The standing microphone, slot or performer references differ from the reviewed room"
+    },
+    {
+      "label": "shift the authoritative studio eye by five millimetres",
+      "code": "vocal-slot-binding-mismatch",
+      "path": "singing-studio",
+      "message": "The standing microphone, slot or performer references differ from the reviewed room"
+    },
+    {
+      "label": "wrong source manifest pin",
+      "code": "vocal-origin-manifest-mismatch",
+      "path": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1",
+      "message": "Source manifest differs from the published digest"
+    },
+    {
+      "label": "unknown source manifest version",
+      "code": "unsupported-vocal-origin-version",
+      "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-lineage-receiver-v1\\run-final\\fixtures\\unsupported-source-version",
+      "message": "Expected company-transfer version 1"
+    },
+    {
+      "label": "unknown named room must not fall back to default",
+      "code": "missing-vocal-origin-room",
+      "path": "data/rooms/not-a-room/save.json",
+      "message": "Expected exactly one pinned file in the selected source room"
+    },
+    {
+      "label": "a signed rental declaration cannot govern the studio",
+      "code": "vocal-origin-room-mismatch",
+      "path": "singing-studio",
+      "message": "The selected source room belongs to a different company"
+    },
+    {
+      "label": "reject-strict-deletion-through-cli",
+      "code": "vocal-slot-binding-mismatch",
+      "path": "singing-studio"
+    },
+    {
+      "label": "reader-rejects-independently-edited-eye",
+      "code": "vocal-origin-not-inherited",
+      "path": "studio-with-eye-edited"
+    },
+    {
+      "label": "reader-rejects-missing-stand-slot",
+      "code": "missing-vocal-origin-points",
+      "path": "data/rooms/studio-without-vocal/use-points.json"
+    },
+    {
+      "label": "reader-rejects-default-source-for-named-room",
+      "code": "vocal-origin-not-inherited",
+      "path": "singing-studio"
+    }
+  ],
+  "original": {
+    "ok": true,
+    "build": "c2263e74556c",
+    "manifestSha256": "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+    "declaredFiles": 2160,
+    "checkedFiles": 2160,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "moved": {
+    "ok": true,
+    "build": "c2263e74556c",
+    "manifestSha256": "21b4a370b62ee6580a4d8b017f0acbe98293cdb331c60c3cc098120cfe7fca93",
+    "declaredFiles": 2154,
+    "checkedFiles": 2154,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "baseline": {
+    "oldStudio": {
+      "position": [
+        0,
+        0,
+        0.77
+      ],
+      "yaw": 3.141592653589793
+    },
+    "movedStudio": {
+      "position": [
+        0.8200000000000001,
+        0,
+        0.05000000000000005
+      ],
+      "yaw": 4.71238898038469
+    },
+    "movedApproach": [
+      1.1700000000000002,
+      0,
+      0.05000000000000007
+    ],
+    "originalSaveSha256": "4438ffec90df2f56ac3020a748d711d49d3eb715330f47a020914f64d78be6ed",
+    "movedSaveSha256": "bf1e0372d6a0dbb7d9658423b3722562e14156d5c63099fc09f8309f61d6adbc",
+    "eyeBefore": [
+      0,
+      1.64,
+      0.215
+    ],
+    "eyeAfter": [
+      0,
+      1.6449999999999998,
+      0.215
+    ]
+  },
+  "derived": {
+    "ok": true,
+    "build": "7255eee31b85",
+    "manifestSha256": "ed3d3ad7fc0209fe6d1c8305d6b48e054c639518a9ba331f2a2979ff860540e1",
+    "declaredFiles": 2202,
+    "checkedFiles": 2202,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "rooms": {
+    "@default": {
+      "origin": {
+        "companyId": "singing-studio",
+        "declarationSha256": "faa1398e50d555b3c34f317f3c9d8129db5506e6cf99706f55a8b5d6d876a8d6",
+        "key": "@default",
+        "mode": "inherited-vocal",
+        "pointIds": [
+          "singing-studio/ground/live/vocal#vocal"
+        ],
+        "saveSha256": "4438ffec90df2f56ac3020a748d711d49d3eb715330f47a020914f64d78be6ed",
+        "sourceManifestSha256": "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+        "sourcePointsSha256": "6a2f6bc3c41da1543603f761c1d431a1a78f2bc3853c8a9930306a6699b74108",
+        "sourceRoomKey": "@default",
+        "sourceSaveSha256": "4438ffec90df2f56ac3020a748d711d49d3eb715330f47a020914f64d78be6ed"
+      },
+      "points": [
+        {
+          "id": "singing-studio/ground/live/vocal#vocal",
+          "transform": {
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793
+          },
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "eye": [
+              0,
+              1.64,
+              0.215
+            ],
+            "mouth": [
+              0,
+              1.555,
+              0.23
+            ]
+          }
+        }
+      ]
+    },
+    "singing-studio": {
+      "origin": {
+        "companyId": "singing-studio",
+        "declarationSha256": "faa1398e50d555b3c34f317f3c9d8129db5506e6cf99706f55a8b5d6d876a8d6",
+        "key": "singing-studio",
+        "mode": "inherited-vocal",
+        "pointIds": [
+          "singing-studio/ground/live/vocal#vocal"
+        ],
+        "saveSha256": "bf1e0372d6a0dbb7d9658423b3722562e14156d5c63099fc09f8309f61d6adbc",
+        "sourceManifestSha256": "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+        "sourcePointsSha256": "6a2f6bc3c41da1543603f761c1d431a1a78f2bc3853c8a9930306a6699b74108",
+        "sourceRoomKey": "singing-studio",
+        "sourceSaveSha256": "4438ffec90df2f56ac3020a748d711d49d3eb715330f47a020914f64d78be6ed"
+      },
+      "points": [
+        {
+          "id": "singing-studio/ground/live/vocal#vocal",
+          "transform": {
+            "position": [
+              0.8200000000000001,
+              0,
+              0.05000000000000005
+            ],
+            "yaw": 4.71238898038469
+          },
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "eye": [
+              0,
+              1.64,
+              0.215
+            ],
+            "mouth": [
+              0,
+              1.555,
+              0.23
+            ]
+          }
+        }
+      ]
+    },
+    "singing-rental": {
+      "origin": {
+        "companyId": "singing-rental",
+        "declarationSha256": "6c6b2591c7fc3a66254b46510799aacdcf9614a10c97b0805aaf2efbeafccc96",
+        "key": "singing-rental",
+        "mode": "inherited-vocal",
+        "pointIds": [
+          "singing-rental/ground/live/vocal#vocal"
+        ],
+        "saveSha256": "0c50382d1535571f9071bf3dd7be4f585deacdb98b17765d238b29985e5d770e",
+        "sourceManifestSha256": "21b4a370b62ee6580a4d8b017f0acbe98293cdb331c60c3cc098120cfe7fca93",
+        "sourcePointsSha256": "c90e01134bbf134eb5c4614b7708b15cdeef9b071b76053c9c55749b4f584e3e",
+        "sourceRoomKey": "singing-rental",
+        "sourceSaveSha256": "0c50382d1535571f9071bf3dd7be4f585deacdb98b17765d238b29985e5d770e"
+      },
+      "points": [
+        {
+          "id": "singing-rental/ground/live/vocal#vocal",
+          "transform": {
+            "position": [
+              -3.73,
+              0,
+              4.71489017671731e-17
+            ],
+            "yaw": 4.71238898038469
+          },
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "eye": [
+              0,
+              1.64,
+              0.215
+            ],
+            "mouth": [
+              0,
+              1.555,
+              0.23
+            ]
+          }
+        }
+      ]
+    },
+    "rental-from-batch": {
+      "origin": {
+        "companyId": "singing-rental",
+        "key": "rental-from-batch",
+        "mode": "batch-declared",
+        "saveSha256": "0c50382d1535571f9071bf3dd7be4f585deacdb98b17765d238b29985e5d770e"
+      },
+      "points": [
+        {
+          "id": "singing-rental/ground/live/vocal#vocal",
+          "transform": {
+            "position": [
+              -3.73,
+              0,
+              4.71489017671731e-17
+            ],
+            "yaw": 4.71238898038469
+          },
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "eye": [
+              0,
+              1.64,
+              0.215
+            ],
+            "mouth": [
+              0,
+              1.555,
+              0.23
+            ]
+          }
+        }
+      ]
+    },
+    "studio-without-vocal": {
+      "origin": {
+        "companyId": "singing-studio",
+        "key": "studio-without-vocal",
+        "mode": "independent",
+        "saveSha256": "05d99a10834406f5a86baa531eff1231fbb83a29ab1893fe51f3abae1e3f4a88"
+      },
+      "points": []
+    },
+    "studio-with-eye-edited": {
+      "origin": {
+        "companyId": "singing-studio",
+        "key": "studio-with-eye-edited",
+        "mode": "independent",
+        "saveSha256": "c8c9bf2a8d3d6acbf0c004df862c970e83eddd1d38dd6397b5786e15f4f12858"
+      },
+      "points": [
+        {
+          "id": "singing-studio/ground/live/vocal#vocal",
+          "transform": {
+            "position": [
+              0,
+              0,
+              0.77
+            ],
+            "yaw": 3.141592653589793
+          },
+          "performerReferences": {
+            "coordinateSpace": "use-point",
+            "eye": [
+              0,
+              1.6449999999999998,
+              0.215
+            ],
+            "mouth": [
+              0,
+              1.555,
+              0.23
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "publicReader": {
+    "key": "singing-studio",
+    "sourceRoomKey": "singing-studio",
+    "world": {
+      "position": [
+        0.8200000000000001,
+        0,
+        0.05000000000000005
+      ],
+      "yaw": 4.71238898038469
+    }
+  }
+}

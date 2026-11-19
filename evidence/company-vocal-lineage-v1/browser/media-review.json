@@ -1,0 +1,102 @@
+{
+  "status": "passed",
+  "frozenCheckout": "4d6f1ce9f4b5bb55e4c69e9170aa2b7facfbb5a0",
+  "qaSha256": "3bfc19199aa9dc5fa4c0e2b87795b5b875ddbea14fcc4ad13a5a50c8a9a36da8",
+  "build": "7255eee31b85",
+  "sourceDigest": "7255eee31b85ae9e3647979a0aa809886c7d92e5a02a5d644aa23e92efcc4907",
+  "packageVerification": {
+    "ok": true,
+    "build": "7255eee31b85",
+    "manifestSha256": "5c676cafa500ac5fc79d2461935fc323844e02fa0a1baa01c8025cd75d3e4012",
+    "declaredFiles": 2188,
+    "checkedFiles": 2188,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "byteIdenticalToVocalUseV1": {
+    "data/rooms/singing-studio/layout.json": "7b2fb529d68f21de40d0a315320424fe4e462ff54a01906bd30f95f456dba381",
+    "data/rooms/singing-studio/save.json": "4438ffec90df2f56ac3020a748d711d49d3eb715330f47a020914f64d78be6ed",
+    "data/rooms/singing-rental/layout.json": "1df4145387d14005681ab05854735b0421c5f4085e7c56b380487a9aebf995c2",
+    "data/rooms/singing-rental/save.json": "0c50382d1535571f9071bf3dd7be4f585deacdb98b17765d238b29985e5d770e"
+  },
+  "duration": "00:00:21.40",
+  "stream": "Stream #0:0: Video: vp8, yuv420p(progressive), 1600x900, SAR 1:1 DAR 16:9, 25 fps, 25 tbr, 1k tbn",
+  "decodedFrames": 535,
+  "video": {
+    "file": "video/vocal-slot-rooms-normal.webm",
+    "bytes": 2361440,
+    "sha256": "ffec11457c7f4eacfddc6acccec47437dac9dbc97684d53a4791a2a91b3b3334",
+    "playbackSpeed": 1,
+    "scope": "original rooms and geometrically validated 0.10 m microphone translations"
+  },
+  "sampledVideo": "video-sampled.png",
+  "photos": [
+    {
+      "file": "singing-studio-authored-room.png",
+      "sha256": "9d0ea18f24b895268ae4f8943fb5b097ab5af3c7d5f45403aca8eae2afb03109"
+    },
+    {
+      "file": "singing-studio-authored-camera.png",
+      "sha256": "9fe46569ebe7addc31319f314c6058669435b414ba53e921d33b55da7b7fcce7"
+    },
+    {
+      "file": "singing-studio-authored-pickup.png",
+      "sha256": "b56fe5a5c4a819a7872c900d8b4398f52b0fd689c613c6d7811012e61a48e7db"
+    },
+    {
+      "file": "singing-rental-authored-room.png",
+      "sha256": "4d8ddd7783494822339701d09fa5349a0dbc06fe5d103400ca773e91ca07518a"
+    },
+    {
+      "file": "singing-rental-authored-camera.png",
+      "sha256": "b76b7feac544c480a56596fc862798e3cd11f9c487a57c28630a5ae983bb3809"
+    },
+    {
+      "file": "singing-rental-authored-pickup.png",
+      "sha256": "3f1c3ea432a5f7fcabf2a2926ffc856b3d939ed350a9d9aa783c957f3931ee97"
+    }
+  ],
+  "cold": [
+    {
+      "alias": "singing-studio",
+      "slot": "singing-studio/ground/live/vocal#vocal",
+      "physicalPickup": "singing-mic-pickup",
+      "mouthToSurfaceMetres": 0.13020401480307317,
+      "localSaveSha256": "265b13406e7a1eacc49dcf9b8129980a46c5513e0f9d3f4744455bc7fdc17d8a",
+      "rejected": {
+        "panel": "singing-studio/ground/live/background",
+        "attempt": {
+          "position": [
+            0,
+            0,
+            1.25
+          ],
+          "yaw": 0
+        },
+        "old": {
+          "position": [
+            1.4,
+            0,
+            2.18
+          ],
+          "yaw": 3.141592653589793
+        },
+        "slotId": "singing-studio/ground/live/vocal#vocal",
+        "code": "vocal-use-path-blocked",
+        "message": "CompanyError: vocal-use-path-blocked at singing-studio/ground/live/vocal#vocal: The final route to the microphone is obstructed.",
+        "status": "麦架前的进退空间被挡住了。当前有效方案已保留。",
+        "savedSha256": "2be6c68cb784b1f60ab91146b4d3534dabe6e22d50984522c7b641fce5516646",
+        "photo": "singing-studio-blocked-panel-rejected.png"
+      }
+    },
+    {
+      "alias": "singing-rental",
+      "slot": "singing-rental/ground/live/vocal#vocal",
+      "physicalPickup": "singing-mic-pickup",
+      "mouthToSurfaceMetres": 0.13020401480307311,
+      "localSaveSha256": "5c8653ead349021bbe4143bc90c60538ff6cc4f4f684ccb1e6afedf03db71e38",
+      "rejected": null
+    }
+  ]
+}
