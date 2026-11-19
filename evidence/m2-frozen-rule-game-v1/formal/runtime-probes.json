@@ -1,0 +1,73 @@
+{
+  "schema": "frozen-rule-runtime-probe-archive-v1",
+  "bodyLookup": {
+    "probeSha256": "969b622671db65dc6200a0df224832f17dc3529aec3261eb118b9080f05bd16c",
+    "command": [
+      "node",
+      "evidence/m2-frozen-rule-game-v1/formal/frozen-runtime-boundary-probe.mjs",
+      "experiments/worktrees/rule-male-a-cb3aca0d",
+      "scripts/runtime-package/game-record-first-rule-reviewed.json",
+      "rule-body-00000000000000000000"
+    ],
+    "result": {
+      "runtime": {
+        "sourceCommit": "cb3aca0dabdfb616eaff13a880fc437835e27964",
+        "sourceDigest": "9ce414f65f5564aaba4476c1b11df11b70e3d8c3bd0fc0b3d39c807a004f7029",
+        "buildId": "9ce414f65f55"
+      },
+      "compiledEntry": "assets/recordConsumer-Bm1UkIiD.js",
+      "compiledProfileResolver": "assets/foundation-avatar-RT5B1Plx.js",
+      "fixedInputsContainCompiledBodyCatalog": true,
+      "request": {
+        "schema": "character-production-request-v1",
+        "operation": "query",
+        "bodyType": "rule-body-00000000000000000000"
+      },
+      "controls": [
+        {
+          "id": "rule-body-0beabf44f27c0618b0ff",
+          "sha256": "0beabf44f27c0618b0fff7ce21c637206786a6c00ac940778e596396df0c8c0f"
+        },
+        {
+          "id": "rule-body-c6ce7efc3da17fe50ea1",
+          "sha256": "c6ce7efc3da17fe50ea1ee353c9274bc5caaaf935d11985c64da0665f847b6bd"
+        }
+      ],
+      "closure": {
+        "compiledSharedResolver": {
+          "status": "rejected",
+          "error": "Error",
+          "reason": "Unknown foundation body type: rule-body-00000000000000000000"
+        },
+        "exactSourceProductionQuery": {
+          "status": "rejected",
+          "error": "Error",
+          "reason": "Unknown foundation body type: rule-body-00000000000000000000"
+        }
+      },
+      "fetchCalls": 0
+    }
+  },
+  "verifiedShapeHttp": {
+    "probeSha256": "75a4b3d68de68d599e7790a55882543257000836547950254f82c82711ab8ba6",
+    "command": [
+      "node",
+      "scripts/run-fixed-check.cjs",
+      "--shape-pack",
+      "output/m2-first-rule-delivery-v1/data-pack/candidate",
+      "--shape-pack",
+      "output/m2-first-rule-delivery-v1/data-pack/control",
+      "experiments/worktrees/rule-male-a-cb3aca0d/prototype/dist",
+      "evidence/m2-frozen-rule-game-v1/formal/d02-shape-http-probe.cjs"
+    ],
+    "result": {
+      "build": "9ce414f65f55",
+      "bodies": [
+        "rule-body-0beabf44f27c0618b0ff",
+        "rule-body-c6ce7efc3da17fe50ea1"
+      ],
+      "sharedGarments": 3,
+      "recordsManifest": 404
+    }
+  }
+}

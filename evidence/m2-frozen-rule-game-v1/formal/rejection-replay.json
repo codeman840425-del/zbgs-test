@@ -1,0 +1,82 @@
+{
+  "schema": "real-outfit-evidence-rejection-v1",
+  "runtime": {
+    "sourceCommit": "cb3aca0dabdfb616eaff13a880fc437835e27964",
+    "sourceDigest": "9ce414f65f5564aaba4476c1b11df11b70e3d8c3bd0fc0b3d39c807a004f7029",
+    "buildId": "9ce414f65f55"
+  },
+  "originalRecordSha256": "2e71d28e8d8f54473806d4096146fbbaf26c19718bd0a25647b7591e55920ddf",
+  "realBaselineVerified": [
+    "normalSpeedMotion",
+    "recordAndRestore",
+    "selectionGuards"
+  ],
+  "missingRequiredEvidence": {
+    "status": "rejected",
+    "reason": "Evidence must be a repository file",
+    "report": "recordAndRestore",
+    "reportSha256": "9d99e092bcce3f59dbe13a0a7b455ff1503b982987c589d5b16f3f2a84058d2b",
+    "removedIsolatedCopy": true
+  },
+  "changedOneEquipment": {
+    "status": "rejected",
+    "reason": "Game package does not pin the complete reviewed outfit",
+    "change": {
+      "previous": {
+        "id": "rule-body-0beabf44f27c0618b0ff-top",
+        "slot": "top",
+        "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+      },
+      "replacement": {
+        "id": "cc0-texture-release-uniform-top-v1",
+        "slot": "top",
+        "sha256": "10a51cbdac6bfea074ad5cfa30e7c0a46cd2fc099fbc2048a291deb470e10d02"
+      }
+    },
+    "originalReportReused": true,
+    "guard": {
+      "status": "rejected",
+      "reason": "Guard proof belongs to a different outfit or dependency set"
+    }
+  },
+  "unreviewedFormalPlanner": {
+    "mode": "readiness-gated",
+    "items": [
+      {
+        "status": "rejected",
+        "reason": "Whole-outfit runtime admission evidence is required from the reviewed index",
+        "stableId": "rule-male-0beabf44f27c0618b0ff"
+      },
+      {
+        "status": "rejected",
+        "reason": "Whole-outfit runtime admission evidence is required from the reviewed index",
+        "stableId": "rule-male-c6ce7efc3da17fe50ea1"
+      }
+    ],
+    "createdRequests": 0,
+    "files": [
+      "plan.json"
+    ]
+  },
+  "independentExportEnvelopeGuard": {
+    "exit": 1,
+    "receipt": {
+      "ok": false,
+      "code": "recipe-hash-mismatch",
+      "reason": "appearanceRecipe hash does not match"
+    },
+    "destinationCreated": false
+  },
+  "originalRecordInventoryEvidenceAndAuthorityIndexUnchanged": true,
+  "releaseArtifactsCreated": 0,
+  "scope": "Real evidence-level negative controls and actual unreviewed formal planner; no authority fixture.",
+  "replay": [
+    "python",
+    "-B",
+    "scripts/production/test_real_outfit_evidence.py",
+    "--runtime-root",
+    "experiments\\worktrees\\rule-male-a-cb3aca0d",
+    "--dist",
+    "experiments\\worktrees\\rule-male-a-cb3aca0d\\prototype\\dist"
+  ]
+}

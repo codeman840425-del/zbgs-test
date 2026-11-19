@@ -165,14 +165,48 @@ export async function compareGameRuntimeBuilds({dist, rebuilt, sourceRoot, sourc
   return reviewed;
 }
 
-export async function createGameRecordInventory({dist, sourceRoot, reviewed, records:externalRecords}) {
+export async function createGameRecordInventory({dist, sourceRoot, reviewed, records:externalRecords, shapePacks=[]}) {
   const external = externalRecords !== undefined;
+  if (!Array.isArray(shapePacks) || (shapePacks.length && !external))
+    fail('invalid-record-input', 'Shape packs require explicit signed records');
   if (external && (!Array.isArray(externalRecords) || externalRecords.length < 1 || externalRecords.length > RECORD_COUNT))
     fail('invalid-record-input', 'Expected an ordered array of one to four complete character records');
   const externalTexts = external ? Array.from(externalRecords, record => JSON.stringify(record)) : null;
   validateReviewed(reviewed);
   const project = path.resolve(sourceRoot, 'prototype');
-  const {build, buildBytes, publicFiles} = await verifyBuild(dist, project, reviewed);
+  const fixed = await verifyBuild(dist, project, reviewed);
+  const inputs = {dist, sourceRoot, project, reviewed, external, externalTexts, ...fixed};
+  if (!shapePacks.length) return collectGameInventory(inputs);
+
+  if (['src/foundation-profiles.js', 'src/rule-body-data.js', 'src/character-record-input.js']
+      .some(name => !fixed.build.inputs.includes(name)))
+    fail('unsupported-build', 'The reviewed runtime lacks rule body publication inputs');
+  const {default:shapeData} = await import('./shape-overlay.cjs');
+  const overlay = await shapeData.verifiedShapeOverlay(shapePacks);
+  const selectedBodies = new Set(externalTexts.map(text => typeof text === 'string'
+    ? JSON.parse(text)?.appearanceRecipe?.base?.bodyType : undefined));
+  if (overlay.descriptors.some(row => !selectedBodies.has(row.bodyType)))
+    fail('invalid-record-input', 'A supplied shape pack is not selected by any record');
+  await shapeData.assertOverlayDist(overlay.files, dist);
+  const profiles = await import(pathToFileURL(await localFile(project, 'src/foundation-profiles.js')).href);
+  if (typeof profiles.initializeRuleBodyData !== 'function')
+    fail('unsupported-build', 'The reviewed runtime cannot initialize rule body data');
+  const active = await profiles.initializeRuleBodyData(overlay.descriptors, {
+    readBytes:async url => {
+      const bytes = overlay.files.get(portablePath(runtimePath(url)));
+      if (!bytes) fail('unsupported-dependency', 'Unverified rule body dependency: ' + url);
+      return bytes;
+    },
+  });
+  try {
+    return await collectGameInventory({...inputs, overlay});
+  } finally {
+    active.dispose();
+  }
+}
+
+async function collectGameInventory({dist, sourceRoot, project, reviewed, external, externalTexts,
+  build, buildBytes, publicFiles, overlay}) {
   const sourceModule = async file => import(pathToFileURL(await localFile(project, 'src/' + file)).href);
   const [envelope, runtime] = await Promise.all([
     sourceModule('character-record.js'), sourceModule('character-runtime-record.js'),
@@ -185,11 +219,13 @@ export async function createGameRecordInventory({dist, sourceRoot, reviewed, rec
     const relative = portablePath(runtimePath(url, parent));
     const isPublic = publicFiles.has(relative);
     const pin = Object.hasOwn(reviewed.files, relative) ? reviewed.files[relative] : null;
-    if (!pin && !isPublic) fail('unsupported-dependency', 'File lacks reviewed source/build provenance: ' + relative);
-    const content = relative === BUILD ? buildBytes : await readFile(await localFile(dist, relative));
+    const shapeOrigins = overlay?.origins.get(relative);
+    if (!pin && !isPublic && !shapeOrigins) fail('unsupported-dependency', 'File lacks reviewed source/build provenance: ' + relative);
+    const content = relative === BUILD ? buildBytes : shapeOrigins && !isPublic && !pin
+      ? overlay.files.get(relative) : await readFile(await localFile(dist, relative));
     const hash = digest(content);
     if ((pin && (hash !== pin.sha256 || content.length !== pin.bytes)) ||
-        (isPublic && hash !== publicFiles.get(relative)) ||
+        (isPublic && hash !== publicFiles.get(relative)) || (shapeOrigins && !content.equals(overlay.files.get(relative))) ||
         (sha256 !== undefined && hash !== sha256) || (size !== undefined && content.length !== size))
       fail('modified-dependency', 'Dependency identity differs: ' + relative);
     let row = files.get(relative);
@@ -197,17 +233,31 @@ export async function createGameRecordInventory({dist, sourceRoot, reviewed, rec
       const folded = relative.toLowerCase();
       if (identities.has(folded)) fail('unsafe-path', 'Case-colliding package path: ' + relative);
       identities.add(folded);
-      const origin = isPublic ? {sourcePath:'prototype/public/' + relative}
-        : {buildId:build.shortId, bundlePath:relative, buildManifest:BUILD};
-      row = {path:relative, sha256:hash, bytes:content.length, reasons:[],
-        provenance:[{sourceCommit:reviewed.sourceCommit, ...origin}]};
+      const origins = [];
+      if (isPublic) origins.push({sourceCommit:reviewed.sourceCommit, sourcePath:'prototype/public/' + relative});
+      else if (pin) origins.push({sourceCommit:reviewed.sourceCommit, buildId:build.shortId, bundlePath:relative, buildManifest:BUILD});
+      if (shapeOrigins) origins.push(...shapeOrigins);
+      row = {path:relative, sha256:hash, bytes:content.length, reasons:[], provenance:origins};
       files.set(relative, row);
     } else if (row.sha256 !== hash || row.bytes !== content.length) {
       fail('modified-dependency', 'Dependency changed during collection: ' + relative);
     }
     if (!row.reasons.includes(reason)) row.reasons.push(reason);
-    for (const ref of provenance)
-      if (!row.provenance.some(old => envelope.canonicalJson(old) === envelope.canonicalJson(ref))) row.provenance.push(ref);
+    for (const ref of provenance) {
+      // Record collectors identify where they obtained the outfit declaration.
+      // In a data pack the same declarations live in the external profile/catalog.
+      const {sourcePath, ...details} = ref;
+      let declarations;
+      if (sourcePath?.startsWith('prototype/public/'))
+        declarations = overlay?.origins.get(sourcePath.slice('prototype/public/'.length));
+      if (shapeOrigins && relative.endsWith('/body.vrm') && sourcePath === 'prototype/src/foundation-profiles.js')
+        declarations = shapeOrigins.map(({indexSha256}) => ({indexSha256, packPath:'profile.json'}));
+      const refs = declarations ? declarations.map(pin => ({...pin, ...details})) : [ref];
+      for (const origin of refs) {
+        if (!row.provenance.some(old => envelope.canonicalJson(old) === envelope.canonicalJson(origin)))
+          row.provenance.push(origin);
+      }
+    }
     return {path:relative, bytes:content, value:relative.endsWith('.json') ? JSON.parse(content) : null};
   }
 
@@ -243,7 +293,7 @@ export async function createGameRecordInventory({dist, sourceRoot, reviewed, rec
   }
 
   function addGenerated(relative, text, reason, provenance) {
-    if (files.has(relative) || publicFiles.has(relative))
+    if (files.has(relative) || publicFiles.has(relative) || overlay?.files.has(relative))
       fail('invalid-record-input', 'Generated record path conflicts with a source file: ' + relative);
     const bytes = Buffer.from(text, 'utf8');
     files.set(relative, {path:relative, sha256:digest(bytes), bytes:bytes.length, generated:text,
@@ -283,6 +333,13 @@ export async function createGameRecordInventory({dist, sourceRoot, reviewed, rec
   if (external) {
     const selection = {schema:'character-record-input-v1',
       entries:records.map(({id, file, recordSha256}) => ({id, url:'/' + file, recordSha256}))};
+    if (overlay) {
+      selection.ruleBodyDataPacks = overlay.descriptors;
+      for (const relative of overlay.origins.keys()) {
+        if (relative.startsWith('character-data/')) await add('/' + relative, 'Verified rule body publication metadata');
+        else if (!files.has(relative)) fail('unsupported-dependency', 'Unselected shape pack asset: ' + relative);
+      }
+    }
     addGenerated(recordManifest, JSON.stringify(selection), 'Ordered manifest for validated input character records',
       records.map(({id, recordSha256}) => ({recordId:id, recordSha256})));
   }
@@ -301,11 +358,11 @@ export async function createGameRecordInventory({dist, sourceRoot, reviewed, rec
   };
 }
 
-export async function exportGameRecordInventory({inventory, dist, sourceRoot, reviewed, records, out}) {
-  const expected = await createGameRecordInventory({dist, sourceRoot, reviewed, records});
+export async function exportGameRecordInventory({inventory, dist, sourceRoot, reviewed, records, shapePacks=[], out}) {
+  const expected = await createGameRecordInventory({dist, sourceRoot, reviewed, records, shapePacks});
   if (digest(jsonBytes(expected)) !== digest(jsonBytes(inventory)))
     fail('inventory-mismatch', 'Inventory differs from the reviewed game record dependency closure');
   const approvedGameRecords = new Map(expected.files.filter(row => row.generated !== undefined)
     .map(row => [row.path, row.generated]));
-  return copyDeclaredFiles({inventory:expected, dist, out, approvedGameRecords});
+  return copyDeclaredFiles({inventory:expected, dist, out, approvedGameRecords, shapePacks});
 }

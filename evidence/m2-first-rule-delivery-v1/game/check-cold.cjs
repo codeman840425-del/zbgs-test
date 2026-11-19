@@ -17,7 +17,8 @@ async function actorState() {
     const items = Object.values(avatar.getEquipmentRecipe(outfit.index));
     result.push({
       id:actor.identity.id, recordSha256:actor.recordSha256, root:avatar.root.uuid,
-      attached:avatar.root.parent===game.scene, bodyType:avatar.profile.bodyType, bodySha256:avatar.profile.sha256,
+      attached:avatar.root.parent===game.scene, skeletonHead:avatar.vrm.humanoid.getRawBoneNode('head').uuid,
+      bodyType:avatar.profile.bodyType, bodySha256:avatar.profile.sha256,
       bodyUrl:avatar.profile.url, manifestUrl:avatar.config.manifestUrl,
       selected:items.map(i=>({id:i.id,url:new URL(i.url,new URL(avatar.config.manifestUrl,location.href)).pathname,
         sha256:i.sha256,slot:i.slot,compatibleAvatarSha256:i.compatibleAvatarSha256})),
@@ -52,13 +53,17 @@ async function wave(id) {
   }
 }
 
-async function run(base, manifestSha, pairFile, output) {
+async function run(base, manifestSha, pairFile, output,...options) {
   const project = await productionRoot(), out = await projectOutput(output, project);
   const {canonicalJson}=await import('../../../prototype/src/character-record.js');
   const signed = JSON.parse(await fs.readFile(pairFile));
   assert.equal(signed.length,2);
-  const bodies = signed.map(record=>record.appearanceRecipe.base.sha256);
-  assert.deepEqual(bodies.map(x=>x.slice(0,12)).sort(),['0beabf44f27c','c6ce7efc3da1']);
+  const extra=options.length?require('../../../scripts/qa-published-rule-body.cjs'):null;
+  const publication=extra?await extra.publishedInputs(options,signed):null;
+  if (!publication) {
+    const bodies = signed.map(record=>record.appearanceRecipe.base.sha256);
+    assert.deepEqual(bodies.map(x=>x.slice(0,12)).sort(),['0beabf44f27c','c6ce7efc3da1']);
+  }
   const origin = new URL(base); assert.equal(origin.hostname,'127.0.0.1');
   const response = await fetch(new URL('runtime-package.json',origin),{redirect:'error'});
   assert.equal(response.status,200);
@@ -91,7 +96,8 @@ async function run(base, manifestSha, pairFile, output) {
         row.batch = await page.evaluate(()=>__recordConsumer.snapshot().items.map(i=>[i.identityId,i.status]));
         assert.deepEqual(row.batch,signed.map(r=>[r.identity.id,'completed']));
         row.actors = await page.evaluate(actorState);
-        const urls = new Set();
+        if(publication) row.publication=await extra.publication(network,origin,files,publication,signed);
+        const urls = new Set(row.publication?.urls);
         for (const actor of row.actors) {
           const record = signed.find(r=>r.identity.id===actor.id);
           assert(actor.attached);
@@ -112,14 +118,20 @@ async function run(base, manifestSha, pairFile, output) {
           }
         }
         assert.equal(new Set(row.actors.map(a=>a.root)).size,2);
-        if (phase==='cold') assert(row.actors.every(a=>report.sessions[0].actors.every(old=>old.root!==a.root)));
+        assert.equal(new Set(row.actors.map(a=>a.skeletonHead)).size,2);
+        if (phase==='cold') assert(row.actors.every(a=>report.sessions[0].actors.every(old=>
+          old.root!==a.root && old.skeletonHead!==a.skeletonHead)));
         await page.locator('#stage canvas').screenshot({path:path.join(out,phase+'-dressed.png')});
-        if (phase==='cold') {
+        if (phase==='cold' || publication) {
           for (const record of signed) {
             const id=record.identity.id;
             const played=page.evaluate(wave,id);
-            await page.waitForFunction(id=>__recordConsumer.actors.get(id).avatar.livePresentation.getState().greeting.weight>.95,id);
-            await page.locator('#stage canvas').screenshot({path:path.join(out,id+'-wave.png')});
+            await Promise.race([
+              page.waitForFunction(id=>__recordConsumer.actors.get(id).avatar.livePresentation.getState().greeting.weight>.95,id),
+              played.then(()=>{throw Error('Greeting finished before its fully raised pose was observed: '+id);}),
+            ]);
+            const shot=publication?phase+'-'+id+'-wave.png':id+'-wave.png';
+            await page.locator('#stage canvas').screenshot({path:path.join(out,shot)});
             const result=await played;
             assert.equal(result.gesture.sha256,greetingSha);
             assert(result.maximumWeight>.95 && result.drawFrames>=10 && result.peakWristDisplacementM>.08);
@@ -137,9 +149,31 @@ async function run(base, manifestSha, pairFile, output) {
         }
         assert.deepEqual(await page.evaluate(()=>__recordConsumer.errors),[]);
         assert.deepEqual(row.errors,[]); assert.deepEqual(row.unexpectedRequests,[]);
+        if(publication && phase==='first') {
+          const survivor=await extra.oldSurvivor(page,publication),prior=row.actors.find(a=>a.id===survivor.id);
+          assert.equal(survivor.recordSha256,publication.old.integrity.recordSha256);
+          assert.equal(survivor.bodySha256,publication.old.appearanceRecipe.base.sha256);
+          assert.equal(canonicalJson(survivor.appearanceRecipe),canonicalJson(publication.old.appearanceRecipe));
+          assert.equal(canonicalJson(survivor.liveAccessories),canonicalJson(publication.old.liveAccessories));
+          assert.equal(survivor.root,prior.root);assert(survivor.renderedFrames>0);
+          row.oldSurvivor={id:survivor.id,root:survivor.root,recordSha256:survivor.recordSha256,
+            renderedFrames:survivor.renderedFrames};
+          await page.locator('#stage canvas').screenshot({path:path.join(out,'previous-record-alone.png')});
+          await page.locator('#first').click();
+          await page.waitForFunction(()=>__recordConsumer.snapshot()?.phase==='settled' && __recordConsumer.actors.size===2);
+          const recovered=await page.evaluate(actorState);
+          assert.deepEqual(recovered.map(a=>a.recordSha256),signed.map(r=>r.integrity.recordSha256));
+          assert(recovered.every(a=>a.attached && row.actors.every(prior=>prior.root!==a.root)));
+          row.reselected=recovered.map(({id,root,recordSha256})=>({id,root,recordSha256}));
+          assert.deepEqual(await page.evaluate(()=>__recordConsumer.errors),[]);
+          assert.deepEqual(row.errors,[]);assert.deepEqual(row.unexpectedRequests,[]);
+        }
         const video=page.video();
         await context.close();
-        if(video){await video.saveAs(path.join(out,'two-rule-bodies-1x.webm'));await video.delete();}
+        if(video){
+          const name=publication?'published-and-previous-1x.webm':'two-rule-bodies-1x.webm';
+          await video.saveAs(path.join(out,name));await video.delete();
+        }
       } finally {await browser.close();}
     }
     report.status='technical-pass';

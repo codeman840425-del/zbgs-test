@@ -1,0 +1,73 @@
+{
+  "schema": "real-outfit-standard-restore-rejection-v1",
+  "runtime": {
+    "sourceCommit": "7857eb77d3dbe3b925aa07ff70a99757eab7b104",
+    "sourceDigest": "60e3934ddd8aa26294978e9791d9f0d5972f97b7a52905954f8828427d2c3582",
+    "buildId": "60e3934ddd8a"
+  },
+  "inventorySha256": "e23bcf09f2561176886bf3763ffe8f6f5050bf84bb7c98dc2e628db44a54b988",
+  "reportSha256": "78cc3bed3ff748939a119bdf375a83e0928bb20637c241f615b14013ea132b9d",
+  "guardReportSha256": "112a5d47614e3de9a6354f1da69cf5e7cfcedf9cb8da932e4f5b977c188cd149",
+  "guardCases": 9,
+  "recordsVerifiedBeforeAndAfter": [
+    {
+      "id": "shape-intake-actor",
+      "recordSha256": "5a973e6dc41fa87b97fc31ee05dd468619bdf4656aa8e040331f7cbade629acb",
+      "bodyType": "rule-body-876951f25416836a3d7d"
+    },
+    {
+      "id": "rule-male-0beabf44f27c0618b0ff",
+      "recordSha256": "2e71d28e8d8f54473806d4096146fbbaf26c19718bd0a25647b7591e55920ddf",
+      "bodyType": "rule-body-0beabf44f27c0618b0ff"
+    }
+  ],
+  "missingRequiredEvidence": {
+    "status": "rejected",
+    "reason": "Evidence must be a repository file",
+    "report": "recordAndRestore",
+    "reportSha256": "78cc3bed3ff748939a119bdf375a83e0928bb20637c241f615b14013ea132b9d",
+    "removedIsolatedCopy": true
+  },
+  "changedOneEquipment": {
+    "status": "rejected",
+    "reason": "Game package does not pin the complete reviewed outfit",
+    "guard": {
+      "status": "rejected",
+      "reason": "Guard proof belongs to a different outfit or dependency set"
+    },
+    "change": {
+      "previous": {
+        "id": "rule-body-876951f25416836a3d7d-top",
+        "slot": "top",
+        "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+      },
+      "replacement": {
+        "id": "cc0-texture-release-uniform-top-v1",
+        "slot": "top",
+        "sha256": "10a51cbdac6bfea074ad5cfa30e7c0a46cd2fc099fbc2048a291deb470e10d02"
+      }
+    },
+    "record": {
+      "id": "shape-intake-actor",
+      "recordSha256": "5a973e6dc41fa87b97fc31ee05dd468619bdf4656aa8e040331f7cbade629acb",
+      "bodyType": "rule-body-876951f25416836a3d7d"
+    },
+    "originalReportReused": true
+  },
+  "originalRecordsInventoryReportAndAuthorityIndexUnchanged": true,
+  "releaseArtifactsCreated": 0,
+  "replay": [
+    "python",
+    "-B",
+    "scripts/production/test_real_outfit_evidence.py",
+    "--restore-only",
+    "--records",
+    "evidence/m2-frozen-rule-game-v1/records.json",
+    "--inventory",
+    "output/m2-frozen-rule-game-v1/inventory.json",
+    "--restore",
+    "evidence/m2-frozen-rule-game-v1/restore/report.json",
+    "--guards",
+    "evidence/m2-frozen-rule-game-v1/guards/report.json"
+  ]
+}

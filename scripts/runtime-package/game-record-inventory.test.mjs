@@ -61,6 +61,13 @@ before(async () => {
   await mkdir(project, {recursive:true});
   await symlink(path.join(root, 'prototype/node_modules'), path.join(project, 'node_modules'), 'junction');
   await cp(path.join(root, 'prototype/src'), path.join(project, 'src'), {recursive:true});
+  // Model an engine with only the template parent registered. The two real
+  // signed test subjects must enter through data publication in this checkout.
+  const profileFile = path.join(project, 'src/source-outfit-profiles.json');
+  const profiles = await readJson(profileFile);
+  for (const record of await readJson(path.join(root, 'evidence/m2-first-rule-delivery-v1/game/signed.json')))
+    delete profiles[record.appearanceRecipe.base.bodyType];
+  await writeFile(profileFile, jsonBytes(profiles));
   for (const file of await listFiles(project, 'src')) sourceInputs.add(file);
   for (const file of ['package.json', 'package-lock.json', entry])
     await copyFile(path.join(root, 'prototype', file), path.join(project, file));
@@ -114,6 +121,62 @@ after(async () => rm(temp, {recursive:true, force:true}));
 
 const options = () => ({dist, sourceRoot, reviewed});
 const rejectsCode = (work, code) => assert.rejects(work, {code});
+
+test('two signed external bodies use verified data packs in a frozen engine without their profiles', async () => {
+  const records = await readJson(path.join(root, 'evidence/m2-first-rule-delivery-v1/game/signed.json'));
+  const output = await projectPaths.projectOutput(path.join(producer, 'output'), producer);
+  await mkdir(output, {recursive:true});
+  const data = await mkdtemp(path.join(output, 'shape-export-test-'));
+  const profiles = await import(pathToFileURL(path.join(project, 'src/foundation-profiles.js')).href);
+  const ids = records.map(record => record.appearanceRecipe.base.bodyType);
+  const shapePacks = [];
+  try {
+    for (const [i, name] of ['candidate', 'control'].entries()) {
+      const folder = path.join(data, name);
+      execFileSync('python', ['-B', path.join(root, 'scripts/production/shape_data_pack.py'), 'build',
+        '--recipe', path.join(root, 'assets-source/rule-body-recipe-v1', name + '.json'),
+        '--candidate', path.join(root, 'prototype/public/assets', ids[i], 'body.vrm'), '--out', folder],
+      {cwd:root, windowsHide:true, env:{...process.env,TEMP:data,TMP:data}});
+      shapePacks.push(folder);
+    }
+    const opts = {...options(), records, shapePacks};
+    const absent = () => ids.forEach(id => assert.throws(() => profiles.foundationProfile(id)));
+    absent();
+    await rejectsCode(() => createGameRecordInventory({...opts, records:undefined}), 'invalid-record-input');
+    await rejectsCode(() => createGameRecordInventory({...opts, records:records.slice(0, 1)}), 'invalid-record-input');
+    const altered = structuredClone(records);
+    altered[0].integrity.recordSha256 = '0'.repeat(64);
+    await rejectsCode(() => createGameRecordInventory({...opts, records:altered}), 'record-hash-mismatch');
+    absent();
+    const inventory = await createGameRecordInventory(opts);
+    absent();
+    const manifest = JSON.parse(inventory.files.find(row => row.path === inputManifest).generated);
+    assert.deepEqual(manifest.ruleBodyDataPacks.map(row => row.bodyType).sort(), [...ids].sort());
+    assert.equal(inventory.files.filter(row => row.path.startsWith('character-data/')).length, 8);
+    assert(!inventory.files.some(row => row.path === 'records/rule-body-data.json'));
+    const model = inventory.files.find(row => row.path === 'assets/' + ids[0] + '/body.vrm');
+    assert(model.provenance.some(p => p.indexSha256 === manifest.ruleBodyDataPacks.find(p => p.bodyType === ids[0]).sha256));
+    assert(model.provenance.some(p => p.packPath === 'profile.json' && p.sourceLicense));
+    for (const row of inventory.files)
+      assert(!row.provenance.some(ref => ids.some(id => ref.sourcePath?.includes('prototype/public/assets/' + id + '/'))));
+    assert(!sourceInputs.has('public/' + model.path));
+    const out = path.join(temp, 'shape-game');
+    const fit = path.join(shapePacks[0], 'fit.json');
+    const original = await readFile(fit);
+    await writeFile(fit, Buffer.concat([original, Buffer.from(' ')]));
+    await assert.rejects(() => exportGameRecordInventory({...opts, out, inventory}));
+    await assert.rejects(lstat(out), {code:'ENOENT'});
+    await writeFile(fit, original);
+    await exportGameRecordInventory({...opts, out, inventory});
+    absent();
+    for (const row of inventory.files) assert.equal(digest(await readFile(path.join(out, row.path))), row.sha256);
+    for (const [i, rec] of records.entries())
+      assert.equal(await readFile(path.join(out, inventory.records[i].file), 'utf8'), JSON.stringify(rec));
+    assert(!existsSync(path.join(dist, model.path)));
+  } finally {
+    await rm(data, {recursive:true, force:true});
+  }
+});
 
 test('standing vocal exports only the selected body anchors and keeps both original signatures on retry', async () => {
   const {foundationProfile} = await import(pathToFileURL(path.join(project, 'src/foundation-profiles.js')));
@@ -224,7 +287,8 @@ test('exported operator reproduces the registered df610092 review and its signed
   const operator = path.join(temp, 'operator');
   await mkdir(operator);
   const archive = path.join(temp, 'operator.tar');
-  const modules = ['game-record-inventory.mjs', 'record-resources.mjs', 'files.mjs'];
+  const modules = ['game-record-inventory.mjs', 'record-resources.mjs', 'files.mjs',
+    'ear-style-sources.json', 'hair-region-sources.json'];
   execFileSync('tar', ['-cf', archive, '-C', path.join(root, 'scripts/runtime-package'), ...modules], {windowsHide:true});
   execFileSync('tar', ['-xf', archive, '-C', operator], {windowsHide:true});
   const portable = await import(pathToFileURL(path.join(operator, modules[0])).href);

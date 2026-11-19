@@ -57,12 +57,14 @@ export async function writeFresh(file, bytes) {
   }
 }
 
-export async function copyDeclaredFiles({inventory, dist, out, approvedGameRecords = new Map()}) {
+export async function copyDeclaredFiles({inventory, dist, out, approvedGameRecords = new Map(), shapePacks = []}) {
   const recordPackage=inventory?.schema==='character-record-package-inventory-v1';
   const gameRecordPackage=inventory?.schema==='game-character-record-package-v1';
   if ((!recordPackage&&!gameRecordPackage&&inventory?.schema !== 'runtime-package-inventory-v1') || !Array.isArray(inventory.files) || !inventory.files.length)
     fail('unsupported-inventory', 'Expected a reviewed runtime or character-record inventory');
   const gameRecordInput = gameRecordPackage && inventory.recordManifest === GAME_RECORD_INPUT_MANIFEST;
+  if (!Array.isArray(shapePacks) || (shapePacks.length && !gameRecordInput))
+    fail('invalid-inventory', 'Shape packs require an external game record inventory');
   const generatedPaths = gameRecordInput ? [...approvedGameRecords.keys()]
     : gameRecordPackage ? [] : recordPackage ? ['character-record.json'] : ['selected-appearance.recipe.json','material-selections.json'];
   if (gameRecordInput && (!approvedGameRecords.has(GAME_RECORD_INPUT_MANIFEST) ||
@@ -88,6 +90,20 @@ export async function copyDeclaredFiles({inventory, dist, out, approvedGameRecor
     if (!paths.has(relative)) fail('invalid-inventory', `Missing required declaration ${relative}`);
   if (gameRecordPackage && paths.has('index.html')) fail('invalid-inventory', 'Room HTML cannot be exported in the game record package');
   if (paths.has('runtime-package.json')) fail('invalid-inventory', 'Package manifest path is reserved');
+  const descriptors = gameRecordInput ? JSON.parse(approvedGameRecords.get(GAME_RECORD_INPUT_MANIFEST)).ruleBodyDataPacks : undefined;
+  let overlay;
+  if (shapePacks.length) {
+    const {default:shapeData} = await import('./shape-overlay.cjs');
+    overlay = await shapeData.verifiedShapeOverlay(shapePacks);
+    if (JSON.stringify(descriptors) !== JSON.stringify(overlay.descriptors))
+      fail('invalid-inventory', 'Rule body pointers differ from the verified game record manifest');
+    for (const relative of overlay.origins.keys()) {
+      if (!paths.has(relative)) fail('invalid-inventory', 'Missing rule body pack file: ' + relative);
+    }
+    await shapeData.assertOverlayDist(overlay.files, dist);
+  } else if (descriptors !== undefined) {
+    fail('invalid-inventory', 'Rule body pointers require verified shape packs');
+  }
   const destination = path.resolve(out);
   if (await lstat(destination).catch(error => {if (error.code === 'ENOENT') return null; throw error;}))
     fail('output-conflict', `Output already exists: ${destination}`);
@@ -96,7 +112,12 @@ export async function copyDeclaredFiles({inventory, dist, out, approvedGameRecor
   await mkdir(stage);
   try {
     for (const row of inventory.files) {
-      const bytes = row.generated === undefined ? await checkedBytes(dist, row) : Buffer.from(row.generated, 'utf8');
+      let bytes;
+      if (row.generated !== undefined) bytes = Buffer.from(row.generated, 'utf8');
+      else if (overlay?.origins.has(row.path) &&
+               !row.provenance.some(ref => ref.sourceCommit === inventory.runtime.sourceCommit &&
+                 ref.sourcePath === 'prototype/public/' + row.path)) bytes = overlay.files.get(row.path);
+      else bytes = await checkedBytes(dist, row);
       if (bytes.length !== row.bytes || digest(bytes) !== row.sha256) fail('modified-dependency', `Generated file identity differs: ${row.path}`);
       const target = path.join(stage, ...row.path.split('/'));
       await mkdir(path.dirname(target), {recursive:true});

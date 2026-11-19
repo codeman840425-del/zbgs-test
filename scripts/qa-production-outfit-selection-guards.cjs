@@ -19,8 +19,9 @@ function selectedItem(entries, slot) {
 
 async function main() {
   const [base, outArg, recordsArg, expectedBuild, slotOption, ...extra] = process.argv.slice(2);
-  assert(!extra.length && [undefined,'--slot=top','--default-top'].includes(slotOption),
-    'Optional argument: --slot=top or --default-top');
+  const withPublication = extra.length===1 && extra[0]==='--rule-body-data';
+  assert((!extra.length || withPublication) && [undefined,'--slot=top','--default-top'].includes(slotOption),
+    'Expected a slot option followed optionally by --rule-body-data');
   const isDefault = slotOption === '--default-top';
   const slot = slotOption ? 'top' : 'socks';
   const role = isDefault ? 'pants' : slot === 'socks' ? 'pants-socks' : 'pants-top-far';
@@ -77,7 +78,7 @@ async function main() {
     const open = async () => {
       page = await context.newPage();
       page.on('pageerror', error => report.pageErrors.push(error.message));
-      await page.goto(base+'record-consumer.html?production=1');
+      await page.goto(base+'record-consumer.html?production=1'+(withPublication?'&ruleBodyData=1':''));
       await page.waitForFunction(() => window.__recordConsumer?.ready, null, {timeout:60000});
       const {shortId, sourceDigest} = await page.evaluate(() => __recordConsumer.buildInfo);
       assert.equal(expectedBuild.length === 12 ? shortId : sourceDigest, expectedBuild);
