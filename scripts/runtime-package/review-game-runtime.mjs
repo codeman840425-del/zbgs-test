@@ -1,4 +1,4 @@
-import {execFileSync} from 'node:child_process';
+import {execFileSync, spawnSync} from 'node:child_process';
 import {realpath} from 'node:fs/promises';
 import path from 'node:path';
 import {productionRoot, projectOutput} from '../project-output.cjs';
@@ -7,7 +7,15 @@ import {jsonBytes, writeFresh} from './files.mjs';
 
 const [published, rebuilt, checkout, output] = process.argv.slice(2);
 if (!output || process.argv.length !== 6) throw Error('Expected PUBLISHED_DIST REBUILT_DIST CLEAN_CHECKOUT NEW_REVIEW_FILE');
-const destination = await projectOutput(output, await productionRoot());
+const producer = await productionRoot();
+const destination = await projectOutput(output, producer);
+const audit = spawnSync('python', ['-B', '-X', 'utf8', path.join(producer, 'scripts', 'character-worktree.py'), 'audit'],
+  {cwd:producer, encoding:'utf8', windowsHide:true});
+if (audit.error) throw Error('Cannot run production worktree audit', {cause:audit.error});
+if (audit.status !== 0) {
+  const details = [audit.stdout, audit.stderr].filter(Boolean).join('\n').trim();
+  throw Error(`Production worktree audit failed (${audit.status ?? audit.signal})${details ? '\n'+details : ''}`);
+}
 const [dist, repeat, sourceRoot] = await Promise.all([published, rebuilt, checkout].map(file => realpath(file)));
 if (!path.relative(dist, repeat) || path.relative(sourceRoot, repeat) !== path.join('prototype', 'dist'))
   throw Error('Use the independently rebuilt prototype/dist in a separate clean checkout');
