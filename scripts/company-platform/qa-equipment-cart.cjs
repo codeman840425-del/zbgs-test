@@ -278,7 +278,9 @@ async function film() {
   }
   await close();
   const filename=path.join(out,'equipment-cart-1x.webm');
-  await video.saveAs(filename);await video.delete();
+  const recorded=await fs.realpath(await video.path());
+  assert.equal(path.dirname(recorded),await fs.realpath(path.join(out,'video')));
+  await fs.rename(recorded,filename);
   const bytes=await fs.readFile(filename);
   assert(bytes.length>10000);
   report.video={file:path.basename(filename),bytes:bytes.length,sha256:sha(bytes),realWallSeconds:(Date.now()-t0)/1000,
