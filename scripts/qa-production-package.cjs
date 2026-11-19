@@ -1,15 +1,26 @@
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {productionRoot,projectOutput}=require('./project-output.cjs');
 const {launchQABrowser}=require('./qa-browser-workspace.cjs');
-const [base,folder,expectedFile]=process.argv.slice(2);
+const {browserConfigArgs}=require('./qa-browser-config-args.cjs');
+const [base,folder,...args]=process.argv.slice(2);
 (async()=>{
+ const {remaining,launchOptions}=browserConfigArgs(args);
+ if(remaining.includes('--cold-pair')){
+  const files=remaining.filter(value=>value!=='--cold-pair');
+  if(remaining.length!==2||files.length!==1||files[0].startsWith('--'))throw Error('Expected --cold-pair SIGNED_RECORD_PAIR');
+  const {runColdPair}=require('./qa-production-cold-pair.cjs');
+  return runColdPair(base,folder,files[0],launchOptions);
+ }
+ if(remaining.length>1)throw Error('Expected at most one signed records file');
+ const [expectedFile]=remaining;
  const out=await projectOutput(folder,await productionRoot());
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const expected=expectedFile?JSON.parse(await fs.readFile(expectedFile,'utf8')):null;
- const session=await launchQABrowser(out,{channel:'chrome'});
+ const session=await launchQABrowser(out,launchOptions);
  try {
  const {browser}=session,context=await browser.newContext({viewport:{width:1440,height:1000}});
  const report={status:'incomplete',browser:browser.version(),errors:[],checks:[],requests:[],failedAssetResponses:[],scope:'Two produced records restored by the shared game consumer; development machine.'};
+ if(session.receipt)report.browserLaunch=session.receipt;
  context.on('response',r=>{if(r.status()>=400)report.failedAssetResponses.push({url:r.url(),status:r.status()});});
  let page;const open=async(query='records=/records/manifest.json')=>{page=await context.newPage();page.on('pageerror',e=>report.errors.push(e.message));page.on('request',r=>report.requests.push(r.url()));await page.goto(base+'record-consumer.html?'+query);await page.waitForFunction(()=>window.__recordConsumer?.ready,null,{timeout:120000});};
  const {resolveGarmentMaterials}=await import('../prototype/src/garment-material-record.js');

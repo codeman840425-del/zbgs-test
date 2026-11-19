@@ -1,10 +1,40 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
+const {createHash} = require('node:crypto');
 const {productionRoot, projectOutput} = require('./project-output.cjs');
+
+async function resolveBrowserConfig(file) {
+  const approvedBrowser = require('./production/fusion-cft145.json');
+  if (typeof file !== 'string' || !file.trim()) throw Error('Missing browser configuration');
+  const config = JSON.parse(await fs.readFile(file, 'utf8'));
+  if (Object.keys(config).sort().join(',') !== Object.keys(approvedBrowser).sort().join(',') ||
+      !['schema','executableSha256','browserVersion','playwrightVersion'].every(key => config[key] === approvedBrowser[key]) ||
+      !path.isAbsolute(config.executablePath) ||
+      path.relative(path.resolve(approvedBrowser.executablePath), path.resolve(config.executablePath)) !== '')
+    throw Error('Unapproved browser deployment');
+  const executablePath = await fs.realpath(config.executablePath);
+  if (path.relative(path.resolve(config.executablePath),executablePath) !== '' ||
+      !(await fs.stat(executablePath)).isFile()) throw Error('Browser executable path changed');
+  const executableSha256 = createHash('sha256').update(await fs.readFile(executablePath)).digest('hex');
+  const playwrightVersion = require('../prototype/node_modules/playwright/package.json').version;
+  const locked = require('../prototype/package-lock.json').packages['node_modules/playwright'].version;
+  if (executableSha256 !== config.executableSha256 || playwrightVersion !== config.playwrightVersion || locked !== playwrightVersion)
+    throw Error('Browser executable digest or locked Playwright version mismatch');
+  return {executablePath,receipt:{executablePath,executableSha256,playwrightVersion,browserVersion:config.browserVersion}};
+}
 
 async function launchSession(out, options, profile) {
   const project = await productionRoot();
   const persistent = profile !== undefined;
+  const {browserConfig, ...launch} = options;
+  let deployment;
+  if (browserConfig !== undefined) {
+    if (launch.channel !== undefined || launch.executablePath !== undefined)
+      throw Error('Conflicting browser selection');
+    deployment = await resolveBrowserConfig(browserConfig);
+    launch.executablePath = deployment.executablePath;
+  }
+  options = launch;
   if (persistent) profile = await projectOutput(profile, project);
   if (options.recordVideo) {
     const dir = await projectOutput(options.recordVideo.dir, project);
@@ -35,7 +65,14 @@ async function launchSession(out, options, profile) {
     };
     const resource = persistent ? await chromium.launchPersistentContext(profile, launchOptions)
       : await chromium.launch(launchOptions);
-    return {...(persistent ? {context:resource} : {browser:resource}), async close() {
+    if (deployment) {
+      const browser = persistent ? resource.browser() : resource;
+      if (browser?.version() !== deployment.receipt.browserVersion) {
+        await resource.close();
+        throw Error('Running browser version does not match the deployment');
+      }
+    }
+    return {scratch, receipt:deployment?.receipt, ...(persistent ? {context:resource} : {browser:resource}), async close() {
       try { await resource.close(); }
       finally { await cleanup(); }
     }};
@@ -59,4 +96,4 @@ function launchPersistentQABrowser(out, profile, options = {}) {
   return launchSession(out, options, profile);
 }
 
-module.exports = {launchQABrowser, launchPersistentQABrowser};
+module.exports = {launchQABrowser, launchPersistentQABrowser, resolveBrowserConfig};

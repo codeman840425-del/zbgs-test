@@ -3,6 +3,7 @@ const {createHash} = require('node:crypto');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const {launchQABrowser} = require('./qa-browser-workspace.cjs');
+const {browserConfigArgs} = require('./qa-browser-config-args.cjs');
 
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const request = (operation, fields) => ({schema:'character-production-request-v1', operation, ...fields});
@@ -18,7 +19,9 @@ function selectedItem(entries, slot) {
 }
 
 async function main() {
-  const [base, outArg, recordsArg, expectedBuild, slotOption, ...extra] = process.argv.slice(2);
+  const [base, outArg, recordsArg, expectedBuild, ...options] = process.argv.slice(2);
+  const {remaining, launchOptions} = browserConfigArgs(options);
+  const [slotOption, ...extra] = remaining;
   const withPublication = extra.length===1 && extra[0]==='--rule-body-data';
   assert((!extra.length || withPublication) && [undefined,'--slot=top','--default-top'].includes(slotOption),
     'Expected a slot option followed optionally by --rule-body-data');
@@ -67,7 +70,8 @@ async function main() {
   await fs.copyFile(__filename, path.join(out, 'executed-script.cjs'));
   let session, context, page;
   try {
-    session = await launchQABrowser(out, {channel:'chrome'});
+    session = await launchQABrowser(out, launchOptions);
+    if (launchOptions.browserConfig) report.browserLaunch=session.receipt;
     const {browser} = session;
     context = await browser.newContext({viewport:{width:1440,height:1000}});
     report.browser=browser.version();

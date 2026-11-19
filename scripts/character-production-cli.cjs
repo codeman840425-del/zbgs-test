@@ -5,6 +5,20 @@ const {createInterface}=require('node:readline');
 
 const {productionRoot,projectOutput}=require('./project-output.cjs');
 
+async function productionBrowserConfig(value){
+ if(Array.isArray(value)){
+  if(value.length!==1)throw Error('Expected one --browser-config PATH');
+  [value]=value;
+ }
+ if(value===undefined)return null;
+ if(typeof value!=='string'||!value.length)throw Error('Expected a file for --browser-config');
+ const file=path.resolve(value);
+ const {resolveBrowserConfig}=require('./qa-browser-workspace.cjs');
+ const {receipt}=await resolveBrowserConfig(file);
+ if(!receipt)throw Error('Missing verified browser configuration receipt');
+ return {file,receipt};
+}
+
 async function outputPaths(output,evidence){
  const root=await productionRoot();
  const out=await projectOutput(output,root);
@@ -80,11 +94,13 @@ async function batchCreates(input){
  }
  return input.requests;
 }
-module.exports={outputPaths,parseRequest,batchEdits,batchCreates,itemError,BATCH_SCHEMA,BATCH_CREATE_SCHEMA};
+module.exports={outputPaths,parseRequest,batchEdits,batchCreates,itemError,BATCH_SCHEMA,BATCH_CREATE_SCHEMA,productionBrowserConfig};
 
 if(require.main===module)(async()=>{
- const {values}=parseArgs({options:{dist:{type:'string'},request:{type:'string'},out:{type:'string'},evidence:{type:'string'},'shape-pack':{type:'string',multiple:true}},strict:true,allowPositionals:false});
+ const {values}=parseArgs({options:{dist:{type:'string'},request:{type:'string'},out:{type:'string'},evidence:{type:'string'},
+  'shape-pack':{type:'string',multiple:true},'browser-config':{type:'string',multiple:true}},strict:true,allowPositionals:false});
  for(const name of ['dist','request','out'])if(!values[name])throw Error('Required --'+name);
+ const browser=await productionBrowserConfig(values['browser-config']);
  const shapePacks=values['shape-pack']??[];
  if(shapePacks.some(directory=>!directory))throw Error('Expected a directory for --shape-pack');
  const dist=path.resolve(values.dist),request=path.resolve(values.request);
@@ -95,7 +111,8 @@ if(require.main===module)(async()=>{
  if(await fs.stat(out).catch(e=>{if(e.code==='ENOENT')return null;throw e;}))throw Error('Output already exists');
  const overlayArgs=shapePacks.flatMap(directory=>['--shape-pack',path.resolve(directory)]);
  const browserArgs=[path.join(__dirname,'character-production-browser.cjs'),request,out,build.sourceDigest,evidence];
- if(shapePacks.length)browserArgs.push('rule-body-data');
+ if(shapePacks.length||browser)browserArgs.push(shapePacks.length?'rule-body-data':'');
+ if(browser)browserArgs.push('--browser-config',browser.file);
  const child=spawn(process.execPath,[path.join(__dirname,'run-fixed-check.cjs'),...overlayArgs,dist,...browserArgs],{stdio:['ignore','pipe','inherit']});
  createInterface({input:child.stdout}).on('line',line=>{if(line.startsWith('Temporary fixed-build check:'))process.stderr.write(line+'\n');else process.stdout.write(line+'\n');});
  child.once('error',e=>{console.error(JSON.stringify({ok:false,code:'browser-launch',reason:e.message}));process.exitCode=1;});

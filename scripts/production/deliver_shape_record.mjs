@@ -6,6 +6,7 @@ import path from 'node:path';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 import {parseArgs, promisify} from 'node:util';
 import {productionRoot, projectOutput} from '../project-output.cjs';
+import {productionBrowserConfig} from '../character-production-cli.cjs';
 import {checkedBytes, digest, fail, jsonBytes, publishStagedDirectory} from '../runtime-package/files.mjs';
 import {readGameRuntimeReview} from '../runtime-package/game-runtime-review.mjs';
 import {isSafeCharacterRecordId, validateCharacterRecord} from '../../prototype/src/character-record.js';
@@ -56,6 +57,7 @@ export async function deliver(options) {
   const {id, name, gender} = options;
   if (!isSafeCharacterRecordId(id) || ['manifest','rule-body-data'].includes(id)) fail('invalid-identity-id', 'Invalid record ID');
   if (options['companion-pack'] && !options.companion) fail('invalid-companion', '--companion-pack requires --companion');
+  const browser = await productionBrowserConfig(options['browser-config']);
   const [dist, source, recipe] = await Promise.all([options.dist, options['source-root'], options.recipe].map(p => realpath(p)));
   const companionPack = options['companion-pack'] && await realpath(options['companion-pack']);
   const companion = options.companion && await readJson(options.companion);
@@ -88,7 +90,9 @@ export async function deliver(options) {
       await writeFile(request, jsonBytes({schema:'character-production-request-v1', operation:'create',
         bodyType:shape.bodyType, identity}), {flag:'wx'});
       const issued = await invoke(process.execPath, [path.join(scripts,'character-production-cli.cjs'),
-        '--dist', dist, '--request', request, '--out', character, '--shape-pack', dataPack]);
+        '--dist', dist, '--request', request, '--out', character, '--shape-pack', dataPack,
+        ...(browser ? ['--browser-config', browser.file] : [])]);
+      if (browser) assert.deepEqual(issued.browserConfig, browser.receipt, 'D02 used a different browser configuration');
       const record = await readJson(character);
       assert.deepEqual(record.identity, identity);
       assert.equal(record.appearanceRecipe.base.bodyType, shape.bodyType);
@@ -108,6 +112,7 @@ export async function deliver(options) {
         wholeOutfitAdmission:'not-evaluated', ordinaryPCPerformance:'unmeasured',
         runtime:exported.runtime, shapePack:shape, recipeFileSha256:digest(await readFile(input)),
         identity, revision:record.revision, recordSha256:issued.recordSha256,
+        ...(browser ? {browserConfig:issued.browserConfig} : {}),
         companionRecordSha256:companion?.integrity.recordSha256 ?? null,
         packageManifestSha256:exported.manifestSha256, gameFileCount:exported.files};
       await writeFile(path.join(out,'receipt.json'), jsonBytes(receipt), {flag:'wx'});
@@ -118,7 +123,9 @@ export async function deliver(options) {
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   try {
     const required = ['recipe','id','name','gender','dist','source-root','out'];
-    const {values} = parseArgs({options:Object.fromEntries([...required,'companion','companion-pack'].map(key => [key,{type:'string'}]))});
+    const options = Object.fromEntries([...required,'companion','companion-pack'].map(key => [key,{type:'string'}]));
+    options['browser-config'] = {type:'string',multiple:true};
+    const {values} = parseArgs({options});
     for (const key of required) if (!values[key]) throw Error('Required --' + key);
     console.log(JSON.stringify(await deliver(values)));
   } catch (error) {

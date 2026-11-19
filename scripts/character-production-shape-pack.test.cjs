@@ -27,6 +27,12 @@ async function fixture(t) {
  await Promise.all([fs.mkdir(path.join(tools,'runtime-package'),{recursive:true}),fs.mkdir(caller),fs.mkdir(dist)]);
  for(const name of ['character-production-cli.cjs','project-output.cjs','run-fixed-check.cjs'])
   await fs.copyFile(path.join(__dirname,name),path.join(tools,name));
+ await fs.writeFile(path.join(tools,'qa-browser-workspace.cjs'),`
+exports.resolveBrowserConfig=async file=>{
+ if((await require('node:fs/promises').readFile(file,'utf8'))!=='fixture browser')throw Error('Invalid test deployment');
+ return {receipt:{browserVersion:'fixture'}};
+};
+`);
  const overlayModule = path.join(__dirname,'runtime-package','shape-overlay.cjs');
  await fs.writeFile(path.join(tools,'runtime-package','shape-overlay.cjs'),`
 const assert = require('node:assert/strict');
@@ -50,7 +56,7 @@ module.exports = {verifiedShapeOverlay,assertOverlayDist,isShapeDataPath};
 const assert=require('node:assert/strict');
 const fs=require('node:fs/promises');
 (async()=>{
- const [base,request,out,,,flag]=process.argv.slice(2);
+ const [base,request,out,,,flag,...browserArgs]=process.argv.slice(2);
  const data=JSON.parse(await fs.readFile(request,'utf8'));
  const page=${productionPage.toString()};
  assert.equal(await (await fetch(page(base,flag))).text(),'frozen HTML');
@@ -69,7 +75,7 @@ const fs=require('node:fs/promises');
    assert.equal((await fetch(base+alias)).status,404);
  }
  assert.equal((await fetch(base+'records/manifest.json')).status,404);
- await fs.writeFile(out,JSON.stringify({base,flag}),{flag:'wx'});
+ await fs.writeFile(out,JSON.stringify({base,flag,browserArgs}),{flag:'wx'});
 })().catch(error=>{console.error(error);process.exitCode=1;});
 `);
  const digest='a'.repeat(64);
@@ -86,17 +92,35 @@ const fs=require('node:fs/promises');
   await fs.writeFile(path.join(directory,'overlay.json'),JSON.stringify(entries));
   return directory;
  }
- async function invoke(id,packs=[],real=false){
+ async function invoke(id,packs=[],real=false,browserConfig){
   const out=path.join(producer,id+'.json'), request=path.join(caller,id+'.json');
   await fs.writeFile(request,JSON.stringify(packs.length?{packs:packs.map(p=>path.basename(p))}:{}));
   const args=[real?path.join(__dirname,'character-production-cli.cjs'):path.join(tools,'character-production-cli.cjs'),
    '--dist',dist,'--request',request,'--out',real?path.join(area,id+'.json'):out,...packs.flatMap(p=>['--shape-pack',path.relative(caller,p)])];
+  if(browserConfig!==undefined)args.push('--browser-config',browserConfig);
   const result=await run(process.execPath,args,{cwd:caller,windowsHide:true,timeout:30000})
    .then(value=>({...value,code:0}),error=>error);
   return {...result,out:real?path.join(area,id+'.json'):out};
  }
- return {file,pack,invoke,dist,area};
+ return {file,pack,invoke,dist,area,caller};
 }
+
+test('D02 forwards an explicit config from caller cwd, and rejects a bad config without spawning its check',async t=>{
+ const {invoke,caller}=await fixture(t);
+ const filename=path.join(caller,'browser config.txt');
+ await fs.writeFile(filename,'invalid');
+ const failed=await invoke('retry',[],false,path.basename(filename));
+ assert.equal(failed.code,1);
+ assert.match(failed.stderr,/Invalid test deployment/);
+ assert.doesNotMatch(failed.stderr,/Temporary fixed-build check/);
+ await assert.rejects(fs.stat(failed.out),{code:'ENOENT'});
+ await fs.writeFile(filename,'fixture browser');
+ const next=await invoke('retry',[],false,path.basename(filename));
+ assert.equal(next.code,0,next.stderr);
+ const outcome=JSON.parse(await fs.readFile(next.out,'utf8'));
+ assert.equal(outcome.flag,'');
+ assert.deepEqual(outcome.browserArgs,['--browser-config',filename]);
+});
 
 test('D02 serves multiple shape packs alongside the fixed build and leaves legacy URLs alone',async t=>{
  const {file,pack,invoke}=await fixture(t);

@@ -1,4 +1,4 @@
-const {chromium}=require('../prototype/node_modules/playwright');
+const {launchQABrowser,resolveBrowserConfig}=require('./qa-browser-workspace.cjs');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {outputPaths,parseRequest,batchEdits,batchCreates,itemError,BATCH_SCHEMA,BATCH_CREATE_SCHEMA}=require('./character-production-cli.cjs');
 
@@ -43,7 +43,10 @@ function productionPage(base, shapeData){
 module.exports={verifyCreatedRecord,produceBatch,productionPage};
 
 if(require.main===module)(async()=>{
- const [base,requestFile,outputArg,expectedDigest,evidenceArg,shapeData]=process.argv.slice(2);
+ const [base,requestFile,outputArg,expectedDigest,evidenceArg,shapeData,...extra]=process.argv.slice(2);
+ if(extra.length && (extra.length!==2 || extra[0]!=='--browser-config' || !extra[1]))throw Error('Invalid browser configuration arguments');
+ const browserConfig=extra[1];
+ if(browserConfig)await resolveBrowserConfig(browserConfig);
  const {out:output,evidence}=await outputPaths(outputArg,evidenceArg);
  const {writeFresh}=await import('./runtime-package/files.mjs');
  const {canonicalJson}=await import('../prototype/src/character-record.js');
@@ -55,7 +58,9 @@ if(require.main===module)(async()=>{
  let browser,page,serialized,receipt,failure;
  try{
   const jobs=batchEdit?await batchEdits(request):batchCreate?await batchCreates(request):[request];
-  browser=await chromium.launch({channel:'chrome',headless:true});page=await browser.newPage({viewport:{width:1440,height:1000}});
+  browser=await launchQABrowser(evidence||path.dirname(output), browserConfig?{browserConfig}:{channel:'chrome'});
+  if(browser.receipt)report.browserConfig=browser.receipt;
+  page=await browser.browser.newPage({viewport:{width:1440,height:1000}});
   page.on('pageerror',e=>report.errors.push(e.message));page.on('response',r=>{if(r.url().startsWith(base))report.requests.push({path:new URL(r.url()).pathname,status:r.status()});});
   await page.goto(productionPage(base,shapeData));await page.waitForFunction(()=>window.__recordConsumer?.ready,null,{timeout:120000});
   report.build=await page.evaluate(()=>__recordConsumer.buildInfo);assert.equal(report.build.sourceDigest,expectedDigest);
@@ -117,5 +122,5 @@ if(require.main===module)(async()=>{
  if(evidence)await fs.writeFile(path.join(evidence,'report.json'),JSON.stringify(report,null,2),{flag:'wx'});
  if(failure)throw failure;
  await writeFresh(output,Buffer.from(serialized,'utf8'));
- console.log(JSON.stringify(receipt));
+ console.log(JSON.stringify({...receipt,...(browser?.receipt?{browserConfig:browser.receipt}:{})}));
 })().catch(e=>{console.error(JSON.stringify({ok:false,code:e.code??'production-failed',reason:e.message,field:e.field,editIndex:e.editIndex,itemIndex:e.itemIndex,recordId:e.recordId}));process.exitCode=1;});

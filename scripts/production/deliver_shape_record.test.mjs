@@ -76,3 +76,18 @@ test('from drive root the CLI fails before D02 for an unreviewed dist, then retr
     assert.equal(await readFile(path.join(dist,'build-info.json'),'utf8'),fakeBuild);
   }
 });
+
+test('both production entries reject an explicit invalid browser before reading the fixed build or creating output', async t => {
+  const base = await workspace(t), config = path.join(base,'invalid-config.json'), out = path.join(base,'delivery');
+  await writeFile(config, '{}');
+  const d02 = fileURLToPath(new URL('../character-production-cli.cjs', import.meta.url));
+  const common = ['--dist',path.join(base,'absent-dist'),'--out',out,'--browser-config',config];
+  for (const args of [[script, '--recipe',baseRecipe,'--id','browser-check','--name','CPU','--gender','male',
+                       '--source-root',root], [d02,'--request',baseRecipe]]) {
+    await assert.rejects(run(process.execPath, [...args, ...common], {cwd:path.parse(root).root,windowsHide:true}),
+      error => JSON.parse(error.stderr).reason === 'Unapproved browser deployment');
+    await assert.rejects(run(process.execPath, [...args, ...common, '--browser-config',config],
+      {cwd:path.parse(root).root,windowsHide:true}), error=>JSON.parse(error.stderr).reason === 'Expected one --browser-config PATH');
+    assert.deepEqual(await readdir(base), ['invalid-config.json']);
+  }
+});
