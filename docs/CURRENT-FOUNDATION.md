@@ -4,7 +4,7 @@
 
 盘根治理复查：迁移记录中的 37 个角色工作树全部仍登记在工程内，37 个盘根旧地址均已消失。共用固定包检查会为每个子任务在工程内创建独立临时目录；浏览器冷开、换装失败和预算检查还限定浏览器配置、缓存和崩溃文件路径。已实际测试子任务成功、非零退出、目录联接以及 Chrome 145 整包冷开。Chrome 157 的实际启动参数和关闭回收见[现场回执](../evidence/character-worktree-relocation-v1/browser-scratch-live.json)。复查命令为 `python -B scripts/character-worktree.py audit`。
 
-**游戏制作当前取 [固定交付单](../delivery/character-production-handoff.json)。** 同一条制服款式请求产出男女两条独立签名记录。工具 `f16b3d33`，游戏源码 `2ad612c2`，构建 `4959572f6d5e`。34 文件实包通过固定检出核验。Chrome 145 和 157 各自冷开并重开三种包，12 次均加载正确的上衣和动作。开发机上女、男各录了一段约 17 秒的走、坐、起、离开。正式套装准入仍为 0/2。接续核对轻量女体短发和配色实际依赖，逐项确定可复用的适配。4196 人工预览单独发布。[直接看 1 倍速](../evidence/m2-motion-response-compat-v1/index.html) · [收件复验](../evidence/m2-motion-response-compat-v1/README.md)
+**游戏制作当前取 [固定交付单](../delivery/character-production-handoff.json)。** 同一条制服款式请求产出男女两条独立签名记录。工具 `9b55bd9a`，游戏源码 `2ad612c2`，构建 `4959572f6d5e`。34 文件实包通过固定检出核验。Chrome 145 和 157 各自冷开并重开三种包，12 次均加载正确的上衣和动作。开发机上女、男各录了一段约 17 秒的走、坐、起、离开。正式套装准入仍为 0/2。接续核对轻量女体短发和配色实际依赖，逐项确定可复用的适配。4196 人工预览单独发布。[直接看 1 倍速](../evidence/m2-motion-response-compat-v1/index.html) · [收件复验](../evidence/m2-motion-response-compat-v1/README.md)
 
 制服角色主线现已扩到男女两条独立记录。固定游戏源码 `553906db`、构建 `b37d45ef0fe4`；共用登记入口支持按基模复算并检查实际发布文件。原上衣和轻量上衣各导出 34 个文件的双人包，两包均经首次加载和关闭重开。轻量上衣通过本次静态预算。该增量供内部制作与集成，普通电脑实测及公开发行授权仍待核。4196 的在线版本、下次启动版本及回退指针见下方。可直接打开[女性作品的同期 1 倍速对照](../evidence/m2-female-uniform-texture-game-v1/index.html)。[接收记录与复建流程](../evidence/m2-female-uniform-texture-game-v1/README.md)
 

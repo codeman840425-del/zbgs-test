@@ -20,7 +20,7 @@
 
 ## 交给游戏制作 Agent
 
-交付单分别固定制作工具 `f16b3d33` 和运行源码 `2ad612c2`，入口为 `record-consumer.html?records=/records/manifest.json`。4196 单独提供人工预览。新的接收方从含本回执的主工程启动，下面的目录均位于工程内。若已有这两份精确检出与对应 dist，可复用。[交付单](../../delivery/character-production-handoff.json) · [34 个文件的复验](verified-handoff.json)
+交付单分别固定制作工具 `9b55bd9a` 和运行源码 `2ad612c2`，入口为 `record-consumer.html?records=/records/manifest.json`。4196 单独提供人工预览。新的接收方从含本回执的主工程启动，下面的目录均位于工程内。若已有这两份精确检出与对应 dist，可复用。[交付单](../../delivery/character-production-handoff.json) · [工程内临时目录版工具的 34 文件复验](../character-worktree-relocation-v1/operator-scratch-handoff.json) · [首版工具回读](verified-handoff.json)
 
 ```powershell
 $out = 'output/replay-495-uniform'
@@ -29,7 +29,7 @@ $env:TEMP = (New-Item -ItemType Directory -Path "$out/tmp").FullName
 $env:TMP = $env:TEMP
 $env:npm_config_cache = (New-Item -ItemType Directory -Path "$out/npm-cache").FullName
 python -B scripts/character-worktree.py create replay-495-game 2ad612c2 --runtime-only
-python -B scripts/character-worktree.py create replay-495-tools f16b3d33 --runtime-only
+python -B scripts/character-worktree.py create replay-495-tools 9b55bd9a --runtime-only
 $game = 'experiments/worktrees/replay-495-game'
 $tools = 'experiments/worktrees/replay-495-tools'
 git -C $game sparse-checkout add scripts assets-source/garment-basecolor-release-v1

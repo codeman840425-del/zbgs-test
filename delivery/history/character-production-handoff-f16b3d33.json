@@ -1,0 +1,79 @@
+{
+  "schema": "character-production-handoff-v1",
+  "operator": {
+    "commit": "f16b3d3323cc52fa6408619b604380a58df25464",
+    "planner": "scripts/production/variant_batch.py",
+    "create": "scripts/character-production-cli.cjs",
+    "createSchema": "character-production-batch-create-v1",
+    "package": "scripts/runtime-package/game-record-cli.mjs"
+  },
+  "runtime": {
+    "sourceCommit": "2ad612c289d72356a3097be7e37086e320a79e09",
+    "sourceDigest": "4959572f6d5ed627b74e055ab033b8e00ccf29653282b2c3e593b5d6e78d8b86",
+    "buildId": "4959572f6d5e",
+    "entry": "record-consumer.html",
+    "entryUrl": "record-consumer.html?records=/records/manifest.json"
+  },
+  "inputs": {
+    "variantMatrix": {
+      "path": "assets-source/variant-matrix-v1/uniform-lite-top-matrix.json",
+      "bytes": 3207,
+      "sha256": "9f77385634e91f70c927ad0226a8b5d320eec4d0720ee61962e7079bf9285326"
+    },
+    "candidateRequest": {
+      "path": "assets-source/variant-matrix-v1/uniform-lite-top-request.json",
+      "bytes": 624,
+      "sha256": "9e1b079c1b72d4d8dbfc7b96d758475a33e7ec101a4d95c0c569d46d527caa04"
+    },
+    "signedRecords": {
+      "path": "evidence/m2-uniform-lite-operator-v1/records.json",
+      "bytes": 34291,
+      "sha256": "d38cd555d8b125c606ef28775b08fa96b2834c40c082e7ee06478dc4035f6989"
+    },
+    "authoredPlan": {
+      "path": "evidence/m2-uniform-lite-operator-v1/plan/plan.json",
+      "bytes": 5072,
+      "sha256": "ed360644f43b34338c66b3145683f912eea11e2e98a2bc1a8a391ac8e089f913"
+    },
+    "authoredRequests": {
+      "path": "evidence/m2-uniform-lite-operator-v1/plan/diagnostic-requests/create-001.batch.json",
+      "bytes": 2518,
+      "sha256": "7567bc357543a75f79556b5b07ec5f50b06e4ed4675b5e4d77d08f84dfa96703"
+    }
+  },
+  "fixedGamePackage": {
+    "files": 34,
+    "inventory": {
+      "path": "evidence/m2-motion-response-compat-v1/pair-inventory.json",
+      "bytes": 71839,
+      "sha256": "fc3bd555c35836c96a5259d021b1e4b87c95904784e148ad58d707833106cd80"
+    }
+  },
+  "receiverEvidence": {
+    "path": "evidence/m2-motion-response-compat-v1/pair-game/report.json",
+    "bytes": 56837,
+    "sha256": "7b866e42fa5f08e79f1ee505d032eab1782c7f7b0d93ad7a73217412dd8753db"
+  },
+  "freshBuildEvidence": {
+    "path": "evidence/m2-motion-response-compat-v1/rebuild.json",
+    "bytes": 3330,
+    "sha256": "f84fb0dfa84a6338eb66367ed20d5e037a784d9c0539ffdb0900132b641d2785"
+  },
+  "status": "diagnostic-candidate",
+  "limits": [
+    "Internal production and game integration for two fitted uniforms with original colors and hair. Use the archived pointer to reproduce the earlier personalized bob and palette record.",
+    "Both selected 1K tops, both bodies and the estimated two-actor texture sum fit the tested static budget. Physical ordinary-PC performance is unmeasured.",
+    "The two exact game records were exercised in Chrome for Testing 145 and Google Chrome 157 on the development PC. Full outfit production admission and public release rights remain under review.",
+    "The independent game reads signed records/manifest.json. Port 4196 is a human preview."
+  ],
+  "previousHandoff": {
+    "path": "delivery/history/character-production-handoff-54e8a24c.json",
+    "bytes": 3585,
+    "sha256": "a88821b9106aa616c2b7d625b37fec0c4c5647538f3018db3f367e2e6cb619b3"
+  },
+  "staticBudgetEvidence": {
+    "path": "evidence/m2-motion-response-compat-v1/pair-static-budget.json",
+    "bytes": 44628,
+    "sha256": "8f2817e891d66799024bdfb97ed6a1e19f2ab4537923c9e3bd542c4caf935c51"
+  }
+}
