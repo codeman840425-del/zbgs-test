@@ -6,7 +6,8 @@ import test from 'node:test';
 import {fileURLToPath} from 'node:url';
 import {promisify} from 'node:util';
 import {productionRoot, projectOutput} from '../project-output.cjs';
-import {withFreshDelivery} from './deliver_shape_record.mjs';
+import {produceItems,readInputs,withFreshDelivery} from './deliver_shape_record.mjs';
+import {digest} from '../runtime-package/files.mjs';
 
 const run = promisify(execFile);
 const root = await productionRoot();
@@ -90,4 +91,67 @@ test('both production entries reject an explicit invalid browser before reading 
       {cwd:path.parse(root).root,windowsHide:true}), error=>JSON.parse(error.stderr).reason === 'Expected one --browser-config PATH');
     assert.deepEqual(await readdir(base), ['invalid-config.json']);
   }
+});
+
+const batchSchema='shape-record-delivery-batch-v1';
+function item(id,recipe) {
+  return {recipe,identity:{id,name:'Displayed / '+id,gender:'male'}};
+}
+
+test('batch inputs require 2–4 distinct identities, support relative and absolute recipe paths, and reject mixed modes', async t=>{
+  const base=await workspace(t), batch=path.join(base,'request.json');
+  const first=item('record-first','recipe.json'), second=item('record-second',baseRecipe);
+  for(const key of ['recipe','id','name','gender','companion','companion-pack'])
+    await assert.rejects(readInputs({batch,[key]:'unused'}),{code:'batch-option-conflict'});
+  for(const items of [[first],Array(5).fill(first),[first,first],[first,{...second,extra:1}],
+                       [first,{...second,identity:{...second.identity,id:'rule-body-data'}}]]){
+    await writeFile(batch,JSON.stringify({schema:batchSchema,items}));
+    await assert.rejects(readInputs({batch}));
+  }
+  const entries=[first,second,item('record-third',baseRecipe),item('record-fourth',baseRecipe)];
+  const bytes=JSON.stringify({schema:batchSchema,items:entries});
+  await writeFile(batch,bytes);
+  const parsed=await readInputs({batch});
+  assert.equal(parsed.batchFileSha256,digest(bytes));assert.equal(parsed.items.length,4);
+  assert.equal(parsed.items[0].recipe,path.join(base,'recipe.json'));
+  assert.equal(parsed.items[1].recipe,baseRecipe);
+});
+
+test('bad second recipe rolls back after real production, retry with identical geometry preserves both item receipts and one pack', async t=>{
+  const base=await workspace(t), out=path.join(base,'delivery'), second=path.join(base,'second.json');
+  const batch=path.join(base,'batch.json');
+  await writeFile(batch,JSON.stringify({schema:batchSchema,items:[item('share-first',baseRecipe),item('share-second','second.json')]}));
+  const recipe=JSON.parse(await readFile(baseRecipe,'utf8'));
+  async function attempt(){
+    const {items}=await readInputs({batch});
+    return withFreshDelivery(out,[],(scratch,product)=>produceItems(items,true,scratch,product));
+  }
+  await writeFile(second,JSON.stringify({...recipe,weight:-1}));
+  await assert.rejects(attempt(),error=>error.code==='batch-item-failed' && /items\[1\] \(share-second\), produce-body/.test(error.message));
+  assert.deepEqual((await readdir(base)).sort(),['batch.json','second.json']);
+  await writeFile(second,JSON.stringify(recipe));
+  const result=await attempt();
+  assert.equal(result.packArgs.length,2);
+  const [a,b]=result.items;
+  assert.deepEqual(a.shape,b.shape);assert.equal(a.shapePackPath,b.shapePackPath);
+  assert.equal(a.producerSha256,b.producerSha256);assert.notEqual(a.recipeFileSha256,b.recipeFileSha256);
+  assert.deepEqual(await readdir(path.join(out,'shape-packs')),[a.shape.indexSha256]);
+  assert.deepEqual(await readdir(path.join(out,'items')),['1','2']);
+  for(const row of result.items){
+    assert.equal(digest(await readFile(path.join(out,row.producerPath))),row.producerSha256);
+    assert.equal(digest(await readFile(path.join(out,row.recipePath))),row.recipeFileSha256);
+    assert.equal(digest(await readFile(path.join(out,row.shapePackPath,'profile.json'))),row.profileSha256);
+  }
+});
+
+test('matching VRM bytes with different canonical recipe and index pins cannot select an arbitrary pack', async t=>{
+  const base=await workspace(t), out=path.join(base,'collision');
+  const recipe=JSON.parse(await readFile(baseRecipe,'utf8'));
+  const one=path.join(base,'integer.json'), two=path.join(base,'float.json');
+  const text=JSON.stringify({...recipe,weight:1});
+  await writeFile(one,text);await writeFile(two,text.replace('"weight":1','"weight":1.0'));
+  const inputs=[item('integer-one',one),item('float-one',two)];
+  await assert.rejects(withFreshDelivery(out,[],(scratch,product)=>produceItems(inputs,true,scratch,product)),
+    error=>error.code==='batch-item-failed' && error.message.includes('items[1] (float-one), check-pack-identity: Different pack indices'));
+  assert.deepEqual((await readdir(base)).sort(),['float.json','integer.json']);
 });

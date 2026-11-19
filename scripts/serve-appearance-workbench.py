@@ -8,8 +8,11 @@ from urllib.parse import urlsplit, parse_qsl, unquote, urlencode
 ROOT = Path(__file__).resolve().parents[1]
 RULE_REVIEW = '/reviews/production-shapes/'
 RULE_MEDIA = {
-    RULE_REVIEW: 'index.html',
-    **{RULE_REVIEW + name: name for name in (
+    RULE_REVIEW: ROOT / 'evidence/m2-rule-batch-delivery-v1/index.html',
+    **{RULE_REVIEW + 'batch/' + name: ROOT / 'evidence/m2-rule-batch-delivery-v1' / name for name in (
+        'cold/dual-external-cold-1x.webm', 'seat/room-1x.webm',
+    )},
+    **{RULE_REVIEW + name: ROOT / 'evidence/m2-first-rule-delivery-v1' / name for name in (
         'index.html', 'game/ordinary-cold-02/two-rule-bodies-1x.webm',
         'game/room-0625-01/room-produced-1x.webm', 'game/room-0375-01/room-produced-1x.webm',
     )},
@@ -66,14 +69,15 @@ NORMAL_MEDIA = {
         'm2-native-short-socks-room-v1/room/room-produced-1x.webm',
 }
 
-def is_paired_ear_path(name):
+def is_review_path(name, directory, *, ignore_case=False):
     parts = []
-    for part in unquote(name).replace('\\', '/').split('/'):
+    decoded = unquote(name).replace('\\', '/')
+    for part in (decoded.casefold() if ignore_case else decoded).split('/'):
         if part == '..':
             del parts[-1:]
         elif part not in ('', '.'):
             parts.append(part)
-            if parts == ['reviews', 'paired-ear-style']:
+            if parts == ['reviews', directory]:
                 return True
     return False
 
@@ -91,7 +95,13 @@ def make_server(config, *, verification=False):
     class Handler(SimpleHTTPRequestHandler):
         def send_head(self):
             name = urlsplit(self.path).path
-            if is_paired_ear_path(name):
+            if is_review_path(name, 'production-shapes', ignore_case=True):
+                file = RULE_MEDIA.get(name)
+                if (config.get('ruleBodyReview') is not True or file is None or
+                        file.resolve() != file or not file.is_file()):
+                    self.send_error(404)
+                    return None
+            if is_review_path(name, 'paired-ear-style'):
                 member = PAIRED_EAR_FILES.get(name)
                 file = PAIRED_EAR_EVIDENCE / member if member is not None else None
                 if (config.get('pairedEarStyleReview') is not True or file is None or
@@ -113,7 +123,7 @@ def make_server(config, *, verification=False):
             # Review recordings stay outside the game build and its download budget.
             name = urlsplit(path).path
             if config.get('ruleBodyReview') and name in RULE_MEDIA:
-                return str(ROOT / 'evidence/m2-first-rule-delivery-v1' / RULE_MEDIA[name])
+                return str(RULE_MEDIA[name])
             if config.get('pairedEarStyleReview') is True and name in PAIRED_EAR_FILES:
                 return str(PAIRED_EAR_EVIDENCE / PAIRED_EAR_FILES[name])
             if config.get('cc0BodyTextureReview') and name.startswith('/reviews/cc0-body-texture/'):

@@ -1,5 +1,7 @@
 # 参数驱动角色生产契约
 
+同一受审下颌模板可用 `deliver_shape_record.mjs --batch FILE` 一次制作 2–4 个具名角色。传 `shape-record-delivery-batch-v1`，每项给配方文件及稳定身份 `id/name/gender`；配方相对于批次文件解析。每项有独立制作回执，整批经一次 D02 签发。相同索引的数据包和相同字节的制服可以共用，身体和装备声明始终按实际摘要核对。第二项越界时整批清理，修正后可在原目的地重试。`game/` 可单独交给游戏，制作输入、适配回执和签名记录可供复核。当前实际双人案例只覆盖该模板、制服和已审游戏版本。[配方示例](../assets-source/rule-body-batch-v1/batch.json) · [双人出包与验收](../evidence/m2-rule-batch-delivery-v1/README.md)
+
 同一授权下颌模板还可使用数据包模式。制作方保存模板、端点、配方及可复算的来源；游戏读取版本化身体、装备清单、配方和 fit 指纹。首次部署支持该协议的游戏之后，可加入符合该模板的新参数。运行代码评审、内容身份和整套发行批准分开记录；只按签名角色所选的数据包移交，缺包或未经审查的运行版会拒绝。见[固定游戏接收实测与限制](../evidence/m2-frozen-rule-game-v1/README.md)。
 
 同一批交来的多份 `配方 + VRM` 可直接传给 `scripts/production/received_outfit_request.py --import`。工具先复算所有身体和装备闭包，再自动写入不可变工件、角色登记、fit 和款式请求。可以把已授权的生产工具安装在消费方自己管理的工程，使用该工程数据目录。初次从零条新登记开始、错体拒绝、恢复后再导入和重复执行均有实际回执。正式款式规划继续读取制作方的整套审核索引。[复制命令及原始实测](../evidence/m2-first-rule-delivery-v1/request/README.md)

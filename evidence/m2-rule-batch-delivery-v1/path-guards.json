@@ -1,0 +1,47 @@
+{
+  "cwd": "F:\\",
+  "batchGuards": [
+    {
+      "outputRequested": "F:\\gamemake-batch-scope-probe",
+      "exit": 1,
+      "reason": {
+        "ok": false,
+        "code": "outside-project",
+        "reason": "Production output must be inside the project: F:\\gamemake-batch-scope-probe"
+      },
+      "existsAfter": false
+    },
+    {
+      "outputRequested": "F:\\gamemake-test\\batch-scope-probe",
+      "exit": 1,
+      "reason": {
+        "ok": false,
+        "code": "outside-project",
+        "reason": "Production output must be inside the project: F:\\gamemake-test\\batch-scope-probe"
+      },
+      "existsAfter": false
+    },
+    {
+      "outputRequested": "F:\\gamemake\\output\\..\\prototype\\batch-scope-probe",
+      "exit": 1,
+      "reason": {
+        "ok": false,
+        "code": "outside-delivery-output",
+        "reason": "Choose a new directory below the production output, outside input packages"
+      },
+      "existsAfter": false
+    }
+  ],
+  "driveRootAudit": {
+    "project": "F:\\gamemake",
+    "unexpectedSiblings": [],
+    "unexpectedWorktrees": [],
+    "companyOwnedSiblings": [
+      "gamemake-company-platform-c1"
+    ],
+    "independentFusionTests": [
+      "gamemake-test"
+    ],
+    "worktreePathIssues": []
+  }
+}
