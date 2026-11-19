@@ -1,0 +1,746 @@
+{
+  "status": "passed",
+  "sealed": "F:\\gamemake-company-platform-c1\\output\\wall-hvac-v1\\candidate-v2",
+  "manifestSha256": "8b06e1570110945e7fee75f1e77d760aa2a1b5db4f74304955a5b4066011c466",
+  "work": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy",
+  "commands": [
+    {
+      "label": "verify-original",
+      "cwd": "F:\\gamemake-company-platform-c1\\output\\wall-hvac-v1\\candidate-v2",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\wall-hvac-v1\\candidate-v2",
+        "8b06e1570110945e7fee75f1e77d760aa2a1b5db4f74304955a5b4066011c466"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "76cbd909ffd6",
+        "manifestSha256": "8b06e1570110945e7fee75f1e77d760aa2a1b5db4f74304955a5b4066011c466",
+        "declaredFiles": 2250,
+        "checkedFiles": 2250,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "verify-pristine-copy",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy",
+        "8b06e1570110945e7fee75f1e77d760aa2a1b5db4f74304955a5b4066011c466"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "76cbd909ffd6",
+        "manifestSha256": "8b06e1570110945e7fee75f1e77d760aa2a1b5db4f74304955a5b4066011c466",
+        "declaredFiles": 2250,
+        "checkedFiles": 2250,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "npm-ci",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\source\\prototype",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+      "args": [
+        "ci",
+        "--include=dev",
+        "--cache",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\npm-cache",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "exit": 0,
+      "response": "added 35 packages in 40s"
+    },
+    {
+      "label": "build-original-identity",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\source\\prototype",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "scripts\\build-company-id.mjs",
+      "args": [],
+      "exit": 0,
+      "response": "76cbd909ffd6"
+    },
+    {
+      "label": "build-original",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\source\\prototype",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "node_modules\\vite\\bin\\vite.js",
+      "args": [
+        "build",
+        "--config",
+        "vite.company.config.js",
+        "--outDir",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\rebuilt-original"
+      ],
+      "exit": 0,
+      "response": "vite v7.3.8 building client environment for production...\ntransforming...\n✓ 133 modules transformed.\nrendering chunks...\ncomputing gzip size...\n../../../acceptance/rebuilt-original/company.html                    15.97 kB │ gzip:   5.08 kB\n../../../acceptance/rebuilt-original/assets/company-2NYSi0Cv.css     15.34 kB │ gzip:   4.14 kB\n../../../acceptance/rebuilt-original/assets/company-CCjPwh25.js   3,681.57 kB │ gzip: 815.55 kB\n✓ built in 5.21s"
+    },
+    {
+      "label": "verify-original-viewer-bytes",
+      "cwd": "F:\\gamemake-company-platform-c1\\output\\wall-hvac-v1\\candidate-v2",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\wall-hvac-v1\\candidate-v2",
+        "8b06e1570110945e7fee75f1e77d760aa2a1b5db4f74304955a5b4066011c466",
+        "--viewer",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\rebuilt-original"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "76cbd909ffd6",
+        "manifestSha256": "8b06e1570110945e7fee75f1e77d760aa2a1b5db4f74304955a5b4066011c466",
+        "declaredFiles": 629,
+        "checkedFiles": 629,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0,
+        "scope": "rebuilt-viewer"
+      }
+    },
+    {
+      "label": "reject-unregistered-replacement",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\data\\rooms\\wall-hvac-rental\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\replace-rental-hvac.ops.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\rental-edited",
+        "--room",
+        "wall-hvac-rental"
+      ],
+      "exit": 1,
+      "signal": null,
+      "response": {
+        "ok": false,
+        "code": "missing-resource-version",
+        "path": "wall-hvac-rental/ground/live/wall-ac",
+        "message": "missing-resource-version at wall-hvac-rental/ground/live/wall-ac: wall-ac-ribbed-fine@1",
+        "details": {}
+      }
+    },
+    {
+      "label": "publish-fifth-look",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\source",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+      "args": [
+        "--publish",
+        "assets-source/company-wall-hvac-v1/examples/fifth-ribbed.json"
+      ],
+      "exit": 0,
+      "response": {
+        "status": "published",
+        "family": "wall-hvac",
+        "sourceParameters": "assets-source/company-wall-hvac-v1/examples/recipe-54a25334a8d6d7b2caa0176d9e5b59697cd21f3f281fba6d2e207d4a5b157702.json",
+        "sourceParametersSha256": "54a25334a8d6d7b2caa0176d9e5b59697cd21f3f281fba6d2e207d4a5b157702",
+        "items": [
+          {
+            "id": "wall-ac-ribbed-fine",
+            "version": 1,
+            "resourcePath": "prototype/public/company-assets/wall-hvac-v1/wall-ac-ribbed-fine/v1/resource.json",
+            "sha256": "1eec05cabc7bf62a3e663d02943a8b5d753707c7c2355ad53bf9865c7ce4bd22",
+            "geometrySha256": "829cbedefd7066e563ce14836858481a5d65262400707317b5ef4d2e3d760797"
+          }
+        ]
+      }
+    },
+    {
+      "label": "reproduce-fifth-look",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\source",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+      "args": [
+        "--check",
+        "assets-source/company-wall-hvac-v1/examples/fifth-ribbed.json"
+      ],
+      "exit": 0,
+      "response": {
+        "status": "unchanged",
+        "family": "wall-hvac",
+        "sourceParameters": "assets-source/company-wall-hvac-v1/examples/recipe-54a25334a8d6d7b2caa0176d9e5b59697cd21f3f281fba6d2e207d4a5b157702.json",
+        "sourceParametersSha256": "54a25334a8d6d7b2caa0176d9e5b59697cd21f3f281fba6d2e207d4a5b157702",
+        "items": [
+          {
+            "id": "wall-ac-ribbed-fine",
+            "version": 1,
+            "resourcePath": "prototype/public/company-assets/wall-hvac-v1/wall-ac-ribbed-fine/v1/resource.json",
+            "sha256": "1eec05cabc7bf62a3e663d02943a8b5d753707c7c2355ad53bf9865c7ce4bd22",
+            "geometrySha256": "829cbedefd7066e563ce14836858481a5d65262400707317b5ef4d2e3d760797"
+          }
+        ]
+      }
+    },
+    {
+      "label": "retry-replacement-after-registration",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\data\\rooms\\wall-hvac-rental\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\replace-rental-hvac.ops.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\rental-edited",
+        "--room",
+        "wall-hvac-rental"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "wall-hvac-rental",
+        "revision": 3,
+        "floors": [
+          "wall-hvac-rental/ground"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\rental-edited"
+      }
+    },
+    {
+      "label": "build-edited-identity",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\source\\prototype",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "scripts\\build-company-id.mjs",
+      "args": [],
+      "exit": 0,
+      "response": "c7c925a02a5f"
+    },
+    {
+      "label": "build-edited",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\source\\prototype",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "node_modules\\vite\\bin\\vite.js",
+      "args": [
+        "build",
+        "--config",
+        "vite.company.config.js",
+        "--outDir",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\rebuilt-edited"
+      ],
+      "exit": 0,
+      "response": "vite v7.3.8 building client environment for production...\ntransforming...\n✓ 133 modules transformed.\nrendering chunks...\ncomputing gzip size...\n../../../acceptance/rebuilt-edited/company.html                    15.97 kB │ gzip:   5.09 kB\n../../../acceptance/rebuilt-edited/assets/company-2NYSi0Cv.css     15.34 kB │ gzip:   4.14 kB\n../../../acceptance/rebuilt-edited/assets/company-BazxBf_q.js   3,684.68 kB │ gzip: 816.51 kB\n✓ built in 5.07s"
+    },
+    {
+      "label": "package-both-rooms",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\rebuilt-edited",
+        "c7c925a02a5f",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\data\\batch-result",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\derived-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\source",
+        "--room",
+        "wall-hvac-home",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy\\data\\rooms\\wall-hvac-home\\batch-result",
+        "--room",
+        "wall-hvac-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\rental-edited\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "buildId": "c7c925a02a5f",
+        "companyId": "wall-hvac-home",
+        "rooms": [
+          "wall-hvac-home",
+          "wall-hvac-rental"
+        ],
+        "files": 2252,
+        "output": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\derived-package"
+      }
+    },
+    {
+      "label": "verify-derived",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\derived-package",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\derived-package",
+        "9d766e418cd4bac200ddf140aa9323b2a5c311fadba7eba2e5cc64ed4202ead1"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "c7c925a02a5f",
+        "manifestSha256": "9d766e418cd4bac200ddf140aa9323b2a5c311fadba7eba2e5cc64ed4202ead1",
+        "declaredFiles": 2252,
+        "checkedFiles": 2252,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "reopen-wall-hvac-home",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\derived-package\\data\\rooms\\wall-hvac-home\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "wall-hvac-home",
+        "revision": 2,
+        "floors": [
+          "wall-hvac-home/ground"
+        ]
+      }
+    },
+    {
+      "label": "reopen-wall-hvac-rental",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\derived-package\\data\\rooms\\wall-hvac-rental\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "wall-hvac-rental",
+        "revision": 3,
+        "floors": [
+          "wall-hvac-rental/ground"
+        ]
+      }
+    },
+    {
+      "label": "reopen-wall-hvac-home-default",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\working-copy",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\derived-package\\data\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "wall-hvac-home",
+        "revision": 2,
+        "floors": [
+          "wall-hvac-home/ground"
+        ]
+      }
+    },
+    {
+      "label": "verify-original-after-work",
+      "cwd": "F:\\gamemake-company-platform-c1\\output\\wall-hvac-v1\\candidate-v2",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\wall-hvac-v1\\candidate-v2",
+        "8b06e1570110945e7fee75f1e77d760aa2a1b5db4f74304955a5b4066011c466"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "76cbd909ffd6",
+        "manifestSha256": "8b06e1570110945e7fee75f1e77d760aa2a1b5db4f74304955a5b4066011c466",
+        "declaredFiles": 2250,
+        "checkedFiles": 2250,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "verify-derived-after-reopen",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\derived-package",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\wall-hvac-v1\\receiver\\acceptance\\derived-package",
+        "9d766e418cd4bac200ddf140aa9323b2a5c311fadba7eba2e5cc64ed4202ead1"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "c7c925a02a5f",
+        "manifestSha256": "9d766e418cd4bac200ddf140aa9323b2a5c311fadba7eba2e5cc64ed4202ead1",
+        "declaredFiles": 2252,
+        "checkedFiles": 2252,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    }
+  ],
+  "original": {
+    "ok": true,
+    "build": "76cbd909ffd6",
+    "manifestSha256": "8b06e1570110945e7fee75f1e77d760aa2a1b5db4f74304955a5b4066011c466",
+    "declaredFiles": 2250,
+    "checkedFiles": 2250,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "workingCopy": {
+    "ok": true,
+    "build": "76cbd909ffd6",
+    "manifestSha256": "8b06e1570110945e7fee75f1e77d760aa2a1b5db4f74304955a5b4066011c466",
+    "declaredFiles": 2250,
+    "checkedFiles": 2250,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "lockSha256": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b",
+  "rebuiltOriginal": {
+    "ok": true,
+    "build": "76cbd909ffd6",
+    "manifestSha256": "8b06e1570110945e7fee75f1e77d760aa2a1b5db4f74304955a5b4066011c466",
+    "declaredFiles": 629,
+    "checkedFiles": 629,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0,
+    "scope": "rebuilt-viewer"
+  },
+  "before": {
+    "home": {
+      "ref": {
+        "id": "wall-ac-curve",
+        "version": 1
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/wall-hvac-v1/wall-ac-curve/v1/model.glb",
+        "sha256": "e1e8b193196402c0bcc598a8dde03f76541732db500f6958a5677ead7925ea47",
+        "bytes": 1411176
+      },
+      "state": {
+        "on": true,
+        "mode": 2
+      },
+      "ribBanks": [],
+      "installation": {
+        "parentId": "wall-hvac-home/ground/live",
+        "transform": {
+          "position": [
+            0,
+            2.24,
+            1.9
+          ],
+          "yaw": 3.141592653589793
+        },
+        "anchor": [
+          0,
+          2.24,
+          1.9
+        ],
+        "forward": [
+          1.2246467991473532e-16,
+          0,
+          -1
+        ],
+        "wall": "wall-hvac-home/ground/live/wall-south-1",
+        "contact": [
+          0,
+          2.24,
+          1.899999999254942
+        ]
+      },
+      "display": {
+        "flapRadians": 0.9226792257356587,
+        "statusIntensity": 1
+      }
+    },
+    "rental": {
+      "ref": {
+        "id": "wall-ac-ribbed",
+        "version": 1
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/wall-hvac-v1/wall-ac-ribbed/v1/model.glb",
+        "sha256": "827b1bb95d90ac4e7519bc716f59f1af0925a4ec058b942111ae4831f825a81d",
+        "bytes": 1465000
+      },
+      "state": {
+        "on": false,
+        "mode": 3
+      },
+      "ribBanks": [
+        7,
+        7,
+        7
+      ],
+      "installation": {
+        "parentId": "wall-hvac-rental/ground/live",
+        "transform": {
+          "position": [
+            0,
+            2.24,
+            1.9
+          ],
+          "yaw": 3.141592653589793
+        },
+        "anchor": [
+          1.899999999999999,
+          2.24,
+          4.5
+        ],
+        "forward": [
+          -1,
+          0,
+          -3.4450928483976665e-16
+        ],
+        "wall": "wall-hvac-rental/ground/live/wall-south-0",
+        "contact": [
+          1.8999999992549408,
+          2.24,
+          4.5
+        ]
+      },
+      "display": {
+        "flapRadians": 0,
+        "statusIntensity": 0
+      }
+    }
+  },
+  "rejection": {
+    "ok": false,
+    "code": "missing-resource-version",
+    "path": "wall-hvac-rental/ground/live/wall-ac",
+    "message": "missing-resource-version at wall-hvac-rental/ground/live/wall-ac: wall-ac-ribbed-fine@1",
+    "details": {},
+    "saveSha256": "311c6cbc2c47d9f8cb442c33d6874bd90d12a8ed50df135898e62ee32a075e5a"
+  },
+  "fifth": {
+    "recipe": "assets-source/company-wall-hvac-v1/examples/fifth-ribbed.json",
+    "recipeSha256": "54a25334a8d6d7b2caa0176d9e5b59697cd21f3f281fba6d2e207d4a5b157702",
+    "ribsPerBank": 10,
+    "id": "wall-ac-ribbed-fine",
+    "version": 1,
+    "resourcePath": "prototype/public/company-assets/wall-hvac-v1/wall-ac-ribbed-fine/v1/resource.json",
+    "sha256": "1eec05cabc7bf62a3e663d02943a8b5d753707c7c2355ad53bf9865c7ce4bd22",
+    "geometrySha256": "829cbedefd7066e563ce14836858481a5d65262400707317b5ef4d2e3d760797"
+  },
+  "derived": {
+    "ok": true,
+    "build": "c7c925a02a5f",
+    "manifestSha256": "9d766e418cd4bac200ddf140aa9323b2a5c311fadba7eba2e5cc64ed4202ead1",
+    "declaredFiles": 2252,
+    "checkedFiles": 2252,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "homePreserved": [
+    {
+      "bytes": 969,
+      "path": "data/rooms/wall-hvac-home/batch-result/input.json",
+      "scope": "original-batch-result",
+      "sha256": "de4c57e1d6f5bc55813ce010668b1a1f7bc96c7f4b139c652e89a170ea5a1e99"
+    },
+    {
+      "bytes": 4970,
+      "path": "data/rooms/wall-hvac-home/batch-result/layout.json",
+      "scope": "original-batch-result",
+      "sha256": "0f2934b7161ef50179af2a417c8437ae5c09c612b444a51be4f5c8f42a1f6fa3"
+    },
+    {
+      "bytes": 11808,
+      "path": "data/rooms/wall-hvac-home/batch-result/report.json",
+      "scope": "original-batch-result",
+      "sha256": "34c6657836bab4530396aefc898c461ca2c10458654e6373108824e696048203"
+    },
+    {
+      "bytes": 6779,
+      "path": "data/rooms/wall-hvac-home/batch-result/save.json",
+      "scope": "original-batch-result",
+      "sha256": "197900d6faf36525d2d0b820b826a03ee4a7e3d74a6127e2d5a6541c24dbc762"
+    },
+    {
+      "bytes": 4970,
+      "path": "data/rooms/wall-hvac-home/layout.json",
+      "scope": "complete-editable-layout",
+      "sha256": "0f2934b7161ef50179af2a417c8437ae5c09c612b444a51be4f5c8f42a1f6fa3"
+    },
+    {
+      "bytes": 5629,
+      "path": "data/rooms/wall-hvac-home/placement.json",
+      "scope": "checked-room-placement",
+      "sha256": "ebcf8aa39c51f68f7eab219ab8aa440ba5b26cc384d0cfe1f49ca3c6d1cf3c84"
+    },
+    {
+      "bytes": 6779,
+      "path": "data/rooms/wall-hvac-home/save.json",
+      "scope": "complete-pinned-save",
+      "sha256": "197900d6faf36525d2d0b820b826a03ee4a7e3d74a6127e2d5a6541c24dbc762"
+    }
+  ],
+  "reopened": {
+    "wall-hvac-home": {
+      "saveSha256": "197900d6faf36525d2d0b820b826a03ee4a7e3d74a6127e2d5a6541c24dbc762",
+      "ok": true,
+      "id": "wall-hvac-home",
+      "revision": 2,
+      "floors": [
+        "wall-hvac-home/ground"
+      ]
+    },
+    "wall-hvac-rental": {
+      "saveSha256": "c9e7b221af99f18781eb43520ebb9c82a48d0ee8f38c89baa8d3651d3fb83bc8",
+      "ok": true,
+      "id": "wall-hvac-rental",
+      "revision": 3,
+      "floors": [
+        "wall-hvac-rental/ground"
+      ]
+    },
+    "@default": {
+      "saveSha256": "197900d6faf36525d2d0b820b826a03ee4a7e3d74a6127e2d5a6541c24dbc762",
+      "ok": true,
+      "id": "wall-hvac-home",
+      "revision": 2,
+      "floors": [
+        "wall-hvac-home/ground"
+      ]
+    }
+  },
+  "after": {
+    "home": {
+      "ref": {
+        "id": "wall-ac-curve",
+        "version": 1
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/wall-hvac-v1/wall-ac-curve/v1/model.glb",
+        "sha256": "e1e8b193196402c0bcc598a8dde03f76541732db500f6958a5677ead7925ea47",
+        "bytes": 1411176
+      },
+      "state": {
+        "on": true,
+        "mode": 2
+      },
+      "ribBanks": [],
+      "installation": {
+        "parentId": "wall-hvac-home/ground/live",
+        "transform": {
+          "position": [
+            0,
+            2.24,
+            1.9
+          ],
+          "yaw": 3.141592653589793
+        },
+        "anchor": [
+          0,
+          2.24,
+          1.9
+        ],
+        "forward": [
+          1.2246467991473532e-16,
+          0,
+          -1
+        ],
+        "wall": "wall-hvac-home/ground/live/wall-south-1",
+        "contact": [
+          0,
+          2.24,
+          1.899999999254942
+        ]
+      },
+      "display": {
+        "flapRadians": 0.9226792257356587,
+        "statusIntensity": 1
+      }
+    },
+    "rental": {
+      "ref": {
+        "id": "wall-ac-ribbed-fine",
+        "version": 1
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/wall-hvac-v1/wall-ac-ribbed-fine/v1/model.glb",
+        "sha256": "1eec05cabc7bf62a3e663d02943a8b5d753707c7c2355ad53bf9865c7ce4bd22",
+        "bytes": 1482280
+      },
+      "state": {
+        "on": false,
+        "mode": 3
+      },
+      "ribBanks": [
+        10,
+        10,
+        10
+      ],
+      "installation": {
+        "parentId": "wall-hvac-rental/ground/live",
+        "transform": {
+          "position": [
+            0,
+            2.24,
+            1.9
+          ],
+          "yaw": 3.141592653589793
+        },
+        "anchor": [
+          1.899999999999999,
+          2.24,
+          4.5
+        ],
+        "forward": [
+          -1,
+          0,
+          -3.4450928483976665e-16
+        ],
+        "wall": "wall-hvac-rental/ground/live/wall-south-0",
+        "contact": [
+          1.8999999992549408,
+          2.24,
+          4.5
+        ]
+      },
+      "display": {
+        "flapRadians": 0,
+        "statusIntensity": 0
+      }
+    }
+  },
+  "pristineAfterWork": {
+    "ok": true,
+    "build": "76cbd909ffd6",
+    "manifestSha256": "8b06e1570110945e7fee75f1e77d760aa2a1b5db4f74304955a5b4066011c466",
+    "declaredFiles": 2250,
+    "checkedFiles": 2250,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "derivedAfterReopen": {
+    "ok": true,
+    "build": "c7c925a02a5f",
+    "manifestSha256": "9d766e418cd4bac200ddf140aa9323b2a5c311fadba7eba2e5cc64ed4202ead1",
+    "declaredFiles": 2252,
+    "checkedFiles": 2252,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  }
+}
