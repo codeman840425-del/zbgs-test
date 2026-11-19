@@ -455,6 +455,11 @@ async function replace(id,selector,target){
   const document=await current();
   const node=findNode(document,id),[name,version]=target.split('@');
   assert.notEqual(ref(node.resource),target);
+  const previousDefaults=await page.evaluate(ref=>{
+    const resource=company.catalog.resources.find(r=>r.id===ref.id&&r.version===ref.version);
+    return resource.stateDefaults;
+  },node.resource);
+  node.state={...previousDefaults,...node.state};
   node.resource={id:name,version:Number(version)};document.revision++;
   const menu=page.locator(selector);
   await menu.selectOption(target);
