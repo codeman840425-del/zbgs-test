@@ -4,6 +4,7 @@ import {nativePaletteContract} from './native-palette-catalog.js';
 import {nativeSkinToneContract} from './native-skin-tone-contract.js';
 import {nativeLipColorContract} from './native-lip-color-contract.js';
 import {fittedHeadAppearance} from './fitted-head-appearance.js';
+import {publishedRuleBodies} from './rule-body-data.js';
 // Native sources expose only their separately registered baked colors. Existing
 // source families retain their prior color presets and resource preparation.
 const originalOnly = Object.freeze({hairColor:false,skinTone:false,eyeColor:false,lipColor:false});
@@ -25,7 +26,7 @@ function registeredColors(avatarSha256) {
 }
 
 export function appearanceColorSupport(avatarSha256) {
-  const policy=fittedHeadAppearance(avatarSha256)?originalOnly:sourcePolicies[avatarSha256];
+  const policy=fittedHeadAppearance(avatarSha256)||publishedRuleBodies.hasSha(avatarSha256)?originalOnly:sourcePolicies[avatarSha256];
   const support={hairColor:true,skinTone:true,eyeColor:true,lipColor:true,...(policy ?? (isNativeProductionBody(avatarSha256) ? originalOnly : {}))};
   for(const [field,values] of Object.entries(registeredColors(avatarSha256)))
     support[field]=Object.keys(values).some(value=>value!=='original');

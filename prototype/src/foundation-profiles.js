@@ -4,6 +4,7 @@ import sourceShoeOutfits from './source-shoe-outfits.json' with {type:'json'};
 import performerLipAnchors from './performer-lip-anchors.json' with {type:'json'};
 import {REPRESENTATIVE_PROFILES} from './representative-batch.js';
 import {appearanceColorSupport} from './appearance-color-policy.js';
+import {publishedRuleBodies} from './rule-body-data.js';
 import layerOutfits from '../public/assets/m2-vest-layer-fit-v1/profiles.json' with {type:'json'};
 
 // Body type is an asset/fit identity, not the streamer's gender or personality.
@@ -208,7 +209,7 @@ FOUNDATION_PROFILES['native-female-843ac-v1'] = {
 };
 
 export function foundationProfile(bodyType = "female") {
-  const profile = FOUNDATION_PROFILES[bodyType];
+  const profile = Object.hasOwn(FOUNDATION_PROFILES,bodyType) ? FOUNDATION_PROFILES[bodyType] : undefined;
   if (!profile) throw new Error(`Unknown foundation body type: ${bodyType}`);
   const result = structuredClone(profile);
   if (Object.hasOwn(performerLipAnchors, result.sha256))
@@ -299,3 +300,7 @@ FOUNDATION_PROFILES['native-female-waist-v1'] = {
 
 // Data-only native imports retain the same factory, equipment and actor interfaces.
 Object.assign(FOUNDATION_PROFILES, nativeProductionCatalog(FOUNDATION_PROFILES).profiles);
+
+export function initializeRuleBodyData(descriptors,options) {
+  return publishedRuleBodies.initialize(FOUNDATION_PROFILES,descriptors,options);
+}

@@ -6,7 +6,8 @@ import {createSeatLeases} from './seat-lease.js';
 import {resolveActorRoom,captureFacilityState,restoreFacilityState} from './record-facility-room.js';
 import {createCharacterRecordBatch} from './character-record-batch.js';
 import {performCharacterProduction} from './character-production.js';
-import {validateCharacterRecordInput} from './character-record-input.js';
+import {productionRuleBodyPointers,validateCharacterRecordInput} from './character-record-input.js';
+import {initializeRuleBodyData} from './foundation-profiles.js';
 
 const scene = new THREE.Scene(); scene.background = new THREE.Color('#e7ede3');
 scene.add(new THREE.HemisphereLight(0xe9f4ff, 0xa5aa94, 2.5));
@@ -20,7 +21,7 @@ ground.rotation.x=-Math.PI/2;scene.add(ground);
 const resize=()=>{renderer.setSize(stage.clientWidth,stage.clientHeight);camera.aspect=stage.clientWidth/stage.clientHeight;camera.updateProjectionMatrix();};
 const observer=new ResizeObserver(resize);observer.observe(stage);resize();
 let batch=null,generation=0,records=[],selected=0,ready=false;
-let closed=false,game;
+let closed=false,game,ruleBodyRegistration;
 const actors=new Map(), attempts=[], errors=[];
 const actorRecords=new WeakMap(), seatLeases=createSeatLeases();
 let room=null,restoreGeneration=0;
@@ -28,6 +29,7 @@ window.addEventListener('pagehide',event=>{
   if(event.persisted||closed)return;
   closed=true;generation++;batch?.cancel('page closing');observer.disconnect();
   for(const actor of actors.values())actor.dispose();actors.clear();
+  ruleBodyRegistration?.dispose();
   game?.destroy(true);ground.geometry.dispose();ground.material.dispose();renderer.dispose();
 });
 const buildInfo=await fetch('/build-info.json').then(r=>r.json());
@@ -85,6 +87,8 @@ if(!productionMode){
  if(!manifestResponse.ok)throw Error('Manifest HTTP '+manifestResponse.status);
  const manifest=await manifestResponse.json();
  const entries=externalPath?validateCharacterRecordInput(manifest,externalPath):manifest.entries;
+ if(externalPath && Object.hasOwn(manifest,'ruleBodyDataPacks'))
+   ruleBodyRegistration=await initializeRuleBodyData(manifest.ruleBodyDataPacks);
  records=await Promise.all(entries.map(async entry=>{
    const response=await fetch(entry.url,{redirect:'error'});if(!response.ok)throw Error('Record HTTP '+response.status);
    const bytes=await response.text();if(new TextEncoder().encode(bytes).length>512*1024)throw Error('Record exceeds 512 KiB');
@@ -95,6 +99,18 @@ if(!productionMode){
 }else{
  for(const id of ['first','second','retry'])document.querySelector('#'+id).hidden=true;
  status.textContent='等待 agent 制作请求 · '+buildInfo.shortId;
+ if(parameters.has('ruleBodyData')) {
+   try {
+     if(parameters.getAll('ruleBodyData').length!==1 || parameters.get('ruleBodyData')!=='1')
+       throw Error('Invalid rule body data selection');
+     const response=await fetch('/records/rule-body-data.json',{redirect:'error'});
+     if(!response.ok)throw Error('Published rule body list HTTP '+response.status);
+     ruleBodyRegistration=await initializeRuleBodyData(productionRuleBodyPointers(await response.json()));
+   } catch(error) {
+     inputFailure=error.message;errors.push(inputFailure);
+     status.textContent='角色数据包加载失败：'+inputFailure;
+   }
+ }
 }
 let productionController=null;
 window.addEventListener('pagehide',event=>{if(!event.persisted)productionController?.abort();});
@@ -147,6 +163,7 @@ window.__recordConsumer={buildInfo,scene,renderer,camera,three:THREE,actors,atte
   snapshot:()=>batch?.snapshot(),retry:async()=>{const result=await batch.retryFailed();show();return result;},
   cancel:()=>{generation++;return batch?.cancel('cancelled by game');},
   async production(request){
+    if(inputFailure)throw Error(inputFailure);
     productionController?.abort();const own=new AbortController();productionController=own;
     try{return await performCharacterProduction(request,{scene,renderer,signal:own.signal,isCurrent:()=>!closed&&productionController===own});}
     finally{if(productionController===own)productionController=null;}
