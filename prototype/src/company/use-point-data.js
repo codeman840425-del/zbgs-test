@@ -29,7 +29,7 @@ export function describeCompanyUsePoint(document,derived,id) {
     approachPosition:point.approach?pointInTransform(point.world,point.approach):null,
     exitPosition:point.exit?pointInTransform(point.world,point.exit):null,
     ...(point.kind==='standing-vocal'?{kind:point.kind,slotId:point.slotId,transformChain:facilityChain(derived,facility.id),
-      performerReferences:point.performerReferences}:{seatHeight:point.seatHeight}),capacity:point.capacity??null,
+      performerReferences:point.performerReferences,...(point.heightProfile?{heightProfile:point.heightProfile}:{})}:{seatHeight:point.seatHeight}),capacity:point.capacity??null,
     clearance:point.clearance??null,footprint:facility.resource.footprint??null,
     contact:point.kind==='standing-vocal'?{pickupNodeId:point.pickupNodeId}:{seatNodeId:point.seatNodeId,backNodeId:point.backNodeId},
     missingFields:missing,limitations:[...(point.limits||[]),...(point.limitations||[])],

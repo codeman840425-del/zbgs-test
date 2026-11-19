@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 import * as T from '../../prototype/node_modules/three/build/three.module.js';
 import catalogDefault from '../../prototype/src/company/library-catalog.json' with {type:'json'};
 import templatesDefault from '../../prototype/src/company/templates-extended.json' with {type:'json'};
-import {CompanyError,deriveCompany,relativeTransform} from '../../prototype/src/company/document.js';
+import {CompanyError,deriveCompany,relativeTransform,prepareCompanyChange} from '../../prototype/src/company/document.js';
 import {describeCompanyUsePoint} from '../../prototype/src/company/use-point-data.js';
 import {hasVocalSlot} from '../../prototype/src/company/vocal-use.js';
 import {inspectCompanyPlacement} from '../../prototype/src/company/placement.js';
@@ -32,7 +32,7 @@ const boxDescription = box => ({min:tuple(box.min),max:tuple(box.max)});
 
 function validateRule(rule) {
   const {performer} = rule ?? {};
-  if (labels(rule) !== 'performer,portalId,regionId,roles' || !token(rule.regionId) || !token(rule.portalId) ||
+  if (!['performer,portalId,regionId,roles','heightProfiles,performer,portalId,regionId,roles'].includes(labels(rule)) || !token(rule.regionId) || !token(rule.portalId) ||
       labels(rule.roles) !== 'camera,mic,score' || !Object.values(rule.roles).every(token) || new Set(Object.values(rule.roles)).size !== 3)
     fail('invalid-singing-rule','singingRooms','Specify a room, a connected entrance, and three distinct installed roles.');
   if (hasVocalSlot(performer)) return; // installedVocalSlots checks the complete facility-local contract.
@@ -93,7 +93,7 @@ function vertices(record) {
   return record.points;
 }
 
-function triangles(record) {
+export function triangles(record) {
   if (record.faces) return record.faces;
   const points = vertices(record), geometry = record.object.geometry, index = geometry.index;
   const vertex = i=>points[index ? index.getX(i) : i], start = geometry.drawRange.start;
@@ -207,7 +207,7 @@ function measureMic(records,member,reference) {
 
 // Locate thin, modelled staff strokes where a vertical column crosses their real triangles.
 // Also test the paper between strokes and flat pages with texture-only printing.
-function scoreRowsAt(x,box,faces) {
+export function scoreRowsAt(x,box,faces) {
   const height = box.max.y-box.min.y;
   const spans = [];
   for (const {a,b,c} of faces) {
@@ -357,7 +357,16 @@ export async function checkSingingRooms(document,options) {
     validateRule(rule);
     if (seen.has(rule.regionId)) fail('invalid-singing-rooms',rule.regionId,'Only one singing declaration may own a room.');
     seen.add(rule.regionId);
-    reports.push(await checkSingingRoom(document,rule,options));
+    const report=await checkSingingRoom(document,rule,options);
+    if(rule.heightProfiles) {
+      const alternate=report.usePoint.heightProfile==='standard'?'low':'standard';
+      const next=prepareCompanyChange(document,[{type:'set-vocal-height',id:rule.roles.mic,profile:alternate}],
+        {catalog:options?.catalog??catalogDefault,templates:options?.templates??templatesDefault}).document;
+      const checked=await checkSingingRoom(next,next.singingRooms.find(r=>r.regionId===rule.regionId),options);
+      report.alternateHeight={profile:alternate,resource:checked.usePoint.resource,microphone:checked.microphone,
+        score:checked.score,camera:checked.camera};
+    }
+    reports.push(report);
   }
   return reports;
 }

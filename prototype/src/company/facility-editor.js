@@ -8,6 +8,7 @@ import {compareFacilityFunction} from './appearance-contract.js';
 import {appearanceBranches,appearanceCandidates} from './appearance-samples.js';
 import {listPlacementTargets,createFacilityPlacement,getFacilityEditConstraints} from './facility-edit-data.js';
 import {isPortableDeskDevice} from './support-data.js';
+import {vocalHeightName} from './vocal-use.js';
 
 const el=id=>document.getElementById(id),ref=r=>`${r.id}@${r.version}`;
 const angle=yaw=>((Math.round(yaw*180/Math.PI)%360)+360)%360;
@@ -115,6 +116,15 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
   }
   function stateControls(n,r){
     const container=el('edit-states');container.replaceChildren();if(!r)return;
+    const heights=session.document.singingRooms?.find(rule=>rule.roles?.mic===n.id)?.heightProfiles;
+    if(heights) {
+      const label=document.createElement('label');label.textContent='麦架高度';
+      const select=document.createElement('select');select.setAttribute('aria-label','麦架高度');
+      select.add(new Option('标准位','standard'));select.add(new Option('低位','low'));
+      select.value=vocalHeightName(heights,n.resource);select.disabled=isBusy();
+      select.onchange=()=>execute('正在调节麦架…',()=>session.apply([{type:'set-vocal-height',id:n.id,profile:select.value}]));
+      label.append(select);container.append(label);
+    }
     const state={...r.stateDefaults,...n.state};
     for(const [field,value]of Object.entries(state)){
       const spec=r.stateSchema?.[field];
@@ -176,7 +186,8 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
       upgradePanel.hidden=false;
     }else upgradePanel.hidden=true;
     if(n){
-      const candidates=r?latestAppearanceVersions(catalog.resources.filter(c=>c.asset&&compareFacilityFunction(r,c).compatible)):[];
+      const heightProfiles=doc.singingRooms?.find(rule=>rule.roles?.mic===n.id)?.heightProfiles;
+      const candidates=r&&heightProfiles?[r]:r?latestAppearanceVersions(catalog.resources.filter(c=>c.asset&&compareFacilityFunction(r,c).compatible)):[];
       if(r&&!candidates.some(c=>ref(c)===ref(r)))candidates.unshift(r);
       options(el('edit-look'),candidates.map(c=>({value:ref(c),label:nice(c)+(candidates.some(other=>other.id===c.id&&other.version>c.version)?` (\u65e7\u7248 v${c.version})`:'')})),r?ref(r):'');
       el('edit-look').disabled=isBusy()||candidates.length<2;

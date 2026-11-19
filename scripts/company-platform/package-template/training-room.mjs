@@ -162,7 +162,7 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
       fail('training-edit-mismatch',scope.prefix,'The default manifest and the pinned source disagree.');
     scope.evidence = evidence;
     scope.teaStations = layout.teaStations;
-    scope.vocalSlots = vocalDeclarations(layout);
+    scope.vocalSlots = editableVocalBinding(layout);
     candidates.push(scope);
   }
   const choice = selected === undefined ? undefined : candidates.find(scope=>scope.key === selected);
@@ -176,7 +176,7 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
   const possible = origin ? [origin] : choice ? [choice] : identical.length ? identical : candidates;
   if (possible.some(scope=>!equal(scope.vocalSlots,possible[0].vocalSlots)))
     fail('ambiguous-vocal-room',input,'Use --room KEY to select the original standing facility declaration.');
-  if (possible[0]?.vocalSlots.length && !equal(possible[0].vocalSlots,vocalDeclarations(document)))
+  if (possible[0]?.vocalSlots.length && !equal(possible[0].vocalSlots,editableVocalBinding(document)))
     fail('vocal-slot-binding-mismatch',input,'The saved microphone, slot or performer targets differ from the selected package room.');
   if (possible.some(scope=>!equal(scope.teaStations,possible[0].teaStations)))
     fail('ambiguous-tea-room',input,'Select the original tea station declaration with --room KEY.');
@@ -196,5 +196,16 @@ export async function resolveTrainingBinding(root, manifest, input, document, by
 
 export function vocalDeclarations(layout) {
   return (layout.singingRooms??[]).filter(rule=>rule.performer?.coordinateSpace==='facility')
-    .map(rule=>({regionId:rule.regionId,micId:rule.roles.mic,performer:rule.performer}));
+    .map(rule=>({regionId:rule.regionId,micId:rule.roles.mic,performer:rule.performer,
+      ...(rule.heightProfiles?{heightProfiles:rule.heightProfiles}:{})}));
+}
+
+// A profile change only selects different references already bound by the original
+// room. deriveCompany validates those references against the installed model.
+function editableVocalBinding(layout) {
+  return vocalDeclarations(layout).map(slot=>{
+    if(!slot.heightProfiles) return slot;
+    const {mouth,eye,...standing}=slot.performer;
+    return {...slot,performer:standing};
+  });
 }

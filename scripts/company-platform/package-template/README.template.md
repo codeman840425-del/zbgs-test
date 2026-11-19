@@ -14,6 +14,8 @@ node serve.mjs
 
 交付目录若包含 `data/rooms/<名称>/save.json`，可用 `?delivery=<名称>` 打开其中一份布局。它与默认房间使用相同的目录校验和游戏加载入口。
 
+唱播房若声明了 `singingRooms[].heightProfiles`，选中房内的落地唱麦，在物品面板切换“麦架高度”。标准位和低位使用同一个站位。制作工具或游戏宿主可在设施空闲时调用 `session.apply([{type:'set-vocal-height',id:麦架实例ID,profile:'low'}])`，使用 `'standard'` 回到标准位。调用完成后再读取使用点的 `heightProfile`、`resource` 和 `performerReferences`。宿主提供当前使用点的占用查询；实体加载或占用检查失败时沿用原布局。若包内含 `singing-studio-low` 和 `singing-rental-low`，可用上述具名房间链接直接查看低位快照。
+
 ## 核对收到的目录
 
 打包时会逐一读取默认场景和具名场景的最终存档，重新检查同层连通、门口内侧至门槛的通道和设施使用点。默认场景的结果在 `data/placement.json`，具名场景在 `data/rooms/<名称>/placement.json`。清单的 `placementReports` 列出房键、报告路径、公司 ID 和对应存档的 SHA-256。若家具挡住通道，命令会给出房键、门口和障碍物 ID，整次发布中止。报告中的半径与网格尺度用于场景静态摆放验收，真实角色通行由游戏运行链验证。

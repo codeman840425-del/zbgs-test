@@ -390,7 +390,7 @@ export function deriveCompany(document, catalog, templates) {
       usePoints.push({ ...point, id, facilityId: node.id, floorId: entry.floorId, roomId: entry.roomId, world });
     }
   }
-  for (const point of installedVocalSlots(document.singingRooms,facilities,fail)) {
+  for (const point of installedVocalSlots(document.singingRooms,facilities,fail,resources)) {
     if(usePoints.some(other=>other.id===point.id)) fail('duplicate-use-point',point.facilityId,point.id);
     usePoints.push(point);
   }
@@ -576,6 +576,15 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
     const related = descendants(next.nodes, node.id);
     if (!['copy-workstation', 'copy-group','copy-facility'].includes(op.type)) for (const id of related) affected.add(id);
     if (op.type === 'move') node.transform = copy(op.transform);
+    else if(op.type==='set-vocal-height'){
+      const rule=next.singingRooms?.find(rule=>rule.roles?.mic===node.id);
+      if(!rule?.heightProfiles||!['standard','low'].includes(op.profile)||Object.keys(op).sort().join(',')!=='id,profile,type')
+        fail('invalid-vocal-height-profile',node.id,'Select one of the authored microphone height presets');
+      const target=rule.heightProfiles[op.profile];
+      node.resource=copy(target.resource);
+      rule.performer.mouth=copy(target.mouth);
+      rule.performer.eye=copy(target.eye);
+    }
     else if(op.type==='attach-garment')attachGarment(next.nodes,resources,node,op,fail);
     else if(op.type==='set-exterior-entrances'){
       if(node.kind!=='floor'||!Array.isArray(op.entrances))fail('invalid-exterior-entrances',op.id,'Exterior entrances belong to an existing floor');

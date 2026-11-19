@@ -17,10 +17,11 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
     return [...(view.mode==='building'?[]:derived.facilities.filter(f=>f.floorId===floorId).map(f=>f.resource)),...surfaceResources,...contacts];
   }
   function pendingResources() { return pendingPreloads.get(generation)||[]; }
-  async function preload(document,view={},token=null,checkInstallation=true) {
+  async function preload(document,view={},token=null,checkInstallation=true,changedHeightIds=[]) {
     const derived=checkInstallation?deriveCompany(document,catalog,templates):null;
     const installations=derived?installationGeometryFacilities(derived):[];
-    const requested=[...resources(document,view),...installations.map(f=>f.resource)];
+    const heightResources=changedHeightIds.length?derived.facilities.filter(f=>changedHeightIds.includes(f.id)).map(f=>f.resource):[];
+    const requested=[...resources(document,view),...installations.map(f=>f.resource),...heightResources];
     if(token!==null)pendingPreloads.set(token,requested);
     inspectCompanyPlacement(document,catalog,templates); await assetLibrary?.preload(requested);
     if(derived)validateCeilingDocumentAssets(derived,assetLibrary,installations);
@@ -52,7 +53,8 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
         const revision=scene.revision,result=prepareCompanyChange(scene.document,operations,{catalog,templates,isUsePointBusy});
         let handle;
         try {
-          await preload(result.document,scene.view,token);latest(token);
+          const changedHeightIds=operations.filter(op=>op.type==='set-vocal-height').map(op=>op.id);
+          await preload(result.document,scene.view,token,true,changedHeightIds);latest(token);
           handle=scene.prepareChange(operations,{expectedRevision:revision,isUsePointBusy});
           return scene.commit(handle,{isUsePointBusy});
         } finally {if(handle)scene.discard(handle);}

@@ -35,6 +35,8 @@ const families = {
   'company-singing-stage-collection': 'singing-stage',
   'company-vocal-mic-looks': 'vocal-mic-looks',
   'company-vocal-fit': 'vocal-fit',
+  'company-vocal-height': 'vocal-height',
+  'company-readable-score': 'readable-score',
   'company-equipment-carts': 'equipment-cart',
   'company-tea-station-collection': 'tea-station',
   'company-floor-air-collection': 'floor-air',
@@ -46,19 +48,23 @@ generatorFiles['floor-air'] = 'build-floor-air.mjs';
 generatorFiles['wall-hvac'] = 'build-wall-hvac.mjs';
 generatorFiles['vocal-mic-looks'] = 'build-vocal-mic-looks.mjs';
 generatorFiles['vocal-fit'] = 'build-vocal-fit.mjs';
+generatorFiles['vocal-height'] = 'build-vocal-height.mjs';
+generatorFiles['readable-score'] = 'build-readable-score.mjs';
 generatorFiles['equipment-cart'] = 'build-equipment-carts.mjs';
 const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric', 'wall-ambient':'ambient-led-and-neon', 'desktop-plants':'plant-desktop-installation', 'tea-station':'tea-rest'};
 productionBranches['floor-air'] = 'fan-and-air-purifier';
 productionBranches['wall-hvac'] = 'hvac';
 productionBranches['vocal-mic-looks'] = 'floor-vocal-microphone';
 productionBranches['vocal-fit'] = 'floor-vocal-microphone';
+productionBranches['vocal-height'] = 'floor-vocal-microphone';
+productionBranches['readable-score'] = 'floor-score-stand';
 productionBranches['equipment-cart'] = 'cart-and-equipment-storage';
 
 const garmentBranches = {rack:'garment-rack-wardrobe',garment:'hanging-garment'};
 const singingBranches = {vocal:'floor-vocal-microphone',score:'floor-score-stand'};
 function belongsToFamily(resource,family) {
-  if (family === 'vocal-fit') return resource?.productionBranch === 'floor-vocal-microphone' &&
-    resource.provenance?.generator === 'scripts/company-platform/build-vocal-fit.mjs';
+  if (['vocal-fit','vocal-height','readable-score'].includes(family)) return resource?.productionBranch === productionBranches[family] &&
+    resource.provenance?.generator === 'scripts/company-platform/'+generatorFiles[family];
   if (family === 'garment-rack') return Object.values(garmentBranches).includes(resource?.productionBranch);
   if (family === 'singing-stage') return Object.values(singingBranches).includes(resource?.productionBranch);
   return family === 'baseboard'
@@ -71,7 +77,7 @@ function validateFunction(reference,resource,family,explicitFit) {
   assert(belongsToFamily(resource,family),'Resource does not belong to '+family);
   const comparison = compareFacilityFunction(reference,resource);
   if (!comparison.compatible) {
-    assert(family === 'vocal-fit' && comparison.differences.every(d => d.field.startsWith('pickupFit.')),
+    assert(['vocal-fit','vocal-height'].includes(family) && comparison.differences.every(d => d.field.startsWith('pickupFit.')),
       'Function or mounting differs from '+reference.id);
     if (!explicitFit) fail('pickup-fit-requires-explicit-publication','A different physical pickup needs a separate fitting ID and --publish-fit');
   }
@@ -153,7 +159,7 @@ async function publish(recipePath,check,explicitFit) {
   const [originalPlan,originalCatalog,inputBytes] = await Promise.all([planPath,catalogPath,recipePath].map(regularFile));
   const plan = parse(originalPlan), previous = parse(originalCatalog), input = parse(inputBytes);
   const family = families[input.schema];
-  if (explicitFit && family !== 'vocal-fit') fail('invalid-fitting-family','Explicit fitting publication requires a vocal-fit recipe');
+  if (explicitFit && !['vocal-fit','vocal-height'].includes(family)) fail('invalid-fitting-family','Explicit fitting publication requires a fitted microphone recipe');
   if (typeof family !== 'string' || input.version !== 1 || !Array.isArray(input.designs) || !input.designs.length)
     fail('invalid-appearance-recipe','Expected a version 1 recipe with designs for one of: '+Object.keys(families).join(', '));
   const base = 'assets-source/company-'+family+'-v1';
@@ -267,6 +273,7 @@ async function publish(recipePath,check,explicitFit) {
         branch ? defaultRefs.find(r => r?.productionBranch === branch) : reference;
       assert(functionalReference && (!branch || resource.productionBranch === branch),'Missing matching branch for '+key);
       let expectedDependencies = functionalReference.provenance.dependencies;
+      if(family==='vocal-height'&&design.observation) expectedDependencies={...expectedDependencies,heightObservation:design.observation.source};
       if (perDesignSource || artwork.has(key)) {
         const source = artwork.get(key);
         if (!source) fail('invalid-appearance-source','Missing original artwork for '+key);
@@ -293,7 +300,7 @@ async function publish(recipePath,check,explicitFit) {
         }
       }
       assert.deepEqual(resource.provenance.dependencies,expectedDependencies);
-      if (family === 'vocal-fit' && previous.resources.some(old=>old.id===resource.id &&
+      if (['vocal-fit','vocal-height'].includes(family) && previous.resources.some(old=>old.id===resource.id &&
           !isDeepStrictEqual(old.microphone?.pickupFit,resource.microphone.pickupFit)))
         fail('pickup-fit-requires-new-id',resource.id);
       validateFunction(functionalReference,resource,family,explicitFit);

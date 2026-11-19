@@ -3,7 +3,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {bindTrainingDocument,bindingFromSource,editedTrainingBinding,resolveTrainingBinding} from './package-template/training-room.mjs';
-import {inheritVocalOrigin,readVocalAuthority,validOriginKey} from './package-template/vocal-origin.mjs';
+import {adaptVocalHeightOrigin,inheritVocalOrigin,readVocalAuthority,validOriginKey} from './package-template/vocal-origin.mjs';
 
 const defaultSource=fileURLToPath(new URL('../../',import.meta.url));
 const fixedInputs=['company.html','vite.company.config.js','scripts/build-company-id.mjs','package.json','package-lock.json'];
@@ -448,7 +448,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   for (const origin of vocalOrigins) {
     if (!validOriginKey(origin.key) || !outputKeys.has(origin.key) || authorities.has(origin.key))
       fail('invalid-vocal-origin-target',origin.key,'Select one existing output room per source binding');
-    authorities.set(origin.key,await readVocalAuthority(origin));
+    authorities.set(origin.key,{source:await readVocalAuthority(origin),adaptHeight:origin.adaptHeight===true});
   }
   const trainingContext={catalog,templates,createScaledCompany:space.createScaledCompany,
     createCompanyScaleV2:scale.createCompanyScaleV2,prepareCompanyChange:documentTools.prepareCompanyChange};
@@ -595,7 +595,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       revision:document.revision,saveSha256,connections,placement:floorPlacement}), 'checked-room-placement');
     placementReports.push({key,path:placementPath,companyId:document.id,saveSha256});
     const authority=authorities.get(key);
-    const origin=authority?inheritVocalOrigin(authority,document,vocalPoints):{mode:trainingSource?.kind==='batch-input'?'batch-declared':'independent'};
+    const bind=authority?.adaptHeight?adaptVocalHeightOrigin:inheritVocalOrigin;
+    const origin=authority?bind(authority.source,document,vocalPoints):{mode:trainingSource?.kind==='batch-input'?'batch-declared':'independent'};
     roomOrigins.push({key,companyId:document.id,saveSha256,...origin});
     if(vocalPoints.length) {
       const pointPath=prefix+'/use-points.json';
@@ -693,7 +694,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     ({verifyTeaSources}=await import(pathToFileURL(verifier).href));
     if(!verifyTeaSources) fail('missing-production-tool',verifier,'Expected original tea-station source verification');
   }
-  const singingProducers=new Set(['scripts/company-platform/build-singing-stage.mjs','scripts/company-platform/build-vocal-mic-looks.mjs','scripts/company-platform/build-vocal-fit.mjs']);
+  const singingProducers=new Set(['scripts/company-platform/build-singing-stage.mjs','scripts/company-platform/build-vocal-mic-looks.mjs','scripts/company-platform/build-vocal-fit.mjs',
+    'scripts/company-platform/build-vocal-height.mjs','scripts/company-platform/build-readable-score.mjs']);
   if (catalog.resources.some(resource=>singingProducers.has(resource.provenance?.generator))) {
     supplemental.add('scripts/company-platform/test-singing-stage-source.mjs');
     const verifier=path.join(source,'scripts/company-platform/validate-resource-provenance.mjs');
@@ -764,6 +766,16 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(!name.endsWith('.json'))fail('unsupported-production-input',name,'Production input folders must contain JSON only');supplemental.add(name);
   }
   const assetDependencies=[],provenance=[];
+  if(supplemental.has('scripts/company-platform/batch-inputs/vocal-height-rooms.json')) {
+    for(const file of ['docs/research/COMPANY-VOCAL-HEIGHT-HANDOFF.md','assets-source/company-vocal-height-check-v1/README.md','assets-source/company-vocal-height-check-v1/observations.json',
+      'assets-source/company-vocal-height-check-v1/camera-trajectories.json.gz','assets-source/company-vocal-height-check-v1/camera-right-iris-hull.json',
+      'assets-source/company-vocal-height-check-v1/camera-rental-iris-hull.json',
+      'assets-source/company-vocal-height-check-v1/CAMERA.md','assets-source/company-vocal-height-v1/examples/eighteen-mm.json',
+      'assets-source/company-readable-score-v1/examples/eight-mm.json','scripts/company-platform/batch-inputs/vocal-fit-rooms.json',
+      'scripts/company-platform/check-vocal-camera-eyes.mjs',
+      'scripts/company-platform/check-vocal-heights.mjs','scripts/company-platform/test-vocal-height-profiles.mjs',
+      'scripts/company-platform/qa-vocal-height.cjs']) supplemental.add(file);
+  }
   if (supplemental.has('scripts/company-platform/batch-inputs/vocal-fit-rooms.json')) {
     supplemental.add('scripts/company-platform/test-vocal-fit-handoff.mjs');
     supplemental.add('assets-source/company-vocal-fit-v1/README.md');
@@ -935,7 +947,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
 
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
   const [distDirectory,buildId,inputPath,outputDirectory,...options]=process.argv.slice(2);
-  if(distDirectory==='--help')console.log('node package-company.mjs FIXED_DIST BUILD_ID SAVE_OR_BATCH_RESULT OUT_NEW_DIR [--source FIXED_SOURCE_ROOT] [--seat-contacts] [--room KEY SAVE_OR_BATCH_RESULT]... [--inherit-vocal OUTPUT_KEY SOURCE_PACKAGE SOURCE_MANIFEST_SHA256 SOURCE_ROOM_KEY]...');
+  if(distDirectory==='--help')console.log('node package-company.mjs FIXED_DIST BUILD_ID SAVE_OR_BATCH_RESULT OUT_NEW_DIR [--source FIXED_SOURCE_ROOT] [--seat-contacts] [--room KEY SAVE_OR_BATCH_RESULT]... [--inherit-vocal|--adapt-vocal-height OUTPUT_KEY SOURCE_PACKAGE SOURCE_MANIFEST_SHA256 SOURCE_ROOM_KEY]...');
   else {
     const run=async()=>{
       let sourceRoot, seatContacts = false;
@@ -945,7 +957,8 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
         if(flag==='--source'&&!sourceRoot&&options[0])sourceRoot=options.shift();
         else if(flag==='--seat-contacts'&&!seatContacts)seatContacts=true;
         else if(flag==='--room'&&options.length>=2)rooms.push({key:options.shift(),folder:options.shift()});
-        else if(flag==='--inherit-vocal'&&options.length>=4)vocalOrigins.push({key:options.shift(),packageRoot:options.shift(),manifestSha256:options.shift(),sourceRoomKey:options.shift()});
+        else if(['--inherit-vocal','--adapt-vocal-height'].includes(flag)&&options.length>=4)
+          vocalOrigins.push({key:options.shift(),packageRoot:options.shift(),manifestSha256:options.shift(),sourceRoomKey:options.shift(),adaptHeight:flag==='--adapt-vocal-height'});
         else throw Error(`Invalid package option ${flag}`);
       }
       const manifest=await packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot,rooms,seatContacts,vocalOrigins});

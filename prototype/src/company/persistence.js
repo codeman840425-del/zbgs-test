@@ -20,6 +20,10 @@ async function dependencies(document,catalog,templates) {
       if (finish?.resource) resourceRefs.set(refKey(finish.resource), finish.resource);
     }
   }
+  if(Array.isArray(document.singingRooms)) {
+    for(const rule of document.singingRooms) for(const profile of Object.values(rule?.heightProfiles??{}))
+      resourceRefs.set(refKey(profile.resource),profile.resource);
+  }
   const collect=async(refs,map)=>Promise.all([...refs].sort(([a],[b])=>a.localeCompare(b)).map(async([key,ref])=>({...ref,sha256:await digest(map.get(key))})));
   return {resources:await collect(resourceRefs,maps.resources),templates:await collect(templateRefs,maps.combinations)};
 }

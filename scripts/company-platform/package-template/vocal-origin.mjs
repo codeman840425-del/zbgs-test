@@ -70,6 +70,14 @@ export async function readVocalAuthority({packageRoot,manifestSha256,sourceRoomK
         !isDeepStrictEqual(point.local,{coordinateSpace:'facility',position:local.position,yaw:local.yaw,approach:local.approach,exit:local.exit}) ||
         !isDeepStrictEqual(point.performerReferences,{coordinateSpace:'use-point',mouth:local.mouth,eye:local.eye}))
       reject('vocal-origin-source-mismatch',keyForSlot(slot),'The selected physical slot and saved local declaration disagree');
+    if (slot.heightProfiles) {
+      const selected=slot.heightProfiles[point.heightProfile];
+      const node=document.nodes.find(node=>node.id===slot.micId);
+      if (!['standard','low'].includes(point.heightProfile) || !isDeepStrictEqual(node?.resource,point.resource) ||
+          !isDeepStrictEqual(selected?.resource,point.resource) || !isDeepStrictEqual(selected?.mouth,local.mouth) ||
+          !isDeepStrictEqual(selected?.eye,local.eye))
+        reject('vocal-height-binding-mismatch',keyForSlot(slot),'The selected preset, microphone and references do not match');
+    }
   }
   const originRows=(manifest.roomOrigins??[]).filter(row=>row.key===sourceRoomKey);
   if (originRows.length>1) reject('vocal-origin-source-mismatch',prefix,'Duplicate source room receipt');
@@ -85,6 +93,38 @@ export function inheritVocalOrigin(authority, document, points) {
   if (!isDeepStrictEqual(points.filter(p=>p.kind==='standing-vocal').map(p=>p.id).sort(compareText),authority.receipt.pointIds))
     reject('vocal-slot-binding-mismatch',document.id,'Current physical checks did not produce the selected standing slots');
   return {mode:'inherited-vocal',...authority.receipt};
+}
+
+export function adaptVocalHeightOrigin(authority,document,points) {
+  return heightOrigin(authority,document.id,declarations(document),points);
+}
+
+function heightOrigin(authority,companyId,slots,points) {
+  const ids=slots.map(keyForSlot);
+  if(companyId!==authority.companyId || !isDeepStrictEqual(ids,authority.receipt.pointIds) ||
+      points.length!==ids.length || !ids.length)
+    reject('vocal-height-binding-mismatch',companyId,'The adaptation must retain the original room and standing slots');
+  for(const slot of slots) {
+    const p=points.find(p=>p.id===keyForSlot(slot)), original=authority.points.find(q=>q.id===p?.id);
+    const preset=slot.heightProfiles?.[p?.heightProfile];
+    if(!original || !preset || !isDeepStrictEqual(slot.heightProfiles.standard.resource,original.resource) ||
+        !isDeepStrictEqual(p.resource,preset.resource) ||
+        !isDeepStrictEqual(p.performerReferences,{coordinateSpace:'use-point',mouth:preset.mouth,eye:preset.eye}))
+      reject('vocal-height-binding-mismatch',keyForSlot(slot),'The presets must include the reviewed original microphone and the active references');
+    // Everything except the independently reviewed fit, selected height and edit revision is invariant.
+    const {heightProfile, ...common}=p;
+    if(!isDeepStrictEqual({...common,resource:original.resource,performerReferences:original.performerReferences,revision:original.revision},original))
+      reject('vocal-height-binding-mismatch',p.id,'The base, attachment, physical slot, clearance or travel targets changed');
+  }
+  return {mode:'adapted-vocal-height',...authority.receipt};
+}
+
+export async function readAdaptedVocalHeightRoom(current,reviewed) {
+  const [target,base]=await Promise.all([readVocalAuthority(current),readVocalAuthority(reviewed)]);
+  const expected={key:current.sourceRoomKey,companyId:target.companyId,saveSha256:target.receipt.sourceSaveSha256,
+    ...heightOrigin(base,target.companyId,target.slots,target.points)};
+  if(!isDeepStrictEqual(target.originRow,expected)) reject('vocal-height-binding-mismatch',current.sourceRoomKey,'Missing receipt for the specified reviewed source');
+  return {key:current.sourceRoomKey,companyId:target.companyId,saveSha256:target.receipt.sourceSaveSha256,points:target.points,slots:target.slots};
 }
 
 // Resolve only the requested output and the separately reviewed original. The caller pins both packages.

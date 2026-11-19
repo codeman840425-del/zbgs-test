@@ -60,6 +60,8 @@ export async function verifyShowcaseProvenance(root,resource,recipe) {
 
 export async function verifySingingSources(root,resource,recipe) {
   const p=resource.provenance;
+  if(['scripts/company-platform/build-vocal-height.mjs','scripts/company-platform/build-readable-score.mjs'].includes(p.generator))
+    return verifyVocalAdjustmentSources(root,resource,recipe);
   const contract=JSON.parse(await readProductionFile(root,p.functionalContractSource));
   const design=recipe.designs?.find(d=>d.id===resource.id && d.version===resource.version);
   const spec=contract.designs?.[design?.kind], pins=p.dependencies??{};
@@ -93,6 +95,57 @@ export async function verifySingingSources(root,resource,recipe) {
   for(const pin of editablePins.values()) {
     if(!pin?.path?.startsWith(family) || digest(await readProductionFile(root,pin.path))!==pin.sha256) mismatch(pin?.path??resource.id);
   }
+  return new Map(Object.entries(pins));
+}
+
+async function verifyVocalAdjustmentSources(root,resource,recipe) {
+  const p=resource.provenance, height=p.generator.endsWith('/build-vocal-height.mjs');
+  const folder='prototype/public/company-assets/'+(height?'vocal-fit-v1/floor-vocal-mic-disc-fit-lower':'singing-stage-v1/floor-score-stand-tripod')+'/v1/';
+  const prefix=height?'heightSource':'donor';
+  const fail=key=>{throw Object.assign(Error('singing-source-mismatch: '+key),{code:'singing-source-mismatch',path:key});};
+  const pins=p.dependencies;
+  async function pinned(key,expected) {
+    const pin=pins?.[key];
+    if(pin?.path!==expected) fail(key);
+    const file=path.resolve(root,expected);
+    if(await fs.realpath(file)!==file || !(await fs.lstat(file)).isFile()) fail(expected);
+    const bytes=await fs.readFile(file);
+    if(digest(bytes)!==pin.sha256) fail(expected);
+    return bytes;
+  }
+  const donor=JSON.parse(await pinned(prefix+'Sidecar',folder+'resource.json'));
+  await pinned(prefix+'Model',folder+'model.glb');
+  const donorRecipe=JSON.parse(await pinned(prefix+'Parameters',donor.provenance.sourceParameters));
+  await pinned(prefix+'Generator',donor.provenance.generator);
+  const expected={...donor.provenance.dependencies};
+  for(const k of ['Sidecar','Model','Parameters','Generator']) expected[prefix+k]=pins[prefix+k];
+  const design=recipe.designs?.find(d=>d.id===resource.id&&d.version===resource.version);
+  if(!design) fail(resource.id);
+  if(height){
+    const record=JSON.parse(await pinned('heightSourceRecord','assets-source/company-vocal-height-v1/source-record.json'));
+    if(record.highResource?.glbSha256!==donor.asset.sha256||record.highResource.sidecarSha256!==pins.heightSourceSidecar.sha256) fail(resource.id);
+    expected.heightSourceRecord=pins.heightSourceRecord;
+    let mouthY=record.measurement.medianFemaleLipYMetres, offset=record.measurement.targetAboveLipMetres;
+    if(Object.hasOwn(design,'observation')){
+      const obs=design.observation, source=obs?.source;
+      if(!/^assets-source\/company-[a-z0-9-]+\/(?:[\w-]+\/)*[\w-]+\.json$/.test(source?.path)||
+          !/^[a-f0-9]{64}$/.test(source.sha256)||!isDeepStrictEqual(source,pins.heightObservation)) fail('heightObservation');
+      const data=JSON.parse(await pinned('heightObservation',source.path));
+      if(data.schema!=='company-vocal-height-observations'||data.version!==1||!Array.isArray(data.frames)) fail(source.path);
+      const frames=data.frames.filter(frame=>frame.id===obs.frameId);
+      if(frames.length!==1||!Array.isArray(frames[0].mouthM)||frames[0].mouthM.length!==3||
+          !frames[0].mouthM.every(Number.isFinite)) fail('heightObservation.frameId');
+      mouthY=frames[0].mouthM[1]; offset=obs.targetAboveLipMetres;
+      expected.heightObservation=source;
+    }
+    if(!Number.isFinite(offset)||Math.abs(offset)>.04||!Number.isFinite(design.mastDropMetres)||
+        Math.abs(design.mastDropMetres-(record.measurement.originalGrilleYMetres-mouthY-offset))>1e-9) fail(resource.id);
+  }
+  if(!isDeepStrictEqual(expected,pins)||donor.mountRole!==resource.mountRole||
+      donor.asset.sha256!==pins[prefix+'Model'].sha256||donor.provenance.sourceParametersSha256!==pins[prefix+'Parameters'].sha256||
+      donor.provenance.generatorSha256!==pins[prefix+'Generator'].sha256||
+      (height&&!isDeepStrictEqual(resource.microphone?.pickupFit,{...donor.microphone.pickupFit,mastDropMetres:design.mastDropMetres}))) fail(resource.id);
+  await verifySingingSources(root,donor,donorRecipe);
   return new Map(Object.entries(pins));
 }
 
@@ -231,7 +284,8 @@ export async function validateResourceProvenance({root, resource, label = resour
     if (provenance[hashField] !== digest(bytes)) throw new Error(`provenance-hash-mismatch: ${label}.${hashField}`);
     if(field==='sourceParameters' && resource.productionBranch==='showcase-product')
       await verifyShowcaseProvenance(root,resource,JSON.parse(bytes));
-    if(field==='sourceParameters' && ['scripts/company-platform/build-singing-stage.mjs','scripts/company-platform/build-vocal-mic-looks.mjs','scripts/company-platform/build-vocal-fit.mjs'].includes(provenance.generator))
+    if(field==='sourceParameters' && ['scripts/company-platform/build-singing-stage.mjs','scripts/company-platform/build-vocal-mic-looks.mjs','scripts/company-platform/build-vocal-fit.mjs',
+        'scripts/company-platform/build-vocal-height.mjs','scripts/company-platform/build-readable-score.mjs'].includes(provenance.generator))
       await verifySingingSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='tea-rest')
       await verifyTeaSources(root,resource,JSON.parse(bytes));
