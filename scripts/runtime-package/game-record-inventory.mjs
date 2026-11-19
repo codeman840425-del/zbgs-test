@@ -13,6 +13,35 @@ const MANIFEST = SAMPLE_DIRECTORY + 'manifest.json';
 const PACKAGE_SCHEMA = 'game-character-record-package-v1';
 const REVIEWED_SCHEMA = 'reviewed-game-character-runtime-v1';
 const RECORD_COUNT = 4;
+const MATRIX_INPUTS = [
+  '../assets-source/variant-matrix-v1/representative-matrix.json',
+  '../assets-source/variant-matrix-v1/representative-batch-request.json',
+];
+// Frozen review fingerprints from game-runtime-reviews.json at 6bc49a77.
+// These issued builds retain their original input lists. Do not add new reviews.
+const LEGACY_REVIEWS = new Set([
+  '0755f0b4597c95ac29140f7b2f8537839a3cd50089a26ebd9825856cabe189f7',
+  '0a10229ebdf14dcaa92cd2ede309eb6fc52a44e8ea893af6e81d247d4461dfef',
+  '13a3e921d9b6fc5b25baf699da5f2c35e3d0dd54c1216fa478ecea04ef53f3be',
+  '1734f576a68d4d1812f3c23565c39a0d5e4c86ebea03dced0f4a5a5f872d2c68',
+  '1a52bde7668941838584ea902b809adff0173d6223e5d7fbf706f6f6239fd635',
+  '469d142ee2a6b717ebfca269b87d895dad8cba5e07e52f7d940def9f2d10bbe8',
+  '475ca05288b8c20c80e582cf0803382139f8babf45d4833995a95a8e5ace9ce8',
+  '4ca512bdf8a8a265f9b0cb887bba9072571d64ac3924eff1549227a2ba80b724',
+  '76196e5bf541cde39b206f9511ca66b0ae685995f46f91b5cdd46a1fd0f59af7',
+  '85b3c3cff981dadaba5abf444bdbfbfd828d64835347370565f1766e89413d08',
+  '9ce8d8585dc04f7f2b750c6dbf98e08af17967743859cdecf3cdc5edabbc421c',
+  'a16fe397cc19216137b685acf08e6581b81ef4324a751769f9d6065c34b23d2b',
+  'a672c25eaf1e1ad860e893a816f048b3fd59d7e7fd7ca3b003d3cf17c3548ab6',
+  'b0666c239bbaed4bbefa75bced9497986c9297eb41c321263607089afc9e878d',
+  'bba0f132d388f4add921e47491d8459047ed4255b0a5899b69dfb1b157a7e346',
+  'c408cc7644d8dc581e6875b5af44061d1dcc26d5f7d422f8b91d9be9ebd4e8d8',
+  'c52d20af83b7db1edfc025721ce3b37603951bb830e6d7df31ef28ae6a706977',
+  'd7cc3f910c5ffb7d2df863cecdaeaf26f9893962037cb0a01913e4c8ac8bf464',
+  'e7928d768105b053d32c6cf1104a80786b37a70325797da67bdc75a36a659117',
+  'f12b177cd1ee141fa69531322412e18c0300455ea7570c05eb875b2d7bbd92c3',
+  'fd74f79931204d273b31a8b3d353edbc02a7e1ee5499ef6cefaa02151e9bdcf3',
+]);
 const SHA256 = /^[a-f0-9]{64}$/;
 const BUNDLE_PATH = /^assets\/[A-Za-z0-9_.-]+\.(?:js|css)$/;
 const RECORD_PATH = /^assets\/record-consumer-v1\/[a-z0-9-]+\.json$/;
@@ -49,13 +78,19 @@ async function verifyBuild(dist, project, reviewed) {
     'src/character-runtime-record.js', 'src/record-consumer-demo.js', 'public/' + MANIFEST];
   if (required.some(file => !build.inputs.includes(file)))
     fail('unsupported-build', 'Required game runtime source inputs are absent');
+  if (MATRIX_INPUTS.some(file => !build.inputs.includes(file))) {
+    const pins = Object.keys(reviewed.files).sort().map(name =>
+      [name, reviewed.files[name].bytes, reviewed.files[name].sha256]);
+    const identity = digest(JSON.stringify([reviewed.schema, reviewed.sourceCommit, reviewed.sourceDigest, pins]));
+    if (!LEGACY_REVIEWS.has(identity))
+      fail('unsupported-build', 'New game runtime must pin the variant matrix and batch request');
+  }
   const sourceHash = createHash('sha256');
   const publicFiles = new Map();
   for (const relative of build.inputs) {
     if (typeof relative !== 'string') fail('unsupported-build', 'Invalid build source input');
-    const matrix = '../assets-source/variant-matrix-v1/representative-matrix.json';
-    const inputFile = relative === matrix
-      ? await localFile(path.dirname(project), matrix.slice(3))
+    const inputFile = MATRIX_INPUTS.includes(relative)
+      ? await localFile(path.dirname(project), relative.slice(3))
       : await localFile(project, portablePath(relative));
     const bytes = await readFile(inputFile);
     sourceHash.update(relative).update('\0').update(bytes).update('\0');

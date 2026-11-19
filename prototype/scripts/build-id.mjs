@@ -26,6 +26,7 @@ const inputs = [
   "vite.config.js",
   "package.json",
   "package-lock.json",
+  "../assets-source/variant-matrix-v1/representative-batch-request.json",
   "../assets-source/variant-matrix-v1/representative-matrix.json",
 ].sort();
 const hash = createHash("sha256");

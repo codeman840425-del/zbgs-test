@@ -1,17 +1,22 @@
 import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
+import {existsSync} from 'node:fs';
 import {copyFile, cp, lstat, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile} from 'node:fs/promises';
-import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {after, before, test} from 'node:test';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
+import projectPaths from '../project-output.cjs';
 import {copyDeclaredFiles, digest, jsonBytes, localFile, runtimePath} from './files.mjs';
 import {collectRecordResources} from './record-resources.mjs';
 import {createGameRecordInventory, exportGameRecordInventory} from './game-record-inventory.mjs';
 import {createCharacterRecord} from '../../prototype/src/character-record.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
-const temp = await mkdtemp(path.join(tmpdir(), 'gamemake-game-record-test-'));
+const producer = await projectPaths.productionRoot();
+const experiments = await projectPaths.projectOutput(path.join(producer, 'experiments'), producer);
+await mkdir(experiments, {recursive:true});
+const temp = await mkdtemp(path.join(experiments, 'game-record-test-'));
 const sourceRoot = path.join(temp, 'source');
 const project = path.join(sourceRoot, 'prototype');
 const dist = path.join(temp, 'dist');
@@ -21,7 +26,9 @@ const bundle = 'assets/game-record.js';
 const shared = 'assets/shared-runtime.js';
 const lazy = 'assets/lazy-runtime.js';
 const build = 'build-info.json';
-const sourceInputs = new Set([entry, 'package.json', 'package-lock.json']);
+const matrix = '../assets-source/variant-matrix-v1/representative-matrix.json';
+const batchRequest = '../assets-source/variant-matrix-v1/representative-batch-request.json';
+const sourceInputs = new Set([entry, 'package.json', 'package-lock.json', matrix, batchRequest]);
 const runtimeFiles = [entry, bundle, shared, lazy, build];
 const readJson = async file => JSON.parse(await readFile(file));
 const inputManifest = 'records/manifest.json';
@@ -37,9 +44,9 @@ async function listFiles(directory, prefix = '') {
   return files.sort();
 }
 
-async function reviewFixture() {
+async function reviewFixture(included = sourceInputs) {
   const hash = createHash('sha256');
-  const inputs = [...sourceInputs].sort();
+  const inputs = [...included].sort();
   for (const file of inputs) hash.update(file).update('\0').update(await readFile(path.join(project, file))).update('\0');
   const sourceDigest = hash.digest('hex');
   await writeFile(path.join(dist, build), jsonBytes({shortId:sourceDigest.slice(0, 12), sourceDigest, inputs}));
@@ -56,6 +63,9 @@ before(async () => {
   await cp(path.join(root, 'prototype/src'), path.join(project, 'src'), {recursive:true});
   for (const file of await listFiles(project, 'src')) sourceInputs.add(file);
   for (const file of ['package.json', 'package-lock.json', entry])
+    await copyFile(path.join(root, 'prototype', file), path.join(project, file));
+  await mkdir(path.dirname(path.join(project, matrix)), {recursive:true});
+  for (const file of [matrix, batchRequest])
     await copyFile(path.join(root, 'prototype', file), path.join(project, file));
   // Synthetic compiled modules test the real collector without a new Vite build.
   await mkdir(path.join(dist, 'assets'), {recursive:true});
@@ -105,6 +115,104 @@ after(async () => rm(temp, {recursive:true, force:true}));
 
 const options = () => ({dist, sourceRoot, reviewed});
 const rejectsCode = (work, code) => assert.rejects(work, {code});
+
+test('the build producer changes identity for an edited imported batch request and restores it byte for byte', async () => {
+  const isolated = path.join(temp, 'build-id', 'prototype');
+  const script = 'scripts/build-id.mjs';
+  const imported = ['src/appearance-workbench.js', 'src/character-production-query.js'];
+  for (const file of [script, ...imported, batchRequest, matrix, entry, 'public/favicon.svg', 'public/native-production.html',
+    'index.html', 'foundation.html', 'vite.config.js', 'package.json', 'package-lock.json']) {
+    const destination = path.join(isolated, file);
+    await mkdir(path.dirname(destination), {recursive:true});
+    await copyFile(path.join(root, 'prototype', file), destination);
+  }
+  await mkdir(path.join(isolated, 'public/assets'), {recursive:true});
+  const run = () => execFileSync(process.execPath, [script], {cwd:isolated, stdio:'pipe', windowsHide:true,
+    env:{...process.env, TMP:temp, TEMP:temp, TMPDIR:temp, NODE_DISABLE_COMPILE_CACHE:'1'}});
+  const output = path.join(isolated, 'public/build-info.json');
+  const input = path.join(isolated, batchRequest);
+  const original = await readFile(input);
+  run();
+  const before = await readFile(output);
+  const baseline = JSON.parse(before);
+  for (const external of [batchRequest, matrix]) assert(baseline.inputs.includes(external));
+  const request = JSON.parse(original);
+  request.batchId += '-edited';
+  await writeFile(input, jsonBytes(request));
+  run();
+  const changed = await readJson(output);
+  assert.deepEqual(changed.inputs, baseline.inputs);
+  assert.notEqual(changed.sourceDigest, baseline.sourceDigest);
+  assert.notEqual(changed.shortId, baseline.shortId);
+  await rm(input);
+  assert.throws(run, /ENOENT.*representative-batch-request\.json/);
+  await writeFile(input, original);
+  run();
+  assert.deepEqual(await readFile(output), before);
+});
+
+test('new reviews must identify both matrix inputs and verify their bytes', async () => {
+  const canonical = await readFile(path.join(dist, build));
+  try {
+    for (const omitted of [batchRequest, matrix]) {
+      const newReview = await reviewFixture([...sourceInputs].filter(file => file !== omitted));
+      await rejectsCode(() => createGameRecordInventory({...options(), reviewed:newReview}), 'unsupported-build');
+    }
+    const alias = batchRequest.replace('../assets-source/', '../assets-source/../assets-source/');
+    const newReview = await reviewFixture([...sourceInputs, alias]);
+    await rejectsCode(() => createGameRecordInventory({...options(), reviewed:newReview}), 'unsafe-path');
+  } finally {
+    await writeFile(path.join(dist, build), canonical);
+  }
+  const input = path.join(project, batchRequest);
+  const original = await readFile(input);
+  try {
+    const request = JSON.parse(original);
+    request.items.reverse();
+    await writeFile(input, jsonBytes(request));
+    await rejectsCode(() => createGameRecordInventory(options()), 'source-identity-mismatch');
+  } finally {
+    await writeFile(input, original);
+  }
+});
+
+const historical = path.join(root, 'experiments/worktrees/texshare-df610092');
+const historicalDist = path.join(historical, 'prototype/dist');
+const repeatedDist = path.join(historical + '-repeat', 'prototype/dist');
+test('exported operator reproduces the registered df610092 review and its signed pair without Git', {
+  skip: [historicalDist, repeatedDist].every(dir => existsSync(path.join(dir, build))) ? false : 'requires both fixed df610092 builds',
+}, async () => {
+  const operator = path.join(temp, 'operator');
+  await mkdir(operator);
+  const archive = path.join(temp, 'operator.tar');
+  const modules = ['game-record-inventory.mjs', 'record-resources.mjs', 'files.mjs'];
+  execFileSync('tar', ['-cf', archive, '-C', path.join(root, 'scripts/runtime-package'), ...modules], {windowsHide:true});
+  execFileSync('tar', ['-xf', archive, '-C', operator], {windowsHide:true});
+  const portable = await import(pathToFileURL(path.join(operator, modules[0])).href);
+  const issued = await readJson(path.join(root, 'scripts/runtime-package/game-record-shared-hair-reviewed.json'));
+  const records = await readJson(path.join(root, 'evidence/m2-uniform-skin-v1/signed-pair.json'));
+  const out = path.join(temp, 'reproduced-game');
+  const {PATH, GIT_DIR} = process.env;
+  try {
+    process.env.PATH = operator;
+    process.env.GIT_DIR = path.join(operator, 'absent');
+    const repeated = await portable.compareGameRuntimeBuilds({dist:historicalDist, rebuilt:repeatedDist,
+      sourceRoot:historical + '-repeat', sourceCommit:issued.sourceCommit});
+    assert.deepEqual(repeated, issued);
+    const opts = {dist:historicalDist, sourceRoot:historical, records, reviewed:issued};
+    const altered = structuredClone(issued);
+    altered.files[entry].bytes++;
+    await rejectsCode(() => portable.createGameRecordInventory({...opts, reviewed:altered}), 'unsupported-build');
+    const inventory = await portable.createGameRecordInventory(opts);
+    await portable.exportGameRecordInventory({...opts, inventory, out});
+    assert.equal(digest(await readFile(path.join(out, 'runtime-package.json'))),
+      'eed961f77ee1d5695bfe23fd36018b97d270262342266524f8bf192b4d35ec28');
+  } finally {
+    process.env.PATH = PATH;
+    if (GIT_DIR === undefined) delete process.env.GIT_DIR;
+    else process.env.GIT_DIR = GIT_DIR;
+  }
+});
 
 test('exports all record bytes and their dependency union reproducibly', async () => {
   const inventory = await createGameRecordInventory(options());
