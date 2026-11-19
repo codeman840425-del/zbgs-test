@@ -13,6 +13,8 @@ import tarfile
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
+if __name__ == "__main__":
+    sys.dont_write_bytecode = True
 sys.path.insert(0, str(ROOT / "scripts/production"))
 
 import native_import
@@ -159,11 +161,11 @@ def freeze(args, output, env):
 
 
 def build(args):
-    checked_batches(args)
     output = project_output(args.output, __file__)
     allowed = ROOT / "output"
     if allowed.resolve() != allowed or output == allowed or not output.is_relative_to(allowed):
         raise ValueError("Choose a fresh private directory below project output/")
+    checked_batches(args)
     reference = args.reference_dist.resolve(strict=True) if args.reference_dist else None
     if reference and (output.is_relative_to(reference) or reference.is_relative_to(output)):
         raise ValueError("Reference and output must be separate")
@@ -172,16 +174,18 @@ def build(args):
     output.mkdir()
     temp = output / "tmp"
     temp.mkdir()
-    private_temp = dict(TEMP=str(temp), TMP=str(temp), TMPDIR=str(temp), NODE_COMPILE_CACHE=str(temp / "node-cache"))
-    env = {**os.environ, **private_temp}
+    # Freeze also runs a Node binding check through native_import's inherited environment.
+    private_env = dict(TEMP=str(temp), TMP=str(temp), TMPDIR=str(temp),
+                       NODE_COMPILE_CACHE=str(temp / "node-cache"), NODE_V8_COVERAGE="")
+    env = {**os.environ, **private_env}
     for name in subprocess.check_output(["git", "rev-parse", "--local-env-vars"], cwd=ROOT, env=env).splitlines():
         env.pop(os.fsdecode(name), None)
-    previous_temp = {name: os.environ.get(name) for name in private_temp}
-    os.environ.update(private_temp)
+    previous_env = {name: os.environ.get(name) for name in private_env}
+    os.environ.update(private_env)
     try:
         snap, commit, pins = freeze(args, output, env)
     finally:
-        for name, value in previous_temp.items():
+        for name, value in previous_env.items():
             if value is None:
                 os.environ.pop(name)
             else:

@@ -2,11 +2,14 @@
 
 import argparse
 import json
+import os
 from pathlib import Path
 import sys
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
+if __name__ == "__main__":
+    sys.dont_write_bytecode = True
 sys.path.insert(0, str(ROOT / "scripts/production"))
 
 import native_archive_package_inputs as archive_inputs
@@ -115,8 +118,8 @@ def checked_package(config, output, expected):
 
 
 def rebuild(archive_path, output_path, *, discover_top=False):
-    archive = archive_path.resolve(strict=True)
     output = checked_batch(project_output(output_path, __file__))
+    archive = archive_path.resolve(strict=True)
     if not archive.is_dir() or output.is_relative_to(archive) or archive.is_relative_to(output):
         raise ValueError("Use a read-only archive separate from the private output")
     if output.exists():
@@ -145,10 +148,22 @@ def rebuild(archive_path, output_path, *, discover_top=False):
     bo_fit_pin = store(bo_fit_path, bo_fit)
     bo = archive_inputs.stage(bo_archive, output / "bo-chen-archive",
                               fit={**bo_fit_pin, "path": bo_fit_path})["config"]
-    report = {"status": "rebuilt-fixed-resource-bytes", "items": [
-        checked_package(config, output / name, expected[f"native-{role}-v1"])
-        for config, name, role in ((yun, "yun-package", YUN), (bo, "bo-chen-package", BO))
-    ]}
+    # The package builder launches Node to check the real footwear floor.
+    private_env = dict(TEMP=str(output), TMP=str(output), TMPDIR=str(output),
+                       NODE_DISABLE_COMPILE_CACHE="1", NODE_V8_COVERAGE="")
+    previous_env = {name: os.environ.get(name) for name in private_env}
+    os.environ.update(private_env)
+    try:
+        report = {"status": "rebuilt-fixed-resource-bytes", "items": [
+            checked_package(config, output / name, expected[f"native-{role}-v1"])
+            for config, name, role in ((yun, "yun-package", YUN), (bo, "bo-chen-package", BO))
+        ]}
+    finally:
+        for name, value in previous_env.items():
+            if value is None:
+                os.environ.pop(name, None)
+            else:
+                os.environ[name] = value
     store(output / "report.json", report)
     return report
 

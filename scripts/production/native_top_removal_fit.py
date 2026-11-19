@@ -3,8 +3,11 @@ import argparse
 import copy
 import json
 from pathlib import Path
+import sys
 from tempfile import TemporaryDirectory
 
+if __name__ == "__main__":
+    sys.dont_write_bytecode = True
 import native_garment_removal_surfaces as meshes
 import native_removal_lineage as lineage
 import native_removal_skin as skin
