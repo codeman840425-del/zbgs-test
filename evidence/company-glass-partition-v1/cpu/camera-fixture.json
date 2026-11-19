@@ -1,0 +1,42 @@
+{
+  "source": "scripts/company-platform/batch-inputs/product-showcase-rooms.json",
+  "key": "showcase-rental",
+  "operations": [
+    {
+      "type": "set-surface-finish",
+      "id": "showcase-rental/ground/live",
+      "surface": "ceiling",
+      "finish": {
+        "resource": {
+          "id": "ceiling-panel-grid",
+          "version": 1
+        }
+      }
+    },
+    {
+      "type": "add-facility",
+      "parentId": "showcase-rental/ground/live",
+      "id": "showcase-rental/ground/live/sight-partition",
+      "resource": {
+        "id": "glass-partition-clear",
+        "version": 1
+      },
+      "transform": {
+        "position": [
+          -0.15,
+          0,
+          0.56
+        ],
+        "yaw": 0
+      }
+    }
+  ],
+  "blockedOperation": {
+    "type": "replace-resource",
+    "id": "showcase-rental/ground/live/sight-partition",
+    "resource": {
+      "id": "glass-partition-framed",
+      "version": 1
+    }
+  }
+}

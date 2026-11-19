@@ -1,0 +1,753 @@
+{
+  "status": "passed",
+  "original": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\candidate",
+  "pin": "c86dc056e1e484e9bb31bdd1b92a8fda3ce7500bdfb5aad3df1fdabdceeb7b39",
+  "build": "165311a0a37c",
+  "sourceDigest": "165311a0a37ccf90d36ae87edfe2fee7629fa39ca6ed64425bfcadcb0b60bdcc",
+  "node": "v24.13.0",
+  "receivedSource": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source",
+  "commands": [
+    {
+      "label": "01-original",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\candidate",
+        "c86dc056e1e484e9bb31bdd1b92a8fda3ce7500bdfb5aad3df1fdabdceeb7b39"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\candidate",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\01-original.log",
+      "exit": 0
+    },
+    {
+      "label": "02-working-copy",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received",
+        "c86dc056e1e484e9bb31bdd1b92a8fda3ce7500bdfb5aad3df1fdabdceeb7b39"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\02-working-copy.log",
+      "exit": 0
+    },
+    {
+      "label": "03-empty-cache-ci",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+        "ci",
+        "--cache",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\npm-cache",
+        "--prefer-online",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\prototype",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\03-empty-cache-ci.log",
+      "exit": 0
+    },
+    {
+      "label": "04-original-build-id",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\prototype\\scripts\\build-company-id.mjs"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\prototype",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\04-original-build-id.log",
+      "exit": 0
+    },
+    {
+      "label": "05-original-build",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\prototype\\node_modules\\vite\\bin\\vite.js",
+        "build",
+        "--config",
+        "vite.company.config.js"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\prototype",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\05-original-build.log",
+      "exit": 0
+    },
+    {
+      "label": "06-entire-viewer-compare",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\candidate",
+        "c86dc056e1e484e9bb31bdd1b92a8fda3ce7500bdfb5aad3df1fdabdceeb7b39",
+        "--viewer",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\prototype\\dist-company"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\candidate",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\06-entire-viewer-compare.log",
+      "exit": 0
+    },
+    {
+      "label": "07-original-room-replay",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\batch-inputs\\glass-partition-rooms.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\fixed-rooms"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\07-original-room-replay.log",
+      "exit": 0
+    },
+    {
+      "label": "08-original-producer-check",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\build-glass-partition.mjs",
+        "--check"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\08-original-producer-check.log",
+      "exit": 0
+    },
+    {
+      "label": "09-publish-nine",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--publish",
+        "assets-source/company-glass-partition-v1/examples/receiver-asymmetric-nine-v2.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\09-publish-nine.log",
+      "exit": 0
+    },
+    {
+      "label": "10-check-nine",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--check",
+        "assets-source/company-glass-partition-v1/examples/receiver-asymmetric-nine-v2.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\10-check-nine.log",
+      "exit": 0
+    },
+    {
+      "label": "11-catalog-check",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\build-library.mjs",
+        "--check"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\11-catalog-check.log",
+      "exit": 0
+    },
+    {
+      "label": "12-conflicting-version",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--publish",
+        "assets-source/company-glass-partition-v1/examples/receiver-conflicting-nine-v2.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\12-conflicting-version.log",
+      "exit": 1
+    },
+    {
+      "label": "13-original-revision-still-passes",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--check",
+        "assets-source/company-glass-partition-v1/examples/receiver-asymmetric-nine-v2.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\13-original-revision-still-passes.log",
+      "exit": 0
+    },
+    {
+      "label": "14-two-six-pane-seeds",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\receiver-rooms.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\framed-rooms"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\14-two-six-pane-seeds.log",
+      "exit": 0
+    },
+    {
+      "label": "15-receiver-build-id",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\prototype\\scripts\\build-company-id.mjs"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\prototype",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\15-receiver-build-id.log",
+      "exit": 0
+    },
+    {
+      "label": "16-receiver-viewer",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\prototype\\node_modules\\vite\\bin\\vite.js",
+        "build",
+        "--config",
+        "vite.company.config.js"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\prototype",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\16-receiver-viewer.log",
+      "exit": 0
+    },
+    {
+      "label": "17-package-both-seeds",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\package-company.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source\\prototype\\dist-company",
+        "79c92898f3ed",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\framed-rooms\\glass-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\framed-v2-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source",
+        "--room",
+        "glass-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\framed-rooms\\glass-studio",
+        "--room",
+        "glass-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\framed-rooms\\glass-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\source",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\17-package-both-seeds.log",
+      "exit": 0
+    },
+    {
+      "label": "18-verify-derived",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\framed-v2-package\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\framed-v2-package",
+        "57ccee88a2567e2d55e230152a17d283c5335bd843215c27fb71fb56d0e2c847"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\framed-v2-package",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\18-verify-derived.log",
+      "exit": 0
+    },
+    {
+      "label": "19-glass-studio-upgrade",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\framed-v2-package\\data\\rooms\\glass-studio\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\glass-studio.upgrade.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\glass-studio-nine",
+        "--room",
+        "glass-studio"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\19-glass-studio-upgrade.log",
+      "exit": 0
+    },
+    {
+      "label": "20-glass-studio-reopen",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\glass-studio-nine\\save.json",
+        "--room",
+        "glass-studio"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\20-glass-studio-reopen.log",
+      "exit": 0
+    },
+    {
+      "label": "19-glass-rental-upgrade",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\framed-v2-package\\data\\rooms\\glass-rental\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\glass-rental.upgrade.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\glass-rental-nine",
+        "--room",
+        "glass-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\19-glass-rental-upgrade.log",
+      "exit": 0
+    },
+    {
+      "label": "20-glass-rental-reopen",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\glass-rental-nine\\save.json",
+        "--room",
+        "glass-rental"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\received",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\20-glass-rental-reopen.log",
+      "exit": 0
+    },
+    {
+      "label": "21-original-still-sealed",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\candidate",
+        "c86dc056e1e484e9bb31bdd1b92a8fda3ce7500bdfb5aad3df1fdabdceeb7b39"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\candidate",
+      "log": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\logs\\21-original-still-sealed.log",
+      "exit": 0
+    }
+  ],
+  "originalRooms": {
+    "glass-studio": {
+      "input.json": "1dc72a604c61f517f1eab78cc48228ef398df5e62f1e1b4ae1ca60079fb5dc3b",
+      "layout.json": "db605140e376b7c7f41d3276ac77dff23a9a6172bffb2c608d6f9085e1c20a8d",
+      "save.json": "3d2d29d87c843141b0ebf77cbf007bb347553c9784cc0fa9caa4dabee8b33bc7",
+      "report.json": "5528570ec4099d71cfbe6787c4a01a0b1e36b7549f225dee98c29848b48909c1"
+    },
+    "glass-rental": {
+      "input.json": "2020a3bfd185f1a834ed7ef248a059483bb4297bb446571b3f299e8c81fe8029",
+      "layout.json": "a578ac718ea5f5ac3023d5395d63ee7d2e487cbee43e56121073e199f9fa1b68",
+      "save.json": "2ca2838d2594858a76aa57423236c00fd0868c54861db3fbabcd7aba3dcd6967",
+      "report.json": "04464e0435051e6e2236121284488fb0c704addb07b009b92e4e8fc07939db21"
+    }
+  },
+  "upgradedRooms": {
+    "glass-studio": {
+      "id": "glass-studio/ground/live/screen",
+      "resource": {
+        "id": "glass-partition-framed",
+        "version": 2
+      },
+      "saveSha256": "31df66eed3f50d1667c797494fc59dca09dac9fc6409ff2fbb5fb75c46806cff",
+      "cold": {
+        "ok": true,
+        "id": "glass-studio",
+        "revision": 3,
+        "floors": [
+          "glass-studio/ground"
+        ]
+      },
+      "originalSeedSha256": "69e7a9a67706b91996a24478b2bfbbf81109067ff881e66659fb4f7bd91e3bb4"
+    },
+    "glass-rental": {
+      "id": "glass-rental/ground/work/screen",
+      "resource": {
+        "id": "glass-partition-framed",
+        "version": 2
+      },
+      "saveSha256": "42aa6ed84039f0b1c7d91dc447accc8c1232464eca451f35e5dace6c8675c089",
+      "cold": {
+        "ok": true,
+        "id": "glass-rental",
+        "revision": 3,
+        "floors": [
+          "glass-rental/ground"
+        ]
+      },
+      "originalSeedSha256": "2ca2838d2594858a76aa57423236c00fd0868c54861db3fbabcd7aba3dcd6967"
+    }
+  },
+  "originalSeal": {
+    "ok": true,
+    "build": "165311a0a37c",
+    "manifestSha256": "c86dc056e1e484e9bb31bdd1b92a8fda3ce7500bdfb5aad3df1fdabdceeb7b39",
+    "declaredFiles": 2621,
+    "checkedFiles": 2621,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "copySeal": {
+    "ok": true,
+    "build": "165311a0a37c",
+    "manifestSha256": "c86dc056e1e484e9bb31bdd1b92a8fda3ce7500bdfb5aad3df1fdabdceeb7b39",
+    "declaredFiles": 2621,
+    "checkedFiles": 2621,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "lockSha256": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b",
+  "cache": {
+    "initialEntries": 0,
+    "after": [
+      "_cacache",
+      "_logs"
+    ]
+  },
+  "viewer": {
+    "ok": true,
+    "build": "165311a0a37c",
+    "manifestSha256": "c86dc056e1e484e9bb31bdd1b92a8fda3ce7500bdfb5aad3df1fdabdceeb7b39",
+    "declaredFiles": 713,
+    "checkedFiles": 713,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0,
+    "scope": "rebuilt-viewer"
+  },
+  "originalModels": {
+    "glass-partition-clear": {
+      "card": "a345e5f2e01eba0ddaa6544c8107010f0952ef1b1521bf904f217321cdc7a850",
+      "model": "8cb4c66e6bfa26585da6dc81e4533f40b311ba5cdb0fb17190fca092a4850cb3"
+    },
+    "glass-partition-frosted": {
+      "card": "f3689414ed3e1448d89b2deb5a6f41bb2cc66e16d09eaa76c37c56d8382d976c",
+      "model": "87201b34a6f0b1ae9630429fc2d3e4bddd1cd9ff558ac4962feb566696530b6b"
+    },
+    "glass-partition-tinted": {
+      "card": "cd0f348908bac3f66a29e5fc4c2c339883126d793ca25e7a0cdee9abddb25942",
+      "model": "5930c3fa52afc11e26e34af6af599654a37eadae84a756d430497349a20fe1fa"
+    },
+    "glass-partition-framed": {
+      "card": "7e75b5ac471c69901d9de310da6efa31329187b873c0b74ee1e3c25d79cf9877",
+      "model": "546642b317a62750199df9e3e02e6610e80d27534dd31e9e306ae11781808585"
+    }
+  },
+  "recipe": {
+    "name": "assets-source/company-glass-partition-v1/examples/receiver-asymmetric-nine-v2.json",
+    "sha256": "dce23f0385aeb53761870d25946cbc4014d6365f8d6ca36b5eafc3c52bcb925b",
+    "exampleSha256": "21b92b41ed8c3dbc35f5a468f1b7df0947d5c9ee397d2255af120b700b191307",
+    "signedRows": [
+      0.3,
+      0.7
+    ],
+    "authoredRows": [
+      0.23,
+      0.64
+    ]
+  },
+  "publication": {
+    "status": "published",
+    "family": "glass-partition",
+    "sourceParameters": "assets-source/company-glass-partition-v1/examples/recipe-dce23f0385aeb53761870d25946cbc4014d6365f8d6ca36b5eafc3c52bcb925b.json",
+    "sourceParametersSha256": "dce23f0385aeb53761870d25946cbc4014d6365f8d6ca36b5eafc3c52bcb925b",
+    "items": [
+      {
+        "id": "glass-partition-framed",
+        "version": 2,
+        "resourcePath": "prototype/public/company-assets/glass-partition-v1/glass-partition-framed/v2/resource.json",
+        "sha256": "ae434a0f4f22e09116dccd0dcf073f8c9232e6585f23724528344d3fd2b51ffc",
+        "geometrySha256": "7dc02e57601d88555eea7c4c8b5b80d29e79c4615c74a5440d815dfe4df4a5e6"
+      }
+    ]
+  },
+  "models": {
+    "original": {
+      "sha256": "546642b317a62750199df9e3e02e6610e80d27534dd31e9e306ae11781808585",
+      "bounds": [
+        [
+          -1.2000000476837158,
+          -1.3038516013391677e-11,
+          -0.03999999910593033
+        ],
+        [
+          1.2000000476837158,
+          2.8000000000130383,
+          0.03999999910593033
+        ]
+      ],
+      "panes": [
+        {
+          "name": "pane-c1-r1",
+          "min": [
+            -1.2000000476837158,
+            0.003000002820044756,
+            -0.006000000052154064
+          ],
+          "max": [
+            -0.022499995306134224,
+            0.8187000155448914,
+            0.006000000052154064
+          ]
+        },
+        {
+          "name": "pane-c1-r2",
+          "min": [
+            -1.2000000476837158,
+            0.8636999726295471,
+            -0.006000000052154064
+          ],
+          "max": [
+            -0.022499995306134224,
+            1.9363000392913818,
+            0.006000000052154064
+          ]
+        },
+        {
+          "name": "pane-c1-r3",
+          "min": [
+            -1.2000000476837158,
+            1.9812999963760376,
+            -0.006000000052154064
+          ],
+          "max": [
+            -0.022499995306134224,
+            2.796999931335449,
+            0.006000000052154064
+          ]
+        },
+        {
+          "name": "pane-c2-r1",
+          "min": [
+            0.022499995306134224,
+            0.003000002820044756,
+            -0.006000000052154064
+          ],
+          "max": [
+            1.2000000476837158,
+            0.8187000155448914,
+            0.006000000052154064
+          ]
+        },
+        {
+          "name": "pane-c2-r2",
+          "min": [
+            0.022499995306134224,
+            0.8636999726295471,
+            -0.006000000052154064
+          ],
+          "max": [
+            1.2000000476837158,
+            1.9363000392913818,
+            0.006000000052154064
+          ]
+        },
+        {
+          "name": "pane-c2-r3",
+          "min": [
+            0.022499995306134224,
+            1.9812999963760376,
+            -0.006000000052154064
+          ],
+          "max": [
+            1.2000000476837158,
+            2.796999931335449,
+            0.006000000052154064
+          ]
+        }
+      ],
+      "bars": [
+        {
+          "name": "transom-c1-r1",
+          "y": 0.8412
+        },
+        {
+          "name": "transom-c1-r2",
+          "y": 1.9587999999999999
+        },
+        {
+          "name": "transom-c2-r1",
+          "y": 0.8412
+        },
+        {
+          "name": "transom-c2-r2",
+          "y": 1.9587999999999999
+        }
+      ]
+    },
+    "receiver": {
+      "sha256": "ae434a0f4f22e09116dccd0dcf073f8c9232e6585f23724528344d3fd2b51ffc",
+      "bounds": [
+        [
+          -1.2000000476837158,
+          -1.3038516013391677e-11,
+          -0.03999999910593033
+        ],
+        [
+          1.2000000476837158,
+          2.8000000000130383,
+          0.03999999910593033
+        ]
+      ],
+      "panes": [
+        {
+          "name": "pane-c1-r1",
+          "min": [
+            -1.2000000476837158,
+            0.0030000056140124798,
+            -0.006000000052154064
+          ],
+          "max": [
+            -0.42249998450279236,
+            0.6231200098991394,
+            0.006000000052154064
+          ]
+        },
+        {
+          "name": "pane-c1-r2",
+          "min": [
+            -1.2000000476837158,
+            0.6681199669837952,
+            -0.006000000052154064
+          ],
+          "max": [
+            -0.42249998450279236,
+            1.768660068511963,
+            0.006000000052154064
+          ]
+        },
+        {
+          "name": "pane-c1-r3",
+          "min": [
+            -1.2000000476837158,
+            1.8136600255966187,
+            -0.006000000052154064
+          ],
+          "max": [
+            -0.42249998450279236,
+            2.796999931335449,
+            0.006000000052154064
+          ]
+        },
+        {
+          "name": "pane-c2-r1",
+          "min": [
+            -0.3774999976158142,
+            0.0030000056140124798,
+            -0.006000000052154064
+          ],
+          "max": [
+            0.3774999976158142,
+            0.6231200098991394,
+            0.006000000052154064
+          ]
+        },
+        {
+          "name": "pane-c2-r2",
+          "min": [
+            -0.3774999976158142,
+            0.6681199669837952,
+            -0.006000000052154064
+          ],
+          "max": [
+            0.3774999976158142,
+            1.768660068511963,
+            0.006000000052154064
+          ]
+        },
+        {
+          "name": "pane-c2-r3",
+          "min": [
+            -0.3774999976158142,
+            1.8136600255966187,
+            -0.006000000052154064
+          ],
+          "max": [
+            0.3774999976158142,
+            2.796999931335449,
+            0.006000000052154064
+          ]
+        },
+        {
+          "name": "pane-c3-r1",
+          "min": [
+            0.42249998450279236,
+            0.0030000056140124798,
+            -0.006000000052154064
+          ],
+          "max": [
+            1.2000000476837158,
+            0.6231200098991394,
+            0.006000000052154064
+          ]
+        },
+        {
+          "name": "pane-c3-r2",
+          "min": [
+            0.42249998450279236,
+            0.6681199669837952,
+            -0.006000000052154064
+          ],
+          "max": [
+            1.2000000476837158,
+            1.768660068511963,
+            0.006000000052154064
+          ]
+        },
+        {
+          "name": "pane-c3-r3",
+          "min": [
+            0.42249998450279236,
+            1.8136600255966187,
+            -0.006000000052154064
+          ],
+          "max": [
+            1.2000000476837158,
+            2.796999931335449,
+            0.006000000052154064
+          ]
+        }
+      ],
+      "bars": [
+        {
+          "name": "transom-c1-r1",
+          "y": 0.6456200000000001
+        },
+        {
+          "name": "transom-c1-r2",
+          "y": 1.7911599999999999
+        },
+        {
+          "name": "transom-c2-r1",
+          "y": 0.6456200000000001
+        },
+        {
+          "name": "transom-c2-r2",
+          "y": 1.7911599999999999
+        },
+        {
+          "name": "transom-c3-r1",
+          "y": 0.6456200000000001
+        },
+        {
+          "name": "transom-c3-r2",
+          "y": 1.7911599999999999
+        }
+      ]
+    }
+  },
+  "conflict": {
+    "code": "appearance-version-conflict",
+    "message": "glass-partition-framed@2"
+  },
+  "seedRooms": {
+    "glass-studio": {
+      "id": "glass-studio/ground/live/screen",
+      "saveSha256": "69e7a9a67706b91996a24478b2bfbbf81109067ff881e66659fb4f7bd91e3bb4",
+      "layoutSha256": "8347880e4a69442b2b21eab7152880c52b0fc767c93bf951223f629c64b4a560"
+    },
+    "glass-rental": {
+      "id": "glass-rental/ground/work/screen",
+      "saveSha256": "2ca2838d2594858a76aa57423236c00fd0868c54861db3fbabcd7aba3dcd6967",
+      "layoutSha256": "a578ac718ea5f5ac3023d5395d63ee7d2e487cbee43e56121073e199f9fa1b68"
+    }
+  },
+  "derivedPackage": {
+    "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\glass-partition-v1\\receiver\\run-01\\framed-v2-package",
+    "manifestSha256": "57ccee88a2567e2d55e230152a17d283c5335bd843215c27fb71fb56d0e2c847",
+    "build": "79c92898f3ed",
+    "files": 2628
+  },
+  "recheckedOriginal": {
+    "ok": true,
+    "build": "165311a0a37c",
+    "manifestSha256": "c86dc056e1e484e9bb31bdd1b92a8fda3ce7500bdfb5aad3df1fdabdceeb7b39",
+    "declaredFiles": 2621,
+    "checkedFiles": 2621,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  }
+}
