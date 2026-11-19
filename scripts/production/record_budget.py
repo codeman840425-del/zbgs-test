@@ -63,6 +63,7 @@ FITTED_HEAD_DESCRIPTOR = ROOT / 'scripts/production/fitted-head-budget-v1.json'
 FITTED_HEAD_BYTES = FITTED_HEAD_DESCRIPTOR.read_bytes()
 FITTED_HEAD_BUDGET = json.loads(FITTED_HEAD_BYTES)
 require(FITTED_HEAD_BUDGET['schema'] == 'fitted-head-budget-v1', 'Unsupported fitted head budget descriptor')
+NEUTRAL_SHARING_REVIEW = ROOT / 'scripts/production/neutral-texture-sharing-budget-v1.json'
 LEGACY_PALETTE = {'path':'assets/appearance-color-v3/runtime-manifest.json',
                   'sha256':'2eff13c1d3837c4f8f76b7d97007b219059c212c1031d77e27a2f824715af321'}
 # These selectors index explicit per-body registrations. The texture-allocation
@@ -404,7 +405,7 @@ def validate_fitted_warm_skin_record(record, signed, warm):
         for row in files for reason in row['reasons']), 'Unreviewed fitted warm skin coverage or texture resources')
 
 
-def reviewed_legacy_appearance_cache(source, public, record, signed, family=None):
+def reviewed_legacy_appearance_cache(source, public, record, signed, family=None, *, neutral_review=None):
     recipe = signed['appearanceRecipe']
     appearance = recipe['appearance']
     body_sha = recipe['base']['sha256']
@@ -415,9 +416,13 @@ def reviewed_legacy_appearance_cache(source, public, record, signed, family=None
     if family or runtime_source_sha(source, 'hairstyle-catalog.js') == REVIEWED_FITTED_HEAD_ROUTES['src/hairstyle-catalog.js']:
         pins = {**pins, **REVIEWED_FITTED_HEAD_ROUTES}
         warm_sources = family.get('warmSkin', {}).get('runtimeSource') if family else None
-        if warm or (warm_sources and runtime_source_sha(source, 'character-appearance.js') ==
+        if warm or neutral_review or (warm_sources and runtime_source_sha(source, 'character-appearance.js') ==
                     warm_sources['src/character-appearance.js']):
             pins.update(warm_sources)
+        if neutral_review:
+            require_legacy_cache(family and family['id'] == neutral_review['resourceFamily'],
+                                 'Unreviewed neutral texture source family')
+            pins.update(neutral_review['runtimeSource'])
         registry = json.loads(local(source, 'prototype/src/fitted-head-appearances.json').read_bytes())
         entries = [row for row in registry if row['bodySha256'] == body_sha]
         if family:
@@ -478,11 +483,25 @@ def reviewed_legacy_appearance_cache(source, public, record, signed, family=None
     if warm:
         skin.update(multiplierSrgb=warm['multiplierSrgb'], additionalTextureRgba8Bytes=0,
                     recipeSha256=warm['recipeSha256'], coverage=warm['coverage'])
+    sharing = ('Bob and hidden original hair use the same original map keys within an actor. Base and shade keys are distinct. '
+               'Face outline reuses the face keys. Derived Sources are actor-local.')
+    if neutral_review:
+        neutral_channels = {}
+        for channel in neutral_review['channels']:
+            row = groups[channel]
+            texture = asset.doc['textures'][row['sourceTextureIndex']]
+            image = asset.doc['images'][texture['source']]
+            neutral_channels[channel] = {'bodySha256':body_sha, 'bufferView':image['bufferView'],
+                                         'sourceImageSha256':row['sourceImageSha256'],
+                                         'width':row['width'], 'height':row['height']}
+        fitted['neutralSourceInputs'] = neutral_channels
+        sharing = ('Bob and hidden original hair reuse actor-local wrappers. Matching neutral hair and brow wrappers '
+                   'can share Sources on the same WebGL renderer. The per-actor estimate retains all wrappers.')
     return {'schema':'reviewed-legacy-appearance-cache-v1', 'recordSha256':record['recordSha256'],
             'scope':'fresh-actor-pixel-payload-static-diagnostic-only', 'runtimeReconciliation':'not-linked',
             'runtimeAdmission':False, 'groups':groups, 'totals':totals, 'paletteReferencePaths':references,
             **fitted, 'skinTone':skin,
-            'sharing':'Bob and hidden original hair use the same original map keys within an actor. Base and shade keys are distinct. Face outline reuses the face keys. Derived Sources are actor-local.',
+            'sharing':sharing,
             'excluded':'Mask-analysis scratch, index/weight arrays, native renderer allocations, prior palette visits and actual CPU heap/VRAM are not measured.'}
 
 
@@ -610,7 +629,7 @@ def totals_for(rows, images, *, final, appearance_cache=None):
                                  for metric in AGGREGATE_METRICS if totals[metric] > AGGREGATE_LIMITS[metric]]}
 
 
-def measure_record(source, record, config, signed):
+def measure_record(source, record, config, signed, *, neutral_review=None):
     public = source / 'prototype/public'
     recipe = signed['appearanceRecipe']
     appearance_cache = None
@@ -618,7 +637,8 @@ def measure_record(source, record, config, signed):
     uses_legacy_palette = any('Selected facial palette manifest' in row['reasons'] for row in record['files'])
     family = fitted_head_family(recipe)
     if family and any(value != 'original' for value in recipe['appearance'].values()):
-        appearance_cache = reviewed_legacy_appearance_cache(source, public, record, signed, family)
+        appearance_cache = reviewed_legacy_appearance_cache(source, public, record, signed, family,
+                                                            neutral_review=neutral_review)
     elif (uses_hair_cache or uses_legacy_palette) and matches_legacy_appearance_family(recipe):
         appearance_cache = reviewed_legacy_appearance_cache(source, public, record, signed)
     elif uses_hair_cache:
@@ -697,9 +717,133 @@ def actor_resource_totals(records):
                                         for name in totals}}
 
 
-def concurrent_assessment(records, groups):
+def neutral_observation(pin, assertion):
+    raw = local(ROOT, pin['path']).read_bytes()
+    require(sha(raw) == pin['sha256'], 'WebGL observation hash differs from its review')
+    result = json.loads(raw)
+    require(result['schema'] == 'runtime-pair-texture-observation-v1' and result['status'] == 'measured' and
+            not result['errors'] and result.get('assertionMode', 'observe') == assertion and
+            result['runtime']['sourceCommit'] == pin['sourceCommit'] and
+            result['runtime']['sourceDigest'] == pin['sourceDigest'] and
+            result['runtime']['buildId'] == pin['sourceDigest'][:12] and
+            result['inventorySha256'] == pin['inventorySha256'], 'WebGL observation has a different runtime or status')
+    require([row['mode'] for row in result['sessions']] == ['empty-then-pair', 'normal-reopen'],
+            'Expected two independent Chrome sessions')
+    require(len(result['signed']) == 2 and len({row['recordSha256'] for row in result['signed']}) == 2,
+            'Expected two distinct observed record signatures')
+    return result
+
+
+def neutral_channel_sample(session, stage, actor_ids, channels, roles, *, shared):
+    result = {}
+    used_handles = set()
+    for channel, pin in channels.items():
+        materials = [row for row in stage['materials'] if row['actor'] in actor_ids and
+                     row['role'] == roles[channel] and not row['outline']]
+        require(len(materials) == len(actor_ids) and {row['actor'] for row in materials} == actor_ids,
+                'Missing or ambiguous signed material in WebGL observation')
+        bindings = [material['channels'][slot] for material in materials for slot in ('map', 'shadeMultiplyTexture')]
+        hashes, handles, sources, wrappers = set(), set(), set(), set()
+        for binding in bindings:
+            image = session['images'][str(binding['image'])]
+            require((image['width'], image['height']) == (pin['width'], pin['height']) and
+                    binding['imageKind'] == 'HTMLCanvasElement' and binding['minFilter'] == binding['magFilter'] == 1006 and
+                    not binding['generateMipmaps'] and binding['live'] and binding['handle'] and
+                    binding['handle'] == binding['boundHandle'], 'WebGL neutral texture dimensions, upload or sampler differ')
+            hashes.add(image['rgbaSha256'])
+            handles.add(binding['handle'])
+            sources.add(binding['source'])
+            wrappers.add(binding['texture'])
+        expected = 1 if shared else len(bindings)
+        require(len(hashes) == 1 and len(wrappers) == len(bindings) and len(sources) == len(handles) == expected
+                and not (used_handles & handles), 'WebGL neutral Source, wrapper or allocation count differs')
+        used_handles.update(handles)
+        result[channel] = {'pixelSha256':next(iter(hashes)), 'privateTextureWrappers':len(wrappers),
+                           'uniqueTextureSources':len(sources), 'boundWebGLAllocations':len(handles)}
+    return result
+
+
+def neutral_reuse_estimate(review, evidence, actors, conservative):
+    unavailable = {'status':'unknown', 'deductionApplied':False}
+    try:
+        require(evidence, 'Exact build has source review only. Chrome allocation observation is pending.')
+        before, after = evidence
+        signatures = {row['recordSha256'] for row in actors}
+        reviewed = {row['recordSha256'] for row in after['signed']}
+        require(signatures <= reviewed == {row['recordSha256'] for row in before['signed']},
+                'Current group is outside the observed signed records')
+        caches = [row.get('reviewedLegacyAppearanceCache', {}) for row in actors]
+        require(all(cache.get('resourceFamily') == review['resourceFamily'] and cache.get('neutralSourceInputs')
+                    for cache in caches), 'Unknown neutral texture resource family')
+        channels = caches[0]['neutralSourceInputs']
+        require(all(cache['neutralSourceInputs'] == channels for cache in caches),
+                'Group does not use the same reviewed embedded PNGs')
+
+        def sample(observation, shared):
+            ids = {row['id'] for row in observation['signed'] if row['recordSha256'] in signatures}
+            samples = []
+            for session in observation['sessions']:
+                if shared:
+                    released = session['stages']['bothReleased']
+                    require(not released['liveHandles'] and
+                            released['stats'] == observation['sessions'][0]['stages']['empty']['stats'],
+                            'Chrome run does not verify final release')
+                stage = session['stages']['signedPair']
+                if shared and len(ids) == 1:
+                    stage = session['stages'].get('survivor') or session['stages'].get('warmSurvivor')
+                    if {row['id'] for row in stage['actors']} != ids:
+                        continue
+                samples.append(neutral_channel_sample(session, stage, ids, channels, review['channels'], shared=shared))
+            require(len(samples) == (1 if shared and len(ids) == 1 else 2) and all(row == samples[0] for row in samples),
+                    'Chrome sessions do not agree on the same neutral texture bindings')
+            return samples[0]
+
+        baseline, shared = sample(before, False), sample(after, True)
+        bindings = {}
+        for channel, row in channels.items():
+            old, new = baseline[channel], shared[channel]
+            wrapper_count = sum(cache['groups'][channel]['distinctDerivedTextures'] for cache in caches)
+            require(old['pixelSha256'] == new['pixelSha256'] and old['privateTextureWrappers'] ==
+                    new['privateTextureWrappers'] == wrapper_count, 'Archived neutral pixel hash or wrapper count differs')
+            avoided = old['boundWebGLAllocations'] - new['boundWebGLAllocations']
+            bindings[channel] = {**row, 'before':old, 'shared':new, 'allocationEquivalentsAvoided':avoided,
+                                 'rgba8EstimateBytesAvoided':avoided * row['width'] * row['height'] * 4}
+        avoided_bytes = sum(row['rgba8EstimateBytesAvoided'] for row in bindings.values())
+        avoided_allocations = sum(row['allocationEquivalentsAvoided'] for row in bindings.values())
+        estimated = conservative['rgba8MipBytes'] - avoided_bytes
+        headroom = AGGREGATE_LIMITS['rgba8MipBytes'] - estimated
+        return {'status':'webgl-verified-estimate', 'deductionApplied':True,
+                'browser':after['browser'], 'observations':review['webglEvidence'],
+                'sampleScope':'same-renderer-pair' if len(actors) == 2 else 'single-signed-survivor-after-peer-release',
+                'neutralBindings':bindings, 'rgba8EstimateBytesAvoided':avoided_bytes,
+                'rgba8EstimateBytes':estimated, 'rgba8ReferenceBytes':AGGREGATE_LIMITS['rgba8MipBytes'],
+                'rgba8ReferenceHeadroomBytes':headroom,
+                'referenceStatus':'within-temporary-reference' if headroom >= 0 else 'over-temporary-reference',
+                'conservativeTextureObjectEstimate':conservative['textureObjects'],
+                'textureAllocationEquivalentEstimate':conservative['textureObjects'] - avoided_allocations,
+                'scope':'Only the observed neutral hair and brow allocations are deducted. Texture wrappers remain private. GPU bytes and runtime admission are unmeasured.'}
+    except (ValueError, KeyError, TypeError, AttributeError) as error:
+        return {**unavailable, 'reason':str(error)}
+
+
+def concurrent_assessment(records, groups, *, neutral_review=None):
     by_id = {row['id']: row for row in records}
     require(isinstance(groups, (list, tuple)) and groups, 'Declare at least one concurrent group')
+    neutral_evidence = None
+    evidence_error = None
+    if neutral_review and (pins := neutral_review.get('webglEvidence')):
+        try:
+            baseline = neutral_observation(pins['baseline'], 'observe')
+            shared = neutral_observation(pins['shared'], '--expect-shared-hair-brow')
+            require(shared['runtime']['sourceCommit'] == neutral_review['sourceCommit'] and
+                    shared['runtime']['sourceDigest'] == neutral_review['sourceDigest'],
+                    'Chrome observation differs from the reviewed runtime identity')
+            require(baseline['browser'] == shared['browser'] and
+                    [row['gpu'] for row in baseline['sessions']] == [row['gpu'] for row in shared['sessions']],
+                    'Chrome version or GPU differs from the baseline observation')
+            neutral_evidence = (baseline, shared)
+        except (ValueError, KeyError, OSError, TypeError) as error:
+            evidence_error = str(error)
     results, seen = [], set()
     for ids in groups:
         require(isinstance(ids, (list, tuple)) and 1 <= len(ids) <= 2,
@@ -716,13 +860,21 @@ def concurrent_assessment(records, groups):
         excesses = [{'metric': key, 'actual': metrics[key], 'limit': AGGREGATE_LIMITS[key],
                      'excess': metrics[key] - AGGREGATE_LIMITS[key]}
                     for key in AGGREGATE_METRICS if metrics[key] > AGGREGATE_LIMITS[key]]
-        results.append({'actors': [{key: actor[key] for key in ('id', 'revision', 'recordSha256')} for actor in actors],
-                        **totals, 'excesses': excesses,
-                        'status': 'over-temporary-reference' if excesses else 'within-temporary-reference'})
+        result = {'actors': [{key: actor[key] for key in ('id', 'revision', 'recordSha256')} for actor in actors],
+                  **totals, 'excesses': excesses,
+                  'status': 'over-temporary-reference' if excesses else 'within-temporary-reference'}
+        if neutral_review:
+            result['neutralSourceReuse'] = ({'status':'unknown', 'deductionApplied':False, 'reason':evidence_error}
+                                            if evidence_error else neutral_reuse_estimate(
+                                                neutral_review, neutral_evidence, actors, totals['sumAcrossSelectedActors']))
+        results.append(result)
     return {'groups': results, 'status': 'over-temporary-reference' if any(group['excesses'] for group in results)
             else 'within-temporary-reference',
             'scope': 'Each declared group counts its signed dependency paths once and sums cold selected-look costs for its own actors.',
-            'textureEstimateScope': 'Conservative per-actor sums retain duplicate texture estimates. Actual cross-actor sharing, renderer-only allocations and physical GPU memory are unmeasured.',
+            'textureEstimateScope': (
+                'Conservative sums retain duplicate texture estimates. The separate neutralSourceReuse estimate uses only '
+                'observed neutral map allocations. Other renderer allocations and physical GPU memory are unmeasured.'
+                if neutral_review else 'Conservative per-actor sums retain duplicate texture estimates. Actual cross-actor sharing, renderer-only allocations and physical GPU memory are unmeasured.'),
             'ordinaryPCPerformance': 'unmeasured', 'runtimeAdmission': False}
 
 
@@ -734,7 +886,11 @@ def measure(input_file, source, version, *, concurrent_groups=None):
     data = json.loads(raw)
     input_records = data if isinstance(data, list) else [data]
     signed_records = {record['integrity']['recordSha256']: record for record in input_records}
-    records = [measure_record(source, row, config, signed_records[row['recordSha256']]) for row in collected['records']]
+    review = json.loads(NEUTRAL_SHARING_REVIEW.read_bytes())
+    require(review['schema'] == 'neutral-texture-sharing-budget-v1', 'Unsupported neutral texture sharing review')
+    neutral_review = review if review['sourceCommit'] == collected['sourceCommit'] else None
+    records = [measure_record(source, row, config, signed_records[row['recordSha256']], neutral_review=neutral_review)
+               for row in collected['records']]
     measured_legacy = any('reviewedLegacyAppearanceCache' in row for row in records)
     return {
         'schema':SCHEMA, 'readOnly':True, 'sourceCommit':collected['sourceCommit'],
@@ -750,7 +906,8 @@ def measure(input_file, source, version, *, concurrent_groups=None):
                                            'renderer-specific texture, source and sampler allocation'],
         },
         'records':records, **actor_resource_totals(records),
-        **({'concurrentAssessment':concurrent_assessment(records, concurrent_groups)} if concurrent_groups is not None else {}),
+        **({'concurrentAssessment':concurrent_assessment(records, concurrent_groups, neutral_review=neutral_review)}
+           if concurrent_groups is not None else {}),
         'limitations':[
             'RGBA8 estimates use standalone model texture objects and full mip chains except for the reviewed linear-only native cover, skin and lip maps.',
             'Record totals start from a fresh actor. Native appearance cache estimates show the effect of prior selections separately from cold totals, where reviewed.',

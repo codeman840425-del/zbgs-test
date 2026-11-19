@@ -1,0 +1,29 @@
+{
+  "gameBuild": "9fc39b51d6ff",
+  "sourceCommit": "df6100929c57dc1de93066c0695d900fff0f8b27",
+  "runtimePackageSha256": "eed961f77ee1d5695bfe23fd36018b97d270262342266524f8bf192b4d35ec28",
+  "previousBuild": "d9cadedb54f6",
+  "previousReport": "../before/report.json",
+  "currentReport": "report.json",
+  "rendererTextureCounts": {
+    "empty": [1, 1],
+    "signedPair": [81, 75],
+    "oneActorChangedHair": [83, 77],
+    "originalSurvivor": [41, 39],
+    "warmSurvivorInReopenedGame": [null, 39],
+    "bothReleased": [1, 1]
+  },
+  "boundWebGLTexturesBothActorsAndBothSlots": {
+    "blondeHairMapAndShade": [4, 1],
+    "eyebrowMapAndShade": [4, 1]
+  },
+  "independence": "Both contexts preserved one mutable Three.Texture per actor and slot, four per pixel family. The edited actor's actual GL map UV X changed from 0 to 0.125, its shade and all peer UVs stayed at 0, and restoring returned all UVs to 0. Switching to original hair changed the edited actor's hair and brow tint. The peer retained its material, color and sampler bindings during edits, base/uniform switching and first actor removal.",
+  "coldReopenAndDestruction": "Separate fresh context reopened both original signed records through the packaged manifest. The two sessions exercised opposite actor disposal orders. Real draw callbacks of the surviving actor kept the expected live texture. All observed GL handles were released after both actors were disposed.",
+  "visualReadback": "Both signed characters display the blonde bob, their respective warm/original skin and the uniform. Each survivor screenshot displays the correct remaining character. The idle animations are live and the images are not pixel-identical render captures.",
+  "remainingScope": "The top, tie, shoes and body maps remain separate per actor. Physical VRAM, GPU timing and ordinary computer performance were not measured.",
+  "diagnosticRetry": {
+    "initialReport": "../after-raw-uv/report.json",
+    "firstObservation": "Writing Texture.offset updated its object matrix. The attached bob uses a cloned MToon outside the base VRM materials list, so its shader UV did not change automatically.",
+    "retry": "The observer called the installed MToonMaterial.update(0) on the edited materials to synchronize their uniforms after the explicit UV edit and reset. The fixed application and its bytes did not change. Direct offset writes without that material refresh do not update the bob's shader UV in this build."
+  }
+}

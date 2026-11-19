@@ -10,7 +10,7 @@ import unittest
 from unittest.mock import patch
 
 from asset_budget import AssetCost
-from record_budget import (LIP_IMAGE_PREFIX, ROOT, SKIN_IMAGE_PREFIX, UnsupportedBudget, collected_records, concurrent_assessment,
+from record_budget import (LIP_IMAGE_PREFIX, NEUTRAL_SHARING_REVIEW, ROOT, SKIN_IMAGE_PREFIX, UnsupportedBudget, collected_records, concurrent_assessment,
                            image_cost, legacy_texture_groups, main, measure, model_roles,
                            fitted_head_family, runtime_source_sha, skin_cache, validate_fitted_head_recipe,
                            validate_fitted_warm_skin_record)
@@ -25,6 +25,7 @@ UNIFORM_WARM_EVIDENCE = ROOT / 'evidence/m2-uniform-skin-v1'
 FIXED_LEGACY = ROOT / 'experiments/worktrees/garment-80fb16b7'
 FIXED_UNIFORM_HEAD = ROOT / 'experiments/worktrees/head-ba9a95f6'
 FIXED_UNIFORM_WARM = ROOT / 'experiments/worktrees/warm-d96411eb'
+FIXED_NEUTRAL_SHARING = ROOT / 'experiments/worktrees/texshare-df610092'
 
 
 class ReviewedLegacyAppearanceTests(unittest.TestCase):
@@ -347,6 +348,89 @@ console.log(JSON.stringify(result));
                                 ([[warm, original], [original, warm]], 'Duplicate concurrent group')):
             with self.subTest(groups=groups), self.assertRaisesRegex(ValueError, message):
                 concurrent_assessment(records, groups)
+
+    def test_neutral_source_review_keeps_conservative_budget_when_browser_evidence_is_absent(self):
+        if not (FIXED_NEUTRAL_SHARING / 'prototype/src/neutral-hair-textures.js').is_file():
+            self.skipTest('Exact shared neutral texture runtime is unavailable')
+        inputs = UNIFORM_WARM_EVIDENCE / 'signed-pair.json'
+        archived = json.loads((UNIFORM_WARM_EVIDENCE / 'budget-signed-pair.json').read_bytes())
+        ids = [row['id'] for row in archived['records']]
+        review = json.loads(NEUTRAL_SHARING_REVIEW.read_bytes())
+        review['webglEvidence'] = None
+        with patch('record_budget.NEUTRAL_SHARING_REVIEW') as descriptor:
+            descriptor.read_bytes.return_value = json.dumps(review).encode()
+            code, report = self.run_cli(inputs, '--concurrent-group', *ids, source=FIXED_NEUTRAL_SHARING)
+        self.assertEqual(code, 1)
+        self.assertEqual(report['sumAcrossSelectedActors'], archived['sumAcrossSelectedActors'])
+        group, = report['concurrentAssessment']['groups']
+        self.assertEqual(group['status'], 'over-temporary-reference')
+        self.assertEqual(group['neutralSourceReuse']['status'], 'unknown')
+        self.assertFalse(group['neutralSourceReuse']['deductionApplied'])
+        for actual, expected in zip(report['records'], archived['records'], strict=True):
+            self.assertEqual(actual['selectedCost'], expected['selectedCost'])
+            self.assertEqual(actual['startupAndSelectedCost'], expected['startupAndSelectedCost'])
+            neutral = actual['reviewedLegacyAppearanceCache']['neutralSourceInputs']
+            self.assertEqual({key: row['bufferView'] for key, row in neutral.items()}, {'hair':9, 'brow':16})
+            self.assertTrue(all(row['bodySha256'] == actual['avatarSha256'] for row in neutral.values()))
+
+    def test_neutral_source_review_rejects_unreviewed_implementation(self):
+        if not (FIXED_NEUTRAL_SHARING / 'prototype/src/neutral-hair-textures.js').is_file():
+            self.skipTest('Exact shared neutral texture runtime is unavailable')
+        review = json.loads(NEUTRAL_SHARING_REVIEW.read_bytes())
+        review['runtimeSource']['src/neutral-hair-textures.js'] = '0' * 64
+        with patch('record_budget.NEUTRAL_SHARING_REVIEW') as descriptor:
+            descriptor.read_bytes.return_value = json.dumps(review).encode()
+            code, report = self.run_cli(UNIFORM_WARM_EVIDENCE/'signed-pair.json', source=FIXED_NEUTRAL_SHARING)
+        self.assertEqual((code, report['code']), (2, 'unsupported-runtime-implementation'))
+        self.assertIn('neutral-hair-textures.js', report['error'])
+
+    def test_observed_neutral_source_reuse_is_a_separate_group_estimate(self):
+        if not (FIXED_NEUTRAL_SHARING / 'prototype/src/neutral-hair-textures.js').is_file():
+            self.skipTest('Exact shared neutral texture runtime is unavailable')
+        inputs = UNIFORM_WARM_EVIDENCE / 'signed-pair.json'
+        archived = json.loads((UNIFORM_WARM_EVIDENCE / 'budget-signed-pair.json').read_bytes())
+        ids = [row['id'] for row in archived['records']]
+        code, report = self.run_cli(inputs, '--concurrent-group', ids[0], '--concurrent-group', ids[1],
+                                    '--concurrent-group', *ids, source=FIXED_NEUTRAL_SHARING)
+        self.assertEqual(code, 1)
+        self.assertFalse(report['runtimeAdmission'])
+        self.assertEqual(report['sumAcrossSelectedActors'], archived['sumAcrossSelectedActors'])
+        for index, group in enumerate(report['concurrentAssessment']['groups']):
+            with self.subTest(group=group['actors']):
+                single = index < 2
+                reuse = group['neutralSourceReuse']
+                self.assertEqual(reuse['status'], 'webgl-verified-estimate')
+                self.assertEqual(reuse['referenceStatus'], 'within-temporary-reference')
+                self.assertEqual(reuse['rgba8EstimateBytes'], 132820648 if single else 260398416)
+                self.assertEqual(reuse['textureAllocationEquivalentEstimate'], 36 if single else 70)
+                self.assertEqual(reuse['conservativeTextureObjectEstimate'], 38 if single else 76)
+                for binding in reuse['neutralBindings'].values():
+                    self.assertEqual(binding['before']['boundWebGLAllocations'], 2 if single else 4)
+                    self.assertEqual(binding['shared']['privateTextureWrappers'], 2 if single else 4)
+                    self.assertEqual(binding['shared']['uniqueTextureSources'], 1)
+                    self.assertEqual(binding['shared']['boundWebGLAllocations'], 1)
+        pair = report['concurrentAssessment']['groups'][-1]
+        self.assertEqual(pair['excesses'], [{'metric':'rgba8MipBytes', 'actual':276127056,
+                                             'limit':268435456, 'excess':7691600}])
+        rows = deepcopy(report['records'])
+        rows[0]['recordSha256'] = '0' * 64
+        review = json.loads(NEUTRAL_SHARING_REVIEW.read_bytes())
+        unobserved, = concurrent_assessment(rows, [ids], neutral_review=review)['groups']
+        self.assertIn('outside the observed signed records', unobserved['neutralSourceReuse']['reason'])
+        self.assertFalse(unobserved['neutralSourceReuse']['deductionApplied'])
+        pins = review['webglEvidence']
+        baseline, shared = (json.loads((ROOT / pins[name]['path']).read_bytes()) for name in ('baseline', 'shared'))
+        hair = next(row for row in shared['sessions'][0]['stages']['signedPair']['materials']
+                    if row['role'] == 'hair' and not row['outline'])
+        hair['channels']['map']['boundHandle'] = None
+        with patch('record_budget.neutral_observation', side_effect=[baseline, shared]):
+            unbound, = concurrent_assessment(report['records'], [ids], neutral_review=review)['groups']
+        self.assertIn('sampler differ', unbound['neutralSourceReuse']['reason'])
+        self.assertFalse(unbound['neutralSourceReuse']['deductionApplied'])
+        review['webglEvidence']['shared']['sha256'] = '0' * 64
+        mismatched, = concurrent_assessment(report['records'], [ids], neutral_review=review)['groups']
+        self.assertIn('hash differs', mismatched['neutralSourceReuse']['reason'])
+        self.assertFalse(mismatched['neutralSourceReuse']['deductionApplied'])
 
     def test_group_file_limit_uses_the_subset_union_and_keeps_individual_model_excesses(self):
         # Ordinary batch summaries include all alternatives. A subset has its

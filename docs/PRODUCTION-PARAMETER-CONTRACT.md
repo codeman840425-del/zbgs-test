@@ -1,5 +1,7 @@
 # 参数驱动角色生产契约
 
+已验证复用灰度发眉贴图的同屏组，预算回执另列 `neutralSourceReuse`，绑定到固定构建、签名、纹理通道及实际 WebGL 采样证据。生产方读取 `deductionApplied` 判断可否使用该估算。原有保守估算和退出码继续用于原流程，同一灰度源允许每个角色保留自己的颜色、采样坐标和卸载生命周期。[同屏测量及复算方法](../evidence/m2-uniform-texture-sharing-v1/README.md)
+
 生产工具 `record_budget.py measure` 默认按签名记录逐项判定。场景已明确同屏阵容时，用 `--concurrent-group 角色ID [角色ID]` 申明同屏的一组，可重复该参数分别检查多个候选组。读取 `concurrentAssessment.groups` 中的依赖并集、逐人纹理和超限项。返回码 0 表示所选范围在静态参考内，1 表示记录或声明的组超限，2 表示输入错误或当前工具不支持。实际显存、机型和运行时准入保留独立证据。
 
 同一批主体共用的外观参数写入 `sharedLook.appearance`。每个身份只写需要覆盖的 `appearance` 字段，平台随后按该行的实际基模、装备及资源版本核对合并结果。一个身份选了未适配颜色时，错误落在本人，其他有效身份仍可处理。材质乘色在签名中保存所选色值与算法版本，已存角色能检测调色定义的更改。传给游戏的是完整的最终记录。[两份肤色的输入](../assets-source/variant-matrix-v1/uniform-lite-top-skin-request.json) · [同镜头实测](../evidence/m2-uniform-skin-v1/index.html)

@@ -1,0 +1,523 @@
+{
+  "schema": "uniform-texture-sharing-cost-input-v1",
+  "status": "fixed-input-static-projection",
+  "runtime": {
+    "sourceCommit": "d96411ebef27a0e255bab3eaa49bf9addab48e8a",
+    "sourceDigest": "d9cadedb54f6d2df924824f35429597704a7d791c7891f7ff094be369f675f26",
+    "buildId": "d9cadedb54f6",
+    "entry": "record-consumer.html",
+    "entryUrl": "record-consumer.html?records=/records/manifest.json"
+  },
+  "pinnedInputs": {
+    "evidence/m2-uniform-skin-v1/signed-pair.json": "852afbd11132afa0801a27fa8eec0b67713026cc2fb7f83c2445f210950ff1d9",
+    "evidence/m2-uniform-skin-v1/budget-signed-pair.json": "81109b5a514cd49b727cc9e219dd90f9593b4631a079d08cc1ec4af7bd9a3c01",
+    "evidence/m2-uniform-skin-v1/inventory.json": "51e924f770b8d85ca6fc84c136865490896a740768b8cc4b43fda9299cf21b2b",
+    "evidence/m2-uniform-skin-v1/budget-concurrent-proof.json": "45f916328f8f34fb8baeb6ee16af331dd2635ccd1bed6c538676aa20820d4f8f",
+    "evidence/m2-uniform-skin-v1/development-budget/report.json": "cc145532564a0ce5a4db5fe88bec13cf464a4300f25394b48f3ba4f837549aaf",
+    "experiments/worktrees/warm-d96411eb/prototype/dist/build-info.json": "8f523fc5b45808e10606bec04160e0f199bf766926e07357163c39d5d70893d1",
+    "experiments/worktrees/warm-d96411eb/prototype/src/character-appearance.js": "69c148a39bcaba827e43e4295f52c902b4f97ca924d01aa32f6f8ad5284cf87b",
+    "experiments/worktrees/warm-d96411eb/prototype/src/facial-palette.js": "bd62fd6360f5d18955969e5c7162693cdf176b5b25c8f0a96426d6e4e2132bea",
+    "experiments/worktrees/warm-d96411eb/prototype/src/facial-palette-contract.js": "cd60a4df1636b9c3bb4398e93480a4fc3093e9ca1a09945eff44e4113edc89ba",
+    "experiments/worktrees/warm-d96411eb/prototype/src/foundation-avatar.js": "f642605891f4f516881671d67b2cb02857454c269db4850aafb777a4744376c8",
+    "experiments/worktrees/warm-d96411eb/prototype/src/fitted-head-appearances.json": "4bf5efc41b75e86a96fcc1f7fd60b895e2fdd61221ba0fbca13c2ff91b8a1f08",
+    "experiments/worktrees/warm-d96411eb/prototype/src/native-body-normal-source-pins.json": "a9df9e3bdd73fd7441f4f5ede5cfc7e475bc68fe2c7b7d2e37bf23ed86b90a5a",
+    "experiments/worktrees/warm-d96411eb/prototype/src/shared-body-normal-source.js": "1d9671c84dd75d919abc6ac588f5d89a8c84dc7bac00dec41f69345abeaef2f2",
+    "experiments/worktrees/warm-d96411eb/prototype/src/record-consumer-demo.js": "281a67c3f1764f915b2dd79c4f43e1937547787efadc85311b3973c451fb1cce",
+    "experiments/worktrees/warm-d96411eb/prototype/node_modules/three/src/renderers/webgl/WebGLTextures.js": "954bb7dcbc2f508f6d995a649787d1a147b5a0692bb1f0b38362b9a906fe6ab4",
+    "scripts/production/asset_budget.py": "4ba613606522009304afe98cde144cf9aacaea16b14394f520304e981355f447",
+    "scripts/production/asset-budgets-v1.json": "b5f792da80d061aa8dfac1045e2f69e699207dd5d4a05b5ea9959ef532dc9d63",
+    "scripts/production/flow.py": "d9b7d1b2ceb24622a92abe1af8737da08d93f00a3e51113f5155487af789b1ba"
+  },
+  "records": [
+    {
+      "id": "uniform-warm-bob-v1",
+      "recordSha256": "f1cb9a9e697cfd5ad8e5b89165798137efb8d058aa7b30d2274828ae9803ff0b",
+      "appearance": {
+        "hairStyle": "female-bob-v1",
+        "hairColor": "blonde",
+        "skinTone": "warm",
+        "eyeColor": "brown",
+        "lipColor": "coral"
+      },
+      "paletteVersion": "female-uniform-head-v1:f322a155136d960216d32a7ba1a60e847eb01f43a87bb6b28d3dd0a6e4e676bd|skin-multiply-v1:warm:ddc5b4"
+    },
+    {
+      "id": "uniform-original-bob-v1",
+      "recordSha256": "76430d2b93415d348a6ed68681f0369c8faf0e7d5a8c0f790049d32bc6c184a3",
+      "appearance": {
+        "hairStyle": "female-bob-v1",
+        "hairColor": "blonde",
+        "skinTone": "original",
+        "eyeColor": "brown",
+        "lipColor": "coral"
+      },
+      "paletteVersion": "female-uniform-head-v1:f322a155136d960216d32a7ba1a60e847eb01f43a87bb6b28d3dd0a6e4e676bd"
+    }
+  ],
+  "body": {
+    "bodyType": "source-female-uniform-texture-v1",
+    "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+  },
+  "hairFit": {
+    "kind": "explicit-fit-v1",
+    "id": "uniform-lite-female-bob-fit-v1",
+    "version": 1,
+    "sha256": "69414efb8f09b118679f268b540989a5c73a3dd9bf2a464ccd6771fdcec5af2b"
+  },
+  "archivedCost": {
+    "selectedPerActor": {
+      "modelObjects": 30,
+      "modelFullMipBytes": 114994856,
+      "derivedObjects": 8,
+      "derivedLinearBytes": 23068672,
+      "totalObjects": 38,
+      "totalBytes": 138063528
+    },
+    "twoActors": {
+      "placedNodeTriangles": 39124,
+      "rgba8MipBytes": 276127056,
+      "textureObjects": 76
+    },
+    "temporaryLimitBytes": 268435456,
+    "excessBytes": 7691600,
+    "textureEstimateScope": {
+      "included": [
+        "image textures declared by measured models",
+        "supported derived image textures"
+      ],
+      "metrics": [
+        "textureObjects",
+        "rgba8MipBytes"
+      ],
+      "unmodeledRendererAllocations": [
+        "bone data textures",
+        "morph data array textures",
+        "renderer-specific texture, source and sampler allocation"
+      ]
+    }
+  },
+  "closure": {
+    "files": [
+      {
+        "path": "assets/appearance-color-v3/female-iris-mask.png",
+        "bytes": 4051,
+        "sha256": "d6178bb05f53d5dde9186614c2f4019a535cfb15ceec40a1e8ad46343e2eebfe"
+      },
+      {
+        "path": "assets/appearance-color-v3/female-iris-neutral.png",
+        "bytes": 69621,
+        "sha256": "3cbc5234aee21d3d5b6fb74103fd27901d1f189508a16ed493fa0999a422ac33"
+      },
+      {
+        "path": "assets/appearance-color-v3/female-outer-lip-mask.png",
+        "bytes": 1282,
+        "sha256": "b7f1de3847c7bd89b8c50c14f192c77236fd91031b76783583a51a73a91492ed"
+      },
+      {
+        "path": "assets/female-uniform-head-v1/fit.json",
+        "bytes": 1073,
+        "sha256": "69414efb8f09b118679f268b540989a5c73a3dd9bf2a464ccd6771fdcec5af2b"
+      },
+      {
+        "path": "assets/female-uniform-head-v1/hair-manifest.json",
+        "bytes": 719,
+        "sha256": "ef3d0fd87d3de550ab86ce685ba0ce2a4eef220ea01850887fa258d9b474f009"
+      },
+      {
+        "path": "assets/female-uniform-head-v1/palette-manifest.json",
+        "bytes": 1848,
+        "sha256": "f322a155136d960216d32a7ba1a60e847eb01f43a87bb6b28d3dd0a6e4e676bd"
+      },
+      {
+        "path": "assets/female-uniform-texture-release-v1/body.vrm",
+        "bytes": 12135888,
+        "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+      },
+      {
+        "path": "assets/female-uniform-texture-release-v1/coverage-top-1k.json",
+        "bytes": 44433,
+        "sha256": "dde4d2f89c988bb57140db140fcc7f62e9a391b5311d16233586ddc280c394b2"
+      },
+      {
+        "path": "assets/female-uniform-texture-release-v1/coverage-top.json",
+        "bytes": 44372,
+        "sha256": "f0e3b845fae36754ed60f0488efd08c4eeb98c0f3901e11447602b453fa7a529"
+      },
+      {
+        "path": "assets/female-uniform-texture-release-v1/equipment.json",
+        "bytes": 37362,
+        "sha256": "e7252fcc6bf73a6f1bde1790edbd832f1c0e58b676703b254410ed9312f1b6d8"
+      },
+      {
+        "path": "assets/garment-basecolor-release-v1/female/m1-female-uniform-top-1k-v1.glb",
+        "bytes": 765288,
+        "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+      },
+      {
+        "path": "assets/m1/m1-training-pants.glb",
+        "bytes": 63520,
+        "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+      },
+      {
+        "path": "assets/m1/m1-uniform-shoes.glb",
+        "bytes": 190988,
+        "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+      },
+      {
+        "path": "assets/m2-hairstyle-v1/female-bob.glb",
+        "bytes": 651604,
+        "sha256": "3dcf01957d8ab72dfc128c6950f0e9600c2c7b801ea774a612058dc4b5d68110"
+      },
+      {
+        "path": "assets/motion/m1c/dance-imports.json",
+        "bytes": 9195,
+        "sha256": "600f7ab75fce550f71d9be5f9240e83f6b58945d67804555feddfe1acf2d67da"
+      },
+      {
+        "path": "assets/motion/m1c/dance-source-reference.glb",
+        "bytes": 739436,
+        "sha256": "b864ec5f440929133787791884e645a0bc73c323d107c9a9ef9937b4f1ca9744"
+      },
+      {
+        "path": "assets/motion/m1c/dance-technical-v1.glb",
+        "bytes": 2984076,
+        "sha256": "2d785287de3c0187c76ed90ae6e0b76fed3008cb1a7a2ac75065720d3885304e"
+      },
+      {
+        "path": "assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+        "bytes": 1566668,
+        "sha256": "eec4ef8ab2fb073f7674cc6e839cbad7aea6931e4b19e8e70c0ee46c5fda2d06"
+      },
+      {
+        "path": "assets/motion/m1c/jog-ordinary-derived-v1.glb",
+        "bytes": 965540,
+        "sha256": "6ec251d7611f22c6bf918d3401fcf438a8f2bc7b72f2826047dea8beef15c9e5"
+      },
+      {
+        "path": "assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+        "bytes": 1503,
+        "sha256": "2df4d6b86227b6bce60a5ea7ba97a982d974448044a46b903e413bd243e75ec0"
+      },
+      {
+        "path": "assets/motion/UAL1_Standard.glb",
+        "bytes": 7618436,
+        "sha256": "69591853d817488edaa8fd9bf8fc1d821eaeaf789f8627b3cd23b41c4ed67997"
+      }
+    ],
+    "uniqueFiles": 21,
+    "encodedBytes": 27896903
+  },
+  "embeddedModelCandidates": [
+    {
+      "id": "body",
+      "path": "assets/female-uniform-texture-release-v1/body.vrm",
+      "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+      "textureObjectsPerActor": 24,
+      "oldFullMipBytesPerActor": 96469680,
+      "textures": [
+        {"index": 0, "imageIndex": 0, "imageSha256": "b0f3bc32747b81321a125178e8be620d7c6c09f0dddc85eccc5ea1d89a9d4789", "size": [1024, 1024], "encodedBytes": 547581, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 5592404, "sourceSlots": ["F00_001_01_Body_00_SKIN.baseColorTexture", "F00_001_01_Body_00_SKIN._MainTex", "F00_001_01_Body_00_SKIN._ShadeTexture"]},
+        {"index": 1, "imageIndex": 1, "imageSha256": "95f24251c4b569dca2960714b46fd14965bbffc6be17a9f861c0aa15d1c20f5c", "size": [2048, 2048], "encodedBytes": 2207106, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 22369620, "sourceSlots": ["F00_001_01_Body_00_SKIN.normalTexture", "F00_001_01_Body_00_SKIN._BumpMap"]},
+        {"index": 2, "imageIndex": 2, "imageSha256": "f3d3041bd0fd91f762bbae71c920be829305acaa8b2bef824f1ed65b757e0fc2", "size": [8, 8], "encodedBytes": 81, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 340, "sourceSlots": ["F00_001_01_Body_00_SKIN.emissiveTexture", "F00_001_01_Tops_01_CLOTH.emissiveTexture", "F00_001_01_Accessory_Tie_01_CLOTH.emissiveTexture", "F00_001_01_Bottoms_01_CLOTH.emissiveTexture", "F00_001_01_Shoes_01_CLOTH.emissiveTexture", "F00_000_HairBack_00_HAIR.emissiveTexture", "F00_000_00_FaceMouth_00_FACE.emissiveTexture", "F00_000_00_EyeWhite_00_EYE.emissiveTexture", "F00_000_00_FaceEyeline_00_FACE.emissiveTexture", "F00_000_00_FaceEyelash_00_FACE.emissiveTexture", "F00_000_00_FaceBrow_00_FACE.emissiveTexture", "F00_000_00_EyeIris_00_EYE.emissiveTexture", "F00_000_00_EyeHighlight_00_EYE.emissiveTexture", "F00_000_00_Face_00_SKIN.emissiveTexture", "F00_000_00_EyeExtra_01_EYE.emissiveTexture", "F00_001_01_Body_00_SKIN._EmissionMap", "F00_001_01_Tops_01_CLOTH._EmissionMap", "F00_001_01_Accessory_Tie_01_CLOTH._EmissionMap", "F00_001_01_Bottoms_01_CLOTH._EmissionMap", "F00_001_01_Shoes_01_CLOTH._EmissionMap", "F00_000_HairBack_00_HAIR._EmissionMap", "F00_000_00_FaceMouth_00_FACE._EmissionMap", "F00_000_00_FaceMouth_00_FACE._SphereAdd", "F00_000_00_EyeWhite_00_EYE._EmissionMap", "F00_000_00_EyeWhite_00_EYE._SphereAdd", "F00_000_00_FaceEyeline_00_FACE._EmissionMap", "F00_000_00_FaceEyelash_00_FACE._EmissionMap", "F00_000_00_FaceEyelash_00_FACE._SphereAdd", "F00_000_00_FaceBrow_00_FACE._EmissionMap", "F00_000_00_FaceBrow_00_FACE._SphereAdd", "F00_000_00_EyeIris_00_EYE._EmissionMap", "F00_000_00_EyeIris_00_EYE._SphereAdd", "F00_000_00_EyeHighlight_00_EYE._EmissionMap", "F00_000_00_EyeHighlight_00_EYE._SphereAdd", "F00_000_00_Face_00_SKIN._EmissionMap", "F00_000_00_EyeExtra_01_EYE._EmissionMap"]},
+        {"index": 3, "imageIndex": 3, "imageSha256": "1fc60a3be64802e209bbff9030c932b7aba398ebc2a2f6d6fc19d74939ccba90", "size": [512, 512], "encodedBytes": 62558, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 1398100, "sourceSlots": ["F00_001_01_Body_00_SKIN._SphereAdd", "F00_001_01_Tops_01_CLOTH._SphereAdd", "F00_001_01_Accessory_Tie_01_CLOTH._SphereAdd", "F00_001_01_Bottoms_01_CLOTH._SphereAdd", "F00_001_01_Shoes_01_CLOTH._SphereAdd", "F00_000_00_FaceEyeline_00_FACE._SphereAdd", "F00_000_00_Face_00_SKIN._SphereAdd", "F00_000_00_EyeExtra_01_EYE._SphereAdd"]},
+        {"index": 4, "imageIndex": 4, "imageSha256": "92775860399c818f1c047fcab3796841fc586f49203fa380565a4f97de926347", "size": [2048, 2048], "encodedBytes": 2503466, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 22369620, "sourceSlots": ["F00_001_01_Tops_01_CLOTH.baseColorTexture", "F00_001_01_Tops_01_CLOTH._MainTex", "F00_001_01_Tops_01_CLOTH._ShadeTexture"]},
+        {"index": 5, "imageIndex": 5, "imageSha256": "bdb4dd51887eedb9525089cd17d3ae3b0c42823844430f889daafaf9872ddf1c", "size": [8, 8], "encodedBytes": 80, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 340, "sourceSlots": ["F00_001_01_Tops_01_CLOTH.normalTexture", "F00_001_01_Accessory_Tie_01_CLOTH.normalTexture", "F00_001_01_Bottoms_01_CLOTH.normalTexture", "F00_001_01_Shoes_01_CLOTH.normalTexture", "F00_000_00_FaceMouth_00_FACE.normalTexture", "F00_000_00_EyeWhite_00_EYE.normalTexture", "F00_000_00_FaceEyeline_00_FACE.normalTexture", "F00_000_00_FaceEyelash_00_FACE.normalTexture", "F00_000_00_FaceBrow_00_FACE.normalTexture", "F00_000_00_EyeIris_00_EYE.normalTexture", "F00_000_00_EyeHighlight_00_EYE.normalTexture", "F00_000_00_EyeExtra_01_EYE.normalTexture", "F00_001_01_Tops_01_CLOTH._BumpMap", "F00_001_01_Accessory_Tie_01_CLOTH._BumpMap", "F00_001_01_Bottoms_01_CLOTH._BumpMap", "F00_001_01_Shoes_01_CLOTH._BumpMap", "F00_000_00_FaceMouth_00_FACE._BumpMap", "F00_000_00_EyeWhite_00_EYE._BumpMap", "F00_000_00_FaceEyeline_00_FACE._BumpMap", "F00_000_00_FaceEyelash_00_FACE._BumpMap", "F00_000_00_FaceBrow_00_FACE._BumpMap", "F00_000_00_EyeIris_00_EYE._BumpMap", "F00_000_00_EyeHighlight_00_EYE._BumpMap", "F00_000_00_EyeExtra_01_EYE._BumpMap"]},
+        {"index": 6, "imageIndex": 6, "imageSha256": "f76d259a37e57d631a80cdc3ee7148207cd06b3edcb81550e43fd41e70fde459", "size": [256, 256], "encodedBytes": 65421, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 349524, "sourceSlots": ["F00_001_01_Accessory_Tie_01_CLOTH.baseColorTexture", "F00_001_01_Accessory_Tie_01_CLOTH._MainTex", "F00_001_01_Accessory_Tie_01_CLOTH._ShadeTexture"]},
+        {"index": 7, "imageIndex": 7, "imageSha256": "aab5f12a4bfa423f3e6672ec5ba9f541bb4ec714c897fe145518679c6dd28d63", "size": [1024, 512], "encodedBytes": 308782, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 2796204, "sourceSlots": ["F00_001_01_Bottoms_01_CLOTH.baseColorTexture", "F00_001_01_Bottoms_01_CLOTH._MainTex", "F00_001_01_Bottoms_01_CLOTH._ShadeTexture"]},
+        {"index": 8, "imageIndex": 8, "imageSha256": "f09db6e3527e3c2fe383ba0426d672efe0925c3efcfb7bb5204103ed6ab2e008", "size": [512, 512], "encodedBytes": 147087, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 1398100, "sourceSlots": ["F00_001_01_Shoes_01_CLOTH.baseColorTexture", "F00_001_01_Shoes_01_CLOTH._MainTex", "F00_001_01_Shoes_01_CLOTH._ShadeTexture"]},
+        {"index": 9, "imageIndex": 9, "imageSha256": "1be9a663f784c4db3c89f8b07319d4b8311f61a9bfd3100f8954e5f539a11c47", "size": [1024, 1024], "encodedBytes": 287349, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 5592404, "sourceSlots": ["F00_000_HairBack_00_HAIR.baseColorTexture", "F00_000_HairBack_00_HAIR._MainTex", "F00_000_HairBack_00_HAIR._ShadeTexture"]},
+        {"index": 10, "imageIndex": 10, "imageSha256": "fe1c3b32b7259d1c6959b532d1aa4662aa4f43dbb0b1a2d2270cd6cb330e5858", "size": [1024, 1024], "encodedBytes": 349865, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 5592404, "sourceSlots": ["F00_000_HairBack_00_HAIR.normalTexture", "F00_000_HairBack_00_HAIR._BumpMap"]},
+        {"index": 11, "imageIndex": 11, "imageSha256": "0386eaa21e620630e9900d51d04c7376516669d40c7ce552568caa4d3ed3c5ba", "size": [512, 512], "encodedBytes": 39462, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 1398100, "sourceSlots": ["F00_000_HairBack_00_HAIR._SphereAdd"]},
+        {"index": 12, "imageIndex": 12, "imageSha256": "544f195c22c6325508cd3dd10f24539e3cfba37cb98ac1f6353e120eadf9d7a9", "size": [512, 512], "encodedBytes": 120973, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 1398100, "sourceSlots": ["F00_000_00_FaceMouth_00_FACE.baseColorTexture", "F00_000_00_FaceMouth_00_FACE._MainTex", "F00_000_00_FaceMouth_00_FACE._ShadeTexture"]},
+        {"index": 13, "imageIndex": 13, "imageSha256": "9f9d5e3975806e51ced403da85191dacb94c778a263cbd0b7cf3ccfc8f754d04", "size": [1024, 512], "encodedBytes": 237570, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 2796204, "sourceSlots": ["F00_000_00_EyeWhite_00_EYE.baseColorTexture", "F00_000_00_EyeWhite_00_EYE._MainTex", "F00_000_00_EyeWhite_00_EYE._ShadeTexture"]},
+        {"index": 14, "imageIndex": 14, "imageSha256": "279521cac42d1101e4cabeadf855a4522b4b6e905e54a2229c14864d05ef26b7", "size": [1024, 256], "encodedBytes": 52548, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 1398108, "sourceSlots": ["F00_000_00_FaceEyeline_00_FACE.baseColorTexture", "F00_000_00_FaceEyeline_00_FACE._MainTex", "F00_000_00_FaceEyeline_00_FACE._ShadeTexture"]},
+        {"index": 15, "imageIndex": 15, "imageSha256": "e1a93030cfb7f003449f3f804ba0020eddb570ae66409b72f2befdef4e084a09", "size": [1024, 256], "encodedBytes": 71650, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 1398108, "sourceSlots": ["F00_000_00_FaceEyelash_00_FACE.baseColorTexture", "F00_000_00_FaceEyelash_00_FACE._MainTex", "F00_000_00_FaceEyelash_00_FACE._ShadeTexture"]},
+        {"index": 16, "imageIndex": 16, "imageSha256": "d43b5654776cf2eb8e9a9e9e2b4818effc02bb1db8ac760e3a208e64f641654f", "size": [1024, 256], "encodedBytes": 26687, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 1398108, "sourceSlots": ["F00_000_00_FaceBrow_00_FACE.baseColorTexture", "F00_000_00_FaceBrow_00_FACE._MainTex", "F00_000_00_FaceBrow_00_FACE._ShadeTexture"]},
+        {"index": 17, "imageIndex": 17, "imageSha256": "7fd6bbe509f0535f895e28981767587c036dd3492c8af45c3ddddba753ad2e79", "size": [1024, 512], "encodedBytes": 178040, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 2796204, "sourceSlots": ["F00_000_00_EyeIris_00_EYE.baseColorTexture", "F00_000_00_EyeIris_00_EYE._MainTex", "F00_000_00_EyeIris_00_EYE._ShadeTexture"]},
+        {"index": 18, "imageIndex": 18, "imageSha256": "7643f0c7750065aa3d8b46594a13dc48e7f0f845590183e83d783cb8712e9184", "size": [1024, 512], "encodedBytes": 18574, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 2796204, "sourceSlots": ["F00_000_00_EyeHighlight_00_EYE.baseColorTexture", "F00_000_00_EyeHighlight_00_EYE._MainTex", "F00_000_00_EyeHighlight_00_EYE._ShadeTexture"]},
+        {"index": 19, "imageIndex": 19, "imageSha256": "e7ee87522375c3034196d7bb7ea22bff33247e45ce91f378b53c903a03db9554", "size": [1024, 1024], "encodedBytes": 683020, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 5592404, "sourceSlots": ["F00_000_00_Face_00_SKIN.baseColorTexture", "F00_000_00_Face_00_SKIN._MainTex", "F00_000_00_Face_00_SKIN._ShadeTexture"]},
+        {"index": 20, "imageIndex": 20, "imageSha256": "db32c3ce582372890035ac44a0955b1f5f939ef454747ea0a97705771d23c7b5", "size": [1024, 1024], "encodedBytes": 397432, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 5592404, "sourceSlots": ["F00_000_00_Face_00_SKIN.normalTexture", "F00_000_00_Face_00_SKIN._BumpMap"]},
+        {"index": 21, "imageIndex": 21, "imageSha256": "1e2416d720645c9a71e4c8d15087b4018ea4de13c118eb08d13e1c0508f30614", "size": [256, 256], "encodedBytes": 9851, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 349524, "sourceSlots": ["F00_000_00_Face_00_SKIN._OutlineWidthTexture"]},
+        {"index": 22, "imageIndex": 22, "imageSha256": "e2b10828b60d28d4dec20215412cd1c76d9c7e8a3288f5d77da23f249632dd50", "size": [512, 256], "encodedBytes": 31878, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 699052, "sourceSlots": ["F00_000_00_EyeExtra_01_EYE.baseColorTexture", "F00_000_00_EyeExtra_01_EYE._MainTex", "F00_000_00_EyeExtra_01_EYE._ShadeTexture"]},
+        {"index": 23, "imageIndex": 23, "imageSha256": "ecb17ac5a81851cd61427afbae7ba1e0974e7294aa927df0946c9aadb0266f8d", "size": [512, 512], "encodedBytes": 185619, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 1398100, "sourceSlots": ["VRM.meta.texture (preview)"]}
+      ]
+    },
+    {
+      "id": "source-female-uniform-texture-v1-top-1k",
+      "path": "assets/garment-basecolor-release-v1/female/m1-female-uniform-top-1k-v1.glb",
+      "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8",
+      "textureObjectsPerActor": 2,
+      "oldFullMipBytesPerActor": 5941928,
+      "textures": [
+        {"index": 0, "imageIndex": 0, "imageSha256": "a9ef7bf123a8c6f3da949114cf79efb3e5bbf1461f631fb1317c46324a971b0e", "size": [1024, 1024], "encodedBytes": 571539, "sourceSampler": "glTF defaults", "oldFullMipBytes": 5592404, "sourceSlots": ["F00_001_01_Tops_01_CLOTH.baseColorTexture"]},
+        {"index": 1, "imageIndex": 1, "imageSha256": "f76d259a37e57d631a80cdc3ee7148207cd06b3edcb81550e43fd41e70fde459", "size": [256, 256], "encodedBytes": 65421, "sourceSampler": "glTF defaults", "oldFullMipBytes": 349524, "sourceSlots": ["F00_001_01_Accessory_Tie_01_CLOTH.baseColorTexture"]}
+      ]
+    },
+    {
+      "id": "source-female-uniform-texture-v1-pants",
+      "path": "assets/m1/m1-training-pants.glb",
+      "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92",
+      "textureObjectsPerActor": 0,
+      "oldFullMipBytesPerActor": 0,
+      "textures": []
+    },
+    {
+      "id": "source-female-uniform-texture-v1-shoes",
+      "path": "assets/m1/m1-uniform-shoes.glb",
+      "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf",
+      "textureObjectsPerActor": 1,
+      "oldFullMipBytesPerActor": 1398100,
+      "textures": [
+        {"index": 0, "imageIndex": 0, "imageSha256": "f09db6e3527e3c2fe383ba0426d672efe0925c3efcfb7bb5204103ed6ab2e008", "size": [512, 512], "encodedBytes": 147087, "sourceSampler": "glTF defaults", "oldFullMipBytes": 1398100, "sourceSlots": ["F00_001_01_Shoes_01_CLOTH.baseColorTexture"]}
+      ]
+    },
+    {
+      "id": "hair",
+      "path": "assets/m2-hairstyle-v1/female-bob.glb",
+      "sha256": "3dcf01957d8ab72dfc128c6950f0e9600c2c7b801ea774a612058dc4b5d68110",
+      "textureObjectsPerActor": 3,
+      "oldFullMipBytesPerActor": 11185148,
+      "textures": [
+        {"index": 0, "imageIndex": 0, "imageSha256": "1be9a663f784c4db3c89f8b07319d4b8311f61a9bfd3100f8954e5f539a11c47", "size": [1024, 1024], "encodedBytes": 287349, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 5592404, "sourceSlots": ["F00_000_HairBack_00_HAIR.baseColorTexture"]},
+        {"index": 1, "imageIndex": 1, "imageSha256": "fe1c3b32b7259d1c6959b532d1aa4662aa4f43dbb0b1a2d2270cd6cb330e5858", "size": [1024, 1024], "encodedBytes": 349865, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 5592404, "sourceSlots": ["F00_000_HairBack_00_HAIR.normalTexture"]},
+        {"index": 2, "imageIndex": 2, "imageSha256": "f3d3041bd0fd91f762bbae71c920be829305acaa8b2bef824f1ed65b757e0fc2", "size": [8, 8], "encodedBytes": 81, "sourceSampler": {"magFilter": 9729, "minFilter": 9729, "wrapS": 10497, "wrapT": 10497}, "oldFullMipBytes": 340, "sourceSlots": ["F00_000_HairBack_00_HAIR.emissiveTexture"]}
+      ]
+    }
+  ],
+  "matchingEncodedImagesBetweenModels": [
+    {
+      "model": "source-female-uniform-texture-v1-top-1k",
+      "texture": 1,
+      "bodyTexture": 6,
+      "sameEncodedPngSha256": "f76d259a37e57d631a80cdc3ee7148207cd06b3edcb81550e43fd41e70fde459"
+    },
+    {
+      "model": "source-female-uniform-texture-v1-shoes",
+      "texture": 0,
+      "bodyTexture": 8,
+      "sameEncodedPngSha256": "f09db6e3527e3c2fe383ba0426d672efe0925c3efcfb7bb5204103ed6ab2e008"
+    },
+    {
+      "model": "hair",
+      "texture": 0,
+      "bodyTexture": 9,
+      "sameEncodedPngSha256": "1be9a663f784c4db3c89f8b07319d4b8311f61a9bfd3100f8954e5f539a11c47"
+    },
+    {
+      "model": "hair",
+      "texture": 1,
+      "bodyTexture": 10,
+      "sameEncodedPngSha256": "fe1c3b32b7259d1c6959b532d1aa4662aa4f43dbb0b1a2d2270cd6cb330e5858"
+    },
+    {
+      "model": "hair",
+      "texture": 2,
+      "bodyTexture": 2,
+      "sameEncodedPngSha256": "f3d3041bd0fd91f762bbae71c920be829305acaa8b2bef824f1ed65b757e0fc2"
+    }
+  ],
+  "derivedCanvasCandidates": {
+    "brow": {
+      "derivedCanvasRgba8Bytes": 2097152,
+      "distinctDerivedTextures": 2,
+      "field": "hairColor",
+      "format": "RGBA8-equivalent",
+      "generateMipmaps": false,
+      "height": 256,
+      "logicalTextureRgba8Bytes": 2097152,
+      "materialName": "F00_000_00_FaceBrow_00_FACE",
+      "minFilter": "linear",
+      "retainedImageDataBytes": 0,
+      "retainedOriginalPixelArrayBytes": 0,
+      "selection": "blonde",
+      "sourceImageSha256": "d43b5654776cf2eb8e9a9e9e2b4818effc02bb1db8ac760e3a208e64f641654f",
+      "sourceTextureIndex": 16,
+      "transientImageDataAllocationBytes": 2097152,
+      "width": 1024,
+      "roles": [
+        "map",
+        "shadeMultiplyTexture"
+      ],
+      "rgba8BytesPerRole": 1048576,
+      "twoActorOldEstimateBytes": 4194304,
+      "pixelOperation": "Same grayscale operator as hair, with its own source image and smaller canvas. Blonde is a material factor."
+    },
+    "hair": {
+      "derivedCanvasRgba8Bytes": 8388608,
+      "distinctDerivedTextures": 2,
+      "field": "hairColor",
+      "format": "RGBA8-equivalent",
+      "generateMipmaps": false,
+      "height": 1024,
+      "logicalTextureRgba8Bytes": 8388608,
+      "materialName": "F00_000_HairBack_00_HAIR",
+      "minFilter": "linear",
+      "retainedImageDataBytes": 0,
+      "retainedOriginalPixelArrayBytes": 0,
+      "selection": "blonde",
+      "sourceImageSha256": "1be9a663f784c4db3c89f8b07319d4b8311f61a9bfd3100f8954e5f539a11c47",
+      "sourceTextureIndex": 9,
+      "transientImageDataAllocationBytes": 8388608,
+      "width": 1024,
+      "roles": [
+        "map",
+        "shadeMultiplyTexture"
+      ],
+      "rgba8BytesPerRole": 4194304,
+      "twoActorOldEstimateBytes": 16777216,
+      "pixelOperation": "Grayscale canvas retains alpha and uses max(R,G,B). Blonde tint is a per-material RGB/shade factor."
+    },
+    "iris": {
+      "derivedCanvasRgba8Bytes": 4194304,
+      "distinctDerivedTextures": 2,
+      "field": "eyeColor",
+      "format": "RGBA8-equivalent",
+      "generateMipmaps": false,
+      "height": 512,
+      "logicalTextureRgba8Bytes": 4194304,
+      "materialName": "F00_000_00_EyeIris_00_EYE",
+      "minFilter": "linear",
+      "retainedImageDataBytes": 4194304,
+      "retainedOriginalPixelArrayBytes": 4194304,
+      "selection": "brown",
+      "sourceImageSha256": "7fd6bbe509f0535f895e28981767587c036dd3492c8af45c3ddddba753ad2e79",
+      "sourceTextureIndex": 17,
+      "transientImageDataAllocationBytes": 0,
+      "width": 1024,
+      "roles": [
+        "map",
+        "shadeMultiplyTexture"
+      ],
+      "rgba8BytesPerRole": 2097152,
+      "twoActorOldEstimateBytes": 8388608,
+      "pixelOperation": "Brown is baked into each canvas via the pinned iris mask and neutral map, with source alpha preserved."
+    },
+    "lips": {
+      "derivedCanvasRgba8Bytes": 8388608,
+      "distinctDerivedTextures": 2,
+      "field": "lipColor",
+      "format": "RGBA8-equivalent",
+      "generateMipmaps": false,
+      "height": 1024,
+      "logicalTextureRgba8Bytes": 8388608,
+      "materialName": "F00_000_00_Face_00_SKIN",
+      "minFilter": "linear",
+      "retainedImageDataBytes": 8388608,
+      "retainedOriginalPixelArrayBytes": 8388608,
+      "selection": "coral",
+      "sourceImageSha256": "e7ee87522375c3034196d7bb7ea22bff33247e45ce91f378b53c903a03db9554",
+      "sourceTextureIndex": 19,
+      "transientImageDataAllocationBytes": 0,
+      "width": 1024,
+      "roles": [
+        "map",
+        "shadeMultiplyTexture"
+      ],
+      "rgba8BytesPerRole": 4194304,
+      "twoActorOldEstimateBytes": 16777216,
+      "pixelOperation": "Coral is baked into each canvas via the pinned outer-lip mask and source RGB, with alpha preserved."
+    }
+  },
+  "standalonePaletteReferences": [
+    {
+      "addedRgba8EstimateBytes": 0,
+      "addedTextureObjectUpperBound": 0,
+      "decodedRgba8Bytes": 2097152,
+      "encodedBytes": 4051,
+      "height": 512,
+      "path": "assets/appearance-color-v3/female-iris-mask.png",
+      "sha256": "d6178bb05f53d5dde9186614c2f4019a535cfb15ceec40a1e8ad46343e2eebfe",
+      "usage": "legacy-facial-palette-reference",
+      "width": 1024
+    },
+    {
+      "addedRgba8EstimateBytes": 0,
+      "addedTextureObjectUpperBound": 0,
+      "decodedRgba8Bytes": 2097152,
+      "encodedBytes": 69621,
+      "height": 512,
+      "path": "assets/appearance-color-v3/female-iris-neutral.png",
+      "sha256": "3cbc5234aee21d3d5b6fb74103fd27901d1f189508a16ed493fa0999a422ac33",
+      "usage": "legacy-facial-palette-reference",
+      "width": 1024
+    },
+    {
+      "addedRgba8EstimateBytes": 0,
+      "addedTextureObjectUpperBound": 0,
+      "decodedRgba8Bytes": 4194304,
+      "encodedBytes": 1282,
+      "height": 1024,
+      "path": "assets/appearance-color-v3/female-outer-lip-mask.png",
+      "sha256": "b7f1de3847c7bd89b8c50c14f192c77236fd91031b76783583a51a73a91492ed",
+      "usage": "legacy-facial-palette-reference",
+      "width": 1024
+    }
+  ],
+  "skinTreatment": [
+    {
+      "additionalTextureObjects": 0,
+      "additionalTextureRgba8Bytes": 0,
+      "coverage": [
+        {"path": "assets/female-uniform-texture-release-v1/coverage-top-1k.json", "reason": "Startup body coverage for topFar", "sha256": "dde4d2f89c988bb57140db140fcc7f62e9a391b5311d16233586ddc280c394b2"},
+        {"path": "assets/female-uniform-texture-release-v1/coverage-top.json", "reason": "Startup body coverage for top", "sha256": "f0e3b845fae36754ed60f0488efd08c4eeb98c0f3901e11447602b453fa7a529"}
+      ],
+      "materialFactorsOnly": true,
+      "multiplierSrgb": "#ddc5b4",
+      "recipeSha256": "e05cca1a7db4097076ac74969b1cc4e62eb968119e258e18a2c2582a8c73e3c2",
+      "selection": "warm"
+    },
+    {
+      "additionalTextureObjects": 0,
+      "materialFactorsOnly": true,
+      "selection": "original"
+    }
+  ],
+  "interpretation": [
+    "Embedded entries count every declared texture, including the VRM thumbnail and source clothing with equipment selected. The full mip convention is used even for the linear body and Bob declarations.",
+    "The fixed legacy Bob path replaces imported materials with clones of the body hair material and immediately disposes imported materials and textures. The three Bob GLB image declarations (11,185,148 old full-mip bytes) establish source and transfer cost only for this assessment. Visible Bob uses the body-derived maps and unchanged body hair auxiliary maps.",
+    "Body, top and shoes are duplicate package inputs across actors. Equal encoded images across containers alone do not establish runtime sharing or savings. The exact body has no pin in the existing body-normal Source pool.",
+    "The current body color and shade factors are per material. The warm recipe adds no textures, and its version suffix carries skin identity rather than an input to the hair grayscale operator.",
+    "Mask and neutral PNGs support CPU composition. The old texture estimate includes the generated maps once each and separately reports decoded references, canvas payload, retained ImageData/original arrays and transient scratch. These are different accounting quantities."
+  ],
+  "minimumTarget": {
+    "scope": "Exact admitted uniform body and female-bob-v1 pair. Reuse one immutable neutral hair Source per role across the two actors on the same renderer. Keep actor-local Texture wrappers and tint factors.",
+    "sourceTextureIndex": 9,
+    "sourceImageSha256": "1be9a663f784c4db3c89f8b07319d4b8311f61a9bfd3100f8954e5f539a11c47",
+    "roles": [
+      "map",
+      "shadeMultiplyTexture"
+    ],
+    "bytesPerRole": 4194304,
+    "oneRoleProjectionBytes": 271932752,
+    "projectedDuplicateBytesAvoided": 8388608,
+    "projectedTwoActorTextureEquivalentCount": 74,
+    "projectedTwoActorBytes": 267738448,
+    "projectedHeadroomBytes": 697008,
+    "requiredMatch": "Pinned body/embedded PNG, exact grayscale operator, effective source decode and per-role Three.js upload/cache settings. Keep separate base/shade roles and retain reference ownership until the last user releases.",
+    "budgetChange": "Counterfactual RGBA8-equivalent and texture count projection. Actor-local wrapper count and the archived calculator remain 76 across the pair; no shared-source deduction has been applied to a measured budget."
+  },
+  "priorDevelopmentCounts": [
+    {
+      "ids": [
+        "uniform-warm-bob-v1"
+      ],
+      "loadedTextures": 41,
+      "releasedTextures": 1
+    },
+    {
+      "ids": [
+        "uniform-original-bob-v1"
+      ],
+      "loadedTextures": 41,
+      "releasedTextures": 1
+    },
+    {
+      "ids": [
+        "uniform-warm-bob-v1",
+        "uniform-original-bob-v1"
+      ],
+      "loadedTextures": 81,
+      "releasedTextures": 1
+    }
+  ],
+  "measurementScope": "Fixed-file and source analysis. Shared-source lifetime, WebGL uploads, physical VRAM, target-device performance and visual parity require runtime evidence."
+}

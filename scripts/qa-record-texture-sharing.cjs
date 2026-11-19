@@ -83,14 +83,23 @@ function installProbe() {
     return {stats:stats(),actors:appearances,materials:[...rows.values()],liveHandles:[...handles].filter(([h])=>gl.isTexture(h)).map(([,number])=>number)};
   }
   function release(id){const actor=d.actors.get(id);if(!actor)throw Error('Missing actor '+id);actor.dispose();d.actors.delete(id);}
-  const originalOffsets=new Map();
+  const originalOffsets=new Map(),updatedMaterials=new Set();
   function changeUV(id,restore) {
-    if(restore){for(const [texture,offset] of originalOffsets){texture.offset.copy(offset);texture.updateMatrix();}originalOffsets.clear();return;}
+    if(restore){
+      for(const [texture,offset] of originalOffsets){texture.offset.copy(offset);texture.updateMatrix();}
+      for(const material of updatedMaterials)material.update(0);
+      originalOffsets.clear();updatedMaterials.clear();return;
+    }
     d.actors.get(id).avatar.root.traverseVisible(mesh=>{
       if(!mesh.isMesh)return;
       for(const m of [].concat(mesh.material)){
-        if(!['hair','eyebrow'].includes(part(m,mesh)) || !m.map || originalOffsets.has(m.map))continue;
-        originalOffsets.set(m.map,m.map.offset.clone());m.map.offset.x+=.125;m.map.updateMatrix();
+        if(!['hair','eyebrow'].includes(part(m,mesh)) || !m.map)continue;
+        if(!originalOffsets.has(m.map)){
+          originalOffsets.set(m.map,m.map.offset.clone());m.map.offset.x+=.125;m.map.updateMatrix();
+        }
+        // MToon copies texture transforms into material uniforms in update().
+        // The replacement hairstyle's material is outside the base VRM list.
+        m.update(0);updatedMaterials.add(m);
       }
     });
   }
