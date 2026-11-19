@@ -1,0 +1,1743 @@
+{
+  "status": "passed",
+  "variants": [
+    {
+      "resource": {
+        "id": "garment-rack-portal",
+        "version": 1,
+        "displayName": "开放衣架 · 门式钢框",
+        "category": "decor",
+        "mountRole": "garment-rack-wardrobe",
+        "productionBranch": "garment-rack-wardrobe",
+        "mount": "floor-surface",
+        "parent": "room.floor",
+        "mounting": {
+          "origin": "bottom",
+          "width": 1,
+          "height": 1.8,
+          "depth": 0.5
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.5,
+            0.25
+          ],
+          "blocking": true
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "clearance": {
+          "schema": "garment-rack-front-v1",
+          "front": {
+            "min": [
+              -0.44,
+              0.25
+            ],
+            "max": [
+              0.44,
+              0.85
+            ]
+          }
+        },
+        "garmentRail": {
+          "radius": 0.015,
+          "centerY": 1.5,
+          "slots": [
+            {
+              "id": "left",
+              "position": [
+                -0.24,
+                1.515,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "position": [
+                0.24,
+                1.515,
+                0
+              ]
+            }
+          ]
+        },
+        "usePoints": [],
+        "stateDefaults": {},
+        "materialSlots": {
+          "feet": [
+            "rack-foot-pads"
+          ],
+          "frame": [
+            "rack-frame"
+          ],
+          "fittings": [
+            "rack-rail-bosses"
+          ],
+          "rail": [
+            "garment-rail"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/garment-rack-v1/garment-rack-portal/v1/model.glb",
+          "bytes": 226708,
+          "sha256": "0569b7f817d3d02d042e8cfd0cec9ac2ef4624be3162272877d2b9c4f9787578"
+        },
+        "provenance": {
+          "license": "Project-authored frame or garment geometry.",
+          "sourceDesign": "portal",
+          "sourceParameters": "assets-source/company-garment-rack-v1/parameters.json",
+          "sourceParametersSha256": "ea544db31c2011cf11a57ac542b0d8be3d4d2f4dcae2e179461e4657391c4d75",
+          "generator": "scripts/company-platform/build-garment-rack.mjs",
+          "generatorSha256": "129070ebbfb01392d6d85783404c406fa5ee7cb1888d797977b1534cb96bd407",
+          "functionalContractSource": "assets-source/company-garment-rack-v1/contracts.json",
+          "functionalContractSourceSha256": "e5c7b479428804d6d23265eaef1ccb5db0912dc3dacf528d9f8d8a197e025cca",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "garment-rack-wardrobe",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-garment-rack-assets.mjs",
+              "sha256": "048385607ac2d50375f84f1bea5d8f1c9e9fc5f6ee83d41fbe2d63441e82e0b4"
+            },
+            "editableSourceValidator": {
+              "path": "scripts/company-platform/plant-editable-source.mjs",
+              "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback"
+          ]
+        }
+      },
+      "geometry": {
+        "triangles": 2484,
+        "meshes": 4,
+        "materials": 4,
+        "geometrySha256": "ab8108df40894d6002c1127e9406390cde2579d9cc7e54bd0aede44c20f692dc",
+        "envelope": {
+          "min": [
+            -0.47350001,
+            0,
+            -0.221
+          ],
+          "max": [
+            0.47350001,
+            1.704,
+            0.221
+          ],
+          "dimensions": [
+            0.94700003,
+            1.704,
+            0.442
+          ]
+        },
+        "underside": [
+          {
+            "point": [
+              -0.41483334,
+              0,
+              -0.07166667
+            ],
+            "contactSquareMetres": 0.03397,
+            "node": "rack-foot-pads"
+          },
+          {
+            "point": [
+              0.44116667,
+              0,
+              -0.07166667
+            ],
+            "contactSquareMetres": 0.03397,
+            "node": "rack-foot-pads"
+          }
+        ],
+        "rail": {
+          "radius": 0.015,
+          "centerY": 1.5,
+          "slots": [
+            {
+              "id": "left",
+              "point": [
+                -0.24,
+                1.51499999,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "point": [
+                0.24,
+                1.51499999,
+                0
+              ]
+            }
+          ],
+          "length": 0.88999999
+        }
+      }
+    },
+    {
+      "resource": {
+        "id": "garment-rack-a-frame",
+        "version": 1,
+        "displayName": "开放衣架 · 三角斜架",
+        "category": "decor",
+        "mountRole": "garment-rack-wardrobe",
+        "productionBranch": "garment-rack-wardrobe",
+        "mount": "floor-surface",
+        "parent": "room.floor",
+        "mounting": {
+          "origin": "bottom",
+          "width": 1,
+          "height": 1.8,
+          "depth": 0.5
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.5,
+            0.25
+          ],
+          "blocking": true
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "clearance": {
+          "schema": "garment-rack-front-v1",
+          "front": {
+            "min": [
+              -0.44,
+              0.25
+            ],
+            "max": [
+              0.44,
+              0.85
+            ]
+          }
+        },
+        "garmentRail": {
+          "radius": 0.015,
+          "centerY": 1.5,
+          "slots": [
+            {
+              "id": "left",
+              "position": [
+                -0.24,
+                1.515,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "position": [
+                0.24,
+                1.515,
+                0
+              ]
+            }
+          ]
+        },
+        "usePoints": [],
+        "stateDefaults": {},
+        "materialSlots": {
+          "feet": [
+            "rack-foot-pads"
+          ],
+          "frame": [
+            "rack-frame"
+          ],
+          "fittings": [
+            "rack-rail-bosses"
+          ],
+          "rail": [
+            "garment-rail"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/garment-rack-v1/garment-rack-a-frame/v1/model.glb",
+          "bytes": 225552,
+          "sha256": "381d997bf74f6ec52c3429217aa84483c783f99444f5d97f92af7c93469ac3dd"
+        },
+        "provenance": {
+          "license": "Project-authored frame or garment geometry.",
+          "sourceDesign": "a-frame",
+          "sourceParameters": "assets-source/company-garment-rack-v1/parameters.json",
+          "sourceParametersSha256": "ea544db31c2011cf11a57ac542b0d8be3d4d2f4dcae2e179461e4657391c4d75",
+          "generator": "scripts/company-platform/build-garment-rack.mjs",
+          "generatorSha256": "129070ebbfb01392d6d85783404c406fa5ee7cb1888d797977b1534cb96bd407",
+          "functionalContractSource": "assets-source/company-garment-rack-v1/contracts.json",
+          "functionalContractSourceSha256": "e5c7b479428804d6d23265eaef1ccb5db0912dc3dacf528d9f8d8a197e025cca",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "garment-rack-wardrobe",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-garment-rack-assets.mjs",
+              "sha256": "048385607ac2d50375f84f1bea5d8f1c9e9fc5f6ee83d41fbe2d63441e82e0b4"
+            },
+            "editableSourceValidator": {
+              "path": "scripts/company-platform/plant-editable-source.mjs",
+              "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback"
+          ]
+        }
+      },
+      "geometry": {
+        "triangles": 2472,
+        "meshes": 4,
+        "materials": 4,
+        "geometrySha256": "f6d9359bad82d43414e0d8540edb3f052764f4b604682ebc6975698a7ad78ea3",
+        "envelope": {
+          "min": [
+            -0.4585,
+            0,
+            -0.235
+          ],
+          "max": [
+            0.4585,
+            1.62458086,
+            0.235
+          ],
+          "dimensions": [
+            0.917,
+            1.62458086,
+            0.47
+          ]
+        },
+        "underside": [
+          {
+            "point": [
+              -0.41316666,
+              0,
+              0.18633333
+            ],
+            "contactSquareMetres": 0.007552,
+            "node": "rack-foot-pads"
+          },
+          {
+            "point": [
+              0.43283332,
+              0,
+              0.18633333
+            ],
+            "contactSquareMetres": 0.007552,
+            "node": "rack-foot-pads"
+          }
+        ],
+        "rail": {
+          "radius": 0.015,
+          "centerY": 1.5,
+          "slots": [
+            {
+              "id": "left",
+              "point": [
+                -0.24,
+                1.51499999,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "point": [
+                0.24,
+                1.51499999,
+                0
+              ]
+            }
+          ],
+          "length": 0.88999999
+        }
+      }
+    },
+    {
+      "resource": {
+        "id": "garment-rack-cantilever",
+        "version": 1,
+        "displayName": "开放衣架 · 单臂悬挑",
+        "category": "decor",
+        "mountRole": "garment-rack-wardrobe",
+        "productionBranch": "garment-rack-wardrobe",
+        "mount": "floor-surface",
+        "parent": "room.floor",
+        "mounting": {
+          "origin": "bottom",
+          "width": 1,
+          "height": 1.8,
+          "depth": 0.5
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.5,
+            0.25
+          ],
+          "blocking": true
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "clearance": {
+          "schema": "garment-rack-front-v1",
+          "front": {
+            "min": [
+              -0.44,
+              0.25
+            ],
+            "max": [
+              0.44,
+              0.85
+            ]
+          }
+        },
+        "garmentRail": {
+          "radius": 0.015,
+          "centerY": 1.5,
+          "slots": [
+            {
+              "id": "left",
+              "position": [
+                -0.24,
+                1.515,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "position": [
+                0.24,
+                1.515,
+                0
+              ]
+            }
+          ]
+        },
+        "usePoints": [],
+        "stateDefaults": {},
+        "materialSlots": {
+          "feet": [
+            "rack-foot-pads"
+          ],
+          "frame": [
+            "rack-frame"
+          ],
+          "fittings": [
+            "rack-rail-bosses"
+          ],
+          "rail": [
+            "garment-rail"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/garment-rack-v1/garment-rack-cantilever/v1/model.glb",
+          "bytes": 231320,
+          "sha256": "3348c1c1c6e59eca8b088cc015c91abda3701c7eed760b6b81304f90ac0e08cb"
+        },
+        "provenance": {
+          "license": "Project-authored frame or garment geometry.",
+          "sourceDesign": "cantilever",
+          "sourceParameters": "assets-source/company-garment-rack-v1/parameters.json",
+          "sourceParametersSha256": "ea544db31c2011cf11a57ac542b0d8be3d4d2f4dcae2e179461e4657391c4d75",
+          "generator": "scripts/company-platform/build-garment-rack.mjs",
+          "generatorSha256": "129070ebbfb01392d6d85783404c406fa5ee7cb1888d797977b1534cb96bd407",
+          "functionalContractSource": "assets-source/company-garment-rack-v1/contracts.json",
+          "functionalContractSourceSha256": "e5c7b479428804d6d23265eaef1ccb5db0912dc3dacf528d9f8d8a197e025cca",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "garment-rack-wardrobe",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-garment-rack-assets.mjs",
+              "sha256": "048385607ac2d50375f84f1bea5d8f1c9e9fc5f6ee83d41fbe2d63441e82e0b4"
+            },
+            "editableSourceValidator": {
+              "path": "scripts/company-platform/plant-editable-source.mjs",
+              "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback"
+          ]
+        }
+      },
+      "geometry": {
+        "triangles": 2532,
+        "meshes": 4,
+        "materials": 4,
+        "geometrySha256": "36d80477a70086f9bbfb9c343070003f6faef9fe999ed02f7af530067a6439cd",
+        "envelope": {
+          "min": [
+            -0.47099999,
+            0,
+            -0.21950001
+          ],
+          "max": [
+            0.44499999,
+            1.74800003,
+            0.2155
+          ],
+          "dimensions": [
+            0.91599998,
+            1.74800003,
+            0.435
+          ]
+        },
+        "underside": [
+          {
+            "point": [
+              -0.15949999,
+              0,
+              -0.145
+            ],
+            "contactSquareMetres": 0.070029,
+            "node": "rack-foot-pads"
+          },
+          {
+            "point": [
+              0.1035,
+              0,
+              -0.167
+            ],
+            "contactSquareMetres": 0.034452,
+            "node": "rack-foot-pads"
+          }
+        ],
+        "rail": {
+          "radius": 0.015,
+          "centerY": 1.5,
+          "slots": [
+            {
+              "id": "left",
+              "point": [
+                -0.24,
+                1.51499999,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "point": [
+                0.24,
+                1.51499999,
+                0
+              ]
+            }
+          ],
+          "length": 0.88999999
+        }
+      }
+    },
+    {
+      "resource": {
+        "id": "garment-rack-trestle",
+        "version": 1,
+        "displayName": "开放衣架 · 交叉木脚",
+        "category": "decor",
+        "mountRole": "garment-rack-wardrobe",
+        "productionBranch": "garment-rack-wardrobe",
+        "mount": "floor-surface",
+        "parent": "room.floor",
+        "mounting": {
+          "origin": "bottom",
+          "width": 1,
+          "height": 1.8,
+          "depth": 0.5
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.5,
+            0.25
+          ],
+          "blocking": true
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "clearance": {
+          "schema": "garment-rack-front-v1",
+          "front": {
+            "min": [
+              -0.44,
+              0.25
+            ],
+            "max": [
+              0.44,
+              0.85
+            ]
+          }
+        },
+        "garmentRail": {
+          "radius": 0.015,
+          "centerY": 1.5,
+          "slots": [
+            {
+              "id": "left",
+              "position": [
+                -0.24,
+                1.515,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "position": [
+                0.24,
+                1.515,
+                0
+              ]
+            }
+          ]
+        },
+        "usePoints": [],
+        "stateDefaults": {},
+        "materialSlots": {
+          "feet": [
+            "rack-stock-feet"
+          ],
+          "frame": [
+            "rack-frame"
+          ],
+          "fittings": [
+            "rack-rail-bosses"
+          ],
+          "rail": [
+            "garment-rail"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/garment-rack-v1/garment-rack-trestle/v1/model.glb",
+          "bytes": 102040,
+          "sha256": "b5641652a8a9c429339c5b2571476d3f5b5582f14517b1128d6facdb4ae4cbe0"
+        },
+        "provenance": {
+          "license": "CC0-1.0 source with project-authored adaptation.",
+          "sourceDesign": "trestle",
+          "sourceParameters": "assets-source/company-garment-rack-v1/parameters.json",
+          "sourceParametersSha256": "ea544db31c2011cf11a57ac542b0d8be3d4d2f4dcae2e179461e4657391c4d75",
+          "generator": "scripts/company-platform/build-garment-rack.mjs",
+          "generatorSha256": "129070ebbfb01392d6d85783404c406fa5ee7cb1888d797977b1534cb96bd407",
+          "functionalContractSource": "assets-source/company-garment-rack-v1/contracts.json",
+          "functionalContractSourceSha256": "e5c7b479428804d6d23265eaef1ccb5db0912dc3dacf528d9f8d8a197e025cca",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "garment-rack-wardrobe",
+          "sourceArtifactPath": "assets-source/company-garment-rack-v1/original/furniture-kit/coatRackStanding.glb",
+          "sourceArtifactSha256": "d8231c22dab63ceb9fc8678f6c8ceafc62afa8726b51a73b4ce349043d3cdc91",
+          "sourceAuthor": "Kenney",
+          "sourceLicense": "CC0-1.0",
+          "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+          "sourceEntry": "Models/GLTF format/coatRackStanding.glb",
+          "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-garment-rack-assets.mjs",
+              "sha256": "048385607ac2d50375f84f1bea5d8f1c9e9fc5f6ee83d41fbe2d63441e82e0b4"
+            },
+            "editableSourceValidator": {
+              "path": "scripts/company-platform/plant-editable-source.mjs",
+              "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+            },
+            "license": {
+              "path": "assets-source/company-garment-rack-v1/original/furniture-kit/License.txt",
+              "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback"
+          ]
+        }
+      },
+      "geometry": {
+        "triangles": 1184,
+        "meshes": 4,
+        "materials": 4,
+        "geometrySha256": "cee3f9dcd0e5d4f2593ef9f028b5910a6a59a0ca9dde23f9e67476ce5ab02c82",
+        "envelope": {
+          "min": [
+            -0.46368,
+            0,
+            -0.19778
+          ],
+          "max": [
+            0.46368,
+            1.56949365,
+            0.19778
+          ],
+          "dimensions": [
+            0.92736,
+            1.56949365,
+            0.39556
+          ]
+        },
+        "underside": [
+          {
+            "point": [
+              -0.44191999,
+              0,
+              0.00986
+            ],
+            "contactSquareMetres": 0.00772393,
+            "node": "rack-stock-feet"
+          },
+          {
+            "point": [
+              0.15808,
+              0,
+              0.00986
+            ],
+            "contactSquareMetres": 0.00772393,
+            "node": "rack-stock-feet"
+          }
+        ],
+        "rail": {
+          "radius": 0.015,
+          "centerY": 1.5,
+          "slots": [
+            {
+              "id": "left",
+              "point": [
+                -0.24,
+                1.51499999,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "point": [
+                0.24,
+                1.51499999,
+                0
+              ]
+            }
+          ],
+          "length": 0.88999999
+        },
+        "sourceFoot": {
+          "originalTrianglesPerFoot": 52,
+          "maximumVertexErrorMetres": 5.986600628186771e-9
+        }
+      }
+    },
+    {
+      "resource": {
+        "id": "garment-hanging-jacket",
+        "version": 1,
+        "displayName": "挂衣陈列 · 开襟长袖夹克",
+        "category": "decor",
+        "mountRole": "hanging-garment",
+        "productionBranch": "hanging-garment",
+        "mount": "garment-rail",
+        "parent": "garment-rack-wardrobe",
+        "mounting": {
+          "origin": "top",
+          "width": 0.14,
+          "height": 0.86,
+          "depth": 0.432
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.07,
+            0.216
+          ],
+          "blocking": false
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "usePoints": [],
+        "stateDefaults": {},
+        "materialSlots": {
+          "hook": [
+            "hanger-hook"
+          ],
+          "hanger": [
+            "garment-hanger"
+          ],
+          "cloth": [
+            "garment-cloth"
+          ],
+          "trim": [
+            "garment-seams"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/garment-rack-v1/garment-hanging-jacket/v1/model.glb",
+          "bytes": 636816,
+          "sha256": "1c49322bd90498c6c12b285894f8cbc1e043a83074795ee60da0bfbc10c399f3"
+        },
+        "provenance": {
+          "license": "Project-authored frame or garment geometry.",
+          "sourceDesign": "editable-hanging-silhouette",
+          "sourceParameters": "assets-source/company-garment-rack-v1/parameters.json",
+          "sourceParametersSha256": "ea544db31c2011cf11a57ac542b0d8be3d4d2f4dcae2e179461e4657391c4d75",
+          "generator": "scripts/company-platform/build-garment-rack.mjs",
+          "generatorSha256": "129070ebbfb01392d6d85783404c406fa5ee7cb1888d797977b1534cb96bd407",
+          "functionalContractSource": "assets-source/company-garment-rack-v1/contracts.json",
+          "functionalContractSourceSha256": "e5c7b479428804d6d23265eaef1ccb5db0912dc3dacf528d9f8d8a197e025cca",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "garment-rack-wardrobe",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-garment-rack-assets.mjs",
+              "sha256": "048385607ac2d50375f84f1bea5d8f1c9e9fc5f6ee83d41fbe2d63441e82e0b4"
+            },
+            "editableSourceValidator": {
+              "path": "scripts/company-platform/plant-editable-source.mjs",
+              "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback"
+          ]
+        }
+      },
+      "geometry": {
+        "triangles": 8076,
+        "meshes": 4,
+        "materials": 4,
+        "geometrySha256": "6faca65526e88ffa01d1e15e14a13e79672bf87925d1ae8ddc122e9981d66b61",
+        "envelope": {
+          "min": [
+            -0.01987416,
+            -0.66790003,
+            -0.2120207
+          ],
+          "max": [
+            0.02290306,
+            0.007,
+            0.21003287
+          ],
+          "dimensions": [
+            0.04277722,
+            0.67490003,
+            0.42205356
+          ]
+        },
+        "innerHookPoint": [
+          0,
+          0,
+          0
+        ],
+        "minimumHookRadius": 0.015,
+        "actualHangerClothProbes": 5,
+        "clothSha256": "c30350651846d7fa8ee8a8daf0e5b4d702df6dd26de687b5069f6f69cac9ef4a",
+        "clothShell": {
+          "triangles": 1932,
+          "sharedEdges": 2898,
+          "mismatchedEdges": 0
+        },
+        "trimContact": {
+          "probes": 143,
+          "maximumGapMetres": 0
+        },
+        "visible": [
+          [
+            0.01139298,
+            -0.32206016,
+            -0.13605105
+          ],
+          [
+            0.00739873,
+            -0.23971733,
+            -0.13605105
+          ],
+          [
+            0.01087549,
+            -0.54164103,
+            -0.06008141
+          ],
+          [
+            0.00486603,
+            -0.4592982,
+            -0.06008141
+          ],
+          [
+            0.00948683,
+            -0.32206016,
+            -0.06008141
+          ],
+          [
+            0.01396649,
+            -0.23971733,
+            -0.06008141
+          ],
+          [
+            0.00459086,
+            -0.54164103,
+            -0.00099391
+          ],
+          [
+            0.01306938,
+            -0.4592982,
+            -0.00099391
+          ],
+          [
+            0.01608697,
+            -0.32206016,
+            -0.00099391
+          ],
+          [
+            0.01099528,
+            -0.23971733,
+            -0.00099391
+          ],
+          [
+            0.01909237,
+            -0.54164103,
+            0.05809358
+          ],
+          [
+            0.014871,
+            -0.4592982,
+            0.05809358
+          ],
+          [
+            0.00544279,
+            -0.32206016,
+            0.05809358
+          ],
+          [
+            0.00758675,
+            -0.23971733,
+            0.05809358
+          ],
+          [
+            0.01599504,
+            -0.32206016,
+            0.13406322
+          ],
+          [
+            0.01442053,
+            -0.23971733,
+            0.13406322
+          ]
+        ],
+        "clothTexture": null
+      }
+    },
+    {
+      "resource": {
+        "id": "garment-hanging-shirt",
+        "version": 1,
+        "displayName": "挂衣陈列 · 短袖方领衫",
+        "category": "decor",
+        "mountRole": "hanging-garment",
+        "productionBranch": "hanging-garment",
+        "mount": "garment-rail",
+        "parent": "garment-rack-wardrobe",
+        "mounting": {
+          "origin": "top",
+          "width": 0.14,
+          "height": 0.86,
+          "depth": 0.432
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.07,
+            0.216
+          ],
+          "blocking": false
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "usePoints": [],
+        "stateDefaults": {},
+        "materialSlots": {
+          "hook": [
+            "hanger-hook"
+          ],
+          "hanger": [
+            "garment-hanger"
+          ],
+          "cloth": [
+            "garment-cloth"
+          ],
+          "trim": [
+            "garment-seams"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/garment-rack-v1/garment-hanging-shirt/v1/model.glb",
+          "bytes": 563352,
+          "sha256": "76d6a0bb388023eaa58eca93b4fce900bfc9ded03d8e786ea82091c040e79af4"
+        },
+        "provenance": {
+          "license": "Project-authored frame or garment geometry.",
+          "sourceDesign": "editable-hanging-silhouette",
+          "sourceParameters": "assets-source/company-garment-rack-v1/parameters.json",
+          "sourceParametersSha256": "ea544db31c2011cf11a57ac542b0d8be3d4d2f4dcae2e179461e4657391c4d75",
+          "generator": "scripts/company-platform/build-garment-rack.mjs",
+          "generatorSha256": "129070ebbfb01392d6d85783404c406fa5ee7cb1888d797977b1534cb96bd407",
+          "functionalContractSource": "assets-source/company-garment-rack-v1/contracts.json",
+          "functionalContractSourceSha256": "e5c7b479428804d6d23265eaef1ccb5db0912dc3dacf528d9f8d8a197e025cca",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "garment-rack-wardrobe",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-garment-rack-assets.mjs",
+              "sha256": "048385607ac2d50375f84f1bea5d8f1c9e9fc5f6ee83d41fbe2d63441e82e0b4"
+            },
+            "editableSourceValidator": {
+              "path": "scripts/company-platform/plant-editable-source.mjs",
+              "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback"
+          ]
+        }
+      },
+      "geometry": {
+        "triangles": 6836,
+        "meshes": 4,
+        "materials": 4,
+        "geometrySha256": "209695a63b05f24efd4cb404cba51089049ffc1027cbd8e91d0214221ce004c8",
+        "envelope": {
+          "min": [
+            -0.01489389,
+            -0.53490001,
+            -0.20412824
+          ],
+          "max": [
+            0.01725459,
+            0.007,
+            0.20411831
+          ],
+          "dimensions": [
+            0.03214847,
+            0.54190001,
+            0.40824655
+          ]
+        },
+        "innerHookPoint": [
+          0,
+          0,
+          0
+        ],
+        "minimumHookRadius": 0.015,
+        "actualHangerClothProbes": 5,
+        "clothSha256": "c812a3b3ae1f84dcbd91b88e3b4421489d65eef7c4a275a7e8f5e6087a436b28",
+        "clothShell": {
+          "triangles": 1316,
+          "sharedEdges": 1974,
+          "mismatchedEdges": 0
+        },
+        "trimContact": {
+          "probes": 63,
+          "maximumGapMetres": 0
+        },
+        "visible": [
+          [
+            0.00497299,
+            -0.27343868,
+            -0.13064386
+          ],
+          [
+            0.00466329,
+            -0.21118599,
+            -0.13064386
+          ],
+          [
+            0.00156395,
+            -0.43944587,
+            -0.05715948
+          ],
+          [
+            0.00388528,
+            -0.37719318,
+            -0.05715948
+          ],
+          [
+            0.00959304,
+            -0.27343868,
+            -0.05715948
+          ],
+          [
+            0.00929904,
+            -0.21118599,
+            -0.05715948
+          ],
+          [
+            0.01121475,
+            -0.43944587,
+            -0.00000496
+          ],
+          [
+            0.01306952,
+            -0.37719318,
+            -0.00000496
+          ],
+          [
+            0.00955222,
+            -0.27343868,
+            -0.00000496
+          ],
+          [
+            0.0075991,
+            -0.21118599,
+            -0.00000496
+          ],
+          [
+            0.00985088,
+            -0.43944587,
+            0.05714955
+          ],
+          [
+            0.0055581,
+            -0.37719318,
+            0.05714955
+          ],
+          [
+            0.00445794,
+            -0.27343868,
+            0.05714955
+          ],
+          [
+            0.0064161,
+            -0.21118599,
+            0.05714955
+          ],
+          [
+            0.00939561,
+            -0.21118599,
+            0.13063393
+          ]
+        ],
+        "clothTexture": null
+      }
+    },
+    {
+      "resource": {
+        "id": "garment-hanging-dress",
+        "version": 1,
+        "displayName": "挂衣陈列 · 无袖伞摆裙",
+        "category": "decor",
+        "mountRole": "hanging-garment",
+        "productionBranch": "hanging-garment",
+        "mount": "garment-rail",
+        "parent": "garment-rack-wardrobe",
+        "mounting": {
+          "origin": "top",
+          "width": 0.14,
+          "height": 0.86,
+          "depth": 0.432
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.07,
+            0.216
+          ],
+          "blocking": false
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "usePoints": [],
+        "stateDefaults": {},
+        "materialSlots": {
+          "hook": [
+            "hanger-hook"
+          ],
+          "hanger": [
+            "garment-hanger"
+          ],
+          "cloth": [
+            "garment-cloth"
+          ],
+          "trim": [
+            "garment-seams"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/garment-rack-v1/garment-hanging-dress/v1/model.glb",
+          "bytes": 649056,
+          "sha256": "34e35f83cbe1ef25e3508b3068b5f851e289d2c1d205de74df21055355425ed6"
+        },
+        "provenance": {
+          "license": "Project-authored frame or garment geometry.",
+          "sourceDesign": "editable-hanging-silhouette",
+          "sourceParameters": "assets-source/company-garment-rack-v1/parameters.json",
+          "sourceParametersSha256": "ea544db31c2011cf11a57ac542b0d8be3d4d2f4dcae2e179461e4657391c4d75",
+          "generator": "scripts/company-platform/build-garment-rack.mjs",
+          "generatorSha256": "129070ebbfb01392d6d85783404c406fa5ee7cb1888d797977b1534cb96bd407",
+          "functionalContractSource": "assets-source/company-garment-rack-v1/contracts.json",
+          "functionalContractSourceSha256": "e5c7b479428804d6d23265eaef1ccb5db0912dc3dacf528d9f8d8a197e025cca",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "garment-rack-wardrobe",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-garment-rack-assets.mjs",
+              "sha256": "048385607ac2d50375f84f1bea5d8f1c9e9fc5f6ee83d41fbe2d63441e82e0b4"
+            },
+            "editableSourceValidator": {
+              "path": "scripts/company-platform/plant-editable-source.mjs",
+              "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback"
+          ]
+        }
+      },
+      "geometry": {
+        "triangles": 8240,
+        "meshes": 4,
+        "materials": 4,
+        "geometrySha256": "772e4718c5710ff036400d1070ac2f9eab94e008b90aed7fa31dc7762eb5c9a4",
+        "envelope": {
+          "min": [
+            -0.02639988,
+            -0.80190885,
+            -0.19833244
+          ],
+          "max": [
+            0.02890447,
+            0.007,
+            0.19828644
+          ],
+          "dimensions": [
+            0.05530434,
+            0.80890885,
+            0.39661889
+          ]
+        },
+        "innerHookPoint": [
+          0,
+          0,
+          0
+        ],
+        "minimumHookRadius": 0.015,
+        "actualHangerClothProbes": 5,
+        "clothSha256": "25a095e42aece1fc30d7956debbd473a4a1fc72a4ad5351f29e4a882aa6d573c",
+        "clothShell": {
+          "triangles": 1980,
+          "sharedEdges": 2970,
+          "mismatchedEdges": 0
+        },
+        "trimContact": {
+          "probes": 120,
+          "maximumGapMetres": 0
+        },
+        "visible": [
+          [
+            -0.0047496,
+            -0.64481714,
+            -0.12694104
+          ],
+          [
+            0.0163772,
+            -0.54236602,
+            -0.12694104
+          ],
+          [
+            0.02236717,
+            -0.64481714,
+            -0.05554964
+          ],
+          [
+            0.006145,
+            -0.54236602,
+            -0.05554964
+          ],
+          [
+            0.00249676,
+            -0.37161416,
+            -0.05554964
+          ],
+          [
+            0.01265817,
+            -0.26916305,
+            -0.05554964
+          ],
+          [
+            -0.00755274,
+            -0.64481714,
+            -0.000023
+          ],
+          [
+            -0.00492611,
+            -0.54236602,
+            -0.000023
+          ],
+          [
+            0.016028,
+            -0.37161416,
+            -0.000023
+          ],
+          [
+            0.01080784,
+            -0.26916305,
+            -0.000023
+          ],
+          [
+            0.00853788,
+            -0.64481714,
+            0.05550364
+          ],
+          [
+            0.02493073,
+            -0.54236602,
+            0.05550364
+          ],
+          [
+            0.00119116,
+            -0.37161416,
+            0.05550364
+          ],
+          [
+            -0.00294582,
+            -0.26916305,
+            0.05550364
+          ],
+          [
+            0.01265174,
+            -0.64481714,
+            0.12689504
+          ],
+          [
+            -0.00727894,
+            -0.54236602,
+            0.12689504
+          ]
+        ],
+        "clothTexture": null
+      }
+    },
+    {
+      "resource": {
+        "id": "garment-hanging-hoodie",
+        "version": 1,
+        "displayName": "挂衣陈列 · 连帽宽袖卫衣",
+        "category": "decor",
+        "mountRole": "hanging-garment",
+        "productionBranch": "hanging-garment",
+        "mount": "garment-rail",
+        "parent": "garment-rack-wardrobe",
+        "mounting": {
+          "origin": "top",
+          "width": 0.14,
+          "height": 0.86,
+          "depth": 0.432
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.07,
+            0.216
+          ],
+          "blocking": false
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "usePoints": [],
+        "stateDefaults": {},
+        "materialSlots": {
+          "hook": [
+            "hanger-hook"
+          ],
+          "hanger": [
+            "garment-hanger"
+          ],
+          "cloth": [
+            "garment-cloth"
+          ],
+          "trim": [
+            "garment-seams"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/garment-rack-v1/garment-hanging-hoodie/v1/model.glb",
+          "bytes": 602140,
+          "sha256": "edd0d70f64e7c4500c6406d78c4a5deb850d45baff1603790cd6a5797f295c29"
+        },
+        "provenance": {
+          "license": "Project-authored frame or garment geometry.",
+          "sourceDesign": "editable-hanging-silhouette",
+          "sourceParameters": "assets-source/company-garment-rack-v1/parameters.json",
+          "sourceParametersSha256": "ea544db31c2011cf11a57ac542b0d8be3d4d2f4dcae2e179461e4657391c4d75",
+          "generator": "scripts/company-platform/build-garment-rack.mjs",
+          "generatorSha256": "129070ebbfb01392d6d85783404c406fa5ee7cb1888d797977b1534cb96bd407",
+          "functionalContractSource": "assets-source/company-garment-rack-v1/contracts.json",
+          "functionalContractSourceSha256": "e5c7b479428804d6d23265eaef1ccb5db0912dc3dacf528d9f8d8a197e025cca",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "garment-rack-wardrobe",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-garment-rack-assets.mjs",
+              "sha256": "048385607ac2d50375f84f1bea5d8f1c9e9fc5f6ee83d41fbe2d63441e82e0b4"
+            },
+            "editableSourceValidator": {
+              "path": "scripts/company-platform/plant-editable-source.mjs",
+              "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback"
+          ]
+        }
+      },
+      "geometry": {
+        "triangles": 7346,
+        "meshes": 4,
+        "materials": 4,
+        "geometrySha256": "587c35abd13f08ca76ea3595248141400aea1cdf8c1f3b7c3d5b3acc11c4fcbd",
+        "envelope": {
+          "min": [
+            -0.02539657,
+            -0.56989998,
+            -0.20996942
+          ],
+          "max": [
+            0.02959268,
+            0.007,
+            0.2089335
+          ],
+          "dimensions": [
+            0.05498926,
+            0.57689998,
+            0.41890292
+          ]
+        },
+        "innerHookPoint": [
+          0,
+          0,
+          0
+        ],
+        "minimumHookRadius": 0.015,
+        "actualHangerClothProbes": 5,
+        "clothSha256": "69fd9b1641e6169f353e955ad903646bb8e94fa878918864aa77af077fd915cc",
+        "clothShell": {
+          "triangles": 1454,
+          "sharedEdges": 2181,
+          "mismatchedEdges": 0
+        },
+        "trimContact": {
+          "probes": 98,
+          "maximumGapMetres": 0
+        },
+        "visible": [
+          [
+            0.02082248,
+            -0.38411336,
+            -0.13456689
+          ],
+          [
+            0.01050362,
+            -0.26188533,
+            -0.13456689
+          ],
+          [
+            0.01067948,
+            -0.18854851,
+            -0.13456689
+          ],
+          [
+            0.00490898,
+            -0.45745019,
+            -0.05916437
+          ],
+          [
+            0.00789444,
+            -0.38411336,
+            -0.05916437
+          ],
+          [
+            0.01775603,
+            -0.26188533,
+            -0.05916437
+          ],
+          [
+            0.01827691,
+            -0.18854851,
+            -0.05916437
+          ],
+          [
+            0.01749115,
+            -0.45745019,
+            -0.00051796
+          ],
+          [
+            0.02280445,
+            -0.38411336,
+            -0.00051796
+          ],
+          [
+            0.01561806,
+            -0.26188533,
+            -0.00051796
+          ],
+          [
+            0.01207983,
+            -0.18854851,
+            -0.00051796
+          ],
+          [
+            0.0175957,
+            -0.45745019,
+            0.05812845
+          ],
+          [
+            0.01115114,
+            -0.38411336,
+            0.05812845
+          ],
+          [
+            0.00985,
+            -0.26188533,
+            0.05812845
+          ],
+          [
+            0.01351212,
+            -0.18854851,
+            0.05812845
+          ],
+          [
+            0.01609809,
+            -0.38411336,
+            0.13353098
+          ],
+          [
+            0.02007262,
+            -0.26188533,
+            0.13353098
+          ],
+          [
+            0.01602247,
+            -0.18854851,
+            0.13353098
+          ]
+        ],
+        "clothTexture": null
+      }
+    }
+  ],
+  "installations": [
+    {
+      "rack": "garment-rack-portal",
+      "mounted": [
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-jacket"
+        },
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-shirt"
+        },
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-dress"
+        },
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-hoodie"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-jacket"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-shirt"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-dress"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-hoodie"
+        }
+      ]
+    },
+    {
+      "rack": "garment-rack-a-frame",
+      "mounted": [
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-jacket"
+        },
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-shirt"
+        },
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-dress"
+        },
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-hoodie"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-jacket"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-shirt"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-dress"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-hoodie"
+        }
+      ]
+    },
+    {
+      "rack": "garment-rack-cantilever",
+      "mounted": [
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-jacket"
+        },
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-shirt"
+        },
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-dress"
+        },
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-hoodie"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-jacket"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-shirt"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-dress"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-hoodie"
+        }
+      ]
+    },
+    {
+      "rack": "garment-rack-trestle",
+      "mounted": [
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-jacket"
+        },
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-shirt"
+        },
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-dress"
+        },
+        {
+          "slot": "left",
+          "occupant": "garment-hanging-hoodie"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-jacket"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-shirt"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-dress"
+        },
+        {
+          "slot": "right",
+          "occupant": "garment-hanging-hoodie"
+        }
+      ]
+    }
+  ]
+}

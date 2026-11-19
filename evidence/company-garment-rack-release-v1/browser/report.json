@@ -1,0 +1,5010 @@
+{
+  "status": "passed",
+  "build": "161d598f74da",
+  "rooms": [
+    {
+      "key": "wardrobe-rental",
+      "roomId": "wardrobe-rental/ground/dressing",
+      "initial": {
+        "host": {
+          "id": "wardrobe-rental/ground/dressing/rack",
+          "kind": "facility",
+          "parentId": "wardrobe-rental/ground/dressing",
+          "resource": {
+            "id": "garment-rack-portal",
+            "version": 1
+          },
+          "state": {},
+          "transform": {
+            "position": [
+              -0.8,
+              0,
+              -1.3
+            ],
+            "yaw": 0
+          }
+        },
+        "hostAsset": {
+          "format": "glb",
+          "url": "/company-assets/garment-rack-v1/garment-rack-portal/v1/model.glb",
+          "bytes": 226708,
+          "sha256": "0569b7f817d3d02d042e8cfd0cec9ac2ef4624be3162272877d2b9c4f9787578"
+        },
+        "rackPose": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          3.7,
+          0,
+          -1.3,
+          1
+        ],
+        "roomId": "wardrobe-rental/ground/dressing",
+        "hostGeometry": {
+          "names": [
+            "rack-foot-pads",
+            "rack-frame",
+            "rack-rail-bosses",
+            "garment-rail"
+          ],
+          "localBounds": [
+            [
+              -0.47350001335144043,
+              4.1723252630632146e-10,
+              -0.22100000083446503
+            ],
+            [
+              0.47350001335144043,
+              1.7039999961853027,
+              0.22100000083446503
+            ]
+          ],
+          "screenBounds": [
+            [
+              -0.20058021225112915,
+              -0.5714543682515119,
+              0.9764040572324115
+            ],
+            [
+              0.3265189340836664,
+              0.5883506248865397,
+              0.9814816098158915
+            ]
+          ]
+        },
+        "hostContract": {
+          "mount": "floor-surface",
+          "role": "garment-rack-wardrobe",
+          "mounting": {
+            "origin": "bottom",
+            "width": 1,
+            "height": 1.8,
+            "depth": 0.5
+          },
+          "footprint": {
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              0.5,
+              0.25
+            ],
+            "blocking": true
+          },
+          "rail": {
+            "radius": 0.015,
+            "centerY": 1.5,
+            "slots": [
+              {
+                "id": "left",
+                "position": [
+                  -0.24,
+                  1.515,
+                  0
+                ]
+              },
+              {
+                "id": "right",
+                "position": [
+                  0.24,
+                  1.515,
+                  0
+                ]
+              }
+            ]
+          },
+          "clearance": {
+            "schema": "garment-rack-front-v1",
+            "front": {
+              "min": [
+                -0.44,
+                0.25
+              ],
+              "max": [
+                0.44,
+                0.85
+              ]
+            }
+          }
+        },
+        "hanging": [
+          {
+            "item": {
+              "attachment": {
+                "slotId": "left"
+              },
+              "id": "wardrobe-rental/ground/dressing/rack/look-left",
+              "kind": "facility",
+              "parentId": "wardrobe-rental/ground/dressing/rack",
+              "resource": {
+                "id": "garment-hanging-jacket",
+                "version": 1
+              },
+              "state": {},
+              "transform": {
+                "position": [
+                  -0.24,
+                  1.515,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            "slot": {
+              "id": "left",
+              "position": [
+                -0.24,
+                1.515,
+                0
+              ]
+            },
+            "contacts": [
+              {
+                "axis": [
+                  0,
+                  1,
+                  0
+                ],
+                "rod": {
+                  "distance": 0.02500001430511478,
+                  "triangle": 144
+                },
+                "bore": {
+                  "distance": 0.014999999999999902,
+                  "triangle": 1656
+                },
+                "gap": 1.4305114683088593e-8
+              },
+              {
+                "axis": [
+                  0,
+                  0,
+                  1
+                ],
+                "rod": {
+                  "distance": 0.025000000335276162,
+                  "triangle": 0
+                },
+                "bore": {
+                  "distance": 0.01499999965594423,
+                  "triangle": 3144
+                },
+                "gap": -8.779608984266218e-12
+              },
+              {
+                "axis": [
+                  0,
+                  0,
+                  -1
+                ],
+                "rod": {
+                  "distance": 0.025000000335276162,
+                  "triangle": 95
+                },
+                "bore": {
+                  "distance": 0.01499999965594423,
+                  "triangle": 216
+                },
+                "gap": -8.779608984266218e-12
+              }
+            ],
+            "asset": {
+              "format": "glb",
+              "url": "/company-assets/garment-rack-v1/garment-hanging-jacket/v1/model.glb",
+              "bytes": 636816,
+              "sha256": "1c49322bd90498c6c12b285894f8cbc1e043a83074795ee60da0bfbc10c399f3"
+            },
+            "role": "hanging-garment",
+            "mount": "garment-rail",
+            "runtimeParent": "wardrobe-rental/ground/dressing/rack",
+            "world": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              3.46,
+              1.515,
+              -1.3,
+              1
+            ],
+            "local": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.2400000000000002,
+              1.515,
+              0,
+              1
+            ],
+            "geometry": {
+              "names": [
+                "hanger-hook",
+                "garment-hanger",
+                "garment-cloth",
+                "garment-seams"
+              ],
+              "localBounds": [
+                [
+                  -0.25987415924668333,
+                  0.8470999741554259,
+                  -0.21202069520950317
+                ],
+                [
+                  -0.21709694132208845,
+                  1.5220000002160667,
+                  0.2100328654050827
+                ]
+              ],
+              "screenBounds": [
+                [
+                  -0.10964836264604812,
+                  0.03284780790363707,
+                  0.97803875113146
+                ],
+                [
+                  0.013620638196467616,
+                  0.4647445384834449,
+                  0.9798845910119134
+                ]
+              ]
+            }
+          },
+          {
+            "item": {
+              "attachment": {
+                "slotId": "right"
+              },
+              "id": "wardrobe-rental/ground/dressing/rack/look-right",
+              "kind": "facility",
+              "parentId": "wardrobe-rental/ground/dressing/rack",
+              "resource": {
+                "id": "garment-hanging-shirt",
+                "version": 1
+              },
+              "state": {},
+              "transform": {
+                "position": [
+                  0.24,
+                  1.515,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            "slot": {
+              "id": "right",
+              "position": [
+                0.24,
+                1.515,
+                0
+              ]
+            },
+            "contacts": [
+              {
+                "axis": [
+                  0,
+                  1,
+                  0
+                ],
+                "rod": {
+                  "distance": 0.02500001430511478,
+                  "triangle": 144
+                },
+                "bore": {
+                  "distance": 0.014999999999999902,
+                  "triangle": 1656
+                },
+                "gap": 1.4305114683088593e-8
+              },
+              {
+                "axis": [
+                  0,
+                  0,
+                  1
+                ],
+                "rod": {
+                  "distance": 0.025000000335276162,
+                  "triangle": 0
+                },
+                "bore": {
+                  "distance": 0.01499999965594423,
+                  "triangle": 3144
+                },
+                "gap": -8.779608984266218e-12
+              },
+              {
+                "axis": [
+                  0,
+                  0,
+                  -1
+                ],
+                "rod": {
+                  "distance": 0.025000000335276162,
+                  "triangle": 95
+                },
+                "bore": {
+                  "distance": 0.01499999965594423,
+                  "triangle": 216
+                },
+                "gap": -8.779608984266218e-12
+              }
+            ],
+            "asset": {
+              "format": "glb",
+              "url": "/company-assets/garment-rack-v1/garment-hanging-shirt/v1/model.glb",
+              "bytes": 563352,
+              "sha256": "76d6a0bb388023eaa58eca93b4fce900bfc9ded03d8e786ea82091c040e79af4"
+            },
+            "role": "hanging-garment",
+            "mount": "garment-rail",
+            "runtimeParent": "wardrobe-rental/ground/dressing/rack",
+            "world": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              3.9400000000000004,
+              1.515,
+              -1.3,
+              1
+            ],
+            "local": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.2400000000000002,
+              1.515,
+              0,
+              1
+            ],
+            "geometry": {
+              "names": [
+                "hanger-hook",
+                "garment-hanger",
+                "garment-cloth",
+                "garment-seams"
+              ],
+              "localBounds": [
+                [
+                  0.22510611336678288,
+                  0.9800999903678893,
+                  -0.204128235578537
+                ],
+                [
+                  0.25725458540022395,
+                  1.5220000002160667,
+                  0.20411831140518188
+                ]
+              ],
+              "screenBounds": [
+                [
+                  0.12359404611036956,
+                  0.07527973587915032,
+                  0.9766982831127935
+                ],
+                [
+                  0.23788997979340348,
+                  0.4432130077264494,
+                  0.9785632570945852
+                ]
+              ]
+            }
+          }
+        ],
+        "camera": [
+          0.857701914536849,
+          0,
+          -0.5141472802610395,
+          0,
+          -0.14600500191940072,
+          0.9588316684574598,
+          -0.2435659479024103,
+          0,
+          0.49298069456555765,
+          0.28397505447324745,
+          0.8223917577545244,
+          0,
+          5.9,
+          2.12,
+          2.5999999999999996,
+          1
+        ],
+        "error": null
+      },
+      "source": "data/rooms/wardrobe-rental/save.json",
+      "sourceSha256": "a91bac48c1a0ced3d58cb5b80b25b09047969e45c8da64cdd3bd8a6264a01123",
+      "pairings": [
+        {
+          "rack": {
+            "id": "garment-rack-portal",
+            "version": 1
+          },
+          "left": {
+            "id": "garment-hanging-jacket",
+            "version": 1
+          },
+          "right": {
+            "id": "garment-hanging-shirt",
+            "version": 1
+          },
+          "file": "wardrobe-rental-garment-rack-portal.png",
+          "live": {
+            "host": {
+              "id": "wardrobe-rental/ground/dressing/rack",
+              "kind": "facility",
+              "parentId": "wardrobe-rental/ground/dressing",
+              "resource": {
+                "id": "garment-rack-portal",
+                "version": 1
+              },
+              "state": {},
+              "transform": {
+                "position": [
+                  -0.8,
+                  0,
+                  -1.3
+                ],
+                "yaw": 0
+              }
+            },
+            "hostAsset": {
+              "format": "glb",
+              "url": "/company-assets/garment-rack-v1/garment-rack-portal/v1/model.glb",
+              "bytes": 226708,
+              "sha256": "0569b7f817d3d02d042e8cfd0cec9ac2ef4624be3162272877d2b9c4f9787578"
+            },
+            "rackPose": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              3.7,
+              0,
+              -1.3,
+              1
+            ],
+            "roomId": "wardrobe-rental/ground/dressing",
+            "hostGeometry": {
+              "names": [
+                "rack-foot-pads",
+                "rack-frame",
+                "rack-rail-bosses",
+                "garment-rail"
+              ],
+              "localBounds": [
+                [
+                  -0.47350001335144043,
+                  4.1723252630632146e-10,
+                  -0.22100000083446503
+                ],
+                [
+                  0.47350001335144043,
+                  1.7039999961853027,
+                  0.22100000083446503
+                ]
+              ],
+              "screenBounds": [
+                [
+                  -0.20058021225112915,
+                  -0.5714543682515119,
+                  0.9764040572324115
+                ],
+                [
+                  0.3265189340836664,
+                  0.5883506248865397,
+                  0.9814816098158915
+                ]
+              ]
+            },
+            "hostContract": {
+              "mount": "floor-surface",
+              "role": "garment-rack-wardrobe",
+              "mounting": {
+                "origin": "bottom",
+                "width": 1,
+                "height": 1.8,
+                "depth": 0.5
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.5,
+                  0.25
+                ],
+                "blocking": true
+              },
+              "rail": {
+                "radius": 0.015,
+                "centerY": 1.5,
+                "slots": [
+                  {
+                    "id": "left",
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ]
+                  },
+                  {
+                    "id": "right",
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ]
+                  }
+                ]
+              },
+              "clearance": {
+                "schema": "garment-rack-front-v1",
+                "front": {
+                  "min": [
+                    -0.44,
+                    0.25
+                  ],
+                  "max": [
+                    0.44,
+                    0.85
+                  ]
+                }
+              }
+            },
+            "hanging": [
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "left"
+                  },
+                  "id": "wardrobe-rental/ground/dressing/rack/look-left",
+                  "kind": "facility",
+                  "parentId": "wardrobe-rental/ground/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-jacket",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "left",
+                  "position": [
+                    -0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-jacket/v1/model.glb",
+                  "bytes": 636816,
+                  "sha256": "1c49322bd90498c6c12b285894f8cbc1e043a83074795ee60da0bfbc10c399f3"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-rental/ground/dressing/rack",
+                "world": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  3.46,
+                  1.515,
+                  -1.3,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      -0.25987415924668333,
+                      0.8470999741554259,
+                      -0.21202069520950317
+                    ],
+                    [
+                      -0.21709694132208845,
+                      1.5220000002160667,
+                      0.2100328654050827
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      -0.10964836264604812,
+                      0.03284780790363707,
+                      0.97803875113146
+                    ],
+                    [
+                      0.013620638196467616,
+                      0.4647445384834449,
+                      0.9798845910119134
+                    ]
+                  ]
+                }
+              },
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "right"
+                  },
+                  "id": "wardrobe-rental/ground/dressing/rack/look-right",
+                  "kind": "facility",
+                  "parentId": "wardrobe-rental/ground/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-shirt",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "right",
+                  "position": [
+                    0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-shirt/v1/model.glb",
+                  "bytes": 563352,
+                  "sha256": "76d6a0bb388023eaa58eca93b4fce900bfc9ded03d8e786ea82091c040e79af4"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-rental/ground/dressing/rack",
+                "world": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  3.9400000000000004,
+                  1.515,
+                  -1.3,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      0.22510611336678288,
+                      0.9800999903678893,
+                      -0.204128235578537
+                    ],
+                    [
+                      0.25725458540022395,
+                      1.5220000002160667,
+                      0.20411831140518188
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      0.12359404611036956,
+                      0.07527973587915032,
+                      0.9766982831127935
+                    ],
+                    [
+                      0.23788997979340348,
+                      0.4432130077264494,
+                      0.9785632570945852
+                    ]
+                  ]
+                }
+              }
+            ],
+            "camera": [
+              0.857701914536849,
+              0,
+              -0.5141472802610395,
+              0,
+              -0.14600500191940072,
+              0.9588316684574598,
+              -0.2435659479024103,
+              0,
+              0.49298069456555765,
+              0.28397505447324745,
+              0.8223917577545244,
+              0,
+              5.9,
+              2.12,
+              2.5999999999999996,
+              1
+            ],
+            "pixels": {
+              "wardrobe-rental/ground/dressing/rack": 16378,
+              "wardrobe-rental/ground/dressing/rack/look-left": 7139,
+              "wardrobe-rental/ground/dressing/rack/look-right": 4517
+            },
+            "error": null
+          },
+          "saved": "21e3760124fa03f7ebff2fce9dd4e52b80cd1ce440c48395d9bdad3de794b2c2"
+        },
+        {
+          "rack": {
+            "id": "garment-rack-a-frame",
+            "version": 1
+          },
+          "left": {
+            "id": "garment-hanging-shirt",
+            "version": 1
+          },
+          "right": {
+            "id": "garment-hanging-dress",
+            "version": 1
+          },
+          "file": "wardrobe-rental-garment-rack-a-frame.png",
+          "live": {
+            "host": {
+              "id": "wardrobe-rental/ground/dressing/rack",
+              "kind": "facility",
+              "parentId": "wardrobe-rental/ground/dressing",
+              "resource": {
+                "id": "garment-rack-a-frame",
+                "version": 1
+              },
+              "state": {},
+              "transform": {
+                "position": [
+                  -0.8,
+                  0,
+                  -1.3
+                ],
+                "yaw": 0
+              }
+            },
+            "hostAsset": {
+              "format": "glb",
+              "url": "/company-assets/garment-rack-v1/garment-rack-a-frame/v1/model.glb",
+              "bytes": 225552,
+              "sha256": "381d997bf74f6ec52c3429217aa84483c783f99444f5d97f92af7c93469ac3dd"
+            },
+            "rackPose": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              3.7,
+              0,
+              -1.3,
+              1
+            ],
+            "roomId": "wardrobe-rental/ground/dressing",
+            "hostGeometry": {
+              "names": [
+                "rack-foot-pads",
+                "rack-frame",
+                "rack-rail-bosses",
+                "garment-rail"
+              ],
+              "localBounds": [
+                [
+                  -0.4584999978542328,
+                  5.960464066756543e-11,
+                  -0.23499999940395355
+                ],
+                [
+                  0.4584999978542328,
+                  1.6245808601379395,
+                  0.23499999940395355
+                ]
+              ],
+              "screenBounds": [
+                [
+                  -0.19841244748170028,
+                  -0.5727708286291678,
+                  0.9765255804908946
+                ],
+                [
+                  0.3222149943145103,
+                  0.537547728330004,
+                  0.9814962337386478
+                ]
+              ]
+            },
+            "hostContract": {
+              "mount": "floor-surface",
+              "role": "garment-rack-wardrobe",
+              "mounting": {
+                "origin": "bottom",
+                "width": 1,
+                "height": 1.8,
+                "depth": 0.5
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.5,
+                  0.25
+                ],
+                "blocking": true
+              },
+              "rail": {
+                "radius": 0.015,
+                "centerY": 1.5,
+                "slots": [
+                  {
+                    "id": "left",
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ]
+                  },
+                  {
+                    "id": "right",
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ]
+                  }
+                ]
+              },
+              "clearance": {
+                "schema": "garment-rack-front-v1",
+                "front": {
+                  "min": [
+                    -0.44,
+                    0.25
+                  ],
+                  "max": [
+                    0.44,
+                    0.85
+                  ]
+                }
+              }
+            },
+            "hanging": [
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "left"
+                  },
+                  "id": "wardrobe-rental/ground/dressing/rack/look-left",
+                  "kind": "facility",
+                  "parentId": "wardrobe-rental/ground/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-shirt",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "left",
+                  "position": [
+                    -0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-shirt/v1/model.glb",
+                  "bytes": 563352,
+                  "sha256": "76d6a0bb388023eaa58eca93b4fce900bfc9ded03d8e786ea82091c040e79af4"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-rental/ground/dressing/rack",
+                "world": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  3.46,
+                  1.515,
+                  -1.3,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      -0.25489388663321755,
+                      0.9800999903678893,
+                      -0.204128235578537
+                    ],
+                    [
+                      -0.22274541459977648,
+                      1.5220000002160667,
+                      0.20411831140518188
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      -0.1112939868694042,
+                      0.11534259722412618,
+                      0.9779499346036109
+                    ],
+                    [
+                      0.013240869895393803,
+                      0.4647445384834449,
+                      0.9796296298115746
+                    ]
+                  ]
+                }
+              },
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "right"
+                  },
+                  "id": "wardrobe-rental/ground/dressing/rack/look-right",
+                  "kind": "facility",
+                  "parentId": "wardrobe-rental/ground/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-dress",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "right",
+                  "position": [
+                    0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-dress/v1/model.glb",
+                  "bytes": 649056,
+                  "sha256": "34e35f83cbe1ef25e3508b3068b5f851e289d2c1d205de74df21055355425ed6"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-rental/ground/dressing/rack",
+                "world": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  3.9400000000000004,
+                  1.515,
+                  -1.3,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      0.2136001230776312,
+                      0.7130911493301391,
+                      -0.19833244383335114
+                    ],
+                    [
+                      0.26890446782112143,
+                      1.5220000002160667,
+                      0.19828644394874573
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      0.1149007169075696,
+                      -0.09063331701875565,
+                      0.9770233207056833
+                    ],
+                    [
+                      0.2351147202127564,
+                      0.4432130077264494,
+                      0.9791519078285738
+                    ]
+                  ]
+                }
+              }
+            ],
+            "camera": [
+              0.857701914536849,
+              0,
+              -0.5141472802610395,
+              0,
+              -0.14600500191940072,
+              0.9588316684574598,
+              -0.2435659479024103,
+              0,
+              0.49298069456555765,
+              0.28397505447324745,
+              0.8223917577545244,
+              0,
+              5.9,
+              2.12,
+              2.5999999999999996,
+              1
+            ],
+            "pixels": {
+              "wardrobe-rental/ground/dressing/rack": 13875,
+              "wardrobe-rental/ground/dressing/rack/look-left": 4661,
+              "wardrobe-rental/ground/dressing/rack/look-right": 6599
+            },
+            "error": null
+          },
+          "saved": "75fe715309564b45f45952bbf6ca0baa97ac7eff9d3c6cc13aa29b0d0526ef43"
+        },
+        {
+          "rack": {
+            "id": "garment-rack-cantilever",
+            "version": 1
+          },
+          "left": {
+            "id": "garment-hanging-dress",
+            "version": 1
+          },
+          "right": {
+            "id": "garment-hanging-hoodie",
+            "version": 1
+          },
+          "file": "wardrobe-rental-garment-rack-cantilever.png",
+          "live": {
+            "host": {
+              "id": "wardrobe-rental/ground/dressing/rack",
+              "kind": "facility",
+              "parentId": "wardrobe-rental/ground/dressing",
+              "resource": {
+                "id": "garment-rack-cantilever",
+                "version": 1
+              },
+              "state": {},
+              "transform": {
+                "position": [
+                  -0.8,
+                  0,
+                  -1.3
+                ],
+                "yaw": 0
+              }
+            },
+            "hostAsset": {
+              "format": "glb",
+              "url": "/company-assets/garment-rack-v1/garment-rack-cantilever/v1/model.glb",
+              "bytes": 231320,
+              "sha256": "3348c1c1c6e59eca8b088cc015c91abda3701c7eed760b6b81304f90ac0e08cb"
+            },
+            "rackPose": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              3.7,
+              0,
+              -1.3,
+              1
+            ],
+            "roomId": "wardrobe-rental/ground/dressing",
+            "hostGeometry": {
+              "names": [
+                "rack-foot-pads",
+                "rack-frame",
+                "rack-rail-bosses",
+                "garment-rail"
+              ],
+              "localBounds": [
+                [
+                  -0.47099998593330383,
+                  -9.238719789195216e-10,
+                  -0.21950000524520874
+                ],
+                [
+                  0.4449999928474426,
+                  1.7480000257492065,
+                  0.21549999713897705
+                ]
+              ],
+              "screenBounds": [
+                [
+                  -0.19806433181437888,
+                  -0.4817383606696326,
+                  0.976719618641661
+                ],
+                [
+                  0.2957545866968845,
+                  0.6239184334995321,
+                  0.981472843171937
+                ]
+              ]
+            },
+            "hostContract": {
+              "mount": "floor-surface",
+              "role": "garment-rack-wardrobe",
+              "mounting": {
+                "origin": "bottom",
+                "width": 1,
+                "height": 1.8,
+                "depth": 0.5
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.5,
+                  0.25
+                ],
+                "blocking": true
+              },
+              "rail": {
+                "radius": 0.015,
+                "centerY": 1.5,
+                "slots": [
+                  {
+                    "id": "left",
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ]
+                  },
+                  {
+                    "id": "right",
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ]
+                  }
+                ]
+              },
+              "clearance": {
+                "schema": "garment-rack-front-v1",
+                "front": {
+                  "min": [
+                    -0.44,
+                    0.25
+                  ],
+                  "max": [
+                    0.44,
+                    0.85
+                  ]
+                }
+              }
+            },
+            "hanging": [
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "left"
+                  },
+                  "id": "wardrobe-rental/ground/dressing/rack/look-left",
+                  "kind": "facility",
+                  "parentId": "wardrobe-rental/ground/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-dress",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "left",
+                  "position": [
+                    -0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-dress/v1/model.glb",
+                  "bytes": 649056,
+                  "sha256": "34e35f83cbe1ef25e3508b3068b5f851e289d2c1d205de74df21055355425ed6"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-rental/ground/dressing/rack",
+                "world": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  3.46,
+                  1.515,
+                  -1.3,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      -0.2663998769223692,
+                      0.7130911493301391,
+                      -0.19833244383335114
+                    ],
+                    [
+                      -0.211095532178879,
+                      1.5220000002160667,
+                      0.19828644394874573
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      -0.11082859251658318,
+                      -0.042629087580728905,
+                      0.9782416699939591
+                    ],
+                    [
+                      0.017385873217544225,
+                      0.4647445384834449,
+                      0.9801627309114578
+                    ]
+                  ]
+                }
+              },
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "right"
+                  },
+                  "id": "wardrobe-rental/ground/dressing/rack/look-right",
+                  "kind": "facility",
+                  "parentId": "wardrobe-rental/ground/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-hoodie",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "right",
+                  "position": [
+                    0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-hoodie/v1/model.glb",
+                  "bytes": 602140,
+                  "sha256": "edd0d70f64e7c4500c6406d78c4a5deb850d45baff1603790cd6a5797f295c29"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-rental/ground/dressing/rack",
+                "world": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  3.9400000000000004,
+                  1.515,
+                  -1.3,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      0.21460342571139357,
+                      0.9451000237464904,
+                      -0.2099694162607193
+                    ],
+                    [
+                      0.2695926816761496,
+                      1.5220000002160667,
+                      0.2089335024356842
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      0.11872140197352146,
+                      0.051255701092579924,
+                      0.9767288330118944
+                    ],
+                    [
+                      0.23987520998589293,
+                      0.4432130077264494,
+                      0.9788196816942266
+                    ]
+                  ]
+                }
+              }
+            ],
+            "camera": [
+              0.857701914536849,
+              0,
+              -0.5141472802610395,
+              0,
+              -0.14600500191940072,
+              0.9588316684574598,
+              -0.2435659479024103,
+              0,
+              0.49298069456555765,
+              0.28397505447324745,
+              0.8223917577545244,
+              0,
+              5.9,
+              2.12,
+              2.5999999999999996,
+              1
+            ],
+            "pixels": {
+              "wardrobe-rental/ground/dressing/rack": 13303,
+              "wardrobe-rental/ground/dressing/rack/look-left": 6673,
+              "wardrobe-rental/ground/dressing/rack/look-right": 6488
+            },
+            "error": null
+          },
+          "saved": "438a14a166ec58ccc40eea87ca1fcc8d2ead04ab64ef3ee3d092b866f285f9a2"
+        },
+        {
+          "rack": {
+            "id": "garment-rack-trestle",
+            "version": 1
+          },
+          "left": {
+            "id": "garment-hanging-hoodie",
+            "version": 1
+          },
+          "right": {
+            "id": "garment-hanging-jacket",
+            "version": 1
+          },
+          "file": "wardrobe-rental-garment-rack-trestle.png",
+          "live": {
+            "host": {
+              "id": "wardrobe-rental/ground/dressing/rack",
+              "kind": "facility",
+              "parentId": "wardrobe-rental/ground/dressing",
+              "resource": {
+                "id": "garment-rack-trestle",
+                "version": 1
+              },
+              "state": {},
+              "transform": {
+                "position": [
+                  -0.8,
+                  0,
+                  -1.3
+                ],
+                "yaw": 0
+              }
+            },
+            "hostAsset": {
+              "format": "glb",
+              "url": "/company-assets/garment-rack-v1/garment-rack-trestle/v1/model.glb",
+              "bytes": 102040,
+              "sha256": "b5641652a8a9c429339c5b2571476d3f5b5582f14517b1128d6facdb4ae4cbe0"
+            },
+            "rackPose": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              3.7,
+              0,
+              -1.3,
+              1
+            ],
+            "roomId": "wardrobe-rental/ground/dressing",
+            "hostGeometry": {
+              "names": [
+                "rack-stock-feet",
+                "rack-frame",
+                "rack-rail-bosses",
+                "garment-rail"
+              ],
+              "localBounds": [
+                [
+                  -0.4636799991130829,
+                  2.4313779203029597e-29,
+                  -0.19777999818325043
+                ],
+                [
+                  0.4636799991130829,
+                  1.5694936513900757,
+                  0.19777999818325043
+                ]
+              ],
+              "screenBounds": [
+                [
+                  -0.14944149498939793,
+                  -0.5445616695775192,
+                  0.9766180144061402
+                ],
+                [
+                  0.301974068195271,
+                  0.5024215954802254,
+                  0.9811603529683782
+                ]
+              ]
+            },
+            "hostContract": {
+              "mount": "floor-surface",
+              "role": "garment-rack-wardrobe",
+              "mounting": {
+                "origin": "bottom",
+                "width": 1,
+                "height": 1.8,
+                "depth": 0.5
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.5,
+                  0.25
+                ],
+                "blocking": true
+              },
+              "rail": {
+                "radius": 0.015,
+                "centerY": 1.5,
+                "slots": [
+                  {
+                    "id": "left",
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ]
+                  },
+                  {
+                    "id": "right",
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ]
+                  }
+                ]
+              },
+              "clearance": {
+                "schema": "garment-rack-front-v1",
+                "front": {
+                  "min": [
+                    -0.44,
+                    0.25
+                  ],
+                  "max": [
+                    0.44,
+                    0.85
+                  ]
+                }
+              }
+            },
+            "hanging": [
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "left"
+                  },
+                  "id": "wardrobe-rental/ground/dressing/rack/look-left",
+                  "kind": "facility",
+                  "parentId": "wardrobe-rental/ground/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-hoodie",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "left",
+                  "position": [
+                    -0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-hoodie/v1/model.glb",
+                  "bytes": 602140,
+                  "sha256": "edd0d70f64e7c4500c6406d78c4a5deb850d45baff1603790cd6a5797f295c29"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-rental/ground/dressing/rack",
+                "world": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  3.46,
+                  1.515,
+                  -1.3,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      -0.26539657428860686,
+                      0.9451000237464904,
+                      -0.2099694162607193
+                    ],
+                    [
+                      -0.21040731832385084,
+                      1.5220000002160667,
+                      0.2089335024356842
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      -0.11395057465766988,
+                      0.09254126299618161,
+                      0.9779773363742346
+                    ],
+                    [
+                      0.01607995443304546,
+                      0.4647445384834449,
+                      0.9798616825103398
+                    ]
+                  ]
+                }
+              },
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "right"
+                  },
+                  "id": "wardrobe-rental/ground/dressing/rack/look-right",
+                  "kind": "facility",
+                  "parentId": "wardrobe-rental/ground/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-jacket",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "right",
+                  "position": [
+                    0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335276162,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.01499999965594423,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-jacket/v1/model.glb",
+                  "bytes": 636816,
+                  "sha256": "1c49322bd90498c6c12b285894f8cbc1e043a83074795ee60da0bfbc10c399f3"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-rental/ground/dressing/rack",
+                "world": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  3.9400000000000004,
+                  1.515,
+                  -1.3,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      0.2201258407533171,
+                      0.8470999741554259,
+                      -0.21202069520950317
+                    ],
+                    [
+                      0.26290305867791197,
+                      1.5220000002160667,
+                      0.2100328654050827
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      0.12207098637408305,
+                      -0.011404200350568435,
+                      0.976797288384926
+                    ],
+                    [
+                      0.2370100910588823,
+                      0.4432130077264494,
+                      0.9788449801706187
+                    ]
+                  ]
+                }
+              }
+            ],
+            "camera": [
+              0.857701914536849,
+              0,
+              -0.5141472802610395,
+              0,
+              -0.14600500191940072,
+              0.9588316684574598,
+              -0.2435659479024103,
+              0,
+              0.49298069456555765,
+              0.28397505447324745,
+              0.8223917577545244,
+              0,
+              5.9,
+              2.12,
+              2.5999999999999996,
+              1
+            ],
+            "pixels": {
+              "wardrobe-rental/ground/dressing/rack": 11233,
+              "wardrobe-rental/ground/dressing/rack/look-left": 6633,
+              "wardrobe-rental/ground/dressing/rack/look-right": 6939
+            },
+            "error": null
+          },
+          "saved": "14b0c6e17d6fb71ed79b83f15201e7ced8a5447c91a1160e60bb31c69591373c"
+        }
+      ],
+      "witnessFrames": {
+        "wide": "wardrobe-rental-rack-and-room.png",
+        "detail": "wardrobe-rental-rail-and-hooks.png",
+        "overview": {
+          "furniture": "wardrobe-rental/ground/dressing/mirror",
+          "included": true,
+          "projectedCenter": [
+            0.423199639803951,
+            -0.08359344804593435,
+            0.9823620051839103
+          ]
+        },
+        "visibleRackAndGarments": {
+          "wardrobe-rental/ground/dressing/rack": 24640,
+          "wardrobe-rental/ground/dressing/rack/look-left": 21757,
+          "wardrobe-rental/ground/dressing/rack/look-right": 21778
+        }
+      },
+      "slots": {
+        "fullTargets": [],
+        "duplicate": {
+          "code": "garment-slot-occupied",
+          "path": "wardrobe-rental/ground/dressing/rack/look-right",
+          "message": "garment-slot-occupied at wardrobe-rental/ground/dressing/rack/look-right: Both garments claim the same rail slot."
+        },
+        "moved": {
+          "attachment": {
+            "slotId": "left"
+          },
+          "id": "wardrobe-rental/ground/dressing/rack/look-right",
+          "kind": "facility",
+          "parentId": "wardrobe-rental/ground/dressing/rack",
+          "resource": {
+            "id": "garment-hanging-jacket",
+            "version": 1
+          },
+          "state": {},
+          "transform": {
+            "position": [
+              -0.24,
+              1.515,
+              0
+            ],
+            "yaw": 0
+          }
+        },
+        "filled": {
+          "id": "wardrobe-rental/ground/dressing/garment-hanging-shirt",
+          "kind": "facility",
+          "parentId": "wardrobe-rental/ground/dressing/rack",
+          "resource": {
+            "id": "garment-hanging-shirt",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.24,
+              1.515,
+              0
+            ],
+            "yaw": 0
+          },
+          "state": {},
+          "attachment": {
+            "slotId": "right"
+          }
+        },
+        "frames": [
+          "wardrobe-rental-left-occupied-right-empty.png",
+          "wardrobe-rental-both-slots-refilled.png"
+        ],
+        "committedSha256": "8cff10eadbdae2e7a62573dff33352efbb12234f5dae5bd3d883bf5aceea7652"
+      },
+      "placement": {
+        "denied": "衣架前方的取衣空间超出房间，请调整位置或朝向。 原布置已保留。",
+        "rejection": {
+          "code": "outside-garment-clearance",
+          "id": "wardrobe-rental/ground/dressing/rack",
+          "messages": [
+            "CompanyError: outside-garment-clearance at wardrobe-rental/ground/dressing/rack: The entire front working area must remain inside its room walls.\n    at ve (http://127.0.0.1:60427/assets/company-DuMayut7.js:4225:138173)\n    at uw (http://127.0.0.1:60427/assets/company-DuMayut7.js:4225:68485)\n    at Kt (http://127.0.0.1:60427/assets/company-DuMayut7.js:4225:156581)\n    at At (http://127.0.0.1:60427/assets/company-DuMayut7.js:4225:167020)\n    at http://127.0.0.1:60427/assets/company-DuMayut7.js:4338:10939\n    at p (http://127.0.0.1:60427/assets/company-DuMayut7.js:4338:10580)\n    at Object.apply (http://127.0.0.1:60427/assets/company-DuMayut7.js:4338:10906)\n    at $ (http://127.0.0.1:60427/assets/company-DuMayut7.js:4226:86936)\n    at http://127.0.0.1:60427/assets/company-DuMayut7.js:4226:96002\n    at http://127.0.0.1:60427/assets/company-DuMayut7.js:4226:80116"
+          ]
+        },
+        "rejectFrame": "wardrobe-rental-rejected-rack-move.png",
+        "savedBefore": "8cff10eadbdae2e7a62573dff33352efbb12234f5dae5bd3d883bf5aceea7652",
+        "movedFrame": "wardrobe-rental-full-rack-turned.png",
+        "target": {
+          "position": [
+            -0.65,
+            0,
+            -1.1
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "restoredAfter": "92b01d3fb7f6ad33930109ca0ba81f117c5d48a9a18a5c8cbd2ff835e9bd0b59"
+      }
+    },
+    {
+      "key": "wardrobe-floor",
+      "roomId": "wardrobe-floor/level/dressing",
+      "initial": {
+        "host": {
+          "id": "wardrobe-floor/level/dressing/rack",
+          "kind": "facility",
+          "parentId": "wardrobe-floor/level/dressing",
+          "resource": {
+            "id": "garment-rack-trestle",
+            "version": 1
+          },
+          "state": {},
+          "transform": {
+            "position": [
+              1.65,
+              0,
+              -1.5
+            ],
+            "yaw": 4.71238898038469
+          }
+        },
+        "hostAsset": {
+          "format": "glb",
+          "url": "/company-assets/garment-rack-v1/garment-rack-trestle/v1/model.glb",
+          "bytes": 102040,
+          "sha256": "b5641652a8a9c429339c5b2571476d3f5b5582f14517b1128d6facdb4ae4cbe0"
+        },
+        "rackPose": [
+          -2.220446049250313e-16,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          -1,
+          0,
+          -2.220446049250313e-16,
+          0,
+          -19.35,
+          0,
+          -6,
+          1
+        ],
+        "roomId": "wardrobe-floor/level/dressing",
+        "hostGeometry": {
+          "names": [
+            "rack-stock-feet",
+            "rack-frame",
+            "rack-rail-bosses",
+            "garment-rail"
+          ],
+          "localBounds": [
+            [
+              -0.4636799991130829,
+              2.4313779203029597e-29,
+              -0.19777999818325043
+            ],
+            [
+              0.4636799991130829,
+              1.5694936513900757,
+              0.19777999818325043
+            ]
+          ],
+          "screenBounds": [
+            [
+              -0.14944149498939896,
+              -0.544561669577519,
+              0.9766180144061402
+            ],
+            [
+              0.3019740681952704,
+              0.5024215954802261,
+              0.9811603529683782
+            ]
+          ]
+        },
+        "hostContract": {
+          "mount": "floor-surface",
+          "role": "garment-rack-wardrobe",
+          "mounting": {
+            "origin": "bottom",
+            "width": 1,
+            "height": 1.8,
+            "depth": 0.5
+          },
+          "footprint": {
+            "center": [
+              0,
+              0
+            ],
+            "halfSize": [
+              0.5,
+              0.25
+            ],
+            "blocking": true
+          },
+          "rail": {
+            "radius": 0.015,
+            "centerY": 1.5,
+            "slots": [
+              {
+                "id": "left",
+                "position": [
+                  -0.24,
+                  1.515,
+                  0
+                ]
+              },
+              {
+                "id": "right",
+                "position": [
+                  0.24,
+                  1.515,
+                  0
+                ]
+              }
+            ]
+          },
+          "clearance": {
+            "schema": "garment-rack-front-v1",
+            "front": {
+              "min": [
+                -0.44,
+                0.25
+              ],
+              "max": [
+                0.44,
+                0.85
+              ]
+            }
+          }
+        },
+        "hanging": [
+          {
+            "item": {
+              "attachment": {
+                "slotId": "left"
+              },
+              "id": "wardrobe-floor/level/dressing/rack/look-left",
+              "kind": "facility",
+              "parentId": "wardrobe-floor/level/dressing/rack",
+              "resource": {
+                "id": "garment-hanging-dress",
+                "version": 1
+              },
+              "state": {},
+              "transform": {
+                "position": [
+                  -0.24,
+                  1.515,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            "slot": {
+              "id": "left",
+              "position": [
+                -0.24,
+                1.515,
+                0
+              ]
+            },
+            "contacts": [
+              {
+                "axis": [
+                  0,
+                  1,
+                  0
+                ],
+                "rod": {
+                  "distance": 0.02500001430511478,
+                  "triangle": 144
+                },
+                "bore": {
+                  "distance": 0.014999999999999902,
+                  "triangle": 1656
+                },
+                "gap": 1.4305114683088593e-8
+              },
+              {
+                "axis": [
+                  0,
+                  0,
+                  1
+                ],
+                "rod": {
+                  "distance": 0.025000000335275274,
+                  "triangle": 0
+                },
+                "bore": {
+                  "distance": 0.014999999655945118,
+                  "triangle": 3144
+                },
+                "gap": -8.779608984266218e-12
+              },
+              {
+                "axis": [
+                  0,
+                  0,
+                  -1
+                ],
+                "rod": {
+                  "distance": 0.025000000335275274,
+                  "triangle": 95
+                },
+                "bore": {
+                  "distance": 0.014999999655945118,
+                  "triangle": 216
+                },
+                "gap": -8.779608984266218e-12
+              }
+            ],
+            "asset": {
+              "format": "glb",
+              "url": "/company-assets/garment-rack-v1/garment-hanging-dress/v1/model.glb",
+              "bytes": 649056,
+              "sha256": "34e35f83cbe1ef25e3508b3068b5f851e289d2c1d205de74df21055355425ed6"
+            },
+            "role": "hanging-garment",
+            "mount": "garment-rail",
+            "runtimeParent": "wardrobe-floor/level/dressing/rack",
+            "world": [
+              -2.220446049250313e-16,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              -1,
+              0,
+              -2.220446049250313e-16,
+              0,
+              -19.35,
+              1.515,
+              -6.24,
+              1
+            ],
+            "local": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.2400000000000002,
+              1.515,
+              0,
+              1
+            ],
+            "geometry": {
+              "names": [
+                "hanger-hook",
+                "garment-hanger",
+                "garment-cloth",
+                "garment-seams"
+              ],
+              "localBounds": [
+                [
+                  -0.2663998769223692,
+                  0.7130911493301391,
+                  -0.19833244383335114
+                ],
+                [
+                  -0.211095532178879,
+                  1.5220000002160667,
+                  0.19828644394874573
+                ]
+              ],
+              "screenBounds": [
+                [
+                  -0.1108285925165837,
+                  -0.042629087580728836,
+                  0.9782416699939591
+                ],
+                [
+                  0.017385873217543788,
+                  0.4647445384834454,
+                  0.9801627309114579
+                ]
+              ]
+            }
+          },
+          {
+            "item": {
+              "attachment": {
+                "slotId": "right"
+              },
+              "id": "wardrobe-floor/level/dressing/rack/look-right",
+              "kind": "facility",
+              "parentId": "wardrobe-floor/level/dressing/rack",
+              "resource": {
+                "id": "garment-hanging-hoodie",
+                "version": 1
+              },
+              "state": {},
+              "transform": {
+                "position": [
+                  0.24,
+                  1.515,
+                  0
+                ],
+                "yaw": 0
+              }
+            },
+            "slot": {
+              "id": "right",
+              "position": [
+                0.24,
+                1.515,
+                0
+              ]
+            },
+            "contacts": [
+              {
+                "axis": [
+                  0,
+                  1,
+                  0
+                ],
+                "rod": {
+                  "distance": 0.02500001430511478,
+                  "triangle": 144
+                },
+                "bore": {
+                  "distance": 0.014999999999999902,
+                  "triangle": 1656
+                },
+                "gap": 1.4305114683088593e-8
+              },
+              {
+                "axis": [
+                  0,
+                  0,
+                  1
+                ],
+                "rod": {
+                  "distance": 0.025000000335275274,
+                  "triangle": 0
+                },
+                "bore": {
+                  "distance": 0.014999999655945118,
+                  "triangle": 3144
+                },
+                "gap": -8.779608984266218e-12
+              },
+              {
+                "axis": [
+                  0,
+                  0,
+                  -1
+                ],
+                "rod": {
+                  "distance": 0.025000000335275274,
+                  "triangle": 95
+                },
+                "bore": {
+                  "distance": 0.014999999655945118,
+                  "triangle": 216
+                },
+                "gap": -8.779608984266218e-12
+              }
+            ],
+            "asset": {
+              "format": "glb",
+              "url": "/company-assets/garment-rack-v1/garment-hanging-hoodie/v1/model.glb",
+              "bytes": 602140,
+              "sha256": "edd0d70f64e7c4500c6406d78c4a5deb850d45baff1603790cd6a5797f295c29"
+            },
+            "role": "hanging-garment",
+            "mount": "garment-rail",
+            "runtimeParent": "wardrobe-floor/level/dressing/rack",
+            "world": [
+              -2.220446049250313e-16,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              -1,
+              0,
+              -2.220446049250313e-16,
+              0,
+              -19.35,
+              1.515,
+              -5.76,
+              1
+            ],
+            "local": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.2400000000000002,
+              1.515,
+              0,
+              1
+            ],
+            "geometry": {
+              "names": [
+                "hanger-hook",
+                "garment-hanger",
+                "garment-cloth",
+                "garment-seams"
+              ],
+              "localBounds": [
+                [
+                  0.21460342571139357,
+                  0.9451000237464904,
+                  -0.2099694162607193
+                ],
+                [
+                  0.2695926816761496,
+                  1.5220000002160667,
+                  0.2089335024356842
+                ]
+              ],
+              "screenBounds": [
+                [
+                  0.11872140197352023,
+                  0.05125570109258033,
+                  0.9767288330118944
+                ],
+                [
+                  0.2398752099858933,
+                  0.44321300772644956,
+                  0.9788196816942266
+                ]
+              ]
+            }
+          }
+        ],
+        "camera": [
+          0.5141472802610394,
+          -1.3877787807814457e-17,
+          0.857701914536849,
+          0,
+          0.24356594790241048,
+          0.9588316684574598,
+          -0.14600500191940077,
+          0,
+          -0.8223917577545246,
+          0.28397505447324767,
+          0.4929806945655576,
+          0,
+          -23.25,
+          2.12,
+          -3.8000000000000007,
+          1
+        ],
+        "error": null
+      },
+      "source": "data/rooms/wardrobe-floor/save.json",
+      "sourceSha256": "a3c0cce95e8c3bce7814df3db8214257235816421d79807813e3377fa6d90b30",
+      "pairings": [
+        {
+          "rack": {
+            "id": "garment-rack-portal",
+            "version": 1
+          },
+          "left": {
+            "id": "garment-hanging-jacket",
+            "version": 1
+          },
+          "right": {
+            "id": "garment-hanging-shirt",
+            "version": 1
+          },
+          "file": "wardrobe-floor-garment-rack-portal.png",
+          "live": {
+            "host": {
+              "id": "wardrobe-floor/level/dressing/rack",
+              "kind": "facility",
+              "parentId": "wardrobe-floor/level/dressing",
+              "resource": {
+                "id": "garment-rack-portal",
+                "version": 1
+              },
+              "state": {},
+              "transform": {
+                "position": [
+                  1.65,
+                  0,
+                  -1.5
+                ],
+                "yaw": 4.71238898038469
+              }
+            },
+            "hostAsset": {
+              "format": "glb",
+              "url": "/company-assets/garment-rack-v1/garment-rack-portal/v1/model.glb",
+              "bytes": 226708,
+              "sha256": "0569b7f817d3d02d042e8cfd0cec9ac2ef4624be3162272877d2b9c4f9787578"
+            },
+            "rackPose": [
+              -2.220446049250313e-16,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              -1,
+              0,
+              -2.220446049250313e-16,
+              0,
+              -19.35,
+              0,
+              -6,
+              1
+            ],
+            "roomId": "wardrobe-floor/level/dressing",
+            "hostGeometry": {
+              "names": [
+                "rack-foot-pads",
+                "rack-frame",
+                "rack-rail-bosses",
+                "garment-rail"
+              ],
+              "localBounds": [
+                [
+                  -0.47350001335144043,
+                  4.1723252630632146e-10,
+                  -0.22100000083446503
+                ],
+                [
+                  0.47350001335144043,
+                  1.7039999961853027,
+                  0.22100000083446503
+                ]
+              ],
+              "screenBounds": [
+                [
+                  -0.2005802122511306,
+                  -0.5714543682515112,
+                  0.9764040572324116
+                ],
+                [
+                  0.32651893408366534,
+                  0.5883506248865399,
+                  0.9814816098158915
+                ]
+              ]
+            },
+            "hostContract": {
+              "mount": "floor-surface",
+              "role": "garment-rack-wardrobe",
+              "mounting": {
+                "origin": "bottom",
+                "width": 1,
+                "height": 1.8,
+                "depth": 0.5
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.5,
+                  0.25
+                ],
+                "blocking": true
+              },
+              "rail": {
+                "radius": 0.015,
+                "centerY": 1.5,
+                "slots": [
+                  {
+                    "id": "left",
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ]
+                  },
+                  {
+                    "id": "right",
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ]
+                  }
+                ]
+              },
+              "clearance": {
+                "schema": "garment-rack-front-v1",
+                "front": {
+                  "min": [
+                    -0.44,
+                    0.25
+                  ],
+                  "max": [
+                    0.44,
+                    0.85
+                  ]
+                }
+              }
+            },
+            "hanging": [
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "left"
+                  },
+                  "id": "wardrobe-floor/level/dressing/rack/look-left",
+                  "kind": "facility",
+                  "parentId": "wardrobe-floor/level/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-jacket",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "left",
+                  "position": [
+                    -0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-jacket/v1/model.glb",
+                  "bytes": 636816,
+                  "sha256": "1c49322bd90498c6c12b285894f8cbc1e043a83074795ee60da0bfbc10c399f3"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-floor/level/dressing/rack",
+                "world": [
+                  -2.220446049250313e-16,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  -1,
+                  0,
+                  -2.220446049250313e-16,
+                  0,
+                  -19.35,
+                  1.515,
+                  -6.24,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      -0.25987415924668333,
+                      0.8470999741554259,
+                      -0.21202069520950317
+                    ],
+                    [
+                      -0.21709694132208845,
+                      1.5220000002160667,
+                      0.2100328654050827
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      -0.10964836264604845,
+                      0.03284780790363723,
+                      0.9780387511314599
+                    ],
+                    [
+                      0.013620638196466252,
+                      0.4647445384834454,
+                      0.9798845910119134
+                    ]
+                  ]
+                }
+              },
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "right"
+                  },
+                  "id": "wardrobe-floor/level/dressing/rack/look-right",
+                  "kind": "facility",
+                  "parentId": "wardrobe-floor/level/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-shirt",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "right",
+                  "position": [
+                    0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-shirt/v1/model.glb",
+                  "bytes": 563352,
+                  "sha256": "76d6a0bb388023eaa58eca93b4fce900bfc9ded03d8e786ea82091c040e79af4"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-floor/level/dressing/rack",
+                "world": [
+                  -2.220446049250313e-16,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  -1,
+                  0,
+                  -2.220446049250313e-16,
+                  0,
+                  -19.35,
+                  1.515,
+                  -5.76,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      0.22510611336678288,
+                      0.9800999903678893,
+                      -0.204128235578537
+                    ],
+                    [
+                      0.25725458540022395,
+                      1.5220000002160667,
+                      0.20411831140518188
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      0.12359404611037025,
+                      0.07527973587915068,
+                      0.9766982831127935
+                    ],
+                    [
+                      0.23788997979340246,
+                      0.44321300772644956,
+                      0.9785632570945852
+                    ]
+                  ]
+                }
+              }
+            ],
+            "camera": [
+              0.5141472802610394,
+              -1.3877787807814457e-17,
+              0.857701914536849,
+              0,
+              0.24356594790241048,
+              0.9588316684574598,
+              -0.14600500191940077,
+              0,
+              -0.8223917577545246,
+              0.28397505447324767,
+              0.4929806945655576,
+              0,
+              -23.25,
+              2.12,
+              -3.8000000000000007,
+              1
+            ],
+            "pixels": {
+              "wardrobe-floor/level/dressing/rack": 16347,
+              "wardrobe-floor/level/dressing/rack/look-left": 7136,
+              "wardrobe-floor/level/dressing/rack/look-right": 4536
+            },
+            "error": null
+          },
+          "saved": "762c2fdb3ab05bc9ccc9c3b665d37d55065d39c7ad3bcb91546060762419e1b8"
+        },
+        {
+          "rack": {
+            "id": "garment-rack-a-frame",
+            "version": 1
+          },
+          "left": {
+            "id": "garment-hanging-shirt",
+            "version": 1
+          },
+          "right": {
+            "id": "garment-hanging-dress",
+            "version": 1
+          },
+          "file": "wardrobe-floor-garment-rack-a-frame.png",
+          "live": {
+            "host": {
+              "id": "wardrobe-floor/level/dressing/rack",
+              "kind": "facility",
+              "parentId": "wardrobe-floor/level/dressing",
+              "resource": {
+                "id": "garment-rack-a-frame",
+                "version": 1
+              },
+              "state": {},
+              "transform": {
+                "position": [
+                  1.65,
+                  0,
+                  -1.5
+                ],
+                "yaw": 4.71238898038469
+              }
+            },
+            "hostAsset": {
+              "format": "glb",
+              "url": "/company-assets/garment-rack-v1/garment-rack-a-frame/v1/model.glb",
+              "bytes": 225552,
+              "sha256": "381d997bf74f6ec52c3429217aa84483c783f99444f5d97f92af7c93469ac3dd"
+            },
+            "rackPose": [
+              -2.220446049250313e-16,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              -1,
+              0,
+              -2.220446049250313e-16,
+              0,
+              -19.35,
+              0,
+              -6,
+              1
+            ],
+            "roomId": "wardrobe-floor/level/dressing",
+            "hostGeometry": {
+              "names": [
+                "rack-foot-pads",
+                "rack-frame",
+                "rack-rail-bosses",
+                "garment-rail"
+              ],
+              "localBounds": [
+                [
+                  -0.4584999978542328,
+                  5.960464066756543e-11,
+                  -0.23499999940395355
+                ],
+                [
+                  0.4584999978542328,
+                  1.6245808601379395,
+                  0.23499999940395355
+                ]
+              ],
+              "screenBounds": [
+                [
+                  -0.19841244748170125,
+                  -0.5727708286291677,
+                  0.9765255804908946
+                ],
+                [
+                  0.3222149943145098,
+                  0.537547728330005,
+                  0.9814962337386479
+                ]
+              ]
+            },
+            "hostContract": {
+              "mount": "floor-surface",
+              "role": "garment-rack-wardrobe",
+              "mounting": {
+                "origin": "bottom",
+                "width": 1,
+                "height": 1.8,
+                "depth": 0.5
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.5,
+                  0.25
+                ],
+                "blocking": true
+              },
+              "rail": {
+                "radius": 0.015,
+                "centerY": 1.5,
+                "slots": [
+                  {
+                    "id": "left",
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ]
+                  },
+                  {
+                    "id": "right",
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ]
+                  }
+                ]
+              },
+              "clearance": {
+                "schema": "garment-rack-front-v1",
+                "front": {
+                  "min": [
+                    -0.44,
+                    0.25
+                  ],
+                  "max": [
+                    0.44,
+                    0.85
+                  ]
+                }
+              }
+            },
+            "hanging": [
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "left"
+                  },
+                  "id": "wardrobe-floor/level/dressing/rack/look-left",
+                  "kind": "facility",
+                  "parentId": "wardrobe-floor/level/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-shirt",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "left",
+                  "position": [
+                    -0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-shirt/v1/model.glb",
+                  "bytes": 563352,
+                  "sha256": "76d6a0bb388023eaa58eca93b4fce900bfc9ded03d8e786ea82091c040e79af4"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-floor/level/dressing/rack",
+                "world": [
+                  -2.220446049250313e-16,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  -1,
+                  0,
+                  -2.220446049250313e-16,
+                  0,
+                  -19.35,
+                  1.515,
+                  -6.24,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      -0.25489388663321755,
+                      0.9800999903678893,
+                      -0.204128235578537
+                    ],
+                    [
+                      -0.22274541459977648,
+                      1.5220000002160667,
+                      0.20411831140518188
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      -0.11129398686940484,
+                      0.11534259722412656,
+                      0.9779499346036109
+                    ],
+                    [
+                      0.013240869895392662,
+                      0.4647445384834454,
+                      0.9796296298115746
+                    ]
+                  ]
+                }
+              },
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "right"
+                  },
+                  "id": "wardrobe-floor/level/dressing/rack/look-right",
+                  "kind": "facility",
+                  "parentId": "wardrobe-floor/level/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-dress",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "right",
+                  "position": [
+                    0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-dress/v1/model.glb",
+                  "bytes": 649056,
+                  "sha256": "34e35f83cbe1ef25e3508b3068b5f851e289d2c1d205de74df21055355425ed6"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-floor/level/dressing/rack",
+                "world": [
+                  -2.220446049250313e-16,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  -1,
+                  0,
+                  -2.220446049250313e-16,
+                  0,
+                  -19.35,
+                  1.515,
+                  -5.76,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      0.2136001230776312,
+                      0.7130911493301391,
+                      -0.19833244383335114
+                    ],
+                    [
+                      0.26890446782112143,
+                      1.5220000002160667,
+                      0.19828644394874573
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      0.11490071690756913,
+                      -0.09063331701875556,
+                      0.9770233207056833
+                    ],
+                    [
+                      0.2351147202127558,
+                      0.44321300772644956,
+                      0.9791519078285738
+                    ]
+                  ]
+                }
+              }
+            ],
+            "camera": [
+              0.5141472802610394,
+              -1.3877787807814457e-17,
+              0.857701914536849,
+              0,
+              0.24356594790241048,
+              0.9588316684574598,
+              -0.14600500191940077,
+              0,
+              -0.8223917577545246,
+              0.28397505447324767,
+              0.4929806945655576,
+              0,
+              -23.25,
+              2.12,
+              -3.8000000000000007,
+              1
+            ],
+            "pixels": {
+              "wardrobe-floor/level/dressing/rack": 13376,
+              "wardrobe-floor/level/dressing/rack/look-left": 4626,
+              "wardrobe-floor/level/dressing/rack/look-right": 6597
+            },
+            "error": null
+          },
+          "saved": "8d972bb91bcfb68e66584138a371f6464939b2688e6ae053d24b55efc4789d10"
+        },
+        {
+          "rack": {
+            "id": "garment-rack-cantilever",
+            "version": 1
+          },
+          "left": {
+            "id": "garment-hanging-dress",
+            "version": 1
+          },
+          "right": {
+            "id": "garment-hanging-hoodie",
+            "version": 1
+          },
+          "file": "wardrobe-floor-garment-rack-cantilever.png",
+          "live": {
+            "host": {
+              "id": "wardrobe-floor/level/dressing/rack",
+              "kind": "facility",
+              "parentId": "wardrobe-floor/level/dressing",
+              "resource": {
+                "id": "garment-rack-cantilever",
+                "version": 1
+              },
+              "state": {},
+              "transform": {
+                "position": [
+                  1.65,
+                  0,
+                  -1.5
+                ],
+                "yaw": 4.71238898038469
+              }
+            },
+            "hostAsset": {
+              "format": "glb",
+              "url": "/company-assets/garment-rack-v1/garment-rack-cantilever/v1/model.glb",
+              "bytes": 231320,
+              "sha256": "3348c1c1c6e59eca8b088cc015c91abda3701c7eed760b6b81304f90ac0e08cb"
+            },
+            "rackPose": [
+              -2.220446049250313e-16,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              -1,
+              0,
+              -2.220446049250313e-16,
+              0,
+              -19.35,
+              0,
+              -6,
+              1
+            ],
+            "roomId": "wardrobe-floor/level/dressing",
+            "hostGeometry": {
+              "names": [
+                "rack-foot-pads",
+                "rack-frame",
+                "rack-rail-bosses",
+                "garment-rail"
+              ],
+              "localBounds": [
+                [
+                  -0.47099998593330383,
+                  -9.238719789195216e-10,
+                  -0.21950000524520874
+                ],
+                [
+                  0.4449999928474426,
+                  1.7480000257492065,
+                  0.21549999713897705
+                ]
+              ],
+              "screenBounds": [
+                [
+                  -0.1980643318143797,
+                  -0.4817383606696327,
+                  0.976719618641661
+                ],
+                [
+                  0.2957545866968845,
+                  0.6239184334995325,
+                  0.981472843171937
+                ]
+              ]
+            },
+            "hostContract": {
+              "mount": "floor-surface",
+              "role": "garment-rack-wardrobe",
+              "mounting": {
+                "origin": "bottom",
+                "width": 1,
+                "height": 1.8,
+                "depth": 0.5
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.5,
+                  0.25
+                ],
+                "blocking": true
+              },
+              "rail": {
+                "radius": 0.015,
+                "centerY": 1.5,
+                "slots": [
+                  {
+                    "id": "left",
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ]
+                  },
+                  {
+                    "id": "right",
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ]
+                  }
+                ]
+              },
+              "clearance": {
+                "schema": "garment-rack-front-v1",
+                "front": {
+                  "min": [
+                    -0.44,
+                    0.25
+                  ],
+                  "max": [
+                    0.44,
+                    0.85
+                  ]
+                }
+              }
+            },
+            "hanging": [
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "left"
+                  },
+                  "id": "wardrobe-floor/level/dressing/rack/look-left",
+                  "kind": "facility",
+                  "parentId": "wardrobe-floor/level/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-dress",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "left",
+                  "position": [
+                    -0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-dress/v1/model.glb",
+                  "bytes": 649056,
+                  "sha256": "34e35f83cbe1ef25e3508b3068b5f851e289d2c1d205de74df21055355425ed6"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-floor/level/dressing/rack",
+                "world": [
+                  -2.220446049250313e-16,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  -1,
+                  0,
+                  -2.220446049250313e-16,
+                  0,
+                  -19.35,
+                  1.515,
+                  -6.24,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      -0.2663998769223692,
+                      0.7130911493301391,
+                      -0.19833244383335114
+                    ],
+                    [
+                      -0.211095532178879,
+                      1.5220000002160667,
+                      0.19828644394874573
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      -0.1108285925165837,
+                      -0.042629087580728836,
+                      0.9782416699939591
+                    ],
+                    [
+                      0.017385873217543788,
+                      0.4647445384834454,
+                      0.9801627309114579
+                    ]
+                  ]
+                }
+              },
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "right"
+                  },
+                  "id": "wardrobe-floor/level/dressing/rack/look-right",
+                  "kind": "facility",
+                  "parentId": "wardrobe-floor/level/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-hoodie",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "right",
+                  "position": [
+                    0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-hoodie/v1/model.glb",
+                  "bytes": 602140,
+                  "sha256": "edd0d70f64e7c4500c6406d78c4a5deb850d45baff1603790cd6a5797f295c29"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-floor/level/dressing/rack",
+                "world": [
+                  -2.220446049250313e-16,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  -1,
+                  0,
+                  -2.220446049250313e-16,
+                  0,
+                  -19.35,
+                  1.515,
+                  -5.76,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      0.21460342571139357,
+                      0.9451000237464904,
+                      -0.2099694162607193
+                    ],
+                    [
+                      0.2695926816761496,
+                      1.5220000002160667,
+                      0.2089335024356842
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      0.11872140197352023,
+                      0.05125570109258033,
+                      0.9767288330118944
+                    ],
+                    [
+                      0.2398752099858933,
+                      0.44321300772644956,
+                      0.9788196816942266
+                    ]
+                  ]
+                }
+              }
+            ],
+            "camera": [
+              0.5141472802610394,
+              -1.3877787807814457e-17,
+              0.857701914536849,
+              0,
+              0.24356594790241048,
+              0.9588316684574598,
+              -0.14600500191940077,
+              0,
+              -0.8223917577545246,
+              0.28397505447324767,
+              0.4929806945655576,
+              0,
+              -23.25,
+              2.12,
+              -3.8000000000000007,
+              1
+            ],
+            "pixels": {
+              "wardrobe-floor/level/dressing/rack": 13331,
+              "wardrobe-floor/level/dressing/rack/look-left": 6680,
+              "wardrobe-floor/level/dressing/rack/look-right": 6483
+            },
+            "error": null
+          },
+          "saved": "38c1b01d4f765ac46e795059248808a395d1e8c7eb8db6bc31cfc854e85dc606"
+        },
+        {
+          "rack": {
+            "id": "garment-rack-trestle",
+            "version": 1
+          },
+          "left": {
+            "id": "garment-hanging-hoodie",
+            "version": 1
+          },
+          "right": {
+            "id": "garment-hanging-jacket",
+            "version": 1
+          },
+          "file": "wardrobe-floor-garment-rack-trestle.png",
+          "live": {
+            "host": {
+              "id": "wardrobe-floor/level/dressing/rack",
+              "kind": "facility",
+              "parentId": "wardrobe-floor/level/dressing",
+              "resource": {
+                "id": "garment-rack-trestle",
+                "version": 1
+              },
+              "state": {},
+              "transform": {
+                "position": [
+                  1.65,
+                  0,
+                  -1.5
+                ],
+                "yaw": 4.71238898038469
+              }
+            },
+            "hostAsset": {
+              "format": "glb",
+              "url": "/company-assets/garment-rack-v1/garment-rack-trestle/v1/model.glb",
+              "bytes": 102040,
+              "sha256": "b5641652a8a9c429339c5b2571476d3f5b5582f14517b1128d6facdb4ae4cbe0"
+            },
+            "rackPose": [
+              -2.220446049250313e-16,
+              0,
+              1,
+              0,
+              0,
+              1,
+              0,
+              0,
+              -1,
+              0,
+              -2.220446049250313e-16,
+              0,
+              -19.35,
+              0,
+              -6,
+              1
+            ],
+            "roomId": "wardrobe-floor/level/dressing",
+            "hostGeometry": {
+              "names": [
+                "rack-stock-feet",
+                "rack-frame",
+                "rack-rail-bosses",
+                "garment-rail"
+              ],
+              "localBounds": [
+                [
+                  -0.4636799991130829,
+                  2.4313779203029597e-29,
+                  -0.19777999818325043
+                ],
+                [
+                  0.4636799991130829,
+                  1.5694936513900757,
+                  0.19777999818325043
+                ]
+              ],
+              "screenBounds": [
+                [
+                  -0.14944149498939896,
+                  -0.544561669577519,
+                  0.9766180144061402
+                ],
+                [
+                  0.3019740681952704,
+                  0.5024215954802261,
+                  0.9811603529683782
+                ]
+              ]
+            },
+            "hostContract": {
+              "mount": "floor-surface",
+              "role": "garment-rack-wardrobe",
+              "mounting": {
+                "origin": "bottom",
+                "width": 1,
+                "height": 1.8,
+                "depth": 0.5
+              },
+              "footprint": {
+                "center": [
+                  0,
+                  0
+                ],
+                "halfSize": [
+                  0.5,
+                  0.25
+                ],
+                "blocking": true
+              },
+              "rail": {
+                "radius": 0.015,
+                "centerY": 1.5,
+                "slots": [
+                  {
+                    "id": "left",
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ]
+                  },
+                  {
+                    "id": "right",
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ]
+                  }
+                ]
+              },
+              "clearance": {
+                "schema": "garment-rack-front-v1",
+                "front": {
+                  "min": [
+                    -0.44,
+                    0.25
+                  ],
+                  "max": [
+                    0.44,
+                    0.85
+                  ]
+                }
+              }
+            },
+            "hanging": [
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "left"
+                  },
+                  "id": "wardrobe-floor/level/dressing/rack/look-left",
+                  "kind": "facility",
+                  "parentId": "wardrobe-floor/level/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-hoodie",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      -0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "left",
+                  "position": [
+                    -0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-hoodie/v1/model.glb",
+                  "bytes": 602140,
+                  "sha256": "edd0d70f64e7c4500c6406d78c4a5deb850d45baff1603790cd6a5797f295c29"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-floor/level/dressing/rack",
+                "world": [
+                  -2.220446049250313e-16,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  -1,
+                  0,
+                  -2.220446049250313e-16,
+                  0,
+                  -19.35,
+                  1.515,
+                  -6.24,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  -0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      -0.26539657428860686,
+                      0.9451000237464904,
+                      -0.2099694162607193
+                    ],
+                    [
+                      -0.21040731832385084,
+                      1.5220000002160667,
+                      0.2089335024356842
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      -0.11395057465767014,
+                      0.09254126299618196,
+                      0.9779773363742346
+                    ],
+                    [
+                      0.016079954433045242,
+                      0.4647445384834454,
+                      0.9798616825103398
+                    ]
+                  ]
+                }
+              },
+              {
+                "item": {
+                  "attachment": {
+                    "slotId": "right"
+                  },
+                  "id": "wardrobe-floor/level/dressing/rack/look-right",
+                  "kind": "facility",
+                  "parentId": "wardrobe-floor/level/dressing/rack",
+                  "resource": {
+                    "id": "garment-hanging-jacket",
+                    "version": 1
+                  },
+                  "state": {},
+                  "transform": {
+                    "position": [
+                      0.24,
+                      1.515,
+                      0
+                    ],
+                    "yaw": 0
+                  }
+                },
+                "slot": {
+                  "id": "right",
+                  "position": [
+                    0.24,
+                    1.515,
+                    0
+                  ]
+                },
+                "contacts": [
+                  {
+                    "axis": [
+                      0,
+                      1,
+                      0
+                    ],
+                    "rod": {
+                      "distance": 0.02500001430511478,
+                      "triangle": 144
+                    },
+                    "bore": {
+                      "distance": 0.014999999999999902,
+                      "triangle": 1656
+                    },
+                    "gap": 1.4305114683088593e-8
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 0
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 3144
+                    },
+                    "gap": -8.779608984266218e-12
+                  },
+                  {
+                    "axis": [
+                      0,
+                      0,
+                      -1
+                    ],
+                    "rod": {
+                      "distance": 0.025000000335275274,
+                      "triangle": 95
+                    },
+                    "bore": {
+                      "distance": 0.014999999655945118,
+                      "triangle": 216
+                    },
+                    "gap": -8.779608984266218e-12
+                  }
+                ],
+                "asset": {
+                  "format": "glb",
+                  "url": "/company-assets/garment-rack-v1/garment-hanging-jacket/v1/model.glb",
+                  "bytes": 636816,
+                  "sha256": "1c49322bd90498c6c12b285894f8cbc1e043a83074795ee60da0bfbc10c399f3"
+                },
+                "role": "hanging-garment",
+                "mount": "garment-rail",
+                "runtimeParent": "wardrobe-floor/level/dressing/rack",
+                "world": [
+                  -2.220446049250313e-16,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  -1,
+                  0,
+                  -2.220446049250313e-16,
+                  0,
+                  -19.35,
+                  1.515,
+                  -5.76,
+                  1
+                ],
+                "local": [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0.2400000000000002,
+                  1.515,
+                  0,
+                  1
+                ],
+                "geometry": {
+                  "names": [
+                    "hanger-hook",
+                    "garment-hanger",
+                    "garment-cloth",
+                    "garment-seams"
+                  ],
+                  "localBounds": [
+                    [
+                      0.2201258407533171,
+                      0.8470999741554259,
+                      -0.21202069520950317
+                    ],
+                    [
+                      0.26290305867791197,
+                      1.5220000002160667,
+                      0.2100328654050827
+                    ]
+                  ],
+                  "screenBounds": [
+                    [
+                      0.12207098637408288,
+                      -0.011404200350568446,
+                      0.9767972883849259
+                    ],
+                    [
+                      0.23701009105888118,
+                      0.44321300772644956,
+                      0.9788449801706186
+                    ]
+                  ]
+                }
+              }
+            ],
+            "camera": [
+              0.5141472802610394,
+              -1.3877787807814457e-17,
+              0.857701914536849,
+              0,
+              0.24356594790241048,
+              0.9588316684574598,
+              -0.14600500191940077,
+              0,
+              -0.8223917577545246,
+              0.28397505447324767,
+              0.4929806945655576,
+              0,
+              -23.25,
+              2.12,
+              -3.8000000000000007,
+              1
+            ],
+            "pixels": {
+              "wardrobe-floor/level/dressing/rack": 10640,
+              "wardrobe-floor/level/dressing/rack/look-left": 6624,
+              "wardrobe-floor/level/dressing/rack/look-right": 6942
+            },
+            "error": null
+          },
+          "saved": "835727167186baa09ecb765e4001101accfcba5d4c52b20bdf1242b886e6ea8b"
+        }
+      ],
+      "witnessFrames": {
+        "wide": "wardrobe-floor-rack-and-room.png",
+        "detail": "wardrobe-floor-rail-and-hooks.png",
+        "overview": {
+          "furniture": "wardrobe-floor/level/dressing/vanity",
+          "included": true,
+          "projectedCenter": [
+            -0.35562835505755597,
+            -0.45497513449579396,
+            0.9772855715508111
+          ]
+        },
+        "visibleRackAndGarments": {
+          "wardrobe-floor/level/dressing/rack": 4255,
+          "wardrobe-floor/level/dressing/rack/look-left": 2028,
+          "wardrobe-floor/level/dressing/rack/look-right": 1914
+        }
+      }
+    }
+  ],
+  "browserErrors": [],
+  "sourceDigest": "161d598f74daa1bd747aabbb3f2bf1088f9b27a318eaed55433598b37ae5aabf",
+  "video": {
+    "file": "video/garment-rack-rooms-normal.webm",
+    "bytes": 3999901,
+    "playbackSpeed": 1
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "status": "passed",
+  "failures": [
+    {
+      "label": "wrong-sha",
+      "code": "appearance-source-pin-mismatch"
+    },
+    {
+      "label": "missing",
+      "code": "appearance-source-missing"
+    },
+    {
+      "label": "escape",
+      "code": "invalid-appearance-source"
+    },
+    {
+      "label": "absolute",
+      "code": "invalid-appearance-source"
+    },
+    {
+      "label": "missing-pin-field",
+      "code": "invalid-appearance-source"
+    },
+    {
+      "label": "linked",
+      "code": "appearance-linked-path"
+    }
+  ],
+  "published": {
+    "status": "published",
+    "family": "garment-rack",
+    "sourceParameters": "assets-source/company-garment-editable-test/recipe-23ac15711e8f627ed78b274830fb9c70fc352a5a371efd215955348f0e2f28c9.json",
+    "sourceParametersSha256": "23ac15711e8f627ed78b274830fb9c70fc352a5a371efd215955348f0e2f28c9",
+    "items": [
+      {
+        "id": "garment-hanging-editable-weave",
+        "version": 2,
+        "resourcePath": "prototype/public/company-assets/garment-rack-v1/garment-hanging-editable-weave/v2/resource.json",
+        "sha256": "6c81a3d135adca4d15c8a62383edd3ff692feecf8c2c20c7e4aa6c90e4645985",
+        "geometrySha256": "6502278f0583ffe700cb20f9658b82da174b6c957c4af1c6b6b0128e6a7ffbb8"
+      }
+    ]
+  },
+  "dependencies": {
+    "geometryValidation": {
+      "path": "scripts/company-platform/test-garment-rack-assets.mjs",
+      "sha256": "048385607ac2d50375f84f1bea5d8f1c9e9fc5f6ee83d41fbe2d63441e82e0b4"
+    },
+    "editableSourceValidator": {
+      "path": "scripts/company-platform/plant-editable-source.mjs",
+      "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+    },
+    "license": {
+      "path": "assets-source/company-garment-editable-test/license.txt",
+      "sha256": "c098efb5ed673c22efce657ef1582876bb4a784c2375a17d51b08f78b2175bc1"
+    },
+    "editableSource": {
+      "path": "assets-source/company-garment-editable-original/weave.mjs",
+      "sha256": "007db36b05befc69874a523110a5d152192faf744356d7e1d3a5f47bbf2cd13c"
+    }
+  },
+  "GLB": {
+    "format": "glb",
+    "url": "/company-assets/garment-rack-v1/garment-hanging-editable-weave/v2/model.glb",
+    "bytes": 610500,
+    "sha256": "6c81a3d135adca4d15c8a62383edd3ff692feecf8c2c20c7e4aa6c90e4645985"
+  },
+  "embeddedTexture": {
+    "sha256": "add6b83c59ba68058e031542960f77322c5f99888b1e666ee68174e0de012e8d",
+    "bytes": 1354,
+    "dimensions": [
+      24,
+      36
+    ]
+  },
+  "package": {
+    "buildId": "c41c97047853",
+    "files": 1989,
+    "manifestSha256": "ebf3bd00a886cea451154fa485e9cd99f70a9537f9d8982f195ecd7c50bffa92",
+    "included": [
+      "assets-source/company-garment-editable-original/weave.mjs",
+      "assets-source/company-garment-editable-test/weave.png",
+      "assets-source/company-garment-editable-test/license.txt",
+      "scripts/company-platform/plant-editable-source.mjs",
+      "prototype/public/company-assets/garment-rack-v1/garment-hanging-editable-weave/v2/resource.json"
+    ],
+    "protections": [
+      "build-library --check",
+      "package-company"
+    ],
+    "changedOriginalCode": "appearance-source-pin-mismatch"
+  }
+}

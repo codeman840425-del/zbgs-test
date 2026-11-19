@@ -1,0 +1,194 @@
+{
+  "status": "passed",
+  "receiver": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1",
+  "fixedManifestSha256": "d3502382d59ac3fbfa4036a47ed811f163e4fc549ed6c9b27af755dd8e2406f2",
+  "files": {
+    "source/prototype/public/company-assets/garment-rack-v1/garment-hanging-dress/v1/model.glb": {
+      "before": "34e35f83cbe1ef25e3508b3068b5f851e289d2c1d205de74df21055355425ed6",
+      "during": "0569b7f817d3d02d042e8cfd0cec9ac2ef4624be3162272877d2b9c4f9787578",
+      "after": "34e35f83cbe1ef25e3508b3068b5f851e289d2c1d205de74df21055355425ed6"
+    },
+    "source/prototype/public/company-assets/garment-rack-v1/garment-hanging-dress/v1/resource.json": {
+      "before": "9e4abbd68884120d4c3977c4827d33a6d6704c5153081a67663066071eebad1f",
+      "during": "a54d513b105693ffd3cc3d97b689b3addd4b9ed40c835fbbd9b6b31a1b2f8eb7",
+      "after": "9e4abbd68884120d4c3977c4827d33a6d6704c5153081a67663066071eebad1f"
+    },
+    "source/prototype/src/company/library-catalog.json": {
+      "before": "5d5c094c2897ffda565ed107aa2b9b6c34fcf0c2ff8243440704af166acc1587",
+      "during": "fa820bc377a1f40cd5298ff015de4b54514204174996faf3d23056c26f8ead35",
+      "after": "5d5c094c2897ffda565ed107aa2b9b6c34fcf0c2ff8243440704af166acc1587"
+    },
+    "source/prototype/public/company-build-info.json": {
+      "before": "05d1d74f397ecb595e6daa74a3f3289a986e89cde3e5f610b6bfbb20b89ae36d",
+      "during": "7ca5b949bcf03771b6bcb2439964c3d01821606eb141af53f9dde28cdcc7cd43",
+      "after": "05d1d74f397ecb595e6daa74a3f3289a986e89cde3e5f610b6bfbb20b89ae36d"
+    }
+  },
+  "commands": [
+    {
+      "name": "valid-original",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1",
+      "argv": [
+        "node",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\three-installations.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "valid-edit",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1",
+      "argv": [
+        "node",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\three-installations.json",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\good-operations.json",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\valid-edit"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "valid-reopen",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1",
+      "argv": [
+        "node",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\valid-edit\\save.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "bad-build-id",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1\\source\\prototype",
+      "argv": [
+        "node",
+        "scripts/build-company-id.mjs"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "bad-viewer-build",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1\\source\\prototype",
+      "argv": [
+        "node",
+        "node_modules/vite/bin/vite.js",
+        "build",
+        "--config",
+        "vite.company.config.js",
+        "--outDir",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\bad-viewer"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "good-room-with-bad-resource-unused",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1",
+      "argv": [
+        "node",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\valid-edit\\save.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "bad-room-validate",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1",
+      "argv": [
+        "node",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\named-bad-role.json"
+      ],
+      "exit": 1,
+      "error": {
+        "ok": false,
+        "code": "invalid-garment-envelope",
+        "path": "garment-hanging-dress",
+        "message": "invalid-garment-envelope at garment-hanging-dress: Visible geometry exceeds the fixed mounting envelope."
+      }
+    },
+    {
+      "name": "bad-replacement-apply",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1",
+      "argv": [
+        "node",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\valid-edit\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\bad-operations.json",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\failed-edit"
+      ],
+      "exit": 1,
+      "error": {
+        "ok": false,
+        "code": "invalid-garment-envelope",
+        "path": "garment-hanging-dress",
+        "message": "invalid-garment-envelope at garment-hanging-dress: Visible geometry exceeds the fixed mounting envelope."
+      }
+    },
+    {
+      "name": "cold-pack-valid-default-bad-named",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1",
+      "argv": [
+        "node",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1\\source\\scripts\\company-platform\\package-company.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\bad-viewer",
+        "ce0380592f51",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\valid-edit\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\failed-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1\\source",
+        "--room",
+        "corrupt-role",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\named-bad-role.json"
+      ],
+      "exit": 1,
+      "error": {
+        "ok": false,
+        "code": "invalid-garment-envelope",
+        "path": "garment-hanging-dress",
+        "message": "invalid-garment-envelope at garment-hanging-dress: Visible geometry exceeds the fixed mounting envelope."
+      }
+    },
+    {
+      "name": "restored-room-editable",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1",
+      "argv": [
+        "node",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\valid-edit\\save.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "restored-original-dress-valid",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1",
+      "argv": [
+        "node",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\garment-rack-receiver-v1\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\garment-rack\\contracts\\independent-no-desk\\named-bad-role.json"
+      ],
+      "exit": 0
+    }
+  ],
+  "badBuild": "ce0380592f51",
+  "badGlb": {
+    "url": "/company-assets/garment-rack-v1/garment-hanging-dress/v1/model.glb",
+    "expectedRole": "hanging-garment",
+    "actualRole": "garment-rack-wardrobe",
+    "source": "/company-assets/garment-rack-v1/garment-rack-portal/v1/model.glb",
+    "bytes": 226708,
+    "sha256": "0569b7f817d3d02d042e8cfd0cec9ac2ef4624be3162272877d2b9c4f9787578"
+  },
+  "savedOutputSha256": {
+    "three-installations.json": "7bbf76dc03c6bdd0f4b518728d5fd8a8745d5c94e27c0930de7e99f48a49a974",
+    "valid-edit\\save.json": "9c4c4055b9951c300cb4722b655d88300063fa34f1a04961f2d3ab2dfefbd341",
+    "valid-edit\\layout.json": "51022c288d3f6c67fb121b19dd6889b3b7a8039a9171e77b4d3a4295e8bdf591"
+  }
+}
