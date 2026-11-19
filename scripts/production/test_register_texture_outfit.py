@@ -33,12 +33,16 @@ class TextureRegistrationTests(unittest.TestCase):
                 shutil.copyfile(register.ROOT / 'prototype/public' / relative, target)
 
     def test_real_producers_install_both_then_check_and_repeat(self):
+        deployed = (register.ROOT / register.CATALOG).read_bytes()
         previous = self.seed
         for group, producer in register.PRODUCERS.items():
             first = register.register(group, root=self.project)
             self.assertEqual(first, register.register(group, root=self.project, check=True))
             self.assertEqual(first, register.register(group, root=self.project))
             current = self.catalog.read_bytes()
+            generated = json.loads(current)[producer.PROFILE_ID]
+            self.assertEqual(register.next_catalog(deployed, generated), deployed,
+                             'A shoe extension must not modify the registered producer profile')
             self.assertTrue(current.startswith(previous.rstrip()[:-1].rstrip() + b',\n'))
             previous = current
             self.assertEqual(first['bodyType'], producer.PROFILE_ID)

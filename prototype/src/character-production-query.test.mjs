@@ -1,5 +1,6 @@
 import productionCatalog from './native-production-catalog.json' with {type:'json'};
 import sourceOutfits from './source-outfit-profiles.json' with {type:'json'};
+import shoeOutfits from './source-shoe-outfits.json' with {type:'json'};
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
@@ -154,7 +155,8 @@ test('lists exact body registrations and all outfits and material references fro
   }
   const sourceProfiles = Object.values(sourceOutfits);
   assert.equal(registrations.length, 25 + sourceProfiles.length + productionCatalog.entries.length);
-  assert.equal(outfitCount, 43 + sourceProfiles.reduce((sum, row) => sum + 1 + (row.extraOutfits?.length ?? 0), 0) + productionCatalog.entries.length);
+  const sourceCount = sourceProfiles.reduce((sum, row) => sum + 1 + (row.extraOutfits?.length ?? 0), 0);
+  assert.equal(outfitCount, 43 + sourceCount + shoeOutfits.length + productionCatalog.entries.length);
   assert.equal(checkedRecipes.size, 1);
 });
 
@@ -233,7 +235,13 @@ test('female texture release retains the two independently fitted torso selectio
   const {controller} = await fixture(derived.id);
   const choices = queryCharacterProduction(controller);
   assert.equal(fittedChoice(choices.liveAccessories.glasses).templeFit.bodySha256, derived.sha256);
-  assert.deepEqual(choices.outfits.map(row => row.index), [0, 5]);
+  assert.deepEqual(choices.outfits.map(row => row.index), [0, 5, 6]);
+  const at = index => choices.outfits.find(row => row.index === index).equipment;
+  const baseClothes = items => items.filter(row => ['pants','topFar'].includes(row.role));
+  assert.deepEqual(baseClothes(at(6)), baseClothes(at(5)));
+  const thick = at(6).find(row => row.role === 'platformShoes');
+  assert.equal(thick.materials.binding.bodySha256, derived.sha256);
+  assert.notEqual(thick.sha256, at(5).find(row => row.role === 'shoes').sha256);
   assert.equal(sha256(await readFile(publicFile(derived.url))), derived.sha256);
   const coverage = profile => [profile.bodyCoverage, profile.additionalBodyCoverage.find(r => r.role === 'topFar').descriptor];
   for (const [i, descriptor] of coverage(derived).entries()) {
@@ -385,16 +393,20 @@ test('shared 1K uniform style resolves the exact wearer and version through the 
   }
 });
 
-test('published platform shoe resolves only its measured body and remains a technical candidate', async () => {
-  const exact = 'source-male-cc0-texture-release-v1';
-  const fragment = await readFile(new URL('../../assets-source/sole-variant-v1/style-fragment.json', import.meta.url),'utf8');
-  const [style] = JSON.parse(fragment).styles;
-  for (const body of [exact, 'source-female-uniform-texture-v1', 'source-male-ab9a-release-v1']) {
-    const query = queryCharacterProduction((await fixture(body)).controller);
-    const rows = query.styleVariants.find(entry => entry.styleId === style.styleId)?.variants ?? [];
-    assert.deepEqual(rows, body === exact ? style.variants : []);
-    assert.equal(query.runtimeVariants.some(row => row.styleId === style.styleId), false);
+test('one platform shoe style resolves each measured body separately and keeps the unsupported source empty', async () => {
+  const styleId = 'uniform-platform-shoes-v1';
+  for (const folder of ['sole-variant-v1','sole-variant-female-v1']) {
+    const file = new URL('../../assets-source/' + folder + '/style-fragment.json', import.meta.url);
+    const [style] = JSON.parse(await readFile(file,'utf8')).styles;
+    assert.equal(style.styleId, styleId);
+    const [expected] = style.variants;
+    const {controller} = await fixture(expected.bodyType);
+    const query = queryCharacterProduction(controller);
+    assert.deepEqual(query.styleVariants.find(entry => entry.styleId === styleId)?.variants, [expected]);
+    assert.equal(query.runtimeVariants.some(row => row.styleId === styleId), false);
   }
+  const oldBody = queryCharacterProduction((await fixture('source-male-ab9a-release-v1')).controller);
+  assert.equal(oldBody.styleVariants.some(entry => entry.styleId === styleId), false);
 });
 
 test('exposes native parameter packages as exact candidate variants without inheriting admission', async () => {

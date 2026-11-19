@@ -34,10 +34,12 @@ function geometryFromGlb(bytes) {
   })).sort();
 }
 
-async function readActor() {
+async function readActors(expectedRecords) {
   const api=window.__recordConsumer;
-  if(api.inputFailure||api.errors.length||api.actors.size!==1||api.records.length!==1)throw Error('Expected one restored character');
-  const [actor]=api.actors.values(),profile=actor.avatar.profile,item=profile.motion.getFootwear();
+  if(api.inputFailure||api.errors.length||api.actors.size!==expectedRecords||api.records.length!==expectedRecords)
+    throw Error('Expected the full signed footwear roster');
+  return Promise.all([...api.actors.values()].map(async actor=>{
+  const profile=actor.avatar.profile,item=profile.motion.getFootwear();
   const jsonHash=async data=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',data)),b=>b.toString(16).padStart(2,'0')).join('');
   const visibleMeshes=new Map(),geometry=[];
   for(const mesh of item.meshes) {
@@ -70,7 +72,7 @@ async function readActor() {
         ys.push(mesh.getVertexPosition(vertex,new api.three.Vector3()).applyMatrix4(mesh.matrixWorld).y);
       }
       if(!ys.length||!ys.every(Number.isFinite))throw Error('Empty or nonfinite contact patch');
-      patches[side][kind]={count:ys.length,minWorldY:Math.min(...ys),vertices:byMesh};
+      patches[side][kind]={count:ys.length,minWorldY:Math.min(...ys),maxWorldY:Math.max(...ys),vertices:byMesh};
     }
   }
   const playback=[];
@@ -89,8 +91,10 @@ async function readActor() {
   }
   const gl=api.renderer.getContext(),ext=gl.getExtension('WEBGL_debug_renderer_info');
   return {build:api.buildInfo.shortId,root:actor.avatar.root.uuid,revision:actor.revision,id:actor.identity.id,
-    recordSha256:actor.recordSha256,shoe:item.id,shoeSha256:item.entry.sha256,footwearMeshRoles:profile.meshRoles.footwear,
+    recordSha256:actor.recordSha256,bodyType:profile.bodyType,bodySha256:profile.sha256,shoe:item.id,
+    shoeSha256:item.entry.sha256,shoeFitId:item.entry.fitId,footwearMeshRoles:profile.meshRoles.footwear,
     outfit:actor.controller.outfit,geometry,patches,playback,renderer:ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):null};
+  }));
 }
 
 async function run(base,pin,directory) {
@@ -103,8 +107,10 @@ async function run(base,pin,directory) {
     assert.equal(response.status,200);
     const bytes=Buffer.from(await response.arrayBuffer());
     assert.equal(sha(bytes),pin);
-    const manifest=JSON.parse(bytes),[record]=manifest.records;
-    assert.equal(manifest.records.length,1);
+    const manifest=JSON.parse(bytes),records=manifest.records;
+    assert(records.length>=1&&records.length<=2,'Expected one cold opening group of one or two signed records');
+    assert.equal(new Set(records.map(record=>record.id)).size,records.length);
+    report.records=records.map(({id,bodyType,avatarSha256,recordSha256,outfitIndex})=>({id,bodyType,avatarSha256,recordSha256,outfitIndex}));
     assert.equal(manifest.runtime.entryUrl,'record-consumer.html?records=/records/manifest.json');
     for(const phase of ['first','reopened']){
       const trace={phase};report.runs.push(trace);
@@ -119,33 +125,47 @@ async function run(base,pin,directory) {
         page.on('request',r=>requests.push(r.url()));
         await page.goto(new URL(manifest.runtime.entryUrl,base).href);
         await page.waitForFunction(()=>window.__recordConsumer?.ready,null,{timeout:90000});
+        const transfers=new Map();
         async function served(file){
+          if(transfers.has(file))return transfers.get(file);
           const row=manifest.files.find(r=>r.path===file),body=await network.read(new URL(file,base).href);
           assert.equal(sha(body.bytes),row.sha256);
           assert.equal(body.bytes.length,row.bytes);
           (trace.responses??=[]).push({file,sha256:row.sha256,bytes:row.bytes,transferBytes:body.transferBytes});
+          transfers.set(file,body.bytes);
           return body.bytes;
         }
         const index=JSON.parse(await served(manifest.recordManifest));
-        const signed=JSON.parse(await served(record.file));
-        assert.deepEqual(index.entries,[{id:record.id,url:'/'+record.file,recordSha256:record.recordSha256}]);
-        assert.equal(signed.revision,record.revision);
-        assert.equal(signed.identity.id,record.id);
-        assert.equal(signed.integrity.recordSha256,record.recordSha256);
-        const shoes=Object.values(signed.appearanceRecipe.equipment.resources).filter(r=>r.slot==='shoes');
-        assert.equal(shoes.length,1);
-        const [shoe]=shoes,glb=await served(shoe.url.slice(1));
-        assert.equal(sha(glb),shoe.sha256);
-        assert.equal(glb.length,shoe.bytes);
-        const a=trace.actor=await page.evaluate(readActor);
-        assert.deepEqual([a.id,a.revision,a.recordSha256,a.build,a.outfit,a.shoe,a.shoeSha256],
-          [record.id,record.revision,record.recordSha256,manifest.runtime.buildId,record.outfitIndex,shoe.id,shoe.sha256]);
-        assert.deepEqual(a.geometry.map(g=>g.fingerprint).sort(),geometryFromGlb(glb));
-        assert.deepEqual(a.footwearMeshRoles.sort(),a.geometry.map(g=>g.mesh).sort());
-        assert.deepEqual(Object.keys(a.patches).sort(),['left','right']);
-        const first=a.playback[0],last=a.playback.at(-1);
-        assert(last.frame>first.frame && last.seconds>first.seconds && last.renderFrame>first.renderFrame);
-        assert(a.playback.some(s=>s.pose.some((v,i)=>Math.abs(v-first.pose[i])>1e-5)));
+        assert.deepEqual(index.entries,records.map(record=>({id:record.id,url:'/'+record.file,recordSha256:record.recordSha256})));
+        const restored=await page.evaluate(readActors,records.length);
+        if(records.length===1)trace.actor=restored[0];else trace.actors=restored;
+        assert.equal(new Set(restored.map(actor=>actor.root)).size,records.length,'Cold actors must own independent instances');
+        assert.equal(new Set(restored.flatMap(actor=>actor.geometry.map(mesh=>mesh.mesh))).size,
+          restored.reduce((count,actor)=>count+actor.geometry.length,0),'Cold actors share live footwear meshes');
+        for(const record of records){
+          const signed=JSON.parse(await served(record.file));
+          assert.equal(signed.revision,record.revision);
+          assert.equal(signed.identity.id,record.id);
+          assert.equal(signed.integrity.recordSha256,record.recordSha256);
+          assert.deepEqual(signed.appearanceRecipe.base,{bodyType:record.bodyType,sha256:record.avatarSha256});
+          const shoes=Object.values(signed.appearanceRecipe.equipment.resources).filter(resource=>resource.slot==='shoes');
+          assert.equal(shoes.length,1);
+          const [shoe]=shoes,glb=await served(shoe.url.slice(1));
+          assert.equal(shoe.compatibleAvatarSha256,record.avatarSha256);
+          assert.equal(sha(glb),shoe.sha256);
+          assert.equal(glb.length,shoe.bytes);
+          const a=restored.find(actor=>actor.id===record.id);
+          assert(a,'Cold scene missed signed actor '+record.id);
+          assert.deepEqual([a.id,a.revision,a.recordSha256,a.build,a.bodyType,a.bodySha256,a.outfit,a.shoe,a.shoeSha256,a.shoeFitId],
+            [record.id,record.revision,record.recordSha256,manifest.runtime.buildId,record.bodyType,record.avatarSha256,
+              record.outfitIndex,shoe.id,shoe.sha256,shoe.fitId]);
+          assert.deepEqual(a.geometry.map(g=>g.fingerprint).sort(),geometryFromGlb(glb));
+          assert.deepEqual(a.footwearMeshRoles.sort(),a.geometry.map(g=>g.mesh).sort());
+          assert.deepEqual(Object.keys(a.patches).sort(),['left','right']);
+          const first=a.playback[0],last=a.playback.at(-1);
+          assert(last.frame>first.frame && last.seconds>first.seconds && last.renderFrame>first.renderFrame);
+          assert(a.playback.some(s=>s.pose.some((v,i)=>Math.abs(v-first.pose[i])>1e-5)));
+        }
         trace.glbRequests=requests.filter(u=>new URL(u).pathname.endsWith('.glb')).map(u=>new URL(u).pathname);
         assert(trace.glbRequests.every(url=>manifest.files.some(row=>'/'+row.path===url)));
         const diagnostics=network.diagnostics(),tabIcon=new URL('favicon.ico',base).href;
@@ -163,12 +183,17 @@ async function run(base,pin,directory) {
     }
     const [a,b]=report.runs;
     assert.notEqual(a.browserPid,b.browserPid);
-    assert.notEqual(a.actor.root,b.actor.root);
     function localPatches(actor){
       return Object.values(actor.patches).flatMap(side=>Object.values(side).map(p=>Object.entries(p.vertices)
         .map(([uuid,vertices])=>[actor.geometry.find(g=>g.mesh===uuid).fingerprint,vertices])));
     }
-    assert.deepEqual(localPatches(a.actor),localPatches(b.actor));
+    const actors=run=>run.actors??[run.actor];
+    for(const first of actors(a)){
+      const reopened=actors(b).find(actor=>actor.id===first.id);
+      assert(reopened);
+      assert.notEqual(first.root,reopened.root);
+      assert.deepEqual(localPatches(first),localPatches(reopened));
+    }
     report.passed=true;
   }catch(e){report.error=String(e.stack??e);throw e;}
   finally{await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(out);}

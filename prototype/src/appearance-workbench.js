@@ -45,8 +45,10 @@ export function bindAppearanceWorkbench({ controller }) {
     ],
   };
   for (const [group, rows] of Object.entries(nativeProductionCatalog().choices)) bodyGroups[group].push(...rows);
-  for (const profile of Object.values(sourceOutfits))
-    bodyGroups[profile.workbenchGroup].push({id:profile.id, label:profile.workbenchLabel});
+  for (const id of Object.keys(sourceOutfits)) {
+    const profile = FOUNDATION_PROFILES[id];
+    bodyGroups[profile.workbenchGroup].push({id, label:profile.workbenchLabel});
+  }
   const diagnosticPresets = new Map(REPRESENTATIVE_PRESETS.map(preset => [preset.id, preset]));
   for(const preset of REPRESENTATIVE_PRESETS)bodyGroups[preset.sex].push({id:preset.id,label:preset.previewLabel,diagnostic:true});
   const groupFor = bodyType => Object.keys(bodyGroups).find(group => bodyGroups[group].some(item => item.id === bodyType));

@@ -36,7 +36,8 @@ class PublishedStyleTests(unittest.TestCase):
         for row in published['variants']:
             if row['bodyType'] not in beta_types:
                 authored = register(authored, dict(style, variants=[row]))
-        self.assertEqual(authored, current)
+        # Re-adding a removed style appends it after all surviving styles.
+        self.assertEqual(authored, dict(current, styles=[*without['styles'], published]))
         self.assertEqual(register(current, style), current)
         female, male = style['variants']
         partial = register(without, dict(style, variants=[female]))

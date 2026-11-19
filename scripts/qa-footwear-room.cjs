@@ -6,26 +6,48 @@ const {createHash} = require('node:crypto');
 const {productionRoot, projectOutput} = require('./project-output.cjs');
 const {launchQABrowser} = require('./qa-browser-workspace.cjs');
 
-const body = {type:'source-male-cc0-texture-release-v1', sha256:'2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617'};
-const shoes = {
+const maleBody = {type:'source-male-cc0-texture-release-v1',sha256:'2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617'};
+const maleShoes = {
   1:{role:'pants-top-far',equipmentRole:'shoes',id:'cc0-texture-release-flat-shoes-v1'},
   2:{role:'pants-top-far-platform',equipmentRole:'platformShoes',id:'cc0-texture-release-platform-shoes-v1'},
 };
-const config = {shoes, sampleIntervalMs:80, closeCamera:{offset:[1.42,.65,1.15],targetHeight:.44,fov:33},
+const defaultCase = {schema:'footwear-room-case-v1',bodySha256:maleBody.sha256,label:'platform',outfitIndex:2,
+  ...maleShoes[2],sha256:'8b23ba4f3add78322c1b3246b3ac80387d8eb2f2dd8e300b6443a33b0ed619c7'};
+const config = {sampleIntervalMs:80, closeCamera:{offset:[1.42,.65,1.15],targetHeight:.44,fov:33},
   floorY:0, severeDepthM:.025, severeDurationS:.30, maxSampleGapS:.25};
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const terminal = ['completed','cancelled','failed'];
 const sameCamera=(a,b)=>a.fov===b.fov&&['position','rotation'].every(key=>a[key].every((v,i)=>Math.abs(v-b[key][i])<1e-6));
+const distance=(a,b)=>Math.hypot(...a.map((v,i)=>v-b[i]));
 
-function signedFlat(bytes) {
+function shoeSlot(resources) {
+  const entries=Object.entries(resources??{}).filter(([,resource])=>resource?.slot==='shoes');
+  assert.equal(entries.length,1,'Expected one selected equipment resource in the shoes slot');
+  return entries[0];
+}
+
+function signedFlat(bytes,pair=defaultCase) {
   const input = JSON.parse(bytes), values = Array.isArray(input) ? input : [input];
-  const matches = values.filter(record => record?.appearanceRecipe?.base?.bodyType === body.type &&
-    record.appearanceRecipe.equipment?.index === 1);
-  assert.equal(matches.length,1,'Expected exactly one signed male 1K flat record');
+  const knownMale=pair.bodySha256===maleBody.sha256;
+  const bodyType=pair.bodyType??(knownMale?maleBody.type:undefined);
+  const referenceIndex=pair.referenceIndex??(knownMale?1:undefined);
+  const matches = values.filter(record => {
+    const recipe=record?.appearanceRecipe, index=recipe?.equipment?.index;
+    return recipe?.base?.sha256===pair.bodySha256 && (!bodyType||recipe.base.bodyType===bodyType) &&
+      Number.isSafeInteger(index) && index>=0 && index!==pair.outfitIndex &&
+      (referenceIndex===undefined||index===referenceIndex);
+  });
+  assert.equal(matches.length,1,'Expected exactly one original signed flat record for the selected body and reference outfit');
   const [record] = matches;
-  assert.equal(record.appearanceRecipe.base.sha256,body.sha256);
-  assert.equal(record.appearanceRecipe.equipment.role,shoes[1].role);
-  assert.equal(Object.values(record.appearanceRecipe.equipment.resources).find(entry=>entry.slot==='shoes')?.id,shoes[1].id);
+  const {base,equipment}=record.appearanceRecipe, [equipmentRole,shoe]=shoeSlot(equipment.resources);
+  assert.match(base.bodyType,/^[a-z][a-z0-9-]*$/);
+  assert.match(equipment.role,/^[A-Za-z][A-Za-z0-9-]*$/);
+  assert.match(shoe.sha256,/^[a-f0-9]{64}$/);
+  assert.equal(shoe.compatibleAvatarSha256,base.sha256);
+  assert.notEqual(shoe.id,pair.id,'Reference and comparison must use different shoes');
+  assert.notEqual(shoe.sha256,pair.sha256,'Reference and comparison must have different shoe bytes');
+  if(knownMale && referenceIndex===1)
+    assert.deepEqual({id:shoe.id,equipmentRole,role:equipment.role},maleShoes[1]);
   assert.match(record.integrity.recordSha256,/^[a-f0-9]{64}$/);
   return record;
 }
@@ -86,16 +108,17 @@ function installProbe(settings) {
         }
       }
       const patches=Object.fromEntries(Object.entries(selection?.patches??{}).map(([kind,points])=>{
-        const owners=new Map();let minimum=null,matched=0;
+        const owners=new Map();let minimum=null,maximum=null,matched=0;
         for(const p of points){
           const owner=meshes.get(p.mesh);
           if(!owners.has(p.mesh))owners.set(p.mesh,{mesh:p.mesh,id:owner?.id??null,visible:owner?.shown??false});
           if(owner&&refs(owner.mesh).byVertex.get(p.vertex)===side){
             const y=point(owner.mesh,p.vertex).y;
-            minimum=minimum===null?y:Math.min(minimum,y);matched++;
+            minimum=minimum===null?y:Math.min(minimum,y);
+            maximum=maximum===null?y:Math.max(maximum,y);matched++;
           }
         }
-        return [kind,{count:points.length,correctSide:matched,minWorldY:minimum,owners:[...owners.values()]}];
+        return [kind,{count:points.length,correctSide:matched,minWorldY:minimum,maxWorldY:maximum,owners:[...owners.values()]}];
       }));
       const foot=m.feet.find(row=>row.side===side);
       return [side,{sole,vertexCount,patches,calibrationVertices:selection?.selectedVertexCount??null,
@@ -106,8 +129,10 @@ function installProbe(settings) {
     if(!seat?.geometry)throw Error('Missing room seat mesh');
     seat.geometry.computeBoundingBox();
     const seatTop=seat.localToWorld(vector.set(0,seat.geometry.boundingBox.max.y,0)).y;
+    const current=actor.profile.motion.getFootwear();
     return {label,wallMs,simulationTime:s.simulationTime,playbackRate:s.playbackRate,paused:s.paused,suspended:!!s.backgroundSuspended,
-      actor:actor.root.uuid,bodySHA256:actor.profile.sha256,outfit:s.outfit,avatarOutfit:actor.getOutfitInfo().index,
+      actor:actor.root.uuid,bodyType:actor.profile.bodyType,bodySHA256:actor.profile.sha256,outfit:s.outfit,avatarOutfit:actor.getOutfitInfo().index,
+      footwear:current&&{id:current.id,sha256:current.entry.sha256,fitId:current.entry.fitId,meshes:current.meshes.map(mesh=>mesh.uuid)},
       root:m.rootWorld,hip:m.hipWorld,speed:s.speed,mode:s.mode,pending:s.pending?.name??null,target:s.target,
       seat:{topY:seatTop,root:s.chair.position,yaw:s.chair.yaw,approach:s.chair.approach,pelvisClearance:m.seatPelvisClearance,progress:m.sitProgress},
       motion:{gait:m.gait,stopTime:m.stopTime,action:m.action,walkGroundLift:m.sourceGroundLift,
@@ -170,31 +195,37 @@ function recordLook(record) {
     nativeHairCenter:record.nativeHairCenter,resources:record.resourceIdentities};
 }
 
-function soleFaults(row, checkedShoes=shoes) {
-  const expected=checkedShoes[row.outfit]?.id, faults=[];
+function soleFaults(row, checkedShoes) {
+  const selected=checkedShoes[row.outfit], expected=selected?.id, faults=[];
   if(!expected||!row.visible.length||row.visible.some(mesh=>mesh.id!==expected||mesh.unclassified))
     faults.push({reason:'wrong/missing visible shoe or vertex ownership'});
+  const actual=row.footwear;
+  if(!actual||actual.id!==expected||(selected?.sha256&&actual.sha256!==selected.sha256)||
+     (selected?.fitId&&actual.fitId!==selected.fitId)||
+     JSON.stringify([...actual.meshes].sort())!==JSON.stringify(row.visible.map(mesh=>mesh.mesh).sort()))
+    faults.push({reason:'visible meshes differ from the current exact footwear'});
   for(const side of ['left','right']){
     const foot=row.feet[side];
     if(!foot?.sole||!Number.isFinite(foot.sole.groundDeltaM)||foot.sole.id!==expected||!foot.vertexCount)
       faults.push({side,reason:'missing actual sole'});
     for(const patch of ['heel','toe']){
       const p=foot?.patches[patch];
-      if(!p?.count||p.correctSide!==p.count||p.owners.some(owner=>!owner.visible||owner.id!==expected))
+      if(!p?.count||p.correctSide!==p.count||!Number.isFinite(p.minWorldY)||!Number.isFinite(p.maxWorldY)||
+         p.minWorldY>p.maxWorldY||p.owners.some(owner=>!owner.visible||owner.id!==expected))
         faults.push({side,patch,reason:'calibration did not use this visible shoe'});
     }
   }
   return faults;
 }
 
-function traceChecks(samples, {allowSwitch=false, checkedShoes=shoes}={}) {
+function traceChecks(samples, {allowSwitch=false, checkedShoes=maleShoes, body=maleBody}={}) {
   assert(samples.length>20,'Too few physical samples');
   const first=samples[0],last=samples.at(-1),wall=(last.wallMs-first.wallMs)/1000;
   const ratio=(last.simulationTime-first.simulationTime)/wall;
   assert(ratio>=.90&&ratio<=1.03,'Game motion clock diverged from actual playback');
   const faults=[],contact={};
   for(const [index,row] of samples.entries()){
-    if(row.paused||row.suspended||row.playbackRate!==1||row.actor!==first.actor||row.bodySHA256!==body.sha256||
+    if(row.paused||row.suspended||row.playbackRate!==1||row.actor!==first.actor||row.bodyType!==body.type||row.bodySHA256!==body.sha256||
        row.avatarOutfit!==row.outfit||(!allowSwitch&&row.outfit!==first.outfit))faults.push({index,reason:'runtime identity or clock'});
     faults.push(...soleFaults(row,checkedShoes).map(fault=>({index,...fault})));
     for(const side of ['left','right']){
@@ -221,8 +252,12 @@ function traceChecks(samples, {allowSwitch=false, checkedShoes=shoes}={}) {
 
 function footwearCase(value) {
   assert.equal(value.schema,'footwear-room-case-v1');
-  assert.equal(value.bodySha256,body.sha256);
-  assert(Number.isSafeInteger(value.outfitIndex) && value.outfitIndex>1,'Expected a distinct second outfit index');
+  assert.match(value.bodySha256,/^[a-f0-9]{64}$/);
+  if(value.bodyType!==undefined)assert.match(value.bodyType,/^[a-z][a-z0-9-]*$/);
+  assert(Number.isSafeInteger(value.outfitIndex) && value.outfitIndex>=0,'Expected a configured comparison outfit index');
+  if(value.referenceIndex!==undefined)
+    assert(Number.isSafeInteger(value.referenceIndex) && value.referenceIndex>=0 && value.referenceIndex!==value.outfitIndex,
+      'Expected a distinct signed reference outfit index');
   assert.match(value.label,/^[a-z][a-z0-9-]{0,40}$/);
   assert.notEqual(value.label,'flat','The comparison name must differ from the reference');
   for(const key of ['role','equipmentRole','id'])assert.match(value[key],/^[A-Za-z][A-Za-z0-9-]{0,100}$/);
@@ -239,20 +274,26 @@ function footwearCase(value) {
 }
 
 async function run(base, sourceDigest, input, output, caseFile) {
-  assert(base&&input&&output&&/^[a-f0-9]{64}$/.test(sourceDigest??''),'Expected BASE SOURCE_DIGEST SIGNED_FLAT_RECORD OUTPUT');
+  assert(base&&input&&output&&/^[a-f0-9]{64}$/.test(sourceDigest??''),'Expected BASE SOURCE_DIGEST SIGNED_FLAT_RECORD OUTPUT [CASE_JSON]');
   const root=await productionRoot(),out=await projectOutput(output,root);
-  const bytes=await fs.readFile(input),record=signedFlat(bytes);
-  const pair=footwearCase(caseFile ? JSON.parse(await fs.readFile(caseFile,'utf8')) : {
-    schema:'footwear-room-case-v1',bodySha256:body.sha256,label:'platform',outfitIndex:2,...shoes[2],
-    sha256:'8b23ba4f3add78322c1b3246b3ac80387d8eb2f2dd8e300b6443a33b0ed619c7',
-  });
+  const caseBytes=caseFile?await fs.readFile(caseFile):null;
+  const pair=footwearCase(caseBytes?JSON.parse(caseBytes):defaultCase);
+  const bytes=await fs.readFile(input),record=signedFlat(bytes,pair);
+  const body={type:record.appearanceRecipe.base.bodyType,sha256:record.appearanceRecipe.base.sha256};
+  const flat=record.appearanceRecipe.equipment, indexFlat=flat.index;
+  const [flatSlot,flatShoe]=shoeSlot(flat.resources);
   const {outfitIndex:index2,label}=pair;
-  const checkedShoes={1:shoes[1],[index2]:{id:pair.id,role:pair.role,equipmentRole:pair.equipmentRole}};
+  const checkedShoes={
+    [indexFlat]:{role:flat.role,equipmentRole:flatSlot,id:flatShoe.id,sha256:flatShoe.sha256,fitId:flatShoe.fitId},
+    [index2]:{role:pair.role,equipmentRole:pair.equipmentRole,id:pair.id,sha256:pair.sha256},
+  };
   const settings={...config,shoes:checkedShoes};
   const {canonicalJson}=await import('../prototype/src/character-record.js');
   const url=new URL(base);url.searchParams.set('workbench','appearance');url.searchParams.set('body',body.type);
   const report={schema:'footwear-room-qa-v1',expectedSourceDigest:sourceDigest,body,settings,comparison:pair,status:'incomplete',
-    sourceRecord:{path:path.resolve(input),fileSHA256:sha(bytes),recordSHA256:record.integrity.recordSha256},
+    comparisonSource:caseBytes?{path:path.resolve(caseFile),sha256:sha(caseBytes)}:'historical-male-platform',
+    sourceRecord:{path:path.resolve(input),fileSHA256:sha(bytes),id:record.identity.id,revision:record.revision,
+      recordSHA256:record.integrity.recordSha256,outfitIndex:indexFlat,shoeId:flatShoe.id,shoeSha256:flatShoe.sha256},
     conditions:['Indexed posed skin vertices in the visible registered shoe, independently separated by foot weights.',
       'Room structural floor y=0 m. Rug covering is not the measurement plane. Sampled minima are not swept surface contact.',
       'A continuous sample span of at least 0.30 s below -25 mm on one side triggers review. Gaps over 0.25 s break the span.',
@@ -320,13 +361,18 @@ async function run(base, sourceDigest, input, output, caseFile) {
       await fs.writeFile(path.join(out,sampleFile),JSON.stringify(result.samples,null,2)+'\n',{flag:'wx'});
       Object.assign(entry,{file,sha256:sha(video),bytes:video.length,sampleFile,samples:result.samples.length,captureFaults:result.faults});
       assert(video.length>1000&&result.faults.length===0,JSON.stringify(result.faults));
-      entry.checks=traceChecks(result.samples,{allowSwitch:framing==='feet',checkedShoes});
+      entry.checks=traceChecks(result.samples,{allowSwitch:framing==='feet',checkedShoes,body});
       if(framing==='room'){
-        assert(result.samples.some(row=>row.label==='walk'&&row.speed>.3),'No meaningful room walk');
+        const standing=result.samples.filter(row=>row.label==='standing');
+        const walk=result.samples.filter(row=>row.label==='walk');
+        const leave=result.samples.filter(row=>row.label==='leave');
+        assert(standing.some(row=>row.speed<.01&&row.motion.gait<.01),'No standing start');
+        assert(walk.some(row=>row.speed>.3)&&distance(standing.at(-1).root,walk.at(-1).root)>.15,'No meaningful room walk');
         assert(result.samples.some(row=>row.label==='walk-stop'&&row.speed<.01&&row.motion.gait<.01),'Room walk did not stop');
         assert(result.samples.some(row=>row.label==='seat-approach'&&row.speed>.3),'No meaningful seat approach');
         assert(result.samples.some(row=>row.label==='seated'&&row.seat.progress>.995),'No stable seated sample');
         assert(result.samples.some(row=>row.label==='rise'&&row.seat.progress>.01&&row.seat.progress<.99),'No sit-to-stand samples');
+        assert(leave.some(row=>row.speed>.3)&&distance(leave[0].root,leave.at(-1).root)>.15,'No physical exit from the chair');
         assert(result.samples.some(row=>row.label==='dance'&&row.motion.danceId==='dance-technical-once-v1'&&row.motion.danceTime>6.5),'Dance did not reach the end of its authored clip');
       }
     }
@@ -352,18 +398,33 @@ async function run(base, sourceDigest, input, output, caseFile) {
     assert.equal(canonicalJson(recordLook(actual)),canonicalJson(recordLook(target)),'Restored look differs from the signed JSON');
     const state=await snap(label);report.events.push({label,result,state,faults:soleFaults(state,checkedShoes)});
     assert.equal(state.outfit,target.appearanceRecipe.equipment.index);
+    assert.equal(state.bodyType,target.appearanceRecipe.base.bodyType);
+    assert.equal(state.bodySHA256,target.appearanceRecipe.base.sha256);
     return state;
   };
 
   try{
     session=await launchQABrowser(out,{channel:'chrome'});report.browser=session.browser.version();
     ({page,build:report.build}=await open());await page.evaluate(installProbe,settings);
-    const looks=await page.evaluate(indices=>Object.fromEntries(indices.map(index=>[index,__debug.avatar().getEquipmentRecipe(index)])),[1,index2]);
-    for(const index of [1,index2]){
-      const entry=looks[index][checkedShoes[index].equipmentRole];
-      assert.equal(entry?.id,checkedShoes[index].id);
-      if(index===index2)assert.equal(entry.sha256,pair.sha256);
-      assert.equal(entry.slot,'shoes');
+    const available=await page.evaluate(indices=>{
+      const avatar=__debug.avatar();
+      return {type:avatar.profile.bodyType,sha256:avatar.profile.sha256,outfits:Object.fromEntries(indices.map(index=>{
+        const selection=avatar.config.outfits.find(look=>look.index===index);
+        if(!selection)throw Error('Missing fixed outfit '+index);
+        return [index,{role:selection.role,resources:avatar.getEquipmentRecipe(index)}];
+      }))};
+    },[indexFlat,index2]);
+    assert.deepEqual({type:available.type,sha256:available.sha256},body);
+    const looks=Object.fromEntries(Object.entries(available.outfits).map(([index,look])=>[index,look.resources]));
+    assert.equal(canonicalJson(looks[indexFlat]),canonicalJson(flat.resources),'Fixed reference resources differ from the original signature');
+    for(const index of [indexFlat,index2]){
+      const selected=checkedShoes[index],[equipmentRole,entry]=shoeSlot(looks[index]);
+      assert.equal(available.outfits[index].role,selected.role);
+      assert.equal(equipmentRole,selected.equipmentRole);
+      assert.equal(entry.id,selected.id);
+      assert.equal(entry.sha256,selected.sha256);
+      assert.equal(entry.compatibleAvatarSha256,body.sha256);
+      selected.fitId=entry.fitId;
       const asset=new URL(entry.url,url);
       assert.equal(asset.origin,url.origin);assert(asset.pathname.startsWith('/assets/')&&!asset.search&&!asset.hash);
       const response=await fetch(asset,{redirect:'error'});assert(response.ok,'Missing declared shoe '+entry.id);
@@ -371,9 +432,9 @@ async function run(base, sourceDigest, input, output, caseFile) {
     }
     const constantEquipment = look=>Object.values(look).filter(entry=>
       entry.slot!=='shoes' && !(pair.pairedPants && entry.slot==='bottom'));
-    assert.deepEqual(constantEquipment(looks[1]),constantEquipment(looks[index2]));
+    assert.equal(canonicalJson(constantEquipment(looks[indexFlat])),canonicalJson(constantEquipment(looks[index2])));
     if (pair.pairedPants) {
-      for (const [index, expected] of [[1,pair.pairedPants.reference],[index2,pair.pairedPants.candidate]]) {
+      for (const [index, expected] of [[indexFlat,pair.pairedPants.reference],[index2,pair.pairedPants.candidate]]) {
         const bottoms=Object.values(looks[index]).filter(item=>item.slot==='bottom');
         assert.equal(bottoms.length,1);
         assert.equal(bottoms[0].sha256,expected.sha256);
@@ -388,12 +449,12 @@ async function run(base, sourceDigest, input, output, caseFile) {
       }
     }
     report.looks=looks;
-    await restore(record,'input-flat-restore');await setup();await room('room-flat');
+    const original=await restore(record,'input-flat-restore');await setup();await room('room-flat');
     await setup();await fit(index2,'standing-flat-to-'+label);
     const candidate=await page.evaluate(previous=>__debug.captureCharacterRecord({previous,expectedRevision:previous.revision}),record);
     assert.deepEqual(candidate.identity,record.identity);assert.equal(candidate.revision,record.revision+1);
     assert.equal(candidate.appearanceRecipe.equipment.index,index2);assert.equal(candidate.appearanceRecipe.equipment.role,pair.role);
-    assert.deepEqual(candidate.appearanceRecipe.equipment.resources,looks[index2]);
+    assert.equal(canonicalJson(candidate.appearanceRecipe.equipment.resources),canonicalJson(looks[index2]));
     await fs.writeFile(path.join(out,'observed-'+label+'-record.json'),JSON.stringify(candidate,null,2)+'\n',{flag:'wx'});
     report[label+'DiagnosticRecord']=candidate.integrity.recordSha256;
     await room('room-'+label);
@@ -403,7 +464,7 @@ async function run(base, sourceDigest, input, output, caseFile) {
       await behavior('feet','seat-approach','sit',{usePointId:'room-chair-1'});
       await phase(label+'-seated',700);report[label+'Seated']=await take(label+'-seated');
       await mark('seated-swap');
-      const swap=await fit(1,'seated-'+label+'-to-flat');
+      const swap=await fit(indexFlat,'seated-'+label+'-to-flat');
       for(const row of [swap.previous,swap.after]){
         assert.equal(row.mode,'sit');assert(row.seat.progress>.995);
       }
@@ -414,7 +475,10 @@ async function run(base, sourceDigest, input, output, caseFile) {
     });
     await page.close();
     ({page}=await open());await page.evaluate(installProbe,settings);
-    await restore(candidate,'fresh-'+label+'-restore');await restore(record,'fresh-flat-restore');
+    const fresh=await restore(candidate,'fresh-'+label+'-restore');
+    const restored=await restore(record,'fresh-flat-restore');
+    assert.notEqual(fresh.actor,original.actor,'Expected a fresh room actor before restoring signed outfits');
+    assert.equal(restored.actor,fresh.actor,'Old signed record replaced the fresh same-body actor');
     assert.deepEqual(report.errors,[]);
     const flat=report.films['room-flat'].checks,other=report.films['room-'+label].checks;
     assert(flat.fixedCamera&&other.fixedCamera,'Room camera changed during comparison');
@@ -431,4 +495,4 @@ async function run(base, sourceDigest, input, output, caseFile) {
 }
 
 if(require.main===module)run(...process.argv.slice(2)).catch(error=>{console.error(error);process.exitCode=1;});
-module.exports={signedFlat,traceChecks};
+module.exports={footwearCase,signedFlat,traceChecks};

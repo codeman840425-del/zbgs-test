@@ -1,5 +1,6 @@
 import {nativeProductionCatalog} from './native-production-catalog.js';
 import sourceOutfits from './source-outfit-profiles.json' with {type:'json'};
+import sourceShoeOutfits from './source-shoe-outfits.json' with {type:'json'};
 import performerLipAnchors from './performer-lip-anchors.json' with {type:'json'};
 import {REPRESENTATIVE_PROFILES} from './representative-batch.js';
 import {appearanceColorSupport} from './appearance-color-policy.js';
@@ -163,6 +164,26 @@ for (const [bodyType, profile] of Object.entries(sourceOutfits)) {
   if (Object.hasOwn(FOUNDATION_PROFILES, bodyType) || bodyType !== profile.id)
     throw Error('Conflicting source outfit body registration: ' + bodyType);
   FOUNDATION_PROFILES[bodyType] = profile;
+}
+
+for (const shoe of sourceShoeOutfits) {
+  const base = FOUNDATION_PROFILES[shoe.bodyType];
+  if (!Object.hasOwn(sourceOutfits, shoe.bodyType) || base.sha256 !== shoe.bodySha256 ||
+      base.manifestSha256 !== shoe.baseManifestSha256 || base.ids.shoes !== shoe.sourceShoeId)
+    throw Error('Shoe outfit requires its registered source body, catalog and flat shoe: ' + shoe.bodyType);
+  const source = base.extraOutfits?.find(outfit => outfit.index === shoe.sourceOutfitIndex);
+  if (!source || source.role !== shoe.sourceOutfitRole || !source.equipmentRoles?.includes('shoes') ||
+      JSON.stringify(source.equipmentRoles) !== JSON.stringify(shoe.sourceEquipmentRoles) || Object.hasOwn(base.ids, 'platformShoes') ||
+      base.extraOutfits.some(outfit => outfit.index === shoe.index || outfit.role === shoe.role))
+    throw Error('Missing source outfit or conflicting shoe outfit: ' + shoe.bodyType);
+  FOUNDATION_PROFILES[shoe.bodyType] = {
+    ...base,
+    workbenchLabel: shoe.workbenchLabel ?? base.workbenchLabel,
+    additionalEquipmentManifests: [...(base.additionalEquipmentManifests ?? []), shoe.manifest],
+    ids: {...base.ids, platformShoes: shoe.shoeId},
+    extraOutfits: [...base.extraOutfits, {...source, index: shoe.index, role: shoe.role, label: shoe.label,
+      equipmentRoles: source.equipmentRoles.map(role => role === 'shoes' ? 'platformShoes' : role)}],
+  };
 }
 
 // Explicit technical candidate. Not listed by the normal appearance menu.
