@@ -1,6 +1,7 @@
 import * as THREE from '../../prototype/node_modules/three/build/three.module.js';
 import {installedCameraPose,framingFov} from '../../prototype/src/company/camera-view.js';
 import {CompanyError} from '../../prototype/src/company/document.js';
+import {isGlassPartitionSightPane} from '../../prototype/src/company/glass-partition.js';
 import {scanRoomMeshes} from './check-training-clearance.mjs';
 
 const aspect = 16/9;
@@ -108,7 +109,7 @@ function findOcclusion({scene,room,facilities,planes,camera,cameraId,lensNode}) 
   let candidateMeshes = 0, testedTriangles = 0;
   const {checkedMeshes} = scanRoomMeshes(scene,room,facilities,[],[],(mesh,owner,matrix,bounds)=>{
     const part = mesh.userData.name || mesh.name || mesh.type;
-    if ((owner?.id===cameraId && part===lensNode) || missesVolume(bounds,planes)) return;
+    if ((owner?.id===cameraId && part===lensNode) || isGlassPartitionSightPane(mesh) || missesVolume(bounds,planes)) return;
     const ranges = visibleRanges(mesh), {index} = mesh.geometry;
     if (!ranges.length) return;
     candidateMeshes++;
@@ -146,6 +147,7 @@ function checkBackdrop({scene,room,facilities,worldToRoom,lens,corners,backdropI
     return {u,raycaster:new THREE.Raycaster(eye,delta.normalize(),start,far),first:null};
   });
   scanRoomMeshes(scene,room,facilities,[],[],(mesh,owner) => {
+    if (isGlassPartitionSightPane(mesh)) return;
     for (const sample of rays) {
       const hit = sample.raycaster.intersectObject(mesh,false).find(h => {
         const material = Array.isArray(mesh.material) ? mesh.material[h.face.materialIndex] : mesh.material;

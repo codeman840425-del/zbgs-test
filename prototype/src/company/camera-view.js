@@ -1,3 +1,4 @@
+import {isGlassPartitionSightPane} from './glass-partition.js';
 import {Box3, MathUtils, Raycaster, Vector3} from 'three';
 
 // Cameras in authored rooms use +Z. The Three.js viewer looks down -Z.
@@ -46,7 +47,7 @@ export function clearFacilityView(sceneRoot, selected, center, direction, distan
       ray.set(eye,span.clone().normalize());ray.near=.01;ray.far=span.length()-.015;
       for(const hit of ray.intersectObjects(obstacles,false)) {
         const material=Array.isArray(hit.object.material)?hit.object.material[hit.face.materialIndex]:hit.object.material;
-        if (!material?.visible || (material.transparent && material.opacity<.2)) continue;
+        if (!material?.visible || isGlassPartitionSightPane(hit.object) || (material.transparent && material.opacity<.2)) continue;
         clearDistance=Math.min(clearDistance,hit.point.clone().sub(center).dot(view)-.12);
       }
     }

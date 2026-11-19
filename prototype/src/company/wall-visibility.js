@@ -91,7 +91,7 @@ function regionTargets(region, world, derived) {
   ].map(local => worldPoint(world, local));
   const targetY = (world?.position?.[1] || 0) + 0.9;
   for (const facility of derived.facilities || []) {
-    if (facility.roomId === region.id && !['wall','wall-corner','wall-opening','portal','floor-surface'].includes(facility.resource?.mount) && facility.world?.position) {
+    if (facility.roomId === region.id && !['wall','wall-corner','wall-opening','portal','floor-surface','floor-and-ceiling'].includes(facility.resource?.mount) && facility.world?.position) {
       targets.push([facility.world.position[0], targetY, facility.world.position[2]]);
     }
   }

@@ -53,7 +53,7 @@ export function validateSupportResource(resource, fail, path = resource.id) {
   if ((resource.mountRole === 'static-textile' || resource.productionBranch === 'static-textile') &&
       (resource.mountRole !== 'static-textile' || resource.mount !== 'support-surface' || resource.category !== 'decor'))
     fail('invalid-textile-mount', path, 'A sofa textile must use the supported decorative textile adapter');
-  if(resource.mount!=null&&!['desk-surface','floor-surface','wall','wall-corner','wall-opening','portal','portal-door','support-surface','information-surface','ceiling','parent-device-endpoints','window-cover','desk-edge-clamp','garment-rail'].includes(resource.mount))
+  if(resource.mount!=null&&!['desk-surface','floor-surface','floor-and-ceiling','wall','wall-corner','wall-opening','portal','portal-door','support-surface','information-surface','ceiling','parent-device-endpoints','window-cover','desk-edge-clamp','garment-rail'].includes(resource.mount))
     fail('unsupported-mount',path,'The mounting adapter is not supported');
   validateCameraMountResource(resource, fail, path);
   validateCableResource(resource,fail,path);

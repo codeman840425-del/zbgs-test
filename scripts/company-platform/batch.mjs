@@ -185,6 +185,13 @@ async function prepare(item,sourceHashes){
   if (Object.hasOwn(item,'publicStorageRooms')) document.publicStorageRooms=structuredClone(item.publicStorageRooms);
   if (Object.hasOwn(item,'wayfindingRooms')) document.wayfindingRooms=structuredClone(item.wayfindingRooms);
   const derived=deriveCompany(document,catalog,templates);
+  let glassPartitionRooms;
+  if (derived.facilities.some(f=>f.resource.mountRole==='glass-partition')) {
+    Object.assign(sourceHashes,await sources(['scripts/company-platform/check-glass-partition-room.mjs','prototype/src/company/glass-partition-room.js',
+      'prototype/src/company/installed-mesh-geometry.js','prototype/src/company/glass-partition.js','prototype/src/company/glass-partition-geometry.js']));
+    const {checkGlassPartitionRooms}=await import('./check-glass-partition-room.mjs');
+    glassPartitionRooms=await checkGlassPartitionRooms(document,{catalog,templates,derived});
+  }
   let wallAbsorberRooms;
   if (derived.facilities.some(f=>['wall-absorber-panel','corner-absorber'].includes(f.resource.mountRole))) {
     Object.assign(sourceHashes,await sources(['scripts/company-platform/check-wall-absorber-room.mjs','prototype/src/company/wall-absorber-room.js','prototype/src/company/wall-absorber.js']));
@@ -247,7 +254,8 @@ async function prepare(item,sourceHashes){
     checks:{connections,placement,...(studioLoungeSet ? {studioLoungeSet} : {}),...(trainingClearance ? {trainingClearance} : {}),...(productShowcases ? {productShowcases} : {}),
       ...(interviewRooms ? {interviewRooms} : {}),...(singingRooms ? {singingRooms} : {}),...(teaStations?.length ? {teaStations} : {}),
       ...(publicWashrooms?.length ? {publicWashrooms} : {}),...(meetingRooms?.length ? {meetingRooms} : {}),
-      ...(publicStorageRooms?.length ? {publicStorageRooms} : {}),...(wayfindingRooms?.length ? {wayfindingRooms} : {}),...(wallAbsorberRooms?.length ? {wallAbsorberRooms} : {})},
+      ...(publicStorageRooms?.length ? {publicStorageRooms} : {}),...(wayfindingRooms?.length ? {wayfindingRooms} : {}),...(wallAbsorberRooms?.length ? {wallAbsorberRooms} : {}),
+      ...(glassPartitionRooms?.length ? {glassPartitionRooms} : {})},
     scope:'Complete deterministic authoring result. Static geometry and placement admission only; rendering and character usage require their own evidence.'};
   files['report.json']=jsonBytes(report);
   return {files,report};

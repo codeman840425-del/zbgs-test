@@ -17,6 +17,7 @@ import {validateSlidingPartGeometry} from './sliding-part-geometry.js';
 import {validateWallAmbientResource,validateWallAmbientGeometry} from './wall-ambient.js';
 import {validateDeskLampResource,validateDeskLampGeometry} from './desk-lamp.js';
 import {validateFloorAirResource,validateFloorAirGeometry} from './floor-air.js';
+import {prepareGlassPartitionClone,validateGlassPartitionResource} from './glass-partition.js';
 import {inspectCornerAbsorberModel} from './corner-absorber-geometry.js';
 import {validateCornerAbsorberResource} from './corner-absorber-data.js';
 import {validateMovableAbsorberResource,validateMovableAbsorberGeometry} from './movable-absorber.js';
@@ -60,6 +61,7 @@ function describe(resource) {
   validateWallAmbientResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateDeskLampResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateFloorAirResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
+  validateGlassPartitionResource(resource,(code,at,message)=>{throw error(code,at,message);},path);
   validateCornerAbsorberResource(resource,(code,at,message)=>{throw error(code,at,message);},path);
   validateMovableAbsorberResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateWallAbsorberResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
@@ -198,6 +200,7 @@ async function releaseFailedParser(parser, json, pack) {
 }
 
 // A loaded GLB pack is immutable; instances receive private meshes.
+const glassPacks=new WeakMap();
 const checkedBackdropPacks = new WeakSet();
 const checkedGarmentPacks = new WeakMap();
 function validateResource(pack, description) {
@@ -222,6 +225,13 @@ function validateResource(pack, description) {
   validateWallAmbientGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
   validateDeskLampGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
   validateFloorAirGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
+  if(description.resource.mountRole==='glass-partition'){
+    const construction=description.resource.glassPartition.construction;
+    if(glassPacks.get(pack)?.construction!==construction){
+      const clone=prepareGlassPartitionClone(pack.scene,description.resource,THREE,(code,at,message)=>{throw error(code,at,message);});
+      glassPacks.set(pack,{construction,clone});
+    }
+  }
   inspectCornerAbsorberModel(pack.scene,description.resource,THREE,(code,at,message)=>{throw error(code,at,message);});
   validateMovableAbsorberGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);},description.path);
   validateWallAbsorberGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);},description.path);
@@ -310,7 +320,7 @@ async function validateTextures(pack, parser, failures, path) {
   });
 }
 
-function cloneInstance(pack) {
+function cloneInstance(pack, resource) {
   const geometries = new Map(), materials = new Map(), textures = new Map(), owned = ownedResources();
   function textureCopy(texture) {
     if (!textures.has(texture)) {
@@ -335,13 +345,16 @@ function cloneInstance(pack) {
         materials.set(material, next);
       }
     });
-    const root = pack.scene.clone(true), nodes = new Map();
-    root.traverse(node => {
+    const nodes = new Map();
+    function initialize(node) {
       if (node.geometry) node.geometry = geometries.get(node.geometry);
       if (node.material) node.material = Array.isArray(node.material)
         ? node.material.map(material => materials.get(material)) : materials.get(node.material);
       if (node.name) nodes.set(node.name, node);
-    });
+    }
+    let root;
+    if(resource.mountRole==='glass-partition') root=glassPacks.get(pack).clone(initialize);
+    else { root=pack.scene.clone(true);root.traverse(initialize); }
     // GLTFLoader sanitizes animation binding names (for example decimal points).
     // Resource slots refer to authored glTF node names retained in userData.name.
     root.traverse(node=>{if(typeof node.userData?.name==='string'&&node.userData.name)nodes.set(node.userData.name,node);});
@@ -430,7 +443,7 @@ export function createCompanyAssetLibrary({fetchImpl = globalThis.fetch} = {}) {
       live(); const description = describe(resource), pack = entries.get(description.key)?.pack;
       if (!pack) throw error('asset-not-preloaded', description.path, 'Preload this exact resource before instantiation');
       validateResource(pack, description);
-      try { return cloneInstance(pack); }
+      try { return cloneInstance(pack, description.resource); }
       catch (cause) { throw error('asset-instance-failed', description.path, cause.message || String(cause)); }
     },
     retainOnly(resources) {

@@ -3,6 +3,7 @@ import {CompanyError,deriveCompany,prepareCompanyChange} from './document.js';
 import {inspectCompanyConnections} from './space.js';
 import {createCompanyScene} from './render.js';
 import {rayHit,triangles,scanRoomMeshes} from './room-mesh-geometry.js';
+import {isGlassPartitionSightPane} from './glass-partition.js';
 import {checkRoomDoorAccess,clearanceQuery,lobbyApproach} from './public-door-access.js';
 
 const v=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
@@ -117,6 +118,7 @@ function checkLayout(rule,tables,seats,board,axis,side) {
 function measure(scene,b,derived,placement,floor){
   const {rule,area,facilities,board,content}=b,records=[];
   const {worldToRoom,checkedMeshes}=scanRoomMeshes(scene,area,facilities,[],[],(object,f,matrix,bounds)=>records.push({object,id:f?.id??object.name,matrix:matrix.clone(),bounds:bounds.clone()}));
+  const sightRecords=records.filter(({object})=>!isGlassPartitionSightPane(object));
   const roomFrom=f=>worldToRoom.clone().multiply(scene.root.getObjectByName(f.id).matrixWorld);
   const named=(f,s)=>{const hit=records.filter(r=>r.id===f.id&&name(r)===s);check(hit.length===1,'meeting-part',f.id,'Expected one installed '+s);return hit[0];};
   const graphic=named(content,content.resource.informationNodes.face);
@@ -195,7 +197,7 @@ function measure(scene,b,derived,placement,floor){
       check(facingDegrees<=reference.maximumSeatTurnDegrees,'meeting-seat-facing',chair.id,'The teaching board must be within the front viewing sector.',{facingDegrees});
       const rays=[];
       for(const [u,w] of [[.5,.5],[.10,.13],[.90,.13],[.10,.87],[.90,.87]]){
-        const end=paper(u,w),hit=rayHit(records,eye,end),delta=end.clone().sub(eye);
+        const end=paper(u,w),hit=rayHit(sightRecords,eye,end),delta=end.clone().sub(eye);
         const incidence=hit?angle(hit.normal,delta.clone().negate()):180;
         const shadow=new T.Ray(eye,delta.clone().normalize()).intersectBox(presenterBox,v());
         check(hit?.record===graphic&&hit.point.distanceTo(end)<.003&&incidence<=reference.maximumPaperIncidenceDegrees,

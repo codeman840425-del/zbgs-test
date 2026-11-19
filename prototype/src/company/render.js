@@ -2,6 +2,7 @@ import {WALL_AMBIENT_ROLE,applyWallAmbientLight} from './wall-ambient.js';
 import {poseDeskLamp,poseDeskLampHead} from './desk-lamp.js';
 import {bindFloorAirRotor} from './floor-air.js';
 import {adaptCableGeometry,validateCableVisualPlacement} from './cable-render.js';
+import {inspectGlassPartitionObjects} from './glass-partition-room.js';
 import {inspectWallAbsorberObjects} from './wall-absorber-room.js';
 import {validateCeilingVisualPlacement,ceilingVisibleForRegion} from './ceiling-placement.js';
 import {installationGeometryFacilities,validateDesktopReservations,validateCartPayloadGeometry} from './desktop-placement.js';
@@ -170,7 +171,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           const floor=structureMesh(width,.12,depth,node.kind==='area'?'#c6c7bc':'#d7d5c7');floor.position.y=-.06;floor.name=`Floor:${node.id}`;parent.add(floor);floors.push(floor);
           floor.userData={roomId:node.id,floorId};
           applySurfaceFinish(floor,finishes.get(`${node.id}#finish:floor`),node,null,assetLibrary,finishMaterials);
-          if(finishes.has(`${node.id}#finish:ceiling`)||derived.facilities.some(f=>f.roomId===node.id&&f.resource.mount==='ceiling')) {
+          if(finishes.has(`${node.id}#finish:ceiling`)||derived.facilities.some(f=>f.roomId===node.id&&['ceiling','floor-and-ceiling'].includes(f.resource.mount))) {
             const ceiling=structureMesh(width,.08,depth,'#e2dfd5');ceiling.position.y=WALL_HEIGHT+.04;
             ceiling.name=`Ceiling:${node.id}`;ceiling.userData={roomId:node.id,floorId};
             parent.add(ceiling);ceilings.push(ceiling);
@@ -323,6 +324,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       }
       root.updateMatrixWorld(true);
       validatePlacementGeometry(facilities,derived,groups);
+      const glassMeasurements=inspectGlassPartitionObjects(derived,{floorId,groups,facilities,walls,floors,ceilings});
       const absorberMeasurements=inspectWallAbsorberObjects(derived,{floorId,groups,facilities,walls});
       for(const point of derived.usePoints.filter(p=>p.floorId===floorId)) {
         const facility=facilities.get(point.facilityId);
@@ -351,7 +353,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       for(const wall of walls)wall.userData.wallGroup=wallGroups.get(wall.userData.physicalBoundary)||wall.userData.physicalBoundary;
       for(const facility of facilities.values())for(const binding of facility.wallBindings??[])
         if(binding.wallId)binding.wallGroup=wallGroups.get(binding.wallId)||binding.wallId;
-      return {root,document:clone(document),derived,architecture,floorId,view,wallView:clone(wallView),groups,facilities,points,floors,walls,ceilings,lights,wallGroups,absorberMeasurements};
+      return {root,document:clone(document),derived,architecture,floorId,view,wallView:clone(wallView),groups,facilities,points,floors,walls,ceilings,lights,wallGroups,absorberMeasurements,glassMeasurements};
     } catch(error) {disposeTree(root);throw error;}
   }
   function contactSource(id,visible) {
@@ -556,6 +558,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         targets:evaluated.targets.map(target=>[...target]),walls:current.walls.map(wall=>({id:wall.name,region:wall.userData.roomId,edge:wall.userData.edge,
           height:wall.userData.height||WALL_HEIGHT,visible:wall.visible,mounted:mountedByGroup.get(wall.userData.wallGroup)||[]}))};
     },
+    glassPartitionMeasurements(){return structuredClone(current.glassMeasurements ?? []);},
     wallAbsorberMeasurements(){return structuredClone(current.absorberMeasurements ?? []);},
     createPlacementProbe(){
       const revision=current.document.revision,identity=current.document.id;
@@ -580,6 +583,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
             for(const entry of result.derived.facilities){const facility=candidate.facilities.get(entry.id);if(facility)Object.assign(facility,entry);}
             candidate.root.updateMatrixWorld(true);
             validatePlacementGeometry(candidate.facilities,result.derived,candidate.groups);
+            inspectGlassPartitionObjects(result.derived,candidate);
             inspectWallAbsorberObjects(result.derived,candidate);
           }
           return {valid:true};

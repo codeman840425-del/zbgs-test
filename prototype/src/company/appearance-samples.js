@@ -22,7 +22,7 @@ import {createWallShelfSample} from './wall-shelf-samples.js';
 import {createCableSample} from './cable-samples.js';
 import {resolveWorkstationLook,workstationLooks,workstationLookOperations} from './workstation-looks.js';
 export const appearanceBranches=[
- ['screen-partition','落地屏风'],['movable-absorber-screen','移动吸声屏'],['corner-absorber','墙角吸声件'],
+ ['screen-partition','落地屏风'],['movable-absorber-screen','移动吸声屏'],['corner-absorber','墙角吸声件'],['glass-partition','通高玻璃隔断'],
  ['background-fabric','可收卷直播背景幕'],
  ['static-textile','沙发软装'],
  ['window-opening-and-glass','窗体与真实洞口'],
@@ -190,7 +190,7 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
    ],{catalog,templates}).document;
    return {document:doc,target,branch,index,resource};
  }
- if(branch==='camera-mount'||branch==='corner-absorber'||selected.productionBranch==='sanitary-support'){
+ if(branch==='camera-mount'||branch==='corner-absorber'||branch==='glass-partition'||selected.productionBranch==='sanitary-support'){
    if(selected.mount==='desk-edge-clamp'){
      doc=prepareCompanyChange(doc,[{type:'add-workstation',id:'sample/station',parentId:room.id,
        template:{id:'stream-station',version:1},transform:identityTransform()}],{catalog,templates}).document;

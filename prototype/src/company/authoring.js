@@ -6,6 +6,7 @@ import {installationGeometryFacilities} from './desktop-placement.js';
 import {publicWashroomFloors,measurePublicWashroomFloor,shouldCheckPublicWashrooms} from './public-washroom.js';
 import {meetingRoomFloors,measureMeetingRoomFloor,shouldCheckMeetingRooms} from './meeting-room.js';
 import {publicStorageFloors,measurePublicStorageFloor,shouldCheckPublicStorage} from './public-storage.js';
+import {shouldCheckGlassPartitions,glassPartitionFloors,measureGlassPartitionFloor} from './glass-partition-room.js';
 import {shouldCheckWallAbsorbers,wallAbsorberFloors,measureWallAbsorberFloor} from './wall-absorber-room.js';
 import {wayfindingFloors,measureWayfindingFloor,shouldCheckWayfinding} from './wayfinding.js';
 import {prepareTemplateUpgrade} from './upgrade.js';
@@ -29,6 +30,7 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
     addGroups('washroom',publicWashroomFloors(document,derived),measurePublicWashroomFloor);
     addGroups('meeting',meetingRoomFloors(document,derived),measureMeetingRoomFloor);
     addGroups('storage',publicStorageFloors(document,derived),measurePublicStorageFloor);
+    addGroups('glass-partition',glassPartitionFloors(document,derived),measureGlassPartitionFloor);
     addGroups('wall-absorber',wallAbsorberFloors(document,derived),measureWallAbsorberFloor);
     addGroups('wayfinding',wayfindingFloors(document,derived),measureWayfindingFloor);
     return checks;
@@ -79,7 +81,7 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
   }
   function checkedSnapshot() {
     const document=scene.document,snapshot={document,token:generation};
-    if(!shouldCheckPublicWashrooms(document,{catalog}) && !shouldCheckMeetingRooms(document,{catalog}) && !shouldCheckPublicStorage(document,{catalog}) && !shouldCheckWayfinding(document,{catalog}) && !shouldCheckWallAbsorbers(document,{catalog}))return snapshot;
+    if(!shouldCheckPublicWashrooms(document,{catalog}) && !shouldCheckMeetingRooms(document,{catalog}) && !shouldCheckPublicStorage(document,{catalog}) && !shouldCheckWayfinding(document,{catalog}) && !shouldCheckWallAbsorbers(document,{catalog}) && !shouldCheckGlassPartitions(document,{catalog}))return snapshot;
     const derived=deriveCompany(document,catalog,templates);
     if(!physicalRoomChecks(document,derived).some(row=>row.changed))return snapshot;
     // A host can edit the exposed scene directly. Validate a fresh snapshot before writing it.

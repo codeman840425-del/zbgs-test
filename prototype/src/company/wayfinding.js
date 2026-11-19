@@ -3,6 +3,7 @@ import {CompanyError,prepareCompanyChange} from './document.js';
 import {inspectCompanyConnections} from './space.js';
 import {createCompanyScene} from './render.js';
 import {scanRoomMeshes,rayHit,vertices} from './room-mesh-geometry.js';
+import {isGlassPartitionSightPane} from './glass-partition.js';
 import {checkRoomDoorAccess,clearanceQuery} from './public-door-access.js';
 
 const radius=.25,height=1.9,eyeHeight=1.50,thresholdDepth=.28;
@@ -87,7 +88,8 @@ function roomMeasurements(scene,area,facilities){
     check(rows.length===1,'wayfinding-part',f.id,'The declared physical part must exist once.',{part:partName});
     return rows[0];
   }
-  return {records,roomMatrix,part,checkedMeshes};
+  const sightRecords=records.filter(({object})=>!isGlassPartitionSightPane(object));
+  return {records,sightRecords,roomMatrix,part,checkedMeshes};
 }
 
 function readerPosition(floor,s){
@@ -108,7 +110,7 @@ function readSign(binding,m,eye){
     const face=rayHit([graphic],eye,end),cosine=face?.normal.dot(eye.clone().sub(end).normalize())??-1;
     check(face&&cosine>=.5,'wayfinding-sign-facing',board.id,
       'Face the print toward its public doorway within sixty degrees.',{sample:[u,w],cosine});
-    const hit=rayHit(m.records,eye,end);
+    const hit=rayHit(m.sightRecords,eye,end);
     check(hit?.record===graphic&&hit.point.distanceTo(end)<=.003,'wayfinding-print-blocked',board.id,
       'Clear the line of sight from the public doorway to the printed face.',{sample:[u,w],first:hit?.record.id,part:hit&&name(hit.record)});
     rays.push({uv:[u,w],hit:xyz(hit.point),angleDegrees:T.MathUtils.radToDeg(Math.acos(T.MathUtils.clamp(cosine,-1,1))),distanceM:hit.distance});
@@ -139,12 +141,12 @@ function measureService(service,b,m,targets,placement){
   const reach=bookHit?Math.hypot(foot.x-bookHit.point.x,foot.z-bookHit.point.z):Infinity;
   check(bookHit&&reach<=.80,'wayfinding-counter-service',register.id,'Keep the register within the service point’s static 0.80 m horizontal reach.',{reach});
   const viewer=foot.clone();viewer.y=eyeHeight;
-  const sight=rayHit(m.records,viewer,bookHit.point);
+  const sight=rayHit(m.sightRecords,viewer,bookHit.point);
   check(sight?.record===book,'wayfinding-register-view',register.id,'The visitor must be able to see the register on the counter.',{first:sight?.record.id,part:sight&&name(sight.record)});
   // Probe the upper end of the actual pen. The lower shaft may be occluded by its holder.
   const tip=vertices(pen).filter(p=>p.y>=pen.bounds.max.y-.004);
   let penHit;
-  for(const point of tip){const hit=rayHit(m.records,viewer,point);if(hit?.record===pen){penHit=hit;break;}}
+  for(const point of tip){const hit=rayHit(m.sightRecords,viewer,point);if(hit?.record===pen){penHit=hit;break;}}
   check(penHit,'wayfinding-register-view',register.id,'The pen tip must be visible above its holder from the service position.');
   targets.counter=service.stand;
   const seats=[];

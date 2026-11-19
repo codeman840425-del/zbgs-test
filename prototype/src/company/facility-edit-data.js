@@ -279,6 +279,15 @@ function windowCoverTargets(region, derived, resource) {
 function floorTarget(region, resource) {
   const m = mounting(resource);
   if (!m || (m.origin !== 'bottom' && resource.mountRole !== 'camera-mount')) return null;
+  if (resource.mount === 'floor-and-ceiling') {
+    const fits = (width, depth) => width <= region.bounds.width - .2 + EPS && depth <= region.bounds.depth - .2 + EPS;
+    const straight = fits(m.width, m.depth);
+    if (!straight && !fits(m.depth, m.width)) return null;
+    return target(region.id + ':floor-and-ceiling', region.id, (region.name || region.id) + ' · 地面与顶棚',
+      [0, 0, 0], straight ? 0 : Math.PI / 2, resource.mount, {
+        lockedAxes: ['y'], note: '上下轨分别固定在地面和顶棚，可在室内移动和转向。',
+      });
+  }
   if (m.width > region.bounds.width - .2 + EPS || m.depth > region.bounds.depth - .2 + EPS) return null;
   return target(`${region.id}:floor`, region.id, `${region.name || region.id} · 地面`, [0, 0, 0], 0, 'floor-surface', {
     lockedAxes: ['y'], note: '地面安装，Y 固定在楼层面，X/Z 和四向朝向可编辑',
@@ -332,7 +341,7 @@ export function listPlacementTargets(document, catalog, resource, regionId, opti
   else if (['wall','wall-opening'].includes(selected.mount)) result.push(...wallTargets(region, floor, selected, derived.windowOpenings, derived.facilities));
   else if (selected.mount === 'portal') result.push(...portalTargets(region, floor, selected));
   else if (selected.mount === 'portal-door') result.push(...exteriorDoorTargets(region, floor, selected));
-  else if (selected.mount === 'floor-surface') { const value = floorTarget(region, selected); if (value) result.push(value); }
+  else if (selected.mount === 'floor-surface' || selected.mount === 'floor-and-ceiling') { const value = floorTarget(region, selected); if (value) result.push(value); }
   else if (selected.mount === 'ceiling') { const value = ceilingTarget(region, selected); if (value) result.push(value); }
   else if (selected.mount === 'desk-edge-clamp') result.push(...deskClampTargets(region, derived, selected));
   else if (selected.mount === 'desk-surface') {
@@ -399,6 +408,7 @@ export function getFacilityEditConstraints(node, resource) {
   if (mount === 'portal-door') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '外部门扇绑定真实外部门洞，位置和朝向固定；开合状态单独保存'};
   if (mount === 'window-cover') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '窗体覆盖绑定真实窗户，位置和朝向固定；开合状态单独保存'};
   if (mount === 'information-surface') return {lockedAxes: ['x', 'y', 'z', 'yaw'], note: '信息内容固定在宿主槽位，移动或转向请操作宿主'};
+  if (mount === 'floor-and-ceiling') return {lockedAxes: ['y'], note: '隔断上下轨固定在地面和顶棚，可在室内移动和转向'};
   if (mount === 'ceiling') return {lockedAxes: ['y'], note: '顶面 Y 固定在 2.8m'};
   if (mount === 'support-surface' || node?.attachment?.surfaceId) return {lockedAxes: ['y'], note: '承载面 Y 固定，X/Z 与朝向须满足完整包络'};
   if (mount === 'desk-surface') return {lockedAxes: ['y'], note: '桌面 Y 固定，X/Z 与朝向须满足桌面边界'};

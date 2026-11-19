@@ -9,6 +9,7 @@ import {inspectCompanyPlacement} from '../../prototype/src/company/placement.js'
 import {WALL_HEIGHT} from '../../prototype/src/company/wall-visibility.js';
 import {inspectCompanyConnections} from '../../prototype/src/company/space.js';
 import {createCompanyScene} from '../../prototype/src/company/render.js';
+import {isGlassPartitionSightPane} from '../../prototype/src/company/glass-partition.js';
 import {createLocalRoomAssetLibrary,scanRoomMeshes} from './check-training-clearance.mjs';
 
 const margin=.001;
@@ -123,6 +124,7 @@ function measureShot(rule,records,camera,featured,backdrop,worldToRoom,scene){
   const bounds=meshes.reduce((b,r)=>b.union(measuredBounds(r)),new THREE.Box3());
   if(bounds.isEmpty())fail('showcase-product-missing',featured.id,'The selected featured product has no visible geometry.');
   const middle=bounds.getCenter(v()),size=bounds.getSize(v()),width=Math.abs(right.x)*size.x+Math.abs(right.z)*size.z;
+  const occluders=records.filter(r=>r!==lens && !isGlassPartitionSightPane(r.object));
   const shot=[];
   for(const [horizontal,vertical] of [[0,0],[-.18,0],[.18,0],[0,.18],[0,-.18]]){
     const aim=middle.clone().addScaledVector(right,horizontal*width);aim.y+=vertical*size.y;
@@ -131,7 +133,7 @@ function measureShot(rule,records,camera,featured,backdrop,worldToRoom,scene){
     if(!target)continue;
     if(angle>rule.maxOffAxisDegrees)fail('showcase-off-axis',camera.id,'The featured product is outside the authored framing angle.',
       {targetId:featured.id,lens:xyz(origin),target:target.position,angle,maxOffAxisDegrees:rule.maxOffAxisDegrees});
-    const first=firstHit(records.filter(r=>r!==lens),ray);
+    const first=firstHit(occluders,ray);
     if(first?.instanceId!==featured.id)fail('showcase-occluded',first?.instanceId??featured.id,'Foreground geometry blocks the lens-to-product ray.',
       {cameraId:camera.id,featuredId:featured.id,lens:xyz(origin),target:target.position,blocker:first});
     shot.push({angleDegrees:angle,...target});
@@ -202,7 +204,7 @@ export async function checkShowcaseRoom(document,rule,{catalog=catalogDefault,te
     const sight=measureShot(rule,records,camera,mounts[0].item,backdrop,roomMatrix,scene);
     return {ok:true,roomId:room.id,floorId,members:{...rule.members},portalId:rule.portalId,portalEdge:portal.edge,route:points,
       reserves:regions.map(r=>({region:r.name,...serialBox(r.box)})),checkedMeshes,supports,sight,
-      limits:'Static room-local triangle and footprint checks with 1 mm contact tolerance. Sight samples are double-sided opaque surface tests. The framing half-angle is authored; character occupancy, lens calibration and full image coverage are outside this check.'};
+      limits:'Static room-local triangle and footprint checks with 1 mm contact tolerance. Product sight samples skip verified clear glazing. Rails, frames and privacy panes remain occluders. The framing half-angle is authored; character occupancy, lens calibration and full image coverage are outside this check.'};
   }finally{scene?.dispose();library.dispose();}
 }
 

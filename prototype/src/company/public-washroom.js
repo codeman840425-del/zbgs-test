@@ -4,6 +4,7 @@ import {inspectCompanyConnections} from './space.js';
 import {overlapsObstacle} from './wardrobe-footprints.js';
 import {createCompanyScene} from './render.js';
 import {scanRoomMeshes,rayHit,triangles} from './room-mesh-geometry.js';
+import {isGlassPartitionSightPane} from './glass-partition.js';
 import {checkRoomDoorAccess,lobbyApproach} from './public-door-access.js';
 
 const radius=.25,height=1.90,contact=.002;
@@ -57,6 +58,7 @@ function measure(scene,derived,placement,floor,binding){
   const {worldToRoom,checkedMeshes}=scanRoomMeshes(scene,area,facilities,[],[],(object,owner,matrix,bounds)=>{
     records.push({object,id:owner?.id??object.name,matrix:matrix.clone(),bounds:bounds.clone()});
   });
+  const sightRecords=records.filter(({object})=>!isGlassPartitionSightPane(object));
   const roomFrom=f=>worldToRoom.clone().multiply(scene.root.getObjectByName(f.id).matrixWorld);
   const basis=roomFrom(basin),roomToBasin=basis.clone().invert(),at=(x,y,z)=>vector(x,y,z).applyMatrix4(basis);
   const owned=f=>records.filter(r=>r.id===f.id);
@@ -174,7 +176,7 @@ function measure(scene,derived,placement,floor,binding){
   const face=named(mirror,faceName);
   const target=face.bounds.getCenter(vector());
   const mirrorLocal=target.clone().applyMatrix4(roomToBasin),view=service.clone().add(vector(0,1.55,0));
-  const reflection=rayHit(records,view,target),forward=vector(0,0,1).transformDirection(basis);
+  const reflection=rayHit(sightRecords,view,target),forward=vector(0,0,1).transformDirection(basis);
   requireThat(reflection?.record===face&&reflection.normal.dot(forward)>.98&&Math.abs(mirrorLocal.x)<.30&&mirrorLocal.z<-.25&&
     mirrorLocal.y>=1.25&&mirrorLocal.y<=1.90,'washroom-mirror-face',mirror.id,'The wall mirror must be behind the basin and present its actual front panel to the standing position.',
     {first:reflection&&part(reflection.record),mirrorInBasin:tuple(mirrorLocal)});
@@ -206,7 +208,7 @@ function measure(scene,derived,placement,floor,binding){
   // Four interior corners and the centre check the printable area and its viewing angle.
   for(const [u,v] of [[.12,.15],[.88,.15],[.50,.50],[.12,.85],[.88,.85]]){
     const p=vector(T.MathUtils.lerp(box.min.x,box.max.x,u),T.MathUtils.lerp(box.min.y,box.max.y,v),box.max.z).applyMatrix4(graphic.matrix);
-    const hit=rayHit(records,entry,p);
+    const hit=rayHit(sightRecords,entry,p);
     const cosine=hit?.normal.dot(entry.clone().sub(p).normalize());
     requireThat(hit?.record===graphic&&hit.point.distanceTo(p)<=.003&&cosine>=.5,'washroom-sign-facing',sign.id,
       'The labelled face must be readable from the public doorway within 60 degrees, with no intervening surface.',

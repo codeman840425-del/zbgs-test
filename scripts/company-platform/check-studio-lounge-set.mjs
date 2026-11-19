@@ -1,6 +1,7 @@
 import path from 'node:path';
 import * as T from '../../prototype/node_modules/three/build/three.module.js';
 import { CompanyError, deriveCompany } from '../../prototype/src/company/document.js';
+import { isGlassPartitionSightPane } from '../../prototype/src/company/glass-partition.js';
 import { createCompanyScene } from '../../prototype/src/company/render.js';
 import { rayHit, scanRoomMeshes, vertices } from '../../prototype/src/company/room-mesh-geometry.js';
 import { preflightLibraryAssets } from './preflight-library-assets.mjs';
@@ -67,6 +68,7 @@ export async function checkStudioLoungeDesk(document, { catalog, templates, stat
   const roomId = station.parentId;
   return withStudioFloor(document, {catalog, templates, roomId}, context => {
     const {derived, owned, matrix, facility, records} = context;
+    const sightRecords = records.filter(({object}) => !isGlassPartitionSightPane(object));
     const members = document.nodes.filter(n => n.stationId === stationId);
     const deskId = members.find(n => n.partKey === 'desk')?.id;
     const chairId = members.find(n => n.partKey === 'chair')?.id;
@@ -97,7 +99,7 @@ export async function checkStudioLoungeDesk(document, { catalog, templates, stat
         const angle = T.MathUtils.radToDeg(front.angleTo(eye.clone().sub(targets[0])));
         requireFit(angle < 90, id, 'Seat sees the reverse of the monitor.', {eye:xyz(eye), angle});
         const hits = targets.map(target => {
-          const hit = rayHit(records,eye,target.clone().addScaledVector(front,-.025));
+          const hit = rayHit(sightRecords,eye,target.clone().addScaledVector(front,-.025));
           requireFit(hit && screens.includes(hit.record) && hit.normal.dot(front) > .5, id, 'Monitor face occluded from the station seat.', {eye:xyz(eye), target:xyz(target), blocker:hit?.record.id, part:hit && part(hit.record)});
           return part(hit.record);
         });

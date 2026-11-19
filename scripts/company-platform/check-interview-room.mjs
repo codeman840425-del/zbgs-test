@@ -9,6 +9,7 @@ import {overlapsObstacle} from '../../prototype/src/company/wardrobe-footprints.
 import {inspectCompanyPlacement} from '../../prototype/src/company/placement.js';
 import {inspectCompanyConnections} from '../../prototype/src/company/space.js';
 import {createCompanyScene} from '../../prototype/src/company/render.js';
+import {isGlassPartitionSightPane} from '../../prototype/src/company/glass-partition.js';
 import {WALL_HEIGHT} from '../../prototype/src/company/wall-visibility.js';
 import {scanRoomMeshes} from './check-training-clearance.mjs';
 import {checkRoomDoorAccess} from './public-door-access.mjs';
@@ -206,7 +207,8 @@ function measureScene(scene,members,records,seats,local){
   // A private two-sided material gives a physical surface test from either side of a thin panel, without mutating runtime meshes.
   const doubleSide=new T.MeshBasicMaterial({side:T.DoubleSide});
   try{
-    const probe=new T.Mesh(lens.geometry,doubleSide),probes=records.map(r=>{
+    const probe=new T.Mesh(lens.geometry,doubleSide);
+    const clearScene=records.filter(({object})=>object!==lens&&!isGlassPartitionSightPane(object)).map(r=>{
       const o=new T.Mesh(r.object.geometry,doubleSide);o.matrixWorld.copy(r.object.matrixWorld);o.userData.source=r;
       return o;
     });
@@ -215,7 +217,7 @@ function measureScene(scene,members,records,seats,local){
     const lensBox=new T.Box3().setFromObject(lens,true);
     const front=hitOn(lensBox.getCenter(vec()).addScaledVector(forward,lensBox.getSize(vec()).length()+.001),forward.clone().negate(),lens);
     if(!front)fail('interview-lens-missing',camera.id,'The optical centerline misses the declared lens mesh.');
-    const clearScene=probes.filter(p=>p.userData.source.object!==lens),measured=[];
+    const measured=[];
     for(const speaker of speakers){
       const {chair,point,admitted,facingAngle}=seats[speaker],other=seats[speaker==='host'?'guest':'host'].point;
       const origin=point.chair.getWorldPosition(vec()),otherOrigin=other.chair.getWorldPosition(vec());

@@ -331,6 +331,43 @@ export async function verifyWallAbsorberSources(root, resource, recipe) {
   return new Map(Object.entries(pins));
 }
 
+export async function verifyGlassPartitionSources(root, resource, recipe) {
+  const family='assets-source/company-glass-partition-v1/', original=family+'original/';
+  const paths={
+    generator:'scripts/company-platform/build-glass-partition.mjs', geometryChecker:'prototype/src/company/glass-partition-geometry.js',
+    contract:family+'contract.json', sourceRecord:original+'sources.json', license:original+'PROJECT-SOURCE.txt',
+    windowDonor:original+'wall-window-square.glb', screenDonor:original+'screen-partition-glass.glb', kenneyLicense:original+'KENNEY-LICENSE.txt'
+  };
+  function mismatch(at) {
+    throw Object.assign(Error('glass-partition-source-mismatch: '+at),{code:'glass-partition-source-mismatch',path:at});
+  }
+  const p=resource.provenance, design=recipe.designs?.find(d=>d.id===resource.id && d.version===resource.version);
+  if (recipe.schema!=='company-glass-partition-collection' || recipe.version!==1 || !design ||
+      !['clear','frosted','tinted','framed'].includes(design.kind) || resource.displayName!==design.displayName ||
+      p.sourceDesign!==design.kind || p.generator!==paths.generator || p.functionalContractSource!==paths.contract ||
+      !isDeepStrictEqual(resource.glassPartition,{construction:design.kind,configuration:'static'})) mismatch(resource.id);
+  const pins={};
+  let contract,record;
+  for (const [key,relative] of Object.entries(paths)) {
+    const file=path.resolve(root,relative);
+    if (await fs.realpath(file)!==file || !(await fs.lstat(file)).isFile()) mismatch(relative);
+    const bytes=await fs.readFile(file);
+    pins[key]={path:relative,sha256:digest(bytes)};
+    if(key==='contract') contract=JSON.parse(bytes).resource;
+    if(key==='sourceRecord') record=JSON.parse(bytes);
+  }
+  if (record.windowSource?.id!=='window-opening-square-basic@1' || record.screenSource?.id!=='screen-partition-glass@1' ||
+      record.licensePath!==paths.license || record.author!==p.sourceAuthor ||
+      p.sourceLicense!=='Kenney CC0-1.0 and project-authored' || p.license!==p.sourceLicense) mismatch(paths.sourceRecord);
+  for (const key of ['windowDonor','screenDonor','kenneyLicense']) {
+    if(record[key]?.path!==paths[key] || record[key]?.sha256!==pins[key].sha256) mismatch(paths[key]);
+  }
+  for (const [key,value] of Object.entries(contract)) if(!isDeepStrictEqual(resource[key],value)) mismatch(resource.id+'.'+key);
+  if (!isDeepStrictEqual(pins,p.dependencies) || p.generatorSha256!==pins.generator.sha256 ||
+      p.functionalContractSourceSha256!==pins.contract.sha256) mismatch(resource.id+'.provenance');
+  return new Map(Object.entries(pins));
+}
+
 export async function verifyCornerAbsorberSources(root, resource, recipe) {
   const family = 'assets-source/company-corner-absorber-v1/';
   const originals = family + 'original/';
@@ -574,6 +611,9 @@ export async function validateResourceProvenance({root, resource, label = resour
       await verifyWashroomDispenserSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && (resource.productionBranch==='wall-absorber-panel' || resource.mountRole==='wall-absorber-panel'))
       await verifyWallAbsorberSources(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && (resource.productionBranch==='glass-partition' || resource.mount==='floor-and-ceiling' ||
+        provenance.generator==='scripts/company-platform/build-glass-partition.mjs'))
+      await verifyGlassPartitionSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && (resource.productionBranch==='corner-absorber' || resource.mountRole==='corner-absorber' ||
         resource.acoustic?.purpose==='corner-absorber' || provenance.generator==='scripts/company-platform/build-corner-absorber.mjs'))
       await verifyCornerAbsorberSources(root,resource,JSON.parse(bytes));

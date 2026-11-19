@@ -10,6 +10,7 @@ import templatesDefault from '../../prototype/src/company/templates-extended.jso
 import {CompanyError,deriveCompany,relativeTransform,prepareCompanyChange} from '../../prototype/src/company/document.js';
 import {describeCompanyUsePoint} from '../../prototype/src/company/use-point-data.js';
 import {hasVocalSlot} from '../../prototype/src/company/vocal-use.js';
+import {isGlassPartitionSightPane} from '../../prototype/src/company/glass-partition.js';
 import {inspectCompanyPlacement} from '../../prototype/src/company/placement.js';
 import {createCompanyScene} from '../../prototype/src/company/render.js';
 import {inspectCompanyConnections} from '../../prototype/src/company/space.js';
@@ -204,6 +205,7 @@ export function scoreRowsAt(x,box,faces) {
 
 function measureScore(scene,records,worldToRoom,member,reference) {
   const page = memberPart(records,member,member.resource.musicStand?.pageNode);
+  const sightRecords = records.filter(({object})=>!isGlassPartitionSightPane(object));
   const stand = scene.root.getObjectByName(member.id), scoreToRoom = worldToRoom.clone().multiply(stand.matrixWorld);
   const roomToScore = scoreToRoom.clone().invert(), points = vertices(page).map(point=>point.clone().applyMatrix4(roomToScore));
   const box = new T.Box3().setFromPoints(points);
@@ -215,7 +217,7 @@ function measureScore(scene,records,worldToRoom,member,reference) {
     const facePoint = sheetPoint.clone(); facePoint.z = box.max.z+.16;
     const target = rayHit([page],facePoint.applyMatrix4(scoreToRoom),sheetPoint.applyMatrix4(scoreToRoom));
     if (!target) fail('singing-score-pages',member.id,'The designated reading area needs a physical page surface.',{page:index+1,side,sample});
-    const hit = rayHit(records,reference.eye,target.point);
+    const hit = rayHit(sightRecords,reference.eye,target.point);
     if (hit?.record!==page || hit.point.distanceTo(target.point)>.004)
       fail('singing-score-occluded',hit?.record.id??member.id,'A reading sample is hidden from the performer eye.',{
         page:index+1,side,sample,target:tuple(target.point),eye:tuple(reference.eye),blocker:hit&&component(hit.record.object),
@@ -252,7 +254,7 @@ function measureCamera(scene,records,worldToRoom,member,reference) {
   const forward = p(0,0,1).transformDirection(local), core = center(lens);
   const front = rayHit([lens],core.clone().addScaledVector(forward,.15),core);
   if (!front) fail('singing-lens-binding',member.id,'The optical centerline must hit the actual lens.');
-  const blockers = records.filter(record=>record!==lens);
+  const blockers = records.filter(record=>record!==lens && !isGlassPartitionSightPane(record.object));
   const rays = ['mouth','eye'].map(label=>{
     const target = reference[label], hit = rayHit(blockers,front.point,target);
     if (hit) fail('singing-camera-occluded',hit.record.id,'Geometry blocks the lens view of the performer reference.',{reference:label,part:component(hit.record.object)});

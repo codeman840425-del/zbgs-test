@@ -70,6 +70,9 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
   const execute=(label,fn)=>{cancel();return perform(label,async()=>{try{remember();await fn();message('已更新当前布置。保存后可关闭并继续。');}catch(e){message(explain(e),true);throw e;}});};
   function explain(error){
     if(roomEditMessages[error.code])return roomEditMessages[error.code]+'。';
+    if (error.code === 'glass-partition-room-bearing') return '隔断上下轨须同时贴住本房间的地面和顶棚，请重新选择安装位置。';
+    if (error.code === 'glass-partition-room-wall') return '隔断碰到了墙体或踢脚线，请将它向房间内移动。';
+    if (error.code === 'glass-partition-room-occupied') return '隔断与已有物品相交，请移开重叠的物品或调整隔断位置。';
     if (error.code === 'corner-absorber-room-bearing') return '门窗或缺口打断了支架的贴墙面，请改选另一个墙角。';
     if (error.code === 'corner-absorber-room-occupied') return '角件与已有物品相交，请移开重叠物品或更换墙角。';
     if (error.code === 'corner-absorber-room-wall') return '墙体或踢脚线与角件相交，请调整底高或更换墙角。';

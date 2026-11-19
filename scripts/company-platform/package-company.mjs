@@ -592,6 +592,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       }
     }
     const derived = documentTools.deriveCompany(document,catalog,templates);
+    if (derived.facilities.some(f=>f.resource.mountRole==='glass-partition')) {
+      const checker=await noLinks(path.join(source,'scripts/company-platform/check-glass-partition-room.mjs'));
+      const {checkGlassPartitionRooms}=await import(pathToFileURL(checker).href);
+      await checkGlassPartitionRooms(document,{catalog,templates,derived,root:source});
+    }
     if (derived.facilities.some(f=>['wall-absorber-panel','corner-absorber'].includes(f.resource.mountRole))) {
       const checker=await noLinks(path.join(source,'scripts/company-platform/check-wall-absorber-room.mjs'));
       const {checkWallAbsorberRooms}=await import(pathToFileURL(checker).href);
@@ -719,6 +724,17 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   let verifyWallHvacSources;
   let verifyEquipmentCartSources;
   let verifyWashbasinSources,verifyWashroomDispenserSources,verifyPrintedSignSources;
+  let verifyGlassPartitionSources;
+  if(catalog.resources.some(resource=>resource.productionBranch==='glass-partition')) {
+    const verifier=await noLinks(path.join(source,'scripts/company-platform/validate-resource-provenance.mjs'));
+    ({verifyGlassPartitionSources}=await import(pathToFileURL(verifier).href));
+    if(!verifyGlassPartitionSources) fail('missing-production-tool',verifier,'Expected the glass partition source verifier');
+    for(const entry of ['check-glass-partition-room.mjs','test-glass-partition-rooms.mjs','test-glass-partition-handoff.mjs',
+      'test-glass-partition-installed.mjs','qa-glass-partition.cjs','batch-inputs/glass-partition-rooms.json','batch-inputs/product-showcase-rooms.json'])
+      supplemental.add('scripts/company-platform/'+entry);
+    for(const entry of ['check-geometric-controls.mjs','README.md','examples/framed-three-bays-v2.json'])
+      supplemental.add('assets-source/company-glass-partition-v1/'+entry);
+  }
   let verifyCornerAbsorberSources;
   if (catalog.resources.some(resource => resource.productionBranch === 'corner-absorber')) {
     const verifier = await noLinks(path.join(source, 'scripts/company-platform/validate-resource-provenance.mjs'));
@@ -979,7 +995,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
         productionSourcePins.set(pin.path,pin.sha256);
       }
     }
-    const equipmentVerifier = resource.productionBranch==='corner-absorber' ? verifyCornerAbsorberSources :
+    const equipmentVerifier = resource.productionBranch==='glass-partition' ? verifyGlassPartitionSources :
+      resource.productionBranch==='corner-absorber' ? verifyCornerAbsorberSources :
       resource.productionBranch==='movable-absorber-screen' ? verifyMovableAbsorberSources :
       resource.productionBranch==='wall-absorber-panel' ? verifyWallAbsorberSources :
       resource.productionBranch==='public-wayfinding-content' ? verifyWayfindingSources :
@@ -1041,6 +1058,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     add(`source/${name}`,bytes,'editable-production-source');
   }
   let readme=(await read(toolRoot,'package-template/README.template.md')).toString('utf8').replaceAll('{{BUILD_ID}}',buildId).replaceAll('{{SOURCE_DIGEST}}',info.sourceDigest);
+  if(document.nodes.some(node=>catalog.resources.some(r=>r.id===node.resource?.id && r.version===node.resource.version && r.mountRole==='glass-partition')))
+    readme+='\n玻璃隔断的原材、四款外观和接收方改款步骤见[制作说明](source/assets-source/company-glass-partition-v1/README.md)。\n';
   const cornerIds = new Set(catalog.resources.filter(resource => resource.productionBranch === 'corner-absorber').map(resource => resource.id));
   if (document.nodes.some(node => cornerIds.has(node.resource?.id)))
     readme += '\n墙角安装、四款外观和改版命令见[墙角吸声件制作说明](source/assets-source/company-corner-absorber-v1/README.md)。\n';

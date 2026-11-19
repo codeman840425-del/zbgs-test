@@ -1,5 +1,6 @@
 import {cameraDeskEdgePlacement, cameraWallFootprint, sharesCameraDeskContact, validateCameraDeskContact, wallEnvelopeBottom} from './camera-mount-data.js';
 import {deriveExteriorEntrances,floorPortalSides} from './exterior-entrance-data.js';
+import {validateGlassPartitionResource} from './glass-partition.js';
 import {cornerAbsorberTransform,validateCornerAbsorberPlacement,validateCornerAbsorberResource} from './corner-absorber-data.js';
 import {validateWindowResource,deriveWindowOpenings} from './window-data.js';
 import {deriveCableConnections} from './cable-data.js';
@@ -202,7 +203,7 @@ export function deriveCompany(document, catalog, templates) {
     fail('catalog-version-mismatch', 'document.catalog', 'Load the pinned resource catalog');
   if (!Array.isArray(document.nodes)) fail('invalid-nodes', 'document.nodes', 'Expected an array');
   const { resources, combinations } = catalogMaps(catalog, templates);
-  for (const resource of resources.values()) { validateWallAmbientResource(resource,fail); validateDeskLampResource(resource,fail); validateFloorAirResource(resource,fail); validateWallHvacResource(resource,fail); validateWallAbsorberResource(resource,fail); validateMovableAbsorberResource(resource,fail); validateCornerAbsorberResource(resource,fail); validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); validateWindowCoverResource(resource,fail); validateBackdropResource(resource,fail); validateGarmentResource(resource,fail); }
+  for (const resource of resources.values()) { validateWallAmbientResource(resource,fail); validateDeskLampResource(resource,fail); validateFloorAirResource(resource,fail); validateWallHvacResource(resource,fail); validateWallAbsorberResource(resource,fail); validateMovableAbsorberResource(resource,fail); validateCornerAbsorberResource(resource,fail); validateGlassPartitionResource(resource,fail); validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); validateWindowCoverResource(resource,fail); validateBackdropResource(resource,fail); validateGarmentResource(resource,fail); }
   const nodes = new Map(), worlds = new Map(), localTransforms = new Map(), floorIds = new Map(), roomIds = new Map();
   for (const node of document.nodes) {
     checkId(node.id, 'nodes.id');
@@ -322,7 +323,7 @@ export function deriveCompany(document, catalog, templates) {
       if(node.parentId===undefined||!node.attachment||node.attachment.windowId!==node.parentId)
         fail('invalid-window-cover-attachment',node.id,'Window cover must declare attachment.windowId equal to its parent window');
     }
-    if (['wall','wall-opening','portal','portal-door','floor-surface'].includes(resource.mount)) {
+    if (['wall','wall-opening','portal','portal-door','floor-surface','floor-and-ceiling'].includes(resource.mount)) {
       const region=nodes.get(node.parentId),spec=resource.mounting;
       if(!['room','area'].includes(region?.kind)||!spec||
         ![spec.width,spec.height,spec.depth].every(v=>Number.isFinite(v)&&v>0))
@@ -331,7 +332,7 @@ export function deriveCompany(document, catalog, templates) {
       const edge=Math.abs(angle)<1e-6?'north':Math.abs(angle-Math.PI/2)<1e-6?'west':Math.abs(angle-Math.PI)<1e-6?'south':'east';
       const horizontal=['north','south'].includes(edge),span=horizontal?region.bounds.width:region.bounds.depth;
       const along=horizontal?x:z,normal=horizontal?z:x;
-      if(resource.mount==='floor-surface') {
+      if(resource.mount==='floor-surface' || resource.mount==='floor-and-ceiling') {
         const swapped=Math.abs(Math.sin(angle))>.5,halfX=(swapped?spec.depth:spec.width)/2,halfZ=(swapped?spec.width:spec.depth)/2;
         if(Math.abs(y)>.001||Math.abs(x)+halfX>region.bounds.width/2-.1+.001||Math.abs(z)+halfZ>region.bounds.depth/2-.1+.001)
           fail('invalid-floor-fit',node.id,'Floor covering must be grounded and fit inside the existing walls');
