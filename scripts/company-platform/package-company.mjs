@@ -931,6 +931,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     supplemental.add('docs/research/COMPANY-FLOOR-AIR-PRODUCTION.md');
   }
   if (supplemental.has('scripts/company-platform/batch-inputs/tea-station-rooms.json')) {
+    if (inputs.includes('src/company/tea-station-room.js')) supplemental.add('scripts/company-platform/test-tea-editor-parity.mjs');
     for (const name of ['check-tea-station.mjs','public-door-access.mjs','qa-tea-station-rooms.cjs','test-tea-station-rooms.mjs','test-tea-station-handoff.mjs'])
       supplemental.add('scripts/company-platform/'+name);
     supplemental.add('docs/research/COMPANY-TEA-STATION-PRODUCTION.md');

@@ -1,23 +1,28 @@
 const assert = require('node:assert/strict');
-const { spawn } = require('node:child_process');
+const { execFile, spawn } = require('node:child_process');
 const { createHash } = require('node:crypto');
 const { once } = require('node:events');
 const fs = require('node:fs/promises');
+const { createRequire } = require('node:module');
 const path = require('node:path');
 const { createInterface } = require('node:readline');
-const { chromium } = require('../../prototype/node_modules/playwright');
+const { promisify } = require('node:util');
 
-const [rootArg, build, ...options] = process.argv.slice(2);
+const [rootArg, pin, ...options] = process.argv.slice(2);
 const flags = options.filter(value => value.startsWith('--'));
 const paths = options.filter(value => !value.startsWith('--'));
-if (!rootArg || !/^[a-f0-9]{12}$/.test(build) || ![1, 2].includes(paths.length) ||
-    flags.length > 1 || flags.some(flag => flag !== '--record')) {
-  throw new Error('Usage: node qa-tea-station-rooms.cjs DIST BUILD BATCH_ROOT NEW_OUT [--record]\n' +
+const parity = flags.includes('--editor-parity');
+const dev = paths.length === 2;
+const manifestPin = !dev && /^[a-f0-9]{64}$/.test(pin) ? pin : null;
+if (!rootArg || ![1, 2].includes(paths.length) ||
+    (!manifestPin && (!/^[a-f0-9]{12}$/.test(pin) || (!dev && parity))) ||
+    new Set(flags).size !== flags.length || flags.some(flag => !['--record','--editor-parity'].includes(flag))) {
+  throw new Error('Usage: node qa-tea-station-rooms.cjs DIST BUILD BATCH_ROOT NEW_OUT [--editor-parity] [--record]\n' +
+    '   or: node qa-tea-station-rooms.cjs PACKAGE MANIFEST_SHA NEW_OUT --editor-parity [--record]\n' +
     '   or: node qa-tea-station-rooms.cjs PACKAGE BUILD NEW_OUT [--record]');
 }
-const root = path.resolve(rootArg);
-const batch = paths.length === 2 ? path.resolve(paths[0]) : null;
-const out = path.resolve(paths.at(-1));
+assert(!paths.at(-1).split(/[\\/]/).includes('..'),'Output path cannot contain traversal');
+const source = path.resolve(__dirname,'../..');
 const recordRequested = flags.includes('--record');
 const viewport = { width: 1500, height: 950 };
 const threeUrl = '/__tea-station-qa/three.core.js';
@@ -25,8 +30,8 @@ const looks = ['water','pantry','coffee','open'].map(style => ({id:'tea-counter-
 const key = ref => ref.id + '@' + ref.version;
 const node = (doc, id) => doc.nodes.find(row => row.id === id);
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
-const report = { status: 'running', build, rooms: [], browserErrors: [] };
-let manifest, devServer, packageServer, baseUrl, threeSource, context, page, responses, stage, outputCreated;
+const report = { status: 'running', mode: parity?'editor-parity':'original-tour', rooms: [], browserErrors: [], files: [] };
+let root, batch, out, build, temp, chromium, manifest, devServer, packageServer, baseUrl, threeSource, context, page, responses, stage, outputCreated, activeVideo;
 
 async function pinned(file) {
   const bytes = await fs.readFile(path.join(root, file));
@@ -74,8 +79,9 @@ async function fixture(id) {
 
 async function open(profile, recording = false) {
   context = await chromium.launchPersistentContext(profile, {
-    headless: true, viewport, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
-    ...(recording ? { recordVideo: { dir: path.join(out, 'video'), size: viewport } } : {}),
+    headless: true, viewport, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader','--disable-background-networking',
+      '--disk-cache-dir='+path.join(profile,'cache')],
+    ...(recording ? { recordVideo: { dir: temp, size: viewport } } : {}),
   });
   context.setDefaultTimeout(20000);
   await context.route('**' + threeUrl, route => route.fulfill({ contentType: 'text/javascript', body: threeSource }));
@@ -84,7 +90,7 @@ async function open(profile, recording = false) {
   page.on('response', response => responses.set(new URL(response.url()).pathname, response));
   page.on('pageerror', error => report.browserErrors.push({ stage, message: error.message }));
   page.on('console', event => {
-    if (event.type() !== 'error') return;
+    if (event.type() !== 'error' || event.location().url.endsWith('/favicon.ico')) return;
     const message = event.text();
     report.browserErrors.push({ stage, message });
   });
@@ -148,7 +154,8 @@ async function actualAsset(asset) {
 
 async function screenshot(name) {
   await page.evaluate(() => company.drawHostFrame());
-  await page.screenshot({ path: path.join(out, name) });
+  const bytes = await page.screenshot({ path: path.join(out, name) });
+  report.files.push({ file:name, bytes:bytes.length,sha256:sha(bytes) });
   return name;
 }
 
@@ -342,7 +349,7 @@ async function roomViews(room) {
 }
 async function checkRoom(room,i) {
   stage='open '+room.id;
-  const profile=path.join(out,'profile-'+room.id);
+  const profile=path.join(temp,'profile-'+room.id);
   const group=looks.slice(i*2,i*2+2);
   await open(profile);await load(room);await enter(room);
   const views=await roomViews(room);
@@ -376,8 +383,109 @@ async function checkRoom(room,i) {
   }
   await close();
 }
+const hold = async ms => {if(recordRequested) await page.waitForTimeout(ms);};
+const stableRecords = ({records}) => records.map(({visiblePixels,screenBounds,...data})=>data);
+const wholeDegrees = radians => ((Math.round(radians*180/Math.PI)%360)+360)%360;
+
+async function archive(video,file,partial=false) {
+  const raw=await fs.realpath(await video.path());
+  assert.equal(path.dirname(raw),temp);
+  const bytes=await fs.readFile(raw);assert(bytes.length>1024);
+  await fs.rename(raw,path.join(out,file));
+  const result={file,playbackSpeed:1,sha256:sha(bytes),bytes:bytes.length,viewport,partial};
+  report.files.push(result);return result;
+}
+
+function renderedStation(room) {
+  return page.evaluate(ids=>{
+    const {root}=company.session.scene;
+    root.updateMatrixWorld(true);
+    return {scene:root.uuid,objects:ids.map(id=>{
+      const o=root.getObjectByName(id);
+      return {id,uuid:o.uuid,parent:o.parent.name,world:o.matrixWorld.toArray()};
+    })};
+  },room.ids);
+}
+
+async function rejectHalfTurn(room,before) {
+  const counter=node(before.doc,room.ids[0]),originalYaw=wholeDegrees(counter.transform.yaw),yaw=(originalYaw+180)%360;
+  const originalRendering=await renderedStation(room);
+  for(const query of ['#placement-tools','#placement-tools > details']) {
+    const details=page.locator(query);
+    if(!await details.evaluate(e=>e.open))await details.locator(':scope > summary').click();
+  }
+  const input=page.locator('#edit-yaw'),apply=page.locator('#edit-position');
+  assert.equal(Number(await input.inputValue()),originalYaw);
+  for(const [i,axis] of ['x','y','z'].entries())
+    assert.equal(Number(await page.locator('#edit-'+axis).inputValue()),counter.transform.position[i]);
+  await input.selectOption(String(yaw));
+  const initial=report.browserErrors.length;
+  const [diagnostic]=await Promise.all([page.waitForEvent('console',e=>e.type()==='error'),apply.click()]);
+  const error=await diagnostic.args()[0].evaluate(({code,path,details})=>({code,path,details}));
+  assert.equal(error.code,'tea-station-clearance-outside');assert.equal(error.path,counter.id);
+  assert(Array.isArray(error.details?.min)&&Array.isArray(error.details?.max),JSON.stringify(error));
+  assert.deepEqual(report.browserErrors.splice(initial),[{stage,message:diagnostic.text()}]);
+  await page.waitForFunction(()=>document.querySelector('#status').dataset.error==='true'&&
+    !document.querySelector('#edit-position').disabled&&!document.querySelector('#edit-look').disabled);
+  const status=await page.locator('#status').textContent(),message=await page.locator('#edit-message').textContent();
+  assert.match(status,/有效方案已保留/);
+  assert.match(message,/茶水|茶柜|清洁|站位/);
+  assert.equal(await page.locator('#edit-instance').inputValue(),counter.id);
+  assert.equal(Number(await input.inputValue()),originalYaw);
+  assert.equal(await page.locator('#save-state').getAttribute('data-dirty'),'false');
+  assert.deepEqual(await current(),before.doc);assert.equal(await readSave(room.id),before.text);
+  assert.deepEqual(await renderedStation(room),originalRendering);
+  const image=await screenshot(room.id+'-half-turn-rejected.png');await hold(1450);
+  return {error,originalYawDegrees:originalYaw,attemptedYawDegrees:yaw,position:counter.transform.position,
+    message,status,sameSavedBytes:true,sameLiveScene:true,savedSha256:sha(before.text),image};
+}
+
+async function checkEditorParity(room,index) {
+  stage=room.id+'/ordinary-open';
+  assert(room.document.teaStations.some(rule=>rule.regionId===room.area&&['counter','machine','cup'].every((k,i)=>rule.roles[k]===room.ids[i])));
+  const profile=path.join(temp,'profile-'+room.id);
+  await open(profile,recordRequested);
+  if(recordRequested)activeVideo={id:room.id,video:page.video()};
+  await load(room);await enter(room);await select(room.ids[0],true);
+  const old=await inspect(room),before=await store(room);
+  assert.deepEqual(before.doc,room.document);
+  const receipt={room:room.id,area:room.area,ids:room.ids,sourceSha256:sha(room.bytes),
+    original:{rendered:old,savedSha256:sha(before.text),image:await screenshot(room.id+'-original-saved.png')}};
+  report.rooms.push(receipt);await hold(800);
+  stage=room.id+'/reject-half-turn';
+  receipt.rejection=await rejectHalfTurn(room,before);
+  stage=room.id+'/same-panel-legal-replacement';
+  const look=looks[index===0?0:3];
+  assert.notEqual(key(look),key(old.records[0].ref));
+  await choose(room,look);await select(room.ids[0],true);
+  const warm=await inspect(room),expected=await current();
+  assert.equal(await page.locator('#edit-message').getAttribute('data-error'),'false');
+  assert.notEqual(old.records[0].geometrySha256,warm.records[0].geometrySha256);
+  const loads=measurement=>stableRecords(measurement).slice(1).map(({contact,...data})=>
+    ({...data,contact:{...contact,hit:contact.hit.map(m=>Math.round(m*1e6)/1e6)}}));
+  assert.deepEqual(loads(warm),loads(old),'Original machine, cup, support contacts and state must survive the replacement');
+  assert.deepEqual(node(expected,room.ids[0]).transform,node(before.doc,room.ids[0]).transform);
+  assert.equal(await readSave(room.id),before.text,'Only the explicit save may update the persisted plan');
+  const final=await store(room);assert.notEqual(final.text,before.text);
+  receipt.replacement={look:key(look),rendered:warm,savedSha256:sha(final.text),image:await screenshot(room.id+'-replacement-saved.png')};
+  await hold(1200);await close();
+  if(activeVideo){receipt.video=await archive(activeVideo.video,room.id+'-editor-normal.webm');activeVideo=null;}
+
+  stage=room.id+'/cold-without-delivery';
+  await open(profile);await visit(new URL(baseUrl));
+  assert.equal(await page.locator('#status').textContent(),'已恢复上次保存的方案。');
+  assert(![...responses.keys()].some(name=>name==='/delivery-save.json'||name.startsWith('/delivery-room/')));
+  assert.deepEqual(await current(),final.doc);assert.equal(await readSave(room.id),final.text);
+  await enter(room);await select(room.ids[0],true);
+  const cold=await inspect(room);assert.deepEqual(stableRecords(cold),stableRecords(warm));
+  assert.equal(await page.evaluate(()=>company.renderStatus().lastRenderError),null);
+  receipt.cold={savedSha256:sha(final.text),sameBytes:true,withoutDelivery:true,rendered:cold,
+    image:await screenshot(room.id+'-replacement-cold.png')};
+  await close();
+}
+
 async function recordTour(rooms) {
-  stage='ordinary browser tour'; await open(path.join(out,'video-profile'),true);
+  stage='ordinary browser tour'; await open(path.join(temp,'video-profile'),true);
   for(const [i,room] of rooms.entries()){
     await load(room);await enter(room);
     if(i){await page.locator('#floor-view').click();await page.waitForFunction(()=>company.session.scene.view.mode==='floor');
@@ -391,22 +499,68 @@ async function recordTour(rooms) {
     await select(room.ids[0],true);await page.waitForTimeout(800);
   }
   const video=page.video();await close();
-  const file='video/tea-station-rooms-normal.webm';
-  await fs.rename(await video.path(),path.join(out,file));
-  const bytes=await fs.readFile(path.join(out,file));report.video={file,playbackSpeed:1,sha256:sha(bytes),bytes:bytes.length};
+  await fs.mkdir(path.join(out,'video'));
+  report.video=await archive(video,'video/tea-station-rooms-normal.webm');
+}
+async function prepare() {
+  const {checkManagedOutput,findManagedProject}=await import('./package-company.mjs');
+  const project=await fs.realpath(await findManagedProject(source)??source);
+  out=path.resolve(project,paths.at(-1));
+  await checkManagedOutput(out,source,{allowDelivery:false});
+  root=await fs.realpath(rootArg);
+  batch=dev?await fs.realpath(paths[0]):null;
+  for(const input of [root,batch].filter(Boolean)) {
+    const relative=path.relative(input,out);
+    assert(relative==='..'||relative.startsWith('..'+path.sep)||path.isAbsolute(relative),'Evidence cannot overlap a live input');
+  }
+  const script=await fs.readFile(__filename);
+  report.scriptSha256=sha(script);
+  let lock;
+  if(dev) {
+    const info=JSON.parse(await fs.readFile(path.join(root,'company-build-info.json')));
+    assert.equal(info.shortId,pin);build=pin;report.sourceDigest=info.sourceDigest;
+    lock=await fs.readFile(path.join(source,'prototype/package-lock.json'));
+  } else {
+    const bytes=await fs.readFile(path.join(root,'transfer-manifest.json'));
+    report.manifestSha256=sha(bytes);
+    if(manifestPin)assert.equal(report.manifestSha256,manifestPin);
+    manifest=JSON.parse(bytes);assert.equal(manifest.schema,'company-transfer');assert.equal(manifest.version,1);
+    build=manifest.buildId;report.sourceDigest=manifest.sourceDigest;
+    assert(/^[a-f0-9]{12}$/.test(build));if(!manifestPin)assert.equal(build,pin);
+    if(manifestPin) {
+      assert(script.equals(await pinned('source/scripts/company-platform/qa-tea-station-rooms.cjs')),'QA source must match the pinned package');
+      await pinned('verify.mjs');await pinned('serve.mjs');
+      const {stdout}=await promisify(execFile)(process.execPath,[path.join(root,'verify.mjs'),root,manifestPin],
+        {cwd:root,windowsHide:true,timeout:60_000,maxBuffer:2*1024*1024});
+      report.packageVerification=JSON.parse(stdout);
+      assert(report.packageVerification.ok&&report.packageVerification.checkedFiles===manifest.files.length);
+    }
+    lock=await pinned('source/prototype/package-lock.json');
+  }
+  report.build=build;report.dependencyLockSha256=sha(lock);report.recordingRequested=recordRequested;
+  let proto;
+  for(const owner of new Set([source,project])) {
+    const candidate=path.join(owner,'prototype');
+    const localLock=await fs.readFile(path.join(candidate,'package-lock.json')).catch(error=>{if(error.code!=='ENOENT')throw error;});
+    const playwright=await fs.stat(path.join(candidate,'node_modules/playwright')).catch(error=>{if(error.code!=='ENOENT')throw error;});
+    if(localLock?.equals(lock)&&playwright?.isDirectory()){proto=candidate;break;}
+  }
+  assert(proto,'Install the pinned prototype dependencies in an editable copy for this browser QA');
+  chromium=createRequire(path.join(proto,'package.json'))('playwright').chromium;
+  threeSource=await fs.readFile(path.join(proto,'node_modules/three/build/three.core.js'),'utf8');
+  await fs.mkdir(path.dirname(out),{recursive:true});await fs.mkdir(out);outputCreated=true;
+  temp=await fs.mkdtemp(path.join(out,'browser-temp-'));
+  for(const key of ['TEMP','TMP','TMPDIR'])process.env[key]=temp;
 }
 async function run(){
-  await fs.mkdir(out);outputCreated=true;
-  if(!batch){const bytes=await fs.readFile(path.join(root,'transfer-manifest.json'));manifest=JSON.parse(bytes);
-    assert.equal(manifest.buildId,build);report.manifestSha256=sha(bytes);}
+  stage='verify inputs';await prepare();
   const rooms=await Promise.all(['tea-rental','tea-floor'].map(async alias=>station(await fixture(alias))));
-  threeSource=await fs.readFile(path.resolve(__dirname,'../../prototype/node_modules/three/build/three.core.js'),'utf8');
-  baseUrl=await serve();report.sourceDigest=manifest?.sourceDigest??devServer.info.sourceDigest;
-  for(const [i,room] of rooms.entries()) await checkRoom(room,i);
-  const all=report.rooms.flatMap(r=>r.looks.map(l=>l.warm.records[0]));
+  baseUrl=await serve();
+  for(const [i,room] of rooms.entries()) await (parity?checkEditorParity:checkRoom)(room,i);
+  const all=report.rooms.flatMap(r=>parity?[r.original.rendered.records[0],r.replacement.rendered.records[0]]:r.looks.map(l=>l.warm.records[0]));
   assert.equal(new Set(all.map(r=>r.asset.sha256)).size,4);
   assert.equal(new Set(all.map(r=>r.geometrySha256)).size,4,'Four distinct physical counter meshes');
-  if(recordRequested) await recordTour(rooms);
+  if(recordRequested&&!parity)await recordTour(rooms);
   for(const room of rooms){const bytes=batch?await fs.readFile(room.file):await pinned(room.file);assert(bytes.equals(room.bytes));}
   assert.deepEqual(report.browserErrors,[]);report.status='passed';
 }
@@ -416,8 +570,16 @@ run().catch(async error=>{
     await page.screenshot({path:path.join(out,'failure.png'),timeout:5000}).catch(()=>{});}
   console.error(error);process.exitCode=1;
 }).finally(async()=>{
-  await close();
-  if(devServer)await devServer.close();
-  if(packageServer && packageServer.exitCode===null){const end=once(packageServer,'exit');packageServer.kill();await end;}
-  if(outputCreated)await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n');
+  try {
+    await close();
+    if(activeVideo)await archive(activeVideo.video,activeVideo.id+'-editor-partial.webm',true).catch(()=>{});
+    if(devServer)await devServer.close();
+    if(packageServer&&packageServer.exitCode===null){
+      const end=once(packageServer,'exit',{signal:AbortSignal.timeout(10_000)});packageServer.kill();await end;
+    }
+  } finally {
+    if(temp){assert.equal(path.dirname(await fs.realpath(temp)),out);await fs.rm(temp,{recursive:true,force:true,maxRetries:4});}
+    if(outputCreated)await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});
+    console.log(JSON.stringify({status:report.status,...(outputCreated?{report:path.join(out,'report.json')}:{})}));
+  }
 });

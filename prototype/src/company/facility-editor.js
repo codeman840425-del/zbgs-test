@@ -20,6 +20,14 @@ function options(select,rows,value){
 }
 
 export const roomEditMessages={
+  'tea-station-clearance-outside':'茶柜转向后，柜前的清洁空间会超出公共区，请调整茶柜位置或朝向',
+  'tea-station-service-point':'请让取茶站位位于茶柜正面，并留出足够的操作空间',
+  'tea-station-clearance-obstructed':'请移开挡在茶柜前方或公共通道内的物品',
+  'tea-station-passage-overlap':'请把茶柜的清洁位置与走廊通道分开',
+  'tea-station-door-unreachable':'须保留从公共门口走到茶柜的通路',
+  'tea-station-contact':'咖啡机底座需要贴合柜面，杯底需要贴合托盘或柜面',
+  'tea-station-member':'茶水站配方中的茶柜、咖啡机和杯子须在同一公共区',
+  'tea-station-binding-required':'请在配方中登记这套茶水站的柜、机、杯和服务点',
   'wayfinding-content-meaning':'这块牌承担指定的接待或楼层指引，请选用同一用途的图文',
   'wall-absorber-occupied':'这块吸声板与房间物件的实体重叠，请沿墙挪动，或先移开挡住它的物件',
   'wayfinding-sign-facing':'从来客进入的门口看不清牌面，请将印面朝向门口并移开遮挡物',

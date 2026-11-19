@@ -2,6 +2,7 @@ import {WALL_AMBIENT_ROLE,applyWallAmbientLight} from './wall-ambient.js';
 import {poseDeskLamp,poseDeskLampHead} from './desk-lamp.js';
 import {bindFloorAirRotor} from './floor-air.js';
 import {adaptCableGeometry,validateCableVisualPlacement} from './cable-render.js';
+import {teaStationFloors,measurePreparedTeaStationFloor} from './tea-station-room.js';
 import {inspectGlassPartitionObjects} from './glass-partition-room.js';
 import {inspectWallAbsorberObjects} from './wall-absorber-room.js';
 import {validateCeilingVisualPlacement,ceilingVisibleForRegion} from './ceiling-placement.js';
@@ -26,7 +27,7 @@ import {bindClockDisplay,validatePresentationInputs} from './clock-display.js';
 import {applyWallHvacState} from './wall-hvac.js';
 import {applyInformationDisplay} from './information-display.js';
 import {createMirrorBindings,validateMirrorRenderProfile} from './mirror-render.js';
-import {inspectCompanyMotionSweep,inspectCompanyPlacement} from './placement.js';
+import {inspectCompanyMotionSweep,inspectDerivedPlacement} from './placement.js';
 
 const geometryTypes={BoxGeometry:THREE.BoxGeometry,CylinderGeometry:THREE.CylinderGeometry,PlaneGeometry:THREE.PlaneGeometry,CapsuleGeometry:THREE.CapsuleGeometry,SphereGeometry:THREE.SphereGeometry};
 const clone=value=>structuredClone(value);
@@ -562,7 +563,8 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     wallAbsorberMeasurements(){return structuredClone(current.absorberMeasurements ?? []);},
     createPlacementProbe(){
       const revision=current.document.revision,identity=current.document.id;
-      let candidate=null,ended=false,shape=null,navigationKey=null;
+      let candidate=null,ended=false,shape=null,navigationKey=null,placement=null;
+      const teaPaths=new Map();
       const release=()=>{if(candidate){disposeTree(candidate.root);candidate=null;}};
       return {
         check:operations=>{
@@ -572,8 +574,8 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
           // share one navigation result; model and mounting checks still run.
           const regions=result.document.nodes.filter(n=>['room','area','floor'].includes(n.kind));
           const key=JSON.stringify([regions,regions.map(n=>result.derived.worlds.get(n.id)),result.derived.obstacles,result.derived.usePoints]);
-          if(key!==navigationKey){inspectCompanyPlacement(result.document,catalog,templates);navigationKey=key;}
-          const signature=JSON.stringify(result.document.nodes.map(n=>[n.id,n.parentId,n.resource,n.state,n.appearance,n.attachment]));
+          if(key!==navigationKey){placement=inspectDerivedPlacement(result.document,catalog,templates,result.derived);navigationKey=key;}
+          const signature=JSON.stringify([regions,result.document.nodes.map(n=>[n.id,n.parentId,n.resource,n.state,n.appearance,n.attachment])]);
           // Cable geometry is deformed from endpoints at build time. Keep that
           // path authoritative; ordinary transforms reuse private prepared meshes.
           if(!candidate||shape!==signature||result.derived.cableConnections.size){
@@ -586,10 +588,15 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
             inspectGlassPartitionObjects(result.derived,candidate);
             inspectWallAbsorberObjects(result.derived,candidate);
           }
+          const teaFloor=teaStationFloors(result.document,result.derived).find(group=>group.id===candidate.floorId);
+          if(teaFloor) {
+            const floor=candidate.architecture.topology.floors.find(row=>row.floorId===teaFloor.id);
+            measurePreparedTeaStationFloor(candidate,result.derived,placement,teaFloor,floor,teaPaths);
+          }
           return {valid:true};
         },
         visual:id=>candidate?.groups.get(id),
-        dispose(){if(ended)return;ended=true;release();},
+        dispose(){if(ended)return;ended=true;teaPaths.clear();release();},
       };
     },
     prepareChange(operations,guards={}) {

@@ -88,7 +88,25 @@ function reach(region, radius, block, start, goals) {
   return found;
 }
 
-export function checkRoomDoorAccess({scene,derived,facilities,floor,placement,room,portalId,targets,radius,height}) {
+const samePoint=(a,b)=>Array.isArray(a)&&Array.isArray(b)&&a.length===2&&b.length===2&&a.every((n,i)=>round(n)===round(b[i]));
+
+// A previous route supplies candidate waypoints only. Recheck exact endpoints,
+// region bounds and continuous sweeps against THIS candidate's geometry.
+function clearWitness(line,region,radius,block,start,end){
+  if(!line?.length||!samePoint(line[0],start)||!samePoint(line.at(-1),end))return false;
+  const inside=p=>Math.abs(p[0])<=region.bounds.width/2-radius+1e-6 && Math.abs(p[1])<=region.bounds.depth/2-radius+1e-6;
+  if(!inside(start)||!inside(end)||block(start,start)||block(end,end))return false;
+  for(let i=0;i<line.length;i++){
+    const p=line[i];if(!inside(p))return false;
+    if(i){
+      const prior=line[i-1];
+      if((p[0]!==prior[0]&&p[1]!==prior[1])||block(prior,p))return false;
+    }
+  }
+  return true;
+}
+
+export function checkRoomDoorAccess({scene,derived,facilities,floor,placement,room,portalId,targets,radius,height,previous,queryFor}) {
   const choices = [];
   for(const conn of floor.connections) {
     const side = [conn.from,conn.to].find(p=>p.regionId===room.id);
@@ -100,7 +118,8 @@ export function checkRoomDoorAccess({scene,derived,facilities,floor,placement,ro
   for(const side of floor.exteriorEntrances) if(side.regionId===room.id) choices.push({id:side.id,side});
   choices.sort((a,b)=>Number(b.id===portalId)-Number(a.id===portalId));
   const report = {}, blocked = [], blockers = new Set();
-  const roomGroup=scene.root.getObjectByName(room.id), roomBlock=clearanceQuery(scene,derived,facilities,room,radius,height);
+  const getBlock=queryFor??(region=>clearanceQuery(scene,derived,facilities,region,radius,height));
+  const roomGroup=scene.root.getObjectByName(room.id),roomBlock=getBlock(room);
   for(const {id,side,region} of choices) {
     if((side.height??Infinity)<height || side.width<2*radius) continue;
     const along = ['north','south'].includes(side.edge) ? 0 : 1, normal = 1-along;
@@ -109,19 +128,39 @@ export function checkRoomDoorAccess({scene,derived,facilities,floor,placement,ro
     const offsets=[0,-half,half];
     for(let x=-half; x<half; x+=spacing/2) offsets.push(x);
     const peerGroup=region && scene.root.getObjectByName(region.id);
-    const lanes=[];
-    for(const offset of new Set(offsets.map(round))) {
+    const offsetsRounded=new Set(offsets.map(round));
+    const entry=region && placement.rooms.find(r=>r.id===region.id).entry;
+    let peerBlock;
+    function laneAt(offset){
       const threshold=[...center]; threshold[along]+=offset;
       const inner=[...threshold],outer=[...threshold]; inner[normal]+=inward*radius;
       outer[normal]-=inward*radius;
-      // Exterior entries have no modelled exterior ground. Check the threshold and the indoor half only.
+      // For a public peer, sweep the whole threshold crossing. Exterior ground has no mesh.
       const hit=roomBlock(region ? outer : threshold, inner);
-      if(hit) {blockers.add(hit);continue;}
+      if(hit){blockers.add(hit);return;}
       const peerEnd=region && xz(peerGroup.worldToLocal(roomGroup.localToWorld(at(outer))));
-      lanes.push({inner:inner.map(round),threshold:threshold.map(round),peerEnd});
+      return {inner:inner.map(round),threshold:threshold.map(round),peerEnd};
     }
-    const entry = region && placement.rooms.find(r=>r.id===region.id).entry;
-    const incoming = region && lanes.length ? reach(region,radius,clearanceQuery(scene,derived,facilities,region,radius,height),
+    if(previous && id===portalId) {
+      for(const [role,target] of Object.entries(targets)){
+        const witness=previous[role];
+        if(witness?.portalId!==id||witness.fromRegion!==(region?.id??null))continue;
+        const offset=round(witness.threshold[along]-center[along]);
+        if(!offsetsRounded.has(offset))continue;
+        const lane=laneAt(offset);
+        if(!lane||!samePoint(lane.threshold,witness.threshold)||
+            !clearWitness(witness.inside,room,radius,roomBlock,lane.inner,target))continue;
+        if(region){
+          peerBlock??=getBlock(region);
+          if(!clearWitness(witness.approach,region,radius,peerBlock,[entry[0],entry[2]],lane.peerEnd))continue;
+        }else if(witness.approach.length)continue;
+        report[role]=witness;
+      }
+      if(Object.keys(report).length===Object.keys(targets).length)return report;
+    }
+    const lanes=[];
+    for(const offset of offsetsRounded){const lane=laneAt(offset);if(lane)lanes.push(lane);}
+    const incoming = region && lanes.length ? reach(region,radius,peerBlock??getBlock(region),
       [entry[0],entry[2]],lanes.map(l=>l.peerEnd)) : null;
     const open=lanes.filter(l=>!region || incoming?.has(l.peerEnd));
     for(const [role,target] of Object.entries(targets)) {

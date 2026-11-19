@@ -16,6 +16,12 @@ node scripts/company-platform/test-tea-station-rooms.mjs output/tea-room-check
 
 机器通过 `state.on` 驱动正面的指示灯。机器安装面为 `counter`，杯子使用 `tray` 或 `counter`。同一只杯子移到柜台时使用 `attach-surface` 操作并保留实例 ID。留有安装面的单件柜体、设备和杯具也可单独出样。服务和清洁区域为使用空间预留，角色操作由游戏联调验收。
 
+## 房间编辑与批量制作
+
+房间编辑器拖放、旋转及保存和批量制作使用同一套茶水站检查。例如，把走廊茶柜原地转向 180° 会让清洁区贴到墙外，编辑器会说明原因并保留上次有效的布置和存档。可以从另一侧有净空的位置重放茶柜，也可以在原位选择同规格柜体。切到其他楼层后导入全楼配置时，各楼层的茶水站也要通过检查。
+
+用 `node scripts/company-platform/test-tea-editor-parity.mjs output/tea-edit-check tea-counter-water@1` 可以在新的试验目录复跑房间编辑、整层导入、拒绝无效保存和冷启动恢复。
+
 ## 独立制作第五款
 
 在独立副本内使用[加宽搁板示例](../../assets-source/company-tea-station-v1/examples/open-wide-shelf-v2.json)。它改变实体搁板和端部护条。可编辑输入、原始模型、来源与许可记录都随正式包移交。

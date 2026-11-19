@@ -117,7 +117,7 @@ export function inspectCompanyPlacement(document, catalog, templates) {
   return inspectDerivedPlacement(document,catalog,templates,deriveCompany(document,catalog,templates));
 }
 
-function inspectDerivedPlacement(document,catalog,templates,derived) {
+export function inspectDerivedPlacement(document,catalog,templates,derived) {
   const warnings = [
     'C1/C2 static authoring reserve only. Radius 0.25m has no verified C3 character fit.',
     '0.20m four-neighbour grid and square obstacle expansion are conservative. Narrow or diagonal feasible paths may be rejected.',

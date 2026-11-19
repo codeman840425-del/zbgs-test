@@ -218,7 +218,7 @@ async function prepare(item,sourceHashes){
   }
   let teaStations;
   if (Object.hasOwn(document,'teaStations') || derived.facilities.some(item=>item.resource.mountRole==='tea-counter')) {
-    Object.assign(sourceHashes,await sources(['scripts/company-platform/check-tea-station.mjs','scripts/company-platform/public-door-access.mjs']));
+    Object.assign(sourceHashes,await sources(['scripts/company-platform/check-tea-station.mjs','prototype/src/company/tea-station-room.js','prototype/src/company/public-door-access.js','prototype/src/company/room-mesh-geometry.js']));
     const {checkTeaStations} = await import('./check-tea-station.mjs');
     teaStations = await checkTeaStations(document,{catalog,templates,derived});
   }
