@@ -1,0 +1,760 @@
+{
+  "status": "passed",
+  "package": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\fixed\\package",
+  "manifestSha256": "89500ce9d8158fec12035db01230f09e7fd87658e3dbe7a6d0ca534261ddb7ed",
+  "receiver": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+  "evidence": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01",
+  "launchDirectory": "F:\\gamemake",
+  "commands": [
+    {
+      "label": "01-original-verify",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\fixed\\package\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\fixed\\package",
+        "89500ce9d8158fec12035db01230f09e7fd87658e3dbe7a6d0ca534261ddb7ed"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\fixed\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\01-original-verify.log",
+      "exitCode": 0
+    },
+    {
+      "label": "02-copy-verify",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+        "89500ce9d8158fec12035db01230f09e7fd87658e3dbe7a6d0ca534261ddb7ed"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\02-copy-verify.log",
+      "exitCode": 0
+    },
+    {
+      "label": "03-offline-npm-ci",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+        "ci",
+        "--offline",
+        "--cache",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\npm-cache",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source\\prototype",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\03-offline-npm-ci.log",
+      "exitCode": 0
+    },
+    {
+      "label": "04-fixed-build-id",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source\\prototype\\scripts\\build-company-id.mjs"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source\\prototype",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\04-fixed-build-id.log",
+      "exitCode": 0
+    },
+    {
+      "label": "05-vite-company-build",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source\\prototype\\node_modules\\vite\\bin\\vite.js",
+        "build",
+        "--config",
+        "vite.company.config.js"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source\\prototype",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\05-vite-company-build.log",
+      "exitCode": 0
+    },
+    {
+      "label": "06-rebuilt-viewer-comparison",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\fixed\\package\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\fixed\\package",
+        "89500ce9d8158fec12035db01230f09e7fd87658e3dbe7a6d0ca534261ddb7ed",
+        "--viewer",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source\\prototype\\dist-company"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\06-rebuilt-viewer-comparison.log",
+      "exitCode": 0
+    },
+    {
+      "label": "07-publish-basin",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--publish",
+        "assets-source/company-public-washbasin-v1/examples/frame-thick-v2.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\07-publish-basin.log",
+      "exitCode": 0
+    },
+    {
+      "label": "08-check-basin",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--check",
+        "assets-source/company-public-washbasin-v1/examples/frame-thick-v2.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\08-check-basin.log",
+      "exitCode": 0
+    },
+    {
+      "label": "09-check-pinned-basin",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--check",
+        "assets-source/company-public-washbasin-v1/examples/recipe-5cda759fd2e314f26305c503d9f10607dd11d6287de3356c7fbb03cb1c09e4c0.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\09-check-pinned-basin.log",
+      "exitCode": 0
+    },
+    {
+      "label": "07-publish-dispenser",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--publish",
+        "assets-source/company-washroom-dispenser-v1/examples/wide-clad.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\07-publish-dispenser.log",
+      "exitCode": 0
+    },
+    {
+      "label": "08-check-dispenser",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--check",
+        "assets-source/company-washroom-dispenser-v1/examples/wide-clad.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\08-check-dispenser.log",
+      "exitCode": 0
+    },
+    {
+      "label": "09-check-pinned-dispenser",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--check",
+        "assets-source/company-washroom-dispenser-v1/examples/recipe-a301ee58767fc034a31716233b4ff951b7412358ae4e151c735cddb7076bedbd.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\source",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\09-check-pinned-dispenser.log",
+      "exitCode": 0
+    },
+    {
+      "label": "10-baseline-public-washroom-floor",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\data\\rooms\\public-washroom-floor\\save.json",
+        "--room",
+        "public-washroom-floor"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\10-baseline-public-washroom-floor.log",
+      "exitCode": 0
+    },
+    {
+      "label": "11-install-public-washroom-floor",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\data\\rooms\\public-washroom-floor\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-floor\\replace.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-floor\\installed",
+        "--room",
+        "public-washroom-floor"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\11-install-public-washroom-floor.log",
+      "exitCode": 0
+    },
+    {
+      "label": "12-cold-validate-public-washroom-floor",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-floor\\installed\\save.json",
+        "--room",
+        "public-washroom-floor"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\12-cold-validate-public-washroom-floor.log",
+      "exitCode": 0
+    },
+    {
+      "label": "13-reject-wall-reach-public-washroom-floor",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-floor\\installed\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-floor\\unreachable-on-wall.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-floor\\same-target-after-refusal",
+        "--room",
+        "public-washroom-floor"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\13-reject-wall-reach-public-washroom-floor.log",
+      "exitCode": 1
+    },
+    {
+      "label": "14-preserved-cold-public-washroom-floor",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-floor\\installed\\save.json",
+        "--room",
+        "public-washroom-floor"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\14-preserved-cold-public-washroom-floor.log",
+      "exitCode": 0
+    },
+    {
+      "label": "15-retry-public-washroom-floor",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-floor\\installed\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-floor\\corrected-on-wall.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-floor\\same-target-after-refusal",
+        "--room",
+        "public-washroom-floor"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\15-retry-public-washroom-floor.log",
+      "exitCode": 0
+    },
+    {
+      "label": "16-retry-cold-public-washroom-floor",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-floor\\same-target-after-refusal\\save.json",
+        "--room",
+        "public-washroom-floor"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\16-retry-cold-public-washroom-floor.log",
+      "exitCode": 0
+    },
+    {
+      "label": "10-baseline-public-washroom-building",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\data\\rooms\\public-washroom-building\\save.json",
+        "--room",
+        "public-washroom-building"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\10-baseline-public-washroom-building.log",
+      "exitCode": 0
+    },
+    {
+      "label": "11-install-public-washroom-building",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\data\\rooms\\public-washroom-building\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-building\\replace.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-building\\installed",
+        "--room",
+        "public-washroom-building"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\11-install-public-washroom-building.log",
+      "exitCode": 0
+    },
+    {
+      "label": "12-cold-validate-public-washroom-building",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-building\\installed\\save.json",
+        "--room",
+        "public-washroom-building"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\12-cold-validate-public-washroom-building.log",
+      "exitCode": 0
+    },
+    {
+      "label": "13-reject-wall-reach-public-washroom-building",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-building\\installed\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-building\\unreachable-on-wall.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-building\\same-target-after-refusal",
+        "--room",
+        "public-washroom-building"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\13-reject-wall-reach-public-washroom-building.log",
+      "exitCode": 1
+    },
+    {
+      "label": "14-preserved-cold-public-washroom-building",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-building\\installed\\save.json",
+        "--room",
+        "public-washroom-building"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\14-preserved-cold-public-washroom-building.log",
+      "exitCode": 0
+    },
+    {
+      "label": "15-retry-public-washroom-building",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-building\\installed\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-building\\corrected-on-wall.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-building\\same-target-after-refusal",
+        "--room",
+        "public-washroom-building"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\15-retry-public-washroom-building.log",
+      "exitCode": 0
+    },
+    {
+      "label": "16-retry-cold-public-washroom-building",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-building\\same-target-after-refusal\\save.json",
+        "--room",
+        "public-washroom-building"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\16-retry-cold-public-washroom-building.log",
+      "exitCode": 0
+    },
+    {
+      "label": "17-original-verify-again",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\fixed\\package\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\fixed\\package",
+        "89500ce9d8158fec12035db01230f09e7fd87658e3dbe7a6d0ca534261ddb7ed"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\fixed\\package",
+      "log": "F:\\gamemake-company-platform-c1\\output\\public-washroom-v1\\receiver\\run-01\\17-original-verify-again.log",
+      "exitCode": 0
+    }
+  ],
+  "original": {
+    "ok": true,
+    "build": "0b6988290fcc",
+    "manifestSha256": "89500ce9d8158fec12035db01230f09e7fd87658e3dbe7a6d0ca534261ddb7ed",
+    "declaredFiles": 2390,
+    "checkedFiles": 2390,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "initialCopy": {
+    "ok": true,
+    "build": "0b6988290fcc",
+    "manifestSha256": "89500ce9d8158fec12035db01230f09e7fd87658e3dbe7a6d0ca534261ddb7ed",
+    "declaredFiles": 2390,
+    "checkedFiles": 2390,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "npm": {
+    "offline": true,
+    "lockSha256": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b",
+    "node": "v24.13.0",
+    "versions": {
+      "three": "0.187.0",
+      "vite": "7.3.8",
+      "playwright": "1.58.2",
+      "pngjs": "7.0.0",
+      "jpeg-js": "0.4.4"
+    },
+    "copiedFrom": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-height-v1\\receiver\\npm-cache\\_cacache",
+    "cache": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\npm-cache",
+    "scopedTemp": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\temp",
+    "priorPreparationSha256": "079480824b67a5724df34a9834650577131725abc26ab3317855fa4ced5902d0"
+  },
+  "rebuiltViewer": {
+    "ok": true,
+    "build": "0b6988290fcc",
+    "manifestSha256": "89500ce9d8158fec12035db01230f09e7fd87658e3dbe7a6d0ca534261ddb7ed",
+    "declaredFiles": 661,
+    "checkedFiles": 661,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0,
+    "scope": "rebuilt-viewer"
+  },
+  "publications": [
+    {
+      "change": {
+        "role": "basin",
+        "recipe": "assets-source/company-public-washbasin-v1/examples/frame-thick-v2.json",
+        "resource": {
+          "id": "public-washbasin-frame-round",
+          "version": 2
+        },
+        "family": "public-washbasin"
+      },
+      "published": {
+        "status": "published",
+        "family": "public-washbasin",
+        "sourceParameters": "assets-source/company-public-washbasin-v1/examples/recipe-5cda759fd2e314f26305c503d9f10607dd11d6287de3356c7fbb03cb1c09e4c0.json",
+        "sourceParametersSha256": "5cda759fd2e314f26305c503d9f10607dd11d6287de3356c7fbb03cb1c09e4c0",
+        "items": [
+          {
+            "id": "public-washbasin-frame-round",
+            "version": 2,
+            "resourcePath": "prototype/public/company-assets/public-washbasin-v1/public-washbasin-frame-round/v2/resource.json",
+            "sha256": "55b0e171e15fb18c3e28b9b66a422d24c85aef59144d206fdc9e5ac5c30b8b61",
+            "geometrySha256": "5da3de92c118ab1b9a591704f2a71cb93bd467496dc2141bb5a68c6b2c827a0b"
+          }
+        ]
+      },
+      "checkedDraft": "unchanged",
+      "checkedPin": "unchanged"
+    },
+    {
+      "change": {
+        "role": "dispenser",
+        "recipe": "assets-source/company-washroom-dispenser-v1/examples/wide-clad.json",
+        "resource": {
+          "id": "washroom-dispenser-clad-wide",
+          "version": 1
+        },
+        "family": "washroom-dispenser"
+      },
+      "published": {
+        "status": "published",
+        "family": "washroom-dispenser",
+        "sourceParameters": "assets-source/company-washroom-dispenser-v1/examples/recipe-a301ee58767fc034a31716233b4ff951b7412358ae4e151c735cddb7076bedbd.json",
+        "sourceParametersSha256": "a301ee58767fc034a31716233b4ff951b7412358ae4e151c735cddb7076bedbd",
+        "items": [
+          {
+            "id": "washroom-dispenser-clad-wide",
+            "version": 1,
+            "resourcePath": "prototype/public/company-assets/washroom-dispenser-v1/washroom-dispenser-clad-wide/v1/resource.json",
+            "sha256": "4165e77c0523d7757d8eb9ab586b587fda687ed1e4be54f583b8025189fdbbfd",
+            "geometrySha256": "3928e8210db451ae4cda594dfb3e82fbe2fb36b63ebfa17b7200aeaf1247c3e2"
+          }
+        ]
+      },
+      "checkedDraft": "unchanged",
+      "checkedPin": "unchanged"
+    }
+  ],
+  "actualSlabThicknessMetres": {
+    "v1": 0.03200000524520874,
+    "v2": 0.039999961853027344
+  },
+  "rooms": [
+    {
+      "key": "public-washroom-floor",
+      "installed": {
+        "id": "public-washroom-floor/ground/restroom-access/washbasin",
+        "from": {
+          "id": "public-washbasin-frame-round",
+          "version": 1
+        },
+        "to": {
+          "id": "public-washbasin-frame-round",
+          "version": 2
+        },
+        "assetSha256": "55b0e171e15fb18c3e28b9b66a422d24c85aef59144d206fdc9e5ac5c30b8b61",
+        "originalSaveSha256": "178f15ce8ef75b983fb700c42999f4bc2ecb4c88cfbf84d9c71e3152e4033f5f",
+        "changedSaveSha256": "54949756178a18ee7849760d9a776fbb74509174a464e9918ca53863654e651a",
+        "transform": {
+          "position": [
+            -2.58,
+            0,
+            -0.72
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "cold": {
+          "ok": true,
+          "id": "public-washroom-floor",
+          "revision": 3,
+          "floors": [
+            "public-washroom-floor/ground"
+          ]
+        }
+      },
+      "measured": {
+        "floorId": "public-washroom-floor/ground",
+        "regionId": "public-washroom-floor/ground/restroom-access",
+        "portalId": "public-washroom-floor/ground/portal-stair-restroom",
+        "aperture": 1.4,
+        "checkedMeshes": 244,
+        "route": {
+          "portalId": "public-washroom-floor/ground/portal-stair-restroom",
+          "fromRegion": "public-washroom-floor/ground/stair-access",
+          "threshold": [
+            0,
+            -1.5
+          ],
+          "approach": [
+            [
+              -2.4,
+              0.9
+            ],
+            [
+              0,
+              0.9
+            ],
+            [
+              0,
+              1.25
+            ]
+          ],
+          "inside": [
+            [
+              0,
+              -1.25
+            ],
+            [
+              0,
+              -0.72
+            ],
+            [
+              -1.92,
+              -0.72
+            ]
+          ]
+        },
+        "clearance": {
+          "radius": 0.25,
+          "height": 1.9,
+          "min": [
+            -2.265,
+            0.002,
+            -1.12
+          ],
+          "max": [
+            -1.585,
+            1.9,
+            -0.32
+          ]
+        },
+        "wall": "public-washroom-floor/ground/restroom-access/wall-north-0",
+        "reachMetres": 0.5524064599665198
+      },
+      "refusal": {
+        "action": {
+          "type": "move",
+          "id": "public-washroom-floor/ground/restroom-access/dispenser",
+          "transform": {
+            "position": [
+              2.9,
+              1.12,
+              0
+            ],
+            "yaw": 4.71238898038469
+          }
+        },
+        "ok": false,
+        "code": "washroom-dispenser-reach",
+        "path": "public-washroom-floor/ground/restroom-access/dispenser",
+        "message": "washroom-dispenser-reach at public-washroom-floor/ground/restroom-access/dispenser: A real actuator surface must be within 0.75 m and unobstructed from the service reach reference.",
+        "details": {},
+        "untouchedSave": "54949756178a18ee7849760d9a776fbb74509174a464e9918ca53863654e651a"
+      },
+      "retry": {
+        "action": {
+          "type": "move",
+          "id": "public-washroom-floor/ground/restroom-access/dispenser",
+          "transform": {
+            "position": [
+              -1.92,
+              1.135,
+              -1.4
+            ],
+            "yaw": 0
+          }
+        },
+        "folder": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-floor\\same-target-after-refusal",
+        "saveSha256": "83cf4129f321defbd627e69c0bb5436894ce72ba9dd2cec12e486ad87bd6fded",
+        "reachMetres": 0.5525214352708502
+      }
+    },
+    {
+      "key": "public-washroom-building",
+      "installed": {
+        "id": "public-washroom-building/upper/restroom-access/dispenser",
+        "from": {
+          "id": "washroom-dispenser-pump",
+          "version": 1
+        },
+        "to": {
+          "id": "washroom-dispenser-clad-wide",
+          "version": 1
+        },
+        "assetSha256": "4165e77c0523d7757d8eb9ab586b587fda687ed1e4be54f583b8025189fdbbfd",
+        "originalSaveSha256": "ea0aceb8189e37307215ac9f1bab54ac7293cc5e4be582efa5b84e6bc2a86c01",
+        "changedSaveSha256": "acb84dbfdc06c8f5a82dca87adb61383dfed8b829a9b99c2f5d75f0afd89440d",
+        "transform": {
+          "position": [
+            2.9,
+            1.12,
+            0.42
+          ],
+          "yaw": 4.71238898038469
+        },
+        "cold": {
+          "ok": true,
+          "id": "public-washroom-building",
+          "revision": 3,
+          "floors": [
+            "public-washroom-building/ground",
+            "public-washroom-building/upper"
+          ]
+        }
+      },
+      "measured": {
+        "floorId": "public-washroom-building/upper",
+        "regionId": "public-washroom-building/upper/restroom-access",
+        "portalId": "public-washroom-building/upper/portal-stair-restroom",
+        "aperture": 1.4,
+        "checkedMeshes": 270,
+        "route": {
+          "portalId": "public-washroom-building/upper/portal-stair-restroom",
+          "fromRegion": "public-washroom-building/upper/stair-access",
+          "threshold": [
+            0,
+            -1.5
+          ],
+          "approach": [
+            [
+              -2.4,
+              0.9
+            ],
+            [
+              0,
+              0.9
+            ],
+            [
+              0,
+              1.25
+            ]
+          ],
+          "inside": [
+            [
+              0,
+              -1.25
+            ],
+            [
+              0,
+              0.42
+            ],
+            [
+              2.18,
+              0.42
+            ]
+          ]
+        },
+        "clearance": {
+          "radius": 0.25,
+          "height": 1.9,
+          "min": [
+            1.78,
+            0.002,
+            0.085
+          ],
+          "max": [
+            2.58,
+            1.9,
+            0.765
+          ]
+        },
+        "wall": "public-washroom-building/upper/restroom-access/wall-east-0",
+        "reachMetres": 0.6133547542979882
+      },
+      "refusal": {
+        "action": {
+          "type": "move",
+          "id": "public-washroom-building/upper/restroom-access/dispenser",
+          "transform": {
+            "position": [
+              -2.9,
+              1.12,
+              0
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        "ok": false,
+        "code": "washroom-dispenser-reach",
+        "path": "public-washroom-building/upper/restroom-access/dispenser",
+        "message": "washroom-dispenser-reach at public-washroom-building/upper/restroom-access/dispenser: A real actuator surface must be within 0.75 m and unobstructed from the service reach reference.",
+        "details": {},
+        "untouchedSave": "acb84dbfdc06c8f5a82dca87adb61383dfed8b829a9b99c2f5d75f0afd89440d"
+      },
+      "retry": {
+        "action": {
+          "type": "move",
+          "id": "public-washroom-building/upper/restroom-access/dispenser",
+          "transform": {
+            "position": [
+              2.9,
+              1.135,
+              0.42
+            ],
+            "yaw": 4.71238898038469
+          }
+        },
+        "folder": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\public-washroom-v1\\run-01\\edits\\public-washroom-building\\same-target-after-refusal",
+        "saveSha256": "45116c9a1bf32951f54c344c1bf758a91ecc4bedfee4f3b1964cc584f1bbb7fd",
+        "reachMetres": 0.6101964270938702
+      }
+    }
+  ],
+  "unchangedCopiedOriginalFiles": 2388,
+  "fixedAfter": {
+    "ok": true,
+    "build": "0b6988290fcc",
+    "manifestSha256": "89500ce9d8158fec12035db01230f09e7fd87658e3dbe7a6d0ca534261ddb7ed",
+    "declaredFiles": 2390,
+    "checkedFiles": 2390,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  }
+}

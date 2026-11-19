@@ -1,0 +1,79 @@
+{
+  "schema": "public-washbasin-producer-check",
+  "version": 1,
+  "checks": {
+    "changedExistingVersion": {
+      "exit": 1,
+      "reason": "Edit geometry under a new ID/version"
+    },
+    "driveRoot": {
+      "exit": 1,
+      "reason": "Trial must stay inside project outputs"
+    },
+    "pathTraversal": {
+      "exit": 1,
+      "reason": "Path traversal in trial destination"
+    },
+    "occupiedTrial": {
+      "exit": 1,
+      "reason": "Trial output already exists"
+    },
+    "noRejectedWrites": true,
+    "isolatedInputToProject": {
+      "exit": 0,
+      "reason": "pass"
+    },
+    "crossCheckoutByteMatches": 9,
+    "productionCheck": {
+      "exit": 0,
+      "reason": "pass"
+    }
+  },
+  "sourceBasis": "Project-local source-only checkout replay with shared locked tools and modules. Public layouts and renderer are independently checked by room integration.",
+  "finalCollection": "86f2dc5b510dcdbb1724e9b46ae10a6968aa1f75001b032084a0c660b429db84",
+  "generator": "40ab834f42a61f0e9eb12d9cac00ca3227ad31f674414e48a4a8766fe6138e03",
+  "sourcePreview": "3ed7f0da325c3880efeeacb8f9c036a6b15d66003b10af6c81135b25c473c57b",
+  "variant2": {
+    "sha256": "55b0e171e15fb18c3e28b9b66a422d24c85aef59144d206fdc9e5ac5c30b8b61",
+    "beforeThickness": 0.032,
+    "afterThickness": 0.04
+  },
+  "resources": [
+    {
+      "id": "public-washbasin-frame-round",
+      "version": 1,
+      "glb": "294fedade36830f87db9907c47039126190dbc6ab7c9c3be372e933aef503cce",
+      "sidecar": "749f41723ec3668e2be4ad25694022acd71e4649c996d2d592e44c18b15b8f13",
+      "triangles": 841,
+      "connectedMeshes": 14,
+      "wellPoints": 9
+    },
+    {
+      "id": "public-washbasin-cabinet-square",
+      "version": 1,
+      "glb": "f57fb60355b9f142cf7dfd041a7c1e38da8cd0e7453721d6b8525e4abc92e9f1",
+      "sidecar": "c63c49de90b537399e49605dfe270cb943ce82fccdc8f6e8400ce8368b01054d",
+      "triangles": 700,
+      "connectedMeshes": 39,
+      "wellPoints": 9
+    },
+    {
+      "id": "public-washbasin-pier-round",
+      "version": 1,
+      "glb": "2fd1afb6292cd2d4931bbe6f293ea2b957fccba939b63e73577750a290dd1edf",
+      "sidecar": "fed8cbc87baca8168bfaec6adcc7bcda46a5f82c592e7e7f482d0345fc677b72",
+      "triangles": 541,
+      "connectedMeshes": 9,
+      "wellPoints": 9
+    },
+    {
+      "id": "public-washbasin-shelf-square",
+      "version": 1,
+      "glb": "b4120b9e08eea380f399dca3eab35adb159a5952e65afa842754c181a059a315",
+      "sidecar": "d7d158b0f6d5e0ffbfc97e1b6261bf907347fb044327f30f0344f85004afefaa",
+      "triangles": 400,
+      "connectedMeshes": 14,
+      "wellPoints": 9
+    }
+  ]
+}
