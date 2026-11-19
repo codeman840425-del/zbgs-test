@@ -1,0 +1,16 @@
+{
+  "sourceCommit": "925cc0823b5803e9adc2b9fdce91eb0f098d0ed6",
+  "build": "4540a27be60e",
+  "sourceDigest": "4540a27be60ecf5a74302b4610652c3ac1b9b03e1755ea31b478d24e05f1a003",
+  "singleCleanCheckout": true,
+  "buildInfoSHA256": "01dff886dca1c525debb2d9d6aae96371373006797a12abc18e086748e13a2e5",
+  "lockSHA256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7",
+  "inputCount": 656,
+  "outputFileCount": 531,
+  "registeredOnDefaultWorkbench": false,
+  "reproduce": [
+    "python -B scripts/character-worktree.py create fit-replay 925cc0823b5803e9adc2b9fdce91eb0f098d0ed6 --runtime-only",
+    "npm ci and npm run build in the new checkout/prototype, using the project fixed-build environment",
+    "node scripts/run-fixed-check.cjs experiments/worktrees/fit-replay/prototype/dist scripts/qa-native-glasses-candidate-chain.cjs output/fit-posed-new evidence/m2-uniform-live-fit-intake-v1/cases.json"
+  ]
+}

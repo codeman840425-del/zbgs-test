@@ -1,0 +1,45 @@
+{
+  "utc": "2026-11-19T02:37:25.534910+00:00",
+  "scope": "Registered character worktrees and these three direct QA entry points",
+  "formerRootWorktrees": 37,
+  "verifiedInProject": 37,
+  "remainingOldPaths": 0,
+  "locallyModifiedAtMove": 6,
+  "rootAudit": {
+    "project": "F:\\gamemake",
+    "unexpectedSiblings": [],
+    "unexpectedWorktrees": [],
+    "companyOwnedSiblings": [
+      "gamemake-company-platform-c1"
+    ],
+    "independentFusionTests": [
+      "gamemake-test"
+    ]
+  },
+  "directDriveRootChecks": [
+    {
+      "entry": "scripts/qa-native-glasses-fit-input.cjs",
+      "target": "F:\\",
+      "exitCode": 1,
+      "reason": "Error: Production output must be inside the project: F:\\"
+    },
+    {
+      "entry": "scripts/qa-native-glasses-candidate-chain.cjs",
+      "target": "F:\\",
+      "exitCode": 1,
+      "reason": "Error: Production output must be inside the project: F:\\"
+    },
+    {
+      "entry": "scripts/qa-native-glasses-candidate-runtime.cjs",
+      "target": "F:\\",
+      "exitCode": 1,
+      "reason": "Error: Production output must be inside the project: F:\\"
+    }
+  ],
+  "regressionCommands": [
+    "node --test scripts/project-output.test.cjs",
+    "node --test scripts/qa-native-glasses-candidate-chain.test.cjs",
+    "python -B -m unittest discover -s scripts -p test_character_worktree.py"
+  ],
+  "positiveCapture": "evidence/m2-uniform-live-fit-capture-v1/role-replay.json"
+}

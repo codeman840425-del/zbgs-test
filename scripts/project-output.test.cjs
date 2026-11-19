@@ -36,7 +36,7 @@ test('production record and game export reject an escaped path before reading in
   }
 });
 
-test('room and signed-equipment QA reject drive-root, traversal and junction escapes before reading records', async () => {
+test('room, equipment and fit QA reject drive-root, traversal and junction escapes before reading inputs', async () => {
   const root = await productionRoot();
   const scratch = await fs.mkdtemp(path.join(root, 'experiments', 'output-path-test-'));
   const alias = path.join(scratch, 'alias');
@@ -49,12 +49,16 @@ test('room and signed-equipment QA reject drive-root, traversal and junction esc
     const missingRecord = path.join(scratch, 'missing-record.json');
     for (const [script, args] of [
       ['qa-production-record-room.cjs', ['http://127.0.0.1/', missingRecord]],
-      ['qa-signed-live-equipment.cjs', ['missing-game', 'missing-inventory', missingRecord]]
+      ['qa-native-glasses-candidate-runtime.cjs', ['http://127.0.0.1/']],
+      ['qa-signed-live-equipment.cjs', ['missing-game', 'missing-inventory', missingRecord]],
+      ['qa-native-glasses-fit-input.cjs', ['http://127.0.0.1/', missingRecord]]
     ]) {
       for (const destination of [driveRoot, driveOutput, path.relative(scratch, driveOutput),
         path.join(alias, path.basename(driveOutput))]) {
-        const result = spawnSync(process.execPath, [path.join(__dirname, script), ...args, destination],
-          {cwd:scratch, encoding:'utf8', windowsHide:true, timeout:15000});
+        const fit=script==='qa-native-glasses-fit-input.cjs';
+        const result = spawnSync(process.execPath, [path.join(__dirname, script), ...args, ...(fit?[]:[destination])],
+          {cwd:scratch, encoding:'utf8', windowsHide:true, timeout:15000,
+            env:fit?{...process.env,QA_M1_BUILD:'0123456789ab',QA_M1_RUN_ROOT:destination}:process.env});
         assert.equal(result.status, 1, result.error?.message ?? result.stderr);
         assert.match(result.stderr, /Production output must be inside the project/, destination);
       }
@@ -115,17 +119,33 @@ Module._load = function (name, ...args) {
     fs.writeFile(opposite, JSON.stringify(records('opposite')))]);
   const base = 'http://127.0.0.1/';
   const build = '0123456789ab';
+  const fitScript=path.join(__dirname,'qa-native-glasses-fit-input.cjs');
+  const fitEnv={...process.env,QA_M1_BUILD:build};
+  const existing=spawnSync(process.execPath,[fitScript,base,'missing-cases'],{cwd:fixture,encoding:'utf8',
+    env:{...fitEnv,QA_M1_RUN_ROOT:fixture},windowsHide:true,timeout:15000});
+  assert.equal(existing.status,1);assert.match(existing.stderr,/existing capture directory/);
+  const invalid=path.join(fixture,'invalid-fit-cases.json'),unused=path.join(fixture,'invalid-fit');
+  for(const row of [['../escape','body','0'.repeat(64)],['body','body','0'.repeat(64),{role:5}]]){
+    await fs.writeFile(invalid,JSON.stringify([row]));
+    const rejected=spawnSync(process.execPath,[fitScript,base,invalid],{cwd:fixture,encoding:'utf8',
+      env:{...fitEnv,QA_M1_RUN_ROOT:unused},windowsHide:true,timeout:15000});
+    assert.equal(rejected.status,1);assert.match(rejected.stderr,/Invalid exact body capture cases/);
+    await assert.rejects(fs.access(unused),{code:'ENOENT'});
+  }
   for (const [script, args] of [
     ['qa-garment-cold-package.cjs', out=>[base, build, selected, opposite, out]],
     ['qa-production-outfit-selection-guards.cjs', out=>[base, out, selected, build, '--slot=top']],
     ['qa-record-budget-runtime.cjs', out=>[base, selected, out, build]],
     ['qa-production-record-room.cjs', out=>[base, path.join(root,'prototype/public/assets/record-consumer-v1/native-female.json'), path.relative(fixture,out)]],
+    ['qa-native-glasses-fit-input.cjs', ()=>[base]],
+    ['qa-native-glasses-candidate-runtime.cjs', out=>[base, out]],
   ]) {
     for (const phase of ['launch','post-launch']) {
       const out = path.join(fixture, script.replace('.cjs','')+'-'+phase);
       const result = spawnSync(process.execPath, ['--require', preload, path.join(__dirname, script), ...args(out)], {
         cwd:fixture, encoding:'utf8', windowsHide:true, timeout:15000,
-        env:{...process.env, CHARACTER_QA_TEST_EVIDENCE:out, CHARACTER_QA_TEST_PHASE:phase},
+        env:{...process.env, CHARACTER_QA_TEST_EVIDENCE:out, CHARACTER_QA_TEST_PHASE:phase,
+          ...(script==='qa-native-glasses-fit-input.cjs'?{QA_M1_BUILD:build,QA_M1_RUN_ROOT:path.relative(fixture,out)}:{})},
       });
       assert.equal(result.status, 1, result.error?.message ?? result.stderr);
       const report = JSON.parse(await fs.readFile(path.join(out,'report.json'),'utf8'));
