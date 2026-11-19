@@ -29,6 +29,7 @@ function Assert-LocalWorkspace {
     # A manual move can hide a folder from the drive listing while Git still uses its old path.
     $worktreeList = @(git -C $project worktree list --porcelain)
     if ($LASTEXITCODE -ne 0) { throw '无法读取 Git 工作树登记。' }
+    $projectPrefix = $project + [IO.Path]::DirectorySeparatorChar
     $managedTrees = [IO.Path]::Combine($project, 'company-workspace', 'worktrees') + [IO.Path]::DirectorySeparatorChar
     foreach ($line in $worktreeList) {
         if (-not $line.StartsWith('worktree ')) { continue }
@@ -38,7 +39,11 @@ function Assert-LocalWorkspace {
             [IO.Path]::GetFileName($registered) -like 'gamemake-company-*') {
             throw "Git 仍登记了盘符根目录下的公司工作树：$registered"
         }
-        if ($Check -and $registered.StartsWith($managedTrees, [StringComparison]::OrdinalIgnoreCase)) {
+        if (!$registered.StartsWith($projectPrefix, [StringComparison]::OrdinalIgnoreCase)) { continue }
+        if (!$registered.StartsWith($managedTrees, [StringComparison]::OrdinalIgnoreCase)) {
+            throw "公司固定工作树应归入 company-workspace/worktrees：$registered"
+        }
+        if ($Check) {
             # Check both Git pointers. Merely finding the directory also succeeds after a partial move.
             $pointer = Join-Path $registered '.git'
             if (-not [IO.File]::Exists($pointer)) { throw "已登记的工作树缺少 Git 指针：$pointer" }

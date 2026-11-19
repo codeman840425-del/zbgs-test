@@ -27,7 +27,22 @@ try {
         }
     }
     if ((Get-Location).Path -ne $driveRoot) { throw 'Caller working directory changed' }
+    # Exercise the same Git listing as the launcher, without registering a stray checkout.
+    & {
+        $gitProgram = (Get-Command git -CommandType Application | Select-Object -First 1).Source
+        $misplaced = Join-Path $project 'output/misplaced-fixed-checkout'
+        function git {
+            & $gitProgram @args
+            Write-Output "worktree $misplaced"
+        }
+        $failure = $null
+        try { $null = & $launcher -Kind worktrees -Name release-check }
+        catch { $failure = $_.Exception.Message }
+        if (!$failure -or !$failure.Contains($misplaced)) { throw 'Misplaced registered checkout was not reported' }
+    }
+    $correct = & $launcher -Kind worktrees -Name release-check
+    if ($correct -ne (Join-Path $project 'company-workspace/worktrees/release-check')) { throw "Unexpected fixed checkout: $correct" }
 } finally {
     Pop-Location
 }
-Write-Output 'Child paths, exit code, retry and caller environment verified.'
+Write-Output 'Fixed checkout location, child paths, exit code, retry and caller environment verified.'
