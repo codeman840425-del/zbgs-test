@@ -34099,6 +34099,922 @@
           "GLTFLoader readback"
         ]
       }
+    },
+    {
+      "id": "enclosed-wardrobe-timber",
+      "version": 1,
+      "displayName": "双门衣柜 · 蜂蜜木门",
+      "category": "dynamic",
+      "mountRole": "enclosed-wardrobe",
+      "productionBranch": "enclosed-wardrobe",
+      "mount": "floor-surface",
+      "parent": "room.floor",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1,
+        "height": 1.8,
+        "depth": 0.58
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.5,
+          0.29
+        ],
+        "blocking": true
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "clearance": {
+        "schema": "garment-rack-front-v1",
+        "front": {
+          "min": [
+            -0.44,
+            0.29
+          ],
+          "max": [
+            0.44,
+            0.89
+          ]
+        }
+      },
+      "garmentRail": {
+        "radius": 0.015,
+        "centerY": 1.5,
+        "slots": [
+          {
+            "id": "left",
+            "position": [
+              -0.24,
+              1.515,
+              0
+            ]
+          },
+          {
+            "id": "right",
+            "position": [
+              0.24,
+              1.515,
+              0
+            ]
+          }
+        ]
+      },
+      "usePoints": [],
+      "movingProfile": "enclosed-wardrobe-v1",
+      "stateDefaults": {
+        "leftOpen": 0,
+        "rightOpen": 0
+      },
+      "stateSchema": {
+        "leftOpen": {
+          "type": "number",
+          "min": 0,
+          "max": 1
+        },
+        "rightOpen": {
+          "type": "number",
+          "min": 0,
+          "max": 1
+        }
+      },
+      "stateSemantics": {
+        "leftOpen": "hinged-door-opening-fraction",
+        "rightOpen": "hinged-door-opening-fraction"
+      },
+      "partNodes": {
+        "left": "wardrobe-left-pivot",
+        "right": "wardrobe-right-pivot"
+      },
+      "partPanels": {
+        "left": "wardrobe-left-panel",
+        "right": "wardrobe-right-panel"
+      },
+      "movingParts": [
+        {
+          "id": "left",
+          "stateField": "leftOpen",
+          "kind": "hinge",
+          "axis": "y",
+          "pivot": [
+            -0.469,
+            0.08,
+            0.26
+          ],
+          "rotationRange": [
+            0,
+            -1.5707963267948966
+          ],
+          "bounds": {
+            "min": [
+              0,
+              0,
+              -0.006
+            ],
+            "max": [
+              0.467,
+              1.64,
+              0.027
+            ]
+          }
+        },
+        {
+          "id": "right",
+          "stateField": "rightOpen",
+          "kind": "hinge",
+          "axis": "y",
+          "pivot": [
+            0.469,
+            0.08,
+            0.26
+          ],
+          "rotationRange": [
+            0,
+            1.5707963267948966
+          ],
+          "bounds": {
+            "min": [
+              -0.467,
+              0,
+              -0.006
+            ],
+            "max": [
+              0,
+              1.64,
+              0.027
+            ]
+          }
+        }
+      ],
+      "materialSlots": {
+        "body": [
+          "wardrobe-body"
+        ],
+        "lining": [
+          "wardrobe-lining"
+        ],
+        "base": [
+          "wardrobe-base"
+        ],
+        "hinges": [
+          "wardrobe-hinge-mounts",
+          "wardrobe-left-hinges",
+          "wardrobe-right-hinges"
+        ],
+        "rail": [
+          "garment-rail"
+        ],
+        "panel": [
+          "wardrobe-left-panel",
+          "wardrobe-right-panel"
+        ],
+        "handle": [
+          "wardrobe-left-handle",
+          "wardrobe-right-handle"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/enclosed-wardrobe-v1/enclosed-wardrobe-timber/v1/model.glb",
+        "bytes": 75876,
+        "sha256": "69fbc854b23e5c7aff18213669bcca9aa4bc361e3003b9e2e4529e9cc3c798c7"
+      },
+      "provenance": {
+        "license": "CC0-1.0 source with project-authored wardrobe adaptation.",
+        "sourceDesign": "solid-panel",
+        "sourceParameters": "assets-source/company-enclosed-wardrobe-v1/parameters.json",
+        "sourceParametersSha256": "c9280ede724fe6bb59f71ce138a462cc1609ee77e8db7631d8e1575987f42518",
+        "generator": "scripts/company-platform/build-enclosed-wardrobe.mjs",
+        "generatorSha256": "0b39c47309a28055cbef99c46ac24d754113568b0a7d711fd7f16117fbaec232",
+        "functionalContractSource": "assets-source/company-enclosed-wardrobe-v1/contract.json",
+        "functionalContractSourceSha256": "9adc5941e620c46b229c90690e722e6d7740f81fc492bedba1036f69b199d63c",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "environmentBranch": "garment-rack-wardrobe",
+        "sourceArtifactPath": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/bookcaseClosedDoors.glb",
+        "sourceArtifactSha256": "ff33f535acdb1825c0e958a293642b39665adcae0b1317b650e83d2bb687f4e2",
+        "sourceAuthor": "Kenney",
+        "sourceLicense": "CC0-1.0",
+        "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+        "sourceEntry": "Models/GLTF format/bookcaseClosedDoors.glb",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "dependencies": {
+          "geometryValidation": {
+            "path": "scripts/company-platform/test-enclosed-wardrobe-assets.mjs",
+            "sha256": "263b1b2d8ffb37bc88e8b4b31856be9671ca3894919c99de77a339f5b4ee0771"
+          },
+          "editableSourceValidator": {
+            "path": "scripts/company-platform/plant-editable-source.mjs",
+            "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+          },
+          "license": {
+            "path": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/License.txt",
+            "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+          }
+        },
+        "tools": [
+          "Three.js 187",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ]
+      }
+    },
+    {
+      "id": "enclosed-wardrobe-framed",
+      "version": 1,
+      "displayName": "双门衣柜 · 深框木芯",
+      "category": "dynamic",
+      "mountRole": "enclosed-wardrobe",
+      "productionBranch": "enclosed-wardrobe",
+      "mount": "floor-surface",
+      "parent": "room.floor",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1,
+        "height": 1.8,
+        "depth": 0.58
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.5,
+          0.29
+        ],
+        "blocking": true
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "clearance": {
+        "schema": "garment-rack-front-v1",
+        "front": {
+          "min": [
+            -0.44,
+            0.29
+          ],
+          "max": [
+            0.44,
+            0.89
+          ]
+        }
+      },
+      "garmentRail": {
+        "radius": 0.015,
+        "centerY": 1.5,
+        "slots": [
+          {
+            "id": "left",
+            "position": [
+              -0.24,
+              1.515,
+              0
+            ]
+          },
+          {
+            "id": "right",
+            "position": [
+              0.24,
+              1.515,
+              0
+            ]
+          }
+        ]
+      },
+      "usePoints": [],
+      "movingProfile": "enclosed-wardrobe-v1",
+      "stateDefaults": {
+        "leftOpen": 0,
+        "rightOpen": 0
+      },
+      "stateSchema": {
+        "leftOpen": {
+          "type": "number",
+          "min": 0,
+          "max": 1
+        },
+        "rightOpen": {
+          "type": "number",
+          "min": 0,
+          "max": 1
+        }
+      },
+      "stateSemantics": {
+        "leftOpen": "hinged-door-opening-fraction",
+        "rightOpen": "hinged-door-opening-fraction"
+      },
+      "partNodes": {
+        "left": "wardrobe-left-pivot",
+        "right": "wardrobe-right-pivot"
+      },
+      "partPanels": {
+        "left": "wardrobe-left-panel",
+        "right": "wardrobe-right-panel"
+      },
+      "movingParts": [
+        {
+          "id": "left",
+          "stateField": "leftOpen",
+          "kind": "hinge",
+          "axis": "y",
+          "pivot": [
+            -0.469,
+            0.08,
+            0.26
+          ],
+          "rotationRange": [
+            0,
+            -1.5707963267948966
+          ],
+          "bounds": {
+            "min": [
+              0,
+              0,
+              -0.006
+            ],
+            "max": [
+              0.467,
+              1.64,
+              0.027
+            ]
+          }
+        },
+        {
+          "id": "right",
+          "stateField": "rightOpen",
+          "kind": "hinge",
+          "axis": "y",
+          "pivot": [
+            0.469,
+            0.08,
+            0.26
+          ],
+          "rotationRange": [
+            0,
+            1.5707963267948966
+          ],
+          "bounds": {
+            "min": [
+              -0.467,
+              0,
+              -0.006
+            ],
+            "max": [
+              0,
+              1.64,
+              0.027
+            ]
+          }
+        }
+      ],
+      "materialSlots": {
+        "body": [
+          "wardrobe-body"
+        ],
+        "lining": [
+          "wardrobe-lining"
+        ],
+        "base": [
+          "wardrobe-base"
+        ],
+        "hinges": [
+          "wardrobe-hinge-mounts",
+          "wardrobe-left-hinges",
+          "wardrobe-right-hinges"
+        ],
+        "rail": [
+          "garment-rail"
+        ],
+        "panel": [
+          "wardrobe-left-panel",
+          "wardrobe-right-panel"
+        ],
+        "inset": [
+          "wardrobe-left-inset",
+          "wardrobe-right-inset"
+        ],
+        "handle": [
+          "wardrobe-left-handle",
+          "wardrobe-right-handle"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/enclosed-wardrobe-v1/enclosed-wardrobe-framed/v1/model.glb",
+        "bytes": 82440,
+        "sha256": "456715f15158c16a442e9f283603b9ab9a949d48fcea3896da9f218ad11e5673"
+      },
+      "provenance": {
+        "license": "CC0-1.0 source with project-authored wardrobe adaptation.",
+        "sourceDesign": "framed-inset",
+        "sourceParameters": "assets-source/company-enclosed-wardrobe-v1/parameters.json",
+        "sourceParametersSha256": "c9280ede724fe6bb59f71ce138a462cc1609ee77e8db7631d8e1575987f42518",
+        "generator": "scripts/company-platform/build-enclosed-wardrobe.mjs",
+        "generatorSha256": "0b39c47309a28055cbef99c46ac24d754113568b0a7d711fd7f16117fbaec232",
+        "functionalContractSource": "assets-source/company-enclosed-wardrobe-v1/contract.json",
+        "functionalContractSourceSha256": "9adc5941e620c46b229c90690e722e6d7740f81fc492bedba1036f69b199d63c",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "environmentBranch": "garment-rack-wardrobe",
+        "sourceArtifactPath": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/kitchenCabinetUpperDouble.glb",
+        "sourceArtifactSha256": "7b2abd976f2e8f1727d6ba23490aaf5fe18db9c5ac66e729ef6fe8de835c039e",
+        "sourceAuthor": "Kenney",
+        "sourceLicense": "CC0-1.0",
+        "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+        "sourceEntry": "Models/GLTF format/kitchenCabinetUpperDouble.glb",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "dependencies": {
+          "geometryValidation": {
+            "path": "scripts/company-platform/test-enclosed-wardrobe-assets.mjs",
+            "sha256": "263b1b2d8ffb37bc88e8b4b31856be9671ca3894919c99de77a339f5b4ee0771"
+          },
+          "editableSourceValidator": {
+            "path": "scripts/company-platform/plant-editable-source.mjs",
+            "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+          },
+          "license": {
+            "path": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/License.txt",
+            "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+          }
+        },
+        "tools": [
+          "Three.js 187",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ]
+      }
+    },
+    {
+      "id": "enclosed-wardrobe-inset",
+      "version": 1,
+      "displayName": "双门衣柜 · 象牙凹嵌门",
+      "category": "dynamic",
+      "mountRole": "enclosed-wardrobe",
+      "productionBranch": "enclosed-wardrobe",
+      "mount": "floor-surface",
+      "parent": "room.floor",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1,
+        "height": 1.8,
+        "depth": 0.58
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.5,
+          0.29
+        ],
+        "blocking": true
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "clearance": {
+        "schema": "garment-rack-front-v1",
+        "front": {
+          "min": [
+            -0.44,
+            0.29
+          ],
+          "max": [
+            0.44,
+            0.89
+          ]
+        }
+      },
+      "garmentRail": {
+        "radius": 0.015,
+        "centerY": 1.5,
+        "slots": [
+          {
+            "id": "left",
+            "position": [
+              -0.24,
+              1.515,
+              0
+            ]
+          },
+          {
+            "id": "right",
+            "position": [
+              0.24,
+              1.515,
+              0
+            ]
+          }
+        ]
+      },
+      "usePoints": [],
+      "movingProfile": "enclosed-wardrobe-v1",
+      "stateDefaults": {
+        "leftOpen": 0,
+        "rightOpen": 0
+      },
+      "stateSchema": {
+        "leftOpen": {
+          "type": "number",
+          "min": 0,
+          "max": 1
+        },
+        "rightOpen": {
+          "type": "number",
+          "min": 0,
+          "max": 1
+        }
+      },
+      "stateSemantics": {
+        "leftOpen": "hinged-door-opening-fraction",
+        "rightOpen": "hinged-door-opening-fraction"
+      },
+      "partNodes": {
+        "left": "wardrobe-left-pivot",
+        "right": "wardrobe-right-pivot"
+      },
+      "partPanels": {
+        "left": "wardrobe-left-panel",
+        "right": "wardrobe-right-panel"
+      },
+      "movingParts": [
+        {
+          "id": "left",
+          "stateField": "leftOpen",
+          "kind": "hinge",
+          "axis": "y",
+          "pivot": [
+            -0.469,
+            0.08,
+            0.26
+          ],
+          "rotationRange": [
+            0,
+            -1.5707963267948966
+          ],
+          "bounds": {
+            "min": [
+              0,
+              0,
+              -0.006
+            ],
+            "max": [
+              0.467,
+              1.64,
+              0.027
+            ]
+          }
+        },
+        {
+          "id": "right",
+          "stateField": "rightOpen",
+          "kind": "hinge",
+          "axis": "y",
+          "pivot": [
+            0.469,
+            0.08,
+            0.26
+          ],
+          "rotationRange": [
+            0,
+            1.5707963267948966
+          ],
+          "bounds": {
+            "min": [
+              -0.467,
+              0,
+              -0.006
+            ],
+            "max": [
+              0,
+              1.64,
+              0.027
+            ]
+          }
+        }
+      ],
+      "materialSlots": {
+        "body": [
+          "wardrobe-body"
+        ],
+        "lining": [
+          "wardrobe-lining"
+        ],
+        "base": [
+          "wardrobe-base"
+        ],
+        "hinges": [
+          "wardrobe-hinge-mounts",
+          "wardrobe-left-hinges",
+          "wardrobe-right-hinges"
+        ],
+        "rail": [
+          "garment-rail"
+        ],
+        "panel": [
+          "wardrobe-left-panel",
+          "wardrobe-right-panel"
+        ],
+        "inset": [
+          "wardrobe-left-inset",
+          "wardrobe-right-inset"
+        ],
+        "insert": [
+          "wardrobe-left-insert",
+          "wardrobe-right-insert"
+        ],
+        "handle": [
+          "wardrobe-left-handle",
+          "wardrobe-right-handle"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/enclosed-wardrobe-v1/enclosed-wardrobe-inset/v1/model.glb",
+        "bytes": 119024,
+        "sha256": "2501c6d49872bf901fc3114ac4bfd9488e555d1edc2e38da054e3c149069f5af"
+      },
+      "provenance": {
+        "license": "CC0-1.0 source with project-authored wardrobe adaptation.",
+        "sourceDesign": "recessed-insert",
+        "sourceParameters": "assets-source/company-enclosed-wardrobe-v1/parameters.json",
+        "sourceParametersSha256": "c9280ede724fe6bb59f71ce138a462cc1609ee77e8db7631d8e1575987f42518",
+        "generator": "scripts/company-platform/build-enclosed-wardrobe.mjs",
+        "generatorSha256": "0b39c47309a28055cbef99c46ac24d754113568b0a7d711fd7f16117fbaec232",
+        "functionalContractSource": "assets-source/company-enclosed-wardrobe-v1/contract.json",
+        "functionalContractSourceSha256": "9adc5941e620c46b229c90690e722e6d7740f81fc492bedba1036f69b199d63c",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "environmentBranch": "garment-rack-wardrobe",
+        "sourceArtifactPath": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/bathroomCabinet.glb",
+        "sourceArtifactSha256": "9db540227acaaedbbadc6a085f4a00460b73944e608afaad4770e53238a3b7f8",
+        "sourceAuthor": "Kenney",
+        "sourceLicense": "CC0-1.0",
+        "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+        "sourceEntry": "Models/GLTF format/bathroomCabinet.glb",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "dependencies": {
+          "geometryValidation": {
+            "path": "scripts/company-platform/test-enclosed-wardrobe-assets.mjs",
+            "sha256": "263b1b2d8ffb37bc88e8b4b31856be9671ca3894919c99de77a339f5b4ee0771"
+          },
+          "editableSourceValidator": {
+            "path": "scripts/company-platform/plant-editable-source.mjs",
+            "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+          },
+          "license": {
+            "path": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/License.txt",
+            "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+          }
+        },
+        "tools": [
+          "Three.js 187",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ]
+      }
+    },
+    {
+      "id": "enclosed-wardrobe-glass",
+      "version": 1,
+      "displayName": "双门衣柜 · 烟青窄框玻璃",
+      "category": "dynamic",
+      "mountRole": "enclosed-wardrobe",
+      "productionBranch": "enclosed-wardrobe",
+      "mount": "floor-surface",
+      "parent": "room.floor",
+      "mounting": {
+        "origin": "bottom",
+        "width": 1,
+        "height": 1.8,
+        "depth": 0.58
+      },
+      "footprint": {
+        "center": [
+          0,
+          0
+        ],
+        "halfSize": [
+          0.5,
+          0.29
+        ],
+        "blocking": true
+      },
+      "coordinates": {
+        "units": "metres",
+        "up": "+Y",
+        "forward": "+Z"
+      },
+      "clearance": {
+        "schema": "garment-rack-front-v1",
+        "front": {
+          "min": [
+            -0.44,
+            0.29
+          ],
+          "max": [
+            0.44,
+            0.89
+          ]
+        }
+      },
+      "garmentRail": {
+        "radius": 0.015,
+        "centerY": 1.5,
+        "slots": [
+          {
+            "id": "left",
+            "position": [
+              -0.24,
+              1.515,
+              0
+            ]
+          },
+          {
+            "id": "right",
+            "position": [
+              0.24,
+              1.515,
+              0
+            ]
+          }
+        ]
+      },
+      "usePoints": [],
+      "movingProfile": "enclosed-wardrobe-v1",
+      "stateDefaults": {
+        "leftOpen": 0,
+        "rightOpen": 0
+      },
+      "stateSchema": {
+        "leftOpen": {
+          "type": "number",
+          "min": 0,
+          "max": 1
+        },
+        "rightOpen": {
+          "type": "number",
+          "min": 0,
+          "max": 1
+        }
+      },
+      "stateSemantics": {
+        "leftOpen": "hinged-door-opening-fraction",
+        "rightOpen": "hinged-door-opening-fraction"
+      },
+      "partNodes": {
+        "left": "wardrobe-left-pivot",
+        "right": "wardrobe-right-pivot"
+      },
+      "partPanels": {
+        "left": "wardrobe-left-panel",
+        "right": "wardrobe-right-panel"
+      },
+      "movingParts": [
+        {
+          "id": "left",
+          "stateField": "leftOpen",
+          "kind": "hinge",
+          "axis": "y",
+          "pivot": [
+            -0.469,
+            0.08,
+            0.26
+          ],
+          "rotationRange": [
+            0,
+            -1.5707963267948966
+          ],
+          "bounds": {
+            "min": [
+              0,
+              0,
+              -0.006
+            ],
+            "max": [
+              0.467,
+              1.64,
+              0.027
+            ]
+          }
+        },
+        {
+          "id": "right",
+          "stateField": "rightOpen",
+          "kind": "hinge",
+          "axis": "y",
+          "pivot": [
+            0.469,
+            0.08,
+            0.26
+          ],
+          "rotationRange": [
+            0,
+            1.5707963267948966
+          ],
+          "bounds": {
+            "min": [
+              -0.467,
+              0,
+              -0.006
+            ],
+            "max": [
+              0,
+              1.64,
+              0.027
+            ]
+          }
+        }
+      ],
+      "materialSlots": {
+        "body": [
+          "wardrobe-body"
+        ],
+        "lining": [
+          "wardrobe-lining"
+        ],
+        "base": [
+          "wardrobe-base"
+        ],
+        "hinges": [
+          "wardrobe-hinge-mounts",
+          "wardrobe-left-hinges",
+          "wardrobe-right-hinges"
+        ],
+        "rail": [
+          "garment-rail"
+        ],
+        "panel": [
+          "wardrobe-left-panel",
+          "wardrobe-right-panel"
+        ],
+        "glass": [
+          "wardrobe-left-glass",
+          "wardrobe-right-glass"
+        ],
+        "handle": [
+          "wardrobe-left-handle",
+          "wardrobe-right-handle"
+        ]
+      },
+      "asset": {
+        "format": "glb",
+        "url": "/company-assets/enclosed-wardrobe-v1/enclosed-wardrobe-glass/v1/model.glb",
+        "bytes": 93384,
+        "sha256": "2c73524aa57acee4bf7dfd1ee4f2143de5b1dfcbc31889529146360232e382b1"
+      },
+      "provenance": {
+        "license": "CC0-1.0 source with project-authored wardrobe adaptation.",
+        "sourceDesign": "glazed-frame",
+        "sourceParameters": "assets-source/company-enclosed-wardrobe-v1/parameters.json",
+        "sourceParametersSha256": "c9280ede724fe6bb59f71ce138a462cc1609ee77e8db7631d8e1575987f42518",
+        "generator": "scripts/company-platform/build-enclosed-wardrobe.mjs",
+        "generatorSha256": "0b39c47309a28055cbef99c46ac24d754113568b0a7d711fd7f16117fbaec232",
+        "functionalContractSource": "assets-source/company-enclosed-wardrobe-v1/contract.json",
+        "functionalContractSourceSha256": "9adc5941e620c46b229c90690e722e6d7740f81fc492bedba1036f69b199d63c",
+        "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+        "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+        "environmentBranch": "garment-rack-wardrobe",
+        "sourceArtifactPath": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/doorwayFront.glb",
+        "sourceArtifactSha256": "b5b8e4c14ee1f2ffa10ef5c69badc995ae6fbcc868abac240221c61b8c593b0e",
+        "sourceAuthor": "Kenney",
+        "sourceLicense": "CC0-1.0",
+        "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+        "sourceEntry": "Models/GLTF format/doorwayFront.glb",
+        "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+        "dependencies": {
+          "geometryValidation": {
+            "path": "scripts/company-platform/test-enclosed-wardrobe-assets.mjs",
+            "sha256": "263b1b2d8ffb37bc88e8b4b31856be9671ca3894919c99de77a339f5b4ee0771"
+          },
+          "editableSourceValidator": {
+            "path": "scripts/company-platform/plant-editable-source.mjs",
+            "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+          },
+          "license": {
+            "path": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/License.txt",
+            "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+          }
+        },
+        "tools": [
+          "Three.js 187",
+          "GLTFExporter",
+          "GLTFLoader readback"
+        ]
+      }
     }
   ]
 }

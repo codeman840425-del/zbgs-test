@@ -1,0 +1,31 @@
+{
+  "schema": "company-enclosed-wardrobe-contract",
+  "version": 1,
+  "resource": {
+    "category": "dynamic",
+    "mountRole": "enclosed-wardrobe",
+    "productionBranch": "enclosed-wardrobe",
+    "mount": "floor-surface",
+    "parent": "room.floor",
+    "mounting": { "origin": "bottom", "width": 1, "height": 1.8, "depth": 0.58 },
+    "footprint": { "center": [0, 0], "halfSize": [0.5, 0.29], "blocking": true },
+    "coordinates": { "units": "metres", "up": "+Y", "forward": "+Z" },
+    "clearance": { "schema": "garment-rack-front-v1", "front": { "min": [-0.44, 0.29], "max": [0.44, 0.89] } },
+    "garmentRail": {
+      "radius": 0.015,
+      "centerY": 1.5,
+      "slots": [{ "id": "left", "position": [-0.24, 1.515, 0] }, { "id": "right", "position": [0.24, 1.515, 0] }]
+    },
+    "usePoints": [],
+    "movingProfile": "enclosed-wardrobe-v1",
+    "stateDefaults": { "leftOpen": 0, "rightOpen": 0 },
+    "stateSchema": { "leftOpen": { "type": "number", "min": 0, "max": 1 }, "rightOpen": { "type": "number", "min": 0, "max": 1 } },
+    "stateSemantics": { "leftOpen": "hinged-door-opening-fraction", "rightOpen": "hinged-door-opening-fraction" },
+    "partNodes": { "left": "wardrobe-left-pivot", "right": "wardrobe-right-pivot" },
+    "partPanels": { "left": "wardrobe-left-panel", "right": "wardrobe-right-panel" },
+    "movingParts": [
+      { "id": "left", "stateField": "leftOpen", "kind": "hinge", "axis": "y", "pivot": [-0.469, 0.08, 0.26], "rotationRange": [0, -1.5707963267948966], "bounds": { "min": [0, 0, -0.006], "max": [0.467, 1.64, 0.027] } },
+      { "id": "right", "stateField": "rightOpen", "kind": "hinge", "axis": "y", "pivot": [0.469, 0.08, 0.26], "rotationRange": [0, 1.5707963267948966], "bounds": { "min": [-0.467, 0, -0.006], "max": [0, 1.64, 0.027] } }
+    ]
+  }
+}

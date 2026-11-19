@@ -12,6 +12,8 @@ import {compareFacilityFunction} from './appearance-contract.js';
 import {validateSupportResource, validateSupportAttachments, effectiveSupportTransform, centeredSupportTransform} from './support-data.js';
 import {MAKEUP_STORAGE_PROFILE,validateMakeupStorageAttachments} from './makeup-storage-data.js';
 import {validateMakeupDrawerAttachments} from './makeup-drawer-data.js';
+import {WARDROBE_PROFILE} from './enclosed-wardrobe-data.js';
+import {wardrobeFootprints,overlapsObstacle} from './wardrobe-footprints.js';
 import {validateMovingResource, validateFacilityState, movingFootprint} from './moving-parts.js';
 import {validateWallAmbientResource} from './wall-ambient.js';
 import {validateDeskLampResource} from './desk-lamp.js';
@@ -166,6 +168,22 @@ export function catalogMaps(catalog, templates) {
     }
   }
   return { resources, combinations };
+}
+
+// All components retain the owning facility ID. Consumers can distinguish the body
+// and leaves by partId; ordinary fixtures preserve their original single rectangle.
+export function facilityObstacles(f,state=f.state,endState=null){
+  const {id,node,world,resource,floorId}=f;
+  const parts=resource.movingProfile===WARDROBE_PROFILE ? wardrobeFootprints(resource,state,endState??state)
+    : [resource.mountRole==='camera-mount'&&resource.mount==='wall' ? cameraWallFootprint(resource) : movingFootprint(resource,state,endState)];
+  return parts.filter(fp=>fp?.blocking).map(fp=>{
+    const local=fp.polygon??[-1,1].flatMap(x=>[-1,1].map(z=>[fp.center[0]+x*fp.halfSize[0],fp.center[1]+z*fp.halfSize[1]]));
+    const corners=local.map(([x,z])=>pointInTransform(world,[x,0,z]));
+    const min=[Math.min(...corners.map(p=>p[0])),Math.min(...corners.map(p=>p[2]))];
+    const max=[Math.max(...corners.map(p=>p[0])),Math.max(...corners.map(p=>p[2]))];
+    return {id,node,world,resource,floorId,footprint:fp,corners,min,max,...(fp.partId?{partId:fp.partId}:{}),
+      ...(fp.polygon?{polygon:corners.map(([x,,z])=>[x,z])}:{})};
+  });
 }
 
 export function deriveCompany(document, catalog, templates) {
@@ -345,12 +363,9 @@ export function deriveCompany(document, catalog, templates) {
     const entry = { id: node.id, node, resource, world, state, floorId: floorIds.get(node.id), roomId: roomIds.get(node.id) };
     if (!entry.floorId) fail('missing-floor', node.id, 'Facility must belong to one floor');
     facilities.push(entry);
-    const fp = resource.mountRole === 'camera-mount' && resource.mount === 'wall' ? cameraWallFootprint(resource) : movingFootprint(resource, state);
-    if (fp?.blocking) {
-      const corners = [-1, 1].flatMap(x => [-1, 1].map(z => pointInTransform(world, [fp.center[0] + x * fp.halfSize[0], 0, fp.center[1] + z * fp.halfSize[1]])));
-      const min = [Math.min(...corners.map(p => p[0])), Math.min(...corners.map(p => p[2]))];
-      const max = [Math.max(...corners.map(p => p[0])), Math.max(...corners.map(p => p[2]))];
-      obstacles.push({ id: node.id, node, floorId: entry.floorId, min, max, corners, world, resource, footprint: fp });
+    for(const obstacle of facilityObstacles(entry)){
+      const {corners}=obstacle;
+      obstacles.push(obstacle);
       const room = nodes.get(entry.roomId);
       if (room && resource.mount!=='portal-door') for (const corner of corners) {
         const local = localPoint(worlds.get(room.id), corner);
@@ -367,8 +382,8 @@ export function deriveCompany(document, catalog, templates) {
   }
   for (let i = 0; i < obstacles.length; i++) for (let j = i + 1; j < obstacles.length; j++) {
     const a = obstacles[i], b = obstacles[j];
-    if (sharesCameraDeskContact(a, b)) continue;
-    if (a.floorId === b.floorId && a.min[0] < b.max[0] - 1e-8 && a.max[0] > b.min[0] + 1e-8 && a.min[1] < b.max[1] - 1e-8 && a.max[1] > b.min[1] + 1e-8)
+    if (a.id===b.id || sharesCameraDeskContact(a, b)) continue;
+    if (a.floorId === b.floorId && overlapsObstacle(a,b))
       fail('overlapping-facilities', a.id, `Blocking footprint overlaps ${b.id}`, { otherId: b.id });
   }
   validateScaleProfile(document,{floors,rooms,stations,floorIds,roomIds},fail);
@@ -621,14 +636,16 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
   for(const current of derived.facilities.filter(f=>f.resource.movingParts&&f.resource.movingProfile!==MAKEUP_STORAGE_PROFILE)) {
     const previous=before.facilities.find(f=>f.id===current.id);
     if(!previous?.resource.movingParts||current.resource.movingParts.every(p=>previous.state[p.stateField]===current.state[p.stateField]))continue;
-    const fp=movingFootprint(current.resource,previous.state,current.state);
-    const corners=[-1,1].flatMap(x=>[-1,1].map(z=>pointInTransform(current.world,[fp.center[0]+x*fp.halfSize[0],0,fp.center[1]+z*fp.halfSize[1]])));
-    const min=[Math.min(...corners.map(p=>p[0])),Math.min(...corners.map(p=>p[2]))],max=[Math.max(...corners.map(p=>p[0])),Math.max(...corners.map(p=>p[2]))];
-    for(const other of derived.obstacles)if(other.id!==current.id&&other.floorId===current.floorId&&min.every((n,i)=>n<other.max[i]-1e-8&&max[i]>other.min[i]+1e-8))
-      fail('blocked-moving-part',current.id,`Movement sweep overlaps ${other.id}`,{otherId:other.id});
     const room=derived.nodes.get(current.roomId);
-    if(room&&current.resource.mount!=='portal-door')for(const corner of corners){const p=localPoint(derived.worlds.get(room.id),corner);if(Math.abs(p[0])>room.bounds.width/2-.1+1e-8||Math.abs(p[2])>room.bounds.depth/2-.1+1e-8)
-      fail('blocked-moving-part',current.id,'Movement sweep reaches the room wall');}
+    for(const obstacle of facilityObstacles(current,previous.state,current.state)){
+      for(const other of derived.obstacles)if(other.id!==current.id&&other.floorId===current.floorId&&overlapsObstacle(obstacle,other))
+        fail('blocked-moving-part',current.id,`Movement sweep overlaps ${other.id}`,{otherId:other.id,...(obstacle.partId?{partId:obstacle.partId}:{})});
+      if(room&&current.resource.mount!=='portal-door')for(const corner of obstacle.corners){
+        const p=localPoint(derived.worlds.get(room.id),corner);
+        if(Math.abs(p[0])>room.bounds.width/2-.1+1e-8||Math.abs(p[2])>room.bounds.depth/2-.1+1e-8)
+          fail('blocked-moving-part',current.id,'Movement sweep reaches the room wall');
+      }
+    }
   }
   return { document: next, derived, previousRevision: document.revision };
 }

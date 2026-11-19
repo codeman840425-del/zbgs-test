@@ -12,6 +12,7 @@ import {validateSupportResource} from './support-data.js';
 import {validateSupportGeometry} from './support-geometry.js';
 import {validateMovingResource} from './moving-parts.js';
 import {validateMovingPartGeometry,validateExteriorDoorLeafGeometry} from './moving-part-geometry.js';
+import {validateEnclosedWardrobeGeometry} from './enclosed-wardrobe-geometry.js';
 import {validateSlidingPartGeometry} from './sliding-part-geometry.js';
 import {validateWallAmbientResource,validateWallAmbientGeometry} from './wall-ambient.js';
 import {validateDeskLampResource,validateDeskLampGeometry} from './desk-lamp.js';
@@ -229,7 +230,8 @@ function validateResource(pack, description) {
   validateSupportGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateCameraMountGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
   validateVanityGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });
-  const movingGeometry=description.resource.movingProfile==='exterior-door-leaf-v1'?validateExteriorDoorLeafGeometry:
+  const movingGeometry=description.resource.movingProfile==='enclosed-wardrobe-v1'?validateEnclosedWardrobeGeometry:
+    description.resource.movingProfile==='exterior-door-leaf-v1'?validateExteriorDoorLeafGeometry:
     description.resource.movingParts?.[0]?.kind==='slide'?validateSlidingPartGeometry:validateMovingPartGeometry;
   if(!['supported-slide-v1','makeup-drawer-host-v1'].includes(description.resource.movingProfile))
     movingGeometry(pack.scene, description.resource, (code, location, message) => { throw error(code, location, message); });

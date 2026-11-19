@@ -1,7 +1,8 @@
 import {sharesCameraDeskContact} from './camera-mount-data.js';
-import { CompanyError, deriveCompany, pointInTransform } from './document.js';
+import { CompanyError, deriveCompany, facilityObstacles, pointInTransform } from './document.js';
 import { inspectCompanyConnections } from './space.js';
-import {movingFootprint} from './moving-parts.js';
+import {overlapsObstacle} from './wardrobe-footprints.js';
+import {validateGarmentClearances} from './garment-rack-data.js';
 import {MAKEUP_STORAGE_PROFILE} from './makeup-storage-data.js';
 import {validateVanityPlacement} from './vanity-data.js';
 
@@ -12,22 +13,17 @@ export function inspectCompanyMotionSweep(previous, candidate, catalog, template
     const old=before.facilities.find(p=>p.id===f.id);
     if(!old?.resource.movingParts||f.resource.movingParts.every(p=>old.state[p.stateField]===f.state[p.stateField]))continue;
     if(f.node.stationId)throw new CompanyError('unsupported-moving-template',f.id,'Moving template parts require a separately verified template contract');
-    swept.set(f.id,movingFootprint(f.resource,old.state,f.state));
+    swept.set(f.id,facilityObstacles(f,old.state,f.state));
   }
   if(!swept.size)return null;
   // Override only private derived obstacles. Preserve authoritative resource
   // contracts, states and support-driven child transforms during validation.
-  const obstacles=after.obstacles.map(obstacle=>{
-    const footprint=swept.get(obstacle.id);
-    if(!footprint)return obstacle;
-    const corners=[-1,1].flatMap(x=>[-1,1].map(z=>pointInTransform(obstacle.world,[footprint.center[0]+x*footprint.halfSize[0],0,footprint.center[1]+z*footprint.halfSize[1]])));
-    return {...obstacle,footprint,corners,min:[Math.min(...corners.map(p=>p[0])),Math.min(...corners.map(p=>p[2]))],max:[Math.max(...corners.map(p=>p[0])),Math.max(...corners.map(p=>p[2]))]};
-  });
+  const obstacles=after.obstacles.filter(o=>!swept.has(o.id)).concat(...swept.values());
   const derived={...after,obstacles};
   for(let i=0;i<obstacles.length;i++)for(let j=i+1;j<obstacles.length;j++){
     const a=obstacles[i],b=obstacles[j];
-    if (sharesCameraDeskContact(a,b)) continue;
-    if(a.floorId===b.floorId&&a.min.every((value,axis)=>value<b.max[axis]-EPSILON&&a.max[axis]>b.min[axis]+EPSILON))
+    if (a.id===b.id||sharesCameraDeskContact(a,b)) continue;
+    if(a.floorId===b.floorId&&overlapsObstacle(a,b))
       fail('overlapping-facilities',a.id,`Movement reserves overlap ${b.id}`,{otherId:b.id});
   }
   for(const obstacle of obstacles.filter(o=>swept.has(o.id))) {
@@ -38,6 +34,8 @@ export function inspectCompanyMotionSweep(previous, candidate, catalog, template
     }
   }
   validateVanityPlacement(derived,fail);
+  if(after.facilities.some(f=>f.resource.movingProfile==='enclosed-wardrobe-v1'))
+    validateGarmentClearances(derived,pointInTransform,roomLocal,fail);
   return inspectDerivedPlacement(candidate,catalog,templates,derived);
 }
 

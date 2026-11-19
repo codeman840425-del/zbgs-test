@@ -44,7 +44,7 @@ export async function validateResourceProvenance({root, resource, label = resour
     if (provenance[hashField] !== digest(bytes)) throw new Error(`provenance-hash-mismatch: ${label}.${hashField}`);
     if(field==='sourceParameters' && resource.productionBranch==='plant-desktop-installation')
       await verifyPlantEditableProvenance(root,resource,JSON.parse(bytes));
-    if(field==='sourceParameters' && ['garment-rack-wardrobe','hanging-garment'].includes(resource.productionBranch))
+    if(field==='sourceParameters' && ['garment-rack-wardrobe','hanging-garment','enclosed-wardrobe'].includes(resource.productionBranch))
       await verifyGarmentEditableProvenance(root,resource,JSON.parse(bytes));
   }
 }

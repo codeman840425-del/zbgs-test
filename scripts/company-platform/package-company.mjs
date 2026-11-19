@@ -574,7 +574,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     supplemental.add('scripts/company-platform/test-phone-rooms.mjs');
     supplemental.add('scripts/company-platform/qa-phone-rooms.cjs');
   }
-  const garmentBranches = ['garment-rack-wardrobe','hanging-garment'];
+  const garmentBranches = ['garment-rack-wardrobe','hanging-garment','enclosed-wardrobe'];
   let verifyGarmentEditableProvenance;
   if (catalog.resources.some(resource => garmentBranches.includes(resource.productionBranch))) {
     supplemental.add('docs/research/COMPANY-GARMENT-RACK-PRODUCTION.md');
@@ -630,7 +630,13 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(!name.endsWith('.json'))fail('unsupported-production-input',name,'Production input folders must contain JSON only');supplemental.add(name);
   }
   const assetDependencies=[],provenance=[];
+  if (catalog.resources.some(resource => resource.productionBranch === 'enclosed-wardrobe')) {
+    for (const file of ['test-enclosed-wardrobe-assets.mjs','test-enclosed-wardrobe-geometry.mjs','test-enclosed-wardrobe-rooms.mjs','qa-enclosed-wardrobe-rooms.cjs'])
+      supplemental.add('scripts/company-platform/'+file);
+    supplemental.add('docs/research/COMPANY-ENCLOSED-WARDROBE-PRODUCTION.md');
+  }
   const geometryChecks = new Map([
+    ['enclosed-wardrobe','test-enclosed-wardrobe-assets.mjs'],
     ['ambient-led-and-neon','test-wall-ambient-assets.mjs'],
     ['plant-desktop-installation','test-desktop-plant-assets.mjs'],
     ['garment-rack-wardrobe','test-garment-rack-assets.mjs'],

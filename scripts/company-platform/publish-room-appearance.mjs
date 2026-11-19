@@ -28,8 +28,9 @@ const families = {
   'company-wall-ambient-collection': 'wall-ambient',
   'company-desktop-plants-collection': 'desktop-plants',
   'company-garment-rack-collection': 'garment-rack',
+  'company-enclosed-wardrobe-collection': 'enclosed-wardrobe',
 };
-const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs', 'wall-ambient':'build-wall-ambient.mjs', 'desktop-plants':'build-desktop-plants.mjs', 'garment-rack':'build-garment-rack.mjs'};
+const generatorFiles = {baseboard:'build-baseboards.mjs', 'mouse-pad':'build-mouse-pads.mjs', 'phone-static':'build-phone-static.mjs', 'backdrop-fabric':'build-backdrop-fabric.mjs', 'wall-ambient':'build-wall-ambient.mjs', 'desktop-plants':'build-desktop-plants.mjs', 'garment-rack':'build-garment-rack.mjs', 'enclosed-wardrobe':'build-enclosed-wardrobe.mjs'};
 const productionBranches = {'mouse-pad':'mouse-and-pad', 'backdrop-fabric':'background-fabric', 'wall-ambient':'ambient-led-and-neon', 'desktop-plants':'plant-desktop-installation'};
 
 const garmentBranches = {rack:'garment-rack-wardrobe',garment:'hanging-garment'};
@@ -140,10 +141,10 @@ async function publish(recipePath,check) {
     if (hash(await regularFile(tool.path)) !== tool.sha256) fail('appearance-tool-pin-mismatch',tool.path);
   }
   const plant = family === 'desktop-plants';
-  const garment = family === 'garment-rack';
+  const garment = family === 'garment-rack' || family === 'enclosed-wardrobe';
   const editablePins = plant || garment ? await editableSources(root,input) : null;
   const plantTools = plant ? await plantToolchain(root) : null;
-  const perDesignSource = family === 'wall-ambient' || family === 'desktop-plants';
+  const perDesignSource = family === 'wall-ambient' || plant || family === 'enclosed-wardrobe';
   const artwork = new Map();
   const designBranches = new Map();
   for (const design of input.designs) {

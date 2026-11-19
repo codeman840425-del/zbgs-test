@@ -15,7 +15,7 @@ const equal=(a,b)=>JSON.stringify(normalized(a))===JSON.stringify(normalized(b))
 const unsupported=['light','display','clockDisplay','mirrorSurface','mirrorNodes','mirrorPanels','informationSurface','informationContent','surface'];
 
 export function validateMakeupStorageResource(resource,fail,path=resource.id) {
-  if (resource.movingProfile==='exterior-door-leaf-v1') return;
+  if (resource.movingProfile==='exterior-door-leaf-v1'||resource.movingProfile==='enclosed-wardrobe-v1') return;
   if (isMakeupDrawerResource(resource)&&!MAKEUP_STORAGE_IDS.includes(resource.id)&&resource.id!==MAKEUP_STORAGE_CONTENT_ID) {
     validateMakeupDrawerResource(resource,fail,path); return;
   }

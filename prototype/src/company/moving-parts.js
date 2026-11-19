@@ -1,4 +1,5 @@
 // State-driven facility transforms only. Host owns time, actors and tasks.
+import {isWardrobeDeclaration,validateWardrobeResource} from './enclosed-wardrobe-data.js';
 import {MAKEUP_STORAGE_PROFILE,validateMakeupStorageResource} from './makeup-storage-data.js';
 export const EXTERIOR_DOOR_LEAF_PROFILE='exterior-door-leaf-v1';
 const object = v => v && typeof v === 'object' && !Array.isArray(v);
@@ -27,6 +28,7 @@ export function validateFacilityState(resource, patch, fail, path) {
 }
 
 export function validateMovingResource(resource, fail, path=resource.id) {
+  if(isWardrobeDeclaration(resource)){validateWardrobeResource(resource,fail,path);return;}
   if (resource.movingProfile===EXTERIOR_DOOR_LEAF_PROFILE) {
     const part=resource.movingParts?.[0];
     if (resource.category!=='dynamic'||resource.mountRole!=='exterior-door-leaf'||resource.mount!=='portal-door'||
