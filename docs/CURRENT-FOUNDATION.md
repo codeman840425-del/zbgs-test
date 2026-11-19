@@ -2,7 +2,7 @@
 
 当前可回读的制作增量为默认目录的上衣与鞋联合选款。固定源码 `eddeb995`，构建 `32d1c2865f09`。只给款式与版本即可从已配置的完整套装中选出唯一匹配项。1K 男体签发、房间动作和独立包两次冷开已跑通，缺少鞋版或多解时有单项回执。普通机和正式整套准入待验。4196 的预览版本以 delivery/appearance-workbench.json 为准。[正常速度录像与复现](../evidence/m2-default-shoe-intake-v1/README.md)
 
-上一固定构建 `57621e5c967c` 保留男体平底、厚底在同镜头下的换穿和短舞下沉数据。下一项从作者踝靴源件核对真实脚姿、靴筒和裤脚对接，再形成精确男体版型。副总工的唱播双房固定槽位另候联合验收。[换穿对照](../evidence/m2-sole-variant-v1/index.html) · [踝靴来源及固定版本](../evidence/m2-footwear-author-intake-v1/selected-source.json)
+上一固定构建 `57621e5c967c` 保留男体平底、厚底在同镜头下的换穿和短舞下沉数据。作者踝靴已按这具男体的真实脚姿生成独立诊断版型；左右靴口各 22 个点中，7 个与小腿、3 个与长裤的预期内外层次相反。下一项在实际游戏姿态和视角下确定外露范围。[版型和复算步骤](../assets-source/ankle-boot-fit-v1/README.md)副总工的唱播双房固定槽位另候联合验收。[换穿对照](../evidence/m2-sole-variant-v1/index.html) · [踝靴来源及固定版本](../evidence/m2-footwear-author-intake-v1/selected-source.json)
 
 角色工程的工作树、发布和验收暂存均使用主工程内的目录。根目录审计已检查工程内的目录联接，当前无意外工作树、同名散落目录或路径重定向。副总工的公司工程和融合测试工程各自独立。[根目录归属与复查命令](../evidence/character-worktree-relocation-v1/root-review.json) · [工作树路径回归](../evidence/character-worktree-relocation-v1/worktree-junction-regression.json)
 
