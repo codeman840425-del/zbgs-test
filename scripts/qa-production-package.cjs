@@ -11,8 +11,9 @@ const [base,folder,...args]=process.argv.slice(2);
   const {runColdPair}=require('./qa-production-cold-pair.cjs');
   return runColdPair(base,folder,files[0],launchOptions);
  }
- if(remaining.length>1)throw Error('Expected at most one signed records file');
- const [expectedFile]=remaining;
+ const [expectedFile,flag,sharedTop]=remaining;
+ if(remaining.length>1 && !(remaining.length===3 && flag==='--shared-top' && /^[a-z][a-z0-9-]+$/.test(sharedTop)))
+   throw Error('Expected [SIGNED_RECORDS [--shared-top EQUIPMENT_ID]]');
  const out=await projectOutput(folder,await productionRoot());
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
  const expected=expectedFile?JSON.parse(await fs.readFile(expectedFile,'utf8')):null;
@@ -43,11 +44,49 @@ const [base,folder,...args]=process.argv.slice(2);
  try{
   await open();report.build=await page.evaluate(()=>__recordConsumer.buildInfo);report.first=await verify();check(report.first);
   assert.equal(await page.locator('#second').isHidden(),true);assert.equal(await page.evaluate(()=>localStorage.length),0);
+  const {capturePair,wave,checkWave}=require('./qa-production-cold-pair.cjs');
+  if(sharedTop){
+   const [a,b]=expected.map(record=>record.appearanceRecipe);
+   assert.deepEqual(a.base,b.base);
+   assert.notDeepEqual(a.geometry,b.geometry);
+   assert.deepEqual(a.equipment,b.equipment);
+   report.visibleBefore=await capturePair(page,expected,[]);
+   for(const row of report.visibleBefore)assert.equal(row.selected.find(item=>item.slot==='top').id,sharedTop);
+  }
   await page.evaluate(()=>{const stream=__recordConsumer.renderer.domElement.captureStream(30),chunks=[],recorder=new MediaRecorder(stream,{mimeType:'video/webm;codecs=vp9',videoBitsPerSecond:5000000});window.__packageFilm={stream,chunks,recorder,done:new Promise(resolve=>recorder.onstop=resolve)};recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};recorder.start();});
-  await page.waitForTimeout(8500);
+  if(sharedTop){
+   report.greetings=[];
+   for(const record of expected){
+    const result=await page.evaluate(wave,record.identity.id);
+    checkWave(result,record.identity.id);
+    report.greetings.push(result);
+   }
+   await page.waitForTimeout(900);
+  }else await page.waitForTimeout(8500);
   const data=await page.evaluate(async()=>{const f=__packageFilm;f.recorder.stop();await f.done;f.stream.getTracks().forEach(t=>t.stop());return new Promise(resolve=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.readAsDataURL(new Blob(f.chunks,{type:'video/webm'}));});});
   await fs.writeFile(path.join(out,'produced-pair-1x.webm'),Buffer.from(data.split(',')[1],'base64'));await page.screenshot({path:path.join(out,'produced-pair.png')});
   await page.close();await open();report.reopened=await verify();check(report.reopened);assert(report.reopened.every(row=>!report.first.some(old=>old.root===row.root)));report.checks.push('external CLI-created records survive page close and re-open, with complete appearance and props');
+  if(sharedTop){
+   report.visibleAfter=await capturePair(page,expected,[]);
+   const record=expected[0],look=record.appearanceRecipe.equipment;
+   const initial={bodySha256:record.appearanceRecipe.base.sha256,role:look.role,
+    equipment:Object.values(look.resources).map(({id,slot,sha256})=>({id,slot,sha256}))};
+   report.rejected=[];
+   for(const kind of ['unknown-id','wrong-slot','wrong-body']){
+    const selection=structuredClone(initial),top=selection.equipment.find(item=>item.slot==='top');
+    if(kind==='unknown-id')top.id+='-missing';
+    if(kind==='wrong-slot')top.slot='shoes';
+    if(kind==='wrong-body')selection.bodySha256='0'.repeat(64);
+    const failure=await page.evaluate(async request=>{
+     try {await __recordConsumer.production(request);return null;}
+     catch(error){return {code:error.code,field:error.field,reason:error.message};}
+    },{schema:'character-production-request-v1',operation:'edit',record,edits:[{domain:'outfit',selection}]});
+    assert.equal(failure?.code,'production-input',JSON.stringify(failure));
+    assert.equal(failure.field,kind==='wrong-body'?'outfit.selection.bodySha256':'outfit.selection');
+    report.rejected.push({kind,...failure});
+   }
+   assert.deepEqual(await capturePair(page,expected,[]),report.visibleAfter,'rejected edits altered the loaded pair');
+  }
   await page.close();await open('records=/records/manifest.json&records=/bogus');
   assert.match(await page.evaluate(()=>__recordConsumer.inputFailure),/Unsupported/);assert.equal(await page.evaluate(()=>__recordConsumer.actors.size),0);report.checks.push('duplicate manifest parameter rejects without fallback');
   await page.close();await context.route(url=>url.pathname==='/records/manifest.json',route=>route.fulfill({json:{schema:'character-record-input-v1',entries:[{id:'broken',url:'/records/broken.json',recordSha256:['a'.repeat(64)]}]}}));await open();

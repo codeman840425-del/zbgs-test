@@ -344,4 +344,4 @@ async function runColdPair(base,folder,recordsFile,launchOptions) {
   console.log(JSON.stringify({status:report.status,build:report.sessions[0].build,report:path.join(out,'report.json')}));
 }
 
-module.exports={runColdPair,selection,garmentAssets,changeOneByte,checkWave,copyColdQASnapshots,saveColdVideo};
+module.exports={runColdPair,selection,garmentAssets,changeOneByte,capturePair,wave,checkWave,copyColdQASnapshots,saveColdVideo};
