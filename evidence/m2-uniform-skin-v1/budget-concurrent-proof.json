@@ -1,0 +1,94 @@
+{
+  "schema": "zbgs-signed-record-budget-scope-proof-v1",
+  "runtime": {
+    "sourceCommit": "d96411ebef27a0e255bab3eaa49bf9addab48e8a",
+    "sourceDigest": "d9cadedb54f6d2df924824f35429597704a7d791c7891f7ff094be369f675f26",
+    "buildId": "d9cadedb54f6",
+    "entry": "record-consumer.html",
+    "entryUrl": "record-consumer.html?records=/records/manifest.json"
+  },
+  "inputs": {
+    "signedRecords": {
+      "path": "signed-pair.json",
+      "sha256": "852afbd11132afa0801a27fa8eec0b67713026cc2fb7f83c2445f210950ff1d9"
+    },
+    "staticBudget": {
+      "path": "budget-signed-pair.json",
+      "sha256": "81109b5a514cd49b727cc9e219dd90f9593b4631a079d08cc1ec4af7bd9a3c01"
+    },
+    "fixedInventory": {
+      "path": "inventory.json",
+      "sha256": "51e924f770b8d85ca6fc84c136865490896a740768b8cc4b43fda9299cf21b2b"
+    },
+    "budgetConfig": {
+      "path": "../../scripts/production/asset-budgets-v1.json",
+      "sha256": "b5f792da80d061aa8dfac1045e2f69e699207dd5d4a05b5ea9959ef532dc9d63"
+    }
+  },
+  "perRecordStaticBudget": {
+    "status": "within-static-limits",
+    "scope": "Every signed record is assessed independently against its per-asset limits and the temporary selected and startup look limits.",
+    "records": [
+      {
+        "id": "uniform-warm-bob-v1",
+        "recordSha256": "f1cb9a9e697cfd5ad8e5b89165798137efb8d058aa7b30d2274828ae9803ff0b",
+        "status": "within-static-limits",
+        "selected": {
+          "fileBytes": 13882242,
+          "rgba8MipBytes": 138063528,
+          "textureObjects": 38
+        },
+        "startupAndSelected": {
+          "fileBytes": 13882242,
+          "rgba8MipBytes": 138063528,
+          "textureObjects": 38
+        }
+      },
+      {
+        "id": "uniform-original-bob-v1",
+        "recordSha256": "76430d2b93415d348a6ed68681f0369c8faf0e7d5a8c0f790049d32bc6c184a3",
+        "status": "within-static-limits",
+        "selected": {
+          "fileBytes": 13882242,
+          "rgba8MipBytes": 138063528,
+          "textureObjects": 38
+        },
+        "startupAndSelected": {
+          "fileBytes": 13882242,
+          "rgba8MipBytes": 138063528,
+          "textureObjects": 38
+        }
+      }
+    ]
+  },
+  "concurrentSelectedActorReference": {
+    "status": "over-temporary-reference",
+    "sumAcrossSelectedActors": {
+      "placedNodeTriangles": 39124,
+      "rgba8MipBytes": 276127056,
+      "textureObjects": 76
+    },
+    "closureUnionFileCount": 21,
+    "closureUnionSourceBytes": 27896903,
+    "temporaryAggregateLimits": {
+      "status": "temporary-unmeasured",
+      "fileBytes": 67108864,
+      "rgba8MipBytes": 268435456,
+      "textureObjects": 96,
+      "ordinaryPCPerformance": "unmeasured"
+    },
+    "excesses": [
+      {
+        "metric": "rgba8MipBytes",
+        "actual": 276127056,
+        "limit": 268435456,
+        "excess": 7691600
+      }
+    ],
+    "actorCount": 2,
+    "scope": "The concurrently selected actors use summed per-actor texture and triangle estimates. File bytes use the deduplicated union of the signed records’ dependencies.",
+    "measurementScope": "Conservative texture sum keeps duplicate actor texture estimates. Actual cross-actor sharing, renderer-only allocations and physical GPU memory are unmeasured."
+  },
+  "ordinaryPCPerformance": "unmeasured",
+  "runtimeAdmission": false
+}

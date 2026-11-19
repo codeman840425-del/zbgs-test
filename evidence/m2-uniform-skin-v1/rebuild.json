@@ -1,0 +1,87 @@
+{
+  "schema": "uniform-skin-fixed-game-rebuild-v1",
+  "status": "technical-build-and-runtime-review-pass",
+  "sourceCommit": "d96411ebef27a0e255bab3eaa49bf9addab48e8a",
+  "sourceDigest": "d9cadedb54f6d2df924824f35429597704a7d791c7891f7ff094be369f675f26",
+  "buildId": "d9cadedb54f6",
+  "cleanBuilds": [
+    {
+      "worktree": "experiments/worktrees/warm-d96411eb",
+      "checkout": "python -B scripts/character-worktree.py create warm-d96411eb d96411eb --runtime-only",
+      "sparseAdd": "git -C experiments/worktrees/warm-d96411eb sparse-checkout add scripts assets-source/garment-basecolor-release-v1",
+      "buildCwd": "experiments/worktrees/warm-d96411eb/prototype",
+      "build": "npm.cmd run build",
+      "gitCleanBeforeAndAfterBuild": true
+    },
+    {
+      "worktree": "experiments/worktrees/warm-d96411eb-repeat",
+      "checkout": "python -B scripts/character-worktree.py create warm-d96411eb-repeat d96411eb --runtime-only",
+      "sparseAdd": "git -C experiments/worktrees/warm-d96411eb-repeat sparse-checkout add scripts assets-source/garment-basecolor-release-v1",
+      "buildCwd": "experiments/worktrees/warm-d96411eb-repeat/prototype",
+      "build": "npm.cmd run build",
+      "gitCleanBeforeAndAfterBuild": true
+    }
+  ],
+  "toolchain": {
+    "nodeVersion": "v24.13.0",
+    "nodeSha256": "d14ba95cdce1ef7dc9ad3ac74949ca5db38b27378ee30f30a23cf26f9e875a11",
+    "npmVersion": "11.6.2",
+    "viteVersion": "7.3.8",
+    "lockSha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7",
+    "viteFileSha256": {
+      "vite/bin/vite.js": "fa03478846d229651a3c6aa64833ba2c6cbf580a798b92bd8f47c7480bafb5d8",
+      "vite/package.json": "4e87f89a19661c197033a55e54dc94790b5a3e28bcc9d2c9ee374ee54eec8dc2",
+      "vite/dist/node/cli.js": "6b9001816eb5fb0979cbe380ed2116db93e315ff22ebf7fe55a4fc60458fa067",
+      "vite/dist/node/index.js": "8b142bd1231a46bf2cad4c05b3f76de5b183064ee771b9934fbaffb70b914652"
+    },
+    "dependenciesFrom": "experiments/worktrees/head-ba9a95f6/prototype",
+    "dependenciesFromCommit": "ba9a95f635db6aee6815d197829683ad7247d37f",
+    "dependencyMethod": "Independent node_modules copies using robocopy /E /COPY:DAT /DCOPY:DAT /R:0 /W:0 /XJ after verifying the package lock and the four previously pinned Vite files. All copied dependency file hashes verified against the original installation.",
+    "dependencyFileCount": 4741,
+    "dependencyInventory": "output/m2-uniform-skin-fixed/dependencies-inventory.json",
+    "npmOffline": true,
+    "tempAndNpmCache": "output/m2-uniform-skin-fixed",
+    "tempVariables": {
+      "TEMP": "<first or repeat>/tmp",
+      "TMP": "<first or repeat>/tmp",
+      "TMPDIR": "<first or repeat>/tmp",
+      "npm_config_cache": "<first or repeat>/npm-cache"
+    }
+  },
+  "comparison": {
+    "distBytes": 742795261,
+    "distDifference": [],
+    "distFiles": 529,
+    "inventorySha256": "acc0e9ffd3eb229f77a4773adf775f235c195b61f59e9cfe9892918b387eadaa",
+    "sourceDifference": [],
+    "sourceInputCount": 646,
+    "sourceDigestRecomputed": true,
+    "distInventoryDigest": "SHA-256 of compact, sorted-key JSON mapping each POSIX path to [file byte count, SHA-256]",
+    "distInventory": "output/m2-uniform-skin-fixed/dist-inventory.json",
+    "sourceInventory": "output/m2-uniform-skin-fixed/source-inventory.json"
+  },
+  "review": {
+    "path": "scripts/runtime-package/game-record-uniform-skin-reviewed.json",
+    "sha256": "4568ecfaabd07789ab05fac9286eade11a0e7f496c760f2f1ac3b1f199dfa1af",
+    "compiledEntryClosureFiles": 11,
+    "indexSection": "externalRecords",
+    "command": "node scripts/runtime-package/review-game-runtime.mjs experiments/worktrees/warm-d96411eb/prototype/dist experiments/worktrees/warm-d96411eb-repeat/prototype/dist experiments/worktrees/warm-d96411eb-repeat scripts/runtime-package/game-record-uniform-skin-reviewed.json",
+    "failureAndRetry": {
+      "fixture": "Separate copy of record-consumer.html with an appended HTML comment",
+      "failure": "rebuild-mismatch",
+      "failureLog": "output/m2-uniform-skin-fixed/review/rejected-review.log",
+      "failedOutputCreated": false,
+      "retryWithExactBuilds": "pass"
+    }
+  },
+  "worktreeAudit": {
+    "command": "python -B scripts/character-worktree.py audit",
+    "status": "pass",
+    "receipt": "output/m2-uniform-skin-fixed/worktree-audit.json"
+  },
+  "verificationNotes": [
+    "Sparse checkout reported the pre-created .gitattributes during materialization. Both checkouts resolved the requested commit and were clean before and after their builds.",
+    "Vite reported the expected static and dynamic import overlap for native-hair-center-record.js in both builds."
+  ],
+  "scope": "Independent fixed runtime rebuild, source input verification and compiled consumer entry review."
+}

@@ -372,33 +372,60 @@ def fitted_head_family(recipe):
 
 def validate_fitted_head_recipe(recipe, family):
     fit = family['fit']
+    appearance = recipe['appearance']
+    warm = family.get('warmSkin') if appearance['skinTone'] == 'warm' else None
+    review = appearance == warm['appearance'] if warm else appearance in family['reviewedLooks']
+    version = warm['paletteVersion'] if warm else family['palette']['version']
     require_legacy_cache(
         recipe['base'] == family['base'] and recipe['schema'] == family['recipeSchema'] and
-        recipe['rulesVersion'] == family['rulesVersion'] and recipe['appearance'] in family['reviewedLooks'] and
-        recipe['appearance']['skinTone'] == recipe['appearance'].get('eyebrowColor', 'original') == 'original' and
+        recipe['rulesVersion'] == family['rulesVersion'] and review and
+        appearance.get('eyebrowColor', 'original') == 'original' and
         recipe.get('hairAssetSha256') == family['model']['sha256'] and
         recipe.get('hairFit') == {'kind':'explicit-fit-v1', 'id':fit['id'], 'version':fit['version'], 'sha256':fit['sha256']} and
-        recipe.get('paletteVersion') == family['palette']['version'] and
+        recipe.get('paletteVersion') == version and
         not recipe.get('surface', {}).get('layers') and
         not recipe.get('skinToneManifestSha256') and not recipe.get('lipColorManifestSha256'),
         'Unreviewed fitted head rules, fit, palette version, or appearance selection')
+    return warm
 
 
-def reviewed_legacy_appearance_cache(source, public, record, recipe, family=None):
+def validate_fitted_warm_skin_record(record, signed, warm):
+    require_legacy_cache(
+        signed['integrity']['recipeSha256'] == warm['recipeSha256'] and
+        sorted(record['equipmentIds']) == sorted(warm['equipmentIds']) and
+        not any(part['enabled'] for part in signed['liveAccessories']['selections'].values()) and
+        all(material['selection'] is None for material in signed['equipmentMaterials']['selections']) and
+        not signed.get('nativeHairCenter'), 'Unreviewed fitted warm skin record or outfit')
+    files = record['files']
+    bindings = [{'path': row['path'], 'sha256': row['sha256'], 'reason': reason}
+                for row in files for reason in row['reasons'] if reason.startswith('Startup body coverage for ')]
+    require_legacy_cache(bindings == warm['coverage'] and not any(
+        reason.startswith(('Selected native skin tone ', 'Selected native lip color ', 'Startup native body coverage '))
+        for row in files for reason in row['reasons']), 'Unreviewed fitted warm skin coverage or texture resources')
+
+
+def reviewed_legacy_appearance_cache(source, public, record, signed, family=None):
+    recipe = signed['appearanceRecipe']
     appearance = recipe['appearance']
     body_sha = recipe['base']['sha256']
-    if family:
-        validate_fitted_head_recipe(recipe, family)
+    warm = validate_fitted_head_recipe(recipe, family) if family else None
+    if warm:
+        validate_fitted_warm_skin_record(record, signed, warm)
     pins = REVIEWED_LEGACY_CACHE_SOURCE
     if family or runtime_source_sha(source, 'hairstyle-catalog.js') == REVIEWED_FITTED_HEAD_ROUTES['src/hairstyle-catalog.js']:
         pins = {**pins, **REVIEWED_FITTED_HEAD_ROUTES}
+        warm_sources = family.get('warmSkin', {}).get('runtimeSource') if family else None
+        if warm or (warm_sources and runtime_source_sha(source, 'character-appearance.js') ==
+                    warm_sources['src/character-appearance.js']):
+            pins.update(warm_sources)
         registry = json.loads(local(source, 'prototype/src/fitted-head-appearances.json').read_bytes())
         entries = [row for row in registry if row['bodySha256'] == body_sha]
         if family:
             require_legacy_cache(len(entries) == 1 and
                                  all(appearance[key] in entries[0]['colors'][key] for key in ('hairColor','eyeColor','lipColor')) and
                                  entries[0]['hair']['sourceBodySha256'] == family['sourceBodySha256'] and
-                                 entries[0]['palette']['version'] == recipe['paletteVersion'],
+                                 entries[0]['palette']['version'] == family['palette']['version'] and
+                                 (not warm or entries[0]['colors'].get('skinTone') == {'original':None, 'warm':warm['multiplierSrgb']}),
                                  'Unreviewed fitted head registration')
         else:
             require_legacy_cache(not entries, 'Fitted head registration overrides the reviewed legacy body')
@@ -442,12 +469,19 @@ def reviewed_legacy_appearance_cache(source, public, record, recipe, family=None
     )}
     totals['retainedPixelPayloadUpperBoundBytes'] = sum(totals[key] for key in (
         'derivedCanvasRgba8Bytes', 'retainedImageDataBytes', 'retainedOriginalPixelArrayBytes'))
+    skin = {'selection':appearance['skinTone'], 'additionalTextureObjects':0, 'materialFactorsOnly':True}
+    fitted = {}
+    if family:
+        original_descriptor = family.get('originalDescriptorSha256') if not warm else None
+        fitted = {'resourceFamily':family['id'], 'explicitHairFit':recipe['hairFit'], 'paletteVersion':recipe['paletteVersion'],
+                  'budgetDescriptorSha256':original_descriptor or sha(FITTED_HEAD_BYTES)}
+    if warm:
+        skin.update(multiplierSrgb=warm['multiplierSrgb'], additionalTextureRgba8Bytes=0,
+                    recipeSha256=warm['recipeSha256'], coverage=warm['coverage'])
     return {'schema':'reviewed-legacy-appearance-cache-v1', 'recordSha256':record['recordSha256'],
             'scope':'fresh-actor-pixel-payload-static-diagnostic-only', 'runtimeReconciliation':'not-linked',
             'runtimeAdmission':False, 'groups':groups, 'totals':totals, 'paletteReferencePaths':references,
-            **({'resourceFamily':family['id'], 'explicitHairFit':recipe['hairFit'], 'paletteVersion':recipe['paletteVersion'],
-                'budgetDescriptorSha256':sha(FITTED_HEAD_BYTES)} if family else {}),
-            'skinTone':{'selection':appearance['skinTone'], 'additionalTextureObjects':0, 'materialFactorsOnly':True},
+            **fitted, 'skinTone':skin,
             'sharing':'Bob and hidden original hair use the same original map keys within an actor. Base and shade keys are distinct. Face outline reuses the face keys. Derived Sources are actor-local.',
             'excluded':'Mask-analysis scratch, index/weight arrays, native renderer allocations, prior palette visits and actual CPU heap/VRAM are not measured.'}
 
@@ -576,16 +610,17 @@ def totals_for(rows, images, *, final, appearance_cache=None):
                                  for metric in AGGREGATE_METRICS if totals[metric] > AGGREGATE_LIMITS[metric]]}
 
 
-def measure_record(source, record, config, recipe):
+def measure_record(source, record, config, signed):
     public = source / 'prototype/public'
+    recipe = signed['appearanceRecipe']
     appearance_cache = None
     uses_hair_cache = record['hairColor'] != 'original'
     uses_legacy_palette = any('Selected facial palette manifest' in row['reasons'] for row in record['files'])
     family = fitted_head_family(recipe)
     if family and any(value != 'original' for value in recipe['appearance'].values()):
-        appearance_cache = reviewed_legacy_appearance_cache(source, public, record, recipe, family)
+        appearance_cache = reviewed_legacy_appearance_cache(source, public, record, signed, family)
     elif (uses_hair_cache or uses_legacy_palette) and matches_legacy_appearance_family(recipe):
-        appearance_cache = reviewed_legacy_appearance_cache(source, public, record, recipe)
+        appearance_cache = reviewed_legacy_appearance_cache(source, public, record, signed)
     elif uses_hair_cache:
         raise UnsupportedBudget('unsupported-hair-color-budget',
                                 f"{record['id']} uses {record['hairColor']} hair color. This preset allocates "
@@ -654,8 +689,8 @@ def measure(input_file, source, version):
     require(sha(raw) == collected['inputSha256'], 'Record input changed after dependency collection')
     data = json.loads(raw)
     input_records = data if isinstance(data, list) else [data]
-    recipes = {record['integrity']['recordSha256']: record['appearanceRecipe'] for record in input_records}
-    records = [measure_record(source, row, config, recipes[row['recordSha256']]) for row in collected['records']]
+    signed_records = {record['integrity']['recordSha256']: record for record in input_records}
+    records = [measure_record(source, row, config, signed_records[row['recordSha256']]) for row in collected['records']]
     measured_legacy = any('reviewedLegacyAppearanceCache' in row for row in records)
     shared_files = {}
     for record in records:

@@ -1,5 +1,7 @@
 # 参数驱动角色生产契约
 
+同一批主体共用的外观参数写入 `sharedLook.appearance`。每个身份只写需要覆盖的 `appearance` 字段，平台随后按该行的实际基模、装备及资源版本核对合并结果。一个身份选了未适配颜色时，错误落在本人，其他有效身份仍可处理。材质乘色在签名中保存所选色值与算法版本，已存角色能检测调色定义的更改。传给游戏的是完整的最终记录。[两份肤色的输入](../assets-source/variant-matrix-v1/uniform-lite-top-skin-request.json) · [同镜头实测](../evidence/m2-uniform-skin-v1/index.html)
+
 原生上衣配方可在每个打包项上指定 `topRemovalRecipe: {path, sha256}`。制作和登记都要从固定原件、原生操作回执和同体去组导出重算，再绑定上衣组、实际图元及恢复皮肤的摘要。运行时清单只携带身份数据，暂存目录、操作日志和源文件位置留在离线来源记录。拥有原作者归档的输入可用 `native_archive_package_inputs.py` 接入。缺少本人的去组证据时，先保留已核实的原制作输入，待取得证据后再生成打包配置。[双角色从原件重建的命令与适用范围](../evidence/m2-native-top-removal-intake-v1/README.md)
 
 同一装备槽可以包含多个材质图元。制作端用 `primitiveGroups` 列出原节点、网格和蒙皮下的有序成员，每个成员有图元索引、材质索引和完整材质名。运行 `python -B scripts/production/extract_native_group.py 配方.json --output output/批次/部件包` 可得到独立 GLB、装备清单和提取记录。命令检查两端的绘制索引、蒙皮流和绑定矩阵，重跑复用字节一致的整包。作者组归属和皮肤遮罩需要同体去组回读；诊断包只占用工程内的私有输出，游戏签发继续走原有准入流程。[两片上衣配方](../evidence/m2-garment-group-input-v1/native-two-piece-selection.json) · [源与游戏对照](../evidence/m2-garment-group-input-v1/README.md)

@@ -12,14 +12,18 @@ from unittest.mock import patch
 from asset_budget import AssetCost
 from record_budget import (LIP_IMAGE_PREFIX, ROOT, SKIN_IMAGE_PREFIX, UnsupportedBudget, collected_records,
                            image_cost, legacy_texture_groups, main, measure, model_roles,
-                           fitted_head_family, runtime_source_sha, skin_cache, validate_fitted_head_recipe)
+                           fitted_head_family, runtime_source_sha, skin_cache, validate_fitted_head_recipe,
+                           validate_fitted_warm_skin_record)
 
 
 SOCK_RECORDS = ROOT / 'evidence/m2-native-short-socks-room-v1/records.json'
 SOCK_CATALOG = 'assets/native-crew-template-v1/equipment.json'
 SIGNED_LOOKS = ROOT / 'evidence/m2-uniform-agent-handoff-v1/records.json'
 UNIFORM_LITE_RECORDS = ROOT / 'evidence/m2-uniform-lite-operator-v1/records.json'
+UNIFORM_HEAD_EVIDENCE = ROOT / 'evidence/m2-uniform-lite-head-intake-v1'
+UNIFORM_WARM_EVIDENCE = ROOT / 'evidence/m2-uniform-skin-v1'
 FIXED_LEGACY = ROOT / 'experiments/worktrees/garment-80fb16b7'
+FIXED_UNIFORM_HEAD = ROOT / 'experiments/worktrees/head-ba9a95f6'
 
 
 class ReviewedLegacyAppearanceTests(unittest.TestCase):
@@ -169,23 +173,27 @@ class RecordBudgetTests(unittest.TestCase):
         recipe['appearance'].update(hairStyle=head['hair']['id'], hairColor='blonde', eyeColor='brown', lipColor='coral')
         return original, recipe
 
-    def test_uniform_head_signed_actor_cost_and_original_only_record(self):
-        original, recipe = self.uniform_head_recipe()
+    def sign_uniform_head(self, original, recipe, identifier):
         script = """
 import {readFileSync} from 'node:fs';
 import {createCharacterRecord} from './prototype/src/character-record.js';
 import {deriveCharacterResourceIdentities} from './prototype/src/character-runtime-record.js';
-const {original, appearanceRecipe} = JSON.parse(readFileSync(0, 'utf8'));
+const {original, appearanceRecipe, identifier} = JSON.parse(readFileSync(0, 'utf8'));
 const {liveAccessories,equipmentMaterials,provenance} = original;
 const resourceIdentities = deriveCharacterResourceIdentities(appearanceRecipe,liveAccessories,equipmentMaterials);
-const result = await createCharacterRecord({identity:{...original.identity,id:'budget-uniform-head-candidate'},
+const result = await createCharacterRecord({identity:{...original.identity,id:identifier},
   appearanceRecipe,liveAccessories,equipmentMaterials,provenance,resourceIdentities,now:original.createdAt},
   {validateResources:()=>({status:'pending'})});
 console.log(JSON.stringify(result));
 """
         result = subprocess.run(['node', '--input-type=module', '-e', script], cwd=self.source, check=True,
-                                capture_output=True, encoding='utf-8', input=json.dumps({'original':original, 'appearanceRecipe':recipe}))
-        signed = json.loads(result.stdout)
+                                capture_output=True, encoding='utf-8', input=json.dumps({
+                                    'original':original, 'appearanceRecipe':recipe, 'identifier':identifier}))
+        return json.loads(result.stdout)
+
+    def test_uniform_head_signed_actor_cost_and_original_only_record(self):
+        original, recipe = self.uniform_head_recipe()
+        signed = self.sign_uniform_head(original, recipe, 'budget-uniform-head-candidate')
         report = self.run_measure([original, signed])
         original_cost, colored = report['records']
         self.assertNotIn('reviewedLegacyAppearanceCache', original_cost)
@@ -218,6 +226,90 @@ console.log(JSON.stringify(result));
                 (bad[section] if section else bad)[field] = value
                 with self.assertRaisesRegex(UnsupportedBudget, 'Unreviewed fitted head'):
                     validate_fitted_head_recipe(bad, family)
+
+    def test_archived_fitted_head_budget_does_not_change(self):
+        if not (FIXED_UNIFORM_HEAD / 'prototype/node_modules/three').is_dir():
+            self.skipTest('Exact f7ea runtime with locked dependencies is unavailable')
+        actual = measure(UNIFORM_HEAD_EVIDENCE/'signed-pair.json', FIXED_UNIFORM_HEAD, 'm2-technical-v1')
+        archived = json.loads((UNIFORM_HEAD_EVIDENCE/'budget-signed-pair.json').read_bytes())
+        self.assertEqual(actual, archived)
+
+    def test_warm_skin_rejects_other_combinations_and_coverage(self):
+        signed, _ = json.loads((UNIFORM_HEAD_EVIDENCE/'signed-pair.json').read_bytes())
+        record, _ = json.loads((UNIFORM_HEAD_EVIDENCE/'budget-signed-pair.json').read_bytes())['records']
+        recipe = signed['appearanceRecipe']
+        family = fitted_head_family(recipe)
+        warm = family['warmSkin']
+        recipe['appearance']['skinTone'] = 'warm'
+        recipe['paletteVersion'] = warm['paletteVersion']
+        signed['integrity']['recipeSha256'] = warm['recipeSha256']
+        self.assertEqual(validate_fitted_head_recipe(recipe, family), warm)
+        validate_fitted_warm_skin_record(record, signed, warm)
+        for section, field, value in [
+            (None, 'paletteVersion', family['palette']['version']), (None, 'skinToneManifestSha256', '0'*64),
+            ('appearance', 'skinTone', 'deep'), ('appearance', 'hairStyle', 'original'),
+            ('appearance', 'eyeColor', 'original'), ('appearance', 'lipColor', 'original'),
+        ]:
+            with self.subTest(section=section, field=field):
+                bad = deepcopy(recipe)
+                (bad[section] if section else bad)[field] = value
+                with self.assertRaisesRegex(UnsupportedBudget, 'Unreviewed fitted head'):
+                    validate_fitted_head_recipe(bad, family)
+        bad = deepcopy(record)
+        bad['equipmentIds'][0] = 'other-top'
+        with self.assertRaisesRegex(UnsupportedBudget, 'Unreviewed fitted warm skin record or outfit'):
+            validate_fitted_warm_skin_record(bad, signed, warm)
+        bad = deepcopy(record)
+        next(row for row in bad['files'] if row['path'] == warm['coverage'][0]['path'])['sha256'] = '0'*64
+        with self.assertRaisesRegex(UnsupportedBudget, 'Unreviewed fitted warm skin coverage or texture resources'):
+            validate_fitted_warm_skin_record(bad, signed, warm)
+
+    def test_uniform_warm_and_original_have_equal_selected_costs(self):
+        source_registry = self.source / 'prototype/src/fitted-head-appearances.json'
+        if not source_registry.is_file() or '"skinTone"' not in source_registry.read_text(encoding='utf-8'):
+            self.skipTest('Selected source predates the fitted warm skin registration')
+        original, _ = json.loads((UNIFORM_HEAD_EVIDENCE/'signed-pair.json').read_bytes())
+        recipe = deepcopy(original['appearanceRecipe'])
+        warm = fitted_head_family(recipe)['warmSkin']
+        recipe['appearance']['skinTone'] = 'warm'
+        recipe['paletteVersion'] = warm['paletteVersion']
+        signed = self.sign_uniform_head(original, recipe, 'budget-uniform-warm-skin')
+        self.assertEqual(signed['integrity']['recipeSha256'], warm['recipeSha256'])
+        report = self.run_measure([original, signed])
+        control, colored = report['records']
+        self.assertEqual(control['selectedCost'], colored['selectedCost'])
+        self.assertEqual(control['startupAndSelectedCost'], colored['startupAndSelectedCost'])
+        self.assertEqual(control['standaloneImages'], colored['standaloneImages'])
+        self.assertEqual(control['files'], colored['files'])
+        cache = colored['reviewedLegacyAppearanceCache']
+        self.assertEqual(cache['skinTone']['additionalTextureObjects'], 0)
+        self.assertEqual(cache['skinTone']['additionalTextureRgba8Bytes'], 0)
+        self.assertEqual(cache['skinTone']['multiplierSrgb'], warm['multiplierSrgb'])
+        self.assertEqual(cache['totals'], control['reviewedLegacyAppearanceCache']['totals'])
+        self.assertFalse(report['runtimeAdmission'])
+
+    def test_browser_signed_pair_passes_each_record_but_exceeds_concurrent_reference(self):
+        value = subprocess.run(['node', str(UNIFORM_WARM_EVIDENCE/'budget-concurrent-proof.mjs')], cwd=ROOT,
+                               capture_output=True, encoding='utf-8', check=True)
+        actual = json.loads(value.stdout)
+        self.assertEqual(actual, json.loads((UNIFORM_WARM_EVIDENCE/'budget-concurrent-proof.json').read_bytes()))
+        individual = actual['perRecordStaticBudget']
+        combined = actual['concurrentSelectedActorReference']
+        self.assertEqual(individual['status'], 'within-static-limits')
+        self.assertEqual(combined['actorCount'], 2)
+        for row in individual['records']:
+            self.assertEqual(row['status'], 'within-static-limits')
+            self.assertEqual(row['selected']['rgba8MipBytes'], 138063528)
+            self.assertEqual(row['startupAndSelected']['rgba8MipBytes'], 138063528)
+        self.assertEqual(combined['status'], 'over-temporary-reference')
+        self.assertEqual(combined['sumAcrossSelectedActors']['rgba8MipBytes'], 276127056)
+        self.assertEqual(combined['sumAcrossSelectedActors']['textureObjects'], 76)
+        self.assertEqual(combined['closureUnionSourceBytes'], 27896903)
+        self.assertEqual(combined['excesses'], [
+            {'metric':'rgba8MipBytes', 'actual':276127056, 'limit':268435456, 'excess':7691600},
+        ])
+        self.assertFalse(actual['runtimeAdmission'])
+        self.assertEqual(actual['ordinaryPCPerformance'], 'unmeasured')
 
     def test_exact_records_cover_models_material_and_standalone_textures(self):
         report = self.run_measure(self.records)
