@@ -1,5 +1,7 @@
 # 当前角色基础工程恢复点
 
+轻量制服已在固定 `da9cae25 / 08253a07fc73` 复验发型与眼镜的双向约束。原发专用镜腿和 bob 的组合被拒，卸镜换发、切回原发重新佩戴成功。生产侧读取最终造型来回读签名及组包。下一步用同一受限条件试制男女两份可签的技术角色，再量实际独立包和同屏成本。[固定对照](../evidence/m2-uniform-glasses-head-v1/README.md) · [批次输入](../assets-source/variant-matrix-v1/uniform-lite-glasses-request.json)
+
 1K 制服眼镜候选已从固定源码 `925cc082` 构建为 `4540a27be60e`，女、男均已从原签名恢复后在诊断入口实际佩戴。现有眼镜采集、动作链和旧预览工具都把输出及专用浏览器暂存限制在角色工程内。下个生产判断以原发侧面镜腿、透明发片和可见耳部的实际表现为据，再决定是否登记这两个确切组合并签出戴眼镜的角色。游戏交付单和人工预览各自保留原发布身份。[实际画面、输入与限制](../evidence/m2-uniform-live-fit-intake-v1/index.html) · [工作树及路径审计](../evidence/character-worktree-relocation-v1/root-review.json)
 
 同款男女制服配方已接通逐人眼镜和麦克风选择。游戏源码 `1239c0e2`，构建 `73d6f64eeebc`；已在独立游戏验证双人冷开、逐人装备、失败重试和主持人走坐起。双人原版身体超静态预算，正式准入 0/2。下一项从已签 1K 身体反查实际头部、眼睛和镜架数据，用实测决定哪些眼镜适配可复用。4196 人工预览与正式接收单仍各自独立。[原速回放](../evidence/m2-uniform-live-batch-v1/index.html) · [复建、输入和签名](../evidence/m2-uniform-live-batch-v1/README.md)

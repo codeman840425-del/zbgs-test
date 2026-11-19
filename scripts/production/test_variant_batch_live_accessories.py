@@ -37,6 +37,27 @@ class LiveAccessoryBatchTests(unittest.TestCase):
         self.assertIn('liveAccessories.mic unavailable for this body: exact-body-fit-unregistered', row['reason'])
         self.assertNotIn('request', row)
 
+    def test_conditional_glasses_use_the_requested_hair_before_emitting_a_job(self):
+        query = self.query[self.item['bodyType']]
+        query['appearanceDefaults'] = {'hairStyle': 'original'}
+        query['appearanceChoices'] = {'hairStyle': [{'value': 'original'}, {'value': 'female-bob-v1'}]}
+        slot = query['liveAccessories']['glasses']
+        slot['constraints'] = {'headDependency': {'hairStyle': 'original', 'faceGeometry': 'neutral'}}
+        slot['allowedHairStyles'] = ['original']
+        self.item['liveAccessories'] = {'glasses': True}
+        self.assertEqual(self.plan()['status'], 'candidate')
+        self.item['appearance'] = {'hairStyle': 'female-bob-v1'}
+        rejected = self.plan()
+        self.assertEqual(rejected['status'], 'rejected')
+        self.assertIn('female-bob-v1', rejected['reason'])
+        self.assertNotIn('request', rejected)
+        self.item['liveAccessories']['glasses'] = False
+        self.assertEqual(self.plan()['status'], 'candidate')
+        self.item.pop('appearance')
+        self.item['liveAccessories']['glasses'] = True
+        del slot['allowedHairStyles']
+        self.assertEqual(self.plan()['status'], 'rejected')
+
     def test_unknown_accessory_keys_and_non_booleans_are_rejected(self):
         for selection, message in ((None, 'object'), ([], 'object'), ({'headset':True}, 'Unknown liveAccessories field'),
                                    ({'glasses':1}, 'glasses must be boolean'), ({'mic':'false'}, 'mic must be boolean')):

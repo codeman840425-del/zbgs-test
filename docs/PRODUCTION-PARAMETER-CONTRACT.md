@@ -1,5 +1,7 @@
 # 参数驱动角色生产契约
 
+镜腿适配可声明 `headDependency`。当前已验证的条件是原发及中性五官几何，肤色和发色独立。批量制作以每位角色最终选择的发型核对适配，整套恢复同时核对目标眼镜状态，因此可以在同一请求中卸镜换发。只有实物 fit 和确切来源已登记的选项才进入游戏技术签名，整套服装正式准入另行记录。[固定回归及限制](../evidence/m2-uniform-glasses-head-v1/README.md)
+
 在 `sharedLook.liveAccessories` 中写入 `glasses` 和 `mic` 布尔值，批次的 `items[].liveAccessories` 可按字段覆盖。在新建角色的配方中，省略的字段继承共享选择，显式 `false` 关闭该道具。启用时，规划器读取这个身体实际注册的资源、文件摘要及握姿或镜腿适配；缺少适配时给出角色 ID、装备和原因。调用方要检查 `rejectedCount`、各行 `status` 和 `creationBatches`，合法批次可能只生成部分角色。正式模式需要整套造型对应的批准，衣服获准的记录只覆盖当时审查的选择。[可执行配方](../assets-source/variant-matrix-v1/uniform-live-pair-request.json) · [实际游戏与混合结果](../evidence/m2-uniform-live-batch-v1/README.md)
 
 已验证复用灰度发眉贴图的同屏组，预算回执另列 `neutralSourceReuse`，绑定到固定构建、签名、纹理通道及实际 WebGL 采样证据。生产方读取 `deductionApplied` 判断可否使用该估算。原有保守估算和退出码继续用于原流程，同一灰度源允许每个角色保留自己的颜色、采样坐标和卸载生命周期。[同屏测量及复算方法](../evidence/m2-uniform-texture-sharing-v1/README.md)

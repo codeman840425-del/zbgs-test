@@ -137,7 +137,9 @@ async function oneCase({page,base,out,mode,build,spec,bob,row}) {
     if(capture)step.image=await screen(page,out,label);
     assert.equal(result.applied,expected,JSON.stringify(result));
     if(!expected) {
-      assert(!result.cancelled && /hair|[发髪]型|头发/i.test(result.reason??''),'Expected actionable hair compatibility rejection');
+      assert(!result.cancelled,'Expected rejection rather than cancellation');
+      if(result.code!==undefined)assert.equal(result.code,'glasses-head-incompatible');
+      assert.match(result.reason??'',/镜腿适配仅支持原发/,'Expected the original-hair restriction');
       assert.deepEqual(state.hair,previous.hair,'Rejected operation changed the visible hair or its identity');
       assert.deepEqual(state.glasses.worldGlass,previous.glasses.worldGlass,'Rejected operation changed the mounted glasses');
     }

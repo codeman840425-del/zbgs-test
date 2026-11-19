@@ -30,6 +30,21 @@ async function checkedLiveAccessories(query, runtime, load, kinds) {
         const profile = JSON.parse(await checked(choice.templeFit));
         if (choice.templeFit.bodySha256 !== bodySha || !validateTempleProfile(profile, bodySha, asset.sha256))
           throw Error('Glasses fit body or resource binding differs');
+        if (slot.constraints?.headDependency !== undefined) {
+          const {assertGlassesHeadDependency} = await load('prototype/src/glasses-head-dependency.js');
+          const base = query.appearance.defaultRecipe;
+          const styles = query.appearance.appearance.hairStyle.choices.map(row => row.value);
+          const allowedHairStyles = styles.filter(hairStyle => {
+            try {
+              assertGlassesHeadDependency(slot.constraints.headDependency, {...base.appearance,hairStyle}, base.geometry);
+              return true;
+            } catch (error) {
+              if (error.code !== 'glasses-head-incompatible') throw error;
+              return false;
+            }
+          });
+          slots[kind] = {...slot, allowedHairStyles};
+        }
       } else {
         const grip = JSON.parse(await checked(choice.grip));
         const presentation = choice.presentationFit;

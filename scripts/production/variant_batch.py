@@ -156,7 +156,7 @@ def personal_appearance(values, query):
     return {field: values[field] for field in sorted(values) if values[field] != defaults[field]}
 
 
-def live_accessory_edits(values, query):
+def live_accessory_edits(values, query, appearance):
     validate_live_accessories(values)
     slots = query.get("liveAccessories", {})
     edits = []
@@ -168,6 +168,11 @@ def live_accessory_edits(values, query):
         reason = slot.get("reason", "exact body fit or resource unavailable")
         check(slot.get("status") == "registered" and len(enabled) == 1,
               f"liveAccessories.{kind} unavailable for this body: {reason}")
+        if "headDependency" in slot.get("constraints", {}):
+            style = appearance.get("hairStyle", query.get("appearanceDefaults", {}).get("hairStyle"))
+            allowed = slot.get("allowedHairStyles")
+            check(isinstance(allowed, list) and style in allowed,
+                  f"liveAccessories.{kind} has no fit for the selected hairStyle: {style}")
         edits.append({"domain": "liveAccessory", "kind": kind, "enabled": True})
     return edits
 
@@ -206,7 +211,7 @@ def production_request(item, row, query, member):
         if values:
             edits.append({"domain": "appearance", "values": values})
     if "liveAccessories" in item:
-        edits.extend(live_accessory_edits(item["liveAccessories"], query))
+        edits.extend(live_accessory_edits(item["liveAccessories"], query, item.get("appearance", {})))
     return {"schema": "character-production-request-v1", "operation": "create", "bodyType": row["bodyType"],
             "identity": dict(identity), "edits": edits}
 
