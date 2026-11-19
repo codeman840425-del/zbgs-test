@@ -1,0 +1,340 @@
+{
+  "status": "passed",
+  "mode": "legacy",
+  "sealed": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\singing-rooms-v1",
+  "work": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-singing-work",
+  "commands": [
+    {
+      "label": "verify package singing-rooms-v1",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\singing-rooms-v1",
+        "135b0b92a87692e49df4d23b509c499037b9ea9738f2d3b270a599fb3e7f011c"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "build": "ab04bb1928d6",
+        "manifestSha256": "135b0b92a87692e49df4d23b509c499037b9ea9738f2d3b270a599fb3e7f011c",
+        "declaredFiles": 2097,
+        "checkedFiles": 2097,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "generate all conforming rooms through batch.mjs",
+      "entry": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-singing-work\\source\\scripts\\company-platform\\batch.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\baseline-batch.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\baseline-batch"
+      ],
+      "exit": 0,
+      "stdout": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": true,
+        "results": [
+          {
+            "key": "singing-rental",
+            "companyId": "singing-rental",
+            "status": "created",
+            "directory": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\baseline-batch\\singing-rental",
+            "files": {
+              "input.json": {
+                "bytes": 3969,
+                "sha256": "cb36bc1acee3f09307eef3f436b62dcef0b545942f452365c7211b5ccf250de5"
+              },
+              "layout.json": {
+                "bytes": 8135,
+                "sha256": "99a95d09040034a42f276bf30a228d63f0f6585d18439481c6937115195cb8a7"
+              },
+              "save.json": {
+                "bytes": 10781,
+                "sha256": "f0fe48925a1a9422b9d561f580d9bce1eaa311b099c73f5009f5d58838199c2e"
+              }
+            }
+          },
+          {
+            "key": "singing-studio",
+            "companyId": "singing-studio",
+            "status": "created",
+            "directory": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\baseline-batch\\singing-studio",
+            "files": {
+              "input.json": {
+                "bytes": 3820,
+                "sha256": "a84a6d05a3c0a6b65fc6fb3fd810cfb584df200572a17f1a859803d65062daeb"
+              },
+              "layout.json": {
+                "bytes": 4278,
+                "sha256": "c1002f3b4d66d27a306f06aaa4a49c9c7f9471c5b80aad44f5550d489538a7ae"
+              },
+              "save.json": {
+                "bytes": 5954,
+                "sha256": "11ca3b0bbaa21fc247198e82a7050f555df8fc4bee05a9251be8334a3d669e08"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "singing-rental / validate original room",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-singing-work\\data\\rooms\\singing-rental\\save.json"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "id": "singing-rental",
+        "revision": 2,
+        "floors": [
+          "singing-rental/ground"
+        ]
+      }
+    },
+    {
+      "label": "singing-studio / validate original room",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-singing-work\\data\\rooms\\singing-studio\\save.json"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "id": "singing-studio",
+        "revision": 1,
+        "floors": [
+          "singing-studio/ground"
+        ]
+      }
+    },
+    {
+      "label": "legacy batch admits the edge obstruction",
+      "entry": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-singing-work\\source\\scripts\\company-platform\\batch.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\original-edge.batch.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\legacy-admitted-batch",
+        "--only",
+        "singing-studio"
+      ],
+      "exit": 0,
+      "stdout": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": true,
+        "results": [
+          {
+            "key": "singing-studio",
+            "companyId": "singing-studio",
+            "status": "created",
+            "directory": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\legacy-admitted-batch\\singing-studio",
+            "files": {
+              "input.json": {
+                "bytes": 4183,
+                "sha256": "a8d22cdc0848ad77aaa227198a2e32e88a0c04118729e37a97762329cc4dbbd2"
+              },
+              "layout.json": {
+                "bytes": 4656,
+                "sha256": "83b4cfaa2de5babcbf66714fea8198a1a21bc780157a98cdef3c0276259d6429"
+              },
+              "save.json": {
+                "bytes": 6368,
+                "sha256": "1a6015d4c5c158187248796a2fe836e27c42c8f9d4b61b2ddc348f5800eb2c97"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "legacy edit admits the edge obstruction",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-singing-work\\data\\rooms\\singing-studio\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\original-edge.ops.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\legacy-admitted-edit"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "id": "singing-studio",
+        "revision": 2,
+        "floors": [
+          "singing-studio/ground"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\legacy-admitted-edit"
+      }
+    },
+    {
+      "label": "legacy packager admits the edge obstruction with the actual room set",
+      "entry": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-singing-work\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\singing-rooms-v1\\viewer",
+        "ab04bb1928d6",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-singing-work\\data\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\legacy-admitted-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-singing-work\\source",
+        "--room",
+        "singing-rental",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-singing-work\\data\\rooms\\singing-rental\\save.json",
+        "--room",
+        "singing-studio",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\detached-edge.save.json"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "buildId": "ab04bb1928d6",
+        "companyId": "singing-studio",
+        "rooms": [
+          "singing-rental",
+          "singing-studio"
+        ],
+        "files": 2088,
+        "output": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\legacy-admitted-package"
+      }
+    },
+    {
+      "label": "verify package legacy-admitted-package",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\legacy-admitted-package",
+        "a024003f333a9adf71a31ae62d683fe078f3b77975ad2e04f0c9bf2428f1809c"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "build": "ab04bb1928d6",
+        "manifestSha256": "a024003f333a9adf71a31ae62d683fe078f3b77975ad2e04f0c9bf2428f1809c",
+        "declaredFiles": 2088,
+        "checkedFiles": 2088,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "retry the unmodified original batch",
+      "entry": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-singing-work\\source\\scripts\\company-platform\\batch.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\baseline-batch.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\baseline-batch"
+      ],
+      "exit": 0,
+      "stdout": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": true,
+        "results": [
+          {
+            "key": "singing-rental",
+            "companyId": "singing-rental",
+            "status": "idempotent",
+            "directory": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\baseline-batch\\singing-rental",
+            "files": {
+              "input.json": {
+                "bytes": 3969,
+                "sha256": "cb36bc1acee3f09307eef3f436b62dcef0b545942f452365c7211b5ccf250de5"
+              },
+              "layout.json": {
+                "bytes": 8135,
+                "sha256": "99a95d09040034a42f276bf30a228d63f0f6585d18439481c6937115195cb8a7"
+              },
+              "save.json": {
+                "bytes": 10781,
+                "sha256": "f0fe48925a1a9422b9d561f580d9bce1eaa311b099c73f5009f5d58838199c2e"
+              }
+            }
+          },
+          {
+            "key": "singing-studio",
+            "companyId": "singing-studio",
+            "status": "idempotent",
+            "directory": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\baseline-batch\\singing-studio",
+            "files": {
+              "input.json": {
+                "bytes": 3820,
+                "sha256": "a84a6d05a3c0a6b65fc6fb3fd810cfb584df200572a17f1a859803d65062daeb"
+              },
+              "layout.json": {
+                "bytes": 4278,
+                "sha256": "c1002f3b4d66d27a306f06aaa4a49c9c7f9471c5b80aad44f5550d489538a7ae"
+              },
+              "save.json": {
+                "bytes": 5954,
+                "sha256": "11ca3b0bbaa21fc247198e82a7050f555df8fc4bee05a9251be8334a3d669e08"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "verify package singing-rooms-v1",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\singing-rooms-v1",
+        "135b0b92a87692e49df4d23b509c499037b9ea9738f2d3b270a599fb3e7f011c"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "build": "ab04bb1928d6",
+        "manifestSha256": "135b0b92a87692e49df4d23b509c499037b9ea9738f2d3b270a599fb3e7f011c",
+        "declaredFiles": 2097,
+        "checkedFiles": 2097,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    }
+  ],
+  "original": {
+    "ok": true,
+    "build": "ab04bb1928d6",
+    "manifestSha256": "135b0b92a87692e49df4d23b509c499037b9ea9738f2d3b270a599fb3e7f011c",
+    "declaredFiles": 2097,
+    "checkedFiles": 2097,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "pinnedWorkingFiles": 1499,
+  "rooms": [
+    "singing-rental",
+    "singing-studio"
+  ],
+  "originalOperationSha256": "3b005d95fcbfec8b39cbb5847c8f5fd52b4567877ad2373bf1f0c3c36ac2fb1f",
+  "detachedEdgeSaveSha256": "2fcbf862059c5df0928381e21a5733efac1d0942d4ec56a452400e55e0438783",
+  "output": {
+    "receipt": {
+      "ok": true,
+      "build": "ab04bb1928d6",
+      "manifestSha256": "a024003f333a9adf71a31ae62d683fe078f3b77975ad2e04f0c9bf2428f1809c",
+      "declaredFiles": 2088,
+      "checkedFiles": 2088,
+      "extraFiles": 0,
+      "changedFiles": 0,
+      "missingFiles": 0
+    },
+    "file": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\legacy-dual-02\\legacy-admitted-package\\transfer-manifest.json"
+  },
+  "workingFilesPreserved": 1499,
+  "originalPreserved": {
+    "ok": true,
+    "build": "ab04bb1928d6",
+    "manifestSha256": "135b0b92a87692e49df4d23b509c499037b9ea9738f2d3b270a599fb3e7f011c",
+    "declaredFiles": 2097,
+    "checkedFiles": 2097,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  }
+}

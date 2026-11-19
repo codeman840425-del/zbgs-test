@@ -1,0 +1,275 @@
+{
+  "dependencies": {
+    "resources": [
+      {
+        "id": "background-brand-panel",
+        "sha256": "135a5e96fa59a33af28278311b538cf87dc6938782f1b5326e61a32dd6811951",
+        "version": 1
+      },
+      {
+        "id": "camera-orbit-eye",
+        "sha256": "594de3459213b54b0e1f116fa692686f59e84ba27c0621285ef46f3b53a3f1d4",
+        "version": 1
+      },
+      {
+        "id": "desk-frame",
+        "sha256": "7bfbc744a91c5c6a5138059609f8e5c3ce12f0fee2df4b15cdbf39a64d4264fe",
+        "version": 1
+      },
+      {
+        "id": "fill-light-panel",
+        "sha256": "382715e8e42968417ebcfdbb836b1944490d4ba788545c4d8b71bb5cced5ea0c",
+        "version": 1
+      },
+      {
+        "id": "floor-offset-plank",
+        "sha256": "a25970c816dc790248c977f521b3e3fc10319a50e56764dd12b43b2eb0d45926",
+        "version": 1
+      },
+      {
+        "id": "floor-score-stand-tripod",
+        "sha256": "ad23c41c11db894a0964038c96a04a59e4d9dfecc6ca4d2dd2f337190a90aeb3",
+        "version": 1
+      },
+      {
+        "id": "floor-vocal-mic-boom",
+        "sha256": "993201bcbae4d063bb73f3f18c8189f594792eabdfc47e789384fb0e3bfa1f09",
+        "version": 1
+      }
+    ],
+    "templates": []
+  },
+  "document": {
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "id": "singing-studio",
+    "name": "独立唱播工作室",
+    "nodes": [
+      {
+        "connections": [],
+        "exteriorEntrances": [
+          {
+            "edge": "south",
+            "height": 2.2,
+            "id": "singing-studio/ground/entry",
+            "offset": 0,
+            "regionId": "singing-studio/ground/live",
+            "width": 1.4
+          }
+        ],
+        "id": "singing-studio/ground",
+        "kind": "floor",
+        "name": "一层",
+        "parentId": "singing-studio",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "bounds": {
+          "depth": 6,
+          "width": 6
+        },
+        "entry": {
+          "position": [
+            0,
+            0,
+            2.35
+          ]
+        },
+        "finishes": {
+          "floor": {
+            "resource": {
+              "id": "floor-offset-plank",
+              "version": 1
+            }
+          }
+        },
+        "id": "singing-studio/ground/live",
+        "kind": "room",
+        "name": "唱播间",
+        "parentId": "singing-studio/ground",
+        "purpose": "streaming",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "singing-studio/ground/live/vocal",
+        "kind": "facility",
+        "parentId": "singing-studio/ground/live",
+        "resource": {
+          "id": "floor-vocal-mic-boom",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "singing-studio/ground/live/score",
+        "kind": "facility",
+        "parentId": "singing-studio/ground/live",
+        "resource": {
+          "id": "floor-score-stand-tripod",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            0.69,
+            0,
+            -0.38
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "singing-studio/ground/live/camera-desk",
+        "kind": "facility",
+        "parentId": "singing-studio/ground/live",
+        "resource": {
+          "id": "desk-frame",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            -0.47,
+            0,
+            -2.34
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "singing-studio/ground/live/camera",
+        "kind": "facility",
+        "parentId": "singing-studio/ground/live/camera-desk",
+        "resource": {
+          "id": "camera-orbit-eye",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.4
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "singing-studio/ground/live/background",
+        "kind": "facility",
+        "parentId": "singing-studio/ground/live",
+        "resource": {
+          "id": "background-brand-panel",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            1.4,
+            0,
+            2.18
+          ],
+          "yaw": 3.141592653589793
+        }
+      },
+      {
+        "id": "singing-studio/ground/live/fill",
+        "kind": "facility",
+        "parentId": "singing-studio/ground/live",
+        "resource": {
+          "id": "fill-light-panel",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            -1.45,
+            0,
+            -0.6
+          ],
+          "yaw": 1.5707963267948966
+        }
+      },
+      {
+        "id": "singing-studio/ground/live/edge-sight-panel",
+        "kind": "facility",
+        "parentId": "singing-studio/ground/live",
+        "resource": {
+          "id": "background-brand-panel",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            1.62,
+            0,
+            0.15
+          ],
+          "yaw": 0
+        }
+      }
+    ],
+    "revision": 2,
+    "scale": "single-room",
+    "schema": "company-layout",
+    "singingRooms": [
+      {
+        "performer": {
+          "eye": [
+            0,
+            1.64,
+            0.215
+          ],
+          "mouth": [
+            0,
+            1.555,
+            0.23
+          ],
+          "position": [
+            0,
+            0.76
+          ],
+          "yaw": 3.141592653589793
+        },
+        "portalId": "singing-studio/ground/entry",
+        "regionId": "singing-studio/ground/live",
+        "roles": {
+          "camera": "singing-studio/ground/live/camera",
+          "mic": "singing-studio/ground/live/vocal",
+          "score": "singing-studio/ground/live/score"
+        }
+      }
+    ],
+    "spaceProfile": {
+      "id": "company-space-v2",
+      "version": 1
+    },
+    "version": 1
+  },
+  "schema": "company-save",
+  "version": 1
+}

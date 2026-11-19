@@ -1,0 +1,753 @@
+{
+  "status": "passed",
+  "mode": "fixed",
+  "sealed": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\singing-rooms-v1.1",
+  "work": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual",
+  "commands": [
+    {
+      "label": "verify package singing-rooms-v1.1",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\singing-rooms-v1.1",
+        "a73a9c41ee20c42bbd8defd969bcda754c22ab65d3d35f980238eb77832c3873"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "build": "66de2c6a46fc",
+        "manifestSha256": "a73a9c41ee20c42bbd8defd969bcda754c22ab65d3d35f980238eb77832c3873",
+        "declaredFiles": 2107,
+        "checkedFiles": 2107,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "generate all conforming rooms through batch.mjs",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\source\\scripts\\company-platform\\batch.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\baseline-batch.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\baseline-batch"
+      ],
+      "exit": 0,
+      "stdout": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": true,
+        "results": [
+          {
+            "key": "singing-rental",
+            "companyId": "singing-rental",
+            "status": "created",
+            "directory": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\baseline-batch\\singing-rental",
+            "files": {
+              "input.json": {
+                "bytes": 3969,
+                "sha256": "cb36bc1acee3f09307eef3f436b62dcef0b545942f452365c7211b5ccf250de5"
+              },
+              "layout.json": {
+                "bytes": 8135,
+                "sha256": "99a95d09040034a42f276bf30a228d63f0f6585d18439481c6937115195cb8a7"
+              },
+              "save.json": {
+                "bytes": 10781,
+                "sha256": "f0fe48925a1a9422b9d561f580d9bce1eaa311b099c73f5009f5d58838199c2e"
+              }
+            }
+          },
+          {
+            "key": "singing-studio",
+            "companyId": "singing-studio",
+            "status": "created",
+            "directory": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\baseline-batch\\singing-studio",
+            "files": {
+              "input.json": {
+                "bytes": 3820,
+                "sha256": "a84a6d05a3c0a6b65fc6fb3fd810cfb584df200572a17f1a859803d65062daeb"
+              },
+              "layout.json": {
+                "bytes": 4278,
+                "sha256": "c1002f3b4d66d27a306f06aaa4a49c9c7f9471c5b80aad44f5550d489538a7ae"
+              },
+              "save.json": {
+                "bytes": 5954,
+                "sha256": "11ca3b0bbaa21fc247198e82a7050f555df8fc4bee05a9251be8334a3d669e08"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "singing-rental / validate original room",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\data\\rooms\\singing-rental\\save.json"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "id": "singing-rental",
+        "revision": 2,
+        "floors": [
+          "singing-rental/ground"
+        ]
+      }
+    },
+    {
+      "label": "singing-studio / validate original room",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\data\\rooms\\singing-studio\\save.json"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "id": "singing-studio",
+        "revision": 1,
+        "floors": [
+          "singing-studio/ground"
+        ]
+      }
+    },
+    {
+      "label": "reject edge obstruction in an existing batch output",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\source\\scripts\\company-platform\\batch.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\original-edge.batch.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\baseline-batch",
+        "--only",
+        "singing-studio"
+      ],
+      "exit": 1,
+      "stdout": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": false,
+        "results": [
+          {
+            "key": "singing-studio",
+            "status": "failed",
+            "code": "singing-score-occluded",
+            "path": "singing-studio/ground/live/edge-sight-panel",
+            "message": "singing-score-occluded at singing-studio/ground/live/edge-sight-panel: A reading sample is hidden from the performer eye.",
+            "details": {
+              "page": 2,
+              "side": "right",
+              "sample": {
+                "u": 0.92,
+                "v": 0.0711923,
+                "feature": "relief"
+              },
+              "target": [
+                0.88504,
+                1.0836761,
+                -0.2557669
+              ],
+              "eye": [
+                0,
+                1.64,
+                0.545
+              ],
+              "blocker": "background-surface",
+              "firstHit": {
+                "id": "singing-studio/ground/live/edge-sight-panel",
+                "mesh": "background-surface",
+                "point": [
+                  0.42,
+                  1.3759938,
+                  0.1649923
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "reject edge obstruction in ordinary edit",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\data\\rooms\\singing-studio\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\original-edge.ops.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\after-bad-edit"
+      ],
+      "exit": 1,
+      "stderr": {
+        "ok": false,
+        "code": "singing-score-occluded",
+        "path": "singing-studio/ground/live/edge-sight-panel",
+        "message": "singing-score-occluded at singing-studio/ground/live/edge-sight-panel: A reading sample is hidden from the performer eye.",
+        "details": {
+          "page": 2,
+          "side": "right",
+          "sample": {
+            "u": 0.92,
+            "v": 0.0711923,
+            "feature": "relief"
+          },
+          "target": [
+            0.88504,
+            1.0836761,
+            -0.2557669
+          ],
+          "eye": [
+            0,
+            1.64,
+            0.545
+          ],
+          "blocker": "background-surface",
+          "firstHit": {
+            "id": "singing-studio/ground/live/edge-sight-panel",
+            "mesh": "background-surface",
+            "point": [
+              0.42,
+              1.3759938,
+              0.1649923
+            ]
+          }
+        }
+      }
+    },
+    {
+      "label": "reject the detached admitted historical save",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\detached-edge.save.json"
+      ],
+      "exit": 1,
+      "stderr": {
+        "ok": false,
+        "code": "singing-score-occluded",
+        "path": "singing-studio/ground/live/edge-sight-panel",
+        "message": "singing-score-occluded at singing-studio/ground/live/edge-sight-panel: A reading sample is hidden from the performer eye.",
+        "details": {
+          "page": 2,
+          "side": "right",
+          "sample": {
+            "u": 0.92,
+            "v": 0.0711923,
+            "feature": "relief"
+          },
+          "target": [
+            0.88504,
+            1.0836761,
+            -0.2557669
+          ],
+          "eye": [
+            0,
+            1.64,
+            0.545
+          ],
+          "blocker": "background-surface",
+          "firstHit": {
+            "id": "singing-studio/ground/live/edge-sight-panel",
+            "mesh": "background-surface",
+            "point": [
+              0.42,
+              1.3759938,
+              0.1649923
+            ]
+          }
+        }
+      }
+    },
+    {
+      "label": "recover by removed through edit.mjs",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\detached-edge.save.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\removed.ops.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\removed-edit"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "id": "singing-studio",
+        "revision": 3,
+        "floors": [
+          "singing-studio/ground"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\removed-edit"
+      }
+    },
+    {
+      "label": "cold validate the removed save",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\removed-edit\\save.json"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "id": "singing-studio",
+        "revision": 3,
+        "floors": [
+          "singing-studio/ground"
+        ]
+      }
+    },
+    {
+      "label": "recover by removed through batch.mjs",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\source\\scripts\\company-platform\\batch.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\removed.batch.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\removed-batch",
+        "--only",
+        "singing-studio"
+      ],
+      "exit": 0,
+      "stdout": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": true,
+        "results": [
+          {
+            "key": "singing-studio",
+            "companyId": "singing-studio",
+            "status": "created",
+            "directory": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\removed-batch\\singing-studio",
+            "files": {
+              "input.json": {
+                "bytes": 4278,
+                "sha256": "4b9dc63ddfeee261fda86683545b24db38801685df3a83307393aadb637b3180"
+              },
+              "layout.json": {
+                "bytes": 4278,
+                "sha256": "c1002f3b4d66d27a306f06aaa4a49c9c7f9471c5b80aad44f5550d489538a7ae"
+              },
+              "save.json": {
+                "bytes": 5954,
+                "sha256": "11ca3b0bbaa21fc247198e82a7050f555df8fc4bee05a9251be8334a3d669e08"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "recover by moved through edit.mjs",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\detached-edge.save.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\moved.ops.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\moved-edit"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "id": "singing-studio",
+        "revision": 3,
+        "floors": [
+          "singing-studio/ground"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\moved-edit"
+      }
+    },
+    {
+      "label": "cold validate the moved save",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\moved-edit\\save.json"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "id": "singing-studio",
+        "revision": 3,
+        "floors": [
+          "singing-studio/ground"
+        ]
+      }
+    },
+    {
+      "label": "recover by moved through batch.mjs",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\source\\scripts\\company-platform\\batch.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\moved.batch.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\moved-batch",
+        "--only",
+        "singing-studio"
+      ],
+      "exit": 0,
+      "stdout": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": true,
+        "results": [
+          {
+            "key": "singing-studio",
+            "companyId": "singing-studio",
+            "status": "created",
+            "directory": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\moved-batch\\singing-studio",
+            "files": {
+              "input.json": {
+                "bytes": 4417,
+                "sha256": "6a58a866b2c3a6c7b46901cf313a542bef96eea8d2a5eac152e35591280fe906"
+              },
+              "layout.json": {
+                "bytes": 4673,
+                "sha256": "8b6d023f42ec1c7c2288d68ded7c4dca23fe46ec5025e4e94b42bf30ffe7156c"
+              },
+              "save.json": {
+                "bytes": 6385,
+                "sha256": "e3cba60e427b3036c9f43e2b877e085acb687438d9e6bf50d953be230f5071b7"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "publish both verified repairs as named rooms",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\singing-rooms-v1.1\\viewer",
+        "66de2c6a46fc",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\data\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\repaired-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\source",
+        "--room",
+        "singing-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\data\\rooms\\singing-rental\\save.json",
+        "--room",
+        "singing-studio",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\removed-edit\\save.json",
+        "--room",
+        "singing-studio-score-repositioned",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\moved-edit\\save.json"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "buildId": "66de2c6a46fc",
+        "companyId": "singing-studio",
+        "rooms": [
+          "singing-rental",
+          "singing-studio",
+          "singing-studio-score-repositioned"
+        ],
+        "files": 2101,
+        "output": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\repaired-package"
+      }
+    },
+    {
+      "label": "verify package repaired-package",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\repaired-package",
+        "fa288940d0ac2a2c765cf9b479018ac4e96718b5b727bbe55a73d590196b7a54"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "build": "66de2c6a46fc",
+        "manifestSha256": "fa288940d0ac2a2c765cf9b479018ac4e96718b5b727bbe55a73d590196b7a54",
+        "declaredFiles": 2101,
+        "checkedFiles": 2101,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "cold validate the packaged removed repair",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\repaired-package\\data\\rooms\\singing-studio\\save.json"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "id": "singing-studio",
+        "revision": 3,
+        "floors": [
+          "singing-studio/ground"
+        ]
+      }
+    },
+    {
+      "label": "cold validate the packaged moved repair",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\repaired-package\\data\\rooms\\singing-studio-score-repositioned\\save.json"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "id": "singing-studio",
+        "revision": 3,
+        "floors": [
+          "singing-studio/ground"
+        ]
+      }
+    },
+    {
+      "label": "reject edge obstruction in package default scene",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\singing-rooms-v1.1\\viewer",
+        "66de2c6a46fc",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\detached-edge.save.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\rejected-default-scene",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\source",
+        "--room",
+        "singing-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\data\\rooms\\singing-rental\\save.json",
+        "--room",
+        "singing-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\data\\rooms\\singing-studio\\save.json"
+      ],
+      "exit": 1,
+      "stderr": {
+        "ok": false,
+        "code": "singing-score-occluded",
+        "path": "singing-studio/ground/live/edge-sight-panel",
+        "message": "singing-score-occluded at singing-studio/ground/live/edge-sight-panel: A reading sample is hidden from the performer eye.",
+        "details": {
+          "page": 2,
+          "side": "right",
+          "sample": {
+            "u": 0.92,
+            "v": 0.0711923,
+            "feature": "relief"
+          },
+          "target": [
+            0.88504,
+            1.0836761,
+            -0.2557669
+          ],
+          "eye": [
+            0,
+            1.64,
+            0.545
+          ],
+          "blocker": "background-surface",
+          "firstHit": {
+            "id": "singing-studio/ground/live/edge-sight-panel",
+            "mesh": "background-surface",
+            "point": [
+              0.42,
+              1.3759938,
+              0.1649923
+            ]
+          }
+        }
+      }
+    },
+    {
+      "label": "reject edge obstruction in package named studio scene",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\singing-rooms-v1.1\\viewer",
+        "66de2c6a46fc",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\data\\save.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\rejected-named-studio-scene",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\source",
+        "--room",
+        "singing-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\data\\rooms\\singing-rental\\save.json",
+        "--room",
+        "singing-studio",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\detached-edge.save.json"
+      ],
+      "exit": 1,
+      "stderr": {
+        "ok": false,
+        "code": "singing-score-occluded",
+        "path": "singing-studio/ground/live/edge-sight-panel",
+        "message": "singing-score-occluded at singing-studio/ground/live/edge-sight-panel: A reading sample is hidden from the performer eye.",
+        "details": {
+          "page": 2,
+          "side": "right",
+          "sample": {
+            "u": 0.92,
+            "v": 0.0711923,
+            "feature": "relief"
+          },
+          "target": [
+            0.88504,
+            1.0836761,
+            -0.2557669
+          ],
+          "eye": [
+            0,
+            1.64,
+            0.545
+          ],
+          "blocker": "background-surface",
+          "firstHit": {
+            "id": "singing-studio/ground/live/edge-sight-panel",
+            "mesh": "background-surface",
+            "point": [
+              0.42,
+              1.3759938,
+              0.1649923
+            ]
+          }
+        }
+      }
+    },
+    {
+      "label": "verify package repaired-package",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\repaired-package",
+        "fa288940d0ac2a2c765cf9b479018ac4e96718b5b727bbe55a73d590196b7a54"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "build": "66de2c6a46fc",
+        "manifestSha256": "fa288940d0ac2a2c765cf9b479018ac4e96718b5b727bbe55a73d590196b7a54",
+        "declaredFiles": 2101,
+        "checkedFiles": 2101,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "retry the unmodified original batch",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\singing-score-receiver-v1\\dual\\source\\scripts\\company-platform\\batch.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\baseline-batch.json",
+        "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\baseline-batch"
+      ],
+      "exit": 0,
+      "stdout": {
+        "schema": "company-batch-run",
+        "version": 1,
+        "ok": true,
+        "results": [
+          {
+            "key": "singing-rental",
+            "companyId": "singing-rental",
+            "status": "idempotent",
+            "directory": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\baseline-batch\\singing-rental",
+            "files": {
+              "input.json": {
+                "bytes": 3969,
+                "sha256": "cb36bc1acee3f09307eef3f436b62dcef0b545942f452365c7211b5ccf250de5"
+              },
+              "layout.json": {
+                "bytes": 8135,
+                "sha256": "99a95d09040034a42f276bf30a228d63f0f6585d18439481c6937115195cb8a7"
+              },
+              "save.json": {
+                "bytes": 10781,
+                "sha256": "f0fe48925a1a9422b9d561f580d9bce1eaa311b099c73f5009f5d58838199c2e"
+              }
+            }
+          },
+          {
+            "key": "singing-studio",
+            "companyId": "singing-studio",
+            "status": "idempotent",
+            "directory": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\baseline-batch\\singing-studio",
+            "files": {
+              "input.json": {
+                "bytes": 3820,
+                "sha256": "a84a6d05a3c0a6b65fc6fb3fd810cfb584df200572a17f1a859803d65062daeb"
+              },
+              "layout.json": {
+                "bytes": 4278,
+                "sha256": "c1002f3b4d66d27a306f06aaa4a49c9c7f9471c5b80aad44f5550d489538a7ae"
+              },
+              "save.json": {
+                "bytes": 5954,
+                "sha256": "11ca3b0bbaa21fc247198e82a7050f555df8fc4bee05a9251be8334a3d669e08"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "verify package singing-rooms-v1.1",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\singing-rooms-v1.1",
+        "a73a9c41ee20c42bbd8defd969bcda754c22ab65d3d35f980238eb77832c3873"
+      ],
+      "exit": 0,
+      "stdout": {
+        "ok": true,
+        "build": "66de2c6a46fc",
+        "manifestSha256": "a73a9c41ee20c42bbd8defd969bcda754c22ab65d3d35f980238eb77832c3873",
+        "declaredFiles": 2107,
+        "checkedFiles": 2107,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    }
+  ],
+  "original": {
+    "ok": true,
+    "build": "66de2c6a46fc",
+    "manifestSha256": "a73a9c41ee20c42bbd8defd969bcda754c22ab65d3d35f980238eb77832c3873",
+    "declaredFiles": 2107,
+    "checkedFiles": 2107,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "pinnedWorkingFiles": 1509,
+  "rooms": [
+    "singing-rental",
+    "singing-studio"
+  ],
+  "originalOperationSha256": "3b005d95fcbfec8b39cbb5847c8f5fd52b4567877ad2373bf1f0c3c36ac2fb1f",
+  "detachedEdgeSaveSha256": "2fcbf862059c5df0928381e21a5733efac1d0942d4ec56a452400e55e0438783",
+  "output": {
+    "receipt": {
+      "ok": true,
+      "build": "66de2c6a46fc",
+      "manifestSha256": "fa288940d0ac2a2c765cf9b479018ac4e96718b5b727bbe55a73d590196b7a54",
+      "declaredFiles": 2101,
+      "checkedFiles": 2101,
+      "extraFiles": 0,
+      "changedFiles": 0,
+      "missingFiles": 0
+    },
+    "file": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\repaired-package\\transfer-manifest.json"
+  },
+  "repairs": [
+    {
+      "tag": "removed",
+      "save": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\removed-edit\\save.json",
+      "sha256": "6f9ee6a512ebf176cd33a2a2a10a8a0580cd6d824c4d1b770f1a8d77968d6bc0"
+    },
+    {
+      "tag": "moved",
+      "save": "F:\\gamemake-company-platform-c1\\output\\singing-score\\entry-tests\\fixed-dual-01\\moved-edit\\save.json",
+      "sha256": "a9e3c4e259f05f6d960ecc1fd0c9c7c812b8d7fdcf054a64e328a31185362507"
+    }
+  ],
+  "workingFilesPreserved": 1509,
+  "originalPreserved": {
+    "ok": true,
+    "build": "66de2c6a46fc",
+    "manifestSha256": "a73a9c41ee20c42bbd8defd969bcda754c22ab65d3d35f980238eb77832c3873",
+    "declaredFiles": 2107,
+    "checkedFiles": 2107,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  }
+}
