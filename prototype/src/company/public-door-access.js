@@ -137,3 +137,29 @@ export function checkRoomDoorAccess({scene,derived,facilities,floor,placement,ro
   throw new CompanyError('room-door-unreachable',portalId,'No clear physical route from a connected entrance to every authored indoor route.',
     {roomId:room.id,missing:Object.keys(targets).filter(k=>!report[k]),checkedPortals:blocked,thresholdBlockers:[...blockers]});
 }
+
+export function lobbyApproach(scene,derived,facilities,placement,floor,peerId,{radius=.25,height=1.90,code='washroom-public-entry'}={}) {
+  const lobby=[...derived.nodes.values()].find(n=>n.kind==='area'&&n.publicRole==='lobby'&&derived.floorIds.get(n.id)===floor.floorId);
+  if(!lobby)throw new CompanyError(code,peerId,'A public lobby is required on the same floor.');
+  const paths=new Map([[lobby.id,[]]]),queue=[lobby.id];
+  for(let i=0;i<queue.length&&!paths.has(peerId);i++){
+    const current=queue[i];
+    for(const connection of floor.connections){
+      const sides=[connection.from.regionId,connection.to.regionId];
+      const other=sides[0]===current?sides[1]:sides[1]===current?sides[0]:null;
+      if(!other||derived.nodes.get(other)?.kind!=='area'||paths.has(other))continue;
+      paths.set(other,[...paths.get(current),{regionId:other,portalId:connection.id}]);queue.push(other);
+    }
+  }
+  if(!paths.has(peerId))throw new CompanyError(code,peerId,'The entry must connect to the public lobby through public regions.');
+  const legs=[];
+  for(const step of paths.get(peerId)){
+    const room=derived.nodes.get(step.regionId);
+    const entry=placement.rooms.find(r=>r.id===room.id).entry;
+    const result=checkRoomDoorAccess({scene,derived,facilities,placement,floor,room,portalId:step.portalId,
+      targets:{entry:[entry[0],entry[2]]},radius,height}).entry;
+    if(result.portalId!==step.portalId)throw new CompanyError(code,step.portalId,'A public link is physically blocked.');
+    legs.push({to:room.id,...result});
+  }
+  return {lobbyId:lobby.id,lobbyEntry:placement.rooms.find(r=>r.id===lobby.id).entry,legs};
+}

@@ -37,6 +37,10 @@ try{
   }else if(command!=='validate')throw Error('Use validate INPUT_SAVE or apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY');
   const constraint=bindTrainingDocument(document,binding,input,context);
   const derived=documentTools.deriveCompany(document,catalog,templates);
+  if (Object.hasOwn(document,'meetingRooms') || document.nodes.some(node=>node.publicRole==='meeting-training')) {
+    const {checkMeetingRooms}=await import('./source/scripts/company-platform/check-meeting-room.mjs');
+    await checkMeetingRooms(document,{catalog,templates,derived,root:path.join(root,'source')});
+  }
   if (Object.hasOwn(document,'publicWashrooms') || derived.facilities.some(item=>item.resource.mountRole==='public-washbasin')) {
     const {checkPublicWashrooms}=await import('./source/scripts/company-platform/check-public-washroom.mjs');
     await checkPublicWashrooms(document,{catalog,templates,derived,root:path.join(root,'source')});

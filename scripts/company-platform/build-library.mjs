@@ -40,11 +40,13 @@ export async function buildLibrary(plan, collections = new Map()) {
   // This reuses display geometry and is not a newly produced appearance.
   for(const adapter of plan.adapters||[]) {
     const adapterKeys = Object.keys(adapter).sort();
-    if(!adapterKeys.every(key=>['after','id','mountRole','source','usePoints','version'].includes(key)) || !['id','mountRole','source','usePoints','version'].every(key=>adapterKeys.includes(key)))throw Error('Unsupported resource adapter fields');
+    if(!adapterKeys.every(key=>['after','displayName','id','mountRole','source','usePoints','version'].includes(key)) || !['id','mountRole','source','usePoints','version'].every(key=>adapterKeys.includes(key)))throw Error('Unsupported resource adapter fields');
+    if(Object.hasOwn(adapter,'displayName')&&(typeof adapter.displayName!=='string'||!adapter.displayName.trim()))throw Error('Expected a nonempty adapter display name');
     const source=catalog.resources.find(r=>r.id===adapter.source.id&&r.version===adapter.source.version);
     if(!source||createHash('sha256').update(JSON.stringify(source)).digest('hex')!==adapter.source.sha256)throw Error(`Resource adapter source differs: ${adapter.id}`);
     if(catalog.resources.some(r=>r.id===adapter.id&&r.version===adapter.version))throw Error(`Duplicate adapter identity: ${adapter.id}`);
     const adapted={...structuredClone(source),id:adapter.id,version:adapter.version,mountRole:adapter.mountRole,usePoints:structuredClone(adapter.usePoints),
+      ...(adapter.displayName===undefined?{}:{displayName:adapter.displayName}),
       provenance:{...structuredClone(source.provenance),functionalAdapter:{source:adapter.source,input:'scripts/company-platform/library-inputs.json',scope:'Explicit approach/exit adaptation; same source geometry, not a new appearance.'}}};
     await validateResourceProvenance({root,resource:adapted,label:`${adapted.id}@${adapted.version}`});
     if(adapter.after){const afterIndex=catalog.resources.findIndex(resource=>`${resource.id}@${resource.version}`===adapter.after);if(afterIndex<0)throw Error(`Resource adapter insertion point missing: ${adapter.after}`);catalog.resources.splice(afterIndex+1,0,adapted);}else catalog.resources.push(adapted);

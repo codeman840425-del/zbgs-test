@@ -525,6 +525,9 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       const tea = Object.hasOwn(declaration,'teaStations') ? declaration.teaStations : declaration.document?.teaStations;
       if (JSON.stringify(canonical(tea)) !== JSON.stringify(canonical(document.teaStations)))
         fail('tea-station-binding-mismatch',input,'Saved tea station members, service clearance or passage differs from the batch declaration');
+      const meetings=Object.hasOwn(declaration,'meetingRooms') ? declaration.meetingRooms : declaration.document?.meetingRooms;
+      if (JSON.stringify(canonical(meetings))!==JSON.stringify(canonical(document.meetingRooms)))
+        fail('meeting-room-binding-mismatch',input,'Saved meeting room declaration differs from the authored room');
       const washrooms=Object.hasOwn(declaration,'publicWashrooms') ? declaration.publicWashrooms : declaration.document?.publicWashrooms;
       if (JSON.stringify(canonical(washrooms))!==JSON.stringify(canonical(document.publicWashrooms)))
         fail('washroom-binding-mismatch',input,'Saved washroom fixtures or service space differ from the authored room');
@@ -569,6 +572,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       }
     }
     const derived = documentTools.deriveCompany(document,catalog,templates);
+    if (Object.hasOwn(document,'meetingRooms') || document.nodes.some(node=>node.publicRole==='meeting-training')) {
+      const checker=await noLinks(path.join(source,'scripts/company-platform/check-meeting-room.mjs'));
+      const {checkMeetingRooms}=await import(pathToFileURL(checker).href);
+      await checkMeetingRooms(document,{catalog,templates,derived,root:source});
+    }
     if(Object.hasOwn(document,'publicWashrooms')||derived.facilities.some(item=>item.resource.mountRole==='public-washbasin')) {
       const checker=await noLinks(path.join(source,'scripts/company-platform/check-public-washroom.mjs'));
       const {checkPublicWashrooms}=await import(pathToFileURL(checker).href);
@@ -676,6 +684,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   let verifyWallHvacSources;
   let verifyEquipmentCartSources;
   let verifyWashbasinSources,verifyWashroomDispenserSources,verifyPrintedSignSources;
+  if (catalog.resources.some(r=>r.mountRole==='meeting-chair-side-entry')) {
+    for (const entry of ['check-meeting-room.mjs','test-meeting-room.mjs','test-public-area-extensions.mjs','qa-meeting-rooms.cjs','batch-inputs/public-meeting-rooms.json'])
+      supplemental.add('scripts/company-platform/'+entry);
+    supplemental.add('docs/research/COMPANY-MEETING-ROOM-HANDOFF.md');
+  }
   if(catalog.resources.some(r=>r.productionBranch==='sanitary-support' && ['public-washbasin','washroom-dispenser'].includes(r.mountRole))){
     const verifier=await noLinks(path.join(source,'scripts/company-platform/validate-resource-provenance.mjs'));
     ({verifyWashbasinSources,verifyWashroomDispenserSources,verifyPrintedSignSources}=await import(pathToFileURL(verifier).href));
@@ -936,6 +949,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     add(`source/${name}`,bytes,'editable-production-source');
   }
   let readme=(await read(toolRoot,'package-template/README.template.md')).toString('utf8').replaceAll('{{BUILD_ID}}',buildId).replaceAll('{{SOURCE_DIGEST}}',info.sourceDigest);
+  if(document.meetingRooms?.length)readme+='\n四套公共会议区各自带有楼层入口和座位检查，可按房名直达。见[制作、改款与复验](source/docs/research/COMPANY-MEETING-ROOM-HANDOFF.md)。\n';
   if(document.publicWashrooms?.length)readme+='\n本包的公共洗手区可直接按楼层和区域打开。接收方可制作另一款台面或皂液器，再通过同一命令检查实际门口、站位和台盆。[查看制作与预览说明](source/docs/research/COMPANY-PUBLIC-WASHROOM-HANDOFF.md)\n';
   add('README.md',Buffer.from(readme,'utf8'),'handoff-instructions');add('serve.mjs',await read(toolRoot,'package-template/serve.mjs'),'local-http-viewer');
   add('edit.mjs',await read(toolRoot,'package-template/edit.mjs'),'standalone-data-editor');

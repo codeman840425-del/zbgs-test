@@ -4,20 +4,28 @@ import {createCompanySaveStore,encodeCompanySave,decodeCompanySave} from './pers
 import {inspectCompanyPlacement} from './placement.js';
 import {installationGeometryFacilities} from './desktop-placement.js';
 import {publicWashroomFloors,measurePublicWashroomFloor,shouldCheckPublicWashrooms} from './public-washroom.js';
+import {meetingRoomFloors,measureMeetingRoomFloor,shouldCheckMeetingRooms} from './meeting-room.js';
 import {prepareTemplateUpgrade} from './upgrade.js';
 
 // Agent-facing authoring transactions. No character, movement, task or lease state.
 export async function createCompanyAuthoring(world,initialDocument,{catalog,templates,storage,assetLibrary,mirrorPreflight,mirrorRenderProfile,isUsePointBusy=()=>false}={}) {
   let generation=0,disposed=false;
   const pendingPreloads=new Map();
-  let verifiedWashroomFloors=new Map();
-  function washroomChecks(document,derived) {
-    return publicWashroomFloors(document,derived).map(group=>{
-      const nodes=document.nodes.filter(node=>derived.floorIds.get(node.id)===group.id);
-      const signature=JSON.stringify([document.id,nodes,group.bindings.map(b=>b.rule),
-        group.resources.map(r=>[r.id,r.version,r.asset?.sha256])]);
-      return {group,signature,changed:verifiedWashroomFloors.get(group.id)!==signature};
-    });
+  let verifiedRoomFloors=new Map();
+  function physicalRoomChecks(document,derived) {
+    const checks=[];
+    function addGroups(kind,groups,measure) {
+      for (const group of groups) {
+        const key=kind+'/'+group.id;
+        const nodes=document.nodes.filter(node=>derived.floorIds.get(node.id)===group.id);
+        const signature=JSON.stringify([document.id,nodes,group.bindings.map(b=>b.rule),
+          group.resources.map(r=>[r.id,r.version,r.asset?.sha256])]);
+        checks.push({key,group,measure,signature,changed:verifiedRoomFloors.get(key)!==signature});
+      }
+    }
+    addGroups('washroom',publicWashroomFloors(document,derived),measurePublicWashroomFloor);
+    addGroups('meeting',meetingRoomFloors(document,derived),measureMeetingRoomFloor);
+    return checks;
   }
   const store=createCompanySaveStore({storage,catalog,templates});
   function resources(document,view={},contacts=[]) {
@@ -31,8 +39,8 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
     const derived=checkInstallation?deriveCompany(document,catalog,templates):null;
     const installations=derived?installationGeometryFacilities(derived):[];
     const heightResources=changedHeightIds.length?derived.facilities.filter(f=>changedHeightIds.includes(f.id)).map(f=>f.resource):[];
-    const washrooms=derived?washroomChecks(document,derived):[];
-    const changed=washrooms.filter(row=>row.changed);
+    const checks=derived?physicalRoomChecks(document,derived):[];
+    const changed=checks.filter(row=>row.changed);
     const requested=[...resources(document,view),...installations.map(f=>f.resource),...heightResources,
       ...changed.flatMap(row=>row.group.resources)];
     if(token!==null)pendingPreloads.set(token,requested);
@@ -41,8 +49,8 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
     if(token!==null)latest(token);
     if(derived){
       validateCeilingDocumentAssets(derived,assetLibrary,installations);
-      for(const {group} of changed)measurePublicWashroomFloor(document,derived,placement,group,{catalog,templates,assetLibrary});
-      verifiedWashroomFloors=new Map(washrooms.map(row=>[row.group.id,row.signature]));
+      for(const {group,measure} of changed)measure(document,derived,placement,group,{catalog,templates,assetLibrary});
+      verifiedRoomFloors=new Map(checks.map(row=>[row.key,row.signature]));
     }
     return document;
   }
@@ -65,14 +73,14 @@ export async function createCompanyAuthoring(world,initialDocument,{catalog,temp
   }
   function checkedSnapshot() {
     const document=scene.document,snapshot={document,token:generation};
-    if(!shouldCheckPublicWashrooms(document,{catalog}))return snapshot;
+    if(!shouldCheckPublicWashrooms(document,{catalog}) && !shouldCheckMeetingRooms(document,{catalog}))return snapshot;
     const derived=deriveCompany(document,catalog,templates);
-    if(!washroomChecks(document,derived).some(row=>row.changed))return snapshot;
+    if(!physicalRoomChecks(document,derived).some(row=>row.changed))return snapshot;
     // A host can edit the exposed scene directly. Validate a fresh snapshot before writing it.
     return transaction(async token=>{
       await preload(document,scene.view,token);latest(token);
       if(scene.revision!==document.revision||scene.document.id!==document.id)
-        throw new CompanyError('revision-conflict','washroom','The edited floor changed before it could be saved');
+        throw new CompanyError('revision-conflict','authoring','The edited floor changed before it could be saved');
       return {document,token};
     });
   }

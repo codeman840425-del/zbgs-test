@@ -1,7 +1,8 @@
 import { createCompany, identityTransform, prepareCompanyChange } from './document.js';
 import { inspectCompanyConnections } from './space.js';
 import { inspectCompanyPlacement } from './placement.js';
-import { COMPANY_SPACE_V2, MAX_CONFIGURED_FLOORS } from './scale-profile.js';
+import { ATTACHED_PUBLIC_ROLE, COMPANY_SPACE_V2, MAX_CONFIGURED_FLOORS, REQUIRED_PUBLIC_ROLES,
+  supportsAttachedPublicArea, validatePublicAreaOpening } from './scale-profile.js';
 
 // The v2 scale grammar keeps the old rectangular authoring primitives. A room
 // is either one 18 m² A (4.5 x 4) or two A (6 x 6). Public areas are separate
@@ -9,7 +10,14 @@ import { COMPANY_SPACE_V2, MAX_CONFIGURED_FLOORS } from './scale-profile.js';
 const ID = /^[A-Za-z0-9][A-Za-z0-9_.:/-]*$/;
 const PURPOSES = new Set(['streaming', 'work', 'rest', 'training']);
 const REQUIRED_ROOMS = { 'small-home': 1, 'single-room': 1, 'rental-home': 3, 'leased-floor': 16, building: 16 };
-const PUBLIC_ROLES = ['corridor', 'lobby', 'lift-access', 'stair-access', 'restroom-access'];
+const PUBLIC_ROLES = [...REQUIRED_PUBLIC_ROLES, ATTACHED_PUBLIC_ROLE];
+const PUBLIC_AREA_ID = /^[A-Za-z0-9][A-Za-z0-9_.-]*$/;
+const PUBLIC_AREA_EDGES = {
+  north: { opposite:'south', normal:2, tangent:0, size:'depth', sign:-1 },
+  south: { opposite:'north', normal:2, tangent:0, size:'depth', sign:1 },
+  west: { opposite:'east', normal:0, tangent:2, size:'width', sign:-1 },
+  east: { opposite:'west', normal:0, tangent:2, size:'width', sign:1 },
+};
 // These defaults expand the authoring shorthand. Saves already pin each instance.
 const FURNISHINGS = {
   1: { station: { id: 'stream-station', version: 1 }, chair: { id: 'chair', version: 1 } },
@@ -68,6 +76,34 @@ function addPublicAreas(document, floor) {
   connect(floor, 'portal-lobby-stair', { regionId: areas.lobby.id, edge: 'south', offset: 0 }, { regionId: areas.stair.id, edge: 'north', offset: 0 });
   connect(floor, 'portal-stair-restroom', { regionId: areas.stair.id, edge: 'south', offset: 0 }, { regionId: areas.restroom.id, edge: 'north', offset: 0 });
   return areas;
+}
+
+function addAttachedPublicAreas(document, floor, inputs, location, relocatablePlants) {
+  const hostAreas = new Map(document.nodes.filter(node => node.kind === 'area' && node.parentId === floor.id &&
+    REQUIRED_PUBLIC_ROLES.includes(node.publicRole)).map(node => [node.id.slice(floor.id.length + 1), node]));
+  for (const [index, input] of inputs.entries()) {
+    const path = `${location}[${index}]`;
+    const { id, name, role, width, depth, connect: door } = input;
+    const areaId = `${floor.id}/${id}`;
+    if (document.nodes.some(node => node.id === areaId))
+      fail('duplicate-id', path+'.id', 'The attached area ID is already assigned on this floor');
+    const host = hostAreas.get(door.areaId);
+    if (!host)
+      fail('invalid-public-area-host', path+'.connect.areaId', 'Use the short ID of an existing public area on this floor',
+        {areaId:door.areaId});
+    validatePublicAreaOpening(host.bounds, door, path+'.connect', fail);
+    const { opposite, normal, tangent, size, sign } = PUBLIC_AREA_EDGES[door.edge];
+    validatePublicAreaOpening({ width, depth }, { edge:opposite, offset:0, width:door.width }, path+'.connect', fail);
+    const bounds = { width, depth }, position = [...host.transform.position], entry = [0, 0, 0];
+    position[normal] += sign * (host.bounds[size] + bounds[size]) / 2;
+    position[tangent] += door.offset;
+    entry[normal] = -sign * (bounds[size] / 2 - .55);
+    const area = region(document, floor, { id, kind:'area', name, publicRole:role, width, depth, position, entry });
+    connect(floor, 'portal-'+id, { regionId:host.id, edge:door.edge, offset:door.offset },
+      { regionId:area.id, edge:opposite, offset:0 }, door.width);
+    if (host.publicRole === 'lobby' && door.edge === 'west')
+      relocatablePlants.set(`${floor.id}/portal-${id}`, `${host.id}/plant`);
+  }
 }
 
 function addFullFloorRooms(document, floor, roomInputs, scale) {
@@ -217,7 +253,7 @@ function validateInput(input) {
   const ids = new Set();
   for (const [index, floor] of input.floors.entries()) {
     if (!floor || typeof floor !== 'object' || Array.isArray(floor)) fail('invalid-space-input', `input.floors[${index}]`, 'Floor must be an object');
-    knownFields(floor,['id','name','rooms','exteriorEntrances'],`input.floors[${index}]`);
+    knownFields(floor,['id','name','rooms','exteriorEntrances','publicAreas'],`input.floors[${index}]`);
     checkId(floor.id, `input.floors[${index}].id`); text(floor.name, `input.floors[${index}].name`);
     if (ids.has(floor.id)) fail('duplicate-id', `input.floors[${index}].id`, 'Floor IDs must be globally unique'); ids.add(floor.id);
     if (floor.rooms !== undefined && !Array.isArray(floor.rooms)) fail('invalid-space-input', `input.floors[${index}].rooms`, 'Rooms must be an array when provided');
@@ -233,6 +269,25 @@ function validateInput(input) {
       if (roomIds.has(room.id)) fail('duplicate-id', `input.floors[${index}].rooms[${roomIndex}].id`, 'Room IDs must be unique within their floor'); roomIds.add(room.id);
       if (room.purpose !== undefined && !PURPOSES.has(room.purpose)) fail('invalid-room-purpose', room.id, String(room.purpose));
     }
+    const location = `input.floors[${index}].publicAreas`;
+    if (floor.publicAreas !== undefined && !Array.isArray(floor.publicAreas))
+      fail('invalid-space-input', location, 'Public areas must be an array when provided');
+    if (floor.publicAreas?.length && !supportsAttachedPublicArea(input.scale))
+      fail('invalid-public-area-placement', location, 'Configure attached public areas on a full floor or a building floor');
+    for (const [areaIndex, area] of (floor.publicAreas ?? []).entries()) {
+      const path = `${location}[${areaIndex}]`;
+      knownFields(area, ['id','name','role','width','depth','connect'], path);
+      if (typeof area.id !== 'string' || !PUBLIC_AREA_ID.test(area.id))
+        fail('invalid-id', path+'.id', 'Use a stable short ID for this area');
+      text(area.name, path+'.name');
+      if (area.role !== ATTACHED_PUBLIC_ROLE)
+        fail('unsupported-public-role', path+'.role', 'Use the meeting-training role for an attached public area');
+      if (![area.width,area.depth].every(dimension => Number.isFinite(dimension) && dimension >= 3 && dimension <= 20))
+        fail('invalid-public-area-size', path, 'Use rectangular width and depth from 3 to 20 metres');
+      knownFields(area.connect, ['areaId','edge','offset','width'], path+'.connect');
+      if (typeof area.connect.areaId !== 'string' || !PUBLIC_AREA_ID.test(area.connect.areaId))
+        fail('invalid-public-area-host', path+'.connect.areaId', 'Use the short ID of an existing public area on this floor');
+    }
   }
 }
 
@@ -243,7 +298,7 @@ export function createCompanyScaleV2(input, catalog, templates) {
   document.spaceProfile = { ...COMPANY_SPACE_V2 };
   document.scale = input.scale;
   document.nodes = [];
-  const operations = [];
+  const operations = [], relocatablePlants = new Map();
   for (const [floorIndex, floorInput] of input.floors.entries()) {
     const floor = { id: `${document.id}/${floorInput.id}`, kind: 'floor', parentId: document.id,
       name: floorInput.name ?? floorInput.id, transform: identityTransform(), connections: [] };
@@ -257,6 +312,8 @@ export function createCompanyScaleV2(input, catalog, templates) {
         return {...e,id:`${floor.id}/${e.id}`,regionId:`${floor.id}/${e.regionId}`};
       });
     }else if(input.scale==='small-home')floor.exteriorEntrances=[{id:`${rooms[0].id}/exterior-entry`,regionId:rooms[0].id,edge:'south',offset:-1.2,width:1.4,height:2.2}];
+    if (floorInput.publicAreas?.length)
+      addAttachedPublicAreas(document, floor, floorInput.publicAreas, `input.floors[${floorIndex}].publicAreas`, relocatablePlants);
     for (const [index, room] of rooms.entries()) {
       const roomInput = (floorInput.rooms ?? [])[index] ?? {};
       operations.push(...stationOperations(room, { ...roomInput, purpose: room.purpose }, input.scale, furnishings));
@@ -272,10 +329,23 @@ export function createCompanyScaleV2(input, catalog, templates) {
     }
     if (floorIndex > 0 && input.scale !== 'building') fail('space-floor-capacity', `input.floors[${floorIndex}]`, 'This scale supports one floor');
   }
-  const result = operations.length ? prepareCompanyChange(document, operations, { catalog, templates }).document : document;
-  inspectCompanyConnections(result, catalog, templates);
-  inspectCompanyPlacement(result, catalog, templates);
-  return result;
+  for (;;) {
+    const result = operations.length ? prepareCompanyChange(document, operations, { catalog, templates }).document : document;
+    inspectCompanyConnections(result, catalog, templates);
+    try {
+      inspectCompanyPlacement(result, catalog, templates);
+      return result;
+    } catch (error) {
+      const plantId = relocatablePlants.get(error.path);
+      if (error.code !== 'blocked-portal' || !plantId || error.details?.obstacleId !== plantId) throw error;
+      const plant = operations.find(operation => operation.id === plantId);
+      if (!plant) throw error;
+      // An explicit west doorway may occupy the usual default planter reserve.
+      // Retain the planter ID and recheck every doorway after moving it.
+      plant.transform = transform([2.6, 0, 1.0]);
+      relocatablePlants.delete(error.path);
+    }
+  }
 }
 
 export const scaleV2Constants = Object.freeze({ COMPANY_SPACE_V2, REQUIRED_ROOMS, PUBLIC_ROLES, epsilon });

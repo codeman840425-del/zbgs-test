@@ -51,7 +51,7 @@ export const appearanceBranches=[
  ['sliding-drawer-cabinet','单抽屉收纳柜'],
  ['storage-shelf','多层开放架'],['tabletop-ornament','台面陈列摆件'],
  ['cart-and-equipment-storage','器材推车'],
- ['desk','桌子'],['chair','单人座椅'],['sofa','双人沙发'],['monitor','屏幕'],['fill-light','补光系统'],['desk-lamp','桌面台灯'],
+ ['desk','桌子'],['chair','单人座椅'],['meeting-chair-side-entry','桌边会议椅'],['sofa','双人沙发'],['monitor','屏幕'],['fill-light','补光系统'],['desk-lamp','桌面台灯'],
  ['ambient-led-and-neon','墙挂氛围灯'],['plant-desktop-installation','桌面盆栽'],
  ['fan-and-air-purifier','落地风扇与净化器'],
  ['hvac','壁挂空调'],
@@ -211,7 +211,7 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
  let target;
  if(partKeys[branch]&&!['chair','fill-light'].includes(branch)){target=`${station}/${partKeys[branch]}`;ops.push({type:'replace-resource',id:target,resource:{id:selected.id,version:selected.version}});}
  else {
-   const transforms={sofa:[[-2.8,0,1.7],0],chair:[[-2.8,0,1.7],0],'fill-light':[[-2.8,0,1.7],0],plant:[[3.4,0,1.8],0],'wall-art':[[0,1.4,-3.4],0],
+   const transforms={sofa:[[-2.8,0,1.7],0],chair:[[-2.8,0,1.7],0],'meeting-chair-side-entry':[[-2.8,0,1.7],0],'fill-light':[[-2.8,0,1.7],0],plant:[[3.4,0,1.8],0],'wall-art':[[0,1.4,-3.4],0],
      'wall-panel':[[-2,0,-3.4],0],'window-panel':[[2,1.4,-3.4],0],'door-frame':[[0,0,3.4],Math.PI],
      'mouse-and-pad':[[.5,.84,.21],0], 'phone-static':[[.52,.84,.05],0], 'background-fabric':[[0,0,-2.65],0],
      'ambient-led-and-neon':[[0,1.4,-3.4],0], 'plant-desktop-installation':[[-.70,.84,-.25],0],

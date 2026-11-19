@@ -4,7 +4,7 @@ import {inspectCompanyConnections} from './space.js';
 import {overlapsObstacle} from './wardrobe-footprints.js';
 import {createCompanyScene} from './render.js';
 import {scanRoomMeshes,rayHit,triangles} from './room-mesh-geometry.js';
-import {checkRoomDoorAccess} from './public-door-access.js';
+import {checkRoomDoorAccess,lobbyApproach} from './public-door-access.js';
 
 const radius=.25,height=1.90,contact=.002;
 const vector=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
@@ -48,32 +48,6 @@ function bind(rule,derived,used){
     members.mirror.resource.mount==='wall'&&members.dispenser.resource.mount==='wall',
     'washroom-mount',area.id,'The basin and sign require a floor, the mirror and dispenser a wall.');
   return {rule,area,...members};
-}
-
-function lobbyApproach(scene,derived,facilities,placement,floor,peerId) {
-  const lobby=[...derived.nodes.values()].find(n=>n.kind==='area'&&n.publicRole==='lobby'&&derived.floorIds.get(n.id)===floor.floorId);
-  requireThat(lobby,'washroom-public-entry',peerId,'A public lobby is needed on the washroom floor.');
-  const paths=new Map([[lobby.id,[]]]),queue=[lobby.id];
-  for(let i=0;i<queue.length&&!paths.has(peerId);i++){
-    const current=queue[i];
-    for(const connection of floor.connections){
-      const sides=[connection.from.regionId,connection.to.regionId];
-      const other=sides[0]===current?sides[1]:sides[1]===current?sides[0]:null;
-      if(!other||derived.nodes.get(other)?.kind!=='area'||paths.has(other))continue;
-      paths.set(other,[...paths.get(current),{regionId:other,portalId:connection.id}]);queue.push(other);
-    }
-  }
-  requireThat(paths.has(peerId),'washroom-public-entry',peerId,'The washroom entry must connect to the public lobby through public regions.');
-  const legs=[];
-  for(const step of paths.get(peerId)){
-    const room=derived.nodes.get(step.regionId);
-    const entry=placement.rooms.find(r=>r.id===room.id).entry;
-    const result=checkRoomDoorAccess({scene,derived,facilities,placement,floor,room,portalId:step.portalId,
-      targets:{entry:[entry[0],entry[2]]},radius,height}).entry;
-    requireThat(result.portalId===step.portalId,'washroom-public-entry',step.portalId,'A public link is physically blocked.');
-    legs.push({to:room.id,...result});
-  }
-  return {lobbyId:lobby.id,lobbyEntry:placement.rooms.find(r=>r.id===lobby.id).entry,legs};
 }
 
 function measure(scene,derived,placement,floor,binding){

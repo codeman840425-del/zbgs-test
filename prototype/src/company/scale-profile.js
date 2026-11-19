@@ -3,7 +3,36 @@ export const COMPANY_SPACE_V2={id:'company-space-v2',version:1};
 export const BASE_ROOM_AREA=18;
 export const MAX_CONFIGURED_FLOORS=20;
 export const REQUIRED_PUBLIC_ROLES=['corridor','lobby','lift-access','stair-access','restroom-access'];
-export const PUBLIC_ROLES=[...REQUIRED_PUBLIC_ROLES,'living'];
+export const ATTACHED_PUBLIC_ROLE='meeting-training';
+export const PUBLIC_ROLES=[...REQUIRED_PUBLIC_ROLES,'living',ATTACHED_PUBLIC_ROLE];
+export const supportsAttachedPublicArea=scale=>scale==='leased-floor'||scale==='building';
+
+export function validatePublicAreaOpening(bounds,side,path,fail){
+  const {edge,offset,width}=side;
+  if(!['north','south','east','west'].includes(edge)||!Number.isFinite(offset)||!Number.isFinite(width)||width<=0)
+    fail('invalid-public-area-door',path,'Use a cardinal edge, finite offset and positive door width');
+  const span=edge==='north'||edge==='south'?bounds.width:bounds.depth;
+  // Retain a real wall return at each end, as with authored entrance openings.
+  const cornerReturn=.1;
+  if(Math.abs(offset)+width/2+cornerReturn>span/2+1e-7)
+    fail('public-area-door-endpoint',path,'Leave at least 0.10 m of wall beyond each opening endpoint',{edge,offset,width,span,cornerReturn});
+}
+
+function validateAttachedPublicArea(area,document,profile,floors,floorIds,fail){
+  const floor=floors.find(item=>item.id===floorIds.get(area.id));
+  if(!profile||!supportsAttachedPublicArea(document.scale)||area.kind!=='area'||!floor||area.parentId!==floor.id)
+    fail('invalid-public-area-placement',area.id,'A meeting-training region must be a public area directly on a configured full floor');
+  const connections=(Array.isArray(floor.connections)?floor.connections:[]).filter(
+    connection=>connection?.from?.regionId===area.id||connection?.to?.regionId===area.id);
+  if(connections.length!==1)
+    fail('invalid-public-area-connection',area.id,'A meeting-training area requires one doorway to an existing same-floor public area');
+  const {from,to}=connections[0], [own,other]=from?.regionId===area.id?[from,to]:[to,from];
+  const host=document.nodes.find(node=>node.id===other?.regionId);
+  if(host?.kind!=='area'||host.parentId!==floor.id||!REQUIRED_PUBLIC_ROLES.includes(host.publicRole))
+    fail('invalid-public-area-host',area.id,'Connect to an existing same-floor corridor or public service area',{hostId:other?.regionId});
+  validatePublicAreaOpening(area.bounds,own,area.id+'.door',fail);
+  validatePublicAreaOpening(host.bounds,other,area.id+'.door.host',fail);
+}
 export function companyScaleProfile(document,fail){
   if(document.spaceProfile===undefined)return null;
   const p=document.spaceProfile;
@@ -17,7 +46,10 @@ export function companyScaleProfile(document,fail){
   return {roomsPerFloor,roomArea:area,configuredFloors,capacity:{floors:floorLimit,rooms:roomsPerFloor*configuredFloors,stations:2*roomsPerFloor*configuredFloors}};
 }
 export function validateScaleProfile(document,{floors,rooms,floorIds},fail){
-  const profile=companyScaleProfile(document,fail);if(!profile)return;
+  const profile=companyScaleProfile(document,fail);
+  for(const area of document.nodes.filter(node=>node.publicRole===ATTACHED_PUBLIC_ROLE))
+    validateAttachedPublicArea(area,document,profile,floors,floorIds,fail);
+  if(!profile)return;
   for(const floor of floors){
     const current=rooms.filter(r=>floorIds.get(r.id)===floor.id);
     if(current.length!==profile.roomsPerFloor)fail('profile-room-count',floor.id,`This profile requires ${profile.roomsPerFloor} business rooms per floor; fitout and purpose do not remove rooms`);

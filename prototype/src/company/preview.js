@@ -1,5 +1,5 @@
 import {createWindowSample} from './window-samples.js';
-import {createFacilityEditor,washroomEditMessages} from './facility-editor.js';
+import {createFacilityEditor,roomEditMessages} from './facility-editor.js';
 import * as THREE from 'three';
 import Phaser from 'phaser';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
@@ -206,6 +206,14 @@ function setView(name){
       if(inward.lengthSq()>.01){inward.normalize();offset.set(inward.x,.7,inward.z).normalize();}
     }
   }
+  const meeting=name==='room'&&view.mode==='room'&&doc.meetingRooms?.find(rule=>rule.regionId===view.roomId);
+  if(meeting){
+    const board=session.scene.root.getObjectByName(meeting.boardId);
+    if(board){
+      const front=board.getWorldDirection(new THREE.Vector3());
+      offset.set(front.x+.35*front.z,.95,front.z-.35*front.x).normalize();
+    }
+  }
   if(['sofa','cabinet'].includes(name)&&closeObject)offset.applyQuaternion(closeObject.getWorldQuaternion(new THREE.Quaternion()));
   const right=new THREE.Vector3().crossVectors(new THREE.Vector3(0,1,0),offset).normalize(),up=new THREE.Vector3().crossVectors(offset,right).normalize();
   const tangent=Math.tan(THREE.MathUtils.degToRad(camera.fov/2));let distance=3;
@@ -393,7 +401,7 @@ async function perform(label,action){
     const messages={'overlapping-facilities':'设施位置重叠','visual-outside-room':'模型超出房间边界','desktop-area-occupied':'这块桌面已有设备，请移到空处。','invalid-desktop-envelope':'整个安装区域须贴合桌面并落在桌沿内，可移动或旋转后再放置。','visual-surface-overhang':'设备超出桌面承载范围','asset-fetch-failed':'缺少所需模型文件','asset-texture-load-failed':'模型贴图损坏或无法加载','save-not-found':'尚未保存过这个方案','save-write-failed':'浏览器存储空间不足或不可写','dependency-content-mismatch':'存档需要的素材版本与当前素材不一致'};
     const useSpaceErrors={'blocked-use-space':'设施的使用或离开位置被挡住了','outside-use-space':'设施的使用位置超出了房间',
       'disconnected-use-space':'房间入口无法走到设施的接近点或离开点','vocal-use-path-blocked':'麦架前的进退空间被挡住了'};
-    status(`${messages[error.code]||useSpaceErrors[error.code]||washroomEditMessages[error.code]||'素材或布局不符合当前支持规则'}。当前有效方案已保留。`,true);console.error(error);
+    status(`${messages[error.code]||useSpaceErrors[error.code]||roomEditMessages[error.code]||'素材或布局不符合当前支持规则'}。当前有效方案已保留。`,true);console.error(error);
   }
   finally{busy=false;document.querySelectorAll('button,select,input').forEach(e=>e.disabled=false);sync();}
 }

@@ -57,7 +57,7 @@ function validateBatch(batch,only){
   const keys=new Set(),ids=new Set();
   for(const [index,item]of batch.items.entries()){
     const location=`items[${index}]`;
-    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance','productShowcases','interviewRooms','singingRooms','teaStations','publicWashrooms'].includes(key))||
+    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance','productShowcases','interviewRooms','singingRooms','teaStations','publicWashrooms','meetingRooms'].includes(key))||
         typeof item.key!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(item.key)||
         /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(item.key))
       fail('invalid-batch-key',location,'Use a portable nonempty directory key with letters, digits, underscore or hyphen');
@@ -165,7 +165,14 @@ async function prepare(item,sourceHashes){
   const assetDependencies=[];
   if (Object.hasOwn(item,'teaStations')) document.teaStations = structuredClone(item.teaStations);
   if (Object.hasOwn(item,'publicWashrooms')) document.publicWashrooms = structuredClone(item.publicWashrooms);
+  if (Object.hasOwn(item,'meetingRooms')) document.meetingRooms=structuredClone(item.meetingRooms);
   const derived=deriveCompany(document,catalog,templates);
+  let meetingRooms;
+  if (Object.hasOwn(document,'meetingRooms') || document.nodes.some(node=>node.publicRole==='meeting-training')) {
+    Object.assign(sourceHashes,await sources(['scripts/company-platform/check-meeting-room.mjs','prototype/src/company/meeting-room.js']));
+    const {checkMeetingRooms}=await import('./check-meeting-room.mjs');
+    meetingRooms=await checkMeetingRooms(document,{catalog,templates,derived});
+  }
   let teaStations;
   if (Object.hasOwn(document,'teaStations') || derived.facilities.some(item=>item.resource.mountRole==='tea-counter')) {
     Object.assign(sourceHashes,await sources(['scripts/company-platform/check-tea-station.mjs','scripts/company-platform/public-door-access.mjs']));
@@ -203,7 +210,7 @@ async function prepare(item,sourceHashes){
     files:Object.fromEntries(Object.entries(files).map(([name,bytes])=>[name,{bytes:bytes.length,sha256:hash(bytes)}])),
     checks:{connections,placement,...(trainingClearance ? {trainingClearance} : {}),...(productShowcases ? {productShowcases} : {}),
       ...(interviewRooms ? {interviewRooms} : {}),...(singingRooms ? {singingRooms} : {}),...(teaStations?.length ? {teaStations} : {}),
-      ...(publicWashrooms?.length ? {publicWashrooms} : {})},
+      ...(publicWashrooms?.length ? {publicWashrooms} : {}),...(meetingRooms?.length ? {meetingRooms} : {})},
     scope:'Complete deterministic authoring result. Static geometry and placement admission only; rendering and character usage require their own evidence.'};
   files['report.json']=jsonBytes(report);
   return {files,report};
