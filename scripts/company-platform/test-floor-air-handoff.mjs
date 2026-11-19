@@ -219,6 +219,11 @@ async function main() {
   }
   report.workingCopy=await verify(work,originalPin,'verify-pristine-copy');
   await installLocked();
+  const defaultModels=await invoke('reproduce-four-original-models',source,path.join(tools,'build-floor-air.mjs'),['--check']);
+  assert.equal(defaultModels.status,'passed');
+  assert.deepEqual(defaultModels.resources.map(({id,version})=>[id,version]),
+    ['tower','pedestal','circulator','purifier'].map(name=>['floor-air-'+name,1]));
+  report.originalModels=defaultModels.resources;
   const rentalInput=named(work,rental,'save.json'), homeInput=named(work,home,'save.json');
   const {document:before}=await json(rentalInput), {document:originalHome}=await json(homeInput);
   assert.deepEqual(participant(before).state,{on:true,speed:3});
