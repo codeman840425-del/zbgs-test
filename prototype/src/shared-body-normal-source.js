@@ -6,7 +6,7 @@ import pins from './native-body-normal-source-pins.json' with {type:'json'};
 // embedded PNG in independent documents, not their similarly named materials.
 const renderers = new WeakMap();
 
-export function shareBodyNormalSource(renderer, gltf, avatarSha256) {
+export function shareBodyNormalSource(renderer, gltf, avatarSha256, bitmapOwner) {
   const pin = pins.avatars[avatarSha256];
   if (!pin || !renderer?.isWebGLRenderer || THREE.Cache.enabled || !gltf.parser?.textureLoader?.isImageBitmapLoader) return;
   const {json, associations} = gltf.parser;
@@ -35,6 +35,8 @@ export function shareBodyNormalSource(renderer, gltf, avatarSha256) {
   const textures = new Set();
   for (const material of materials) collectEquipmentTextures(material, textures);
   if ([...textures].some(other => other !== texture && other.image === texture.image)) return;
+  // The pool now owns this decode, including the duplicate it may discard.
+  if (bitmapOwner && !bitmapOwner.transfer(texture.image)) return;
 
   let pool = renderers.get(renderer);
   if (!pool) renderers.set(renderer, pool = new Map());

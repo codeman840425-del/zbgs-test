@@ -5,6 +5,7 @@ import { createEquipmentLoader, initializeEquipmentMaterials, updateEquipmentMat
 import { shapeFitDescriptor } from './shape-fit-registry.js';
 import { layerFitRequirement, validateLayerFit, assertLayerFitSet } from './garment-layer-fit.js';
 import {loadPinnedBytes} from './initial-asset-reads.js';
+import {registerEmbeddedBitmapOwner} from './embedded-bitmap-owner.js';
 
 // GLTFLoader sanitizes node names and retains the exact glTF name in userData.
 const boneNames = bone => [...new Set([bone.name, bone.userData?.name]
@@ -76,7 +77,8 @@ export async function createEquipment({
         if (!bindByBone.has(bone)) bindByBone.set(bone, node.skeleton.boneInverses[index]);
       });
   });
-  const loader = createEquipmentLoader(), loaded = new Map(), pending = new Map(), slotRequests = new Map();
+  const loaded = new Map(), pending = new Map(), slotRequests = new Map();
+  const bitmapOwners = new Set();
   const materialRequests = new Map();
   let disposed = false;
   let setRevision = 0;
@@ -181,18 +183,22 @@ export async function createEquipment({
     const url = new URL(entry.url, manifestBase);
     const buffer=await loadPinnedBytes(url,entry.sha256,initialAssets,{bytes:entry.bytes,
       httpError:'Garment',integrityError:`Garment integrity check failed for ${entry.id}`});
-    const gltf = await loader.parseAsync(buffer, new URL(".", url).href);
+    if (disposed) throw new Error("Equipment disposed while loading");
+    const loader = createEquipmentLoader();
+    const bitmaps = registerEmbeddedBitmapOwner(loader);
+    bitmapOwners.add(bitmaps);
     const container = new THREE.Group();
     container.name = `Equipment:${entry.id}`;
     container.visible = false;
     container.userData.equipmentId = entry.id;
     const meshes = [];
-    gltf.scene.updateMatrixWorld(true);
-    gltf.scene.traverse((node) => { if (node.isSkinnedMesh) meshes.push(node); });
-    if (!meshes.length) throw new Error(`Garment ${entry.id} has no weighted mesh`);
     const skeletons = new Map();
     let vertices = 0, multiBoneVertices = 0, maxWeightSumError = 0;
     try {
+    const gltf = await loader.parseAsync(buffer, new URL(".", url).href);
+    gltf.scene.updateMatrixWorld(true);
+    gltf.scene.traverse((node) => { if (node.isSkinnedMesh) meshes.push(node); });
+    if (!meshes.length) throw new Error(`Garment ${entry.id} has no weighted mesh`);
     for (const mesh of meshes) {
       const geometry = mesh.geometry;
       const joints = geometry.getAttribute("skinIndex"), weights = geometry.getAttribute("skinWeight");
@@ -250,7 +256,8 @@ export async function createEquipment({
     loaded.set(entry.id, result);
     return result;
     } catch (error) {
-      destroy({ container, meshes, skeletons });
+      try { destroy({ container, meshes, skeletons }); }
+      finally { bitmaps.dispose(); bitmapOwners.delete(bitmaps); }
       throw error;
     }
   }
@@ -481,7 +488,12 @@ export async function createEquipment({
       if (disposed) return;
       disposed = true;
       for (const id of materialRequests.keys()) materialRequests.set(id, materialRequests.get(id) + 1);
-      loaded.forEach(destroy); loaded.clear();
+      try { loaded.forEach(destroy); }
+      finally {
+        for (const owner of bitmapOwners) owner.dispose();
+        bitmapOwners.clear();
+        loaded.clear();
+      }
       shapeDependencies.clear();
     },
   };

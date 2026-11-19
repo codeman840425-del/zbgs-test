@@ -8,6 +8,7 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {VRMLoaderPlugin, VRMUtils} from '@pixiv/three-vrm';
 import {foundationProfile} from './foundation-profiles.js';
 import {shareBodyNormalSource} from './shared-body-normal-source.js';
+import {createEquipment} from './equipment.js';
 import pins from './native-body-normal-source-pins.json' with {type:'json'};
 
 // The foundation's older JSON imports normally resolve through Vite.
@@ -125,6 +126,7 @@ test('a factory failure after joining a live peer releases its lease on the real
   const failedNormals = decoded.slice(start).filter(image => image.digest === peer.image.digest);
   assert.equal(failedNormals.length, 1);
   assert.equal(failedNormals[0].closes, 1);
+  assert.ok(decoded.slice(start).every(image => image.closes === 1));
   assert.equal(peer.image.closes, 0);
   releasePeer();
   assert.equal(peer.image.closes, 1);
@@ -170,4 +172,49 @@ test('normal loading and disposal through both equipped foundation actors preser
   assert.deepEqual(wrapperDisposals,[1,1]);
   assert.equal(image.closes, 1);
   assert.equal(scene.children.length, 0);
+});
+
+test('garment disposal during decode or attachment releases every private image without committing', async t => {
+  const profile = foundationProfile(bodies[0]);
+  const {gltf} = await parseBody(bodies[0]);
+  const origin = new URL('http://foundation.test/');
+  globalThis.window = {location:origin};
+  const fetchOriginal = globalThis.fetch;
+  t.mock.method(globalThis,'fetch',async (input, options) => {
+    const url = new URL(input instanceof Request ? input.url : input, origin);
+    if (url.protocol === 'blob:') return fetchOriginal(input, options);
+    assert.equal(url.origin,origin.origin);
+    return new Response(await readFile(new URL(url.pathname.slice(1),publicRoot)));
+  });
+  for (const phase of ['decoding','attaching']) await t.test(phase, async t => {
+    const parent = new THREE.Group();
+    const adapter = await createEquipment({vrm:gltf.userData.vrm, parent, manifestUrl:profile.manifestUrl,
+      manifestSha256:profile.manifestSha256, avatarSha256:profile.sha256});
+    const start = decoded.length;
+    const started = Promise.withResolvers(), resume = Promise.withResolvers();
+    if (phase === 'decoding') {
+      const decode = globalThis.createImageBitmap;
+      t.mock.method(globalThis,'createImageBitmap',async blob => {
+        const image = await decode(blob);
+        started.resolve();
+        await resume.promise;
+        return image;
+      });
+    } else {
+      parent.addEventListener('childadded',() => adapter.dispose());
+    }
+    const result = adapter.load(profile.ids.top);
+    if (phase === 'decoding') {
+      await started.promise;
+      adapter.dispose();
+      resume.resolve();
+    }
+    await assert.rejects(result, /Equipment disposed while (loading|attaching)/);
+    adapter.dispose();
+    assert.equal(adapter.get(profile.ids.top), null);
+    assert.deepEqual(parent.children,[]);
+    assert.ok(decoded.length > start);
+    assert.ok(decoded.slice(start).every(image => image.closes === 1));
+  });
+  VRMUtils.deepDispose(gltf.scene);
 });

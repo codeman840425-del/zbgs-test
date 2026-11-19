@@ -84,21 +84,29 @@ function watchActor({materials,geometries,textures}) {
 test('real signed actors reproduce two and four skin references but release each owner only once', async t => {
   // Only browser bitmap decoding is substituted. The signed records, VRM,
   // outfit and real GLTFLoader/VRMLoaderPlugin are the production inputs.
+  const decoded = [];
   t.mock.method(globalThis,'createImageBitmap',async blob => {
     const bytes = Buffer.from(await blob.slice(0,24).arrayBuffer());
-    return bytes.length===24 && bytes.readUInt32BE(0)===0x89504e47
-      ? {width:bytes.readUInt32BE(16),height:bytes.readUInt32BE(20),close(){}}
-      : {width:1,height:1,close(){}};
+    const png = bytes.length === 24 && bytes.readUInt32BE(0) === 0x89504e47;
+    const image = {
+      width:png ? bytes.readUInt32BE(16) : 1, height:png ? bytes.readUInt32BE(20) : 1,
+      closes:0, close() { this.closes++; this.width = this.height = 0; },
+    };
+    decoded.push(image);
+    return image;
   });
   const input = await readFile(new URL('../../evidence/m2-uniform-lite-operator-v1/records.json',import.meta.url));
   assert.equal(createHash('sha256').update(input).digest('hex'),
     'd38cd555d8b125c606ef28775b08fa96b2834c40c082e7ee06478dc4035f6989');
   const scene = new THREE.Scene(), renderer = {}, actors = [];
   try {
+    const actorImages = [];
     for (const record of JSON.parse(input)) {
+      const start = decoded.length;
       const actor = await prepareRecordedCharacter(record,{scene,renderer});
       actor.attach();
       actors.push(actor);
+      actorImages.push(decoded.slice(start));
     }
     const [female,male] = actors;
     const originalMale = renderedResources(male.avatar);
@@ -118,6 +126,14 @@ test('real signed actors reproduce two and four skin references but release each
     male.avatar.dispose();
     assert.equal(male.avatar.root.parent,null);
     assert.equal(female.avatar.root.parent,scene);
+    assert.ok(actorImages.every(images => images.length > 0));
+    assert.ok(actorImages[1].every(image => image.closes === 1));
+    const peerTextures = [...originalFemale.textures].filter(texture => actorImages[0].includes(texture.image));
+    assert.ok(peerTextures.length > 0);
+    for (const texture of peerTextures) {
+      texture.needsUpdate = true;
+      assert.ok(texture.image.width > 0 && texture.image.height > 0);
+    }
     for (const [resource,count] of maleCounts) assert.equal(count,1,resource.name || resource.type);
     for (const count of femaleCounts.values()) assert.equal(count,0);
     const before = female.motion.getMetrics().frame;
@@ -125,6 +141,7 @@ test('real signed actors reproduce two and four skin references but release each
     assert(female.motion.getMetrics().frame>before);
     female.dispose();
     female.avatar.dispose();
+    assert.ok(decoded.every(image => image.closes === 1));
     for (const [resource,count] of femaleCounts) assert.equal(count,1,resource.name || resource.type);
     assert.deepEqual(scene.children,[]);
   } finally {

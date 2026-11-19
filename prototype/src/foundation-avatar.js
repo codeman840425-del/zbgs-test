@@ -19,6 +19,7 @@ import { validateNativeHairCenterPin } from "./native-hair-center-record.js";
 import { shareBodyNormalSource } from "./shared-body-normal-source.js";
 import { registerUniformNormals } from "./uniform-normal-source.js";
 import { disposeAvatarScene } from "./dispose-avatar-scene.js";
+import { registerEmbeddedBitmapOwner } from "./embedded-bitmap-owner.js";
 import {loadPinnedBytes} from './initial-asset-reads.js';
 
 // Each actor owns its prewarm variants. Geometry UUID is deliberately omitted:
@@ -140,17 +141,12 @@ export async function loadFoundationAvatar({
     loader.register(parser => createNativeHairCenterFitPlugin(parser, {bodyType, bodySha256:sha256}));
   }
   loader.register((p) => new VRMLoaderPlugin(p));
-  const gltf = await loader.parseAsync(buffer, "/assets/foundation/");
-  const vrm = gltf.userData.vrm;
-  const lipAnchorIdentity=config.lipAnchor===undefined?null:lipAnchorSourceIdentity(gltf.parser.json);
-  VRMUtils.rotateVRM0(vrm);
+  const bitmaps = registerEmbeddedBitmapOwner(loader);
+  let vrm, parsedScene, faceWarmup;
   const sourceFloorY = config.sourceFloorY ?? 0;
   if (!Number.isFinite(sourceFloorY)) throw new Error('Invalid measured model floor');
-  vrm.scene.position.y -= sourceFloorY;
   const root = new THREE.Group();
   root.name = "M1CompleteFoundation";
-  root.add(vrm.scene);
-  root.updateMatrixWorld(true);
   const sourceMaterials = new Map(),
     bodyMaterials = new Map(),
     clothes = [],
@@ -170,14 +166,12 @@ export async function loadFoundationAvatar({
       error.code='hat-face-incompatible';throw error;
     }
   };
-  const faceWarmup=createFaceGeometryWarmup(renderer,scene);
-  const releaseFaceWarmup=()=>faceWarmup.dispose();
   let releaseBodyNormal, disposed = false;
   function disposeAvatar() {
     if (disposed) return;
     disposed = true;
     try {
-      releaseFaceWarmup();
+      faceWarmup?.dispose();
       facialGeometry?.dispose();
       faceRenderCompaction?.dispose();
       appearance?.dispose();
@@ -190,16 +184,25 @@ export async function loadFoundationAvatar({
         root.removeFromParent();
         for (const [mesh, material] of sourceMaterials) mesh.material = material;
         for (const materials of bodyMaterials.values()) materials.forEach(m => m.dispose());
-        disposeAvatarScene(vrm.scene);
+        if (parsedScene) disposeAvatarScene(parsedScene);
       } finally {
         // Three releases each actor's texture/GL reference. The last lease
         // separately closes the shared ImageBitmap after actor disposal.
-        releaseBodyNormal?.();
+        try { releaseBodyNormal?.(); } finally { bitmaps.dispose(); }
       }
     }
   }
   try {
-  releaseBodyNormal = shareBodyNormalSource(renderer, gltf, sha256);
+  const gltf = await loader.parseAsync(buffer, "/assets/foundation/");
+  vrm = gltf.userData.vrm;
+  parsedScene = vrm?.scene ?? gltf.scene;
+  const lipAnchorIdentity=config.lipAnchor===undefined?null:lipAnchorSourceIdentity(gltf.parser.json);
+  VRMUtils.rotateVRM0(vrm);
+  vrm.scene.position.y -= sourceFloorY;
+  root.add(vrm.scene);
+  root.updateMatrixWorld(true);
+  faceWarmup = createFaceGeometryWarmup(renderer,scene);
+  releaseBodyNormal = shareBodyNormalSource(renderer, gltf, sha256, bitmaps);
   vrm.scene.traverse((mesh) => {
     if (!mesh.isMesh) return;
     mesh.frustumCulled = false;
