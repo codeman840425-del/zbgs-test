@@ -434,6 +434,10 @@ async function start(){
     const box=new THREE.Box3().setFromObject(object),center=box.getCenter(new THREE.Vector3());
     const node=session.document.nodes.find(n=>n.id===object.name),resource=catalog.resources.find(r=>r.id===node?.resource?.id&&r.version===node.resource.version);
     let direction=new THREE.Vector3(.6,.7,1),distance=Math.max(.5,box.getSize(new THREE.Vector3()).length()*1.6);
+    if (resource?.wallHvac) {
+      direction.set(.12,-.44,1);
+      orbit.maxPolarAngle=Math.PI*.82;
+    }
     if(resource?.mount==='portal'){
       // View the opening from its room-facing normal, rather than through a corner wall.
       direction.set(0,.1,1);
@@ -442,7 +446,7 @@ async function start(){
     direction.normalize().applyQuaternion(object.getWorldQuaternion(new THREE.Quaternion()));
     orbit.minDistance=.25;orbit.target.copy(center);camera.position.copy(center).addScaledVector(direction,distance);orbit.update();updateWallView();
     if(resource?.mount!=='portal'){
-      const position=clearFacilityView(session.scene.root,object,center,direction,distance,resource?.musicStand?.pageNode??resource?.microphone?.pickupNode);
+      const position=clearFacilityView(session.scene.root,object,center,direction,distance,resource?.musicStand?.pageNode??resource?.microphone?.pickupNode??resource?.wallHvac?.louver);
       camera.position.copy(position);orbit.update();updateWallView();
     }
   };

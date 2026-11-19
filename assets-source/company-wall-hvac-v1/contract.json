@@ -1,0 +1,16 @@
+{
+  "schema": "company-wall-hvac-contract",
+  "version": 1,
+  "category": "dynamic",
+  "mountRole": "wall-hvac",
+  "productionBranch": "hvac",
+  "mount": "wall",
+  "parent": "room.wall",
+  "mounting": {"origin":"center","width":1,"height":0.35,"depth":0.22},
+  "coordinates": {"units":"metres","up":"+Y","forward":"+Z","origin":"Wall contact centre; back plane z=0; front +Z"},
+  "usePoints": [],
+  "stateDefaults": {"on":false,"mode":1},
+  "stateSchema": {"on":{"type":"boolean"},"mode":{"type":"integer","min":1,"max":3}},
+  "stateSemantics": {"on":"wall-hvac-enabled-v1","mode":"wall-hvac-mode-v1"},
+  "wallHvac": {"louver":"wall-ac-louver","status":"wall-ac-status","closedRadians":0,"modeRadians":[1.0855049714537162,0.9226792257356587,1.3568812143171451]}
+}

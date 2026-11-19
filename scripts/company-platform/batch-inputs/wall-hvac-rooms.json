@@ -1,0 +1,63 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "wall-hvac-home",
+      "input": {
+        "id": "wall-hvac-home",
+        "name": "小民房 · 直播间壁挂空调",
+        "spaceProfile": {"id":"company-space-v2","version":1},
+        "furnishingVersion": 2,
+        "scale": "small-home",
+        "floors": [{
+          "id": "ground",
+          "name": "一层",
+          "rooms": [{"id":"live","name":"直播间","purpose":"streaming","stations":1}]
+        }]
+      },
+      "operations": [{
+        "type": "add-facility",
+        "id": "wall-hvac-home/ground/live/wall-ac",
+        "parentId": "wall-hvac-home/ground/live",
+        "resource": {"id":"wall-ac-curve","version":1},
+        "state": {"on":true,"mode":2},
+        "transform": {"position":[0,2.24,1.9],"yaw":3.141592653589793}
+      }]
+    },
+    {
+      "key": "wall-hvac-rental",
+      "input": {
+        "id": "wall-hvac-rental",
+        "name": "旋转出租屋 · 直播间壁挂空调",
+        "spaceProfile": {"id":"company-space-v2","version":1},
+        "furnishingVersion": 2,
+        "scale": "rental-home",
+        "floors": [{
+          "id": "ground",
+          "name": "一层",
+          "rooms": [
+            {"id":"live","name":"直播间","purpose":"streaming","stations":1},
+            {"id":"work","name":"剪辑间","purpose":"work","stations":0,"furniture":"desk-chair"},
+            {"id":"rest","name":"休息间","purpose":"rest","stations":0}
+          ]
+        }]
+      },
+      "operations": [
+        {
+          "type": "move",
+          "id": "wall-hvac-rental/ground",
+          "transform": {"position":[0,0,0],"yaw":1.5707963267948966}
+        },
+        {
+          "type": "add-facility",
+          "id": "wall-hvac-rental/ground/live/wall-ac",
+          "parentId": "wall-hvac-rental/ground/live",
+          "resource": {"id":"wall-ac-ribbed","version":1},
+          "state": {"on":false,"mode":3},
+          "transform": {"position":[0,2.24,1.9],"yaw":3.141592653589793}
+        }
+      ]
+    }
+  ]
+}

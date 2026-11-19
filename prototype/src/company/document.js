@@ -19,7 +19,7 @@ import {validateMovingResource, validateFacilityState, movingFootprint} from './
 import {validateWallAmbientResource} from './wall-ambient.js';
 import {validateDeskLampResource} from './desk-lamp.js';
 import {validateFloorAirResource} from './floor-air.js';
-import {validateWallHvacResource} from './wall-hvac.js';
+import {validateWallHvacResource, wallHvacSpans} from './wall-hvac.js';
 import {validateClockResource} from './clock-display.js';
 import {validateInformationResource,validateInformationAttachments} from './information-display.js';
 import {validateMirrorResource} from './mirror-data.js';
@@ -344,6 +344,11 @@ export function deriveCompany(document, catalog, templates) {
       } else {
         const plane=(['north','west'].includes(edge)?-1:1)*((horizontal?region.bounds.depth:region.bounds.width)/2-.1);
         const low=wallEnvelopeBottom(resource,y);
+        if (resource.mountRole === 'wall-hvac') {
+          const neighbor = wallHvacSpans(facilities, region.id, angle, y, spec.height)
+            .find(span => Math.abs(span.offset - along) < (span.width + spec.width) / 2 - 1e-8);
+          if (neighbor) fail('overlapping-wall-hvac', node.id, 'Wall installation intersects another indoor unit', {otherId: neighbor.id});
+        }
         const edgeMargin = resource.mountRole === 'camera-mount' ? .1 : .001;
         if(Math.abs(normal-plane)>.001||Math.abs(along)+spec.width/2>span/2-edgeMargin||low<-.001||low+spec.height>2.8+.001)
           fail('invalid-wall-fit',node.id,'Display back plane, height and width must fit its wall interior face');

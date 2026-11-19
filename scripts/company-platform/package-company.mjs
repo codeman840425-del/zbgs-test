@@ -662,6 +662,15 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   let verifySingingSources;
   let verifyTeaSources;
   let verifyFloorAirSources;
+  let verifyWallHvacSources;
+  if (catalog.resources.some(resource=>resource.productionBranch==='hvac')) {
+    const verifier=await noLinks(path.join(source,'scripts/company-platform/validate-resource-provenance.mjs'));
+    ({verifyWallHvacSources}=await import(pathToFileURL(verifier).href));
+    if (!verifyWallHvacSources) fail('missing-production-tool',verifier,'Expected the indoor unit source and adapter verifier');
+    supplemental.add('scripts/company-platform/test-wall-hvac.mjs');
+    supplemental.add('scripts/company-platform/test-wall-ac-intake-rooms.mjs');
+    supplemental.add('scripts/company-platform/qa-wall-hvac.cjs');
+  }
   if (catalog.resources.some(resource=>resource.productionBranch==='fan-and-air-purifier')) {
     const verifier=await noLinks(path.join(source,'scripts/company-platform/validate-resource-provenance.mjs'));
     ({verifyFloorAirSources}=await import(pathToFileURL(verifier).href));
@@ -814,6 +823,13 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       const recipe = decode(await read(source,entry.sourceParameters),entry.sourceParameters);
       const pins = await verifyEditable(source,resource,recipe);
       for (const pin of pins.values()) {
+        supplemental.add(pin.path);
+        productionSourcePins.set(pin.path,pin.sha256);
+      }
+    }
+    if (resource.productionBranch === 'hvac') {
+      const recipe = decode(await read(source,entry.sourceParameters),entry.sourceParameters);
+      for (const pin of (await verifyWallHvacSources(source,resource,recipe)).values()) {
         supplemental.add(pin.path);
         productionSourcePins.set(pin.path,pin.sha256);
       }

@@ -52,6 +52,7 @@ export const appearanceBranches=[
  ['desk','桌子'],['chair','单人座椅'],['sofa','双人沙发'],['monitor','屏幕'],['fill-light','补光系统'],['desk-lamp','桌面台灯'],
  ['ambient-led-and-neon','墙挂氛围灯'],['plant-desktop-installation','桌面盆栽'],
  ['fan-and-air-purifier','落地风扇与净化器'],
+ ['hvac','壁挂空调'],
  ['camera-device','摄像设备'],['phone-static','桌面直播手机'],['background-display','直播背景'],['headphones-and-stand','耳机与耳机架'],['audio-control','音频控制设备'],['desktop-computer','桌面电脑'],['laptop-computer','笔记本电脑'],
  ['outlet-switch','墙面插座/开关'],['power-strip','桌面插排'],
  ['keyboard','键盘'],['mouse-and-pad','鼠标与鼠标垫'],['desk-microphone','桌面麦克风'],['plant','绿植'],['wall-art','挂画'],
@@ -204,6 +205,7 @@ export function createAppearanceSample(branch,index,catalog,templates,options={}
      'mouse-and-pad':[[.5,.84,.21],0], 'phone-static':[[.52,.84,.05],0], 'background-fabric':[[0,0,-2.65],0],
      'ambient-led-and-neon':[[0,1.4,-3.4],0], 'plant-desktop-installation':[[-.70,.84,-.25],0],
      'fan-and-air-purifier':[[1.6,0,1.2],0],
+     'hvac':[[0,2.24,-3.4],0],
      'floor-panel':[[2,0,-1.5],0],rug:[[0,0,1.8],0], 'desk-lamp':[[.67,.84,-.2],0], 'camera-device':[[.52,.84,-.02],0], 'desktop-computer':[[-.48,.84,.02],0], 'laptop-computer':[[.34,.84,.08],0], 'background-display':[[0,0,-2.6],0], 'screen-partition':[[-2.2,0,0],Math.PI/2], 'headphones-and-stand':[[.72,.84,.05],0], 'audio-control':[[0,.84,.08],0], 'outlet-switch':[[0,1.35,-3.4],0], 'power-strip':[[0,.84,.3],0]};
    const [position,yaw]=transforms[branch];target='sample/object';
    const deskMounted=selected.mount==='desk-surface';

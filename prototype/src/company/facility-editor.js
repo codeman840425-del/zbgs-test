@@ -119,6 +119,13 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
         const label=field==='on'?(r.light?'灯光':'电源'):field==='visible'?'内容显示':field==='connected'?'连接':'开关';
         const b=document.createElement('button');b.textContent=`${label}：${value?'开':'关'}`;b.setAttribute('aria-pressed',String(value));b.disabled=isBusy();
         b.onclick=()=>execute('正在更新设施状态…',()=>session.apply([{type:'set-state',id:n.id,state:{[field]:!value}}]));container.append(b);
+      }else if(r.stateSemantics?.[field]==='wall-hvac-mode-v1'){
+        const label=document.createElement('label');label.textContent='空调模式';
+        const select=document.createElement('select');select.setAttribute('aria-label','空调模式');
+        for(const [index,name] of ['送风','制冷','制热'].entries()) select.add(new Option(name,String(index+1)));
+        select.value=String(value);select.disabled=isBusy();
+        select.onchange=()=>execute('正在切换空调模式…',()=>session.apply([{type:'set-state',id:n.id,state:{[field]:Number(select.value)}}]));
+        label.append(select);container.append(label);
       }else if(typeof value==='number'&&['number','integer'].includes(spec?.type)){
         const wrap=document.createElement('label');wrap.textContent=({openFraction:'打开程度',leftOpen:'左柜门开度',rightOpen:'右柜门开度',deployment:'幕布展开程度',intensity:'灯光强度',colorHue:'灯光色相（度）',brightness:'显示亮度',angle:'灯头俯仰',speed:'风速档位'})[field]??field;
         const input=document.createElement('input');input.type='range';input.min=spec.min;input.max=spec.max;input.step=spec.type==='integer'||field==='colorHue'?1:(spec.max-spec.min)/20;input.value=value;input.disabled=isBusy();input.setAttribute('aria-label',wrap.textContent);

@@ -1,0 +1,100 @@
+{
+  "id": "wall-ac-curve",
+  "version": 1,
+  "displayName": "弧面壁挂空调",
+  "category": "dynamic",
+  "mountRole": "wall-hvac",
+  "productionBranch": "hvac",
+  "mount": "wall",
+  "parent": "room.wall",
+  "mounting": {
+    "origin": "center",
+    "width": 1,
+    "height": 0.35,
+    "depth": 0.22
+  },
+  "coordinates": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Wall contact centre; back plane z=0; front +Z"
+  },
+  "usePoints": [],
+  "stateDefaults": {
+    "on": false,
+    "mode": 1
+  },
+  "stateSchema": {
+    "on": {
+      "type": "boolean"
+    },
+    "mode": {
+      "type": "integer",
+      "min": 1,
+      "max": 3
+    }
+  },
+  "stateSemantics": {
+    "on": "wall-hvac-enabled-v1",
+    "mode": "wall-hvac-mode-v1"
+  },
+  "wallHvac": {
+    "louver": "wall-ac-louver",
+    "status": "wall-ac-status",
+    "closedRadians": 0,
+    "modeRadians": [
+      1.0855049714537162,
+      0.9226792257356587,
+      1.3568812143171451
+    ]
+  },
+  "provenance": {
+    "license": "CC0-1.0 (retained Innerscene indoor-unit components); project-authored outlet adaptation and casing designs.",
+    "author": "Innerscene Corp and project authors",
+    "tools": [
+      "Three.js 187",
+      "GLTFExporter",
+      "GLTFLoader readback"
+    ],
+    "generator": "scripts/company-platform/build-wall-hvac.mjs",
+    "generatorSha256": "c7233c9eac93fc3dae8209009e7a9ca833b551499c2c19c532ed834d516b8b0d",
+    "sourceParameters": "assets-source/company-wall-hvac-v1/parameters.json",
+    "sourceParametersSha256": "99a9f12c355c079e66a6479a59949de15682a5dc9ea86f5c04958c70ca920333",
+    "functionalContractSource": "assets-source/company-wall-hvac-v1/contract.json",
+    "functionalContractSourceSha256": "3dddeebd7f9bdbe9faa6dbe8de74b3a38c8550288a304548f44b96accb65f661",
+    "sourceArtifactPath": "assets-source/company-wall-hvac-v1/original/ductless-wall-mounted-indoor-unit.glb",
+    "sourceArtifactSha256": "a0bb34999e3060813a367a200d9ff7dcf1a0049317ea0b608e6dcea2eec70ad0",
+    "sourceAuthor": "Innerscene Corp",
+    "sourceUrl": "https://www.innerscene.com/tools/library/3d-parts/ductless-wall-mounted-indoor-unit-42bc4041",
+    "sourceLicense": "CC0-1.0",
+    "sourceManifestPath": "assets-source/company-wall-hvac-v1/original/source.json",
+    "sourceManifestSha256": "1d52e6a813e36384a2ec8a1bd87be48863461514ec909f5bd9383285d16d5020",
+    "environmentBranch": "hvac",
+    "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+    "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+    "dependencies": {
+      "adapter": {
+        "path": "scripts/company-platform/adapt-indoor-ac.mjs",
+        "sha256": "4ae9999a2a6862a151c2293f32cf09b3cbc8db3dd97b1ed9fac499caf786a015"
+      },
+      "adapterRecipe": {
+        "path": "assets-source/company-wall-hvac-v1/indoor-adapter.json",
+        "sha256": "17ef28b2481cf3d7a9c8c3c10885ab453723613449b3201d06b12901b4f0b25f"
+      },
+      "sourceReceipt": {
+        "path": "assets-source/company-wall-hvac-v1/original/source.json",
+        "sha256": "1d52e6a813e36384a2ec8a1bd87be48863461514ec909f5bd9383285d16d5020"
+      },
+      "environmentBranch": {
+        "path": "assets-source/company-environment-specs-v1/branches.json",
+        "sha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18"
+      }
+    }
+  },
+  "asset": {
+    "format": "glb",
+    "url": "/company-assets/wall-hvac-v1/wall-ac-curve/v1/model.glb",
+    "sha256": "e1e8b193196402c0bcc598a8dde03f76541732db500f6958a5677ead7925ea47",
+    "bytes": 1411176
+  }
+}

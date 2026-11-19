@@ -1,5 +1,6 @@
 import {cameraDeskEdgePlacement, wallEnvelopeBottom} from './camera-mount-data.js';
 import {floorPortalSides} from './exterior-entrance-data.js';
+import {wallHvacMountHeight, wallHvacSpans} from './wall-hvac.js';
 import {CompanyError, deriveCompany} from './document.js';
 import {deriveCableConnections} from './cable-data.js';
 import {matchesTextileRest, supportYaw} from './support-data.js';
@@ -125,7 +126,7 @@ function deskClampTargets(region, derived, resource) {
   return result;
 }
 
-function wallTargets(region, floor, resource, windowOpenings) {
+function wallTargets(region, floor, resource, windowOpenings, facilities) {
   const m = mounting(resource);
   if (!m || !Number.isFinite(m.width) || !Number.isFinite(m.height)) return [];
   const result = [];
@@ -134,8 +135,14 @@ function wallTargets(region, floor, resource, windowOpenings) {
     const span = horizontal ? region.bounds.width : region.bounds.depth;
     if (m.width > span - .2 + EPS || m.height > 2.8 + EPS) continue;
     const blockedSpans = portalEntries(floor, region.id, edge);
-    if (resource.mountRole === 'camera-mount') {
-      const bottom = wallEnvelopeBottom(resource, 1.4);
+    const hvac = resource.mountRole === 'wall-hvac';
+    const centerY = hvac ? wallHvacMountHeight : 1.4;
+    if (hvac) {
+      const {yaw} = wallPosition(region, edge, m);
+      blockedSpans.push(...wallHvacSpans(facilities, region.id, yaw, centerY, m.height));
+    }
+    if (hvac || resource.mountRole === 'camera-mount') {
+      const bottom = wallEnvelopeBottom(resource, centerY);
       for (const opening of windowOpenings.values()) for (const side of opening.regions) {
         if (side.regionId === region.id && side.edge === edge && bottom < side.bottom + side.height - EPS &&
             bottom + m.height > side.bottom + EPS) blockedSpans.push(side);
@@ -147,6 +154,7 @@ function wallTargets(region, floor, resource, windowOpenings) {
     const along = candidates[0];
     if (along === undefined) continue;
     const {position, yaw} = wallPosition(region, edge, m, along);
+    if (hvac) position[1] = centerY;
     const directionLabel = {north: '北墙', west: '西墙', south: '南墙', east: '东墙'}[edge];
     result.push(target(`${region.id}:wall:${edge}`, region.id, `${region.name || region.id} · ${directionLabel}`, position, yaw, 'wall', {
       lockedAxes: [horizontal ? 'z' : 'x', 'yaw'], note: '沿墙面移动，法向坐标和朝向固定，完整包络须留在墙内', edge,
@@ -286,7 +294,7 @@ export function listPlacementTargets(document, catalog, resource, regionId, opti
   const region = regionFor(derived, regionId), floor = floorFor(derived, regionId);
   const result = [];
   if (selected.mount === 'parent-device-endpoints') result.push(...cableTargets(region,derived,selected));
-  else if (['wall','wall-opening'].includes(selected.mount)) result.push(...wallTargets(region, floor, selected, derived.windowOpenings));
+  else if (['wall','wall-opening'].includes(selected.mount)) result.push(...wallTargets(region, floor, selected, derived.windowOpenings, derived.facilities));
   else if (selected.mount === 'portal') result.push(...portalTargets(region, floor, selected));
   else if (selected.mount === 'portal-door') result.push(...exteriorDoorTargets(region, floor, selected));
   else if (selected.mount === 'floor-surface') { const value = floorTarget(region, selected); if (value) result.push(value); }

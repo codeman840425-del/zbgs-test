@@ -21,7 +21,7 @@ const sourceFiles=[
   'prototype/src/company/scale-profile.js','prototype/src/company/scale-v2.js',
   'prototype/src/company/document.js','prototype/src/company/placement.js',
   'prototype/src/company/moving-parts.js','prototype/src/company/support-data.js',
-  'prototype/src/company/floor-air.js','prototype/src/company/base-contact.js',
+  'prototype/src/company/floor-air.js','prototype/src/company/wall-hvac.js','prototype/src/company/base-contact.js',
   'prototype/src/company/garment-rack-data.js','prototype/src/company/garment-rack-geometry.js',
   'prototype/src/company/enclosed-wardrobe-data.js','prototype/src/company/wardrobe-footprints.js',
   'prototype/src/company/enclosed-wardrobe-geometry.js',

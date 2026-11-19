@@ -3,6 +3,17 @@ import {Box3, Raycaster, Vector3} from 'three';
 const indicators = ['#84e9ba', '#83d6ff', '#ffb775'];
 const partNames = ['wall-ac-louver', 'wall-ac-status', 'wall-ac-mount', 'wall-ac-outlet-back'];
 const tolerance = .001;
+export const wallHvacMountHeight = 2.24;
+
+// Work in the parent room's coordinates so turning a whole floor preserves the installation.
+export function wallHvacSpans(facilities, roomId, yaw, centerY, height) {
+  const alongAxis = Math.abs(Math.sin(yaw)) < .5 ? 0 : 2;
+  return facilities.filter(({node, resource}) =>
+    resource.mountRole === 'wall-hvac' && node.parentId === roomId &&
+    Math.cos(node.transform.yaw - yaw) > .999999 &&
+    Math.abs(node.transform.position[1] - centerY) < (resource.mounting.height + height) / 2 - 1e-8
+  ).map(({id, node, resource}) => ({id, offset: node.transform.position[alongAxis], width: resource.mounting.width}));
+}
 
 export function validateWallHvacResource(resource, fail, path = resource.id) {
   if (resource.productionBranch !== 'hvac' && resource.mountRole !== 'wall-hvac' && resource.wallHvac === undefined) return;

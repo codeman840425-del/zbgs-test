@@ -129,6 +129,45 @@ export async function verifyFloorAirSources(root,resource,recipe) {
   return pins;
 }
 
+export async function verifyWallHvacSources(root, resource, recipe) {
+  const base = 'assets-source/company-wall-hvac-v1/';
+  const p = resource.provenance;
+  function mismatch(at) {
+    throw Object.assign(Error('wall-hvac-source-mismatch: ' + at), {code:'wall-hvac-source-mismatch', path:at});
+  }
+  const design = recipe.designs?.find(d => d.id === resource.id && d.version === resource.version);
+  if (recipe.schema !== 'company-wall-hvac-collection' || !['curve','twin-intake','ribbed','stepped'].includes(design?.kind))
+    mismatch(resource.id);
+  const paths = {
+    adapter:'scripts/company-platform/adapt-indoor-ac.mjs', adapterRecipe:base+'indoor-adapter.json',
+    sourceReceipt:base+'original/source.json', environmentBranch:'assets-source/company-environment-specs-v1/branches.json',
+  };
+  const pins = new Map(), inputs = {};
+  if (!isDeepStrictEqual(Object.keys(p.dependencies || {}).sort(), Object.keys(paths).sort())) mismatch(resource.id);
+  for (const [name, file] of Object.entries(paths)) {
+    const pin = p.dependencies[name];
+    if (pin?.path !== file) mismatch(file);
+    if (name === 'adapter') {
+      const script = path.resolve(root,file);
+      if (await fs.realpath(script) !== script || !(await fs.lstat(script)).isFile()) mismatch(file);
+      inputs[name] = await fs.readFile(script);
+    } else inputs[name] = await readProductionFile(root, file);
+    if (digest(inputs[name]) !== pin.sha256) mismatch(file);
+    pins.set(name,pin);
+  }
+  const receipt = JSON.parse(inputs.sourceReceipt), adapter = JSON.parse(inputs.adapterRecipe);
+  const original = base+'original/ductless-wall-mounted-indoor-unit.glb';
+  if (p.sourceManifestPath !== paths.sourceReceipt || p.sourceManifestSha256 !== pins.get('sourceReceipt').sha256 ||
+      p.sourceArtifactPath !== original || p.sourceArtifactSha256 !== receipt.sha256 ||
+      p.sourceLicense !== receipt.license.spdx || p.sourceAuthor !== receipt.author || p.sourceUrl !== receipt.page ||
+      base+'original/'+receipt.originalFile !== original || base+adapter.source !== original || adapter.sourceSha256 !== receipt.sha256)
+    mismatch(original);
+  const bytes = await readProductionFile(root, original);
+  if (bytes.length !== receipt.bytes || digest(bytes) !== receipt.sha256) mismatch(original);
+  pins.set('original',{path:original,sha256:receipt.sha256});
+  return pins;
+}
+
 export async function validateResourceProvenance({root, resource, label = resource?.id || '?'}) {
   if (!resource?.asset) return;
   const provenance = resource.provenance || {};
@@ -154,6 +193,8 @@ export async function validateResourceProvenance({root, resource, label = resour
       await verifyTeaSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='fan-and-air-purifier')
       await verifyFloorAirSources(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && resource.productionBranch==='hvac')
+      await verifyWallHvacSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && resource.productionBranch==='plant-desktop-installation')
       await verifyPlantEditableProvenance(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && ['garment-rack-wardrobe','hanging-garment','enclosed-wardrobe'].includes(resource.productionBranch))

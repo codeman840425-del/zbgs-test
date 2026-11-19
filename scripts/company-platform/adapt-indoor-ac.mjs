@@ -240,7 +240,7 @@ function hit(scene, start, direction) {
   return first ? {mesh: first.object.name, point: first.point.toArray(), distance: first.distance} : null;
 }
 
-function verify(model, original, open, offset) {
+function verify(model, original, open, offset, casingParts = new Set(['wall-ac-body'])) {
   const tests = [];
   for (const x of [-.31, 0, .31]) for (const rise of [0,.23]) {
     // In both views the ray passes the bevel at native y=.034, z=.175.
@@ -252,11 +252,15 @@ function verify(model, original, open, offset) {
     if (open) assert(actual.point[2] < .14 && donor.point[2] - actual.point[2] > .045);
     tests.push({x,rise,origin: start.toArray(), direction: dir.normalize().toArray(), donor, actual});
   }
-  for (const [x,y] of [[-.38,.034],[.38,.034],[0,.085],[0,.001]]) {
+  const shellWidth = bounds(model.getObjectByName('wall-ac-body')).getSize(vec()).x;
+  // Place the side negative in the end cheek even for a recipient's widened
+  // curve design. Keep the fixed 380 mm pilot ray for the original 800 mm shell.
+  const cheekX = Math.abs(shellWidth-.8)<1e-6 ? .38 : shellWidth*.475;
+  for (const [x,y] of [[-cheekX,.034],[cheekX,.034],[0,.085],[0,.001]]) {
     const start = vec(x,y,.45).add(offset);
     const actual = hit(model,start,vec(0,0,-1));
     // In the open pose the blade may occlude the very bottom rim.
-    assert(actual?.mesh === 'wall-ac-body' || open && y === .001 && actual?.mesh === 'wall-ac-louver');
+    assert(casingParts.has(actual?.mesh) || open && y === .001 && actual?.mesh === 'wall-ac-louver');
     tests.push({outsideAperture: true, origin: start.toArray(), direction: [0,0,-1],actual});
   }
   return tests;
@@ -407,6 +411,7 @@ async function run() {
   console.log(JSON.stringify({mode:check?'checked':'created',directory,
     sha256:Object.fromEntries(Object.entries(report.files).map(([name,file])=>[name,file.sha256]))}));
 }
+export {inside as fixedProjectPath, embedSurfaces, verify as verifyAdapterRays, verifySweep as verifyAdapterSweep};
 if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
   run().catch(error=>{console.error(error); process.exitCode=1;});
 }
