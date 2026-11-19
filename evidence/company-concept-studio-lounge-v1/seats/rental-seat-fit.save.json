@@ -1,0 +1,700 @@
+{
+  "dependencies": {
+    "resources": [
+      {
+        "id": "chair-cantilever",
+        "sha256": "68d661506023c2b3fb61ef26d1761d16c89e162fcee5250ea72d489abc26dbe7",
+        "version": 1
+      },
+      {
+        "id": "chair-ladder",
+        "sha256": "800aa6be8d63618f82b988b9ab8b598328fb6c1e7f202b2aeb50f20e37f9ad73",
+        "version": 1
+      },
+      {
+        "id": "desk-microphone-ball",
+        "sha256": "49b3728caa709b22cdb362409da62f7fcd8287622f0f2505d1240c984125c994",
+        "version": 1
+      },
+      {
+        "id": "desk-trestle",
+        "sha256": "2e81f459c830d4618f5388fe7beea8fe752111f68d78e3aad9bfa4f277cd4d2b",
+        "version": 1
+      },
+      {
+        "id": "desk",
+        "sha256": "938b3904b32bb89d6fe18518b50619adeb93fe0b1e9408a4b1e3d400735163d8",
+        "version": 1
+      },
+      {
+        "id": "fill-light-orbit",
+        "sha256": "8dee49dd20f0fa97ea7a4cfe51d057ab9d9c96210d6ad400dcbaf94e8ce3d366",
+        "version": 1
+      },
+      {
+        "id": "floor-herringbone",
+        "sha256": "96cb1d9b1652ac7d539d82c0c0badd47f36e44cc0e5804592e895c4eacb06c9e",
+        "version": 1
+      },
+      {
+        "id": "keyboard-compact",
+        "sha256": "7c3066c8b6886cf3f1a232b050d8b2f8c3359cc2260d229b8575d25c06a4d9e7",
+        "version": 1
+      },
+      {
+        "id": "lounge-sofa",
+        "sha256": "5b3f849b65c64498d407f4023fd18044fdb73518248f1adc2e24cacd803f5e0c",
+        "version": 1
+      },
+      {
+        "id": "monitor-slate",
+        "sha256": "6d46afd847bd612160e4f3b8e33c5949872c13e6949b48cc3f38f845ccd0fa62",
+        "version": 1
+      },
+      {
+        "id": "plant",
+        "sha256": "f0877f5dc9065d5d67ad4728c356625d4d30412044badefd4846e794b0b96765",
+        "version": 1
+      },
+      {
+        "id": "rug-border",
+        "sha256": "d466deee78b37a8300122f089a2a9b4b666148d5905e81da98edeff1b4d810ce",
+        "version": 1
+      },
+      {
+        "id": "side-table-carved-round",
+        "sha256": "9cd0e4fc2b6a8eeeb31d506b51b4addb192639fa854df44f32ab4354a61795ed",
+        "version": 1
+      },
+      {
+        "id": "side-table-life-cup",
+        "sha256": "0d2273a7a5179493a77f8c157c69f9c10d62d94fe37f2fd201241443a66be853",
+        "version": 1
+      },
+      {
+        "id": "side-table-life-pen-notebook",
+        "sha256": "4e1c38ff63e4a99ff9838a7ba7b2b13b6b8fe94dd81c9cd4dfe5752bbe7f9677",
+        "version": 1
+      },
+      {
+        "id": "side-table-round",
+        "sha256": "82b25561a1afe5ae0037b6fad45f6f920e8b4fe169054213408560be6733ee6a",
+        "version": 1
+      },
+      {
+        "id": "wall-shelf-cantilever",
+        "sha256": "fbd4edb1beb3900ae6afd8bc7d242a8de91555afc194a12a529765551ab6601a",
+        "version": 1
+      }
+    ],
+    "templates": [
+      {
+        "id": "stream-station",
+        "sha256": "47dc0c9ae9e042c8e36a728022536ad2abbded2c7afebf314e8cf8105a74bdbc",
+        "version": 1
+      }
+    ]
+  },
+  "document": {
+    "catalog": {
+      "id": "company-facilities",
+      "version": 1
+    },
+    "id": "concept-lounge-rental",
+    "name": "概念图二 · 整套房休息室",
+    "nodes": [
+      {
+        "connections": [
+          {
+            "from": {
+              "edge": "east",
+              "offset": 0,
+              "regionId": "concept-lounge-rental/ground/live",
+              "width": 1.4
+            },
+            "id": "concept-lounge-rental/ground/portal-stream-living",
+            "to": {
+              "edge": "west",
+              "offset": 0,
+              "regionId": "concept-lounge-rental/ground/living",
+              "width": 1.4
+            }
+          },
+          {
+            "from": {
+              "edge": "west",
+              "offset": 0,
+              "regionId": "concept-lounge-rental/ground/work",
+              "width": 1.4
+            },
+            "id": "concept-lounge-rental/ground/portal-work-living",
+            "to": {
+              "edge": "east",
+              "offset": 0,
+              "regionId": "concept-lounge-rental/ground/living",
+              "width": 1.4
+            }
+          },
+          {
+            "from": {
+              "edge": "north",
+              "offset": 0,
+              "regionId": "concept-lounge-rental/ground/lounge",
+              "width": 1.4
+            },
+            "id": "concept-lounge-rental/ground/portal-rest-living",
+            "to": {
+              "edge": "south",
+              "offset": 0,
+              "regionId": "concept-lounge-rental/ground/living",
+              "width": 1.4
+            }
+          }
+        ],
+        "id": "concept-lounge-rental/ground",
+        "kind": "floor",
+        "name": "一层",
+        "parentId": "concept-lounge-rental",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "bounds": {
+          "depth": 4,
+          "width": 4.5
+        },
+        "entry": {
+          "position": [
+            -1.8,
+            0,
+            1.5
+          ]
+        },
+        "id": "concept-lounge-rental/ground/live",
+        "kind": "room",
+        "name": "直播间",
+        "parentId": "concept-lounge-rental/ground",
+        "purpose": "streaming",
+        "transform": {
+          "position": [
+            -4.5,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "bounds": {
+          "depth": 4,
+          "width": 4.5
+        },
+        "entry": {
+          "position": [
+            1.8,
+            0,
+            1.5
+          ]
+        },
+        "id": "concept-lounge-rental/ground/work",
+        "kind": "room",
+        "name": "工作间",
+        "parentId": "concept-lounge-rental/ground",
+        "purpose": "work",
+        "transform": {
+          "position": [
+            4.5,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "bounds": {
+          "depth": 4,
+          "width": 4.5
+        },
+        "entry": {
+          "position": [
+            1.7,
+            0,
+            1.4
+          ]
+        },
+        "finishes": {
+          "floor": {
+            "resource": {
+              "id": "floor-herringbone",
+              "version": 1
+            }
+          }
+        },
+        "id": "concept-lounge-rental/ground/lounge",
+        "kind": "room",
+        "name": "休息室",
+        "parentId": "concept-lounge-rental/ground",
+        "purpose": "rest",
+        "transform": {
+          "position": [
+            0,
+            0,
+            4
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "bounds": {
+          "depth": 4,
+          "width": 4.5
+        },
+        "entry": {
+          "position": [
+            -1.6,
+            0,
+            1.5
+          ]
+        },
+        "id": "concept-lounge-rental/ground/living",
+        "kind": "area",
+        "name": "公共客厅",
+        "parentId": "concept-lounge-rental/ground",
+        "publicRole": "living",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/live/station-1",
+        "kind": "workstation",
+        "name": "concept-lounge-rental/ground/live/station-1",
+        "parentId": "concept-lounge-rental/ground/live",
+        "template": {
+          "id": "stream-station",
+          "version": 1
+        },
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.5
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/live/station-1/desk",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/live/station-1",
+        "partKey": "desk",
+        "resource": {
+          "id": "desk-trestle",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "concept-lounge-rental/ground/live/station-1",
+        "transform": {
+          "position": [
+            0,
+            0,
+            -0.9
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/live/station-1/monitor",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/live/station-1/desk",
+        "partKey": "monitor",
+        "resource": {
+          "id": "monitor-slate",
+          "version": 1
+        },
+        "state": {
+          "on": true
+        },
+        "stationId": "concept-lounge-rental/ground/live/station-1",
+        "transform": {
+          "position": [
+            -0.44,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/live/station-1/keyboard",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/live/station-1/desk",
+        "partKey": "keyboard",
+        "resource": {
+          "id": "keyboard-compact",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "concept-lounge-rental/ground/live/station-1",
+        "transform": {
+          "position": [
+            0,
+            0.84,
+            0.21
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/live/station-1/microphone",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/live/station-1/desk",
+        "partKey": "microphone",
+        "resource": {
+          "id": "desk-microphone-ball",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "concept-lounge-rental/ground/live/station-1",
+        "transform": {
+          "position": [
+            -0.8,
+            0.84,
+            0.18
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/live/station-1/chair",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/live/station-1",
+        "partKey": "chair",
+        "resource": {
+          "id": "chair-cantilever",
+          "version": 1
+        },
+        "state": {},
+        "stationId": "concept-lounge-rental/ground/live/station-1",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.55
+          ],
+          "yaw": 3.141592653589793
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/live/station-1/fill-light",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/live/station-1",
+        "partKey": "fill-light",
+        "resource": {
+          "id": "fill-light-orbit",
+          "version": 1
+        },
+        "state": {
+          "intensity": 5,
+          "on": true
+        },
+        "stationId": "concept-lounge-rental/ground/live/station-1",
+        "transform": {
+          "position": [
+            -0.75,
+            0,
+            -0.15
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/work/desk",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/work",
+        "resource": {
+          "id": "desk",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            0,
+            0,
+            -0.8
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/work/chair",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/work",
+        "resource": {
+          "id": "chair-ladder",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.65
+          ],
+          "yaw": 3.141592653589793
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/lounge/sofa",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/lounge",
+        "resource": {
+          "id": "lounge-sofa",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            -1.58,
+            0,
+            0.08
+          ],
+          "yaw": 1.5707963267948966
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/living/sofa",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/living",
+        "resource": {
+          "id": "lounge-sofa",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            0,
+            0,
+            -0.45
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/living/plant",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/living",
+        "resource": {
+          "id": "plant",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            1.55,
+            0,
+            -1
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/lounge/rug",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/lounge",
+        "resource": {
+          "id": "rug-border",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            -0.49,
+            0,
+            0.06
+          ],
+          "yaw": 1.5707963267948966
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/lounge/cup-table",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/lounge",
+        "resource": {
+          "id": "side-table-carved-round",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            -1.3,
+            0,
+            1.6
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "attachment": {
+          "surfaceId": "top"
+        },
+        "id": "concept-lounge-rental/ground/lounge/cup",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/lounge/cup-table",
+        "resource": {
+          "id": "side-table-life-cup",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            0.035,
+            0.5,
+            -0.012
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/lounge/book-table",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/lounge",
+        "resource": {
+          "id": "side-table-round",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            -1.47,
+            0,
+            -1.52
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "attachment": {
+          "surfaceId": "top"
+        },
+        "id": "concept-lounge-rental/ground/lounge/book",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/lounge/book-table",
+        "resource": {
+          "id": "side-table-life-pen-notebook",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            -0.026,
+            0.5,
+            0.01
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/live/station-1/desk/secondary-monitor",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/live/station-1/desk",
+        "resource": {
+          "id": "monitor-slate",
+          "version": 1
+        },
+        "state": {
+          "on": true
+        },
+        "transform": {
+          "position": [
+            0.44,
+            0.84,
+            -0.25
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "id": "concept-lounge-rental/ground/live/wall-shelf",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/live",
+        "resource": {
+          "id": "wall-shelf-cantilever",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            0.85,
+            0.55,
+            -1.9
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "attachment": {
+          "surfaceId": "lower"
+        },
+        "id": "concept-lounge-rental/ground/live/wall-shelf/cup",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/live/wall-shelf",
+        "resource": {
+          "id": "side-table-life-cup",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            -0.12,
+            0.35,
+            0.19
+          ],
+          "yaw": 0
+        }
+      },
+      {
+        "attachment": {
+          "surfaceId": "middle"
+        },
+        "id": "concept-lounge-rental/ground/live/wall-shelf/notebook",
+        "kind": "facility",
+        "parentId": "concept-lounge-rental/ground/live/wall-shelf",
+        "resource": {
+          "id": "side-table-life-pen-notebook",
+          "version": 1
+        },
+        "state": {},
+        "transform": {
+          "position": [
+            0.05,
+            0.95,
+            0.19
+          ],
+          "yaw": 0
+        }
+      }
+    ],
+    "revision": 4,
+    "scale": "rental-home",
+    "schema": "company-layout",
+    "spaceProfile": {
+      "id": "company-space-v2",
+      "version": 1
+    },
+    "version": 1
+  },
+  "schema": "company-save",
+  "version": 1
+}

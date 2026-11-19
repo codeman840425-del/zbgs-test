@@ -1,0 +1,572 @@
+{
+  "status": "passed",
+  "sealed": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\candidate",
+  "source": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\source",
+  "work": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01",
+  "manifest": "7fbcf1ea2e82c4f0bfd664353899fc8e29a2570a640e10c6f5dc258a7d9f066b",
+  "build": "9248a1708658",
+  "inputDigest": "9248a1708658a93ba7a29b1e42a6bb2592d0e320fd1129da7ac1eb394dca81b7",
+  "platform": "win32",
+  "arch": "x64",
+  "node": "v24.13.0",
+  "commands": [
+    {
+      "label": "01-full-package",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\candidate",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\candidate",
+        "7fbcf1ea2e82c4f0bfd664353899fc8e29a2570a640e10c6f5dc258a7d9f066b"
+      ],
+      "exit": 0
+    },
+    {
+      "label": "02-clean-npm-ci",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\source\\prototype",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+        "ci",
+        "--cache",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\npm-cache",
+        "--prefer-online",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "exit": 0
+    },
+    {
+      "label": "03-build-id",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\source\\prototype",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\source\\prototype\\scripts\\build-company-id.mjs"
+      ],
+      "exit": 0
+    },
+    {
+      "label": "04-vite",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\source\\prototype",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\source\\prototype\\node_modules\\vite\\bin\\vite.js",
+        "build",
+        "--config",
+        "vite.company.config.js"
+      ],
+      "exit": 0
+    },
+    {
+      "label": "05-compare-viewer",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\candidate",
+        "7fbcf1ea2e82c4f0bfd664353899fc8e29a2570a640e10c6f5dc258a7d9f066b",
+        "--viewer",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\source\\prototype\\dist-company"
+      ],
+      "exit": 0
+    },
+    {
+      "label": "06-reject-wrong-sha",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\inputs\\wrong-sha.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\output"
+      ],
+      "exit": 1
+    },
+    {
+      "label": "07-retry-only-v2",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\inputs\\third-input.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\output",
+        "--only",
+        "receiver-beta-set-v2"
+      ],
+      "exit": 0
+    },
+    {
+      "label": "08-repeat-v2",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\inputs\\third-input.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\output",
+        "--only",
+        "receiver-beta-set-v2"
+      ],
+      "exit": 0
+    },
+    {
+      "label": "09-seal-again",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\candidate",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\candidate",
+        "7fbcf1ea2e82c4f0bfd664353899fc8e29a2570a640e10c6f5dc258a7d9f066b"
+      ],
+      "exit": 0
+    }
+  ],
+  "initial": {
+    "ok": true,
+    "build": "9248a1708658",
+    "manifestSha256": "7fbcf1ea2e82c4f0bfd664353899fc8e29a2570a640e10c6f5dc258a7d9f066b",
+    "declaredFiles": 2513,
+    "checkedFiles": 2513,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "copiedSourceFiles": 1796,
+  "lockSha256": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b",
+  "emptyNpmCache": {
+    "startedWithFiles": 0,
+    "after": [
+      "_cacache",
+      "_logs",
+      "_update-notifier-last-checked"
+    ]
+  },
+  "viewer": {
+    "ok": true,
+    "build": "9248a1708658",
+    "manifestSha256": "7fbcf1ea2e82c4f0bfd664353899fc8e29a2570a640e10c6f5dc258a7d9f066b",
+    "declaredFiles": 689,
+    "checkedFiles": 689,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0,
+    "scope": "rebuilt-viewer"
+  },
+  "v2": {
+    "recipe": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\source\\scripts\\company-platform\\studio-lounge-sets\\concept-studio-lounge.v2.json",
+    "recipePin": {
+      "id": "concept-studio-lounge",
+      "version": 2,
+      "sha256": "64e5f3406de1a6253da0e5f251e6f4632e6e1dce4836c38b1a71361a3a760719"
+    },
+    "thirdInput": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\inputs\\third-input.json",
+    "thirdInputSha256": "b37e6766bc4df0a8c12e9db04f22e40a53392522c60038cd9860cfab507f34e4",
+    "product": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\concept-studio-lounge-v1\\receiver\\run-01\\output\\receiver-beta-set-v2",
+    "saveSha256": "31d301fd68a92200979c278668ff65aee34304384313cb266b59e03490ffd060",
+    "layoutSha256": "c672a51f7428c9f851c43be9f4504fa1684151fce8ab040bfc0a4da1af2101db",
+    "geometry": {
+      "chairId": "cool-studios/floor-beta/beta-stream/station-1/chair",
+      "deskId": "cool-studios/floor-beta/beta-stream/station-1/desk",
+      "eyeProbes": [
+        [
+          -0.757,
+          1.141,
+          -0.049
+        ],
+        [
+          -0.758,
+          1.144,
+          -0.067
+        ],
+        [
+          -0.758,
+          1.178,
+          -0.067
+        ],
+        [
+          -0.759,
+          1.183,
+          -0.086
+        ]
+      ],
+      "monitors": [
+        {
+          "assetSha256": "4481f3d0cb98375443355141a924a097d2698742683e6513606c67949ee677ba",
+          "bearing": [
+            {
+              "gapM": 4.6193593394860955e-10,
+              "part": "desktop",
+              "point": [
+                -0.98,
+                0.84,
+                -1.54
+              ]
+            },
+            {
+              "gapM": 4.6193593394860955e-10,
+              "part": "desktop",
+              "point": [
+                -0.98,
+                0.84,
+                -1.72
+              ]
+            },
+            {
+              "gapM": 4.6193593394860955e-10,
+              "part": "desktop",
+              "point": [
+                -1.4,
+                0.84,
+                -1.54
+              ]
+            },
+            {
+              "gapM": 4.6193593394860955e-10,
+              "part": "desktop",
+              "point": [
+                -1.4,
+                0.84,
+                -1.72
+              ]
+            }
+          ],
+          "id": "cool-studios/floor-beta/beta-stream/station-1/monitor",
+          "powered": true,
+          "resource": {
+            "id": "monitor-slate",
+            "version": 1
+          },
+          "screenSizeM": [
+            0.75,
+            0.4000000059604645
+          ],
+          "screens": [
+            "screen-surface"
+          ],
+          "views": [
+            {
+              "angleDegrees": 15.923928149698886,
+              "distanceM": 1.6274504600253608,
+              "hits": [
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface"
+              ]
+            },
+            {
+              "angleDegrees": 16.041724494052666,
+              "distanceM": 1.6096797817698514,
+              "hits": [
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface"
+              ]
+            },
+            {
+              "angleDegrees": 15.806927454329319,
+              "distanceM": 1.6077988057709947,
+              "hits": [
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface"
+              ]
+            },
+            {
+              "angleDegrees": 15.931706294771685,
+              "distanceM": 1.5890355565060896,
+              "hits": [
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface"
+              ]
+            }
+          ]
+        },
+        {
+          "assetSha256": "4481f3d0cb98375443355141a924a097d2698742683e6513606c67949ee677ba",
+          "bearing": [
+            {
+              "gapM": 4.6193593394860955e-10,
+              "part": "desktop",
+              "point": [
+                -0.1,
+                0.84,
+                -1.54
+              ]
+            },
+            {
+              "gapM": 4.6193593394860955e-10,
+              "part": "desktop",
+              "point": [
+                -0.1,
+                0.84,
+                -1.72
+              ]
+            },
+            {
+              "gapM": 4.6193593394860955e-10,
+              "part": "desktop",
+              "point": [
+                -0.52,
+                0.84,
+                -1.54
+              ]
+            },
+            {
+              "gapM": 4.6193593394860955e-10,
+              "part": "desktop",
+              "point": [
+                -0.52,
+                0.84,
+                -1.72
+              ]
+            }
+          ],
+          "id": "cool-studios/floor-beta/beta-stream/station-1/desk/secondary-monitor",
+          "powered": true,
+          "resource": {
+            "id": "monitor-slate",
+            "version": 1
+          },
+          "screenSizeM": [
+            0.75,
+            0.4000000059604645
+          ],
+          "screens": [
+            "screen-surface"
+          ],
+          "views": [
+            {
+              "angleDegrees": 16.382925547528078,
+              "distanceM": 1.6312311301090225,
+              "hits": [
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface"
+              ]
+            },
+            {
+              "angleDegrees": 16.572400162652656,
+              "distanceM": 1.6140473970235931,
+              "hits": [
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface"
+              ]
+            },
+            {
+              "angleDegrees": 16.346881191576514,
+              "distanceM": 1.6121715168798374,
+              "hits": [
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface"
+              ]
+            },
+            {
+              "angleDegrees": 16.546772884631356,
+              "distanceM": 1.59401191960431,
+              "hits": [
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface",
+                "screen-surface"
+              ]
+            }
+          ]
+        }
+      ],
+      "separationM": 0.06000000715255993,
+      "stationId": "cool-studios/floor-beta/beta-stream/station-1"
+    },
+    "seatPoints": [
+      {
+        "approach": {
+          "local": [
+            -0.75,
+            0,
+            -0.5499999999999998
+          ],
+          "world": [
+            -21.75,
+            0,
+            -5.05
+          ]
+        },
+        "approachConnected": true,
+        "capacity": 1,
+        "exit": {
+          "local": [
+            -0.75,
+            0,
+            -0.6000000000000005
+          ],
+          "world": [
+            -21.75,
+            0,
+            -5.1000000000000005
+          ]
+        },
+        "exitConnected": true,
+        "facilityId": "cool-studios/floor-beta/beta-stream/station-1/chair",
+        "id": "cool-studios/floor-beta/beta-stream/station-1/chair#seat",
+        "position": {
+          "local": [
+            -0.75,
+            0,
+            0.04999999999999982
+          ],
+          "world": [
+            -21.75,
+            0,
+            -4.45
+          ]
+        },
+        "roomId": "cool-studios/floor-beta/beta-stream"
+      },
+      {
+        "approach": {
+          "local": [
+            -0.4800000000000004,
+            0,
+            1.5699999999999998
+          ],
+          "world": [
+            -9.48,
+            0,
+            -2.93
+          ]
+        },
+        "approachConnected": true,
+        "capacity": 1,
+        "exit": {
+          "local": [
+            -0.4800000000000004,
+            0,
+            1.6999999999999997
+          ],
+          "world": [
+            -9.48,
+            0,
+            -2.8000000000000003
+          ]
+        },
+        "exitConnected": true,
+        "facilityId": "cool-studios/floor-beta/beta-rest/sofa",
+        "id": "cool-studios/floor-beta/beta-rest/sofa#left",
+        "position": {
+          "local": [
+            -0.4800000000000004,
+            0,
+            0.5899999999999999
+          ],
+          "world": [
+            -9.48,
+            0,
+            -3.91
+          ]
+        },
+        "roomId": "cool-studios/floor-beta/beta-rest"
+      },
+      {
+        "approach": {
+          "local": [
+            0.4800000000000004,
+            0,
+            1.5699999999999998
+          ],
+          "world": [
+            -8.52,
+            0,
+            -2.93
+          ]
+        },
+        "approachConnected": true,
+        "capacity": 1,
+        "exit": {
+          "local": [
+            0.4800000000000004,
+            0,
+            1.6999999999999997
+          ],
+          "world": [
+            -8.52,
+            0,
+            -2.8000000000000003
+          ]
+        },
+        "exitConnected": true,
+        "facilityId": "cool-studios/floor-beta/beta-rest/sofa",
+        "id": "cool-studios/floor-beta/beta-rest/sofa#right",
+        "position": {
+          "local": [
+            0.4800000000000004,
+            0,
+            0.5899999999999999
+          ],
+          "world": [
+            -8.52,
+            0,
+            -3.91
+          ]
+        },
+        "roomId": "cool-studios/floor-beta/beta-rest"
+      }
+    ],
+    "changed": [
+      "cool-studios/floor-beta/beta-stream/station-1/desk",
+      "cool-studios/floor-beta/beta-stream/station-1/monitor",
+      "cool-studios/floor-beta/beta-stream/station-1/keyboard",
+      "cool-studios/floor-beta/beta-stream/station-1/microphone",
+      "cool-studios/floor-beta/beta-stream/station-1/chair",
+      "cool-studios/floor-beta/beta-stream/station-1/fill-light",
+      "cool-studios/floor-beta/beta-rest/sofa",
+      "cool-studios/floor-beta/beta-stream/station-1/desk/secondary-monitor",
+      "cool-studios/floor-beta/beta-stream/wall-shelf",
+      "cool-studios/floor-beta/beta-stream/wall-shelf/cup",
+      "cool-studios/floor-beta/beta-stream/wall-shelf/notebook",
+      "cool-studios/floor-beta/beta-rest/cup-table",
+      "cool-studios/floor-beta/beta-rest/cup"
+    ],
+    "retainedAlphaNodes": 53,
+    "baselineFileHashes": {
+      "save.json": "ebaa2e7af05b33e649a81a0752db737cbb6ba4c678237b31d733ed421b4dff8a",
+      "layout.json": "5131b1ab41922b336deb2c7f27c0a6ae072f0ca5fe8ce1b2568b44f0c49fbf69",
+      "input.json": "f1db8ca243cee806027b15bfe1ea39c7092d6f48beacf1254243790e4d5da5ea",
+      "report.json": "7a4c81da9e532cbb6fbc377e33d9388eb449c469ad9e9f9c8857c4a290bc0b90"
+    },
+    "wrongSha": {
+      "key": "receiver-beta-set-v2",
+      "status": "failed",
+      "code": "invalid-studio-lounge-set",
+      "path": "scripts/company-platform/studio-lounge-sets/concept-studio-lounge.v2.json",
+      "message": "invalid-studio-lounge-set at scripts/company-platform/studio-lounge-sets/concept-studio-lounge.v2.json: Recipe bytes differ from the requested SHA-256",
+      "details": {}
+    },
+    "retry": "created",
+    "repeat": "idempotent"
+  },
+  "final": {
+    "ok": true,
+    "build": "9248a1708658",
+    "manifestSha256": "7fbcf1ea2e82c4f0bfd664353899fc8e29a2570a640e10c6f5dc258a7d9f066b",
+    "declaredFiles": 2513,
+    "checkedFiles": 2513,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  }
+}
