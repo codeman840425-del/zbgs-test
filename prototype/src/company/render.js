@@ -21,6 +21,7 @@ import {applySurfaceFinish,describeSurfaceMeshes,surfaceMaterialFor} from './sur
 import {describeBaseboardRuns,createBaseboardGeometry} from './baseboard-geometry.js';
 import {partAngle,partOffset} from './moving-parts.js';
 import {bindClockDisplay,validatePresentationInputs} from './clock-display.js';
+import {applyWallHvacState} from './wall-hvac.js';
 import {applyInformationDisplay} from './information-display.js';
 import {createMirrorBindings,validateMirrorRenderProfile} from './mirror-render.js';
 import {inspectCompanyMotionSweep,inspectCompanyPlacement} from './placement.js';
@@ -92,6 +93,7 @@ export function validateCeilingDocumentAssets(derived,assetLibrary,entries=insta
       if(f.resource.mountRole==='desk-lamp')poseDeskLampHead(instance.nodes,f.state.angle);
       applyWindowCoverState(visual,f.resource,f.state);
       applyBackdropState(visual,f.resource,f.state);
+      applyWallHvacState(visual,f.resource,f.state);
       if(derived.cableConnections.has(f.id))adaptCableGeometry(visual,derived.cableConnections.get(f.id));
       root.position.fromArray(f.world.position);root.rotation.y=f.world.yaw;root.updateMatrixWorld(true);
       temporary.get(f.id).visual=visual;
@@ -216,6 +218,7 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         applyWindowState(visual,entry.resource,entry.state);
         applyWindowCoverState(visual,entry.resource,entry.state);
         applyBackdropState(visual,entry.resource,entry.state);
+        applyWallHvacState(visual,entry.resource,entry.state);
         if(derived.cableConnections.has(entry.id))adaptCableGeometry(visual,derived.cableConnections.get(entry.id));
         for(const part of entry.resource.movingParts||[]) {
           const pivot=parts.get(entry.resource.partNodes[part.id]);

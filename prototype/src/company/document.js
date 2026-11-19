@@ -19,6 +19,7 @@ import {validateMovingResource, validateFacilityState, movingFootprint} from './
 import {validateWallAmbientResource} from './wall-ambient.js';
 import {validateDeskLampResource} from './desk-lamp.js';
 import {validateFloorAirResource} from './floor-air.js';
+import {validateWallHvacResource} from './wall-hvac.js';
 import {validateClockResource} from './clock-display.js';
 import {validateInformationResource,validateInformationAttachments} from './information-display.js';
 import {validateMirrorResource} from './mirror-data.js';
@@ -198,7 +199,7 @@ export function deriveCompany(document, catalog, templates) {
     fail('catalog-version-mismatch', 'document.catalog', 'Load the pinned resource catalog');
   if (!Array.isArray(document.nodes)) fail('invalid-nodes', 'document.nodes', 'Expected an array');
   const { resources, combinations } = catalogMaps(catalog, templates);
-  for (const resource of resources.values()) { validateWallAmbientResource(resource,fail); validateDeskLampResource(resource,fail); validateFloorAirResource(resource,fail); validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); validateWindowCoverResource(resource,fail); validateBackdropResource(resource,fail); validateGarmentResource(resource,fail); }
+  for (const resource of resources.values()) { validateWallAmbientResource(resource,fail); validateDeskLampResource(resource,fail); validateFloorAirResource(resource,fail); validateWallHvacResource(resource,fail); validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); validateWindowCoverResource(resource,fail); validateBackdropResource(resource,fail); validateGarmentResource(resource,fail); }
   const nodes = new Map(), worlds = new Map(), localTransforms = new Map(), floorIds = new Map(), roomIds = new Map();
   for (const node of document.nodes) {
     checkId(node.id, 'nodes.id');
@@ -362,6 +363,8 @@ export function deriveCompany(document, catalog, templates) {
       }
     }
     validateFacilityState(resource, node.state || {}, fail, `${node.id}.state`);
+    if (resource.mountRole === 'wall-hvac' && node.transform.position[1] - resource.mounting.height / 2 < 2)
+      fail('wall-hvac-too-low', node.id, 'This non-blocking high-wall installation requires at least two metres underneath');
     const entry = { id: node.id, node, resource, world, state, floorId: floorIds.get(node.id), roomId: roomIds.get(node.id) };
     if (!entry.floorId) fail('missing-floor', node.id, 'Facility must belong to one floor');
     facilities.push(entry);
