@@ -10,6 +10,7 @@ import {inspectCompanyPlacement} from '../../prototype/src/company/placement.js'
 import {createCompanyScene} from '../../prototype/src/company/render.js';
 import {inspectCompanyConnections} from '../../prototype/src/company/space.js';
 import {WALL_HEIGHT} from '../../prototype/src/company/wall-visibility.js';
+import {installNodeImageDecodeShim} from './preflight-library-assets.mjs';
 
 const publicRoot = fileURLToPath(new URL('../../prototype/public/', import.meta.url));
 const fitEpsilon = 1e-7;
@@ -81,13 +82,7 @@ function clearanceBox(rect, portal, joinedByEdge) {
 }
 
 export function createLocalRoomAssetLibrary() {
-  globalThis.self ??= globalThis;
-  // Geometry is decoded by GLTFLoader. Supply image dimensions in Node without raster or GPU rendering.
-  globalThis.createImageBitmap ??= async blob => {
-    const bytes = Buffer.from(await blob.arrayBuffer());
-    const png = bytes.length >= 24 && bytes.readUInt32BE(0) === 0x89504e47;
-    return {width:png ? bytes.readUInt32BE(16) : 1, height:png ? bytes.readUInt32BE(20) : 1, close(){}};
-  };
+  installNodeImageDecodeShim();
   return createCompanyAssetLibrary({fetchImpl:async url => {
     const file = path.resolve(publicRoot, `.${url}`);
     if (!url.startsWith('/company-assets/') || !file.startsWith(path.join(publicRoot,'company-assets') + path.sep))
