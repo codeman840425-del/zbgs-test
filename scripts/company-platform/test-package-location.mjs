@@ -15,9 +15,11 @@ async function producer(checkout) {
   await fs.mkdir(dir, { recursive: true });
   const copy = path.join(dir, 'package-company.mjs');
   await fs.copyFile(source, copy);
-  const template = 'package-template/training-room.mjs';
   await fs.mkdir(path.join(dir, 'package-template'), { recursive: true });
-  await fs.copyFile(path.join(path.dirname(source), template), path.join(dir, template));
+  for (const name of ['training-room.mjs', 'vocal-origin.mjs']) {
+    const template = path.join('package-template', name);
+    await fs.copyFile(path.join(path.dirname(source), template), path.join(dir, template));
+  }
   return (await import(pathToFileURL(copy).href)).packageCompany;
 }
 
@@ -51,6 +53,18 @@ try {
   }
   const external = path.join(os.tmpdir(), 'company-recipient', path.basename(scratch));
   await checkManagedOutput(path.join(external, 'bundle'), path.join(external, 'source'));
+  const target = path.join(scratch, 'preserved');
+  const linked = path.join(scratch, 'redirect');
+  await fs.mkdir(target);
+  await fs.symlink(target, linked, process.platform === 'win32' ? 'junction' : 'dir');
+  try {
+    for (const pack of [main, fixed, received]) {
+      await assert.rejects(run(pack, path.join(linked, 'new', 'bundle')), { code: 'linked-package-output' });
+    }
+    assert.deepEqual(await fs.readdir(target), []);
+  } finally {
+    await fs.unlink(linked);
+  }
   await assert.rejects(fs.stat(path.dirname(outside)), { code: 'ENOENT' });
   console.log('Passed managed developer, fixed checkout and portable receiver destination checks.');
 } finally {

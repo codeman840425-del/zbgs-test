@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {verifySingingSources} from './validate-resource-provenance.mjs';
+import {checkManagedOutput} from './package-company.mjs';
 import catalog from '../../prototype/src/company/library-catalog.json' with {type:'json'};
 
 const [target,...extra]=process.argv.slice(2);
@@ -11,6 +12,7 @@ const root=fileURLToPath(new URL('../..',import.meta.url)), directory=path.resol
 const producers=new Set(['scripts/company-platform/build-singing-stage.mjs','scripts/company-platform/build-vocal-mic-looks.mjs']);
 const assets=catalog.resources.filter(r=>producers.has(r.provenance?.generator));
 assert(assets.length>=2);
+await checkManagedOutput(directory,root,{allowDelivery:false});
 await fs.mkdir(directory);
 const results=[];
 for(const resource of assets){

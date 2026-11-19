@@ -317,6 +317,10 @@ async function outputDirectory() {
   }
   const resolved=path.resolve(await fs.realpath(existing),path.relative(existing,out));
   assert(inside(owner,resolved),'Output resolves outside the QA project');
+  if(managed){
+    const {checkManagedOutput}=await import('./package-company.mjs');
+    await checkManagedOutput(out,managed,{allowDelivery:false});
+  }
   assert(!inside(await fs.realpath(root),resolved) && resolved!==await fs.realpath(root),'Keep the input untouched');
   await fs.mkdir(path.dirname(out),{recursive:true});await fs.mkdir(out);created=true;
   const temp=path.join(out,'process-temp');await fs.mkdir(temp);

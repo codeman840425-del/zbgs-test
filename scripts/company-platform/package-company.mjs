@@ -300,12 +300,12 @@ function relative(value){
     fail('unsafe-package-path',String(value),'Expected a safe relative POSIX path');
   return value;
 }
-async function noLinks(file){
+async function noLinks(file,errorCode='linked-package-input'){
   const absolute=path.resolve(file),parsed=path.parse(absolute);let cursor=parsed.root;
   for(const component of absolute.slice(parsed.root.length).split(path.sep).filter(Boolean)){
     cursor=path.join(cursor,component);
     const stat=await fs.lstat(cursor);
-    if(stat.isSymbolicLink())fail('linked-package-input',cursor,'Symbolic links and junctions are not accepted');
+    if(stat.isSymbolicLink())fail(errorCode,cursor,'Symbolic links and junctions are not accepted');
   }
   return absolute;
 }
@@ -353,15 +353,18 @@ export async function checkManagedOutput(output, toolSource = defaultSource, {al
   }
   if (!project) return;
   const releases = path.join(project, 'company-workspace', 'deliveries');
-  if (allowDelivery && path.relative(releases, path.dirname(output)) === '') return;
+  const directRelease = allowDelivery && path.relative(releases, path.dirname(output)) === '';
   const managed = ['output', 'company-workspace/production-trials'].some(folder => {
     const location = path.relative(path.join(project, folder), output);
     return location !== '' && location !== '..' && !location.startsWith('..' + path.sep) && !path.isAbsolute(location);
   });
-  if (!managed)
+  if (!directRelease && !managed)
     fail('outside-managed-package-directory', output,
       '试制与验证请使用项目内的 output 或 company-workspace/production-trials。' +
       (allowDelivery ? '正式版本请直接放入 company-workspace/deliveries/<版本名>。' : ''));
+  // The missing tail is created later. Existing ancestors must belong to this location.
+  try { await noLinks(output, 'linked-package-output'); }
+  catch (error) { if (error.code !== 'ENOENT') throw error; }
 }
 
 export async function packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot=defaultSource,rooms=[],seatContacts=false,vocalOrigins=[]}){
