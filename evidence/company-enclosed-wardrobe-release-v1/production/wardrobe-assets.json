@@ -1,0 +1,1609 @@
+{
+  "status": "passed",
+  "results": [
+    {
+      "resource": {
+        "id": "enclosed-wardrobe-timber",
+        "version": 1,
+        "displayName": "双门衣柜 · 蜂蜜木门",
+        "category": "dynamic",
+        "mountRole": "enclosed-wardrobe",
+        "productionBranch": "enclosed-wardrobe",
+        "mount": "floor-surface",
+        "parent": "room.floor",
+        "mounting": {
+          "origin": "bottom",
+          "width": 1,
+          "height": 1.8,
+          "depth": 0.58
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.5,
+            0.29
+          ],
+          "blocking": true
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "clearance": {
+          "schema": "garment-rack-front-v1",
+          "front": {
+            "min": [
+              -0.44,
+              0.29
+            ],
+            "max": [
+              0.44,
+              0.89
+            ]
+          }
+        },
+        "garmentRail": {
+          "radius": 0.015,
+          "centerY": 1.5,
+          "slots": [
+            {
+              "id": "left",
+              "position": [
+                -0.24,
+                1.515,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "position": [
+                0.24,
+                1.515,
+                0
+              ]
+            }
+          ]
+        },
+        "usePoints": [],
+        "movingProfile": "enclosed-wardrobe-v1",
+        "stateDefaults": {
+          "leftOpen": 0,
+          "rightOpen": 0
+        },
+        "stateSchema": {
+          "leftOpen": {
+            "type": "number",
+            "min": 0,
+            "max": 1
+          },
+          "rightOpen": {
+            "type": "number",
+            "min": 0,
+            "max": 1
+          }
+        },
+        "stateSemantics": {
+          "leftOpen": "hinged-door-opening-fraction",
+          "rightOpen": "hinged-door-opening-fraction"
+        },
+        "partNodes": {
+          "left": "wardrobe-left-pivot",
+          "right": "wardrobe-right-pivot"
+        },
+        "partPanels": {
+          "left": "wardrobe-left-panel",
+          "right": "wardrobe-right-panel"
+        },
+        "movingParts": [
+          {
+            "id": "left",
+            "stateField": "leftOpen",
+            "kind": "hinge",
+            "axis": "y",
+            "pivot": [
+              -0.469,
+              0.08,
+              0.26
+            ],
+            "rotationRange": [
+              0,
+              -1.5707963267948966
+            ],
+            "bounds": {
+              "min": [
+                0,
+                0,
+                -0.006
+              ],
+              "max": [
+                0.467,
+                1.64,
+                0.027
+              ]
+            }
+          },
+          {
+            "id": "right",
+            "stateField": "rightOpen",
+            "kind": "hinge",
+            "axis": "y",
+            "pivot": [
+              0.469,
+              0.08,
+              0.26
+            ],
+            "rotationRange": [
+              0,
+              1.5707963267948966
+            ],
+            "bounds": {
+              "min": [
+                -0.467,
+                0,
+                -0.006
+              ],
+              "max": [
+                0,
+                1.64,
+                0.027
+              ]
+            }
+          }
+        ],
+        "materialSlots": {
+          "body": [
+            "wardrobe-body"
+          ],
+          "lining": [
+            "wardrobe-lining"
+          ],
+          "base": [
+            "wardrobe-base"
+          ],
+          "hinges": [
+            "wardrobe-hinge-mounts",
+            "wardrobe-left-hinges",
+            "wardrobe-right-hinges"
+          ],
+          "rail": [
+            "garment-rail"
+          ],
+          "panel": [
+            "wardrobe-left-panel",
+            "wardrobe-right-panel"
+          ],
+          "handle": [
+            "wardrobe-left-handle",
+            "wardrobe-right-handle"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/enclosed-wardrobe-v1/enclosed-wardrobe-timber/v1/model.glb",
+          "bytes": 75876,
+          "sha256": "69fbc854b23e5c7aff18213669bcca9aa4bc361e3003b9e2e4529e9cc3c798c7"
+        },
+        "provenance": {
+          "license": "CC0-1.0 source with project-authored wardrobe adaptation.",
+          "sourceDesign": "solid-panel",
+          "sourceParameters": "assets-source/company-enclosed-wardrobe-v1/parameters.json",
+          "sourceParametersSha256": "c9280ede724fe6bb59f71ce138a462cc1609ee77e8db7631d8e1575987f42518",
+          "generator": "scripts/company-platform/build-enclosed-wardrobe.mjs",
+          "generatorSha256": "0b39c47309a28055cbef99c46ac24d754113568b0a7d711fd7f16117fbaec232",
+          "functionalContractSource": "assets-source/company-enclosed-wardrobe-v1/contract.json",
+          "functionalContractSourceSha256": "9adc5941e620c46b229c90690e722e6d7740f81fc492bedba1036f69b199d63c",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "garment-rack-wardrobe",
+          "sourceArtifactPath": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/bookcaseClosedDoors.glb",
+          "sourceArtifactSha256": "ff33f535acdb1825c0e958a293642b39665adcae0b1317b650e83d2bb687f4e2",
+          "sourceAuthor": "Kenney",
+          "sourceLicense": "CC0-1.0",
+          "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+          "sourceEntry": "Models/GLTF format/bookcaseClosedDoors.glb",
+          "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-enclosed-wardrobe-assets.mjs",
+              "sha256": "263b1b2d8ffb37bc88e8b4b31856be9671ca3894919c99de77a339f5b4ee0771"
+            },
+            "editableSourceValidator": {
+              "path": "scripts/company-platform/plant-editable-source.mjs",
+              "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+            },
+            "license": {
+              "path": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/License.txt",
+              "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback"
+          ]
+        }
+      },
+      "geometry": {
+        "triangles": 848,
+        "meshes": 11,
+        "materials": 7,
+        "geometrySha256": "f533e56f09f5502fc99ed91772b566097a94425ad912615106b7df73f64bad29",
+        "bounds": {
+          "min": [
+            -0.5,
+            0,
+            -0.28999999
+          ],
+          "max": [
+            0.5,
+            1.79999995,
+            0.287
+          ]
+        },
+        "leaves": [
+          {
+            "id": "left",
+            "pivot": [
+              -0.469,
+              0.08,
+              0.26
+            ],
+            "bounds": {
+              "min": [
+                0,
+                0,
+                -0.006
+              ],
+              "max": [
+                0.46700001,
+                1.63999999,
+                0.027
+              ]
+            },
+            "meshes": {
+              "wardrobe-left-panel": 18,
+              "wardrobe-left-handle": 10,
+              "wardrobe-left-hinges": 96
+            },
+            "hingeEnds": {
+              "min": [
+                0,
+                0.25049999,
+                -0.0058
+              ],
+              "max": [
+                0.0058,
+                1.36950004,
+                0.0058
+              ]
+            },
+            "openPull": [
+              -0.487,
+              0.94000001,
+              0.614
+            ],
+            "garmentClearanceMetres": 0.03799999994784595,
+            "geometrySha256": "b6e0241fc9dadf87d6ac7eb6f9e941e58b525b17b955efeb52538b30505a21ba"
+          },
+          {
+            "id": "right",
+            "pivot": [
+              0.469,
+              0.08,
+              0.26
+            ],
+            "bounds": {
+              "min": [
+                -0.46700001,
+                0,
+                -0.006
+              ],
+              "max": [
+                1e-8,
+                1.63999999,
+                0.027
+              ]
+            },
+            "meshes": {
+              "wardrobe-right-panel": 18,
+              "wardrobe-right-handle": 10,
+              "wardrobe-right-hinges": 96
+            },
+            "hingeEnds": {
+              "min": [
+                -0.0058,
+                0.25049999,
+                -0.0058
+              ],
+              "max": [
+                0,
+                1.36950004,
+                0.0058
+              ]
+            },
+            "openPull": [
+              0.487,
+              0.94000001,
+              0.614
+            ],
+            "garmentClearanceMetres": 0.03799999994784595,
+            "geometrySha256": "59bd2c1311a1cf3155e413a7e68e3a9c440cf6e7c09a1466b706b62e390c0395"
+          }
+        ],
+        "floor": [
+          {
+            "point": [
+              -0.162,
+              0,
+              0.05683334
+            ],
+            "contactSquareMetres": 0.24154201224017147
+          },
+          {
+            "point": [
+              0.162,
+              0,
+              -0.10883334
+            ],
+            "contactSquareMetres": 0.24154201224017147
+          }
+        ],
+        "rail": {
+          "bounds": {
+            "min": [
+              -0.47499999,
+              1.48500001,
+              -0.015
+            ],
+            "max": [
+              0.47499999,
+              1.51499999,
+              0.015
+            ]
+          },
+          "slots": [
+            {
+              "id": "left",
+              "point": [
+                -0.24,
+                1.515,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "point": [
+                0.24,
+                1.515,
+                0
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "resource": {
+        "id": "enclosed-wardrobe-framed",
+        "version": 1,
+        "displayName": "双门衣柜 · 深框木芯",
+        "category": "dynamic",
+        "mountRole": "enclosed-wardrobe",
+        "productionBranch": "enclosed-wardrobe",
+        "mount": "floor-surface",
+        "parent": "room.floor",
+        "mounting": {
+          "origin": "bottom",
+          "width": 1,
+          "height": 1.8,
+          "depth": 0.58
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.5,
+            0.29
+          ],
+          "blocking": true
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "clearance": {
+          "schema": "garment-rack-front-v1",
+          "front": {
+            "min": [
+              -0.44,
+              0.29
+            ],
+            "max": [
+              0.44,
+              0.89
+            ]
+          }
+        },
+        "garmentRail": {
+          "radius": 0.015,
+          "centerY": 1.5,
+          "slots": [
+            {
+              "id": "left",
+              "position": [
+                -0.24,
+                1.515,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "position": [
+                0.24,
+                1.515,
+                0
+              ]
+            }
+          ]
+        },
+        "usePoints": [],
+        "movingProfile": "enclosed-wardrobe-v1",
+        "stateDefaults": {
+          "leftOpen": 0,
+          "rightOpen": 0
+        },
+        "stateSchema": {
+          "leftOpen": {
+            "type": "number",
+            "min": 0,
+            "max": 1
+          },
+          "rightOpen": {
+            "type": "number",
+            "min": 0,
+            "max": 1
+          }
+        },
+        "stateSemantics": {
+          "leftOpen": "hinged-door-opening-fraction",
+          "rightOpen": "hinged-door-opening-fraction"
+        },
+        "partNodes": {
+          "left": "wardrobe-left-pivot",
+          "right": "wardrobe-right-pivot"
+        },
+        "partPanels": {
+          "left": "wardrobe-left-panel",
+          "right": "wardrobe-right-panel"
+        },
+        "movingParts": [
+          {
+            "id": "left",
+            "stateField": "leftOpen",
+            "kind": "hinge",
+            "axis": "y",
+            "pivot": [
+              -0.469,
+              0.08,
+              0.26
+            ],
+            "rotationRange": [
+              0,
+              -1.5707963267948966
+            ],
+            "bounds": {
+              "min": [
+                0,
+                0,
+                -0.006
+              ],
+              "max": [
+                0.467,
+                1.64,
+                0.027
+              ]
+            }
+          },
+          {
+            "id": "right",
+            "stateField": "rightOpen",
+            "kind": "hinge",
+            "axis": "y",
+            "pivot": [
+              0.469,
+              0.08,
+              0.26
+            ],
+            "rotationRange": [
+              0,
+              1.5707963267948966
+            ],
+            "bounds": {
+              "min": [
+                -0.467,
+                0,
+                -0.006
+              ],
+              "max": [
+                0,
+                1.64,
+                0.027
+              ]
+            }
+          }
+        ],
+        "materialSlots": {
+          "body": [
+            "wardrobe-body"
+          ],
+          "lining": [
+            "wardrobe-lining"
+          ],
+          "base": [
+            "wardrobe-base"
+          ],
+          "hinges": [
+            "wardrobe-hinge-mounts",
+            "wardrobe-left-hinges",
+            "wardrobe-right-hinges"
+          ],
+          "rail": [
+            "garment-rail"
+          ],
+          "panel": [
+            "wardrobe-left-panel",
+            "wardrobe-right-panel"
+          ],
+          "inset": [
+            "wardrobe-left-inset",
+            "wardrobe-right-inset"
+          ],
+          "handle": [
+            "wardrobe-left-handle",
+            "wardrobe-right-handle"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/enclosed-wardrobe-v1/enclosed-wardrobe-framed/v1/model.glb",
+          "bytes": 82440,
+          "sha256": "456715f15158c16a442e9f283603b9ab9a949d48fcea3896da9f218ad11e5673"
+        },
+        "provenance": {
+          "license": "CC0-1.0 source with project-authored wardrobe adaptation.",
+          "sourceDesign": "framed-inset",
+          "sourceParameters": "assets-source/company-enclosed-wardrobe-v1/parameters.json",
+          "sourceParametersSha256": "c9280ede724fe6bb59f71ce138a462cc1609ee77e8db7631d8e1575987f42518",
+          "generator": "scripts/company-platform/build-enclosed-wardrobe.mjs",
+          "generatorSha256": "0b39c47309a28055cbef99c46ac24d754113568b0a7d711fd7f16117fbaec232",
+          "functionalContractSource": "assets-source/company-enclosed-wardrobe-v1/contract.json",
+          "functionalContractSourceSha256": "9adc5941e620c46b229c90690e722e6d7740f81fc492bedba1036f69b199d63c",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "garment-rack-wardrobe",
+          "sourceArtifactPath": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/kitchenCabinetUpperDouble.glb",
+          "sourceArtifactSha256": "7b2abd976f2e8f1727d6ba23490aaf5fe18db9c5ac66e729ef6fe8de835c039e",
+          "sourceAuthor": "Kenney",
+          "sourceLicense": "CC0-1.0",
+          "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+          "sourceEntry": "Models/GLTF format/kitchenCabinetUpperDouble.glb",
+          "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-enclosed-wardrobe-assets.mjs",
+              "sha256": "263b1b2d8ffb37bc88e8b4b31856be9671ca3894919c99de77a339f5b4ee0771"
+            },
+            "editableSourceValidator": {
+              "path": "scripts/company-platform/plant-editable-source.mjs",
+              "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+            },
+            "license": {
+              "path": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/License.txt",
+              "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback"
+          ]
+        }
+      },
+      "geometry": {
+        "triangles": 900,
+        "meshes": 13,
+        "materials": 8,
+        "geometrySha256": "0da60eb81f5e7e5c67ff4f6310df2be78f81d6d31416e1a8741252ac79038189",
+        "bounds": {
+          "min": [
+            -0.5,
+            0,
+            -0.28999999
+          ],
+          "max": [
+            0.5,
+            1.79999995,
+            0.287
+          ]
+        },
+        "leaves": [
+          {
+            "id": "left",
+            "pivot": [
+              -0.469,
+              0.08,
+              0.26
+            ],
+            "bounds": {
+              "min": [
+                0,
+                0,
+                -0.006
+              ],
+              "max": [
+                0.46700001,
+                1.63999999,
+                0.027
+              ]
+            },
+            "meshes": {
+              "wardrobe-left-panel": 18,
+              "wardrobe-left-inset": 8,
+              "wardrobe-left-handle": 10,
+              "wardrobe-left-hinges": 96
+            },
+            "hingeEnds": {
+              "min": [
+                0,
+                0.25049999,
+                -0.0058
+              ],
+              "max": [
+                0.0058,
+                1.36950004,
+                0.0058
+              ]
+            },
+            "openPull": [
+              -0.487,
+              0.904,
+              0.63
+            ],
+            "garmentClearanceMetres": 0.03799999994784595,
+            "geometrySha256": "fa13a11d012cfbe2335d61b57c4f08a7f92c32ce652e1039c5d502134d43a233"
+          },
+          {
+            "id": "right",
+            "pivot": [
+              0.469,
+              0.08,
+              0.26
+            ],
+            "bounds": {
+              "min": [
+                -0.46700001,
+                0,
+                -0.006
+              ],
+              "max": [
+                1e-8,
+                1.63999999,
+                0.027
+              ]
+            },
+            "meshes": {
+              "wardrobe-right-panel": 18,
+              "wardrobe-right-inset": 8,
+              "wardrobe-right-handle": 10,
+              "wardrobe-right-hinges": 96
+            },
+            "hingeEnds": {
+              "min": [
+                -0.0058,
+                0.25049999,
+                -0.0058
+              ],
+              "max": [
+                0,
+                1.36950004,
+                0.0058
+              ]
+            },
+            "openPull": [
+              0.487,
+              0.904,
+              0.63
+            ],
+            "garmentClearanceMetres": 0.03799999994784595,
+            "geometrySha256": "b1fce53b26921ac0732b4bc7e78aa6b61874fab86a5d59d57f89875dbe72b2aa"
+          }
+        ],
+        "floor": [
+          {
+            "point": [
+              -0.49,
+              2e-8,
+              0.06933332
+            ],
+            "contactSquareMetres": 0.02173800063681597
+          },
+          {
+            "point": [
+              0.48,
+              2e-8,
+              0.06933332
+            ],
+            "contactSquareMetres": 0.02173800063681597
+          }
+        ],
+        "rail": {
+          "bounds": {
+            "min": [
+              -0.47499999,
+              1.48500001,
+              -0.015
+            ],
+            "max": [
+              0.47499999,
+              1.51499999,
+              0.015
+            ]
+          },
+          "slots": [
+            {
+              "id": "left",
+              "point": [
+                -0.24,
+                1.515,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "point": [
+                0.24,
+                1.515,
+                0
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "resource": {
+        "id": "enclosed-wardrobe-inset",
+        "version": 1,
+        "displayName": "双门衣柜 · 象牙凹嵌门",
+        "category": "dynamic",
+        "mountRole": "enclosed-wardrobe",
+        "productionBranch": "enclosed-wardrobe",
+        "mount": "floor-surface",
+        "parent": "room.floor",
+        "mounting": {
+          "origin": "bottom",
+          "width": 1,
+          "height": 1.8,
+          "depth": 0.58
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.5,
+            0.29
+          ],
+          "blocking": true
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "clearance": {
+          "schema": "garment-rack-front-v1",
+          "front": {
+            "min": [
+              -0.44,
+              0.29
+            ],
+            "max": [
+              0.44,
+              0.89
+            ]
+          }
+        },
+        "garmentRail": {
+          "radius": 0.015,
+          "centerY": 1.5,
+          "slots": [
+            {
+              "id": "left",
+              "position": [
+                -0.24,
+                1.515,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "position": [
+                0.24,
+                1.515,
+                0
+              ]
+            }
+          ]
+        },
+        "usePoints": [],
+        "movingProfile": "enclosed-wardrobe-v1",
+        "stateDefaults": {
+          "leftOpen": 0,
+          "rightOpen": 0
+        },
+        "stateSchema": {
+          "leftOpen": {
+            "type": "number",
+            "min": 0,
+            "max": 1
+          },
+          "rightOpen": {
+            "type": "number",
+            "min": 0,
+            "max": 1
+          }
+        },
+        "stateSemantics": {
+          "leftOpen": "hinged-door-opening-fraction",
+          "rightOpen": "hinged-door-opening-fraction"
+        },
+        "partNodes": {
+          "left": "wardrobe-left-pivot",
+          "right": "wardrobe-right-pivot"
+        },
+        "partPanels": {
+          "left": "wardrobe-left-panel",
+          "right": "wardrobe-right-panel"
+        },
+        "movingParts": [
+          {
+            "id": "left",
+            "stateField": "leftOpen",
+            "kind": "hinge",
+            "axis": "y",
+            "pivot": [
+              -0.469,
+              0.08,
+              0.26
+            ],
+            "rotationRange": [
+              0,
+              -1.5707963267948966
+            ],
+            "bounds": {
+              "min": [
+                0,
+                0,
+                -0.006
+              ],
+              "max": [
+                0.467,
+                1.64,
+                0.027
+              ]
+            }
+          },
+          {
+            "id": "right",
+            "stateField": "rightOpen",
+            "kind": "hinge",
+            "axis": "y",
+            "pivot": [
+              0.469,
+              0.08,
+              0.26
+            ],
+            "rotationRange": [
+              0,
+              1.5707963267948966
+            ],
+            "bounds": {
+              "min": [
+                -0.467,
+                0,
+                -0.006
+              ],
+              "max": [
+                0,
+                1.64,
+                0.027
+              ]
+            }
+          }
+        ],
+        "materialSlots": {
+          "body": [
+            "wardrobe-body"
+          ],
+          "lining": [
+            "wardrobe-lining"
+          ],
+          "base": [
+            "wardrobe-base"
+          ],
+          "hinges": [
+            "wardrobe-hinge-mounts",
+            "wardrobe-left-hinges",
+            "wardrobe-right-hinges"
+          ],
+          "rail": [
+            "garment-rail"
+          ],
+          "panel": [
+            "wardrobe-left-panel",
+            "wardrobe-right-panel"
+          ],
+          "inset": [
+            "wardrobe-left-inset",
+            "wardrobe-right-inset"
+          ],
+          "insert": [
+            "wardrobe-left-insert",
+            "wardrobe-right-insert"
+          ],
+          "handle": [
+            "wardrobe-left-handle",
+            "wardrobe-right-handle"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/enclosed-wardrobe-v1/enclosed-wardrobe-inset/v1/model.glb",
+          "bytes": 119024,
+          "sha256": "2501c6d49872bf901fc3114ac4bfd9488e555d1edc2e38da054e3c149069f5af"
+        },
+        "provenance": {
+          "license": "CC0-1.0 source with project-authored wardrobe adaptation.",
+          "sourceDesign": "recessed-insert",
+          "sourceParameters": "assets-source/company-enclosed-wardrobe-v1/parameters.json",
+          "sourceParametersSha256": "c9280ede724fe6bb59f71ce138a462cc1609ee77e8db7631d8e1575987f42518",
+          "generator": "scripts/company-platform/build-enclosed-wardrobe.mjs",
+          "generatorSha256": "0b39c47309a28055cbef99c46ac24d754113568b0a7d711fd7f16117fbaec232",
+          "functionalContractSource": "assets-source/company-enclosed-wardrobe-v1/contract.json",
+          "functionalContractSourceSha256": "9adc5941e620c46b229c90690e722e6d7740f81fc492bedba1036f69b199d63c",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "garment-rack-wardrobe",
+          "sourceArtifactPath": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/bathroomCabinet.glb",
+          "sourceArtifactSha256": "9db540227acaaedbbadc6a085f4a00460b73944e608afaad4770e53238a3b7f8",
+          "sourceAuthor": "Kenney",
+          "sourceLicense": "CC0-1.0",
+          "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+          "sourceEntry": "Models/GLTF format/bathroomCabinet.glb",
+          "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-enclosed-wardrobe-assets.mjs",
+              "sha256": "263b1b2d8ffb37bc88e8b4b31856be9671ca3894919c99de77a339f5b4ee0771"
+            },
+            "editableSourceValidator": {
+              "path": "scripts/company-platform/plant-editable-source.mjs",
+              "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+            },
+            "license": {
+              "path": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/License.txt",
+              "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback"
+          ]
+        }
+      },
+      "geometry": {
+        "triangles": 1264,
+        "meshes": 15,
+        "materials": 9,
+        "geometrySha256": "a0eeadce3de90dadcf2b19fb03f6fb4418031a7333c663331294d2b2bdf05d1d",
+        "bounds": {
+          "min": [
+            -0.5,
+            0,
+            -0.28999999
+          ],
+          "max": [
+            0.5,
+            1.79999995,
+            0.287
+          ]
+        },
+        "leaves": [
+          {
+            "id": "left",
+            "pivot": [
+              -0.469,
+              0.08,
+              0.26
+            ],
+            "bounds": {
+              "min": [
+                0,
+                0,
+                -0.006
+              ],
+              "max": [
+                0.46700001,
+                1.63999999,
+                0.027
+              ]
+            },
+            "meshes": {
+              "wardrobe-left-panel": 10,
+              "wardrobe-left-inset": 8,
+              "wardrobe-left-insert": 2,
+              "wardrobe-left-handle": 216,
+              "wardrobe-left-hinges": 96
+            },
+            "hingeEnds": {
+              "min": [
+                0,
+                0.25049999,
+                -0.0058
+              ],
+              "max": [
+                0.0058,
+                1.36950004,
+                0.0058
+              ]
+            },
+            "openPull": [
+              -0.4855,
+              0.94500001,
+              0.63300001
+            ],
+            "garmentClearanceMetres": 0.03799999994784595,
+            "geometrySha256": "693d8aff237550055ad607502df2c3ae9e84cb63a34f221594928257da9d1062"
+          },
+          {
+            "id": "right",
+            "pivot": [
+              0.469,
+              0.08,
+              0.26
+            ],
+            "bounds": {
+              "min": [
+                -0.46700001,
+                0,
+                -0.006
+              ],
+              "max": [
+                0,
+                1.63999999,
+                0.027
+              ]
+            },
+            "meshes": {
+              "wardrobe-right-panel": 10,
+              "wardrobe-right-inset": 8,
+              "wardrobe-right-insert": 2,
+              "wardrobe-right-handle": 216,
+              "wardrobe-right-hinges": 96
+            },
+            "hingeEnds": {
+              "min": [
+                -0.0058,
+                0.25049999,
+                -0.0058
+              ],
+              "max": [
+                0,
+                1.36950004,
+                0.0058
+              ]
+            },
+            "openPull": [
+              0.4855,
+              0.94500001,
+              0.63300001
+            ],
+            "garmentClearanceMetres": 0.03799999994784595,
+            "geometrySha256": "4ee5e2ec4a4e6879bea240cc7a5c9ad197148351767d7effeedc6d00b15481ec"
+          }
+        ],
+        "floor": [
+          {
+            "point": [
+              -0.162,
+              0,
+              0.05683334
+            ],
+            "contactSquareMetres": 0.24154201224017147
+          },
+          {
+            "point": [
+              0.162,
+              0,
+              -0.10883334
+            ],
+            "contactSquareMetres": 0.24154201224017147
+          }
+        ],
+        "rail": {
+          "bounds": {
+            "min": [
+              -0.47499999,
+              1.48500001,
+              -0.015
+            ],
+            "max": [
+              0.47499999,
+              1.51499999,
+              0.015
+            ]
+          },
+          "slots": [
+            {
+              "id": "left",
+              "point": [
+                -0.24,
+                1.515,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "point": [
+                0.24,
+                1.515,
+                0
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "resource": {
+        "id": "enclosed-wardrobe-glass",
+        "version": 1,
+        "displayName": "双门衣柜 · 烟青窄框玻璃",
+        "category": "dynamic",
+        "mountRole": "enclosed-wardrobe",
+        "productionBranch": "enclosed-wardrobe",
+        "mount": "floor-surface",
+        "parent": "room.floor",
+        "mounting": {
+          "origin": "bottom",
+          "width": 1,
+          "height": 1.8,
+          "depth": 0.58
+        },
+        "footprint": {
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.5,
+            0.29
+          ],
+          "blocking": true
+        },
+        "coordinates": {
+          "units": "metres",
+          "up": "+Y",
+          "forward": "+Z"
+        },
+        "clearance": {
+          "schema": "garment-rack-front-v1",
+          "front": {
+            "min": [
+              -0.44,
+              0.29
+            ],
+            "max": [
+              0.44,
+              0.89
+            ]
+          }
+        },
+        "garmentRail": {
+          "radius": 0.015,
+          "centerY": 1.5,
+          "slots": [
+            {
+              "id": "left",
+              "position": [
+                -0.24,
+                1.515,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "position": [
+                0.24,
+                1.515,
+                0
+              ]
+            }
+          ]
+        },
+        "usePoints": [],
+        "movingProfile": "enclosed-wardrobe-v1",
+        "stateDefaults": {
+          "leftOpen": 0,
+          "rightOpen": 0
+        },
+        "stateSchema": {
+          "leftOpen": {
+            "type": "number",
+            "min": 0,
+            "max": 1
+          },
+          "rightOpen": {
+            "type": "number",
+            "min": 0,
+            "max": 1
+          }
+        },
+        "stateSemantics": {
+          "leftOpen": "hinged-door-opening-fraction",
+          "rightOpen": "hinged-door-opening-fraction"
+        },
+        "partNodes": {
+          "left": "wardrobe-left-pivot",
+          "right": "wardrobe-right-pivot"
+        },
+        "partPanels": {
+          "left": "wardrobe-left-panel",
+          "right": "wardrobe-right-panel"
+        },
+        "movingParts": [
+          {
+            "id": "left",
+            "stateField": "leftOpen",
+            "kind": "hinge",
+            "axis": "y",
+            "pivot": [
+              -0.469,
+              0.08,
+              0.26
+            ],
+            "rotationRange": [
+              0,
+              -1.5707963267948966
+            ],
+            "bounds": {
+              "min": [
+                0,
+                0,
+                -0.006
+              ],
+              "max": [
+                0.467,
+                1.64,
+                0.027
+              ]
+            }
+          },
+          {
+            "id": "right",
+            "stateField": "rightOpen",
+            "kind": "hinge",
+            "axis": "y",
+            "pivot": [
+              0.469,
+              0.08,
+              0.26
+            ],
+            "rotationRange": [
+              0,
+              1.5707963267948966
+            ],
+            "bounds": {
+              "min": [
+                -0.467,
+                0,
+                -0.006
+              ],
+              "max": [
+                0,
+                1.64,
+                0.027
+              ]
+            }
+          }
+        ],
+        "materialSlots": {
+          "body": [
+            "wardrobe-body"
+          ],
+          "lining": [
+            "wardrobe-lining"
+          ],
+          "base": [
+            "wardrobe-base"
+          ],
+          "hinges": [
+            "wardrobe-hinge-mounts",
+            "wardrobe-left-hinges",
+            "wardrobe-right-hinges"
+          ],
+          "rail": [
+            "garment-rail"
+          ],
+          "panel": [
+            "wardrobe-left-panel",
+            "wardrobe-right-panel"
+          ],
+          "glass": [
+            "wardrobe-left-glass",
+            "wardrobe-right-glass"
+          ],
+          "handle": [
+            "wardrobe-left-handle",
+            "wardrobe-right-handle"
+          ]
+        },
+        "asset": {
+          "format": "glb",
+          "url": "/company-assets/enclosed-wardrobe-v1/enclosed-wardrobe-glass/v1/model.glb",
+          "bytes": 93384,
+          "sha256": "2c73524aa57acee4bf7dfd1ee4f2143de5b1dfcbc31889529146360232e382b1"
+        },
+        "provenance": {
+          "license": "CC0-1.0 source with project-authored wardrobe adaptation.",
+          "sourceDesign": "glazed-frame",
+          "sourceParameters": "assets-source/company-enclosed-wardrobe-v1/parameters.json",
+          "sourceParametersSha256": "c9280ede724fe6bb59f71ce138a462cc1609ee77e8db7631d8e1575987f42518",
+          "generator": "scripts/company-platform/build-enclosed-wardrobe.mjs",
+          "generatorSha256": "0b39c47309a28055cbef99c46ac24d754113568b0a7d711fd7f16117fbaec232",
+          "functionalContractSource": "assets-source/company-enclosed-wardrobe-v1/contract.json",
+          "functionalContractSourceSha256": "9adc5941e620c46b229c90690e722e6d7740f81fc492bedba1036f69b199d63c",
+          "environmentBranchSource": "assets-source/company-environment-specs-v1/branches.json",
+          "environmentBranchSourceSha256": "4c39d6d91fcbfc55f695de6567a6901e03f78e0f660de788bcb47f4548eb0f18",
+          "environmentBranch": "garment-rack-wardrobe",
+          "sourceArtifactPath": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/doorwayFront.glb",
+          "sourceArtifactSha256": "b5b8e4c14ee1f2ffa10ef5c69badc995ae6fbcc868abac240221c61b8c593b0e",
+          "sourceAuthor": "Kenney",
+          "sourceLicense": "CC0-1.0",
+          "sourceArchiveSha256": "e67652d0932cee41683f74711c03d3e192a2af9979ef8e6b237711f5482d46b0",
+          "sourceEntry": "Models/GLTF format/doorwayFront.glb",
+          "sourceUrl": "https://kenney.nl/assets/furniture-kit",
+          "dependencies": {
+            "geometryValidation": {
+              "path": "scripts/company-platform/test-enclosed-wardrobe-assets.mjs",
+              "sha256": "263b1b2d8ffb37bc88e8b4b31856be9671ca3894919c99de77a339f5b4ee0771"
+            },
+            "editableSourceValidator": {
+              "path": "scripts/company-platform/plant-editable-source.mjs",
+              "sha256": "55ca2c1442d5d3a29e000f7d0eba7200e5b34eabebaf7d013b1837fbee8ae848"
+            },
+            "license": {
+              "path": "assets-source/company-enclosed-wardrobe-v1/original/furniture-kit/License.txt",
+              "sha256": "bc0de1a0742cb490f9ed4bae0bd284286ebb27e23149b9917c7d8c0d590b8b29"
+            }
+          },
+          "tools": [
+            "Three.js 187",
+            "GLTFExporter",
+            "GLTFLoader readback"
+          ]
+        }
+      },
+      "geometry": {
+        "triangles": 1012,
+        "meshes": 13,
+        "materials": 8,
+        "geometrySha256": "4854fa94af163fc06c01be7902411cb39945e8b466e28245ca68b5e51fd50822",
+        "bounds": {
+          "min": [
+            -0.5,
+            0,
+            -0.28999999
+          ],
+          "max": [
+            0.5,
+            1.79999995,
+            0.287
+          ]
+        },
+        "leaves": [
+          {
+            "id": "left",
+            "pivot": [
+              -0.469,
+              0.08,
+              0.26
+            ],
+            "bounds": {
+              "min": [
+                0,
+                0,
+                -0.006
+              ],
+              "max": [
+                0.46700001,
+                1.63999999,
+                0.027
+              ]
+            },
+            "meshes": {
+              "wardrobe-left-panel": 52,
+              "wardrobe-left-glass": 4,
+              "wardrobe-left-handle": 36,
+              "wardrobe-left-hinges": 96
+            },
+            "hingeEnds": {
+              "min": [
+                0,
+                0.25049999,
+                -0.0058
+              ],
+              "max": [
+                0.0058,
+                1.36950004,
+                0.0058
+              ]
+            },
+            "openPull": [
+              -0.487,
+              0.92599999,
+              0.627
+            ],
+            "garmentClearanceMetres": 0.03799999994784595,
+            "geometrySha256": "734192fe6afca81a9e6803bffd6dce77a4e26a82303d9f0fd68489b7a49306f0",
+            "glazing": {
+              "opacity": 0.5,
+              "pane": {
+                "min": [
+                  -0.3808868,
+                  0.21538776,
+                  0.262
+                ],
+                "max": [
+                  -0.2355,
+                  1.58461233,
+                  0.262
+                ]
+              },
+              "ray": [
+                -0.3081934,
+                0.90000005,
+                0.262
+              ]
+            }
+          },
+          {
+            "id": "right",
+            "pivot": [
+              0.469,
+              0.08,
+              0.26
+            ],
+            "bounds": {
+              "min": [
+                -0.46700001,
+                0,
+                -0.006
+              ],
+              "max": [
+                0,
+                1.63999999,
+                0.027
+              ]
+            },
+            "meshes": {
+              "wardrobe-right-panel": 52,
+              "wardrobe-right-glass": 4,
+              "wardrobe-right-handle": 36,
+              "wardrobe-right-hinges": 96
+            },
+            "hingeEnds": {
+              "min": [
+                -0.0058,
+                0.25049999,
+                -0.0058
+              ],
+              "max": [
+                0,
+                1.36950004,
+                0.0058
+              ]
+            },
+            "openPull": [
+              0.487,
+              0.92599999,
+              0.627
+            ],
+            "garmentClearanceMetres": 0.03799999994784595,
+            "geometrySha256": "e3824edb4d9fefb03922e24c697fa2d330b04346fb1b4e8039f4609d3a8f2e52",
+            "glazing": {
+              "opacity": 0.5,
+              "pane": {
+                "min": [
+                  0.2355,
+                  0.21538776,
+                  0.262
+                ],
+                "max": [
+                  0.3808868,
+                  1.58461233,
+                  0.262
+                ]
+              },
+              "ray": [
+                0.3081934,
+                0.90000005,
+                0.262
+              ]
+            }
+          }
+        ],
+        "floor": [
+          {
+            "point": [
+              -0.49,
+              2e-8,
+              0.06933332
+            ],
+            "contactSquareMetres": 0.02173800063681597
+          },
+          {
+            "point": [
+              0.48,
+              2e-8,
+              0.06933332
+            ],
+            "contactSquareMetres": 0.02173800063681597
+          }
+        ],
+        "rail": {
+          "bounds": {
+            "min": [
+              -0.47499999,
+              1.48500001,
+              -0.015
+            ],
+            "max": [
+              0.47499999,
+              1.51499999,
+              0.015
+            ]
+          },
+          "slots": [
+            {
+              "id": "left",
+              "point": [
+                -0.24,
+                1.515,
+                0
+              ]
+            },
+            {
+              "id": "right",
+              "point": [
+                0.24,
+                1.515,
+                0
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

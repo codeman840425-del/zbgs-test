@@ -1,0 +1,130 @@
+{
+  "status": "passed",
+  "models": [
+    {
+      "id": "enclosed-wardrobe-timber",
+      "version": 1,
+      "sha256": "69fbc854b23e5c7aff18213669bcca9aa4bc361e3003b9e2e4529e9cc3c798c7",
+      "triangles": {
+        "garment-rail": 384,
+        "wardrobe-left-panel": 18,
+        "wardrobe-right-panel": 18,
+        "wardrobe-left-pivot": 124,
+        "wardrobe-right-pivot": 124
+      }
+    },
+    {
+      "id": "enclosed-wardrobe-framed",
+      "version": 1,
+      "sha256": "456715f15158c16a442e9f283603b9ab9a949d48fcea3896da9f218ad11e5673",
+      "triangles": {
+        "garment-rail": 384,
+        "wardrobe-left-panel": 18,
+        "wardrobe-right-panel": 18,
+        "wardrobe-left-pivot": 132,
+        "wardrobe-right-pivot": 132
+      }
+    },
+    {
+      "id": "enclosed-wardrobe-inset",
+      "version": 1,
+      "sha256": "2501c6d49872bf901fc3114ac4bfd9488e555d1edc2e38da054e3c149069f5af",
+      "triangles": {
+        "garment-rail": 384,
+        "wardrobe-left-panel": 10,
+        "wardrobe-right-panel": 10,
+        "wardrobe-left-pivot": 332,
+        "wardrobe-right-pivot": 332
+      }
+    },
+    {
+      "id": "enclosed-wardrobe-glass",
+      "version": 1,
+      "sha256": "2c73524aa57acee4bf7dfd1ee4f2143de5b1dfcbc31889529146360232e382b1",
+      "triangles": {
+        "garment-rail": 384,
+        "wardrobe-left-panel": 52,
+        "wardrobe-right-panel": 52,
+        "wardrobe-left-pivot": 188,
+        "wardrobe-right-pivot": 188
+      }
+    }
+  ],
+  "adversarial": [
+    {
+      "variant": "wrong-parent",
+      "error": "moving-part-panel-parent",
+      "glbSha256": "f7e56e74690969ef5f301df6a3dc37071a4b48bbfc6d02391c13f34266dd2882"
+    },
+    {
+      "variant": "fake-axis",
+      "error": "invalid-moving-part-pivot",
+      "glbSha256": "8fb84d935c67d7658985bb69739cd608b00cc0855b3202fca2d5d1831647c247"
+    },
+    {
+      "variant": "panel-through-clothes",
+      "error": "blocked-garment-slot",
+      "glbSha256": "3a53bfc9d9f80b5b100e4feb53aedb94ecdf77ff733795e813981323fc7d1335"
+    },
+    {
+      "variant": "rail-misaligned",
+      "error": "invalid-garment-rail",
+      "glbSha256": "3828db2bc33265a2843b5af7b65eff42249274a5ea66a026d4bdcb42cb40b653"
+    },
+    {
+      "variant": "opaque-glass",
+      "error": "wardrobe-glass",
+      "glbSha256": "0728fbe2301ec8123350caa079362af66c786d515a6a197429eda4b0e3a11dea"
+    },
+    {
+      "variant": "fixed-triangle-bridges-two-slots",
+      "error": "blocked-garment-slot"
+    }
+  ],
+  "hiddenFloor": [
+    {
+      "variant": "wrong-parent",
+      "error": "moving-part-panel-parent",
+      "tested": [
+        "apply",
+        "import"
+      ],
+      "visibleFloor": "qa-wardrobe-hidden/floor-1",
+      "hiddenFloor": "qa-upper",
+      "liveRootAndSavePreserved": true
+    },
+    {
+      "variant": "fake-axis",
+      "error": "invalid-moving-part-pivot",
+      "tested": [
+        "apply",
+        "import"
+      ],
+      "visibleFloor": "qa-wardrobe-hidden/floor-1",
+      "hiddenFloor": "qa-upper",
+      "liveRootAndSavePreserved": true
+    },
+    {
+      "variant": "panel-through-clothes",
+      "error": "blocked-garment-slot",
+      "tested": [
+        "apply",
+        "import"
+      ],
+      "visibleFloor": "qa-wardrobe-hidden/floor-1",
+      "hiddenFloor": "qa-upper",
+      "liveRootAndSavePreserved": true
+    },
+    {
+      "variant": "rail-misaligned",
+      "error": "invalid-garment-rail",
+      "tested": [
+        "apply",
+        "import"
+      ],
+      "visibleFloor": "qa-wardrobe-hidden/floor-1",
+      "hiddenFloor": "qa-upper",
+      "liveRootAndSavePreserved": true
+    }
+  ]
+}
