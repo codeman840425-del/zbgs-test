@@ -24,7 +24,7 @@ async function checkStorage(document,derived) {
   return checkPublicStorageRooms(document,{catalog,templates,derived});
 }
 async function checkWallPanels(document,derived) {
-  if (!derived.facilities.some(f=>f.resource.mountRole==='wall-absorber-panel')) return [];
+  if (!derived.facilities.some(f=>['wall-absorber-panel','corner-absorber'].includes(f.resource.mountRole))) return [];
   const {checkWallAbsorberRooms}=await import('./check-wall-absorber-room.mjs');
   return checkWallAbsorberRooms(document,{catalog,templates,derived});
 }

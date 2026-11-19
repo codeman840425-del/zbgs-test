@@ -53,7 +53,7 @@ export function validateSupportResource(resource, fail, path = resource.id) {
   if ((resource.mountRole === 'static-textile' || resource.productionBranch === 'static-textile') &&
       (resource.mountRole !== 'static-textile' || resource.mount !== 'support-surface' || resource.category !== 'decor'))
     fail('invalid-textile-mount', path, 'A sofa textile must use the supported decorative textile adapter');
-  if(resource.mount!=null&&!['desk-surface','floor-surface','wall','wall-opening','portal','portal-door','support-surface','information-surface','ceiling','parent-device-endpoints','window-cover','desk-edge-clamp','garment-rail'].includes(resource.mount))
+  if(resource.mount!=null&&!['desk-surface','floor-surface','wall','wall-corner','wall-opening','portal','portal-door','support-surface','information-surface','ceiling','parent-device-endpoints','window-cover','desk-edge-clamp','garment-rail'].includes(resource.mount))
     fail('unsupported-mount',path,'The mounting adapter is not supported');
   validateCameraMountResource(resource, fail, path);
   validateCableResource(resource,fail,path);
@@ -125,7 +125,7 @@ export function validateSupportAttachments(nodes, resources, fail) {
   const attached = [];
   for (const node of nodes.values()) {
     const resource = resources.get(`${node.resource?.id}@${node.resource?.version}`);
-    if (node.attachment !== undefined && ['window-cover','garment-rail'].includes(resource?.mount)) continue;
+    if (node.attachment !== undefined && ['window-cover','garment-rail','wall-corner'].includes(resource?.mount)) continue;
     const attachment = node.attachment, parent = nodes.get(node.parentId);
     const parentResource = resources.get(`${parent?.resource?.id}@${parent?.resource?.version}`);
     const cartDevice = attachment !== undefined && supportsCartDevice(resource,parentResource);

@@ -32,6 +32,7 @@ export function describeFacilityFunction(resource) {
     ...(resource.supportMotion!==undefined?{supportMotion:normalized(resource.supportMotion)}:{}),
     ...(resource.movingProfile!==undefined?{movingProfile:resource.movingProfile}:{}),
     ...(resource.cablePorts!==undefined?{cablePorts:normalized(resource.cablePorts)}:{}),
+    ...(resource.cornerMount!==undefined?{cornerMount:normalized(resource.cornerMount)}:{}),
     ...(resource.windowSystem!==undefined?{windowSystem:normalized(resource.windowSystem)}:{}),
     ...(resource.windowCoverSystem!==undefined?{windowCoverSystem:resource.windowCoverSystem}:{}),
     ...(resource.backdropRoll!==undefined?{backdropRoll:normalized(resource.backdropRoll)}:{}),

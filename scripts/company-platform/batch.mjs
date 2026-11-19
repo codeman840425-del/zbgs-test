@@ -186,7 +186,7 @@ async function prepare(item,sourceHashes){
   if (Object.hasOwn(item,'wayfindingRooms')) document.wayfindingRooms=structuredClone(item.wayfindingRooms);
   const derived=deriveCompany(document,catalog,templates);
   let wallAbsorberRooms;
-  if (derived.facilities.some(f=>f.resource.mountRole==='wall-absorber-panel')) {
+  if (derived.facilities.some(f=>['wall-absorber-panel','corner-absorber'].includes(f.resource.mountRole))) {
     Object.assign(sourceHashes,await sources(['scripts/company-platform/check-wall-absorber-room.mjs','prototype/src/company/wall-absorber-room.js','prototype/src/company/wall-absorber.js']));
     const {checkWallAbsorberRooms}=await import('./check-wall-absorber-room.mjs');
     wallAbsorberRooms=await checkWallAbsorberRooms(document,{catalog,templates,derived});

@@ -1,5 +1,6 @@
 import {cameraDeskEdgePlacement, cameraWallFootprint, sharesCameraDeskContact, validateCameraDeskContact, wallEnvelopeBottom} from './camera-mount-data.js';
 import {deriveExteriorEntrances,floorPortalSides} from './exterior-entrance-data.js';
+import {cornerAbsorberTransform,validateCornerAbsorberPlacement,validateCornerAbsorberResource} from './corner-absorber-data.js';
 import {validateWindowResource,deriveWindowOpenings} from './window-data.js';
 import {deriveCableConnections} from './cable-data.js';
 import {installedVocalSlots} from './vocal-use.js';
@@ -201,7 +202,7 @@ export function deriveCompany(document, catalog, templates) {
     fail('catalog-version-mismatch', 'document.catalog', 'Load the pinned resource catalog');
   if (!Array.isArray(document.nodes)) fail('invalid-nodes', 'document.nodes', 'Expected an array');
   const { resources, combinations } = catalogMaps(catalog, templates);
-  for (const resource of resources.values()) { validateWallAmbientResource(resource,fail); validateDeskLampResource(resource,fail); validateFloorAirResource(resource,fail); validateWallHvacResource(resource,fail); validateWallAbsorberResource(resource,fail); validateMovableAbsorberResource(resource,fail); validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); validateWindowCoverResource(resource,fail); validateBackdropResource(resource,fail); validateGarmentResource(resource,fail); }
+  for (const resource of resources.values()) { validateWallAmbientResource(resource,fail); validateDeskLampResource(resource,fail); validateFloorAirResource(resource,fail); validateWallHvacResource(resource,fail); validateWallAbsorberResource(resource,fail); validateMovableAbsorberResource(resource,fail); validateCornerAbsorberResource(resource,fail); validateSupportResource(resource, fail); validateMovingResource(resource, fail); validateClockResource(resource, fail); validateInformationResource(resource, fail); validateMirrorResource(resource, fail); validateVanityResource(resource, fail); validateWindowResource(resource,fail); validateWindowCoverResource(resource,fail); validateBackdropResource(resource,fail); validateGarmentResource(resource,fail); }
   const nodes = new Map(), worlds = new Map(), localTransforms = new Map(), floorIds = new Map(), roomIds = new Map();
   for (const node of document.nodes) {
     checkId(node.id, 'nodes.id');
@@ -293,7 +294,7 @@ export function deriveCompany(document, catalog, templates) {
     if (node.stationId && !stations.some(n => n.id === node.stationId)) fail('missing-station', node.id, node.stationId);
     const world = worlds.get(node.id), state = { ...resource.stateDefaults, ...node.state };
     const groundTolerance = resource.mount === 'floor-surface' && resource.mountRole === 'camera-mount' ? .001 : 1e-8;
-    if (resource.footprint?.blocking && !['desk-surface','wall','desk-edge-clamp'].includes(resource.mount) &&
+    if (resource.footprint?.blocking && !['desk-surface','wall','wall-corner','desk-edge-clamp'].includes(resource.mount) &&
         Math.abs(world.position[1] - worlds.get(floorIds.get(node.id)).position[1]) > groundTolerance)
       fail('unsupported-height', node.id, 'This ground facility must stay on its floor; use a declared mounting adapter for elevated placement');
     if (resource.mount === 'desk-edge-clamp') {
@@ -404,6 +405,13 @@ export function deriveCompany(document, catalog, templates) {
   }
   validateScaleProfile(document,{floors,rooms,stations,floorIds,roomIds},fail);
   const windowOpenings=deriveWindowOpenings({nodes,worlds,floorIds,facilities},fail);
+  const cornerMounts = new Map();
+  for (const entry of facilities) {
+    if (entry.resource.mount !== 'wall-corner') continue;
+    const binding = validateCornerAbsorberPlacement({node:entry.node,resource:entry.resource,region:nodes.get(entry.node.parentId),
+      floor:nodes.get(entry.floorId),windowOpenings},fail);
+    cornerMounts.set(entry.id,binding);
+  }
   validateWindowCoverAttachments(nodes,facilities,fail);
   const cableConnections=deriveCableConnections({nodes,facilities},fail);
   validateCeilingAttachments({nodes,facilities},fail);
@@ -415,7 +423,7 @@ export function deriveCompany(document, catalog, templates) {
   validateInformationAttachments(nodes, resources, fail);
   const vanityClearances=validateVanityPlacement({nodes,worlds,floorIds,roomIds,facilities,obstacles},fail);
   return { nodes, worlds, localTransforms, floorIds, roomIds, facilities, usePoints, obstacles, surfaceFinishes,
-    vanityClearances,cableConnections,windowOpenings,exteriorEntrances,
+    vanityClearances,cableConnections,windowOpenings,exteriorEntrances,cornerMounts,
     capacity: { maximum: capacity, installedStations: stations.length, businessRooms: rooms.length, floors: floors.length } };
 }
 
@@ -544,6 +552,8 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
       const resource = resources.get(key(op.resource));
       if (op.transform === undefined && op.attachment?.surfaceId && (resource?.mount === 'support-surface' || isPortableDeskDevice(resource)))
         node.transform = centerOnParent(resource, op.parentId, op.attachment.surfaceId, op.id);
+      if (op.transform === undefined && resource?.mount === 'wall-corner')
+        node.transform = cornerAbsorberTransform(next.nodes.find(parent => parent.id === op.parentId),op.attachment?.corner,.2,fail);
       if(op.transform===undefined && resource?.mount==='garment-rail')
         node.transform=garmentSlotTransform(op.attachment?.slotId) ?? node.transform;
       if (op.appearance !== undefined) node.appearance = copy(op.appearance);
@@ -591,6 +601,14 @@ export function prepareCompanyChange(document, operations, { catalog, templates,
     else if(op.type==='set-exterior-entrances'){
       if(node.kind!=='floor'||!Array.isArray(op.entrances))fail('invalid-exterior-entrances',op.id,'Exterior entrances belong to an existing floor');
       node.exteriorEntrances=copy(op.entrances);
+    }
+    else if (op.type === 'attach-corner') {
+      if (node.kind !== 'facility' || resources.get(key(node.resource))?.mount !== 'wall-corner')
+        fail('invalid-corner-attachment',node.id,'Select a two-wall corner facility');
+      const region = next.nodes.find(parent => parent.id === op.parentId);
+      node.transform = cornerAbsorberTransform(region,op.corner,op.bottom === undefined ? node.transform.position[1] : op.bottom,fail);
+      node.parentId = region.id;
+      node.attachment = {corner:op.corner};
     }
     else if(op.type==='attach-window-cover'){
       if(node.kind!=='facility'||resources.get(key(node.resource))?.mount!=='window-cover')fail('invalid-window-cover-attachment',node.id,'Only a window-cover facility can be rebound to a window');

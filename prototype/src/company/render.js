@@ -297,15 +297,17 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
         facility.clock=bindClockDisplay(entry.resource,parts,entry.state);
         facility.presentation=facility.clock ?? bindFloorAirRotor(entry.resource,parts,entry.state);
         facility.presentation?.apply(presentationInputs);
-        if(['wall','portal','wall-opening'].includes(entry.resource.mount)) {
+        if (['wall','wall-corner','portal','wall-opening'].includes(entry.resource.mount)) {
           const edge=wallEdge(entry.node.transform.yaw);
-          const along=['north','south'].includes(edge)?entry.node.transform.position[0]:entry.node.transform.position[2];
-          const candidates=architecture.visibilityWalls.filter(w=>w.regionId===entry.roomId&&w.edge===edge);
-          const mountedWall=candidates.find(w=>{
+          const bearings=derived.cornerMounts.get(entry.id)?.bearings ??
+            [{edge,offset:entry.node.transform.position[['north','south'].includes(edge)?0:2]}];
+          facility.wallBindings=bearings.map(({edge,offset})=>{
             const axis=['north','south'].includes(edge)?0:2;
-            return Math.abs(along-w.position[axis])<=w.size[axis]/2+1e-6;
-          })||candidates[0];
-          facility.wallBinding={edge,wallId:mountedWall?.id||null};
+            const candidates=architecture.visibilityWalls.filter(w=>w.regionId===entry.roomId&&w.edge===edge);
+            const wall=candidates.find(w=>Math.abs(offset-w.position[axis])<=w.size[axis]/2+1e-6) || candidates[0];
+            return {edge,wallId:wall?.id??null};
+          });
+          facility.wallBinding=facility.wallBindings[0];
         }
         facilities.set(entry.id,facility);
         if(entry.resource.light) {
@@ -347,7 +349,8 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       lights.sort((a,b)=>Number(a.wallAmbient)-Number(b.wallAmbient)||a.id.localeCompare(b.id));
       const wallGroups=groupWallSegments(architecture.visibilityWalls);
       for(const wall of walls)wall.userData.wallGroup=wallGroups.get(wall.userData.physicalBoundary)||wall.userData.physicalBoundary;
-      for(const facility of facilities.values())if(facility.wallBinding?.wallId)facility.wallBinding.wallGroup=wallGroups.get(facility.wallBinding.wallId)||facility.wallBinding.wallId;
+      for(const facility of facilities.values())for(const binding of facility.wallBindings??[])
+        if(binding.wallId)binding.wallGroup=wallGroups.get(binding.wallId)||binding.wallId;
       return {root,document:clone(document),derived,architecture,floorId,view,wallView:clone(wallView),groups,facilities,points,floors,walls,ceilings,lights,wallGroups,absorberMeasurements};
     } catch(error) {disposeTree(root);throw error;}
   }
@@ -443,11 +446,11 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
     const ceilingVisible=regionId=>ceilingVisibleForRegion({view:target.view,cameraPosition:target.wallView?.cameraPosition,region:target.derived.nodes.get(regionId),group:target.groups.get(regionId)});
     for(const facility of target.facilities.values()) {
       const detailed=!focused||facility.roomId===focused||target.derived.windowOpenings.get(facility.id)?.regions.some(s=>s.regionId===focused);
-      const wallHidden=facility.wallBinding?.wallGroup&&hiddenGroups.has(facility.wallBinding.wallGroup);
+      const wallHidden=facility.wallBindings?.every(binding=>hiddenGroups.has(binding.wallGroup)) ?? false;
       const mounted = facility.resource.mountRole !== 'camera-mount' || facility.state.mounted;
       facility.visual.visible = mounted && detailed && !wallHidden;
       if (facility.proxy) facility.proxy.visible = mounted && !detailed;
-      if(['wall','portal','wall-opening'].includes(facility.resource.mount))facility.root.visible=detailed&&!wallHidden;
+      if(facility.wallBindings)facility.root.visible=detailed&&!wallHidden;
       if(facility.resource.mount==='ceiling'){facility.root.visible=ceilingVisible(facility.roomId);if(facility.proxy)facility.proxy.visible=false;}
       // Wall-mounted assets retain their complete geometry.  Older cutaway
       // clipping planes must be cleared when a candidate is reused.
@@ -540,13 +543,14 @@ export function createCompanyScene(world,initialDocument,{catalog=defaultCatalog
       const evaluated=evaluateWallVisibility({walls:current.architecture.visibilityWalls,document:current.document,derived:current.derived,
         floorId:current.floorId,view:current.view,mode:current.wallView?.mode,cameraPosition:current.wallView?.cameraPosition,groups:current.wallGroups});
       const mountedByGroup=new Map();
-      for(const facility of current.facilities.values())if(facility.wallBinding?.wallGroup) {
-        const list=mountedByGroup.get(facility.wallBinding.wallGroup)||[];
+      for(const facility of current.facilities.values())for(const binding of facility.wallBindings??[]) {
+        if (!binding.wallGroup) continue;
+        const list=mountedByGroup.get(binding.wallGroup)||[];
         // Imported asset roots may leave `visible` undefined on a cloned
         // scene node. The facility wrapper is authoritative for display
         // visibility; include the inner root only when it explicitly hides.
-        const visible=!evaluated.hiddenGroups.has(facility.wallBinding.wallGroup)&&facility.root.visible!==false&&facility.visual?.visible!==false;
-        list.push({id:facility.id,visible});mountedByGroup.set(facility.wallBinding.wallGroup,list);
+        const visible=!facility.wallBindings.every(b=>evaluated.hiddenGroups.has(b.wallGroup))&&facility.root.visible!==false&&facility.visual?.visible!==false;
+        list.push({id:facility.id,visible});mountedByGroup.set(binding.wallGroup,list);
       }
       return {mode:current.wallView?.mode||'full',effectiveMode:evaluated.effectiveMode,cameraPosition:current.wallView?.cameraPosition?[...current.wallView.cameraPosition]:null,
         targets:evaluated.targets.map(target=>[...target]),walls:current.walls.map(wall=>({id:wall.name,region:wall.userData.roomId,edge:wall.userData.edge,

@@ -331,6 +331,52 @@ export async function verifyWallAbsorberSources(root, resource, recipe) {
   return new Map(Object.entries(pins));
 }
 
+export async function verifyCornerAbsorberSources(root, resource, recipe) {
+  const family = 'assets-source/company-corner-absorber-v1/';
+  const originals = family + 'original/';
+  const donorIds = {bracketDonor:'wall-shelf-side-bracket', fabricDonor:'wall-absorber-upholstered', feltDonor:'wall-absorber-honeyfelt'};
+  const paths = {
+    generator:'scripts/company-platform/build-corner-absorber.mjs',
+    geometryChecker:'prototype/src/company/corner-absorber-geometry.js',
+    contract:family+'contract.json', sourceRecord:originals+'sources.json', license:originals+'PROJECT-SOURCE.txt'
+  };
+  for (const [key,id] of Object.entries(donorIds)) paths[key] = originals+id+'.glb';
+  function mismatch(at) {
+    throw Object.assign(Error('corner-absorber-source-mismatch: '+at), {code:'corner-absorber-source-mismatch',path:at});
+  }
+  const p = resource.provenance;
+  const design = recipe.designs?.find(d => d.id===resource.id && d.version===resource.version);
+  if (recipe.schema!=='company-corner-absorber-collection' || recipe.version!==1 || !design ||
+      !['triangular','column','segmented','upholstered'].includes(design.kind) ||
+      p.sourceDesign!==design.kind || resource.displayName!==design.displayName ||
+      p.generator!==paths.generator || p.functionalContractSource!==paths.contract ||
+      !isDeepStrictEqual(resource.acoustic,{purpose:'corner-absorber',construction:design.kind,configuration:'static'}))
+    mismatch(resource.id);
+  const pins = {};
+  let record, contract;
+  for (const [key,relative] of Object.entries(paths)) {
+    const file = path.resolve(root,relative);
+    if (await fs.realpath(file)!==file || !(await fs.lstat(file)).isFile()) mismatch(relative);
+    const bytes = await fs.readFile(file);
+    pins[key] = {path:relative,sha256:digest(bytes)};
+    if (key==='contract') contract=JSON.parse(bytes).resource;
+    if (key==='sourceRecord') record=JSON.parse(bytes);
+  }
+  if (record.schema!=='company-corner-absorber-sources' || record.author!=='Company environment production project' ||
+      record.licensePath!==paths.license || p.sourceAuthor!==record.author ||
+      p.sourceLicense!=='Project-authored' || p.license!==p.sourceLicense) mismatch(paths.sourceRecord);
+  for (const [key,id] of Object.entries(donorIds)) {
+    const donor=record[key];
+    if (donor?.originalId!==id || donor.version!==1 || donor.path!==paths[key] || donor.sha256!==pins[key].sha256 ||
+        !donor.license?.startsWith('Project-authored')) mismatch(paths[key]);
+  }
+  for (const [key,value] of Object.entries(contract))
+    if (!isDeepStrictEqual(resource[key],value)) mismatch(resource.id+'.'+key);
+  if (!isDeepStrictEqual(p.dependencies,pins) || p.generatorSha256!==pins.generator.sha256 ||
+      p.functionalContractSourceSha256!==pins.contract.sha256) mismatch(resource.id+'.provenance');
+  return new Map(Object.entries(pins));
+}
+
 export async function verifyMovableAbsorberSources(root, resource, recipe) {
   const family = 'assets-source/company-movable-absorber-v1/';
   const originals = family+'original/';
@@ -528,6 +574,9 @@ export async function validateResourceProvenance({root, resource, label = resour
       await verifyWashroomDispenserSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && (resource.productionBranch==='wall-absorber-panel' || resource.mountRole==='wall-absorber-panel'))
       await verifyWallAbsorberSources(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && (resource.productionBranch==='corner-absorber' || resource.mountRole==='corner-absorber' ||
+        resource.acoustic?.purpose==='corner-absorber' || provenance.generator==='scripts/company-platform/build-corner-absorber.mjs'))
+      await verifyCornerAbsorberSources(root,resource,JSON.parse(bytes));
     if(field==='sourceParameters' && (resource.productionBranch==='movable-absorber-screen' || resource.mountRole==='movable-absorber-screen' ||
         resource.acoustic?.purpose==='movable-absorber-screen' || provenance.generator==='scripts/company-platform/build-movable-absorber.mjs'))
       await verifyMovableAbsorberSources(root,resource,JSON.parse(bytes));

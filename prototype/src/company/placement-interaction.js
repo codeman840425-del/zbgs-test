@@ -54,14 +54,18 @@ export function createPlacementInteraction({session,catalog,templates,assetLibra
     const wall=['wall','wall-opening','portal'].includes(config.resource?.mount),axis=wall?(Math.abs(Math.sin(config.yaw))<.5?0:2):0;
     const axes=wall?[axis,1]:[0,2],step=config.resource&&['desk-surface','support-surface','wall','wall-opening'].includes(config.resource.mount)?.1:.2;
     const range=bounds(config,parent),names=['x','y','z'];
-    const intervals=axes.map(i=>config.locks.includes(names[i])?[config.position[i],config.position[i]]:range[names[i]]);
+    const intervals=axes.map(i=>!config.anchors&&config.locks.includes(names[i])?[config.position[i],config.position[i]]:range[names[i]]);
     const group=new THREE.Group();group.name='PlacementOverlay';group.matrixAutoUpdate=false;group.matrix.copy(parent.matrixWorld);world.add(group);
     const normal=new THREE.Vector3();normal.setComponent([0,1,2].find(i=>!axes.includes(i)),wall?Math.cos(config.yaw)+Math.sin(config.yaw)>0?1:-1:1);
     const cells=[],vertices=[],rgb=[];
     const lo=intervals.map(([v],i)=>Math.ceil((v-config.position[axes[i]]-step*.5)/step)),hi=intervals.map(([,v],i)=>Math.floor((v-config.position[axes[i]]+step*.5)/step));
-    for(let u=lo[0];u<=hi[0];u++)for(let v=lo[1];v<=hi[1];v++){
+    if (config.anchors) cells.push(...config.anchors.map(anchor=>anchor.position));
+    else for(let u=lo[0];u<=hi[0];u++)for(let v=lo[1];v<=hi[1];v++){
       const p=[...config.position];p[axes[0]]=intervals[0][0]===intervals[0][1]?intervals[0][0]:Number((config.position[axes[0]]+u*step).toFixed(4));p[axes[1]]=intervals[1][0]===intervals[1][1]?intervals[1][1]:Number((config.position[axes[1]]+v*step).toFixed(4));cells.push(p);
-      for(const [du,dv]of [[-1,-1],[1,-1],[1,1],[-1,-1],[1,1],[-1,1]]){const q=new THREE.Vector3(...p).addScaledVector(normal,.018);q.setComponent(axes[0],q.getComponent(axes[0])+du*step*.43);q.setComponent(axes[1],q.getComponent(axes[1])+dv*step*.43);vertices.push(...q);rgb.push(...colors.pending);}
+    }
+    const markerRadius=config.anchors ? .27 : step*.43;
+    for(const p of cells){
+      for(const [du,dv]of [[-1,-1],[1,-1],[1,1],[-1,-1],[1,1],[-1,1]]){const q=new THREE.Vector3(...p).addScaledVector(normal,.018);q.setComponent(axes[0],q.getComponent(axes[0])+du*markerRadius);q.setComponent(axes[1],q.getComponent(axes[1])+dv*markerRadius);vertices.push(...q);rgb.push(...colors.pending);}
     }
     const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));geometry.setAttribute('color',new THREE.Float32BufferAttribute(rgb,3));
     const tiles=new THREE.Mesh(geometry,new THREE.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:.34,side:THREE.DoubleSide,depthWrite:false,depthTest:false}));tiles.renderOrder=110;group.add(tiles);
@@ -70,10 +74,10 @@ export function createPlacementInteraction({session,catalog,templates,assetLibra
     const size=localBox?.getSize(new THREE.Vector3())||new THREE.Vector3(m?.width||f?.halfSize?.[0]*2||.6,m?.height||.65,m?.depth||f?.halfSize?.[1]*2||.6);
     const center=localBox?localBox.getCenter(new THREE.Vector3()).sub(new THREE.Vector3(...config.position)):new THREE.Vector3(0,m?.origin==='center'?0:size.y/2,0);
     const ghost=new THREE.Box3Helper(new THREE.Box3(),0x26836b);ghost.material.depthTest=false;ghost.renderOrder=120;group.add(ghost);ghost.visible=false;
-    const a=active={config,group,tiles,ghost,size,center,axes,normal,step,cells,cache:new Map(),yaw:config.yaw,probe:null,pending:0,mapGeneration:0,drag:false,point:null,
+    const a=active={config,markerRadius,group,tiles,ghost,size,center,axes,normal,step,cells,cache:new Map(),yaw:config.yaw,probe:null,pending:0,mapGeneration:0,drag:false,point:null,
       camera:{position:camera.position.clone(),quaternion:camera.quaternion.clone(),target:orbit.target.clone(),enabled:orbit.enabled},revision:session.scene.revision,docId:session.document.id};
     orbit.enabled=false;document.querySelector('.view-toolbar').inert=true;document.getElementById('camera-hint').hidden=true;canvas.style.cursor='grab';banner.hidden=false;
-    instruction.textContent=`镜头已锁定 · 左键拖放 / 点击落点 · 右键操作 · ${step} 米吸附`;
+    instruction.textContent=config.anchors?'镜头已锁定 · 左键拖到绿色墙角，朝向跟随墙面':`镜头已锁定 · 左键拖放 / 点击落点 · 右键操作 · ${step} 米吸附`;
     status.textContent='正在检查安装面…';status.dataset.valid='pending';
     // Wall placement needs a face-on view; top placement needs a view from above.
     const mid=point(a,(intervals[0][0]+intervals[0][1])/2,(intervals[1][0]+intervals[1][1])/2),target=new THREE.Vector3(...mid).applyMatrix4(parent.matrixWorld);
@@ -89,12 +93,24 @@ export function createPlacementInteraction({session,catalog,templates,assetLibra
     const rect=canvas.getBoundingClientRect(),ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1),camera);
     ray.ray.applyMatrix4(a.group.matrix.clone().invert());
     const hit=ray.ray.intersectPlane(new THREE.Plane().setFromNormalAndCoplanarPoint(a.normal,new THREE.Vector3(...a.config.position)),new THREE.Vector3());
-    if(!hit){a.point=null;a.ghost.visible=false;return true;}
-    const p=[...a.config.position];for(const i of a.axes)if(!a.config.locks.includes(['x','y','z'][i]))p[i]=Number((a.config.position[i]+Math.round((hit.getComponent(i)-a.config.position[i])/a.step)*a.step).toFixed(4));
+    function clearPoint(){
+      a.point=null;a.result=null;a.ghost.visible=false;if(a.model)a.model.visible=false;
+      status.dataset.valid='false';canvas.style.cursor='not-allowed';
+      if(a.config.anchors)status.textContent='请拖到有标记的墙角。';
+    }
+    if(!hit){clearPoint();return true;}
+    let p=[...a.config.position];
+    if(a.config.anchors) {
+      const anchor=a.config.anchors.find(candidate=>a.axes.every(i=>Math.abs(hit.getComponent(i)-candidate.position[i])<=a.markerRadius));
+      if(!anchor){clearPoint();return true;}
+      p=anchor.position;a.yaw=anchor.yaw;
+    } else for(const i of a.axes)if(!a.config.locks.includes(['x','y','z'][i]))p[i]=Number((a.config.position[i]+Math.round((hit.getComponent(i)-a.config.position[i])/a.step)*a.step).toFixed(4));
     const result=check(a,p);a.point=p;a.result=result;
     ensureModel(a);if(a.model){a.model.visible=true;a.model.position.fromArray(p);a.model.rotation.y=a.yaw;}
     const turn=Math.abs(Math.sin(a.yaw-a.config.yaw))>.5,size=a.size.clone();if(turn)[size.x,size.z]=[size.z,size.x];
-    a.ghost.box.setFromCenterAndSize(new THREE.Vector3(...p).add(a.center),size);a.ghost.visible=true;a.ghost.material.color.copy(colors[result.valid?'valid':'invalid']);
+    const offset=a.config.anchors
+      ? new THREE.Vector3(size.x/2,size.y/2,size.z/2).applyAxisAngle(new THREE.Vector3(0,1,0),a.yaw) : a.center;
+    a.ghost.box.setFromCenterAndSize(new THREE.Vector3(...p).add(offset),size);a.ghost.visible=true;a.ghost.material.color.copy(colors[result.valid?'valid':'invalid']);
     status.dataset.valid=String(result.valid);status.textContent=`${result.valid?'可放置 ✓':'不可放置 ×'} · 坐标 ${p.map(v=>Number(v.toFixed(3))).join(' / ')} 米${result.valid?'':` · ${explain(result.error)}`}`;
     canvas.style.cursor=a.drag?'grabbing':result.valid?'grab':'not-allowed';return true;
   }

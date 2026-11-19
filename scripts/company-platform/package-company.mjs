@@ -592,7 +592,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       }
     }
     const derived = documentTools.deriveCompany(document,catalog,templates);
-    if (derived.facilities.some(f=>f.resource.mountRole==='wall-absorber-panel')) {
+    if (derived.facilities.some(f=>['wall-absorber-panel','corner-absorber'].includes(f.resource.mountRole))) {
       const checker=await noLinks(path.join(source,'scripts/company-platform/check-wall-absorber-room.mjs'));
       const {checkWallAbsorberRooms}=await import(pathToFileURL(checker).href);
       await checkWallAbsorberRooms(document,{catalog,templates,derived,root:source});
@@ -719,6 +719,14 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   let verifyWallHvacSources;
   let verifyEquipmentCartSources;
   let verifyWashbasinSources,verifyWashroomDispenserSources,verifyPrintedSignSources;
+  let verifyCornerAbsorberSources;
+  if (catalog.resources.some(resource => resource.productionBranch === 'corner-absorber')) {
+    const verifier = await noLinks(path.join(source, 'scripts/company-platform/validate-resource-provenance.mjs'));
+    ({verifyCornerAbsorberSources} = await import(pathToFileURL(verifier).href));
+    if (!verifyCornerAbsorberSources) fail('missing-production-tool', verifier, 'Expected the corner fixture source verifier');
+    for (const entry of ['check-wall-absorber-room.mjs','test-corner-absorber-data.mjs','test-corner-absorber-rooms.mjs','test-corner-absorber-installed.mjs','test-corner-absorber-geometry.mjs','qa-corner-absorber.cjs','batch-inputs/corner-absorber-rooms.json'])
+      supplemental.add('scripts/company-platform/' + entry);
+  }
   let verifyMovableAbsorberSources;
   if (catalog.resources.some(resource => resource.productionBranch === 'movable-absorber-screen')) {
     const verifier = await noLinks(path.join(source, 'scripts/company-platform/validate-resource-provenance.mjs'));
@@ -971,7 +979,8 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
         productionSourcePins.set(pin.path,pin.sha256);
       }
     }
-    const equipmentVerifier = resource.productionBranch==='movable-absorber-screen' ? verifyMovableAbsorberSources :
+    const equipmentVerifier = resource.productionBranch==='corner-absorber' ? verifyCornerAbsorberSources :
+      resource.productionBranch==='movable-absorber-screen' ? verifyMovableAbsorberSources :
       resource.productionBranch==='wall-absorber-panel' ? verifyWallAbsorberSources :
       resource.productionBranch==='public-wayfinding-content' ? verifyWayfindingSources :
       resource.productionBranch==='storage-cleaning-shelf' ? verifyCleaningLoadSources :
@@ -1032,6 +1041,9 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     add(`source/${name}`,bytes,'editable-production-source');
   }
   let readme=(await read(toolRoot,'package-template/README.template.md')).toString('utf8').replaceAll('{{BUILD_ID}}',buildId).replaceAll('{{SOURCE_DIGEST}}',info.sourceDigest);
+  const cornerIds = new Set(catalog.resources.filter(resource => resource.productionBranch === 'corner-absorber').map(resource => resource.id));
+  if (document.nodes.some(node => cornerIds.has(node.resource?.id)))
+    readme += '\n墙角安装、四款外观和改版命令见[墙角吸声件制作说明](source/assets-source/company-corner-absorber-v1/README.md)。\n';
   const screenIds = new Set(catalog.resources.filter(resource => resource.productionBranch === 'movable-absorber-screen').map(resource => resource.id));
   if (document.nodes.some(node => screenIds.has(node.resource?.id)))
     readme += '\n输入房名可打开唱播间或带货出租屋。四种屏体的改款、保存与复跑见[移动吸声屏制作说明](source/assets-source/company-movable-absorber-v1/README.md)。\n';

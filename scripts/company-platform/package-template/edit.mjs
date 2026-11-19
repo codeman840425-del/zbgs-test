@@ -37,7 +37,7 @@ try{
   }else if(command!=='validate')throw Error('Use validate INPUT_SAVE or apply INPUT_SAVE OPS_JSON NEW_RESULT_DIRECTORY');
   const constraint=bindTrainingDocument(document,binding,input,context);
   const derived=documentTools.deriveCompany(document,catalog,templates);
-  if (derived.facilities.some(f=>f.resource.mountRole==='wall-absorber-panel')) {
+  if (derived.facilities.some(f=>['wall-absorber-panel','corner-absorber'].includes(f.resource.mountRole))) {
     const {checkWallAbsorberRooms}=await import('./source/scripts/company-platform/check-wall-absorber-room.mjs');
     await checkWallAbsorberRooms(document,{catalog,templates,derived,root:path.join(root,'source')});
   }

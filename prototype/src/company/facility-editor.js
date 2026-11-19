@@ -1,3 +1,4 @@
+import {CORNER_NAMES,cornerAbsorberTransform} from './corner-absorber-data.js';
 import {latestAppearanceVersions} from './appearance-samples.js';
 import {workstationLooks,workstationLookOperations} from './workstation-looks.js';
 import {planEntranceAndFrame} from './entrance-authoring.js';
@@ -69,9 +70,12 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
   const execute=(label,fn)=>{cancel();return perform(label,async()=>{try{remember();await fn();message('已更新当前布置。保存后可关闭并继续。');}catch(e){message(explain(e),true);throw e;}});};
   function explain(error){
     if(roomEditMessages[error.code])return roomEditMessages[error.code]+'。';
+    if (error.code === 'corner-absorber-room-bearing') return '门窗或缺口打断了支架的贴墙面，请改选另一个墙角。';
+    if (error.code === 'corner-absorber-room-occupied') return '角件与已有物品相交，请移开重叠物品或更换墙角。';
+    if (error.code === 'corner-absorber-room-wall') return '墙体或踢脚线与角件相交，请调整底高或更换墙角。';
     if (error.code === 'invalid-floor-fit') return '落地设施须贴地，转向后的完整占地要放在墙内。原布置已保留。';
     if (error.code === 'invalid-cart-device-contact') return '设备底面须贴住推车层板，整件设备须放在该层净空内。原布置已保留。';
-    const messages={'blocked-moving-part':'开合路径被其他设施挡住，请留出柜门或抽屉的活动空间。','invalid-wardrobe-contract':'这款衣柜的安装尺寸、挂位或左右门配置与房间规格不符。','garment-slot-occupied':'该挂位已经有衣物，请选一个空挂位。','invalid-garment-attachment':'请在本房间的衣架或更衣柜上选择空挂位。','cross-room-garment':'请选择本房间的衣架或更衣柜。','invalid-garment-fit':'衣钩必须贴住所选挂位。','blocked-garment-clearance':'衣架前方已有家具，请留出取衣空间。','outside-garment-clearance':'衣架前方的取衣空间超出房间，请调整位置或朝向。','incompatible-textile-support':'沙发软装须安装在沙发的软装扶手上。','portal-frame-overlap':'门框边沿会挡住相邻门洞，请调整洞口间距。','duplicate-door-frame':'这个门洞已有门框，请选中已有门框替换外观。','blocked-exterior-entrance':'这段墙外有相邻房间，不能作为外部入口。','invalid-portal-fit':'门框必须匹配真实门洞的位置、宽度和高度。','outside-room':'物品超出房间可用边界。','blocked-entry':'这里会堵住入口。','disconnected-entry':'入口与房间通路将不再连通。','blocked-portal':'这里会堵住门口。','disconnected-portal':'这里会隔断房间之间的通路。','outside-use-space':'设施使用点超出房间。','blocked-use-space':'这里会挡住使用或离开空间。','disconnected-use-space':'这里会使设施无法经通路接近。','no-placement-target':'当前房间没有适合该设施的安装位置，请查看添加面板中的安装要求。','overlapping-windows':'这里已有窗体，请移到另一段墙面。','wall-display-over-window':'墙饰不能覆盖真实窗洞。','invalid-window-sill':'请保留窗台高度，窗洞不能接地或越过墙顶。','window-obstructed':'窗体与家具相交，请调整摆放位置。','window-crosses-region-seam':'窗体必须完整位于相邻两侧的同一段墙内。','invalid-support-fit':'所选物品超出承载面的宽度、高度或深度。','overlapping-supported-props':'这个承载面上已有物品，位置发生重叠。','overlapping-facilities':'这里已有设施，请换一个位置。','blocked-use-point':'该位置挡住了设施的使用空间。','invalid-wall-fit':'物品必须贴合墙面，并避开边界。','wall-display-over-portal':'这里是门口，不能覆盖。','missing-placement-target':'当前房间没有合适的承载物，请先添加桌、柜架或信息板。','incompatible-appearance':'此造型的功能或安装规格不同，不能作为原位外观替换。','required-template-part':'这是工位的必要部件；可换外观，移除请选所属整体。','visual-outside-room':'物品超出房间边界，请放回房间内。','desktop-area-occupied':'这块桌面已有设备，请移到空处。','invalid-desktop-envelope':'整个安装区域须贴合桌面并落在桌沿内，可移动或旋转后再放置。','visual-surface-overhang':'物品超出了桌面，请调整位置。','invalid-edit-value':'请输入有效的位置数值。'};
+    const messages={'invalid-corner-attachment':'请在房间内选择一个墙角。','invalid-corner-fit':'物件的两侧安装面须对准同一个墙角，并保持在墙高以内。','corner-bearing-over-opening':'这个墙角有一侧支架落在门窗洞口，请改选墙角。','blocked-moving-part':'开合路径被其他设施挡住，请留出柜门或抽屉的活动空间。','invalid-wardrobe-contract':'这款衣柜的安装尺寸、挂位或左右门配置与房间规格不符。','garment-slot-occupied':'该挂位已经有衣物，请选一个空挂位。','invalid-garment-attachment':'请在本房间的衣架或更衣柜上选择空挂位。','cross-room-garment':'请选择本房间的衣架或更衣柜。','invalid-garment-fit':'衣钩必须贴住所选挂位。','blocked-garment-clearance':'衣架前方已有家具，请留出取衣空间。','outside-garment-clearance':'衣架前方的取衣空间超出房间，请调整位置或朝向。','incompatible-textile-support':'沙发软装须安装在沙发的软装扶手上。','portal-frame-overlap':'门框边沿会挡住相邻门洞，请调整洞口间距。','duplicate-door-frame':'这个门洞已有门框，请选中已有门框替换外观。','blocked-exterior-entrance':'这段墙外有相邻房间，不能作为外部入口。','invalid-portal-fit':'门框必须匹配真实门洞的位置、宽度和高度。','outside-room':'物品超出房间可用边界。','blocked-entry':'这里会堵住入口。','disconnected-entry':'入口与房间通路将不再连通。','blocked-portal':'这里会堵住门口。','disconnected-portal':'这里会隔断房间之间的通路。','outside-use-space':'设施使用点超出房间。','blocked-use-space':'这里会挡住使用或离开空间。','disconnected-use-space':'这里会使设施无法经通路接近。','no-placement-target':'当前房间没有适合该设施的安装位置，请查看添加面板中的安装要求。','overlapping-windows':'这里已有窗体，请移到另一段墙面。','wall-display-over-window':'墙饰不能覆盖真实窗洞。','invalid-window-sill':'请保留窗台高度，窗洞不能接地或越过墙顶。','window-obstructed':'窗体与家具相交，请调整摆放位置。','window-crosses-region-seam':'窗体必须完整位于相邻两侧的同一段墙内。','invalid-support-fit':'所选物品超出承载面的宽度、高度或深度。','overlapping-supported-props':'这个承载面上已有物品，位置发生重叠。','overlapping-facilities':'这里已有设施，请换一个位置。','blocked-use-point':'该位置挡住了设施的使用空间。','invalid-wall-fit':'物品必须贴合墙面，并避开边界。','wall-display-over-portal':'这里是门口，不能覆盖。','missing-placement-target':'当前房间没有合适的承载物，请先添加桌、柜架或信息板。','incompatible-appearance':'此造型的功能或安装规格不同，不能作为原位外观替换。','required-template-part':'这是工位的必要部件；可换外观，移除请选所属整体。','visual-outside-room':'物品超出房间边界，请放回房间内。','desktop-area-occupied':'这块桌面已有设备，请移到空处。','invalid-desktop-envelope':'整个安装区域须贴合桌面并落在桌沿内，可移动或旋转后再放置。','visual-surface-overhang':'物品超出了桌面，请调整位置。','invalid-edit-value':'请输入有效的位置数值。'};
     return `${messages[error.code]||'这个位置或操作不符合安装要求。'} 原布置已保留。`;
   }
   function select(id){if(selected!==id)el('placement-tools').open=false;selected=id;tool='selection';cancel();sync();}
@@ -101,6 +105,17 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
       locks:t?.lockedAxes||getFacilityEditConstraints(n,r).lockedAxes,attachment:t?.attachment||n?.attachment,source:action.kind!=='add'&&n&&session.scene.root.getObjectByName(n.id),
       operation:transform=>action.kind==='add'?createFacilityPlacement(session.document,catalog,r,t.id,{x:transform.position[0],height:transform.position[1],z:transform.position[2],yaw:transform.yaw},region(),{templates}).operation:
         action.kind==='copy'?{type:n.kind==='facility'?'copy-facility':n.kind==='workstation'?'copy-workstation':'copy-group',id:n.id,newId:id,transform}:{type:'move',id:n.id,transform}};
+    if (r?.mount==='wall-corner') {
+      const room=derived.nodes.get(config.parentId),bottom=config.position[1];
+      config.anchors=CORNER_NAMES.map(corner=>({corner,...cornerAbsorberTransform(room,corner,bottom)}));
+      const addOperation=t && createFacilityPlacement(session.document,catalog,r,t.id,{},room.id,{templates}).operation;
+      config.operation=({position})=>{
+        const anchor=config.anchors.find(a=>a.position.every((v,i)=>Math.abs(v-position[i])<.001));
+        if(!anchor)throw new CompanyError('invalid-corner-attachment',room.id,'Select a room corner');
+        return addOperation ? {...addOperation,attachment:{corner:anchor.corner},transform:{position:anchor.position,yaw:anchor.yaw}}
+          : {type:'attach-corner',id:n.id,parentId:room.id,corner:anchor.corner,bottom};
+      };
+    }
     armed=action;placement.start(config);
   }
   function chosenResource(){return catalog.resources.find(r=>ref(r)===el('add-look').value);}
@@ -113,15 +128,18 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
     el('add-entrance').hidden=!entrancePlan;el('add-entrance').disabled=isBusy()||session.scene.view.mode!=='room';
     el('entrance-note').hidden=!entrancePlan;el('entrance-note').textContent=entrancePlan?`将改变墙体并安装当前门框：${entrancePlan.label}。保存后保留此入口。`:'';
 
-    const noTarget=r?.mountRole==='static-textile'?'请先在“双人沙发”里添加宽扶手款，再将软装放到扶手上。':r?.mount==='portal'?`当前房间没有匹配的真实门洞（此门框需要 ${r.mounting.apertureWidth} 米宽）。门框只能装到已有门洞；添加门框不会在墙上开门。`:r?.mount==='portal-door'?`当前房间没有匹配的真实外部门洞（门扇需要 ${r.mounting.apertureWidth}×${r.mounting.apertureHeight} 米）。请先创建真实入口。`:r?.mount==='ceiling'?'当前房间没有能容纳此设施的顶部安装空间。':r&&['wall','wall-opening'].includes(r.mount)?'当前墙面没有足够的安装空间，或门洞与边界限制了摆放。':'当前空间没有合适的安装位置或承载物。请先添加对应的桌、柜架或信息板。';
+    const noTarget=r?.mount==='wall-corner'?'该房间没有可容纳物件且两侧均有实体墙支承的空角。':r?.mountRole==='static-textile'?'请先在“双人沙发”里添加宽扶手款，再将软装放到扶手上。':r?.mount==='portal'?`当前房间没有匹配的真实门洞（此门框需要 ${r.mounting.apertureWidth} 米宽）。门框只能装到已有门洞；添加门框不会在墙上开门。`:r?.mount==='portal-door'?`当前房间没有匹配的真实外部门洞（门扇需要 ${r.mounting.apertureWidth}×${r.mounting.apertureHeight} 米）。请先创建真实入口。`:r?.mount==='ceiling'?'当前房间没有能容纳此设施的顶部安装空间。':r&&['wall','wall-opening'].includes(r.mount)?'当前墙面没有足够的安装空间，或门洞与边界限制了摆放。':'当前空间没有合适的安装位置或承载物。请先添加对应的桌、柜架或信息板。';
     el('add-note').textContent=target?.note||(!targets.length?noTarget:'点击场景放置，也可使用所选位置的默认点。');
-    document.querySelector('label[for="add-target"]').textContent=r?.mount==='portal'?'已有门洞':r?.mount==='portal-door'?'真实外部门洞':r&&['wall','wall-opening'].includes(r.mount)?'安装墙面':'摆放位置 / 承载物';
+    document.querySelector('label[for="add-target"]').textContent=r?.mount==='wall-corner'?'安装墙角':r?.mount==='portal'?'已有门洞':r?.mount==='portal-door'?'真实外部门洞':r&&['wall','wall-opening'].includes(r.mount)?'安装墙面':'摆放位置 / 承载物';
     el('add-place').disabled=el('add-center').disabled=isBusy()||!target||session.scene.view.mode==='building';
     if(r?.mount==='parent-device-endpoints'){
       el('add-place').disabled=true;
       if(!target)el('add-note').textContent='需要同一桌面上两个相对、同高且未被连接线占用的接口。先布置带连接口的屏幕和键盘，再连接。';
     }
     el('add-center').textContent=r?.mount==='parent-device-endpoints'?'连接所选接口':'放到默认位置';
+    if (r?.mount === 'wall-corner') {
+      el('add-center').textContent='装到所选墙角';
+    }
     if (r?.mount === 'garment-rail') {
       el('add-place').disabled = true;
       el('add-center').textContent = '挂到所选挂位';
@@ -238,15 +256,15 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
       el('edit-rotate').disabled=el('edit-yaw').disabled;el('edit-position').disabled=isBusy()||constraints.lockedAxes.length===4;
       el('edit-move').disabled=isBusy()||constraints.lockedAxes.length===4||view.mode==='building';
       el('edit-rule').textContent=constraints.note;
-      const installable=r&&(['wall','wall-opening','portal','portal-door','window-cover','support-surface','garment-rail'].includes(r.mount) ||
+      const installable=r&&(['wall','wall-corner','wall-opening','portal','portal-door','window-cover','support-surface','garment-rail'].includes(r.mount) ||
         (!n.stationId && isPortableDeskDevice(r)));
-      const targets=installable?listPlacementTargets(doc,catalog,r,derived.roomIds.get(n.id),{templates}):[];
+      const targets=installable?listPlacementTargets(doc,catalog,r,derived.roomIds.get(n.id),{templates,bottom:n.transform.position[1]}):[];
       el('edit-installation').hidden=!installable;
       options(el('edit-target'),targets.map(t=>({value:t.id,label:t.label})),el('edit-target').value);
       el('edit-attach').disabled=isBusy()||!targets.length;
       el('edit-parent').disabled=!doc.nodes.some(p=>p.id===n.parentId&&['facility','workstation','assembly'].includes(p.kind));
       el('edit-remove').disabled=isBusy()||Boolean(n.stationId);
-      el('edit-copy').disabled=isBusy()||Boolean(n.stationId)||r?.mount==='parent-device-endpoints'||(r?.mount==='garment-rail'&&!targets.length);stateControls(n,r);
+      el('edit-copy').disabled=isBusy()||Boolean(n.stationId)||r?.mount==='parent-device-endpoints'||(['garment-rail','wall-corner'].includes(r?.mount)&&!targets.length);stateControls(n,r);
       const object=session.scene.root.getObjectByName(selected);
       if(object&&view.mode!=='building'){outline.box.setFromObject(object);outline.visible=!outline.box.isEmpty();}
     }
@@ -329,6 +347,12 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
   el('edit-remove').onclick=()=>execute('正在移除物品…',async()=>{await session.apply([{type:'remove',id:selected}]);selected='';cancel();});
   el('edit-copy').onclick=()=>{
     const n=node(), r=resource(n);
+    if (r?.mount === 'wall-corner') return execute('正在复制到所选墙角…', async () => {
+      const newId=copyId(n),cornerTarget=selectedCornerTarget(n,r);
+      await session.apply([{type:'copy-facility',id:n.id,newId},
+        {type:'attach-corner',id:newId,parentId:cornerTarget.parentId,corner:cornerTarget.attachment.corner}]);
+      selected=newId;cancel();
+    });
     if (r?.mount !== 'garment-rail') return arm({kind:'copy'});
     return execute('正在复制挂衣…', async () => {
       const result=createFacilityPlacement(session.document,catalog,r,el('edit-target').value,{},region(),{templates});
@@ -346,8 +370,19 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
     let target;try{target=JSON.parse(el('template-target').value);}catch{throw new CompanyError('missing-template-version',`${n.id}.template`,'Specify an exact target template');}
     const result=await session.upgrade(n.id,target);selected=n.id;return result;
   });
+  function selectedCornerTarget(n,r) {
+    const target=listPlacementTargets(session.document,catalog,r,n.parentId,{templates,bottom:n.transform.position[1]})
+      .find(candidate=>candidate.id===el('edit-target').value);
+    if(!target)throw new CompanyError('missing-placement-target',n.id,'Choose an available wall corner');
+    return target;
+  }
   el('edit-attach').onclick=()=>execute('正在更换安装位置…',()=>{
-    const n=node(),r=resource(n),t=listPlacementTargets(session.document,catalog,r,region(),{templates}).find(t=>t.id===el('edit-target').value);
+    const n=node(),r=resource(n);
+    if(r.mount==='wall-corner') {
+      const target=selectedCornerTarget(n,r);
+      return session.apply([{type:'attach-corner',id:n.id,parentId:target.parentId,corner:target.attachment.corner}]);
+    }
+    const t=listPlacementTargets(session.document,catalog,r,region(),{templates}).find(t=>t.id===el('edit-target').value);
     if(!t)throw new CompanyError('missing-placement-target',n.id,'Select an installation target');
     if (r.mount === 'garment-rail') return session.apply([{type:'attach-garment',id:n.id,parentId:t.parentId,slotId:t.attachment.slotId}]);
     const transform={position:t.position,yaw:t.yaw};

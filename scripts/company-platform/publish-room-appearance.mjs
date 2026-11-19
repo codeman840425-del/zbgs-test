@@ -9,7 +9,7 @@ import {buildLibrary, planPath, replaceIndex, withCatalogWriteLock} from './buil
 import {editableSources,plantProducer,plantToolchain} from './plant-editable-source.mjs';
 import {showcaseTexturePins} from './validate-resource-provenance.mjs';
 import {checkManagedOutput,findManagedProject} from './package-company.mjs';
-import {verifyWashbasinSources,verifyWashroomDispenserSources,verifyCleaningLoadSources,verifyWayfindingSources,verifyWallAbsorberSources} from './validate-resource-provenance.mjs';
+import {verifyWashbasinSources,verifyWashroomDispenserSources,verifyCleaningLoadSources,verifyWayfindingSources,verifyWallAbsorberSources,verifyCornerAbsorberSources} from './validate-resource-provenance.mjs';
 import {compareFacilityFunction} from '../../prototype/src/company/appearance-contract.js';
 import {createCompany, deriveCompany} from '../../prototype/src/company/document.js';
 
@@ -22,6 +22,7 @@ const parse = bytes => JSON.parse(bytes.toString('utf8'));
 const run = promisify(execFile);
 const families = {
   'company-desk-lamp-collection': 'desk-lamp',
+  'company-corner-absorber-collection': 'corner-absorber',
   'company-movable-absorber-collection': 'movable-absorber',
   'company-screen-partition-collection': 'screen-partition',
   'company-static-textile-collection': 'static-textile',
@@ -57,6 +58,7 @@ generatorFiles['vocal-mic-looks'] = 'build-vocal-mic-looks.mjs';
 generatorFiles['vocal-fit'] = 'build-vocal-fit.mjs';
 generatorFiles['vocal-height'] = 'build-vocal-height.mjs';
 generatorFiles['readable-score'] = 'build-readable-score.mjs';
+generatorFiles['corner-absorber'] = 'build-corner-absorber.mjs';
 generatorFiles['movable-absorber'] = 'build-movable-absorber.mjs';
 generatorFiles['wall-absorber'] = 'build-wall-absorber.mjs';
 generatorFiles['wayfinding'] = 'build-wayfinding.mjs';
@@ -296,6 +298,7 @@ async function publish(recipePath,check,explicitFit) {
         branch ? defaultRefs.find(r => r?.productionBranch === branch) : reference;
       assert(functionalReference && (!branch || resource.productionBranch === branch),'Missing matching branch for '+key);
       let expectedDependencies = functionalReference.provenance.dependencies;
+      if(family==='corner-absorber') expectedDependencies=Object.fromEntries(await verifyCornerAbsorberSources(root,resource,input));
       if(family==='wall-absorber') expectedDependencies=Object.fromEntries(await verifyWallAbsorberSources(root,resource,input));
       if(family==='wayfinding') expectedDependencies=Object.fromEntries(await verifyWayfindingSources(root,resource,input));
       if(family==='cleaning-loads') expectedDependencies=Object.fromEntries(await verifyCleaningLoadSources(root,resource,input));

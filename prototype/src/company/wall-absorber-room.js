@@ -2,17 +2,19 @@ import * as T from 'three';
 import {CompanyError} from './document.js';
 import {createCompanyScene} from './render.js';
 import {triangles,rayHit} from './room-mesh-geometry.js';
+import {measureCornerAbsorber} from './corner-room-geometry.js';
 
 const role='wall-absorber-panel';
 const contactTolerance=.001, overlapTolerance=.0001;
 const vec=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);
 const tuple=p=>p.toArray().map(n=>Number(n.toFixed(7))||0);
 const part=r=>r.object.userData.name||r.object.name;
-const isPanel=f=>f.resource.mountRole===role;
+const cornerRole='corner-absorber';
+const isPanel=f=>f.resource.mountRole===role||f.resource.mountRole===cornerRole;
 
 export function shouldCheckWallAbsorbers(document,derivedOrOptions){
   if(derivedOrOptions?.facilities)return derivedOrOptions.facilities.some(isPanel);
-  const panels=new Set(derivedOrOptions.catalog.resources.filter(r=>r.mountRole===role).map(r=>r.id+'@'+r.version));
+  const panels=new Set(derivedOrOptions.catalog.resources.filter(r=>r.mountRole===role||r.mountRole===cornerRole).map(r=>r.id+'@'+r.version));
   return document.nodes.some(n=>n.kind==='facility'&&panels.has(n.resource.id+'@'+n.resource.version));
 }
 
@@ -67,7 +69,8 @@ function measurePanel(room,panel,matrix,records,panels,transformFor){
         {other:other.id,volume:box(bounds.clone().intersect(otherBox))});
   }
   for(const r of records){
-    if(r.owner?.id===panel.id||!r.bounds.intersectsBox(interior))continue;
+    // Corner/flat pairs are measured against both actual sets of surfaces by the corner pass.
+    if(r.owner?.id===panel.id||r.owner?.resource.mountRole===cornerRole||!r.bounds.intersectsBox(interior))continue;
     const surface=triangles(r).some(t=>interior.intersectsTriangle(t));
     if(!surface&&!insideClosedMesh(interior.getCenter(vec()),r))continue;
     throw new CompanyError(r.owner?'wall-absorber-occupied':'wall-absorber-wall',panel.id,
@@ -130,8 +133,12 @@ export function inspectWallAbsorberObjects(derived,{floorId,groups,facilities,wa
       for(const branch of f.visual.children)branch.traverseVisible(mesh=>record(mesh,f));
     }
     const transformFor=f=>worldToRoom.clone().multiply(groups.get(f.id).matrixWorld);
-    for(const panel of panels.filter(f=>f.roomId===roomId))
-      measured.push(measurePanel(room,panel,transformFor(panel),records,panels,transformFor));
+    for(const panel of panels.filter(f=>f.roomId===roomId)){
+      const matrix=transformFor(panel);
+      if(panel.resource.mountRole===cornerRole)
+        measured.push(measureCornerAbsorber(room,panel,matrix,records,derived.cornerMounts.get(panel.id),insideClosedMesh));
+      else measured.push(measurePanel(room,panel,matrix,records,panels.filter(f=>f.resource.mountRole===role),transformFor));
+    }
   }
   return [{ok:true,floorId,panels:measured}];
 }

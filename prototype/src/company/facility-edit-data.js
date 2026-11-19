@@ -1,7 +1,9 @@
 import {cameraDeskEdgePlacement, wallEnvelopeBottom} from './camera-mount-data.js';
 import {floorPortalSides} from './exterior-entrance-data.js';
 import {wallHvacMountHeight, wallHvacSpans} from './wall-hvac.js';
-import {CompanyError, deriveCompany} from './document.js';
+import {CORNER_NAMES,cornerAbsorberTransform,validateCornerAbsorberPlacement} from './corner-absorber-data.js';
+import {overlapsObstacle} from './wardrobe-footprints.js';
+import {CompanyError, deriveCompany, composeTransform, facilityObstacles} from './document.js';
 import {deriveCableConnections} from './cable-data.js';
 import {matchesTextileRest, supportYaw, supportsCartDevice} from './support-data.js';
 
@@ -124,6 +126,27 @@ function deskClampTargets(region, derived, resource) {
     }
   }
   return result;
+}
+
+const cornerLabels = {'north-west':'西北角','north-east':'东北角','south-east':'东南角','south-west':'西南角'};
+function cornerTargets(region, floor, resource, derived, bottom) {
+  const targets = [];
+  for (const corner of CORNER_NAMES) {
+    const transform = cornerAbsorberTransform(region,corner,bottom), attachment = {corner};
+    const node = {kind:'facility',parentId:region.id,attachment,transform};
+    try {
+      validateCornerAbsorberPlacement({node,region,resource,floor,windowOpenings:derived.windowOpenings});
+    } catch (error) {
+      if (error.code === 'corner-bearing-over-opening' || error.code === 'invalid-corner-fit') continue;
+      throw error;
+    }
+    const world = composeTransform(derived.worlds.get(region.id),transform);
+    const [obstacle] = facilityObstacles({node,world,resource,state:{},floorId:floor.id});
+    if (derived.obstacles.some(other => other.floorId === floor.id && overlapsObstacle(obstacle,other))) continue;
+    targets.push(target(region.id+':corner:'+corner,region.id,cornerLabels[corner],transform.position,transform.yaw,
+      'wall-corner',{attachment,lockedAxes:['x','z','yaw'],note:'角位确定两面墙和朝向，可调整安装高度。'}));
+  }
+  return targets;
 }
 
 function wallTargets(region, floor, resource, windowOpenings, facilities) {
@@ -305,6 +328,7 @@ export function listPlacementTargets(document, catalog, resource, regionId, opti
   const region = regionFor(derived, regionId), floor = floorFor(derived, regionId);
   const result = [];
   if (selected.mount === 'parent-device-endpoints') result.push(...cableTargets(region,derived,selected));
+  else if (selected.mount === 'wall-corner') result.push(...cornerTargets(region,floor,selected,derived,options.bottom ?? .2));
   else if (['wall','wall-opening'].includes(selected.mount)) result.push(...wallTargets(region, floor, selected, derived.windowOpenings, derived.facilities));
   else if (selected.mount === 'portal') result.push(...portalTargets(region, floor, selected));
   else if (selected.mount === 'portal-door') result.push(...exteriorDoorTargets(region, floor, selected));
@@ -349,7 +373,9 @@ export function createFacilityPlacement(document, catalog, resource, targetId, o
   const id = stableId(document, selected, regionId);
   const transform = {position: [...selectedTarget.position], yaw: options.yaw === undefined ? selectedTarget.yaw : options.yaw};
   const position = options.x === undefined && options.z === undefined && options.height === undefined ? transform.position : [options.x ?? transform.position[0], options.height ?? transform.position[1], options.z ?? transform.position[2]];
-  if (!position.every(Number.isFinite) || !Number.isFinite(transform.yaw) || !quarterTurns.some(value => Math.abs(transform.yaw - value) < EPS))
+  const validYaw = quarterTurns.some(value => Math.abs(transform.yaw-value)<EPS) ||
+    (selected.mount==='wall-corner' && Math.abs(transform.yaw+Math.PI/2)<EPS);
+  if (!position.every(Number.isFinite) || !validYaw)
     throw new CompanyError('invalid-placement-transform', 'operation.transform', 'Position must be finite and yaw must be a quarter turn');
   const operation = {type: 'add-facility', id, parentId: selectedTarget.parentId, resource: {id: selected.id, version: selected.version}, transform: {position, yaw: transform.yaw}};
   if (selectedTarget.attachment) operation.attachment = copy(selectedTarget.attachment);
@@ -361,6 +387,7 @@ export function getFacilityEditConstraints(node, resource) {
   const selected = resource || node?.resource || {};
   const mount = selected.mount;
   if (mount === 'parent-device-endpoints') return {lockedAxes:['x','y','z','yaw'],note:'连接线由设备接口确定位置；移动或复制请选所属桌子。'};
+  if (mount === 'wall-corner') return {lockedAxes:['x','z','yaw'],note:'通过安装位置切换墙角，Y 可调整底部高度。'};
   if (mount === 'desk-edge-clamp') return deskClampConstraints(node?.transform?.yaw ?? 0);
   if (['wall','wall-opening'].includes(mount)) {
     const yaw = node?.transform?.yaw ?? 0;

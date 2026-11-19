@@ -17,6 +17,8 @@ import {validateSlidingPartGeometry} from './sliding-part-geometry.js';
 import {validateWallAmbientResource,validateWallAmbientGeometry} from './wall-ambient.js';
 import {validateDeskLampResource,validateDeskLampGeometry} from './desk-lamp.js';
 import {validateFloorAirResource,validateFloorAirGeometry} from './floor-air.js';
+import {inspectCornerAbsorberModel} from './corner-absorber-geometry.js';
+import {validateCornerAbsorberResource} from './corner-absorber-data.js';
 import {validateMovableAbsorberResource,validateMovableAbsorberGeometry} from './movable-absorber.js';
 import {validateWallAbsorberResource,validateWallAbsorberGeometry} from './wall-absorber.js';
 import {validateWallHvacResource,validateWallHvacGeometry} from './wall-hvac.js';
@@ -58,6 +60,7 @@ function describe(resource) {
   validateWallAmbientResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateDeskLampResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateFloorAirResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
+  validateCornerAbsorberResource(resource,(code,at,message)=>{throw error(code,at,message);},path);
   validateMovableAbsorberResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateWallAbsorberResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
   validateWallHvacResource(resource,(code,location,message)=>{throw error(code,location,message);},path);
@@ -219,6 +222,7 @@ function validateResource(pack, description) {
   validateWallAmbientGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
   validateDeskLampGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
   validateFloorAirGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);});
+  inspectCornerAbsorberModel(pack.scene,description.resource,THREE,(code,at,message)=>{throw error(code,at,message);});
   validateMovableAbsorberGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);},description.path);
   validateWallAbsorberGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);},description.path);
   validateWallHvacGeometry(pack.scene,description.resource,(code,path,message)=>{throw error(code,path,message);},description.path);
@@ -266,9 +270,11 @@ function validateResource(pack, description) {
     const s=description.mounting,b=new THREE.Box3().setFromObject(pack.scene),cameraMount=isCameraMountResource(description.resource),wall=!cameraMount&&['wall','wall-opening','portal','portal-door','information-surface','window-cover'].includes(description.mount);
     const hanging=description.mount==='garment-rail';
     const lo=(hanging||description.mount==='ceiling')&&s.origin==='top'?-s.height:wall&&s.origin==='center'?-s.height/2:cameraMount?-.25:0;
+    const corner = description.mount === 'wall-corner';
+    const xMin = corner ? 0 : -s.width/2, zMin = corner || wall ? 0 : -s.depth/2;
     if(![s.width,s.height,s.depth].every(v=>Number.isFinite(v)&&v>0)||
-      b.min.x < -s.width/2-.001||b.max.x > s.width/2+.001||b.min.y<lo-.001||b.max.y>(hanging?HOOK_CROWN_ALLOWANCE:lo+s.height)+.001||
-      b.min.z<(wall?0:-s.depth/2)-.001||b.max.z>(wall?s.depth:s.depth/2)+.001)
+      b.min.x < xMin-.001||b.max.x > xMin+s.width+.001||b.min.y<lo-.001||b.max.y>(hanging?HOOK_CROWN_ALLOWANCE:lo+s.height)+.001||
+      b.min.z<zMin-.001||b.max.z>zMin+s.depth+.001)
       throw error('asset-mount-envelope-mismatch',description.path,'Actual model exceeds its fixed installation envelope');
     if(description.mount==='portal') {
       // Sample the actual imported triangles across the required clear opening.
