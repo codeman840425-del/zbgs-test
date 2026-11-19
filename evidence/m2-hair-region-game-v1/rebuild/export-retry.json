@@ -1,0 +1,42 @@
+[
+  {
+    "case": "missing-selected-mask",
+    "sourceSha256": "09fd66d1f4b1ad3aa8bae9d5adc5a87f2012f5dd862b4465b583326ef408d340",
+    "exit": 1,
+    "response": {
+      "ok": false,
+      "code": "missing-dependency",
+      "reason": "Missing dependency assets/m2-hair-region-v1/mask.rg8"
+    },
+    "newOutputAbsent": true
+  },
+  {
+    "case": "restored-mask-same-destination",
+    "exit": 0,
+    "response": {
+      "ok": true,
+      "schema": "runtime-package-export-result-v1",
+      "files": 44,
+      "manifestSha256": "bf6ba5d0c954bd705374e025280a7b4210a8a48340af48ef0e63a5c34da129a2",
+      "runtime": {
+        "sourceCommit": "7afff3721062e7450778102d2eca55ba7c9f6465",
+        "sourceDigest": "9634bde3f5842fb08c5ce793cd98718a4d172e5d8d721883380c720f07af583c",
+        "buildId": "9634bde3f584",
+        "entry": "record-consumer.html",
+        "entryUrl": "record-consumer.html?records=/records/manifest.json"
+      }
+    }
+  },
+  {
+    "case": "same-size-wrong-palette-on-existing-package",
+    "originalSha256": "f5764b43431ed944ffc63b3744916faeeb5e975b45d4131a96078859bf2be717",
+    "alteredSha256": "4a3790769665d626c6a24e92bab1fe02816d4d42a15cb766732633b788b9c474",
+    "exit": 1,
+    "response": {
+      "ok": false,
+      "code": "modified-dependency",
+      "reason": "Dependency identity differs: assets/m2-hair-region-v1/palette.json"
+    },
+    "existingFilesByteIdentical": 44
+  }
+]

@@ -1,0 +1,132 @@
+[
+  {
+    "case": "ordinary export a",
+    "args": [
+      "export",
+      "--dist",
+      "experiments\\worktrees\\hair-h04-a-d5823781\\prototype\\dist",
+      "--source-root",
+      "experiments\\worktrees\\hair-h04-a-d5823781",
+      "--records",
+      "evidence\\m2-hair-region-game-v1\\signed.json",
+      "--inventory",
+      "output\\m2-hair-region-game-v1\\fixed-d5823781\\a\\inventory.json",
+      "--out",
+      "output\\m2-hair-region-game-v1\\fixed-d5823781\\a\\game-package"
+    ],
+    "exitCode": 0,
+    "result": {
+      "ok": true,
+      "schema": "runtime-package-export-result-v1",
+      "files": 44,
+      "manifestSha256": "c226665e233efbc2c100898e4e440aa1b011305e9808f73f5dd4be11a039e2a7",
+      "runtime": {
+        "sourceCommit": "d58237810347543e0e27e9593f9a242742d00c2c",
+        "sourceDigest": "522c64d40786ef7fe34027406f33532b0c92e9e2e9569946db6136f24517d3e6",
+        "buildId": "522c64d40786",
+        "entry": "record-consumer.html",
+        "entryUrl": "record-consumer.html?records=/records/manifest.json"
+      }
+    }
+  },
+  {
+    "case": "failed runtime review rejected",
+    "args": [
+      "export",
+      "--dist",
+      "experiments\\worktrees\\hair-h04-b-d5823781\\prototype\\dist",
+      "--source-root",
+      "experiments\\worktrees\\hair-h04-b-d5823781",
+      "--records",
+      "evidence\\m2-hair-region-game-v1\\signed.json",
+      "--inventory",
+      "output\\m2-hair-region-game-v1\\fixed-d5823781\\b\\inventory.json",
+      "--out",
+      "output\\m2-hair-region-game-v1\\fixed-d5823781\\b\\game-package",
+      "--reviewed",
+      "evidence\\m2-hair-region-game-v1\\failed-9634\\review.json"
+    ],
+    "exitCode": 1,
+    "result": {
+      "ok": false,
+      "code": "unsupported-build",
+      "reason": "Review metadata must match the repository-reviewed file exactly"
+    }
+  },
+  {
+    "case": "missing region fit",
+    "args": [
+      "export",
+      "--dist",
+      "experiments\\worktrees\\hair-h04-b-d5823781\\prototype\\dist",
+      "--source-root",
+      "experiments\\worktrees\\hair-h04-b-d5823781",
+      "--records",
+      "evidence\\m2-hair-region-game-v1\\signed.json",
+      "--inventory",
+      "output\\m2-hair-region-game-v1\\fixed-d5823781\\b\\inventory.json",
+      "--out",
+      "output\\m2-hair-region-game-v1\\fixed-d5823781\\b\\game-package"
+    ],
+    "exitCode": 1,
+    "result": {
+      "ok": false,
+      "code": "missing-dependency",
+      "reason": "Missing dependency assets/m2-hair-region-v1/fit.json"
+    },
+    "freshDestinationAbsent": true
+  },
+  {
+    "case": "same-length wrong fit",
+    "args": [
+      "export",
+      "--dist",
+      "experiments\\worktrees\\hair-h04-b-d5823781\\prototype\\dist",
+      "--source-root",
+      "experiments\\worktrees\\hair-h04-b-d5823781",
+      "--records",
+      "evidence\\m2-hair-region-game-v1\\signed.json",
+      "--inventory",
+      "output\\m2-hair-region-game-v1\\fixed-d5823781\\b\\inventory.json",
+      "--out",
+      "output\\m2-hair-region-game-v1\\fixed-d5823781\\b\\game-package"
+    ],
+    "exitCode": 1,
+    "result": {
+      "ok": false,
+      "code": "modified-dependency",
+      "reason": "Dependency identity differs: assets/m2-hair-region-v1/fit.json"
+    },
+    "freshDestinationAbsent": true
+  },
+  {
+    "case": "ordinary export b",
+    "args": [
+      "export",
+      "--dist",
+      "experiments\\worktrees\\hair-h04-b-d5823781\\prototype\\dist",
+      "--source-root",
+      "experiments\\worktrees\\hair-h04-b-d5823781",
+      "--records",
+      "evidence\\m2-hair-region-game-v1\\signed.json",
+      "--inventory",
+      "output\\m2-hair-region-game-v1\\fixed-d5823781\\b\\inventory.json",
+      "--out",
+      "output\\m2-hair-region-game-v1\\fixed-d5823781\\b\\game-package"
+    ],
+    "exitCode": 0,
+    "result": {
+      "ok": true,
+      "schema": "runtime-package-export-result-v1",
+      "files": 44,
+      "manifestSha256": "c226665e233efbc2c100898e4e440aa1b011305e9808f73f5dd4be11a039e2a7",
+      "runtime": {
+        "sourceCommit": "d58237810347543e0e27e9593f9a242742d00c2c",
+        "sourceDigest": "522c64d40786ef7fe34027406f33532b0c92e9e2e9569946db6136f24517d3e6",
+        "buildId": "522c64d40786",
+        "entry": "record-consumer.html",
+        "entryUrl": "record-consumer.html?records=/records/manifest.json"
+      }
+    }
+  }
+]

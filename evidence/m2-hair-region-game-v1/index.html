@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>长束发 · 发根与发梢分区配色</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#f8f6f2;color:#302a29;font:16px/1.65 system-ui,"Microsoft YaHei",sans-serif}
+  main{max-width:1120px;margin:auto;padding:32px 24px 56px}h1,h2{line-height:1.3}h1{font-size:clamp(24px,4vw,40px);margin:0 0 8px}
+  h2{font-size:22px;margin:32px 0 12px}p{margin:8px 0 16px}a{color:#78394b}figure{margin:0;min-width:0}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}figcaption{margin-top:4px}
+  img,video{display:block;width:100%;height:auto;border-radius:6px;background:#e8ece4}video{max-width:900px}
+  details{padding:12px 0;border-bottom:1px solid #d6cfca}summary{cursor:pointer}details .pair{margin-top:12px}
+  code{overflow-wrap:anywhere}nav a{display:inline-block;margin:0 18px 4px 0}
+  @media(max-width:600px){main{padding:22px 14px}.pair{grid-template-columns:1fr}h2{margin-top:24px}}
+</style>
+<main>
+  <h1>长束发 · 发根与发梢分区配色</h1>
+  <p>原女体使用同一件束发模型。全局发色均为金色，右图在靠近束发根部的位置加上灰紫色，在发梢加上玫红色。固定游戏构建 <code>522c64d40786</code>。</p>
+  <section aria-label="同镜头对照">
+    <div class="pair">
+      <figure><a href="room-522c/base-inspect-half-side.png"><img src="room-522c/base-inspect-half-side.png" alt="侧面近景，原款为全金色束发"></a><figcaption>原款金色 · 侧面</figcaption></figure>
+      <figure><a href="room-522c/region-inspect-half-side.png"><img src="room-522c/region-inspect-half-side.png" alt="同一侧面镜头，束发呈灰紫与玫红分区"></a><figcaption>分区配色 · 侧面</figcaption></figure>
+    </div>
+    <details><summary>查看背面同镜头</summary><div class="pair"><figure><img src="room-522c/base-inspect-half-back.png" alt="背面原款"><figcaption>原款金色</figcaption></figure><figure><img src="room-522c/region-inspect-half-back.png" alt="背面分区配色"><figcaption>分区配色</figcaption></figure></div></details>
+    <details><summary>查看房间全景</summary><div class="pair"><figure><img src="room-522c/base-room.png" alt="房间镜头中的原款"><figcaption>原款金色</figcaption></figure><figure><img src="room-522c/region-room.png" alt="房间镜头中的分区配色"><figcaption>分区配色</figcaption></figure></div></details>
+  </section>
+  <section><h2>工作台原速录像</h2>
+    <p>先比较同一静止姿势，再播放分区束发下的行走、坐下和起身。行走速度为 1.05 米/秒。</p>
+    <video controls preload="metadata" playsinline src="room-522c/normal1x.webm"></video>
+  </section>
+  <section><h2>独立游戏包</h2>
+    <p>两份原签记录分别恢复金色与分区款。首次打开后移除金色角色，关闭后重新打开并移除分区角色。留场角色在两个方向的检查中均继续绘制。</p>
+    <figure><img src="game-522c/first-pair.png" alt="独立游戏包首次打开时，两份签名角色同屏"><figcaption><a href="game-522c/cold-pair.png">冷开双人</a> · <a href="game-522c/first-survivor.png">分区款单独留场</a> · <a href="game-522c/cold-survivor.png">金色款单独留场</a></figcaption></figure>
+  </section>
+  <section><h2>技术验收</h2>
+    <p>侧面近景的 16,363 个原束发轮廓采样像素，在分区款上均可见，其中 3,371 个出现可测颜色变化。开发机 Chrome 已验证此身体、束发与配色组合；普通电脑性能和造型观感待验。</p>
+    <nav aria-label="技术证据"><a href="room-522c/report.json">工作台像素和缺遮罩恢复</a><a href="game-522c/report.json">独立游戏绘制及冷开</a><a href="fixed-522c/comparison.json">双构建及双导出</a><a href="fixed-522c/export-retry.json">缺失或损坏适配的拒绝与重试</a><a href="signed.json">两份原签</a></nav>
+    <details><summary>历史失败版本 9634bde3f584</summary><p>旧版加载了分区数据，但实际着色器链接失败，束发在画面上消失。保留当时的同镜头截图和游戏回执。</p><div class="pair"><figure><img src="failed-9634/base-inspect-half-side.png" alt="旧版本原款侧面"><figcaption>旧版原款</figcaption></figure><figure><img src="failed-9634/region-inspect-half-side.png" alt="旧版本切换分区后束发缺失"><figcaption>旧版分区失效</figcaption></figure></div><a href="failed-9634/shader-report.json">失败运行回执</a> · <a href="failed-9634/review.json">原构建审核身份</a></details>
+  </section>
+</main>
+</html>
