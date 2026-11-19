@@ -1,0 +1,160 @@
+{
+  "status": "passed",
+  "receiverCopy": "output/public-storage-cleaning-v1/production/receiver-run-bcefyd/editable-source",
+  "receiverMode": "Independent editable family source and private offline copy of the existing locked Three dependency. Family production check; full-package installation is separate.",
+  "node": "v24.13.0",
+  "three": "0.187.0",
+  "steps": [
+    {
+      "name": "stock check from external launch directory",
+      "args": [
+        "--check"
+      ],
+      "status": 0
+    },
+    {
+      "name": "independent private source/Three copy rebuilds stock byte-for-byte",
+      "args": [
+        "--check"
+      ],
+      "status": 0
+    },
+    {
+      "name": "signed identity rejects changed handle",
+      "args": [
+        "--output",
+        "output/public-storage-cleaning-v1/production/receiver-run-bcefyd/after-retry",
+        "--parameters",
+        "assets-source/company-cleaning-loads-v1/examples/identity-conflict-for-test.json"
+      ],
+      "status": 1,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: Edit a signed design under a new ID/version."
+    },
+    {
+      "name": "disk root refused",
+      "args": [
+        "--output",
+        "F:\\"
+      ],
+      "status": 1,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: Trial must stay inside project outputs"
+    },
+    {
+      "name": "traversal refused",
+      "args": [
+        "--output",
+        "output/public-storage-cleaning-v1/production/receiver-run-bcefyd/after-retry/../untrusted"
+      ],
+      "status": 1,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: Path traversal in trial destination"
+    },
+    {
+      "name": "junction into input refused",
+      "args": [
+        "--output",
+        "output/public-storage-cleaning-v1/production/receiver-run-bcefyd/input-junction/must-stay-absent"
+      ],
+      "status": 1,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: Linked path: F:\\gamemake-company-platform-c1\\output\\public-storage-cleaning-v1\\production\\receiver-run-bcefyd\\input-junction"
+    },
+    {
+      "name": "same destination retry from independent source generates v2",
+      "args": [
+        "--output",
+        "output/public-storage-cleaning-v1/production/receiver-run-bcefyd/after-retry",
+        "--parameters",
+        "assets-source/company-cleaning-loads-v1/examples/caddy-tall-v2.json"
+      ],
+      "status": 0
+    },
+    {
+      "name": "existing trial cannot be overwritten",
+      "args": [
+        "--output",
+        "output/public-storage-cleaning-v1/production/receiver-run-bcefyd/after-retry",
+        "--parameters",
+        "assets-source/company-cleaning-loads-v1/examples/caddy-tall-v2.json"
+      ],
+      "status": 1,
+      "diagnostic": "AssertionError [ERR_ASSERTION]: Trial output already exists: F:\\gamemake-company-platform-c1\\output\\public-storage-cleaning-v1\\production\\receiver-run-bcefyd\\after-retry"
+    },
+    {
+      "name": "stock recheck after failures and successful retry",
+      "args": [
+        "--check"
+      ],
+      "status": 0
+    }
+  ],
+  "source": {
+    "generatorSha256": "028fed81ab58fa44fe56b1f1ef9a1632b6ee7eea0228f9e2893342d577846b4c",
+    "sourceParametersSha256": "8614417a1f36a9ae62732b28b9e7d347f81827eb1a3904f528cc140cd60ee314",
+    "originalModels": {
+      "cardboardBoxOpen": {
+        "member": "Models/GLTF format/cardboardBoxOpen.glb",
+        "path": "assets-source/company-cleaning-loads-v1/original/cardboardBoxOpen.glb",
+        "bytes": 5404,
+        "sha256": "960da412564774c75e7b32f9af0100895e1edb877fc1e70dd34ee2422a2196d4"
+      },
+      "cardboardBoxClosed": {
+        "member": "Models/GLTF format/cardboardBoxClosed.glb",
+        "path": "assets-source/company-cleaning-loads-v1/original/cardboardBoxClosed.glb",
+        "bytes": 5400,
+        "sha256": "4af079dca52960912764574950f0549ff2ae1224b3db1528718629473a2d5d81"
+      }
+    }
+  },
+  "signedArtifactsBeforeAndAfter": {
+    "assets-source/company-cleaning-loads-v1/collection.json": "b44c909562231f3182c49ac7c3fa398a1b4cf18b5746de434d9f646ecfb9e39e",
+    "prototype/public/company-assets/cleaning-loads-v1/cleaning-load-caddy/v1/model.glb": "94972e935165667228b09e7a279418b95ebd9bdebe1e2ad404b59c085305cbae",
+    "prototype/public/company-assets/cleaning-loads-v1/cleaning-load-caddy/v1/resource.json": "35db63236203a1a2950230fcd53224b2fa7054c11df5f1ad42a3303fdbdd714f",
+    "prototype/public/company-assets/cleaning-loads-v1/cleaning-load-open-carton/v1/model.glb": "03acd794c5de247f0a77bfc5420efbdfb024089318cd475348b9cfe75a927fa1",
+    "prototype/public/company-assets/cleaning-loads-v1/cleaning-load-open-carton/v1/resource.json": "ce02099dfb70a36d28f1461c173afba1dea2d27726623179ca0bd43e43da0a17",
+    "prototype/public/company-assets/cleaning-loads-v1/cleaning-load-sealed-carton/v1/model.glb": "2161ffa1734427613ff001b1c824f700bc168096f3052e6bf8e97a78c3e4a614",
+    "prototype/public/company-assets/cleaning-loads-v1/cleaning-load-sealed-carton/v1/resource.json": "c92a4f0158e8d75685b38eeb0cdbc934261889643e013a32ec7f9b28305fc130",
+    "prototype/public/company-assets/cleaning-loads-v1/cleaning-load-linen-tray/v1/model.glb": "a0ac089d6f3297b6312992ad46cfd0bd6d9e2506649e655f1fd4aefb8568f2ef",
+    "prototype/public/company-assets/cleaning-loads-v1/cleaning-load-linen-tray/v1/resource.json": "4c2378e0d241a8ea924a41cfc80bec053d7e8fa95ed663b7224572dcf8049f4e"
+  },
+  "v2": {
+    "id": "cleaning-load-caddy",
+    "version": 2,
+    "sha256": "d813a1de895451d153a555e8a47a36dc0b2df72ac5ba620ac7a59df0cd543ad6",
+    "geometrySha256": "ae7b8afe820c563fee74fb5d79e056d88a4e4f8a208314e1fe1e29e6e6532c93",
+    "v1Height": 0.27,
+    "v2Height": 0.295,
+    "output": "output/public-storage-cleaning-v1/production/receiver-run-bcefyd/after-retry"
+  },
+  "placements": {
+    "fixtures": 4,
+    "placements": 8,
+    "frontProbes": 200,
+    "bottomProbes": 72,
+    "refusals": [
+      {
+        "name": "signed-loads-shelf-a rotated or shifted load overhang",
+        "code": "invalid-support-fit",
+        "path": "signed-loads-shelf-a/ground/cleaning/host/lower",
+        "message": "invalid-support-fit at signed-loads-shelf-a/ground/cleaning/host/lower: Whole rotated prop must rest on the selected surface and fit its clear space"
+      },
+      {
+        "name": "signed-loads-shelf-b rotated or shifted load overhang",
+        "code": "invalid-support-fit",
+        "path": "signed-loads-shelf-b/ground/cleaning/host/lower",
+        "message": "invalid-support-fit at signed-loads-shelf-b/ground/cleaning/host/lower: Whole rotated prop must rest on the selected surface and fit its clear space"
+      },
+      {
+        "name": "signed-loads-cart-a rotated or shifted load overhang",
+        "code": "invalid-support-fit",
+        "path": "signed-loads-cart-a/ground/cleaning/host/lower",
+        "message": "invalid-support-fit at signed-loads-cart-a/ground/cleaning/host/lower: Whole rotated prop must rest on the selected surface and fit its clear space"
+      },
+      {
+        "name": "signed-loads-cart-b rotated or shifted load overhang",
+        "code": "invalid-support-fit",
+        "path": "signed-loads-cart-b/ground/cleaning/host/lower",
+        "message": "invalid-support-fit at signed-loads-cart-b/ground/cleaning/host/lower: Whole rotated prop must rest on the selected surface and fit its clear space"
+      }
+    ],
+    "source": "published-installations.json"
+  }
+}
