@@ -1,0 +1,472 @@
+{
+  "schema": "same-male-body-face-preset-proof-v1",
+  "base": {
+    "bodyType": "male",
+    "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+    "path": "prototype/public/assets/foundation/base-male-roundtrip.vrm",
+    "rawJoints": 67
+  },
+  "historicalRoom": {
+    "source": "026ab20",
+    "build": "0fb420e5b124",
+    "exactMatchingBoneMatrices": 67,
+    "exactMatchingControls": [
+      "simulation tick",
+      "camera",
+      "lights",
+      "appearance",
+      "expression weights"
+    ],
+    "bothRecipesRestoredInCleanBrowserContext": true
+  },
+  "production": {
+    "geometryOptions": {
+      "mouthWidth": {
+        "default": 0,
+        "unit": "ratio",
+        "axis": "glTF mesh-local X",
+        "continuousRange": [
+          -0.04,
+          0.04
+        ],
+        "discreteValues": [
+          -0.12,
+          0,
+          0.12
+        ],
+        "resources": [
+          {
+            "baseURL": "/assets/face-parameters-v1/",
+            "recipeSha256": "a9acdcd5866786b031c4e3ec16fde91f77d97fbda08636f061dc742499c6ed6e",
+            "continuousRange": [
+              -0.04,
+              0.04
+            ],
+            "supportedValues": null
+          },
+          {
+            "baseURL": "/assets/mouth-visible-v2/",
+            "recipeSha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c",
+            "continuousRange": null,
+            "supportedValues": [
+              -0.12,
+              0,
+              0.12
+            ]
+          }
+        ]
+      },
+      "browSample": {
+        "default": "none",
+        "choices": [
+          {
+            "value": "none",
+            "resource": null
+          },
+          {
+            "value": "height1-spacing1-v1",
+            "resource": {
+              "sampleId": "height1-spacing1-v1",
+              "baseURL": "/assets/face-brow-parameters-v1/",
+              "endpoint": 0.001,
+              "unit": "metres",
+              "recipeSha256": "895317030af557621b248b6731ad4a80e998f2f13ed18f0616d81355772e9983",
+              "visible": false,
+              "mouthRecipeSha256": "a9acdcd5866786b031c4e3ec16fde91f77d97fbda08636f061dc742499c6ed6e"
+            }
+          },
+          {
+            "value": "height3-spacing3-v2",
+            "resource": {
+              "sampleId": "height3-spacing3-v2",
+              "baseURL": "/assets/face-brow-visible-v2/",
+              "endpoint": 0.003,
+              "unit": "metres",
+              "recipeSha256": "8bf834f87892fdda07c856ed4c5223cae74fa731be6b73d9c3f1c2ef4924241f",
+              "visible": true,
+              "mouthRecipeSha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c"
+            }
+          }
+        ]
+      },
+      "noseSample": {
+        "default": "none",
+        "choices": [
+          {
+            "value": "none",
+            "resource": null
+          },
+          {
+            "value": "tip-forward05-v1",
+            "resource": {
+              "sampleId": "tip-forward05-v1",
+              "baseURL": "/assets/face-nose-parameters-v1/",
+              "endpoint": 0.0005,
+              "unit": "metres",
+              "recipeSha256": "323d584194c25af47169c1ffd1a20246033bca07e6be7d68ddb8794b25c7a3bc",
+              "visible": false,
+              "mouthRecipeSha256": "a9acdcd5866786b031c4e3ec16fde91f77d97fbda08636f061dc742499c6ed6e"
+            }
+          },
+          {
+            "value": "tip-forward2-v2",
+            "resource": {
+              "sampleId": "tip-forward2-v2",
+              "baseURL": "/assets/face-nose-visible-v2/",
+              "endpoint": 0.002,
+              "unit": "metres",
+              "recipeSha256": "7dae82cac4553844ae5b1a0f871feeb77f33b580aa72d1724cac51cfd00cf07a",
+              "visible": true,
+              "mouthRecipeSha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c"
+            }
+          }
+        ]
+      },
+      "eyeSample": {
+        "default": "none",
+        "choices": [
+          {
+            "value": "none",
+            "resource": null
+          },
+          {
+            "value": "aperture-width101-v1",
+            "resource": {
+              "sampleId": "aperture-width101-v1",
+              "baseURL": "/assets/face-eye-sample-v1/",
+              "endpoint": 1.01,
+              "unit": "ratio",
+              "recipeSha256": "3080a3d7bdf7891d287ccf1a7086aaacb1459793b6829b2906c95d504f4d761e",
+              "visible": false,
+              "mouthRecipeSha256": "a9acdcd5866786b031c4e3ec16fde91f77d97fbda08636f061dc742499c6ed6e"
+            }
+          },
+          {
+            "value": "aperture-width105-v2",
+            "resource": {
+              "sampleId": "aperture-width105-v2",
+              "baseURL": "/assets/face-eye-visible-v2/",
+              "endpoint": 1.05,
+              "unit": "ratio",
+              "recipeSha256": "d31841fc9bab96e1284a2ccb275c20aa5c100d9c1737e00867a4bcb63dd177f0",
+              "visible": true,
+              "mouthRecipeSha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c"
+            }
+          }
+        ]
+      },
+      "constraints": [
+        "mouthWidth is a weighted width multiplier delta; endpoints do not admit their interior interval",
+        "brow samples couple authored height and spacing; eye samples use an authored aperture width ratio",
+        "geometry and expressions are checked during preparation; attachment and garment fit are limited to existing registered assets"
+      ]
+    },
+    "outfit": {
+      "index": 0,
+      "role": "pants",
+      "manifestUrl": "/assets/m1b/equipment.json",
+      "resources": {
+        "top": {
+          "id": "m1b-uniform-top",
+          "path": "prototype/public/assets/m1b/m1b-uniform-top.glb",
+          "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c",
+          "rawBindings": 10,
+          "maxInverseBindDelta": 0
+        },
+        "shoes": {
+          "id": "m1b-uniform-shoes",
+          "path": "prototype/public/assets/m1b/m1b-uniform-shoes.glb",
+          "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+          "rawBindings": 6,
+          "maxInverseBindDelta": 0
+        },
+        "pants": {
+          "id": "m1b-uniform-pants",
+          "path": "prototype/public/assets/m1b/m1b-uniform-pants.glb",
+          "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c",
+          "rawBindings": 9,
+          "maxInverseBindDelta": 0
+        }
+      }
+    },
+    "presets": [
+      {
+        "id": "male-a",
+        "originalRecipe": "evidence/m2-character-presets-a-v1/room-36/recipes/male-a.v5.json",
+        "recordedGeometry": {
+          "mouthWidth": -0.12,
+          "recipeSha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c",
+          "browSample": "none",
+          "browRecipeSha256": null,
+          "noseSample": "none",
+          "noseRecipeSha256": null,
+          "eyeSample": "aperture-width105-v2",
+          "eyeRecipeSha256": "d31841fc9bab96e1284a2ccb275c20aa5c100d9c1737e00867a4bcb63dd177f0"
+        },
+        "d02Edits": [
+          {
+            "domain": "appearance",
+            "values": {
+              "hairStyle": "original",
+              "hairColor": "black",
+              "skinTone": "original",
+              "eyeColor": "brown",
+              "lipColor": "original"
+            }
+          },
+          {
+            "domain": "geometry",
+            "values": {
+              "mouthWidth": -0.12,
+              "browSample": "none",
+              "noseSample": "none",
+              "eyeSample": "aperture-width105-v2"
+            }
+          }
+        ]
+      },
+      {
+        "id": "male-b",
+        "originalRecipe": "evidence/m2-character-presets-a-v1/room-36/recipes/male-b.v5.json",
+        "recordedGeometry": {
+          "mouthWidth": 0.12,
+          "recipeSha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c",
+          "browSample": "height3-spacing3-v2",
+          "browRecipeSha256": "8bf834f87892fdda07c856ed4c5223cae74fa731be6b73d9c3f1c2ef4924241f",
+          "noseSample": "tip-forward2-v2",
+          "noseRecipeSha256": "7dae82cac4553844ae5b1a0f871feeb77f33b580aa72d1724cac51cfd00cf07a",
+          "eyeSample": "none",
+          "eyeRecipeSha256": null
+        },
+        "d02Edits": [
+          {
+            "domain": "appearance",
+            "values": {
+              "hairStyle": "original",
+              "hairColor": "black",
+              "skinTone": "original",
+              "eyeColor": "brown",
+              "lipColor": "original"
+            }
+          },
+          {
+            "domain": "geometry",
+            "values": {
+              "mouthWidth": 0.12,
+              "browSample": "height3-spacing3-v2",
+              "noseSample": "tip-forward2-v2",
+              "eyeSample": "none"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "cpuFixture": {
+    "bodyPrimitives": [
+      {
+        "material": "M00_001_01_Body_00_SKIN",
+        "positionRows": 7855,
+        "index": "850eefb3c13daaccd67f628403bc9c161a33b5c61a4597911424519aa05d78eb",
+        "attributes": {
+          "joints_0": "5442de1bcc18d71534ce1d459e5910af9a13971430e26182aa64c18e64e05f70",
+          "normal": "f8241e50b72abb7561424ef1c5d3cd9e3bc0a506807d7b5e3534e57301873a81",
+          "position": "c85a40b570aee4ca4754d8b959b9df957a91ebeba59ddaa339dff00dc569771e",
+          "texcoord_0": "01beb9e18f535db62ca51a05620742836cc2a3086b9873adcb3b5c9598b3b281",
+          "weights_0": "f915098ca255ab0a92bb29ca57f5e329279b9cab0d9d8af1f56c79518ac94353"
+        }
+      },
+      {
+        "material": "M00_001_01_Tops_01_CLOTH",
+        "positionRows": 7855,
+        "index": "06cd8ecd6b89ca9075969629c153177ecdc237bfa6f7b3c386a89d1e28a19f74",
+        "attributes": {
+          "joints_0": "5442de1bcc18d71534ce1d459e5910af9a13971430e26182aa64c18e64e05f70",
+          "normal": "f8241e50b72abb7561424ef1c5d3cd9e3bc0a506807d7b5e3534e57301873a81",
+          "position": "c85a40b570aee4ca4754d8b959b9df957a91ebeba59ddaa339dff00dc569771e",
+          "texcoord_0": "01beb9e18f535db62ca51a05620742836cc2a3086b9873adcb3b5c9598b3b281",
+          "weights_0": "f915098ca255ab0a92bb29ca57f5e329279b9cab0d9d8af1f56c79518ac94353"
+        }
+      },
+      {
+        "material": "M00_001_01_Accessory_Tie_01_CLOTH",
+        "positionRows": 7855,
+        "index": "66e05270d6b454a9c9313473ae74870b1b302d9c7252988d07acd387cbc755a1",
+        "attributes": {
+          "joints_0": "5442de1bcc18d71534ce1d459e5910af9a13971430e26182aa64c18e64e05f70",
+          "normal": "f8241e50b72abb7561424ef1c5d3cd9e3bc0a506807d7b5e3534e57301873a81",
+          "position": "c85a40b570aee4ca4754d8b959b9df957a91ebeba59ddaa339dff00dc569771e",
+          "texcoord_0": "01beb9e18f535db62ca51a05620742836cc2a3086b9873adcb3b5c9598b3b281",
+          "weights_0": "f915098ca255ab0a92bb29ca57f5e329279b9cab0d9d8af1f56c79518ac94353"
+        }
+      },
+      {
+        "material": "M00_001_01_Bottoms_01_CLOTH",
+        "positionRows": 7855,
+        "index": "3cb1150d53f88c8d0a9e728cd59041ebc327cf57cc7af3206d259dd752909d9e",
+        "attributes": {
+          "joints_0": "5442de1bcc18d71534ce1d459e5910af9a13971430e26182aa64c18e64e05f70",
+          "normal": "f8241e50b72abb7561424ef1c5d3cd9e3bc0a506807d7b5e3534e57301873a81",
+          "position": "c85a40b570aee4ca4754d8b959b9df957a91ebeba59ddaa339dff00dc569771e",
+          "texcoord_0": "01beb9e18f535db62ca51a05620742836cc2a3086b9873adcb3b5c9598b3b281",
+          "weights_0": "f915098ca255ab0a92bb29ca57f5e329279b9cab0d9d8af1f56c79518ac94353"
+        }
+      },
+      {
+        "material": "M00_001_01_Shoes_01_CLOTH",
+        "positionRows": 7855,
+        "index": "e9d9fd8dd1b66e280aaf73d1dc6df158417c7c2077101774be7f7b9164ee0f75",
+        "attributes": {
+          "joints_0": "5442de1bcc18d71534ce1d459e5910af9a13971430e26182aa64c18e64e05f70",
+          "normal": "f8241e50b72abb7561424ef1c5d3cd9e3bc0a506807d7b5e3534e57301873a81",
+          "position": "c85a40b570aee4ca4754d8b959b9df957a91ebeba59ddaa339dff00dc569771e",
+          "texcoord_0": "01beb9e18f535db62ca51a05620742836cc2a3086b9873adcb3b5c9598b3b281",
+          "weights_0": "f915098ca255ab0a92bb29ca57f5e329279b9cab0d9d8af1f56c79518ac94353"
+        }
+      },
+      {
+        "material": "M00_000_HairBack_00_HAIR",
+        "positionRows": 7855,
+        "index": "9cae8ad88f81a83b025a827be7a7080b3d2542b3052f574ee3aefdda1aa4e4bb",
+        "attributes": {
+          "joints_0": "5442de1bcc18d71534ce1d459e5910af9a13971430e26182aa64c18e64e05f70",
+          "normal": "f8241e50b72abb7561424ef1c5d3cd9e3bc0a506807d7b5e3534e57301873a81",
+          "position": "c85a40b570aee4ca4754d8b959b9df957a91ebeba59ddaa339dff00dc569771e",
+          "texcoord_0": "01beb9e18f535db62ca51a05620742836cc2a3086b9873adcb3b5c9598b3b281",
+          "weights_0": "f915098ca255ab0a92bb29ca57f5e329279b9cab0d9d8af1f56c79518ac94353"
+        }
+      }
+    ],
+    "facePrimitives": [
+      {
+        "material": "M00_000_00_FaceBrow_00_FACE",
+        "changedIndexedPositionRows": 110,
+        "maxPositionDeltaM": 0.004242657187630922
+      },
+      {
+        "material": "M00_000_00_FaceMouth_00_FACE",
+        "changedIndexedPositionRows": 100,
+        "maxPositionDeltaM": 0.005534924566745758
+      },
+      {
+        "material": "M00_000_00_EyeIris_00_EYE",
+        "changedIndexedPositionRows": 0,
+        "maxPositionDeltaM": 0
+      },
+      {
+        "material": "M00_000_00_EyeHighlight_00_EYE",
+        "changedIndexedPositionRows": 0,
+        "maxPositionDeltaM": 0
+      },
+      {
+        "material": "M00_000_00_EyeWhite_00_EYE",
+        "changedIndexedPositionRows": 74,
+        "maxPositionDeltaM": 0.0012308042496442795
+      },
+      {
+        "material": "M00_000_00_Face_00_SKIN",
+        "changedIndexedPositionRows": 278,
+        "maxPositionDeltaM": 0.00541691854596138
+      },
+      {
+        "material": "M00_000_00_FaceEyelash_00_FACE",
+        "changedIndexedPositionRows": 150,
+        "maxPositionDeltaM": 0.002238549292087555
+      },
+      {
+        "material": "M00_000_00_FaceEyeline_00_FACE",
+        "changedIndexedPositionRows": 260,
+        "maxPositionDeltaM": 0.002633817493915558
+      },
+      {
+        "material": "M00_000_00_EyeExtra_01_EYE",
+        "changedIndexedPositionRows": 0,
+        "maxPositionDeltaM": 0
+      }
+    ],
+    "maxFacePositionDeltaM": 0.005534924566745758
+  },
+  "scope": "Exact pinned source, detached CPU facial geometry and historical same-pose room evidence. New garment fit, new D02 signing, and new ordinary game motion are separate verification.",
+  "inputPins": {
+    "evidence/m2-character-presets-a-v1/room-36/male-a-original-room.json": {
+      "sha256": "bd123ee46922512caed1e86c212c30dda67eba2a5f5c58717cdd4204473c0fa7",
+      "bytes": 21297
+    },
+    "evidence/m2-character-presets-a-v1/room-36/male-b-original-room.json": {
+      "sha256": "c996778ec3f3459d2457a6a2af3fcfb75b56b60b599c0095f570137dc7227e58",
+      "bytes": 21474
+    },
+    "evidence/m2-character-presets-a-v1/room-36/recipes/male-a.v5.json": {
+      "sha256": "c0d2a31d083f1f349df2ca204cf76c52f34bf6cd9a30b5f8b3845135d1f41d48",
+      "bytes": 20922
+    },
+    "evidence/m2-character-presets-a-v1/room-36/recipes/male-b.v5.json": {
+      "sha256": "86ac70b3ad0c168ca780ba1a1ea08d2036da0ea8467840adec99667c4eda27d3",
+      "bytes": 20993
+    },
+    "evidence/m2-character-presets-a-v1/room-36/report.json": {
+      "sha256": "47f39c9581fe3cfad60942727da28fe950a9185ed188fb9e4ca931a6d2f6b9d1",
+      "bytes": 349194
+    },
+    "prototype/public/assets/face-brow-visible-v2/male-brow.recipe.json": {
+      "sha256": "8bf834f87892fdda07c856ed4c5223cae74fa731be6b73d9c3f1c2ef4924241f",
+      "bytes": 236712
+    },
+    "prototype/public/assets/face-brow-visible-v2/recipe-manifest.json": {
+      "sha256": "41a336def610c1e2a9cd259cad0aa9397c3c512827e9a2637d54d688d31347ce",
+      "bytes": 802
+    },
+    "prototype/public/assets/face-eye-visible-v2/male-eye.recipe.json": {
+      "sha256": "d31841fc9bab96e1284a2ccb275c20aa5c100d9c1737e00867a4bcb63dd177f0",
+      "bytes": 180123
+    },
+    "prototype/public/assets/face-eye-visible-v2/recipe-manifest.json": {
+      "sha256": "73c0c6f369007dc9c4d3618091008295d8ff8322e3eda59577b1ae1dfbf13b53",
+      "bytes": 793
+    },
+    "prototype/public/assets/face-nose-visible-v2/male-nose.recipe.json": {
+      "sha256": "7dae82cac4553844ae5b1a0f871feeb77f33b580aa72d1724cac51cfd00cf07a",
+      "bytes": 181730
+    },
+    "prototype/public/assets/face-nose-visible-v2/recipe-manifest.json": {
+      "sha256": "697b72d19a8e35d8241aa97d3f24ecf2cf91b889154c7be3f07970278036fdb8",
+      "bytes": 778
+    },
+    "prototype/public/assets/face-parameters-v1/male-mouth-width.recipe.json": {
+      "sha256": "a9acdcd5866786b031c4e3ec16fde91f77d97fbda08636f061dc742499c6ed6e",
+      "bytes": 66043
+    },
+    "prototype/public/assets/face-parameters-v1/recipe-manifest.json": {
+      "sha256": "00f50361680ff8bfed557fcdbf5b6b15bc7a33723bb4d3f7267c88d92ba4ead9",
+      "bytes": 633
+    },
+    "prototype/public/assets/foundation/base-male-roundtrip.vrm": {
+      "sha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff",
+      "bytes": 17902644
+    },
+    "prototype/public/assets/m1b/equipment.json": {
+      "sha256": "baacba8b947cbbc4d4cb5658177e8449a95ff93b80555eedb62f2e0e576b70d2",
+      "bytes": 49832
+    },
+    "prototype/public/assets/m1b/m1b-uniform-pants.glb": {
+      "sha256": "e4e213c9eed7912ff7fa75b81c957b7e944036ffb81cdcbd63813c11bd7e168c",
+      "bytes": 819744
+    },
+    "prototype/public/assets/m1b/m1b-uniform-shoes.glb": {
+      "sha256": "3e855c7f39a183ab44b8aef3ac92898f6ebc36a7cbc0e6ccfdd485b85607fe2f",
+      "bytes": 157376
+    },
+    "prototype/public/assets/m1b/m1b-uniform-top.glb": {
+      "sha256": "393a2a97e9a933c4f8170720cf1d5792a18f282166abf7e5ffbba0d0de1fc32c",
+      "bytes": 2762452
+    },
+    "prototype/public/assets/mouth-visible-v2/male-mouth-width.recipe.json": {
+      "sha256": "1b3e019f92c799bc2486b4608584e347aa5c8fe1bfda8170a2d3e54e16f0009c",
+      "bytes": 145025
+    },
+    "prototype/public/assets/mouth-visible-v2/recipe-manifest.json": {
+      "sha256": "9b01185bbaa13a845a087256dc231acdcfd046449fa9649bccedeee6b2acd6a2",
+      "bytes": 866
+    }
+  }
+}

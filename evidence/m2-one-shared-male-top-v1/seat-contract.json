@@ -1,0 +1,150 @@
+{
+  "schema": "shared-male-top-seat-contract-review-v1",
+  "conclusion": {
+    "supportsSupplementalSeatV1": true,
+    "scope": "Exact 8aaed16af2aa ordinary runtime and reviewed desktop-plants-v1.1 transfer. Covers the production seat and save protocol, original signed pair replay and exact new shirt pair replay in CPU. The supplied new-pair renderer is headless with shaders and shadows disabled.",
+    "registryActionByThisReview": "none",
+    "standingVocalContractSupported": false
+  },
+  "publishedRoomTransfer": {
+    "path": "F:/gamemake-company-platform-c1/company-workspace/deliveries/desktop-plants-v1.1/transfer-manifest.json",
+    "sha256": "6359150e83c284125dc757ac6680cc326d58bf57df142dfc4af0d6b522c658f2"
+  },
+  "priorSeatReview": {
+    "sourceCommit": "bc42048fcf63c4d55c1c5fd80b4e1679307af8d3",
+    "sourceDigest": "241ce1c278f0229e341b553246b9f9da31df550641f160e40d8b5be2b062cbb0",
+    "path": "evidence/m2-rule-game-seat-241-v1/source-review.json",
+    "sha256": "457a5132c2dac5da02f477b6f0fa6a7e70cdfb181ff694725d7e6d4b219a4a10",
+    "developmentRun": "evidence/m2-rule-game-seat-241-v1/development-run.json",
+    "developmentRunSha256": "334ae1a534fd06e5c900907218134e1b15faac0d961d540721ffd66527edd2fb"
+  },
+  "candidate": {
+    "sourceCommit": "1683a4124b8fb97ee202c4c2d0757c0890bcc76b",
+    "sourceDigest": "8aaed16af2aad1aae514d90c371a95a1f27169441a608beeee6c68d317257775",
+    "entry": "record-consumer.html",
+    "reviewedRuntimePath": "scripts/runtime-package/game-record-shared-top-reviewed.json",
+    "reviewedRuntimeSha256": "e1992310560b6762334abaad3c550dc080c2a37986d4e3e03c67f3c7d2ca5755",
+    "gameManifestSha256": "aa89ae2e60e97597a56d27c95e6f4ddb8966f0e05e8e7a1e782243bc4c159c1d",
+    "compiledFileVerification": {
+      "countPerDirectory": 11,
+      "directories": [
+        "experiments/worktrees/shared-top-a-1683a412/prototype/dist",
+        "experiments/worktrees/shared-top-b-1683a412/prototype/dist",
+        "output/shared-top-build-1683a412/game"
+      ],
+      "allRegisteredLengthsAndHashesMatch": true
+    }
+  },
+  "sourceComparison": {
+    "previousCommitIsAncestor": true,
+    "runtimeSourceChange": "foundation-profiles.js imports the existing matrix and exposes an additional exact-body outfit with bottomRole pants. The male base, default outfit, pants, shoes, motion, seat and recorded-pose code retain their prior behavior. New bytes are the male top and its additional equipment manifest. The existing exact resource URL helper changes packaging only.",
+    "sameGitBlobs": {
+      "prototype/src/facility-contact.js": "54f57b3a43fc1489a93894d272780090b918db7b",
+      "prototype/src/facility-navigation.js": "676e3cf1ae57925250dc96cdcfd3c7d300753b48",
+      "prototype/src/facility-behavior.js": "2eb9f4faaacbed2b955b75e5b68144350adf9537",
+      "prototype/src/record-facility-room.js": "2124cdb4a1b64a22c83afb279e64a22b4fd2b7ad",
+      "prototype/src/seat-lease.js": "e18077bf0065f3a06efcee7464c4363f38c93b73",
+      "prototype/src/behavior-tasks.js": "0f1bddd101f80b30309ae64ae190c4ca8f7a915c",
+      "prototype/src/turn-policy.js": "f1567c3b931cffd7100279501f022e368c6cb223",
+      "prototype/src/character-record-consumer.js": "7bee32a11bf3339b00bfec0c3f6a5a28c904784e",
+      "prototype/src/character-runtime-record.js": "64d10af5893bc130957c415419325488225592a3",
+      "prototype/src/character-record.js": "fe9b3fab4283673c01ea30649411d763f5ca72e7",
+      "prototype/src/record-consumer-demo.js": "7e3833ce051d9488ef6ffc5871d4f194f90c4bda",
+      "prototype/src/foundation-avatar.js": "83344505bef999b95caf12f3fcb448a6d73357d0",
+      "prototype/src/m1-equipment.js": "48532a9f147f17a758694bc0b93fc917961d4da2",
+      "prototype/src/equipment.js": "ec263fe00e3b0276f22efb715a0b1ce5858a292e",
+      "prototype/src/motion.js": "3c74edd6b9768296d54ab183e9cac81b73443c96",
+      "prototype/src/motion-source.js": "958c38c8cd2c0d225471956345d3b035ad5622e5",
+      "prototype/src/facility-behavior.test.mjs": "168e6b31952bb4c2d1f09ae5050a0a68878b0c32",
+      "prototype/record-consumer.html": "3de46f320b82d1e79df119b0095caa0815a5abec",
+      "prototype/package-lock.json": "253a73eb18a8db15f159df89bd98e6c11f3a36d2",
+      "scripts/production/facility-room-host.mjs": "f0cc5556ade91ec1a0905f16ca1e1781cc62dd08",
+      "scripts/production/package-facility-room.mjs": "3d72a77790dd43cbab43c2679cc051e644e3f4c2"
+    }
+  },
+  "cpuTests": {
+    "node": "v24.13.0",
+    "context": "Runtime-only fixed checkout supplies the seat fixture tests. The main checkout supplies the headless avatar adapter and signed fixture files omitted by that checkout. Tracked runtime source, public assets, runtime HTML, package lock, style matrix, historical signed fixtures and headless/host sources were compared to 1683a412 with no differences.",
+    "fixedNavigationSeatAndRestore": {
+      "cwd": "experiments/worktrees/shared-top-a-1683a412",
+      "command": "node --test --test-name-pattern='moving approach|occupied entry|rotated seat' prototype/src/facility-behavior.test.mjs",
+      "passed": 3
+    },
+    "consumerQueryAndFacilityHost": {
+      "cwd": ".",
+      "command": "node --test prototype/src/character-record-consumer.test.mjs prototype/src/character-production-query.test.mjs scripts/production/facility-room-host.test.mjs",
+      "passed": 23
+    },
+    "existingGateGuards": {
+      "cwd": ".",
+      "command": "node --test --test-name-pattern='historic seat-only|source commit, build ID|supplemental seat review|lower microphone' scripts/runtime-package/company-room-compatibility.test.mjs",
+      "passed": 4
+    },
+    "publishedRoomsWithHistoricalPair": {
+      "cwd": ".",
+      "companyEnvironment": "FACILITY_COMPANY_PACKAGE points to the directory containing the reviewed transfer-manifest.json",
+      "recordEnvironment": "FACILITY_RECORD_PACKAGE=F:/gamemake/output/m2-company-seat-clearance-fixed/pair",
+      "recordManifestSha256": "f4e9f27aaadb3cc64c600c742ea6527c03ddd75c0213c16ebd5f0fee1ad80b48",
+      "command": "node --test --test-name-pattern='published rooms use retained GLB' prototype/src/facility-behavior.test.mjs",
+      "passed": 1,
+      "bothRoomDiagnosticsMatchThePriorReceipt": true
+    },
+    "publishedRoomsWithExactNewPair": {
+      "cwd": ".",
+      "companyEnvironment": "FACILITY_COMPANY_PACKAGE points to the directory containing the reviewed transfer-manifest.json",
+      "recordEnvironment": "FACILITY_RECORD_PACKAGE=F:/gamemake/output/shared-top-build-1683a412/game",
+      "recordManifestSha256": "d3c2ad4b6519ed00f41ea3b0a6f891d5d3c8c398c100f08e0ca61f36e1e93ed9",
+      "firstRun": "The original CPU fixture supplied renderer:{} and the visible facial geometry restores reached compileAsync. The first headless retry provided compileAsync and exposed the missing getContext. Both failed inside the fixture before sitting.",
+      "retryShell": "Pipe the joined inlineModule lines to node --test-name-pattern='published rooms use retained GLB' --input-type=module - with the environments above. This patches the test fixture renderer in memory only.",
+      "inlineModule": [
+        "import assert from 'node:assert/strict';",
+        "import {registerHooks} from 'node:module';",
+        "const testFile=new URL('./prototype/src/facility-behavior.test.mjs',import.meta.url);",
+        "const hook=registerHooks({load(url,context,next) {",
+        "  const result=next(url,context);",
+        "  if (url!==testFile.href) return result;",
+        "  const source=result.source.toString();",
+        "  const original='scene:world,renderer:{},position,';",
+        "  assert.equal(source.split(original).length,2);",
+        "  const renderer='scene:world,renderer:{async compileAsync(){},getContext:()=>({isContextLost:()=>false}),shadowMap:{enabled:false}},position,';",
+        "  return {...result,source:source.replace(original,renderer)};",
+        "}});",
+        "try { await import(testFile); } finally { hook.deregister(); }"
+      ],
+      "passed": 1,
+      "assertions": [
+        "Signed actors approach and sit with exclusive occupied lease",
+        "Saved seated record revision and completed enter task restore to a fresh actor",
+        "The exit position is traversed with the lease held and the completed exit releases it",
+        "The waiting original signed record then obtains the same seat",
+        "Chest clearance meets the existing threshold"
+      ],
+      "rooms": [
+        {
+          "id": "plant-home",
+          "firstActor": "studio-male-a",
+          "firstRecordSha256": "9fb358ab1f874c9d6fbfedfd6f22f202f8c7e62774e6051e8f5ffa6d02a4283d",
+          "peer": "studio-male-b",
+          "minimumTorsoDistanceM": 0.5946833459543515,
+          "minimumClearanceThresholdM": 0.44,
+          "samples": 1212
+        },
+        {
+          "id": "plant-rental",
+          "firstActor": "studio-male-b",
+          "firstRecordSha256": "498d4af269c547d809c7d771abc8a84de2267f6cfe1009f028f629452deadfdc",
+          "peer": "studio-male-a",
+          "minimumTorsoDistanceM": 0.6579884527020605,
+          "minimumClearanceThresholdM": 0.44,
+          "samples": 1004
+        }
+      ]
+    }
+  },
+  "observedRepositoryGateAfterRegistrationByOperator": {
+    "function": "requireCompanyRoomRuntime",
+    "actualOrdinaryGameFilesSupplied": 41,
+    "reviewedTransferAccepted": true,
+    "standingVocalTransferRejected": "incompatible-facility-runtime"
+  }
+}
