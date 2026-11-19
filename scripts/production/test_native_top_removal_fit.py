@@ -42,6 +42,15 @@ class TestRemovalFit(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "actual native call"):
                 fit.derive(recipe)
 
+    def test_auto_members_cannot_be_supplied_or_skip_original_calls(self):
+        with self.assertRaisesRegex(ValueError, "takes only"):
+            fit.derive({"schema": fit.DISCOVER, "lineage": {}, "members": []})
+        recipe = {"schema": fit.DISCOVER, "lineage": {}}
+        with patch.object(fit.lineage, "verify", return_value={"singleRemovalVerified": True,
+                          "coldReopenVerified": True, "originalCallChainVerified": False}):
+            with self.assertRaisesRegex(ValueError, "actual native call"):
+                fit.derive(recipe)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -13,6 +13,10 @@ from native_import import exact_directory
 from native_top_group_replay import checked_batch, load_request, private_path
 
 
+EXPLICIT = "native-top-removal-fit-v1"
+DISCOVER = "native-top-removal-fit-v2"
+
+
 def runtime_lineage(proof):
     return {key: proof[key] for key in ("sourceSha256", "coveredPngSha256", "groupId", "referenceSha256",
                                         "originalEditableSha256", "members", "coldGroupReadback")}
@@ -37,8 +41,11 @@ def locate_inputs(spec, source_root):
 
 
 def derive(spec):
-    if spec.get("schema") != "native-top-removal-fit-v1":
+    mode = spec.get("schema")
+    if mode not in (EXPLICIT, DISCOVER):
         raise ValueError("Unknown native top removal fit recipe")
+    if mode == DISCOVER and set(spec) != {"schema", "lineage"}:
+        raise ValueError("Automatic selection takes only the verified native lineage")
     author = spec["lineage"]
     verified = lineage.verify(author)
     if not all(verified[key] for key in ("singleRemovalVerified", "coldReopenVerified", "originalCallChainVerified")):
@@ -49,9 +56,15 @@ def derive(spec):
     src_sha, removed_sha = verified["sourceSha256"], verified["referenceSha256"]
     _, raw = read_pinned(src, src_sha)
     _, raw_removed = read_pinned(removed, removed_sha)
-    diff = meshes.compare(meshes.surfaces(raw), meshes.surfaces(raw_removed), spec["members"])
+    if mode == DISCOVER:
+        from native_removal_skin_differential import verify_surviving_skin
+
+        retained = verify_surviving_skin(raw, raw_removed, None)
+        diff = {key: retained[key] for key in ("matchingSurfaces", "matchingTriangles", "removed")}
+    else:
+        diff = meshes.compare(meshes.surfaces(raw), meshes.surfaces(raw_removed), spec["members"])
     garment = diff["removed"]
-    if [row["selector"] for row in garment] != spec["members"]:
+    if mode == EXPLICIT and [row["selector"] for row in garment] != spec["members"]:
         raise ValueError("Garment members must follow the exact source draw order")
     if len({(r["selector"]["node"], r["selector"]["mesh"], r["selector"]["skin"]) for r in garment}) != 1:
         raise ValueError("Expected one skinned owner for the removed garment")
@@ -68,6 +81,8 @@ def derive(spec):
               "members": [r["selector"] for r in garment], "surfaces": diff, "coveredPngSha256": owner["pngSha256"],
               "donor": body["donor"], "coverage": body["coverage"], "preserved": body["preserved"],
               "weightedJoints": body["surface"]["weightedJoints"], "runtimeAdmission": False}
+    if mode == DISCOVER:
+        report["retainedSkin"] = retained["surfaces"]
     return donor, mask, report
 
 
@@ -77,17 +92,6 @@ def replay_recipe(request_path, request_sha, run_directory, selection, original_
     batch = checked_batch(request_path.parent.parent)
     req = load_request(request_path, request_sha, batch)
     run = private_path(run_directory, batch)
-    groups = selection["primitiveGroups"]
-    if (selection["sourceSha256"] != req["baseline"]["sha256"] or len(groups) != 1 or groups[0]["slot"] != "top"):
-        raise ValueError("Garment selection does not target the pinned source top")
-    members = [{"node": selection["sourceNode"], "mesh": selection["sourceMesh"], "skin": selection["sourceSkin"],
-                "primitive": row["primitive"], "material": row["material"]} for row in groups[0]["members"]]
-    _, native = read_pinned(request_path.parent / req["baseline"]["path"], req["baseline"]["sha256"])
-    drawn = meshes.surfaces(native)
-    for member, described in zip(members, groups[0]["members"], strict=True):
-        actual = drawn.get((selection["sourceNodeName"], described["materialName"]))
-        if actual is None or actual["selector"] != member:
-            raise ValueError("Selected material or mesh owner differs from the original garment")
     def pin(path):
         return {"path": str(path), "sha256": skin.sha(path.read_bytes())}
     files = {"originalEditable": request_path.parent / req["editable"]["path"],
@@ -99,7 +103,20 @@ def replay_recipe(request_path, request_sha, run_directory, selection, original_
     author = {key: pin(private_path(path, batch)) for key, path in files.items()}
     author.update(format=lineage.REPLAY, originalCalls=original_calls,
                   calls=[pin(private_path(path, batch)) for path in sorted((run / "calls").glob("*.response.json"))])
-    return {"schema": "native-top-removal-fit-v1", "lineage": author, "members": members}
+    if selection is None:
+        return {"schema": DISCOVER, "lineage": author}
+    groups = selection["primitiveGroups"]
+    if (selection["sourceSha256"] != req["baseline"]["sha256"] or len(groups) != 1 or groups[0]["slot"] != "top"):
+        raise ValueError("Garment selection does not target the pinned source top")
+    members = [{"node": selection["sourceNode"], "mesh": selection["sourceMesh"], "skin": selection["sourceSkin"],
+                "primitive": row["primitive"], "material": row["material"]} for row in groups[0]["members"]]
+    _, native = read_pinned(request_path.parent / req["baseline"]["path"], req["baseline"]["sha256"])
+    drawn = meshes.surfaces(native)
+    for member, described in zip(members, groups[0]["members"], strict=True):
+        actual = drawn.get((selection["sourceNodeName"], described["materialName"]))
+        if actual is None or actual["selector"] != member:
+            raise ValueError("Selected material or mesh owner differs from the original garment")
+    return {"schema": EXPLICIT, "lineage": author, "members": members}
 
 
 def write_private(spec, out, *, include_recipe=False):
@@ -127,7 +144,8 @@ def write_private(spec, out, *, include_recipe=False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("recipe", type=Path, help="Fit recipe, or the pinned garment selection if using --replay-run")
+    parser.add_argument("recipe", nargs="?", type=Path, help="Fit recipe, or an explicit garment selection for a replay")
+    parser.add_argument("--discover-top", action="store_true", help="Derive source members from the verified native replay")
     parser.add_argument("--output", type=Path, required=True, help="Private directory below project output/")
     parser.add_argument("--source-root", type=Path, help="Resolve archive-relative input pins before use")
     parser.add_argument("--replay-run", type=Path, help="Completed native_top_group_replay run directory")
@@ -139,7 +157,11 @@ if __name__ == "__main__":
     replay_options = (options.replay_run, options.request, options.request_sha256, options.original_calls)
     if any(replay_options) and not all(replay_options):
         parser.error("Replay mode requires --replay-run, --request, --request-sha256 and --original-calls")
-    spec = json.loads(options.recipe.read_bytes())
+    if options.discover_top and not options.replay_run:
+        parser.error("--discover-top requires a completed native replay")
+    if bool(options.recipe) == options.discover_top:
+        parser.error("Pass either an input recipe or --discover-top")
+    spec = json.loads(options.recipe.read_bytes()) if options.recipe else None
     if options.source_root:
         if options.replay_run:
             parser.error("Replay pins already specify their source locations")

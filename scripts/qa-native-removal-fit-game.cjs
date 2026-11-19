@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const {createHash} = require('node:crypto');
 const fs = require('node:fs/promises');
 const path = require('node:path');
-const {chromium} = require('../prototype/node_modules/playwright');
+const {launchQABrowser} = require('./qa-browser-workspace.cjs');
 const {batchCreates} = require('./character-production-cli.cjs');
 const {produceBatch, verifyCreatedRecord} = require('./character-production-browser.cjs');
 const {productionRoot, projectOutput} = require('./project-output.cjs');
@@ -107,7 +107,6 @@ async function main() {
     assert.equal(sha(await fs.readFile(file)),saved.recordFileSha256);
   }
   await fs.mkdir(out);
-  Object.assign(process.env, {TEMP:out,TMP:out,TMPDIR:out});
   const report = {status:'incomplete', baseCommit:receipt.baseCommit, privateSourceCommit:receipt.privateSourceCommit,
     sourceDigest:receipt.sourceDigest, requestSha256:sha(input), sessions:[]};
   if (saved) Object.assign(report,{replaySource:replay,recordFileSha256:saved.recordFileSha256});
@@ -116,11 +115,8 @@ async function main() {
     for (const phase of saved ? ['cold-replay'] : ['create-and-load','cold-reopen']) {
       const folder = path.join(out,phase);
       await fs.mkdir(folder);
-      const browser = await chromium.launch({headless:true,executablePath,timeout:12000,artifactsDir:folder,
-        env:{...process.env,TEMP:folder,TMP:folder,TMPDIR:folder,USERPROFILE:folder,LOCALAPPDATA:folder,
-          APPDATA:folder,XDG_CACHE_HOME:folder,CUDA_CACHE_PATH:folder,__GL_SHADER_DISK_CACHE_PATH:folder,
-          CHROME_LOG_FILE:path.join(folder,'chromium.log')},
-        args:['--disk-cache-dir='+path.join(folder,'disk-cache'),'--crash-dumps-dir='+folder]});
+      const processSession = await launchQABrowser(folder,{executablePath,timeout:12000});
+      const {browser} = processSession;
       const session = {phase,browser:browser.version(),resources:[]};
       report.sessions.push(session);
       try {
@@ -189,7 +185,7 @@ async function main() {
           assert.deepEqual(errors,[]);
         }
       } finally {
-        await browser.close();
+        await processSession.close();
         session.closed = true;
       }
     }

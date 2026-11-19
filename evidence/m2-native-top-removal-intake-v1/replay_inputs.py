@@ -15,7 +15,7 @@ import native_removal_lineage as lineage
 from native_authoring import runner
 from native_import import confined, digest
 from native_top_group_replay import checked_batch
-from native_top_removal_fit import locate_inputs
+from native_top_removal_fit import DISCOVER, EXPLICIT, locate_inputs
 from production_paths import project_output
 
 
@@ -82,15 +82,15 @@ def yun_receiver(archive, receiver_pin, fit, destination):
     return files, {"schema": old["schema"], **final, "items": [final_item]}
 
 
-def bo_inputs(archive, pins):
+def bo_inputs(archive, pins, *, discover_top=False):
     if pins["id"] != BO:
         raise ValueError("Wrong fixed Bo Chen archive")
     author = pins["authoring"]
     originals = {key: author[key] for key in ("originalEditable", "originalVrm", "originalProvenance", "originalColdReadback")}
     author_calls = {ref["path"]: ref for ref in author["calls"]}
-    fit = {"schema": "native-top-removal-fit-v1", "members": pins["members"],
-           "lineage": {"format": lineage.FUSION, **originals, **pins["removal"],
-                       "originalCalls": [author_calls[name] for name in pins["originalCalls"]]}}
+    fit = {"schema": DISCOVER} if discover_top else {"schema": EXPLICIT, "members": pins["members"]}
+    fit["lineage"] = {"format": lineage.FUSION, **originals, **pins["removal"],
+                      "originalCalls": [author_calls[name] for name in pins["originalCalls"]]}
     spec = {"schema": archive_inputs.SCHEMA}
     for key, value in author.items():
         spec[key] = ([locate(archive, ref) for ref in value] if key == "calls" else locate(archive, value))
@@ -114,7 +114,7 @@ def checked_package(config, output, expected):
             "importBatch": pin(output / "import-batch.json")}
 
 
-def rebuild(archive_path, output_path):
+def rebuild(archive_path, output_path, *, discover_top=False):
     archive = archive_path.resolve(strict=True)
     output = checked_batch(project_output(output_path, __file__))
     if not archive.is_dir() or output.is_relative_to(archive) or archive.is_relative_to(output):
@@ -123,9 +123,12 @@ def rebuild(archive_path, output_path):
         raise FileExistsError("Choose a fresh output directory: " + str(output))
     pins = read(HERE / "replay-pins.json")
     expected = {record["bodyType"]: record["resources"] for record in read(HERE / "paired-fixed-game.json")["records"]}
-    yun_fit = locate_inputs(read(HERE / "yun-recipe.json"), archive)
+    yun_recipe = read(HERE / "yun-recipe.json")
+    if discover_top:
+        yun_recipe = {"schema": DISCOVER, "lineage": yun_recipe["lineage"]}
+    yun_fit = locate_inputs(yun_recipe, archive)
     files, yun_config = yun_receiver(archive, pins["yunReceiverConfig"], yun_fit, output / "yun-receiver")
-    bo_archive, bo_fit = bo_inputs(archive, pins["bo"])
+    bo_archive, bo_fit = bo_inputs(archive, pins["bo"], discover_top=discover_top)
     for fit in (yun_fit, bo_fit):
         verified = lineage.verify(fit["lineage"])
         if not all(verified[key] for key in ("singleRemovalVerified", "coldReopenVerified", "originalCallChainVerified")):
@@ -154,8 +157,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--archive", type=Path, required=True, help="Authorized original Studio archive")
     parser.add_argument("--output", type=Path, required=True, help="Fresh directory below project output/")
+    parser.add_argument("--discover-top", action="store_true", help="Read the original native operations without primitive selectors")
     args = parser.parse_args()
     try:
-        print(json.dumps(rebuild(args.archive, args.output), indent=2, ensure_ascii=False))
+        print(json.dumps(rebuild(args.archive, args.output, discover_top=args.discover_top), indent=2, ensure_ascii=False))
     except (OSError, ValueError, KeyError) as exc:
         parser.error(str(exc))

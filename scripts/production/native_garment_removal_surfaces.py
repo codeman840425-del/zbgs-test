@@ -68,21 +68,28 @@ def surfaces(data):
     return result
 
 
+def difference(before, after):
+    added = set(after) - set(before)
+    require(not added, f"Unexpected new surfaces: {sorted(added)}")
+    changed = [key for key, row in after.items() if before[key]["surfaceSha256"] != row["surfaceSha256"]]
+    require(not changed, f"Unrelated surviving surfaces changed: {sorted(changed)}")
+    removed = [row for key, row in before.items() if key not in after]
+    require(removed and after, "Expected a garment removal with surviving surfaces")
+    return {"matchingSurfaces": len(after), "matchingTriangles": sum(row["triangles"] for row in after.values()),
+            "removed": removed}
+
+
 def compare(before, after, members):
     require(members and all(set(row) == set(SELECTOR) and
                             all(type(row[k]) is int and row[k] >= 0 for k in SELECTOR)
                             for row in members), "Invalid expected source selectors")
     expected = {tuple(row[k] for k in SELECTOR) for row in members}
     require(len(expected) == len(members), "Repeated source selector")
-    added = set(after) - set(before)
-    require(not added, f"Unexpected new surfaces: {sorted(added)}")
-    changed = [key for key, row in after.items() if before[key]["surfaceSha256"] != row["surfaceSha256"]]
-    require(not changed, f"Unrelated surviving surfaces changed: {sorted(changed)}")
-    removed = [row for key, row in before.items() if key not in after]
+    result = difference(before, after)
+    removed = result["removed"]
     actual = {tuple(row["selector"][k] for k in SELECTOR) for row in removed}
     require(actual == expected, f"Removed source primitives differ: {sorted(actual)}")
-    return {"matchingSurfaces": len(after), "matchingTriangles": sum(row["triangles"] for row in after.values()),
-            "removed": removed}
+    return result
 
 
 def check(spec):
