@@ -19,30 +19,51 @@ async function readPair(folder,pin,signedFile) {
   assert.deepEqual(records,JSON.parse(signed),'Package must contain the supplied signed records, in order');
   assert.equal(records.length,2);assert.notEqual(records[0].identity.id,records[1].identity.id);
   assert.notEqual(records[0].appearanceRecipe.base.sha256,records[1].appearanceRecipe.base.sha256);
-  const owner=records.find(record=>record.liveAccessories.selections.mic.enabled);
-  assert.equal(records.filter(record=>record.liveAccessories.selections.mic.enabled).length,1,'Expected one selected microphone');
-  assert(records.every(record=>record.liveAccessories.selections.glasses.enabled),'Both records must wear glasses');
+  const selection=(record,kind)=>record.liveAccessories.selections[kind];
+  assert(records.every(record=>selection(record,'glasses').enabled===true),'Both records must wear glasses');
+  const micOwners=records.filter(record=>selection(record,'mic').enabled===true);
+  assert(micOwners.length<=1,'Expected at most one selected microphone');
+  const [owner]=micOwners;
+  const active=owner??records[0],peer=records.find(record=>record!==active);
+  const selectedKinds=kinds.filter(kind=>selection(active,kind).enabled===true);
   const catalog=JSON.parse(await read('assets/m1c/accessories.json'));
   const resources={};
   for(const [kind,id] of Object.entries({mic:'studio-microphone-v1',glasses:'studio-glasses-v1'})) {
-    const item=catalog.items.find(item=>item.id===id);assert.ok(item,id);
-    const row=files.get(item.url);assert.equal(row.sha256,item.sha256);assert.equal(row.bytes,item.bytes);
-    resources[kind]=item;
+    if(records.some(record=>selection(record,kind).enabled===true)){
+      const item=catalog.items.find(item=>item.id===id);assert.ok(item,id);
+      const row=files.get(item.url);assert.ok(row,'Missing declared '+id);assert.equal(row.sha256,item.sha256);assert.equal(row.bytes,item.bytes);
+      resources[kind]=item;
+    }
     for(const record of records) {
-      const slot=record.liveAccessories.selections[kind];
-      if(!slot.enabled){assert.equal(slot.identity,null);continue;}
+      const slot=selection(record,kind);
+      assert.equal(typeof slot.enabled,'boolean');
+      if(!slot.enabled){
+        assert.equal(slot.identity,null);
+        if(kind==='mic')assert.equal(record.liveAccessories.microphonePresentation,null);
+        continue;
+      }
       assert.equal(slot.identity.bodySHA256,record.appearanceRecipe.base.sha256);
-      assert.equal(slot.identity.accessorySHA256,item.sha256);
+      assert.equal(slot.identity.accessorySHA256,resources[kind].sha256);
       assert.equal(slot.identity.fit.bodySHA256,slot.identity.bodySHA256);
-      assert.equal(slot.identity.fit.accessorySHA256,item.sha256);
+      assert.equal(slot.identity.fit.accessorySHA256,resources[kind].sha256);
     }
   }
-  const gripId=owner.liveAccessories.selections.mic.identity.fit;
-  const gripRow=inventory.files.find(row=>row.sha256===gripId.sha256);assert.ok(gripRow,'Missing signed grip input');
-  const grip=JSON.parse(await read(gripRow.path));assert.equal(grip.id,gripId.id);
-  assert.equal(grip.compatibleAvatarSha256,owner.appearanceRecipe.base.sha256);
-  assert.equal(grip.compatibleAccessorySha256,resources.mic.sha256);
-  return {inventory,files,dir,records,resources,grip,micOwner:owner.identity.id,signedSha256:sha(signed)};
+  let grip=null;
+  if(owner){
+    const gripId=selection(owner,'mic').identity.fit;
+    const gripRow=inventory.files.find(row=>row.sha256===gripId.sha256);assert.ok(gripRow,'Missing signed grip input');
+    grip=JSON.parse(await read(gripRow.path));assert.equal(grip.id,gripId.id);
+    assert.equal(grip.compatibleAvatarSha256,owner.appearanceRecipe.base.sha256);
+    assert.equal(grip.compatibleAccessorySha256,resources.mic.sha256);
+  }
+  const failedFit=selection(peer,'glasses').identity.fit;
+  assert.notEqual(failedFit.sha256,selection(active,'glasses').identity.fit.sha256,'Expected independently addressable glasses fits');
+  const faultFiles=inventory.files.filter(row=>row.sha256===failedFit.sha256);
+  assert.equal(faultFiles.length,1,'Expected one exact failure input for the peer glasses fit');
+  const faultFile=faultFiles[0];
+  return {inventory,files,dir,records,resources,grip,signedSha256:sha(signed),
+    scenario:{activeId:active.identity.id,peerId:peer.identity.id,selectedKinds,
+      micOwner:owner?.identity.id??null,failedFit:{path:faultFile.path,sha256:faultFile.sha256}}};
 }
 
 // In the released game, observe only normal camera draws. The props are
@@ -115,9 +136,12 @@ async function observe({records,resources,grip}) {
 }
 
 function verify(probe,records,removed) {
-  const boneIds=new Set(),meshIds=new Set();
+  assert.equal(probe.rows.length,records.length);
+  const roots=new Set(),boneIds=new Set(),meshIds=new Set();
   for(const [i,row] of probe.rows.entries()){
     const r=records[i],expected=structuredClone(r.liveAccessories);
+    assert.equal(row.id,r.identity.id);
+    assert(!roots.has(row.root));roots.add(row.root);
     if(r.identity.id===removed){
       for(const kind of kinds)expected.selections[kind]={enabled:false,identity:null};
       expected.microphonePresentation=null;
@@ -145,6 +169,14 @@ function verify(probe,records,removed) {
   }
 }
 
+function assertSameProps(before,after) {
+  assert.equal(after.root,before.root);
+  for(const kind of kinds){
+    assert.equal(after.slots[kind].object,before.slots[kind].object);
+    assert.deepEqual(after.slots[kind].meshes.map(mesh=>mesh.uuid),before.slots[kind].meshes.map(mesh=>mesh.uuid));
+  }
+}
+
 async function captureFilm() {
   const c=window.__recordConsumer,canvas=c.renderer.domElement;
   const type=['video/webm;codecs=vp9','video/webm;codecs=vp8'].find(t=>MediaRecorder.isTypeSupported(t));
@@ -155,7 +187,7 @@ async function captureFilm() {
   const before=clock(),start=performance.now();
   try{
     if(camera?.isPerspectiveCamera){
-      // Keep both heads, upper bodies and the microphone readable in the normal-speed film.
+      // Keep both heads, upper bodies and their signed accessories readable.
       const heads=actors.map(a=>a.avatar.vrm.humanoid.getRawBoneNode('head').getWorldPosition(a.avatar.root.position.clone()));
       const top=Math.max(...heads.map(p=>p.y))+.36,bottom=Math.min(...heads.map(p=>p.y))-.67;
       const center=heads[0].clone().lerp(heads[1],.5);center.y=(top+bottom)/2;
@@ -184,14 +216,15 @@ async function run(folder,pin,signedFile,destination,mode) {
   assert(!mode||mode==='--fit-failure');
   const out=await projectOutput(destination,await productionRoot());
   const {checkedBytes}=await import('./runtime-package/files.mjs');
-  const input=await readPair(folder,pin,signedFile),{inventory,records,micOwner}=input;
+  const input=await readPair(folder,pin,signedFile),{inventory,records,scenario}=input;
+  const {activeId,peerId,selectedKinds,failedFit}=scenario;
   await fs.mkdir(path.dirname(out),{recursive:true});await fs.mkdir(out);
   const report={status:'running',inventorySha256:pin,signedFileSha256:input.signedSha256,runtime:inventory.runtime,
-    signed:inventory.records.map(({id,bodyType,avatarSha256,recordSha256})=>({id,bodyType,avatarSha256,recordSha256})),sessions:[],errors:[]};
+    signed:inventory.records.map(({id,bodyType,avatarSha256,recordSha256})=>({id,bodyType,avatarSha256,recordSha256})),
+    scenario,sessions:[],errors:[]};
   const probeInput={records,resources:input.resources,grip:input.grip},url='http://127.0.0.1:47123';
   const types={'.js':'text/javascript','.html':'text/html; charset=utf-8','.json':'application/json','.png':'image/png','.wasm':'application/wasm'};
   try{
-    const failedRecord=records.find(record=>record.identity.id!==micOwner);
     for(const phase of mode?['fit-failure-retry']:['initial','cold-reopen']){
       const log={phase,stages:{},requests:[]};report.sessions.push(log);
       const session=await launchQABrowser(out,{channel:'chrome'});
@@ -204,8 +237,8 @@ async function run(folder,pin,signedFile,destination,mode) {
             if(req.pathname==='/favicon.ico')return await route.fulfill({status:204});
             const row=input.files.get(req.pathname);assert.ok(row,req.pathname);const bytes=await checkedBytes(input.dir,row);
             log.requests.push(row.path);
-            if(mode&&!log.fault&&row.sha256===failedRecord.liveAccessories.selections.glasses.identity.fit.sha256){
-              log.fault={id:failedRecord.identity.id,path:row.path,sha256:row.sha256,status:503};
+            if(mode&&!log.fault&&row.path===failedFit.path&&row.sha256===failedFit.sha256){
+              log.fault={id:peerId,path:row.path,sha256:row.sha256,status:503};
               return await route.fulfill({status:503,body:'Injected glasses fit unavailable'});
             }
             await route.fulfill({contentType:types[path.extname(row.path)]??'application/octet-stream',body:bytes});
@@ -214,21 +247,23 @@ async function run(folder,pin,signedFile,destination,mode) {
         const page=await context.newPage();page.on('pageerror',e=>report.errors.push(e.message));
         await page.goto(url+'/record-consumer.html?records=/records/manifest.json');
         await page.waitForFunction(()=>window.__recordConsumer?.ready,null,{timeout:150000});
-        assert.deepEqual(await page.evaluate(()=>({id:__recordConsumer.buildInfo.shortId,actors:[...__recordConsumer.actors.keys()],
-          errors:__recordConsumer.errors})),{id:inventory.runtime.buildId,actors:mode?[micOwner]:records.map(r=>r.identity.id),errors:[]});
+        assert.deepEqual(await page.evaluate(()=>({id:__recordConsumer.buildInfo.shortId,sourceDigest:__recordConsumer.buildInfo.sourceDigest,
+          actors:[...__recordConsumer.actors.keys()],errors:__recordConsumer.errors})),{id:inventory.runtime.buildId,
+          sourceDigest:inventory.runtime.sourceDigest,actors:mode?[activeId]:records.map(r=>r.identity.id),errors:[]});
         if(mode){
           assert.ok(log.fault,'Expected exactly one request for the signed fit');
-          const id=failedRecord.identity.id,one=records.filter(r=>r.identity.id===micOwner);
+          const one=records.filter(r=>r.identity.id===activeId);
           log.rejected=await page.evaluate(()=>({batch:__recordConsumer.snapshot(),display:document.querySelector('#results').textContent}));
-          const failure=log.rejected.batch.items.find(i=>i.identityId===id);assert.equal(failure.status,'failed');
+          const failure=log.rejected.batch.items.find(i=>i.identityId===peerId);assert.equal(failure.status,'failed');
           assert.match(failure.reason,/Glasses fit HTTP 503/);assert.match(log.rejected.display,/Glasses fit HTTP 503/);
           const remaining=await page.evaluate(observe,{...probeInput,records:one});
           log.stages.surviving=remaining;verify(remaining,one);
           await page.locator('#retry').click();
           await page.waitForFunction(id=>{const batch=__recordConsumer.snapshot();return batch.phase==='settled'&&
-            batch.items.some(i=>i.identityId===id&&i.attempt===2);},id,{timeout:90000});
+            batch.items.some(i=>i.identityId===id&&i.attempt===2);},peerId,{timeout:90000});
           log.retried=await page.evaluate(()=>__recordConsumer.snapshot());
-          assert(log.retried.items.every(i=>i.status==='completed'&&i.attempt===(i.identityId===id?2:1)));
+          assert.deepEqual(log.retried.items.map(i=>[i.identityId,i.status,i.attempt]),
+            records.map(record=>[record.identity.id,'completed',record.identity.id===peerId?2:1]));
         }
         async function sample(stage,removed){
           const observed=await page.evaluate(observe,probeInput);log.stages[stage]=observed;
@@ -237,24 +272,22 @@ async function run(folder,pin,signedFile,destination,mode) {
         const original=await sample('signed');
         await page.locator('#stage').screenshot({path:path.join(out,phase+'.png')});
         if(phase==='initial'){
-          const peer=records.findIndex(r=>r.identity.id!==micOwner);
+          const peer=records.findIndex(r=>r.identity.id===peerId);
           for(const enabled of [false,true]){
-            await page.evaluate(async({id,enabled})=>{
+            await page.evaluate(async({id,enabled,selectedKinds})=>{
               const presentation=__recordConsumer.actors.get(id).avatar.livePresentation;
-              for(const kind of ['mic','glasses']){
+              for(const kind of selectedKinds){
                 const result=await presentation.setAccessory(kind,enabled);if(!result.applied)throw Error(result.reason??'Equip failed');
               }
-            },{id:micOwner,enabled});
-            const rows=await sample(enabled?'re-equipped':'removed',enabled?null:micOwner);
+            },{id:activeId,enabled,selectedKinds});
+            const rows=await sample(enabled?'re-equipped':'removed',enabled?null:activeId);
             assert.deepEqual(rows.map(row=>row.root),original.map(row=>row.root));
-            assert.equal(rows[peer].slots.glasses.object,original[peer].slots.glasses.object);
-            assert.deepEqual(rows[peer].slots.glasses.meshes.map(m=>m.uuid),original[peer].slots.glasses.meshes.map(m=>m.uuid));
+            assertSameProps(original[peer],rows[peer]);
           }
         }else{
           if(mode){
             const old=log.stages.surviving.rows[0],now=original.find(row=>row.id===old.id);
-            assert.equal(old.root,now.root);
-            for(const k of kinds)assert.equal(old.slots[k].object,now.slots[k].object);
+            assertSameProps(old,now);
           }else{
             const previous=report.sessions[0].stages.signed.rows;
             assert(original.every((row,i)=>row.root!==previous[i].root),'Expected newly created actor instances');
@@ -272,3 +305,4 @@ async function run(folder,pin,signedFile,destination,mode) {
   finally{await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});}
 }
 if(require.main===module)run(...process.argv.slice(2)).catch(e=>{console.error(e);process.exitCode=1;});
+module.exports={readPair};

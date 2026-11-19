@@ -28,10 +28,11 @@ async function fixture(bodyType) {
   }
   const catalog = new Map(items.map(entry => [entry.id, entry]));
   const outfit = 0;
-  const state = {availableStyles:['original'], revision:2};
+  const state = {hairStyle:'original', availableStyles:['original'], revision:2};
   const actor = {
     config, profile:{bodyType, sha256:config.sha256},
     appearance:{getState:() => state},
+    facialGeometry:{getState:() => ({mouthWidth:0, browSample:'none', noseSample:'none', eyeSample:'none'})},
     getEquipmentRecipe(index) {
       return Object.fromEntries(outfitSelection(config, index).roles.map(role => {
         const entry = catalog.get(config.ids[role]);
@@ -107,7 +108,7 @@ test('returns detached JSON and preserves the existing appearance contract', asy
     query.liveAccessories.mic.choices[1].grip.id = 'edited by caller';
     query.styleVariants[0].variants[0].limits.push('edited by caller');
     assert.equal(catalog.get(equipmentId).materialRecipes[0].id, originalRecipe);
-    assert.deepEqual(state, {availableStyles:['original'], revision:2});
+    assert.deepEqual(state, {hairStyle:'original', availableStyles:['original'], revision:2});
     assert.equal(controller.outfitRevision, 4);
     assert.deepEqual(queryCharacterProduction(controller).appearance, expectedAppearance);
     assert.deepEqual(queryCharacterProduction(controller).styleVariants, expectedStyleVariants);
@@ -172,7 +173,8 @@ test('texture-derived body resolves both separately fitted tops with unchanged g
     }
   }
   assert.equal(next.liveAccessories.mic.status, 'unavailable');
-  assert.equal(next.liveAccessories.glasses.status, 'unavailable');
+  assert.equal(fittedChoice(next.liveAccessories.glasses).templeFit.bodySha256, next.body.sha256);
+  assert.deepEqual(next.liveAccessories.glasses.constraints.headDependency, {hairStyle:'original', faceGeometry:'neutral'});
 });
 
 test('a restricted glasses registration identifies incompatible current heads separately from absent fits', async t => {
@@ -223,6 +225,7 @@ test('female texture release retains the two independently fitted torso selectio
   const base = foundationProfile('female'), derived = foundationProfile('source-female-uniform-texture-v1');
   const {controller} = await fixture(derived.id);
   const choices = queryCharacterProduction(controller);
+  assert.equal(fittedChoice(choices.liveAccessories.glasses).templeFit.bodySha256, derived.sha256);
   assert.deepEqual(choices.outfits.map(row => row.index), [0, 5]);
   assert.equal(sha256(await readFile(publicFile(derived.url))), derived.sha256);
   const coverage = profile => [profile.bodyCoverage, profile.additionalBodyCoverage.find(r => r.role === 'topFar').descriptor];
