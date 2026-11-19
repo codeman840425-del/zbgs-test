@@ -1,5 +1,7 @@
 # 当前角色基础工程恢复点
 
+阶段一交接材料已按 `241ce1c278f0` 核齐逐人动作、两人关闭恢复、九项选装保护、静态预算及开发机运行报告。另由真实原签重建两份公开样本和一份接收方私选样本的身体及三件制服。后续接收方可带自己的原签做同版差异复验；下段的 4196 在线版仍独立。普通电脑的采集入口已在开发机按 1440×900 演练；待有目标设备再做现场采集。旧版素材声明的适用范围、两份造型的人工观感和整套发行仍待相应审核。[同构建校验](../evidence/m2-rule-image-lifecycle-v1/verify-lanes.py) · [来源复算](../evidence/m2-rule-outfit-source-v1/README.md) · [实机、观感与权属交件](../evidence/m2-rule-image-lifecycle-v1/pending-signoffs.md)
+
 当前普通游戏候选源码 `bc42048f`，固定构建 `241ce1c278f0`。同两份原签已在这个构建完成逐人走坐起、双人回读、离场图像释放、静态预算和开发机采样。4196 实际服务的工作台仍为 `9ce414f65f55`。离线可直接观看[角色 A](../evidence/m2-rule-image-lifecycle-v1/public-batch-a/room-produced-1x.webm)、[角色 B](../evidence/m2-rule-image-lifecycle-v1/public-batch-b/room-produced-1x.webm)及[双人普通游戏](../evidence/m2-rule-image-lifecycle-v1/game-cold/dual-external-cold-1x.webm)。[固定包、运行证据和重建步骤](../evidence/m2-rule-image-lifecycle-v1/README.md)
 
 阶段一的接收工具现在可按原签核任意角色 ID 的房间回执。融合方两份自选参数和本工程两份样本在前版 `f90136db446c` 均可逐条复核。持续处理精确装扮的来源与准入；下一次接收方差异验证应锁定 `241ce1c278f0`。普通电脑、人工观感和权属结论分别保留。旧盲包的严格传输观察已结束，两包的新增合取均失败。[四份原签](../evidence/m2-rule-formal-intake-v1/four-records.json) · [逐请求结论](../evidence/m2-rule-strict-cdp-content-v1/README.md)

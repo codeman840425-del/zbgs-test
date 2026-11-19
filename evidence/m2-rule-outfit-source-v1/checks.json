@@ -1,0 +1,59 @@
+{
+  "workingDirectory": "F:\\",
+  "sourceReceipts": {
+    "public-batch-a": "7d7342f4339b399b106f9fd5ca91bb1f6a62cd21ed81e99bed8c80ac29266b5f",
+    "public-batch-b": "03ffc9009ec0a4f8851fb8a96fa3f3bdbe05f84224b8663f886a6944a596d29c",
+    "receiver-jaw-orchid": "b3f991e3679cac2007ef58aac9e030ef685646f00ed28cd6081ac1f8c3c4af67"
+  },
+  "rejections": {
+    "wrongRecord": {
+      "exit": 1,
+      "reason": "Different signed record"
+    },
+    "wrongPack": {
+      "exit": 1,
+      "reason": "Different shape pack index"
+    },
+    "validOtherPackAndItsOwnPin": {
+      "exit": 1,
+      "reason": "different body or source"
+    },
+    "sameIndexChangedShirtBytes": {
+      "exit": 1,
+      "reason": "Content differs from trusted reconstruction: assets/garment-basecolor-release-v1/male/raw-male-uniform-top-1k-v1.glb"
+    },
+    "unrelatedOriginalBinding": {
+      "exit": 1,
+      "reason": "original garment/body binding"
+    },
+    "outsideProject": {
+      "exit": 1,
+      "reason": "inside the production tool main checkout"
+    },
+    "directoryTraversal": {
+      "exit": 1,
+      "reason": "inside the production tool main checkout"
+    },
+    "outsideViaJunction": {
+      "exit": 1,
+      "reason": "inside the production tool main checkout"
+    },
+    "differentReceiptAtExistingPath": {
+      "exit": 1,
+      "reason": "Existing receipt differs"
+    }
+  },
+  "failureAndRetrySameTarget": true,
+  "receiverOriginalText": {
+    "path": "assets-source/m1b/spec.json",
+    "sha256": "d82eb81c42e9747ca989cb782efbb91e1402aa8bc9f60deb222b4de0e5d7bc1b",
+    "bytes": 1008,
+    "checkoutFile": {
+      "path": "assets-source/m1b/spec.json",
+      "sha256": "24963bbe4eaed92ee4e79060b328d355e3fec78ea692690d06ba4acf0e4d8036",
+      "bytes": 992
+    },
+    "recoveredOriginalLineEndings": "CRLF"
+  },
+  "receiverFirstAttempt": "Exact raw checkout file digest differed from original binding before line-ending replay."
+}

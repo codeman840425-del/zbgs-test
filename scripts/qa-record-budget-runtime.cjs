@@ -8,12 +8,34 @@ const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 
 function parseArgs(args) {
  const {remaining,launchOptions}=browserConfigArgs(args);
- const [base,recordFile,folder,inspectBuild,...options]=remaining;
- const [mode,manifestSha]=options;
- assert(base && recordFile && folder && (!inspectBuild?.startsWith('--')) &&
-  (!options.length || (options.length===2 && mode==='--ordinary-package' && /^[0-9a-f]{64}$/.test(manifestSha))),
-  'Usage: BASE RECORDS OUTPUT [BUILD [--ordinary-package MANIFEST_SHA]] [--browser-config PATH]');
- return {base,recordFile,folder,inspectBuild,manifestSha,launchOptions};
+ const [base,recordFile,folder,...options]=remaining;
+ const inspectBuild=options[0]?.startsWith('--')?undefined:options.shift();
+ const usage='Usage: BASE RECORDS OUTPUT [BUILD [--ordinary-package MANIFEST_SHA]] [--capture-config PATH] [--browser-config PATH]';
+ const flags=new Map();
+ for (let i=0;i<options.length;i+=2) {
+  const [key,value]=options.slice(i,i+2);
+  assert(['--ordinary-package','--capture-config'].includes(key) && value && !value.startsWith('--') && !flags.has(key),usage);
+  flags.set(key,value);
+ }
+ const manifestSha=flags.get('--ordinary-package'),captureConfigPath=flags.get('--capture-config');
+ assert(base && recordFile && folder && (!manifestSha || (inspectBuild && /^[0-9a-f]{64}$/.test(manifestSha))),usage);
+ return {base,recordFile,folder,inspectBuild,manifestSha,launchOptions,...(captureConfigPath?{captureConfigPath}:{})};
+}
+
+function parseCaptureConfig(bytes) {
+ const config=JSON.parse(bytes.toString('utf8').replace(/^\uFEFF/,''));
+ const keys=(value,expected)=>value && typeof value==='object' && !Array.isArray(value) &&
+  Object.keys(value).length===expected.length && expected.every(key=>Object.hasOwn(value,key));
+ assert(keys(config,['schema','deviceDescription','viewport','mode','sampleSeconds']) && config.schema==='record-budget-capture-v1',
+  'Unsupported capture configuration fields or schema');
+ const {deviceDescription,viewport,mode,sampleSeconds}=config;
+ assert(typeof deviceDescription==='string' && deviceDescription.trim() && deviceDescription.length<=512,
+  'Capture requires a nonempty operator-reported device description (up to 512 characters)');
+ assert(keys(viewport,['width','height']) && Number.isInteger(viewport.width) && viewport.width>=320 && viewport.width<=3840 &&
+  Number.isInteger(viewport.height) && viewport.height>=240 && viewport.height<=2160,'Invalid capture viewport');
+ assert(mode==='headed' || mode==='headless','Capture mode must be headed or headless');
+ assert(Number.isInteger(sampleSeconds) && sampleSeconds>=12 && sampleSeconds<=120,'Capture sampleSeconds must be an integer from 12 to 120');
+ return {configSha256:sha(bytes),deviceDescription:deviceDescription.trim(),viewport,mode,sampleSeconds};
 }
 
 async function ordinaryInput(base, manifestSha, inspectBuild, records) {
@@ -62,8 +84,9 @@ async function ordinaryInput(base, manifestSha, inspectBuild, records) {
 }
 
 async function run(args) {
- const {base,recordFile,folder,inspectBuild,manifestSha,launchOptions}=parseArgs(args);
+ const {base,recordFile,folder,inspectBuild,manifestSha,launchOptions,captureConfigPath}=parseArgs(args);
  const root=await productionRoot(),out=await projectOutput(folder,root);
+ const capture=captureConfigPath?parseCaptureConfig(await fs.readFile(captureConfigPath)):null;
  let records, ordinary, reportPath, scriptCopy;
  if (manifestSha) {
   records=JSON.parse(await fs.readFile(recordFile,'utf8'));
@@ -75,6 +98,16 @@ async function run(args) {
  records ??=JSON.parse(await fs.readFile(recordFile,'utf8'));
  if(!Array.isArray(records)||records.length<2)throw Error('Budget input requires at least two records');
  const report={schema:ordinary?'ordinary-runtime-budget-trace-v1':'native-runtime-budget-trace-v1',status:'incomplete',viewport:{width:1440,height:1000},device:'Development Windows host, Ryzen 9 9950X3D / RTX4090; not ordinary-PC measurement',input:{path:path.resolve(recordFile),records:records.map(record=>({id:record.identity?.id,gender:record.identity?.gender,sourceRefs:record.provenance?.sourceRefs||[],bodySha256:record.appearanceRecipe?.base?.sha256||record.resourceIdentities?.find(item=>item.id==='appearance/base/sha256')?.sha256||null,recordSha256:record.integrity?.recordSha256||record.integrity?.sha256||null}))},cases:[],errors:[],limits:['Headless Chrome, no CPU/network throttling; 12-second bounded samples only.','Renderer memory reports object counts, not GPU bytes. Frame intervals include browser scheduling; CPU wrappers exclude GPU execution.','No recording in this measurement; original-speed movement films belong to production evidence. Idle/talking independent consumer only.']};
+ if (capture) {
+  const {configSha256,deviceDescription,viewport,mode,sampleSeconds}=capture;
+  report.viewport=viewport;
+  report.device='Operator-reported device; see capture.declaredDevice';
+  report.capture={configSha256,declaredDevice:{description:deviceDescription,source:'operator-reported'},
+   requested:{viewport,mode,sampleSeconds}};
+  report.ordinaryPC='not-assessed';
+  report.limits[0]=`Requested ${mode} Chrome with ${sampleSeconds}-second samples and no CPU/network throttling by this tool.`;
+  report.limits.push('The operator reports the device. Browser and WebGL observations do not qualify the device or certify performance.');
+ }
  if (ordinary) {
   report.package={manifestSha,runtime:ordinary.runtime,ruleBodyDataPacks:ordinary.ruleBodyDataPacks};
   report.networkIntegrity='not-evaluated';
@@ -83,10 +116,12 @@ async function run(args) {
  const groups=[[records[0]],[records[1]],[records[0],records[1]]];
  let session;
  try{
-  session=await launchQABrowser(out,launchOptions);
+  session=await launchQABrowser(out,capture?{...launchOptions,headless:capture.mode==='headless'}:launchOptions);
   const {browser}=session;
   report.browser=browser.version();
   if (session.receipt) report.browserLaunch=session.receipt;
+  if (capture) report.capture.observedBrowser={version:report.browser,
+   selection:session.receipt?'reviewed-browser-configuration':'installed-system-chrome'};
   for(const group of groups){
    const context=await browser.newContext({viewport:report.viewport,...(ordinary?{serviceWorkers:'block'}:{})}),page=await context.newPage();const network=[];
    let phase='ordinary-cold-pair';
@@ -101,11 +136,16 @@ async function run(args) {
    const ordinaryEntryMs=ordinary?performance.now()-opening:undefined;
    if (ordinary) assert.deepEqual(await page.evaluate(()=>__recordConsumer.records),records,'Ordinary page did not restore the original signed inputs');
    phase='group-sample';
-   const row=await page.evaluate(async ({inputs,inspectBuild,ordinary})=>{
+   const row=await page.evaluate(async ({inputs,inspectBuild,ordinary,capture})=>{
     const d=__recordConsumer,renderer=d.renderer,gl=renderer.getContext(),ext=gl.getExtension('WEBGL_debug_renderer_info');
     if(inspectBuild && d.buildInfo.shortId!==inspectBuild)throw Error('Unexpected fixed build: '+d.buildInfo.shortId);
     const stats=()=>({textures:renderer.info.memory.textures,geometries:renderer.info.memory.geometries,programs:renderer.info.programs.length,drawCalls:renderer.info.render.calls,triangles:renderer.info.render.triangles});
     const tick=()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+    const observeEnvironment=()=>({viewport:{width:innerWidth,height:innerHeight},devicePixelRatio,
+     drawingBuffer:{width:gl.drawingBufferWidth,height:gl.drawingBufferHeight},visibility:document.visibilityState,focused:document.hasFocus(),
+     webglVersion:gl.getParameter(gl.VERSION),webglRenderer:ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):null,
+     userAgent:navigator.userAgent,platform:navigator.platform,reportedLogicalProcessors:navigator.hardwareConcurrency,
+     reportedDeviceMemoryGiB:navigator.deviceMemory??null});
     function requireActors(expected) {
      const items=d.snapshot()?.items,actual=[...d.actors.values()];
      if(d.inputFailure || d.errors.length || actual.length!==expected.length || items?.length!==expected.length)
@@ -142,8 +182,24 @@ async function run(args) {
     }
     const render=renderer.render;renderer.render=function(...args){const t=performance.now();try{return render.apply(this,args);}finally{renderMs+=performance.now()-t;}};
     restores.push(()=>renderer.render=render);
-    try{await new Promise(resolve=>{const start=performance.now();function sample(t){if(last!==null)frames.push({frameMs:t-last,updateMs,renderMs});last=t;updateMs=0;renderMs=0;if(t-start<12000)requestAnimationFrame(sample);else resolve();}requestAnimationFrame(sample);});}
+    const environment=capture?{before:observeEnvironment()}:undefined;
+    const targetMs=(capture?.sampleSeconds??12)*1000;
+    const startedSampling=performance.now();
+    try{await new Promise((resolve,reject)=>{
+     const start=performance.now();
+     let request,deadline;
+     function sample(t){
+      if(last!==null)frames.push({frameMs:t-last,updateMs,renderMs});
+      last=t;updateMs=0;renderMs=0;
+      if(t-start<targetMs)request=requestAnimationFrame(sample);
+      else {clearTimeout(deadline);resolve();}
+     }
+     request=requestAnimationFrame(sample);
+     if(capture) deadline=setTimeout(()=>{cancelAnimationFrame(request);reject(Error('Capture frame sampling timed out'));},targetMs+15000);
+    });}
     finally{for(const restore of restores)restore();}
+    if(capture && !frames.length)throw Error('Capture produced no frame intervals');
+    if(environment) Object.assign(environment,{after:observeEnvironment(),elapsedSampleMs:performance.now()-startedSampling});
     const summarize=key=>{const values=frames.map(r=>r[key]).sort((a,b)=>a-b);return{count:values.length,min:values[0],p50:values[Math.floor(values.length*.5)],p95:values[Math.floor(values.length*.95)],p99:values[Math.floor(values.length*.99)],max:values.at(-1),over33:values.filter(v=>v>33.34).length,over50:values.filter(v=>v>50).length};};
     const afterSample=stats();
     // Observe already-uploaded Three/WebGL2 resources after the timed sample, without
@@ -194,13 +250,13 @@ async function run(args) {
     const handleProbe=inspectBuild&&!ordinary?{webgl2:gl instanceof WebGL2RenderingContext,bindings,
       afterRelease:[...handles].map(([h,id])=>({id,live:gl.isTexture(h)}))}:undefined;
     return{build:d.buildInfo.shortId,ids:inputs.map(r=>r.identity.id),baseline,loaded,loadMs,afterSample,released,frames,handleProbe,
-     ordinaryPair,selected,decodedTextures,summary:{frame:summarize('frameMs'),update:summarize('updateMs'),render:summarize('renderMs')},gpu:ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):'unavailable'};
-   },{inputs:group,inspectBuild,ordinary});
+     ordinaryPair,selected,decodedTextures,environment,summary:{frame:summarize('frameMs'),update:summarize('updateMs'),render:summarize('renderMs')},gpu:ext?gl.getParameter(ext.UNMASKED_RENDERER_WEBGL):'unavailable'};
+   },{inputs:group,inspectBuild,ordinary,capture:capture?{sampleSeconds:capture.sampleSeconds}:null});
    const inputIdentity=group.map(record=>report.input.records.find(item=>item.id===record.identity?.id));
    report.cases.push({...row,inputs:inputIdentity,network,ordinaryEntryMs});assert.equal(row.released.textures,row.baseline.textures);assert.equal(row.released.geometries,row.baseline.geometries);
    await context.close();console.log(JSON.stringify({case:row.ids,loadMs:row.loadMs,frame:row.summary.frame,loaded:row.loaded,released:row.released}));
   }
-  assert.equal(report.errors.length,0,JSON.stringify(report.errors));report.status='measured-development-only';
+  assert.equal(report.errors.length,0,JSON.stringify(report.errors));report.status=capture?'measured-capture-only':'measured-development-only';
  }catch(error){report.failure=String(error.stack||error);process.exitCode=1;}
  finally{
   try { await session?.close(); }
@@ -210,4 +266,4 @@ async function run(args) {
 }
 
 if (require.main===module) run(process.argv.slice(2)).catch(error=>{console.error(error);process.exitCode=1;});
-module.exports={parseArgs,ordinaryInput};
+module.exports={parseArgs,parseCaptureConfig,ordinaryInput};

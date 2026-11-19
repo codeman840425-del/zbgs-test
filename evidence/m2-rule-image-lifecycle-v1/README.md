@@ -39,3 +39,13 @@ node evidence/m2-rule-image-lifecycle-v1/replay.cjs
 ```
 
 最后一条命令只读重放两份已存普通包和轨迹，复核每一个应关闭和应保留的图像标识、幸存角色画面及两次独立冷开。旧版初次采集脚本对应提交 `664ea0d0`，新版采集增加了同帧重传和逐对象关闭检查。
+
+### 复用性能采集入口
+
+在实际测试机安装锁定依赖，用其已安装的 Chrome、同版已重建的普通游戏包及原签运行。复制[实测配置](development-capture.json)到工程内，将 `deviceDescription` 改为现场设备并选择 `headed` 或 `headless`。从工程根可执行下列命令，输出目录须为新目录。
+
+```powershell
+node scripts/run-fixed-check.cjs $game scripts/qa-record-budget-runtime.cjs $records output/reference-device-capture 241ce1c278f0 --ordinary-package $packageSha --capture-config output/device-capture.json
+```
+
+本次从 F 盘根目录运行原命令的已核验浏览器配置变体。RTX 4090 开发机上的三个视口实际均为 1440×900，各录得 1,979 个帧间隔，实测渲染器、浏览器版本和自报设备信息分别保存。采集状态为 `measured-capture-only`，普通机验收仍为 `not-assessed`。[配置演练的原始运行报告](reference-dev/report.json)
