@@ -14,6 +14,7 @@ import { loadNativeHairAttachment } from './native-hair-attachment.js';
 import {nativeSkinToneContract} from './native-skin-tone-contract.js';
 import {nativeLipColorContract} from './native-lip-color-contract.js';
 import {createNativeSkinTone} from './native-skin-tone.js';
+import {createNeutralHairTextures, neutralHairImageKeys} from './neutral-hair-textures.js';
 
 export const HAIR_COLORS = { original: null, black: '#343139', brown: '#805039', blonde: '#dab77a' };
 // Presets inspected under the actual room's warm key light and ACES exposure.
@@ -22,7 +23,7 @@ const materialsOf = mesh => Array.isArray(mesh.material) ? mesh.material : [mesh
 
 /** Per-instance appearance only. No skeleton, geometry, motion or skin weights
  * are changed by tinting. Replacements require an exact body admission. */
-export function createCharacterAppearance({ vrm, avatarSha256, validateHairChange, preserveHairInBaseMode = false, bodyTextureCoverage }) {
+export function createCharacterAppearance({ vrm, avatarSha256, renderer, parser, validateHairChange, preserveHairInBaseMode = false, bodyTextureCoverage }) {
   const facialPalette = createFacialPalette({vrm, avatarSha256});
   const skinContract = nativeSkinToneContract(avatarSha256);
   const skinMultipliers = fittedHeadAppearance(avatarSha256)?.colors.skinTone ?? SKIN_TONES;
@@ -51,7 +52,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
   const originals = new Map([...tintableSkin, ...hair].map(m => [m, {
     color: m.color?.clone(), shade: m.shadeColorFactor?.clone(), map: m.map, shadeMap: m.shadeMultiplyTexture,
   }]));
-  const grayTextures = new Map();
+  const grayTextures = createNeutralHairTextures(renderer, neutralHairImageKeys([...hair].map(m => originals.get(m)), parser, avatarSha256));
   let hairStyle = 'original', hairColor = 'original', skinTone = 'original', nativeLipColor = 'original';
   let replacement = null, generation = 0, revision = 0, disposed = false, loading = false, error = null;
   const replacements = new Map(), replacementPromises = new Map();
@@ -87,33 +88,11 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
     bodyMode = mode; applyHairVisibility();
     return { applied: true };
   }
-  function neutralTexture(texture) {
-    if (!texture) return null;
-    if (grayTextures.has(texture)) return grayTextures.get(texture);
-    const image = texture.image;
-    const canvas = document.createElement('canvas');
-    canvas.width = image.width; canvas.height = image.height;
-    const context = canvas.getContext('2d', { willReadFrequently: true });
-    context.drawImage(image, 0, 0);
-    const data = context.getImageData(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < data.data.length; i += 4) {
-      // Retain authored value detail and alpha without multiplying brown by cyan.
-      const value = Math.max(data.data[i], data.data[i + 1], data.data[i + 2]);
-      data.data[i] = data.data[i + 1] = data.data[i + 2] = value;
-    }
-    context.putImageData(data, 0, 0);
-    const result = texture.clone();
-    // Texture.clone shares Source; detach it before replacing pixels so restore
-    // and other materials retain the original image data.
-    result.source = new THREE.Source(canvas); result.needsUpdate = true;
-    grayTextures.set(texture, result);
-    return result;
-  }
   function tintHair(m, base) {
     if (!base.color) return;
     const tint = HAIR_COLORS[hairColor];
-    m.map = tint ? neutralTexture(base.map) : base.map;
-    if ('shadeMultiplyTexture' in m) m.shadeMultiplyTexture = tint ? neutralTexture(base.shadeMap) : base.shadeMap;
+    m.map = tint ? grayTextures.get(base.map) : base.map;
+    if ('shadeMultiplyTexture' in m) m.shadeMultiplyTexture = tint ? grayTextures.get(base.shadeMap) : base.shadeMap;
     m.color.copy(base.color);
     if (tint) m.color.set(tint);
     if (base.shade) {
@@ -291,8 +270,8 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
       if(!disposed&&revision===requestRevision&&nativeSkin)skinUpdate=await nativeSkin.prepareUpdate(desiredSkin,lipContract?desiredNativeLip:'original');
       if(disposed||revision!==requestRevision||skinUpdate?.cancelled){paletteUpdate.dispose();eyebrowUpdate?.dispose();skinUpdate?.dispose?.();applyStyleIntent();return{applied:false,cancelled:true};}
       if(desiredColor!=='original'){
-        for(const material of hair){const base=originals.get(material);neutralTexture(base.map);neutralTexture(base.shadeMap);}
-        for(const value of replacements.values())for(const base of value.materialBase.values()){neutralTexture(base.map);neutralTexture(base.shadeMap);}
+        for(const material of hair){const base=originals.get(material);grayTextures.get(base.map);grayTextures.get(base.shadeMap);}
+        for(const value of replacements.values())for(const base of value.materialBase.values()){grayTextures.get(base.map);grayTextures.get(base.shadeMap);}
       }
       const previous={hairStyle,hairColor,skinTone,nativeLipColor,replacement,materials:new Map()};
       const remember=material=>{if(!previous.materials.has(material))previous.materials.set(material,{map:material.map,shadeMap:material.shadeMultiplyTexture,color:material.color?.clone(),shade:material.shadeColorFactor?.clone()});};
@@ -382,7 +361,7 @@ export function createCharacterAppearance({ vrm, avatarSha256, validateHairChang
         if ('shadeMultiplyTexture' in m) m.shadeMultiplyTexture = base.shadeMap;
       }
       hairMeshes.forEach(({ mesh, visible }) => { mesh.visible = visible; });
-      grayTextures.forEach(t => t.dispose()); grayTextures.clear();
+      grayTextures.dispose();
     },
   };
 }

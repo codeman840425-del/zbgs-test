@@ -228,7 +228,7 @@ export async function loadFoundationAvatar({
   });
   equipment = await createM1Equipment({ vrm, avatarSha256: sha256, bodyType, initialOutfit: outfit });
   const surfaces = equipment.getAssetProfile();
-  appearance = createCharacterAppearance({ vrm, avatarSha256: sha256, preserveHairInBaseMode: sourceBodyDisplay,
+  appearance = createCharacterAppearance({ vrm, avatarSha256: sha256, renderer, parser:gltf.parser, preserveHairInBaseMode: sourceBodyDisplay,
     bodyTextureCoverage:equipment.bodyTextureCoverage,
     validateHairChange:(selection,accessories)=>accessories===undefined?headwear?.assertHairSelection(selection):assertAccessoryHair(sha256,accessories,selection) });
   livePresentation = createLivePresentation({vrm, root, bodyType: config.referenceBody || bodyType, avatarSha256: sha256});
