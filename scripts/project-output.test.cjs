@@ -36,7 +36,7 @@ test('production record and game export reject an escaped path before reading in
   }
 });
 
-test('nonexistent output below a junction resolves into its true directory', async () => {
+test('direct room CLI rejects drive-root, relative traversal and junction escapes before reading a record', async () => {
   const root = await productionRoot();
   const scratch = await fs.mkdtemp(path.join(root, 'experiments', 'output-path-test-'));
   const alias = path.join(scratch, 'alias');
@@ -44,6 +44,17 @@ test('nonexistent output below a junction resolves into its true directory', asy
     await fs.symlink(path.dirname(root), alias, process.platform === 'win32' ? 'junction' : 'dir');
     await assert.rejects(projectOutput(path.join(alias, 'outside-character-regression', 'receipt.json'), root),
       {code:'outside-project'});
+    const driveRoot = path.parse(root).root;
+    const driveOutput = path.join(driveRoot, path.basename(scratch) + '-outside');
+    const script = path.join(__dirname, 'qa-production-record-room.cjs');
+    const missingRecord = path.join(scratch, 'missing-record.json');
+    for (const destination of [driveRoot, driveOutput, path.relative(scratch, driveOutput),
+      path.join(alias, path.basename(driveOutput))]) {
+      const result = spawnSync(process.execPath, [script, 'http://127.0.0.1/', missingRecord, destination],
+        {cwd:scratch, encoding:'utf8', windowsHide:true, timeout:15000});
+      assert.equal(result.status, 1, result.error?.message ?? result.stderr);
+      assert.match(result.stderr, /Production output must be inside the project/, destination);
+    }
   } finally {
     await fs.unlink(alias).catch(error => { if (error.code !== 'ENOENT') throw error; });
     await fs.rmdir(scratch);
@@ -81,7 +92,7 @@ Module._load = function (name, ...args) {
     fs.writeFileSync(path.join(scratch, 'launch.tmp'), 'Playwright scratch fixture');
     if (process.env.CHARACTER_QA_TEST_PHASE === 'launch') throw Error('simulated launch failure');
     const start = async () => { throw Error('simulated post-launch failure'); };
-    return {version:()=>'fixture', newBrowserCDPSession:start, newContext:start,
+    return {version:()=>'fixture', newBrowserCDPSession:start, newContext:start, newPage:start,
       close:async () => fs.writeFileSync(path.join(path.dirname(scratch), 'browser-closed'), 'closed')};
   }}};
 };
@@ -104,6 +115,7 @@ Module._load = function (name, ...args) {
     ['qa-garment-cold-package.cjs', out=>[base, build, selected, opposite, out]],
     ['qa-production-outfit-selection-guards.cjs', out=>[base, out, selected, build, '--slot=top']],
     ['qa-record-budget-runtime.cjs', out=>[base, selected, out, build]],
+    ['qa-production-record-room.cjs', out=>[base, path.join(root,'prototype/public/assets/record-consumer-v1/native-female.json'), path.relative(fixture,out)]],
   ]) {
     for (const phase of ['launch','post-launch']) {
       const out = path.join(fixture, script.replace('.cjs','')+'-'+phase);

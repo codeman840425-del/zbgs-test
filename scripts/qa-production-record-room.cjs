@@ -1,16 +1,20 @@
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
 const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
 const [base,recordFile,folder]=process.argv.slice(2);
 (async()=>{const out=await projectOutput(folder,await productionRoot());
  const {canonicalJson}=await import('../prototype/src/character-record.js');const record=JSON.parse(await fs.readFile(recordFile,'utf8'));await fs.mkdir(out,{recursive:false});await fs.copyFile(recordFile,path.join(out,'input-record.json'));await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
- const {chromium}=require('../prototype/node_modules/playwright');
- const browser=await chromium.launch({channel:'chrome',headless:true}),page=await browser.newPage({viewport:{width:1440,height:1000}}),report={status:'incomplete',identity:record.identity,recordSha256:record.integrity.recordSha256,errors:[],tasks:[]};
- page.on('pageerror',e=>report.errors.push(e.message));
+ const report={status:'incomplete',identity:record.identity,recordSha256:record.integrity.recordSha256,errors:[],tasks:[]};
+ let session,page;
  const task=async(id,kind,payload={})=>{await page.evaluate(request=>{
    window.__roomProductionFilm.phase=request.kind;
    return __debug.request(request);
  },{requestId:id,kind,payload});await page.waitForFunction(id=>['completed','failed','cancelled'].includes(__debug.tasks().get(id)?.state),id,{timeout:45000});const value=await page.evaluate(id=>__debug.tasks().get(id),id);assert.equal(value.state,'completed',JSON.stringify(value));report.tasks.push(value);};
  try{
+  session=await launchQABrowser(out,{channel:'chrome'});
+  const {browser}=session;
+  page=await browser.newPage({viewport:{width:1440,height:1000}});
+  page.on('pageerror',e=>report.errors.push(e.message));
   const url=new URL(base);url.searchParams.set('workbench','appearance');url.searchParams.set('body',record.appearanceRecipe.base.bodyType);
   const previewOverride=process.env.QA_NATIVE_HAIR_CENTER;
   const expectedFit=record.nativeHairCenter?.id ?? previewOverride;
@@ -89,6 +93,9 @@ const [base,recordFile,folder]=process.argv.slice(2);
       report.freshRestore={bodyType:reread.appearanceRecipe.base.bodyType,identity:reread.identity};
     }finally{await fresh.close();}
   assert.equal(report.errors.length,0,JSON.stringify(report.errors));report.status='technical-pass-visual-candidate';
- }catch(error){report.failure=String(error.stack||error);process.exitCode=1;await page.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});}
- finally{await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:report.status,build:report.build?.shortId,failure:report.failure}));}
+ }catch(error){report.failure=String(error.stack||error);process.exitCode=1;if(page&&!page.isClosed())await page.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});}
+ finally{
+  try{await session?.close();}
+  finally{await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:report.status,build:report.build?.shortId,failure:report.failure}));}
+ }
 })();
