@@ -1,0 +1,359 @@
+{
+  "manifestSha256": "1306f59e9a6a90f0a83c2d7225c20e439e628e7d41c7b6ed4945c554279e0696",
+  "buildId": "5301d1b046ba",
+  "scope": "Node CPU authoring; two separate Node processes per room/runtime. The cold process receives only public save bytes and starts with an empty company. No GPU/browser.",
+  "cases": [
+    {
+      "source": "original",
+      "room": "tea-rental",
+      "models": {
+        "counter": {
+          "instance": "tea-rental/ground/living/tea-station",
+          "resource": {
+            "id": "tea-counter-pantry",
+            "version": 1
+          },
+          "sha256": "3dae6e71d27dbf440e4a3d429cf45243d8638e8d01391afe6de01cd7cbfda5a5",
+          "parentId": "tea-rental/ground/living"
+        },
+        "cup": {
+          "instance": "tea-rental/ground/living/tea-station/cup",
+          "resource": {
+            "id": "tea-ceramic-cup",
+            "version": 1
+          },
+          "sha256": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a",
+          "parentId": "tea-rental/ground/living/tea-station/machine"
+        },
+        "machine": {
+          "instance": "tea-rental/ground/living/tea-station/machine",
+          "resource": {
+            "id": "tea-coffee-machine",
+            "version": 1
+          },
+          "sha256": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673",
+          "parentId": "tea-rental/ground/living/tea-station"
+        }
+      },
+      "runtimePins": {
+        "prototype/src/company/authoring.js": "d83787a38e7ce364bb4a36a9e96111e41f410a388e2a2ab54d020872da044a5c",
+        "prototype/src/company/render.js": "db4be5ea2f3e727524ac0ab05ba3d3794f1fe9cb74e9a7706e2d806c42f501fa",
+        "prototype/src/company/document.js": "f8ab165d8fda092608ecb6fba61a32c74ab40b5f8e2b9fe0cb8a2f57a8512ed1",
+        "prototype/src/company/persistence.js": "6bf3db3673cb1ab93aeb1d485aeee8e5997fc41d422dc77f7d0f87310f3c71b4",
+        "prototype/src/company/asset-library.js": "b38efcd1ebd5edf2cea89e58ee68d209f3fa75a83b9b7fa8062000401d628ef1",
+        "scripts/company-platform/check-tea-station.mjs": "2fd84712ff9ca73abbd20da0dc9360e1a3a50078c4d14c9e3da741078b0990e2",
+        "prototype/package-lock.json": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b"
+      },
+      "sourceLayoutSha256": "095ca05ef53ca1ce6c445980319d659487f647e52b27f4e2bf13adf4938a2932",
+      "initialYaw": 0,
+      "operation": {
+        "type": "move",
+        "id": "tea-rental/ground/living/tea-station",
+        "transform": {
+          "position": [
+            -1.52,
+            0,
+            -1.5
+          ],
+          "yaw": 3.141592653589793
+        }
+      },
+      "service": [
+        -1.56,
+        -0.65
+      ],
+      "originalIndependentCheck": {
+        "ok": true,
+        "serviceDoors": 3,
+        "occupiedCleaningPassage": 0
+      },
+      "applyAccepted": true,
+      "saveAccepted": true,
+      "coldRestoreAccepted": true,
+      "freshProcessAndObjects": true,
+      "revision": 3,
+      "saveSha256": "717281ef985eb3e4f8fe93e75b4c3bf5bfaef9d0c0055db7dbc21ad4a46ed8e3",
+      "documentSha256": "afe054c8c7ae2521adbd89588896697d9901c8388863e28a96467e1425107eee",
+      "negativeIndependentCheck": {
+        "code": "tea-station-clearance-outside",
+        "path": "tea-rental/ground/living/tea-station",
+        "details": {
+          "min": [
+            -1.92,
+            0,
+            -2.67
+          ],
+          "max": [
+            -1.12,
+            1.9,
+            -1.82
+          ]
+        }
+      }
+    },
+    {
+      "source": "original",
+      "room": "tea-floor",
+      "models": {
+        "counter": {
+          "instance": "tea-floor/ground/corridor-2/tea-station",
+          "resource": {
+            "id": "tea-counter-coffee",
+            "version": 1
+          },
+          "sha256": "9977666f514de0f573f8379ed962a7f051f9b969ee542a597b39f2604c0da545",
+          "parentId": "tea-floor/ground/corridor-2"
+        },
+        "cup": {
+          "instance": "tea-floor/ground/corridor-2/tea-station/cup",
+          "resource": {
+            "id": "tea-ceramic-cup",
+            "version": 1
+          },
+          "sha256": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a",
+          "parentId": "tea-floor/ground/corridor-2/tea-station/machine"
+        },
+        "machine": {
+          "instance": "tea-floor/ground/corridor-2/tea-station/machine",
+          "resource": {
+            "id": "tea-coffee-machine",
+            "version": 1
+          },
+          "sha256": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673",
+          "parentId": "tea-floor/ground/corridor-2/tea-station"
+        }
+      },
+      "runtimePins": {
+        "prototype/src/company/authoring.js": "d83787a38e7ce364bb4a36a9e96111e41f410a388e2a2ab54d020872da044a5c",
+        "prototype/src/company/render.js": "db4be5ea2f3e727524ac0ab05ba3d3794f1fe9cb74e9a7706e2d806c42f501fa",
+        "prototype/src/company/document.js": "f8ab165d8fda092608ecb6fba61a32c74ab40b5f8e2b9fe0cb8a2f57a8512ed1",
+        "prototype/src/company/persistence.js": "6bf3db3673cb1ab93aeb1d485aeee8e5997fc41d422dc77f7d0f87310f3c71b4",
+        "prototype/src/company/asset-library.js": "b38efcd1ebd5edf2cea89e58ee68d209f3fa75a83b9b7fa8062000401d628ef1",
+        "scripts/company-platform/check-tea-station.mjs": "2fd84712ff9ca73abbd20da0dc9360e1a3a50078c4d14c9e3da741078b0990e2",
+        "prototype/package-lock.json": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b"
+      },
+      "sourceLayoutSha256": "2be8ee5ceb03e64f07577087c2e1f3dd786db264de438cabda22f647857c8609",
+      "initialYaw": 3.141592653589793,
+      "operation": {
+        "type": "move",
+        "id": "tea-floor/ground/corridor-2/tea-station",
+        "transform": {
+          "position": [
+            0,
+            0,
+            1.05
+          ],
+          "yaw": 6.283185307179586
+        }
+      },
+      "service": [
+        0,
+        0.28
+      ],
+      "originalIndependentCheck": {
+        "ok": true,
+        "serviceDoors": 6,
+        "occupiedCleaningPassage": 2
+      },
+      "applyAccepted": true,
+      "saveAccepted": true,
+      "coldRestoreAccepted": true,
+      "freshProcessAndObjects": true,
+      "revision": 3,
+      "saveSha256": "fc3f78b8f2c85a7554c61d267f837d9ab7fc249d1f8289a4e890849759ae62c7",
+      "documentSha256": "0d901eab84fbfc39af091f2d3a079e355ffe26b09c2db1037fb8b6a4f111cead",
+      "negativeIndependentCheck": {
+        "code": "tea-station-clearance-outside",
+        "path": "tea-floor/ground/corridor-2/tea-station",
+        "details": {
+          "min": [
+            -0.4,
+            0,
+            1.37
+          ],
+          "max": [
+            0.4,
+            1.9,
+            2.22
+          ]
+        }
+      }
+    },
+    {
+      "source": "current",
+      "room": "tea-rental",
+      "models": {
+        "counter": {
+          "instance": "tea-rental/ground/living/tea-station",
+          "resource": {
+            "id": "tea-counter-pantry",
+            "version": 1
+          },
+          "sha256": "3dae6e71d27dbf440e4a3d429cf45243d8638e8d01391afe6de01cd7cbfda5a5",
+          "parentId": "tea-rental/ground/living"
+        },
+        "cup": {
+          "instance": "tea-rental/ground/living/tea-station/cup",
+          "resource": {
+            "id": "tea-ceramic-cup",
+            "version": 1
+          },
+          "sha256": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a",
+          "parentId": "tea-rental/ground/living/tea-station/machine"
+        },
+        "machine": {
+          "instance": "tea-rental/ground/living/tea-station/machine",
+          "resource": {
+            "id": "tea-coffee-machine",
+            "version": 1
+          },
+          "sha256": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673",
+          "parentId": "tea-rental/ground/living/tea-station"
+        }
+      },
+      "runtimePins": {
+        "prototype/src/company/authoring.js": "7c476945b1280e7e466d98435b94e98c9cf566bf24be372b8d40065ccd0f9276",
+        "prototype/src/company/render.js": "4b0508d9c06d0160111cb457cb551a0a038ae6c3bb9745e477c2ac6784163090",
+        "prototype/src/company/document.js": "d81791e667d8fa281156d5f04e1861b0b1187b951f662f62c0b9c4b989efa238",
+        "prototype/src/company/persistence.js": "f25af7cdbf8aced51ece169e449455b3b3a094a93fbf1285c245054af9e08199",
+        "prototype/src/company/asset-library.js": "ac3e23961538c2e9586c7221f039baa610bed0f0e57be1365cc4fbcdb964b05b",
+        "scripts/company-platform/check-tea-station.mjs": "2fd84712ff9ca73abbd20da0dc9360e1a3a50078c4d14c9e3da741078b0990e2",
+        "prototype/package-lock.json": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b"
+      },
+      "sourceLayoutSha256": "095ca05ef53ca1ce6c445980319d659487f647e52b27f4e2bf13adf4938a2932",
+      "initialYaw": 0,
+      "operation": {
+        "type": "move",
+        "id": "tea-rental/ground/living/tea-station",
+        "transform": {
+          "position": [
+            -1.52,
+            0,
+            -1.5
+          ],
+          "yaw": 3.141592653589793
+        }
+      },
+      "service": [
+        -1.56,
+        -0.65
+      ],
+      "originalIndependentCheck": {
+        "ok": true,
+        "serviceDoors": 3,
+        "occupiedCleaningPassage": 0
+      },
+      "applyAccepted": true,
+      "saveAccepted": true,
+      "coldRestoreAccepted": true,
+      "freshProcessAndObjects": true,
+      "revision": 3,
+      "saveSha256": "717281ef985eb3e4f8fe93e75b4c3bf5bfaef9d0c0055db7dbc21ad4a46ed8e3",
+      "documentSha256": "afe054c8c7ae2521adbd89588896697d9901c8388863e28a96467e1425107eee",
+      "negativeIndependentCheck": {
+        "code": "tea-station-clearance-outside",
+        "path": "tea-rental/ground/living/tea-station",
+        "details": {
+          "min": [
+            -1.92,
+            0,
+            -2.67
+          ],
+          "max": [
+            -1.12,
+            1.9,
+            -1.82
+          ]
+        }
+      }
+    },
+    {
+      "source": "current",
+      "room": "tea-floor",
+      "models": {
+        "counter": {
+          "instance": "tea-floor/ground/corridor-2/tea-station",
+          "resource": {
+            "id": "tea-counter-coffee",
+            "version": 1
+          },
+          "sha256": "9977666f514de0f573f8379ed962a7f051f9b969ee542a597b39f2604c0da545",
+          "parentId": "tea-floor/ground/corridor-2"
+        },
+        "cup": {
+          "instance": "tea-floor/ground/corridor-2/tea-station/cup",
+          "resource": {
+            "id": "tea-ceramic-cup",
+            "version": 1
+          },
+          "sha256": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a",
+          "parentId": "tea-floor/ground/corridor-2/tea-station/machine"
+        },
+        "machine": {
+          "instance": "tea-floor/ground/corridor-2/tea-station/machine",
+          "resource": {
+            "id": "tea-coffee-machine",
+            "version": 1
+          },
+          "sha256": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673",
+          "parentId": "tea-floor/ground/corridor-2/tea-station"
+        }
+      },
+      "runtimePins": {
+        "prototype/src/company/authoring.js": "7c476945b1280e7e466d98435b94e98c9cf566bf24be372b8d40065ccd0f9276",
+        "prototype/src/company/render.js": "4b0508d9c06d0160111cb457cb551a0a038ae6c3bb9745e477c2ac6784163090",
+        "prototype/src/company/document.js": "d81791e667d8fa281156d5f04e1861b0b1187b951f662f62c0b9c4b989efa238",
+        "prototype/src/company/persistence.js": "f25af7cdbf8aced51ece169e449455b3b3a094a93fbf1285c245054af9e08199",
+        "prototype/src/company/asset-library.js": "ac3e23961538c2e9586c7221f039baa610bed0f0e57be1365cc4fbcdb964b05b",
+        "scripts/company-platform/check-tea-station.mjs": "2fd84712ff9ca73abbd20da0dc9360e1a3a50078c4d14c9e3da741078b0990e2",
+        "prototype/package-lock.json": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b"
+      },
+      "sourceLayoutSha256": "2be8ee5ceb03e64f07577087c2e1f3dd786db264de438cabda22f647857c8609",
+      "initialYaw": 3.141592653589793,
+      "operation": {
+        "type": "move",
+        "id": "tea-floor/ground/corridor-2/tea-station",
+        "transform": {
+          "position": [
+            0,
+            0,
+            1.05
+          ],
+          "yaw": 6.283185307179586
+        }
+      },
+      "service": [
+        0,
+        0.28
+      ],
+      "originalIndependentCheck": {
+        "ok": true,
+        "serviceDoors": 6,
+        "occupiedCleaningPassage": 2
+      },
+      "applyAccepted": true,
+      "saveAccepted": true,
+      "coldRestoreAccepted": true,
+      "freshProcessAndObjects": true,
+      "revision": 3,
+      "saveSha256": "fc3f78b8f2c85a7554c61d267f837d9ab7fc249d1f8289a4e890849759ae62c7",
+      "documentSha256": "0d901eab84fbfc39af091f2d3a079e355ffe26b09c2db1037fb8b6a4f111cead",
+      "negativeIndependentCheck": {
+        "code": "tea-station-clearance-outside",
+        "path": "tea-floor/ground/corridor-2/tea-station",
+        "details": {
+          "min": [
+            -0.4,
+            0,
+            1.37
+          ],
+          "max": [
+            0.4,
+            1.9,
+            2.22
+          ]
+        }
+      }
+    }
+  ]
+}

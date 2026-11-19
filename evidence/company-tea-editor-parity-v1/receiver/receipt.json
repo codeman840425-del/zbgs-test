@@ -1,0 +1,455 @@
+{
+  "status": "passed",
+  "original": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\candidate",
+  "manifestSha256": "52e7c5473f68e3f1ff8a9ff39bc83d96dc708e665e2806e6d096dd1e33277b97",
+  "build": "1ffa066260bf",
+  "workingSource": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\received\\source",
+  "commands": [
+    {
+      "label": "01-original",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\candidate",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\candidate",
+        "52e7c5473f68e3f1ff8a9ff39bc83d96dc708e665e2806e6d096dd1e33277b97"
+      ],
+      "stdout": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\01-original.stdout.log",
+      "stderr": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\01-original.stderr.log",
+      "exit": 0
+    },
+    {
+      "label": "02-copy",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\received",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\received\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\received",
+        "52e7c5473f68e3f1ff8a9ff39bc83d96dc708e665e2806e6d096dd1e33277b97"
+      ],
+      "stdout": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\02-copy.stdout.log",
+      "stderr": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\02-copy.stderr.log",
+      "exit": 0
+    },
+    {
+      "label": "03-npm-empty-cache",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\received\\source\\prototype",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+        "ci",
+        "--cache",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\npm-cache",
+        "--prefer-online",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "stdout": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\03-npm-empty-cache.stdout.log",
+      "stderr": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\03-npm-empty-cache.stderr.log",
+      "exit": 0
+    },
+    {
+      "label": "04-build-id",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\received\\source\\prototype",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\received\\source\\prototype\\scripts\\build-company-id.mjs"
+      ],
+      "stdout": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\04-build-id.stdout.log",
+      "stderr": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\04-build-id.stderr.log",
+      "exit": 0
+    },
+    {
+      "label": "05-vite",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\received\\source\\prototype",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\received\\source\\prototype\\node_modules\\vite\\bin\\vite.js",
+        "build",
+        "--config",
+        "vite.company.config.js"
+      ],
+      "stdout": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\05-vite.stdout.log",
+      "stderr": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\05-vite.stderr.log",
+      "exit": 0
+    },
+    {
+      "label": "06-compare-all-runtime",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\candidate",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\candidate",
+        "52e7c5473f68e3f1ff8a9ff39bc83d96dc708e665e2806e6d096dd1e33277b97",
+        "--viewer",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\received\\source\\prototype\\dist-company"
+      ],
+      "stdout": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\06-compare-all-runtime.stdout.log",
+      "stderr": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\06-compare-all-runtime.stderr.log",
+      "exit": 0
+    },
+    {
+      "label": "07-generate-existing-family",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\received\\source",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\build-tea-station.mjs",
+        "--output",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\models"
+      ],
+      "stdout": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\07-generate-existing-family.stdout.log",
+      "stderr": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\07-generate-existing-family.stderr.log",
+      "exit": 0
+    },
+    {
+      "label": "08-receiver-parity",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\received\\source",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\received\\source\\scripts\\company-platform\\test-tea-editor-parity.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\parity",
+        "tea-counter-water@1"
+      ],
+      "stdout": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\08-receiver-parity.stdout.log",
+      "stderr": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\08-receiver-parity.stderr.log",
+      "exit": 0
+    },
+    {
+      "label": "09-original-after",
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\candidate",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\candidate\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\candidate",
+        "52e7c5473f68e3f1ff8a9ff39bc83d96dc708e665e2806e6d096dd1e33277b97"
+      ],
+      "stdout": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\09-original-after.stdout.log",
+      "stderr": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\logs\\09-original-after.stderr.log",
+      "exit": 0
+    }
+  ],
+  "seal": {
+    "ok": true,
+    "build": "1ffa066260bf",
+    "manifestSha256": "52e7c5473f68e3f1ff8a9ff39bc83d96dc708e665e2806e6d096dd1e33277b97",
+    "declaredFiles": 2623,
+    "checkedFiles": 2623,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "received": {
+    "ok": true,
+    "build": "1ffa066260bf",
+    "manifestSha256": "52e7c5473f68e3f1ff8a9ff39bc83d96dc708e665e2806e6d096dd1e33277b97",
+    "declaredFiles": 2623,
+    "checkedFiles": 2623,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "lockSha256": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b",
+  "npmCache": {
+    "before": [],
+    "after": [
+      "_cacache",
+      "_logs"
+    ]
+  },
+  "viewer": {
+    "ok": true,
+    "build": "1ffa066260bf",
+    "manifestSha256": "52e7c5473f68e3f1ff8a9ff39bc83d96dc708e665e2806e6d096dd1e33277b97",
+    "declaredFiles": 713,
+    "checkedFiles": 713,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0,
+    "scope": "rebuilt-viewer"
+  },
+  "models": {
+    "tea-counter-water": {
+      "version": 1,
+      "model.glb": "045b80ce41906c8feb3e3dd4aec1502d93cdb5bf7a57af306f7b05b99658282b",
+      "resource.json": "f8055c5136e8dabb18ac0e8ce5bdd27582378da5074b7d83835dc21e050ba8e4"
+    },
+    "tea-counter-pantry": {
+      "version": 1,
+      "model.glb": "3dae6e71d27dbf440e4a3d429cf45243d8638e8d01391afe6de01cd7cbfda5a5",
+      "resource.json": "d1e79696996c91ce78b52a33e1c3516e4f565d8c8437b4bb994bd603b99dceab"
+    },
+    "tea-counter-coffee": {
+      "version": 1,
+      "model.glb": "9977666f514de0f573f8379ed962a7f051f9b969ee542a597b39f2604c0da545",
+      "resource.json": "2573cf17c2001fa0d0dde1b6d60049f68388b2df1abc6db531f9141ad8202dad"
+    },
+    "tea-counter-open": {
+      "version": 1,
+      "model.glb": "a829726a61cf2fc2ef565e5f7c9f1a639d3be82b4fba2d4acb19e2e6bf2f5d66",
+      "resource.json": "21904108cb4036e5d74e94b24d600e228851499239fdabe68a2ceef6d3bf306f"
+    },
+    "tea-coffee-machine": {
+      "version": 1,
+      "model.glb": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673",
+      "resource.json": "7b60e6a387dca0a05337de92b0911fe23412dcffb7d2a93c2a9a58b15412cd67"
+    },
+    "tea-ceramic-cup": {
+      "version": 1,
+      "model.glb": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a",
+      "resource.json": "1477132ef89bf852caaed78ed3af0561c45ae2a9d18ed7e2cf479e56decdf6de"
+    }
+  },
+  "runnerSha": "8b697593f604ee61b5ac93ea7bf3b1873141dd3efa0e5961fb28d80149461acf",
+  "parity": {
+    "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\tea-editor-parity-v1\\receiver\\run-01\\parity",
+    "reportSha256": "48f58aa4371f5dce188421e69cefbcc0bb1997b93f637939363ed7cd1ec37e87",
+    "selected": "tea-counter-water@1",
+    "rooms": [
+      {
+        "label": "tea-rental",
+        "original": {
+          "id": "tea-counter-pantry",
+          "version": 1
+        },
+        "chosen": {
+          "id": "tea-counter-water",
+          "version": 1
+        },
+        "legalSaveSha256": "b6e988601fb83b5e3fb70615fef84cd9aadea9621e2b1e5ec0ed21ab4011a88a",
+        "refusals": 5,
+        "successfulDoors": 3,
+        "twoPhysicalContacts": [
+          {
+            "parentId": "tea-rental/ground/living/tea-station",
+            "childId": "tea-rental/ground/living/tea-station/machine",
+            "surfaceId": "counter",
+            "mesh": "countertop",
+            "point": [
+              -1.5891821,
+              0.9,
+              -1.5643319
+            ]
+          },
+          {
+            "parentId": "tea-rental/ground/living/tea-station/machine",
+            "childId": "tea-rental/ground/living/tea-station/cup",
+            "surfaceId": "tray",
+            "mesh": "tea-machine-tray",
+            "point": [
+              -1.5363048,
+              0.951246,
+              -1.3720681
+            ]
+          }
+        ],
+        "lowLevel": {
+          "rejectedAt": [
+            "save",
+            "export"
+          ],
+          "code": "tea-station-clearance-outside",
+          "restoredSha256": "b3a9aed995b1429055d888e8ed5c16d34cac8f51eb87cd9fad140313e47fbfb4"
+        },
+        "race": {
+          "refused": "revision-conflict",
+          "retained": {
+            "id": "tea-counter-water",
+            "version": 1
+          }
+        },
+        "drag": {
+          "roomCount": 3,
+          "view": "floor",
+          "timings": [
+            {
+              "tag": "first-legal",
+              "ms": 40.94
+            },
+            {
+              "tag": "move-0.008",
+              "ms": 17.98
+            },
+            {
+              "tag": "turn-rejected",
+              "ms": 14.65
+            },
+            {
+              "tag": "actual-side-table-rejected",
+              "ms": 45.29
+            },
+            {
+              "tag": "legal-recovered",
+              "ms": 33.7
+            }
+          ],
+          "unchangedSave": "b3a9aed995b1429055d888e8ed5c16d34cac8f51eb87cd9fad140313e47fbfb4"
+        }
+      },
+      {
+        "label": "tea-floor",
+        "original": {
+          "id": "tea-counter-coffee",
+          "version": 1
+        },
+        "chosen": {
+          "id": "tea-counter-water",
+          "version": 1
+        },
+        "legalSaveSha256": "1afe066de7893e075dc11829745b2781999f31b9086ecc1ec25bee54c6ada9bb",
+        "refusals": 5,
+        "successfulDoors": 6,
+        "twoPhysicalContacts": [
+          {
+            "parentId": "tea-floor/ground/corridor-2/tea-station",
+            "childId": "tea-floor/ground/corridor-2/tea-station/machine",
+            "surfaceId": "counter",
+            "mesh": "countertop",
+            "point": [
+              0.0691821,
+              0.9,
+              1.1143319
+            ]
+          },
+          {
+            "parentId": "tea-floor/ground/corridor-2/tea-station/machine",
+            "childId": "tea-floor/ground/corridor-2/tea-station/cup",
+            "surfaceId": "tray",
+            "mesh": "tea-machine-tray",
+            "point": [
+              0.0163048,
+              0.951246,
+              0.9220681
+            ]
+          }
+        ],
+        "lowLevel": {
+          "rejectedAt": [
+            "save",
+            "export"
+          ],
+          "code": "tea-station-clearance-outside",
+          "restoredSha256": "b8a8588c2ad262f91400ce62d9e3d29308a7cee65c1334e15ddfbc7310229dbc"
+        },
+        "race": {
+          "refused": "revision-conflict",
+          "retained": {
+            "id": "tea-counter-water",
+            "version": 1
+          }
+        },
+        "drag": {
+          "roomCount": 16,
+          "view": "floor",
+          "timings": [
+            {
+              "tag": "first-legal",
+              "ms": 72.36
+            },
+            {
+              "tag": "move-0.008",
+              "ms": 24.49
+            },
+            {
+              "tag": "move--0.012",
+              "ms": 23.48
+            },
+            {
+              "tag": "move-0.018",
+              "ms": 25.15
+            },
+            {
+              "tag": "turn-rejected",
+              "ms": 16.79
+            },
+            {
+              "tag": "actual-side-table-rejected",
+              "ms": 44.65
+            },
+            {
+              "tag": "legal-recovered",
+              "ms": 40.77
+            }
+          ],
+          "unchangedSave": "b8a8588c2ad262f91400ce62d9e3d29308a7cee65c1334e15ddfbc7310229dbc"
+        }
+      },
+      {
+        "label": "hidden-floor",
+        "original": {
+          "id": "tea-counter-coffee",
+          "version": 1
+        },
+        "chosen": {
+          "id": "tea-counter-water",
+          "version": 1
+        },
+        "legalSaveSha256": "a87a5f9a474914ed98f822658aca895072acacf46f8b399f2b1fca27d87c461d",
+        "refusals": 5,
+        "successfulDoors": 6,
+        "twoPhysicalContacts": [
+          {
+            "parentId": "tea-floor/ground/corridor-2/tea-station",
+            "childId": "tea-floor/ground/corridor-2/tea-station/machine",
+            "surfaceId": "counter",
+            "mesh": "countertop",
+            "point": [
+              0.0691821,
+              0.9,
+              1.1143319
+            ]
+          },
+          {
+            "parentId": "tea-floor/ground/corridor-2/tea-station/machine",
+            "childId": "tea-floor/ground/corridor-2/tea-station/cup",
+            "surfaceId": "tray",
+            "mesh": "tea-machine-tray",
+            "point": [
+              0.0163048,
+              0.951246,
+              0.9220681
+            ]
+          }
+        ],
+        "lowLevel": {
+          "rejectedAt": [
+            "save",
+            "export"
+          ],
+          "code": "tea-station-clearance-outside",
+          "restoredSha256": "e93147931457024c76edcfe335bd768094016a03aae89e087e7887eb2edc51e8"
+        },
+        "race": {
+          "refused": "revision-conflict",
+          "retained": {
+            "id": "tea-counter-water",
+            "version": 1
+          }
+        }
+      }
+    ]
+  },
+  "originalRoomFiles": {
+    "tea-rental": {
+      "input.json": "10ed3d9b8b41d99b34424982f1295a1ebe319258d8d4f96de7d8e556abf4e639",
+      "layout.json": "095ca05ef53ca1ce6c445980319d659487f647e52b27f4e2bf13adf4938a2932",
+      "save.json": "e895500cfb1e16609a04c82e82d062312c40649e0dd25797916d71197d2f7fa4",
+      "report.json": "cce327cf8528fc05244a8a6239d3c6b31f3943b37e870d5e77178ea492efd723"
+    },
+    "tea-floor": {
+      "input.json": "7fe892da16eaf7bca21c88ca1fcf73c39e470fe0960d0fcd74066beaa9f16203",
+      "layout.json": "2be8ee5ceb03e64f07577087c2e1f3dd786db264de438cabda22f647857c8609",
+      "save.json": "4a1061b4b36990ce28a358e26624d5e429ae733a45725e98c42c7ade2e6b98ff",
+      "report.json": "c0bba2a35aa81b3fe0796a3f90d9181830804964a5aedacb806a7eea78f9d26b"
+    }
+  },
+  "finalSeal": {
+    "ok": true,
+    "build": "1ffa066260bf",
+    "manifestSha256": "52e7c5473f68e3f1ff8a9ff39bc83d96dc708e665e2806e6d096dd1e33277b97",
+    "declaredFiles": 2623,
+    "checkedFiles": 2623,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  }
+}

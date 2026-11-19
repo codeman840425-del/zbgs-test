@@ -1,0 +1,3155 @@
+{
+  "status": "passed",
+  "scope": "CPU transactions using the native authoring entry and batch CLI; independent cold Node processes.",
+  "knownFailure": {
+    "packageManifest": "1306f59e9a6a90f0a83c2d7225c20e439e628e7d41c7b6ed4945c554279e0696",
+    "build": "5301d1b046ba"
+  },
+  "selectedCounter": "tea-counter-water@1",
+  "rooms": [
+    {
+      "label": "tea-rental",
+      "company": "tea-rental",
+      "counterId": "tea-rental/ground/living/tea-station",
+      "errors": {
+        "rotation": {
+          "code": "tea-station-clearance-outside",
+          "path": "tea-rental/ground/living/tea-station",
+          "details": {
+            "min": [
+              -1.92,
+              0,
+              -2.67
+            ],
+            "max": [
+              -1.12,
+              1.9,
+              -1.82
+            ]
+          }
+        },
+        "service": {
+          "code": "tea-station-service-point",
+          "path": "tea-rental/ground/living/tea-station",
+          "details": {
+            "service": [
+              -0.91,
+              -0.65
+            ]
+          }
+        },
+        "obstruction": {
+          "code": "tea-station-clearance-obstructed",
+          "path": "tea-rental/ground/living/parity-side-table",
+          "details": {
+            "areaId": "tea-rental/ground/living",
+            "failures": [
+              {
+                "region": "cleaning",
+                "kind": "mesh-surface",
+                "componentId": "tea-rental/ground/living/parity-side-table",
+                "part": "side-table-round-support",
+                "resourceId": "side-table-round"
+              },
+              {
+                "region": "cleaning",
+                "kind": "mesh-surface",
+                "componentId": "tea-rental/ground/living/parity-side-table",
+                "part": "side-table-round-board",
+                "resourceId": "side-table-round"
+              },
+              {
+                "region": "cleaning",
+                "kind": "mesh-surface",
+                "componentId": "tea-rental/ground/living/parity-side-table",
+                "part": "side-table-top",
+                "resourceId": "side-table-round"
+              },
+              {
+                "region": "cleaning",
+                "kind": "blocking-footprint",
+                "componentId": "tea-rental/ground/living/parity-side-table"
+              }
+            ]
+          }
+        }
+      },
+      "baseline": {
+        "floorId": "tea-rental/ground",
+        "portal": "tea-rental/ground/portal-rest-living",
+        "contacts": [
+          {
+            "parentId": "tea-rental/ground/living/tea-station",
+            "childId": "tea-rental/ground/living/tea-station/machine",
+            "surfaceId": "counter",
+            "mesh": "countertop",
+            "point": [
+              -1.5891821,
+              0.9,
+              -1.5643319
+            ]
+          },
+          {
+            "parentId": "tea-rental/ground/living/tea-station/machine",
+            "childId": "tea-rental/ground/living/tea-station/cup",
+            "surfaceId": "tray",
+            "mesh": "tea-machine-tray",
+            "point": [
+              -1.5363048,
+              0.951246,
+              -1.3720681
+            ]
+          }
+        ],
+        "serviceDoors": [
+          {
+            "portalId": "tea-rental/ground/portal-stream-living",
+            "fromRegion": "tea-rental/ground/live",
+            "threshold": [
+              -2.25,
+              0
+            ],
+            "approach": [
+              [
+                -1.8,
+                1.5
+              ],
+              [
+                1.8,
+                1.5
+              ],
+              [
+                1.8,
+                0.45
+              ],
+              [
+                2,
+                0.45
+              ],
+              [
+                2,
+                0
+              ]
+            ],
+            "inside": [
+              [
+                -2,
+                0
+              ],
+              [
+                -2,
+                -0.45
+              ],
+              [
+                -1.8,
+                -0.45
+              ],
+              [
+                -1.8,
+                -0.65
+              ],
+              [
+                -1.56,
+                -0.65
+              ]
+            ]
+          },
+          {
+            "portalId": "tea-rental/ground/portal-work-living",
+            "fromRegion": "tea-rental/ground/work",
+            "threshold": [
+              2.25,
+              0
+            ],
+            "approach": [
+              [
+                1.8,
+                1.5
+              ],
+              [
+                -1.8,
+                1.5
+              ],
+              [
+                -1.8,
+                0.45
+              ],
+              [
+                -2,
+                0.45
+              ],
+              [
+                -2,
+                0
+              ]
+            ],
+            "inside": [
+              [
+                2,
+                0
+              ],
+              [
+                2,
+                0.35
+              ],
+              [
+                -1.4,
+                0.35
+              ],
+              [
+                -1.4,
+                -0.65
+              ],
+              [
+                -1.56,
+                -0.65
+              ]
+            ]
+          },
+          {
+            "portalId": "tea-rental/ground/portal-rest-living",
+            "fromRegion": "tea-rental/ground/rest",
+            "threshold": [
+              0,
+              2
+            ],
+            "approach": [
+              [
+                1.7,
+                1.4
+              ],
+              [
+                1.4,
+                1.4
+              ],
+              [
+                1.4,
+                -0.35
+              ],
+              [
+                0,
+                -0.35
+              ],
+              [
+                0,
+                -1.75
+              ]
+            ],
+            "inside": [
+              [
+                0,
+                1.75
+              ],
+              [
+                0,
+                0.45
+              ],
+              [
+                -1.4,
+                0.45
+              ],
+              [
+                -1.4,
+                -0.65
+              ],
+              [
+                -1.56,
+                -0.65
+              ]
+            ]
+          }
+        ],
+        "occupiedPassage": []
+      },
+      "refusals": [
+        {
+          "action": "apply-rotate",
+          "code": "tea-station-clearance-outside",
+          "path": "tea-rental/ground/living/tea-station",
+          "unchangedSave": "b3a9aed995b1429055d888e8ed5c16d34cac8f51eb87cd9fad140313e47fbfb4"
+        },
+        {
+          "action": "apply-obstruction",
+          "code": "tea-station-clearance-obstructed",
+          "path": "tea-rental/ground/living/parity-side-table",
+          "unchangedSave": "b3a9aed995b1429055d888e8ed5c16d34cac8f51eb87cd9fad140313e47fbfb4"
+        },
+        {
+          "action": "import-bad-service",
+          "code": "tea-station-service-point",
+          "path": "tea-rental/ground/living/tea-station",
+          "unchangedSave": "b3a9aed995b1429055d888e8ed5c16d34cac8f51eb87cd9fad140313e47fbfb4"
+        },
+        {
+          "action": "load-bad-rotation",
+          "code": "tea-station-clearance-outside",
+          "path": "tea-rental/ground/living/tea-station",
+          "unchangedSave": "b3a9aed995b1429055d888e8ed5c16d34cac8f51eb87cd9fad140313e47fbfb4"
+        },
+        {
+          "action": "restore-signed-bad-rotation",
+          "code": "tea-station-clearance-outside",
+          "path": "tea-rental/ground/living/tea-station",
+          "unchangedSave": "b3a9aed995b1429055d888e8ed5c16d34cac8f51eb87cd9fad140313e47fbfb4"
+        }
+      ],
+      "drag": {
+        "roomCount": 3,
+        "view": "floor",
+        "timings": [
+          {
+            "tag": "first-legal",
+            "ms": 40.94
+          },
+          {
+            "tag": "move-0.008",
+            "ms": 17.98
+          },
+          {
+            "tag": "turn-rejected",
+            "ms": 14.65
+          },
+          {
+            "tag": "actual-side-table-rejected",
+            "ms": 45.29
+          },
+          {
+            "tag": "legal-recovered",
+            "ms": 33.7
+          }
+        ],
+        "unchangedSave": "b3a9aed995b1429055d888e8ed5c16d34cac8f51eb87cd9fad140313e47fbfb4"
+      },
+      "lowLevel": {
+        "rejectedAt": [
+          "save",
+          "export"
+        ],
+        "code": "tea-station-clearance-outside",
+        "restoredSha256": "b3a9aed995b1429055d888e8ed5c16d34cac8f51eb87cd9fad140313e47fbfb4"
+      },
+      "race": {
+        "refused": "revision-conflict",
+        "retained": {
+          "id": "tea-counter-water",
+          "version": 1
+        }
+      },
+      "changed": {
+        "old": {
+          "id": "tea-rental/ground/living/tea-station",
+          "resource": {
+            "id": "tea-counter-pantry",
+            "version": 1
+          },
+          "asset": "3dae6e71d27dbf440e4a3d429cf45243d8638e8d01391afe6de01cd7cbfda5a5",
+          "vertices": 746,
+          "worldPosition": [
+            -1.52,
+            0,
+            -1.5
+          ],
+          "parent": "tea-rental/ground/living"
+        },
+        "new": {
+          "id": "tea-rental/ground/living/tea-station",
+          "resource": {
+            "id": "tea-counter-water",
+            "version": 1
+          },
+          "asset": "045b80ce41906c8feb3e3dd4aec1502d93cdb5bf7a57af306f7b05b99658282b",
+          "vertices": 746,
+          "worldPosition": [
+            -1.52,
+            0,
+            -1.5
+          ],
+          "parent": "tea-rental/ground/living"
+        },
+        "sha256": "b6e988601fb83b5e3fb70615fef84cd9aadea9621e2b1e5ec0ed21ab4011a88a",
+        "measurement": {
+          "floorId": "tea-rental/ground",
+          "portal": "tea-rental/ground/portal-rest-living",
+          "contacts": [
+            {
+              "parentId": "tea-rental/ground/living/tea-station",
+              "childId": "tea-rental/ground/living/tea-station/machine",
+              "surfaceId": "counter",
+              "mesh": "countertop",
+              "point": [
+                -1.5891821,
+                0.9,
+                -1.5643319
+              ]
+            },
+            {
+              "parentId": "tea-rental/ground/living/tea-station/machine",
+              "childId": "tea-rental/ground/living/tea-station/cup",
+              "surfaceId": "tray",
+              "mesh": "tea-machine-tray",
+              "point": [
+                -1.5363048,
+                0.951246,
+                -1.3720681
+              ]
+            }
+          ],
+          "serviceDoors": [
+            {
+              "portalId": "tea-rental/ground/portal-stream-living",
+              "fromRegion": "tea-rental/ground/live",
+              "threshold": [
+                -2.25,
+                0
+              ],
+              "approach": [
+                [
+                  -1.8,
+                  1.5
+                ],
+                [
+                  1.8,
+                  1.5
+                ],
+                [
+                  1.8,
+                  0.45
+                ],
+                [
+                  2,
+                  0.45
+                ],
+                [
+                  2,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  -2,
+                  0
+                ],
+                [
+                  -2,
+                  -0.45
+                ],
+                [
+                  -1.8,
+                  -0.45
+                ],
+                [
+                  -1.8,
+                  -0.65
+                ],
+                [
+                  -1.56,
+                  -0.65
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-rental/ground/portal-work-living",
+              "fromRegion": "tea-rental/ground/work",
+              "threshold": [
+                2.25,
+                0
+              ],
+              "approach": [
+                [
+                  1.8,
+                  1.5
+                ],
+                [
+                  -1.8,
+                  1.5
+                ],
+                [
+                  -1.8,
+                  0.45
+                ],
+                [
+                  -2,
+                  0.45
+                ],
+                [
+                  -2,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  0.35
+                ],
+                [
+                  -1.4,
+                  0.35
+                ],
+                [
+                  -1.4,
+                  -0.65
+                ],
+                [
+                  -1.56,
+                  -0.65
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-rental/ground/portal-rest-living",
+              "fromRegion": "tea-rental/ground/rest",
+              "threshold": [
+                0,
+                2
+              ],
+              "approach": [
+                [
+                  1.7,
+                  1.4
+                ],
+                [
+                  1.4,
+                  1.4
+                ],
+                [
+                  1.4,
+                  -0.35
+                ],
+                [
+                  0,
+                  -0.35
+                ],
+                [
+                  0,
+                  -1.75
+                ]
+              ],
+              "inside": [
+                [
+                  0,
+                  1.75
+                ],
+                [
+                  0,
+                  0.45
+                ],
+                [
+                  -1.4,
+                  0.45
+                ],
+                [
+                  -1.4,
+                  -0.65
+                ],
+                [
+                  -1.56,
+                  -0.65
+                ]
+              ]
+            }
+          ],
+          "occupiedPassage": []
+        }
+      },
+      "cold": {
+        "sha256": "b6e988601fb83b5e3fb70615fef84cd9aadea9621e2b1e5ec0ed21ab4011a88a",
+        "from": "parity-empty",
+        "id": "tea-rental",
+        "models": {
+          "counter": {
+            "id": "tea-rental/ground/living/tea-station",
+            "resource": {
+              "id": "tea-counter-water",
+              "version": 1
+            },
+            "asset": "045b80ce41906c8feb3e3dd4aec1502d93cdb5bf7a57af306f7b05b99658282b",
+            "vertices": 746,
+            "worldPosition": [
+              -1.52,
+              0,
+              -1.5
+            ],
+            "parent": "tea-rental/ground/living"
+          },
+          "cup": {
+            "id": "tea-rental/ground/living/tea-station/cup",
+            "resource": {
+              "id": "tea-ceramic-cup",
+              "version": 1
+            },
+            "asset": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a",
+            "vertices": 180,
+            "worldPosition": [
+              -1.52,
+              0.951246,
+              -1.41
+            ],
+            "parent": "tea-rental/ground/living/tea-station/machine"
+          },
+          "machine": {
+            "id": "tea-rental/ground/living/tea-station/machine",
+            "resource": {
+              "id": "tea-coffee-machine",
+              "version": 1
+            },
+            "asset": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673",
+            "vertices": 180,
+            "worldPosition": [
+              -1.52,
+              0.9,
+              -1.5
+            ],
+            "parent": "tea-rental/ground/living/tea-station"
+          }
+        },
+        "measurement": {
+          "floorId": "tea-rental/ground",
+          "portal": "tea-rental/ground/portal-rest-living",
+          "contacts": [
+            {
+              "parentId": "tea-rental/ground/living/tea-station",
+              "childId": "tea-rental/ground/living/tea-station/machine",
+              "surfaceId": "counter",
+              "mesh": "countertop",
+              "point": [
+                -1.5891821,
+                0.9,
+                -1.5643319
+              ]
+            },
+            {
+              "parentId": "tea-rental/ground/living/tea-station/machine",
+              "childId": "tea-rental/ground/living/tea-station/cup",
+              "surfaceId": "tray",
+              "mesh": "tea-machine-tray",
+              "point": [
+                -1.5363048,
+                0.951246,
+                -1.3720681
+              ]
+            }
+          ],
+          "serviceDoors": [
+            {
+              "portalId": "tea-rental/ground/portal-stream-living",
+              "fromRegion": "tea-rental/ground/live",
+              "threshold": [
+                -2.25,
+                0
+              ],
+              "approach": [
+                [
+                  -1.8,
+                  1.5
+                ],
+                [
+                  1.8,
+                  1.5
+                ],
+                [
+                  1.8,
+                  0.45
+                ],
+                [
+                  2,
+                  0.45
+                ],
+                [
+                  2,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  -2,
+                  0
+                ],
+                [
+                  -2,
+                  -0.45
+                ],
+                [
+                  -1.8,
+                  -0.45
+                ],
+                [
+                  -1.8,
+                  -0.65
+                ],
+                [
+                  -1.56,
+                  -0.65
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-rental/ground/portal-work-living",
+              "fromRegion": "tea-rental/ground/work",
+              "threshold": [
+                2.25,
+                0
+              ],
+              "approach": [
+                [
+                  1.8,
+                  1.5
+                ],
+                [
+                  -1.8,
+                  1.5
+                ],
+                [
+                  -1.8,
+                  0.45
+                ],
+                [
+                  -2,
+                  0.45
+                ],
+                [
+                  -2,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  0.35
+                ],
+                [
+                  -1.4,
+                  0.35
+                ],
+                [
+                  -1.4,
+                  -0.65
+                ],
+                [
+                  -1.56,
+                  -0.65
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-rental/ground/portal-rest-living",
+              "fromRegion": "tea-rental/ground/rest",
+              "threshold": [
+                0,
+                2
+              ],
+              "approach": [
+                [
+                  1.7,
+                  1.4
+                ],
+                [
+                  1.4,
+                  1.4
+                ],
+                [
+                  1.4,
+                  -0.35
+                ],
+                [
+                  0,
+                  -0.35
+                ],
+                [
+                  0,
+                  -1.75
+                ]
+              ],
+              "inside": [
+                [
+                  0,
+                  1.75
+                ],
+                [
+                  0,
+                  0.45
+                ],
+                [
+                  -1.4,
+                  0.45
+                ],
+                [
+                  -1.4,
+                  -0.65
+                ],
+                [
+                  -1.56,
+                  -0.65
+                ]
+              ]
+            }
+          ],
+          "occupiedPassage": []
+        }
+      }
+    },
+    {
+      "label": "tea-floor",
+      "company": "tea-floor",
+      "counterId": "tea-floor/ground/corridor-2/tea-station",
+      "errors": {
+        "rotation": {
+          "code": "tea-station-clearance-outside",
+          "path": "tea-floor/ground/corridor-2/tea-station",
+          "details": {
+            "min": [
+              -0.4,
+              0,
+              1.37
+            ],
+            "max": [
+              0.4,
+              1.9,
+              2.22
+            ]
+          }
+        },
+        "service": {
+          "code": "tea-station-service-point",
+          "path": "tea-floor/ground/corridor-2/tea-station",
+          "details": {
+            "service": [
+              0.65,
+              0.28
+            ]
+          }
+        },
+        "obstruction": {
+          "code": "tea-station-clearance-obstructed",
+          "path": "tea-floor/ground/corridor-2/parity-side-table",
+          "details": {
+            "areaId": "tea-floor/ground/corridor-2",
+            "failures": [
+              {
+                "region": "public-passage",
+                "kind": "mesh-surface",
+                "componentId": "tea-floor/ground/corridor-2/parity-side-table",
+                "part": "side-table-round-support",
+                "resourceId": "side-table-round"
+              },
+              {
+                "region": "public-passage",
+                "kind": "mesh-surface",
+                "componentId": "tea-floor/ground/corridor-2/parity-side-table",
+                "part": "side-table-round-board",
+                "resourceId": "side-table-round"
+              },
+              {
+                "region": "public-passage",
+                "kind": "mesh-surface",
+                "componentId": "tea-floor/ground/corridor-2/parity-side-table",
+                "part": "side-table-top",
+                "resourceId": "side-table-round"
+              },
+              {
+                "region": "public-passage",
+                "kind": "blocking-footprint",
+                "componentId": "tea-floor/ground/corridor-2/parity-side-table"
+              }
+            ]
+          }
+        }
+      },
+      "baseline": {
+        "floorId": "tea-floor/ground",
+        "portal": "tea-floor/ground/portal-corridor-1-2",
+        "contacts": [
+          {
+            "parentId": "tea-floor/ground/corridor-2/tea-station",
+            "childId": "tea-floor/ground/corridor-2/tea-station/machine",
+            "surfaceId": "counter",
+            "mesh": "countertop",
+            "point": [
+              0.0691821,
+              0.9,
+              1.1143319
+            ]
+          },
+          {
+            "parentId": "tea-floor/ground/corridor-2/tea-station/machine",
+            "childId": "tea-floor/ground/corridor-2/tea-station/cup",
+            "surfaceId": "tray",
+            "mesh": "tea-machine-tray",
+            "point": [
+              0.0163048,
+              0.951246,
+              0.9220681
+            ]
+          }
+        ],
+        "serviceDoors": [
+          {
+            "portalId": "tea-floor/ground/portal-corridor-1-2",
+            "fromRegion": "tea-floor/ground/corridor-1",
+            "threshold": [
+              -8,
+              0
+            ],
+            "approach": [
+              [
+                0,
+                0
+              ],
+              [
+                7.75,
+                0
+              ]
+            ],
+            "inside": [
+              [
+                -7.75,
+                0
+              ],
+              [
+                -7.75,
+                0.28
+              ],
+              [
+                0,
+                0.28
+              ]
+            ]
+          },
+          {
+            "portalId": "tea-floor/ground/portal-corridor-2-3",
+            "fromRegion": "tea-floor/ground/corridor-3",
+            "threshold": [
+              8,
+              0
+            ],
+            "approach": [
+              [
+                0,
+                0
+              ],
+              [
+                -7.75,
+                0
+              ]
+            ],
+            "inside": [
+              [
+                7.75,
+                0
+              ],
+              [
+                7.75,
+                0.28
+              ],
+              [
+                0,
+                0.28
+              ]
+            ]
+          },
+          {
+            "portalId": "tea-floor/ground/portal-room-4",
+            "fromRegion": "tea-floor/ground/room-4",
+            "threshold": [
+              -3,
+              -1.5
+            ],
+            "approach": [
+              [
+                2.4,
+                2.4
+              ],
+              [
+                0,
+                2.4
+              ],
+              [
+                0,
+                2.75
+              ]
+            ],
+            "inside": [
+              [
+                -3,
+                -1.25
+              ],
+              [
+                -3,
+                0.28
+              ],
+              [
+                0,
+                0.28
+              ]
+            ]
+          },
+          {
+            "portalId": "tea-floor/ground/portal-room-5",
+            "fromRegion": "tea-floor/ground/room-5",
+            "threshold": [
+              3,
+              -1.5
+            ],
+            "approach": [
+              [
+                2.4,
+                2.4
+              ],
+              [
+                0,
+                2.4
+              ],
+              [
+                0,
+                2.75
+              ]
+            ],
+            "inside": [
+              [
+                3,
+                -1.25
+              ],
+              [
+                3,
+                0.28
+              ],
+              [
+                0,
+                0.28
+              ]
+            ]
+          },
+          {
+            "portalId": "tea-floor/ground/portal-room-12",
+            "fromRegion": "tea-floor/ground/room-12",
+            "threshold": [
+              -3,
+              1.5
+            ],
+            "approach": [
+              [
+                2.4,
+                2.4
+              ],
+              [
+                0,
+                2.4
+              ],
+              [
+                0,
+                -2.75
+              ]
+            ],
+            "inside": [
+              [
+                -3,
+                1.25
+              ],
+              [
+                -3,
+                0.28
+              ],
+              [
+                0,
+                0.28
+              ]
+            ]
+          },
+          {
+            "portalId": "tea-floor/ground/portal-room-13",
+            "fromRegion": "tea-floor/ground/room-13",
+            "threshold": [
+              3,
+              1.5
+            ],
+            "approach": [
+              [
+                2.4,
+                2.4
+              ],
+              [
+                0,
+                2.4
+              ],
+              [
+                0,
+                -2.75
+              ]
+            ],
+            "inside": [
+              [
+                3,
+                1.25
+              ],
+              [
+                3,
+                0.28
+              ],
+              [
+                0,
+                0.28
+              ]
+            ]
+          }
+        ],
+        "occupiedPassage": [
+          {
+            "portalId": "tea-floor/ground/portal-corridor-1-2",
+            "fromRegion": "tea-floor/ground/corridor-1",
+            "threshold": [
+              -8,
+              0
+            ],
+            "approach": [
+              [
+                0,
+                0
+              ],
+              [
+                7.75,
+                0
+              ]
+            ],
+            "inside": [
+              [
+                -7.75,
+                0
+              ],
+              [
+                -7.75,
+                -0.45
+              ],
+              [
+                -7.55,
+                -0.45
+              ],
+              [
+                -7.55,
+                -0.725
+              ],
+              [
+                0,
+                -0.725
+              ]
+            ]
+          },
+          {
+            "portalId": "tea-floor/ground/portal-corridor-2-3",
+            "fromRegion": "tea-floor/ground/corridor-3",
+            "threshold": [
+              8,
+              0
+            ],
+            "approach": [
+              [
+                0,
+                0
+              ],
+              [
+                -7.75,
+                0
+              ]
+            ],
+            "inside": [
+              [
+                7.75,
+                0
+              ],
+              [
+                7.75,
+                -0.45
+              ],
+              [
+                7.65,
+                -0.45
+              ],
+              [
+                7.65,
+                -0.725
+              ],
+              [
+                0,
+                -0.725
+              ]
+            ]
+          }
+        ]
+      },
+      "refusals": [
+        {
+          "action": "apply-rotate",
+          "code": "tea-station-clearance-outside",
+          "path": "tea-floor/ground/corridor-2/tea-station",
+          "unchangedSave": "b8a8588c2ad262f91400ce62d9e3d29308a7cee65c1334e15ddfbc7310229dbc"
+        },
+        {
+          "action": "apply-obstruction",
+          "code": "tea-station-clearance-obstructed",
+          "path": "tea-floor/ground/corridor-2/parity-side-table",
+          "unchangedSave": "b8a8588c2ad262f91400ce62d9e3d29308a7cee65c1334e15ddfbc7310229dbc"
+        },
+        {
+          "action": "import-bad-service",
+          "code": "tea-station-service-point",
+          "path": "tea-floor/ground/corridor-2/tea-station",
+          "unchangedSave": "b8a8588c2ad262f91400ce62d9e3d29308a7cee65c1334e15ddfbc7310229dbc"
+        },
+        {
+          "action": "load-bad-rotation",
+          "code": "tea-station-clearance-outside",
+          "path": "tea-floor/ground/corridor-2/tea-station",
+          "unchangedSave": "b8a8588c2ad262f91400ce62d9e3d29308a7cee65c1334e15ddfbc7310229dbc"
+        },
+        {
+          "action": "restore-signed-bad-rotation",
+          "code": "tea-station-clearance-outside",
+          "path": "tea-floor/ground/corridor-2/tea-station",
+          "unchangedSave": "b8a8588c2ad262f91400ce62d9e3d29308a7cee65c1334e15ddfbc7310229dbc"
+        }
+      ],
+      "drag": {
+        "roomCount": 16,
+        "view": "floor",
+        "timings": [
+          {
+            "tag": "first-legal",
+            "ms": 72.36
+          },
+          {
+            "tag": "move-0.008",
+            "ms": 24.49
+          },
+          {
+            "tag": "move--0.012",
+            "ms": 23.48
+          },
+          {
+            "tag": "move-0.018",
+            "ms": 25.15
+          },
+          {
+            "tag": "turn-rejected",
+            "ms": 16.79
+          },
+          {
+            "tag": "actual-side-table-rejected",
+            "ms": 44.65
+          },
+          {
+            "tag": "legal-recovered",
+            "ms": 40.77
+          }
+        ],
+        "unchangedSave": "b8a8588c2ad262f91400ce62d9e3d29308a7cee65c1334e15ddfbc7310229dbc"
+      },
+      "lowLevel": {
+        "rejectedAt": [
+          "save",
+          "export"
+        ],
+        "code": "tea-station-clearance-outside",
+        "restoredSha256": "b8a8588c2ad262f91400ce62d9e3d29308a7cee65c1334e15ddfbc7310229dbc"
+      },
+      "race": {
+        "refused": "revision-conflict",
+        "retained": {
+          "id": "tea-counter-water",
+          "version": 1
+        }
+      },
+      "changed": {
+        "old": {
+          "id": "tea-floor/ground/corridor-2/tea-station",
+          "resource": {
+            "id": "tea-counter-coffee",
+            "version": 1
+          },
+          "asset": "9977666f514de0f573f8379ed962a7f051f9b969ee542a597b39f2604c0da545",
+          "vertices": 746,
+          "worldPosition": [
+            0,
+            0,
+            1.05
+          ],
+          "parent": "tea-floor/ground/corridor-2"
+        },
+        "new": {
+          "id": "tea-floor/ground/corridor-2/tea-station",
+          "resource": {
+            "id": "tea-counter-water",
+            "version": 1
+          },
+          "asset": "045b80ce41906c8feb3e3dd4aec1502d93cdb5bf7a57af306f7b05b99658282b",
+          "vertices": 746,
+          "worldPosition": [
+            0,
+            0,
+            1.05
+          ],
+          "parent": "tea-floor/ground/corridor-2"
+        },
+        "sha256": "1afe066de7893e075dc11829745b2781999f31b9086ecc1ec25bee54c6ada9bb",
+        "measurement": {
+          "floorId": "tea-floor/ground",
+          "portal": "tea-floor/ground/portal-corridor-1-2",
+          "contacts": [
+            {
+              "parentId": "tea-floor/ground/corridor-2/tea-station",
+              "childId": "tea-floor/ground/corridor-2/tea-station/machine",
+              "surfaceId": "counter",
+              "mesh": "countertop",
+              "point": [
+                0.0691821,
+                0.9,
+                1.1143319
+              ]
+            },
+            {
+              "parentId": "tea-floor/ground/corridor-2/tea-station/machine",
+              "childId": "tea-floor/ground/corridor-2/tea-station/cup",
+              "surfaceId": "tray",
+              "mesh": "tea-machine-tray",
+              "point": [
+                0.0163048,
+                0.951246,
+                0.9220681
+              ]
+            }
+          ],
+          "serviceDoors": [
+            {
+              "portalId": "tea-floor/ground/portal-corridor-1-2",
+              "fromRegion": "tea-floor/ground/corridor-1",
+              "threshold": [
+                -8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  -7.75,
+                  0
+                ],
+                [
+                  -7.75,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-corridor-2-3",
+              "fromRegion": "tea-floor/ground/corridor-3",
+              "threshold": [
+                8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  -7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  7.75,
+                  0
+                ],
+                [
+                  7.75,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-4",
+              "fromRegion": "tea-floor/ground/room-4",
+              "threshold": [
+                -3,
+                -1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  2.75
+                ]
+              ],
+              "inside": [
+                [
+                  -3,
+                  -1.25
+                ],
+                [
+                  -3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-5",
+              "fromRegion": "tea-floor/ground/room-5",
+              "threshold": [
+                3,
+                -1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  2.75
+                ]
+              ],
+              "inside": [
+                [
+                  3,
+                  -1.25
+                ],
+                [
+                  3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-12",
+              "fromRegion": "tea-floor/ground/room-12",
+              "threshold": [
+                -3,
+                1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  -2.75
+                ]
+              ],
+              "inside": [
+                [
+                  -3,
+                  1.25
+                ],
+                [
+                  -3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-13",
+              "fromRegion": "tea-floor/ground/room-13",
+              "threshold": [
+                3,
+                1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  -2.75
+                ]
+              ],
+              "inside": [
+                [
+                  3,
+                  1.25
+                ],
+                [
+                  3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            }
+          ],
+          "occupiedPassage": [
+            {
+              "portalId": "tea-floor/ground/portal-corridor-1-2",
+              "fromRegion": "tea-floor/ground/corridor-1",
+              "threshold": [
+                -8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  -7.75,
+                  0
+                ],
+                [
+                  -7.75,
+                  -0.45
+                ],
+                [
+                  -7.55,
+                  -0.45
+                ],
+                [
+                  -7.55,
+                  -0.725
+                ],
+                [
+                  0,
+                  -0.725
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-corridor-2-3",
+              "fromRegion": "tea-floor/ground/corridor-3",
+              "threshold": [
+                8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  -7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  7.75,
+                  0
+                ],
+                [
+                  7.75,
+                  -0.45
+                ],
+                [
+                  7.65,
+                  -0.45
+                ],
+                [
+                  7.65,
+                  -0.725
+                ],
+                [
+                  0,
+                  -0.725
+                ]
+              ]
+            }
+          ]
+        }
+      },
+      "cold": {
+        "sha256": "1afe066de7893e075dc11829745b2781999f31b9086ecc1ec25bee54c6ada9bb",
+        "from": "parity-empty",
+        "id": "tea-floor",
+        "models": {
+          "counter": {
+            "id": "tea-floor/ground/corridor-2/tea-station",
+            "resource": {
+              "id": "tea-counter-water",
+              "version": 1
+            },
+            "asset": "045b80ce41906c8feb3e3dd4aec1502d93cdb5bf7a57af306f7b05b99658282b",
+            "vertices": 746,
+            "worldPosition": [
+              0,
+              0,
+              1.05
+            ],
+            "parent": "tea-floor/ground/corridor-2"
+          },
+          "cup": {
+            "id": "tea-floor/ground/corridor-2/tea-station/cup",
+            "resource": {
+              "id": "tea-ceramic-cup",
+              "version": 1
+            },
+            "asset": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a",
+            "vertices": 180,
+            "worldPosition": [
+              1.1021821192326179e-17,
+              0.951246,
+              0.9600000000000001
+            ],
+            "parent": "tea-floor/ground/corridor-2/tea-station/machine"
+          },
+          "machine": {
+            "id": "tea-floor/ground/corridor-2/tea-station/machine",
+            "resource": {
+              "id": "tea-coffee-machine",
+              "version": 1
+            },
+            "asset": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673",
+            "vertices": 180,
+            "worldPosition": [
+              0,
+              0.9,
+              1.05
+            ],
+            "parent": "tea-floor/ground/corridor-2/tea-station"
+          }
+        },
+        "measurement": {
+          "floorId": "tea-floor/ground",
+          "portal": "tea-floor/ground/portal-corridor-1-2",
+          "contacts": [
+            {
+              "parentId": "tea-floor/ground/corridor-2/tea-station",
+              "childId": "tea-floor/ground/corridor-2/tea-station/machine",
+              "surfaceId": "counter",
+              "mesh": "countertop",
+              "point": [
+                0.0691821,
+                0.9,
+                1.1143319
+              ]
+            },
+            {
+              "parentId": "tea-floor/ground/corridor-2/tea-station/machine",
+              "childId": "tea-floor/ground/corridor-2/tea-station/cup",
+              "surfaceId": "tray",
+              "mesh": "tea-machine-tray",
+              "point": [
+                0.0163048,
+                0.951246,
+                0.9220681
+              ]
+            }
+          ],
+          "serviceDoors": [
+            {
+              "portalId": "tea-floor/ground/portal-corridor-1-2",
+              "fromRegion": "tea-floor/ground/corridor-1",
+              "threshold": [
+                -8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  -7.75,
+                  0
+                ],
+                [
+                  -7.75,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-corridor-2-3",
+              "fromRegion": "tea-floor/ground/corridor-3",
+              "threshold": [
+                8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  -7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  7.75,
+                  0
+                ],
+                [
+                  7.75,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-4",
+              "fromRegion": "tea-floor/ground/room-4",
+              "threshold": [
+                -3,
+                -1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  2.75
+                ]
+              ],
+              "inside": [
+                [
+                  -3,
+                  -1.25
+                ],
+                [
+                  -3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-5",
+              "fromRegion": "tea-floor/ground/room-5",
+              "threshold": [
+                3,
+                -1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  2.75
+                ]
+              ],
+              "inside": [
+                [
+                  3,
+                  -1.25
+                ],
+                [
+                  3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-12",
+              "fromRegion": "tea-floor/ground/room-12",
+              "threshold": [
+                -3,
+                1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  -2.75
+                ]
+              ],
+              "inside": [
+                [
+                  -3,
+                  1.25
+                ],
+                [
+                  -3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-13",
+              "fromRegion": "tea-floor/ground/room-13",
+              "threshold": [
+                3,
+                1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  -2.75
+                ]
+              ],
+              "inside": [
+                [
+                  3,
+                  1.25
+                ],
+                [
+                  3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            }
+          ],
+          "occupiedPassage": [
+            {
+              "portalId": "tea-floor/ground/portal-corridor-1-2",
+              "fromRegion": "tea-floor/ground/corridor-1",
+              "threshold": [
+                -8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  -7.75,
+                  0
+                ],
+                [
+                  -7.75,
+                  -0.45
+                ],
+                [
+                  -7.55,
+                  -0.45
+                ],
+                [
+                  -7.55,
+                  -0.725
+                ],
+                [
+                  0,
+                  -0.725
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-corridor-2-3",
+              "fromRegion": "tea-floor/ground/corridor-3",
+              "threshold": [
+                8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  -7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  7.75,
+                  0
+                ],
+                [
+                  7.75,
+                  -0.45
+                ],
+                [
+                  7.65,
+                  -0.45
+                ],
+                [
+                  7.65,
+                  -0.725
+                ],
+                [
+                  0,
+                  -0.725
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "hidden-floor",
+      "company": "tea-floor",
+      "counterId": "tea-floor/ground/corridor-2/tea-station",
+      "hiddenFloorId": "tea-floor/upper",
+      "errors": {
+        "rotation": {
+          "code": "tea-station-clearance-outside",
+          "path": "tea-floor/ground/corridor-2/tea-station",
+          "details": {
+            "min": [
+              -0.4,
+              0,
+              1.37
+            ],
+            "max": [
+              0.4,
+              1.9,
+              2.22
+            ]
+          }
+        },
+        "service": {
+          "code": "tea-station-service-point",
+          "path": "tea-floor/ground/corridor-2/tea-station",
+          "details": {
+            "service": [
+              0.65,
+              0.28
+            ]
+          }
+        },
+        "obstruction": {
+          "code": "tea-station-clearance-obstructed",
+          "path": "tea-floor/ground/corridor-2/parity-side-table",
+          "details": {
+            "areaId": "tea-floor/ground/corridor-2",
+            "failures": [
+              {
+                "region": "public-passage",
+                "kind": "mesh-surface",
+                "componentId": "tea-floor/ground/corridor-2/parity-side-table",
+                "part": "side-table-round-support",
+                "resourceId": "side-table-round"
+              },
+              {
+                "region": "public-passage",
+                "kind": "mesh-surface",
+                "componentId": "tea-floor/ground/corridor-2/parity-side-table",
+                "part": "side-table-round-board",
+                "resourceId": "side-table-round"
+              },
+              {
+                "region": "public-passage",
+                "kind": "mesh-surface",
+                "componentId": "tea-floor/ground/corridor-2/parity-side-table",
+                "part": "side-table-top",
+                "resourceId": "side-table-round"
+              },
+              {
+                "region": "public-passage",
+                "kind": "blocking-footprint",
+                "componentId": "tea-floor/ground/corridor-2/parity-side-table"
+              }
+            ]
+          }
+        }
+      },
+      "baseline": {
+        "floorId": "tea-floor/ground",
+        "portal": "tea-floor/ground/portal-corridor-1-2",
+        "contacts": [
+          {
+            "parentId": "tea-floor/ground/corridor-2/tea-station",
+            "childId": "tea-floor/ground/corridor-2/tea-station/machine",
+            "surfaceId": "counter",
+            "mesh": "countertop",
+            "point": [
+              0.0691821,
+              0.9,
+              1.1143319
+            ]
+          },
+          {
+            "parentId": "tea-floor/ground/corridor-2/tea-station/machine",
+            "childId": "tea-floor/ground/corridor-2/tea-station/cup",
+            "surfaceId": "tray",
+            "mesh": "tea-machine-tray",
+            "point": [
+              0.0163048,
+              0.951246,
+              0.9220681
+            ]
+          }
+        ],
+        "serviceDoors": [
+          {
+            "portalId": "tea-floor/ground/portal-corridor-1-2",
+            "fromRegion": "tea-floor/ground/corridor-1",
+            "threshold": [
+              -8,
+              0
+            ],
+            "approach": [
+              [
+                0,
+                0
+              ],
+              [
+                7.75,
+                0
+              ]
+            ],
+            "inside": [
+              [
+                -7.75,
+                0
+              ],
+              [
+                -7.75,
+                0.28
+              ],
+              [
+                0,
+                0.28
+              ]
+            ]
+          },
+          {
+            "portalId": "tea-floor/ground/portal-corridor-2-3",
+            "fromRegion": "tea-floor/ground/corridor-3",
+            "threshold": [
+              8,
+              0
+            ],
+            "approach": [
+              [
+                0,
+                0
+              ],
+              [
+                -7.75,
+                0
+              ]
+            ],
+            "inside": [
+              [
+                7.75,
+                0
+              ],
+              [
+                7.75,
+                0.28
+              ],
+              [
+                0,
+                0.28
+              ]
+            ]
+          },
+          {
+            "portalId": "tea-floor/ground/portal-room-4",
+            "fromRegion": "tea-floor/ground/room-4",
+            "threshold": [
+              -3,
+              -1.5
+            ],
+            "approach": [
+              [
+                2.4,
+                2.4
+              ],
+              [
+                0,
+                2.4
+              ],
+              [
+                0,
+                2.75
+              ]
+            ],
+            "inside": [
+              [
+                -3,
+                -1.25
+              ],
+              [
+                -3,
+                0.28
+              ],
+              [
+                0,
+                0.28
+              ]
+            ]
+          },
+          {
+            "portalId": "tea-floor/ground/portal-room-5",
+            "fromRegion": "tea-floor/ground/room-5",
+            "threshold": [
+              3,
+              -1.5
+            ],
+            "approach": [
+              [
+                2.4,
+                2.4
+              ],
+              [
+                0,
+                2.4
+              ],
+              [
+                0,
+                2.75
+              ]
+            ],
+            "inside": [
+              [
+                3,
+                -1.25
+              ],
+              [
+                3,
+                0.28
+              ],
+              [
+                0,
+                0.28
+              ]
+            ]
+          },
+          {
+            "portalId": "tea-floor/ground/portal-room-12",
+            "fromRegion": "tea-floor/ground/room-12",
+            "threshold": [
+              -3,
+              1.5
+            ],
+            "approach": [
+              [
+                2.4,
+                2.4
+              ],
+              [
+                0,
+                2.4
+              ],
+              [
+                0,
+                -2.75
+              ]
+            ],
+            "inside": [
+              [
+                -3,
+                1.25
+              ],
+              [
+                -3,
+                0.28
+              ],
+              [
+                0,
+                0.28
+              ]
+            ]
+          },
+          {
+            "portalId": "tea-floor/ground/portal-room-13",
+            "fromRegion": "tea-floor/ground/room-13",
+            "threshold": [
+              3,
+              1.5
+            ],
+            "approach": [
+              [
+                2.4,
+                2.4
+              ],
+              [
+                0,
+                2.4
+              ],
+              [
+                0,
+                -2.75
+              ]
+            ],
+            "inside": [
+              [
+                3,
+                1.25
+              ],
+              [
+                3,
+                0.28
+              ],
+              [
+                0,
+                0.28
+              ]
+            ]
+          }
+        ],
+        "occupiedPassage": [
+          {
+            "portalId": "tea-floor/ground/portal-corridor-1-2",
+            "fromRegion": "tea-floor/ground/corridor-1",
+            "threshold": [
+              -8,
+              0
+            ],
+            "approach": [
+              [
+                0,
+                0
+              ],
+              [
+                7.75,
+                0
+              ]
+            ],
+            "inside": [
+              [
+                -7.75,
+                0
+              ],
+              [
+                -7.75,
+                -0.45
+              ],
+              [
+                -7.55,
+                -0.45
+              ],
+              [
+                -7.55,
+                -0.725
+              ],
+              [
+                0,
+                -0.725
+              ]
+            ]
+          },
+          {
+            "portalId": "tea-floor/ground/portal-corridor-2-3",
+            "fromRegion": "tea-floor/ground/corridor-3",
+            "threshold": [
+              8,
+              0
+            ],
+            "approach": [
+              [
+                0,
+                0
+              ],
+              [
+                -7.75,
+                0
+              ]
+            ],
+            "inside": [
+              [
+                7.75,
+                0
+              ],
+              [
+                7.75,
+                -0.45
+              ],
+              [
+                7.65,
+                -0.45
+              ],
+              [
+                7.65,
+                -0.725
+              ],
+              [
+                0,
+                -0.725
+              ]
+            ]
+          }
+        ]
+      },
+      "refusals": [
+        {
+          "action": "apply-rotate",
+          "code": "tea-station-clearance-outside",
+          "path": "tea-floor/ground/corridor-2/tea-station",
+          "unchangedSave": "e93147931457024c76edcfe335bd768094016a03aae89e087e7887eb2edc51e8"
+        },
+        {
+          "action": "apply-obstruction",
+          "code": "tea-station-clearance-obstructed",
+          "path": "tea-floor/ground/corridor-2/parity-side-table",
+          "unchangedSave": "e93147931457024c76edcfe335bd768094016a03aae89e087e7887eb2edc51e8"
+        },
+        {
+          "action": "import-bad-service",
+          "code": "tea-station-service-point",
+          "path": "tea-floor/ground/corridor-2/tea-station",
+          "unchangedSave": "e93147931457024c76edcfe335bd768094016a03aae89e087e7887eb2edc51e8"
+        },
+        {
+          "action": "load-bad-rotation",
+          "code": "tea-station-clearance-outside",
+          "path": "tea-floor/ground/corridor-2/tea-station",
+          "unchangedSave": "e93147931457024c76edcfe335bd768094016a03aae89e087e7887eb2edc51e8"
+        },
+        {
+          "action": "restore-signed-bad-rotation",
+          "code": "tea-station-clearance-outside",
+          "path": "tea-floor/ground/corridor-2/tea-station",
+          "unchangedSave": "e93147931457024c76edcfe335bd768094016a03aae89e087e7887eb2edc51e8"
+        }
+      ],
+      "lowLevel": {
+        "rejectedAt": [
+          "save",
+          "export"
+        ],
+        "code": "tea-station-clearance-outside",
+        "restoredSha256": "e93147931457024c76edcfe335bd768094016a03aae89e087e7887eb2edc51e8"
+      },
+      "race": {
+        "refused": "revision-conflict",
+        "retained": {
+          "id": "tea-counter-water",
+          "version": 1
+        }
+      },
+      "changed": {
+        "old": {
+          "id": "tea-floor/ground/corridor-2/tea-station",
+          "resource": {
+            "id": "tea-counter-coffee",
+            "version": 1
+          },
+          "asset": "9977666f514de0f573f8379ed962a7f051f9b969ee542a597b39f2604c0da545",
+          "vertices": 746,
+          "worldPosition": [
+            0,
+            0,
+            1.05
+          ],
+          "parent": "tea-floor/ground/corridor-2"
+        },
+        "new": {
+          "id": "tea-floor/ground/corridor-2/tea-station",
+          "resource": {
+            "id": "tea-counter-water",
+            "version": 1
+          },
+          "asset": "045b80ce41906c8feb3e3dd4aec1502d93cdb5bf7a57af306f7b05b99658282b",
+          "vertices": 746,
+          "worldPosition": [
+            0,
+            0,
+            1.05
+          ],
+          "parent": "tea-floor/ground/corridor-2"
+        },
+        "sha256": "a87a5f9a474914ed98f822658aca895072acacf46f8b399f2b1fca27d87c461d",
+        "measurement": {
+          "floorId": "tea-floor/ground",
+          "portal": "tea-floor/ground/portal-corridor-1-2",
+          "contacts": [
+            {
+              "parentId": "tea-floor/ground/corridor-2/tea-station",
+              "childId": "tea-floor/ground/corridor-2/tea-station/machine",
+              "surfaceId": "counter",
+              "mesh": "countertop",
+              "point": [
+                0.0691821,
+                0.9,
+                1.1143319
+              ]
+            },
+            {
+              "parentId": "tea-floor/ground/corridor-2/tea-station/machine",
+              "childId": "tea-floor/ground/corridor-2/tea-station/cup",
+              "surfaceId": "tray",
+              "mesh": "tea-machine-tray",
+              "point": [
+                0.0163048,
+                0.951246,
+                0.9220681
+              ]
+            }
+          ],
+          "serviceDoors": [
+            {
+              "portalId": "tea-floor/ground/portal-corridor-1-2",
+              "fromRegion": "tea-floor/ground/corridor-1",
+              "threshold": [
+                -8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  -7.75,
+                  0
+                ],
+                [
+                  -7.75,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-corridor-2-3",
+              "fromRegion": "tea-floor/ground/corridor-3",
+              "threshold": [
+                8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  -7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  7.75,
+                  0
+                ],
+                [
+                  7.75,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-4",
+              "fromRegion": "tea-floor/ground/room-4",
+              "threshold": [
+                -3,
+                -1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  2.75
+                ]
+              ],
+              "inside": [
+                [
+                  -3,
+                  -1.25
+                ],
+                [
+                  -3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-5",
+              "fromRegion": "tea-floor/ground/room-5",
+              "threshold": [
+                3,
+                -1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  2.75
+                ]
+              ],
+              "inside": [
+                [
+                  3,
+                  -1.25
+                ],
+                [
+                  3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-12",
+              "fromRegion": "tea-floor/ground/room-12",
+              "threshold": [
+                -3,
+                1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  -2.75
+                ]
+              ],
+              "inside": [
+                [
+                  -3,
+                  1.25
+                ],
+                [
+                  -3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-13",
+              "fromRegion": "tea-floor/ground/room-13",
+              "threshold": [
+                3,
+                1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  -2.75
+                ]
+              ],
+              "inside": [
+                [
+                  3,
+                  1.25
+                ],
+                [
+                  3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            }
+          ],
+          "occupiedPassage": [
+            {
+              "portalId": "tea-floor/ground/portal-corridor-1-2",
+              "fromRegion": "tea-floor/ground/corridor-1",
+              "threshold": [
+                -8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  -7.75,
+                  0
+                ],
+                [
+                  -7.75,
+                  -0.45
+                ],
+                [
+                  -7.55,
+                  -0.45
+                ],
+                [
+                  -7.55,
+                  -0.725
+                ],
+                [
+                  0,
+                  -0.725
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-corridor-2-3",
+              "fromRegion": "tea-floor/ground/corridor-3",
+              "threshold": [
+                8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  -7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  7.75,
+                  0
+                ],
+                [
+                  7.75,
+                  -0.45
+                ],
+                [
+                  7.65,
+                  -0.45
+                ],
+                [
+                  7.65,
+                  -0.725
+                ],
+                [
+                  0,
+                  -0.725
+                ]
+              ]
+            }
+          ]
+        }
+      },
+      "cold": {
+        "sha256": "a87a5f9a474914ed98f822658aca895072acacf46f8b399f2b1fca27d87c461d",
+        "from": "parity-empty",
+        "id": "tea-floor",
+        "models": {
+          "counter": {
+            "id": "tea-floor/ground/corridor-2/tea-station",
+            "resource": {
+              "id": "tea-counter-water",
+              "version": 1
+            },
+            "asset": "045b80ce41906c8feb3e3dd4aec1502d93cdb5bf7a57af306f7b05b99658282b",
+            "vertices": 746,
+            "worldPosition": [
+              0,
+              0,
+              1.05
+            ],
+            "parent": "tea-floor/ground/corridor-2"
+          },
+          "cup": {
+            "id": "tea-floor/ground/corridor-2/tea-station/cup",
+            "resource": {
+              "id": "tea-ceramic-cup",
+              "version": 1
+            },
+            "asset": "2dcf7274f841b72789cd483e5efb4c6bbd1035abdf37f69a59f025e916954c9a",
+            "vertices": 180,
+            "worldPosition": [
+              1.1021821192326179e-17,
+              0.951246,
+              0.9600000000000001
+            ],
+            "parent": "tea-floor/ground/corridor-2/tea-station/machine"
+          },
+          "machine": {
+            "id": "tea-floor/ground/corridor-2/tea-station/machine",
+            "resource": {
+              "id": "tea-coffee-machine",
+              "version": 1
+            },
+            "asset": "911cb7a9f661feda1736e41e2e2ce1ea9849b9ae3c4ecb252409d47b02c65673",
+            "vertices": 180,
+            "worldPosition": [
+              0,
+              0.9,
+              1.05
+            ],
+            "parent": "tea-floor/ground/corridor-2/tea-station"
+          }
+        },
+        "measurement": {
+          "floorId": "tea-floor/ground",
+          "portal": "tea-floor/ground/portal-corridor-1-2",
+          "contacts": [
+            {
+              "parentId": "tea-floor/ground/corridor-2/tea-station",
+              "childId": "tea-floor/ground/corridor-2/tea-station/machine",
+              "surfaceId": "counter",
+              "mesh": "countertop",
+              "point": [
+                0.0691821,
+                0.9,
+                1.1143319
+              ]
+            },
+            {
+              "parentId": "tea-floor/ground/corridor-2/tea-station/machine",
+              "childId": "tea-floor/ground/corridor-2/tea-station/cup",
+              "surfaceId": "tray",
+              "mesh": "tea-machine-tray",
+              "point": [
+                0.0163048,
+                0.951246,
+                0.9220681
+              ]
+            }
+          ],
+          "serviceDoors": [
+            {
+              "portalId": "tea-floor/ground/portal-corridor-1-2",
+              "fromRegion": "tea-floor/ground/corridor-1",
+              "threshold": [
+                -8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  -7.75,
+                  0
+                ],
+                [
+                  -7.75,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-corridor-2-3",
+              "fromRegion": "tea-floor/ground/corridor-3",
+              "threshold": [
+                8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  -7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  7.75,
+                  0
+                ],
+                [
+                  7.75,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-4",
+              "fromRegion": "tea-floor/ground/room-4",
+              "threshold": [
+                -3,
+                -1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  2.75
+                ]
+              ],
+              "inside": [
+                [
+                  -3,
+                  -1.25
+                ],
+                [
+                  -3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-5",
+              "fromRegion": "tea-floor/ground/room-5",
+              "threshold": [
+                3,
+                -1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  2.75
+                ]
+              ],
+              "inside": [
+                [
+                  3,
+                  -1.25
+                ],
+                [
+                  3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-12",
+              "fromRegion": "tea-floor/ground/room-12",
+              "threshold": [
+                -3,
+                1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  -2.75
+                ]
+              ],
+              "inside": [
+                [
+                  -3,
+                  1.25
+                ],
+                [
+                  -3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-room-13",
+              "fromRegion": "tea-floor/ground/room-13",
+              "threshold": [
+                3,
+                1.5
+              ],
+              "approach": [
+                [
+                  2.4,
+                  2.4
+                ],
+                [
+                  0,
+                  2.4
+                ],
+                [
+                  0,
+                  -2.75
+                ]
+              ],
+              "inside": [
+                [
+                  3,
+                  1.25
+                ],
+                [
+                  3,
+                  0.28
+                ],
+                [
+                  0,
+                  0.28
+                ]
+              ]
+            }
+          ],
+          "occupiedPassage": [
+            {
+              "portalId": "tea-floor/ground/portal-corridor-1-2",
+              "fromRegion": "tea-floor/ground/corridor-1",
+              "threshold": [
+                -8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  -7.75,
+                  0
+                ],
+                [
+                  -7.75,
+                  -0.45
+                ],
+                [
+                  -7.55,
+                  -0.45
+                ],
+                [
+                  -7.55,
+                  -0.725
+                ],
+                [
+                  0,
+                  -0.725
+                ]
+              ]
+            },
+            {
+              "portalId": "tea-floor/ground/portal-corridor-2-3",
+              "fromRegion": "tea-floor/ground/corridor-3",
+              "threshold": [
+                8,
+                0
+              ],
+              "approach": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  -7.75,
+                  0
+                ]
+              ],
+              "inside": [
+                [
+                  7.75,
+                  0
+                ],
+                [
+                  7.75,
+                  -0.45
+                ],
+                [
+                  7.65,
+                  -0.45
+                ],
+                [
+                  7.65,
+                  -0.725
+                ],
+                [
+                  0,
+                  -0.725
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
