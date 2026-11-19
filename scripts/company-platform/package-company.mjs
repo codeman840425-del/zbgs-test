@@ -687,6 +687,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   if (supplemental.has('scripts/company-platform/batch-inputs/singing-rooms.json')) {
     for (const name of ['check-singing-room.mjs','public-door-access.mjs','test-singing-room.mjs','qa-singing-rooms.cjs'])
       supplemental.add('scripts/company-platform/'+name);
+    for (const name of ['test-singing-score-ingress.mjs','test-singing-score-visibility.mjs','qa-singing-score-view.cjs']) {
+      const script = 'scripts/company-platform/'+name;
+      try { await noLinks(path.join(source,script)); supplemental.add(script); }
+      catch (error) { if (error.code!=='ENOENT') throw error; }
+    }
     supplemental.add('docs/research/COMPANY-SINGING-ROOM-PRODUCTION.md');
   }
   if (supplemental.has('scripts/company-platform/batch-inputs/interview-rooms.json')) {
@@ -820,6 +825,6 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
       const manifest=await packageCompany({distDirectory,buildId,inputPath,outputDirectory,sourceRoot,rooms,seatContacts});
       console.log(JSON.stringify({ok:true,buildId:manifest.buildId,companyId:manifest.savedCompany.id,rooms:rooms.map(room=>room.key),files:manifest.files.length,output:path.resolve(outputDirectory)},null,2));
     };
-    run().catch(error=>{console.error(JSON.stringify({ok:false,code:error.code||'io-error',path:error.path,message:error.message},null,2));process.exitCode=1;});
+    run().catch(error=>{console.error(JSON.stringify({ok:false,code:error.code||'io-error',path:error.path,message:error.message,details:error.details},null,2));process.exitCode=1;});
   }
 }

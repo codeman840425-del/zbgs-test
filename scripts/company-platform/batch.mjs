@@ -232,7 +232,7 @@ export async function runCompanyBatch(batch,{outputDirectory,only}={}){
         fail('source-changed',item.key,'Production sources changed during this batch; retry against one fixed source candidate');
       const status=await publish(root,item.key,files);
       results.push({key:item.key,companyId:report.companyId,status,directory:childPath(root,item.key),files:report.files});
-    }catch(error){results.push({key:item.key,status:'failed',code:error.code||'io-error',path:error.path||item.key,message:error.message});}
+    }catch(error){results.push({key:item.key,status:'failed',code:error.code||'io-error',path:error.path||item.key,message:error.message,details:error.details});}
   }
   return {schema:'company-batch-run',version:1,ok:results.every(result=>result.status!=='failed'),results};
 }

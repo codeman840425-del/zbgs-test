@@ -78,5 +78,5 @@ try{
   const missingThree=error.code==='ERR_MODULE_NOT_FOUND' && /Cannot find package 'three'/.test(error.message);
   const code=missingThree?'edit-requires-dependencies':error.code||'edit-error';
   const message=missingThree?'Install the locked editing dependencies in a working copy with npm ci --prefix source/prototype':error.message;
-  console.error(JSON.stringify({ok:false,code,path:error.path,message},null,2));process.exitCode=1;
+  console.error(JSON.stringify({ok:false,code,path:error.path,message,details:error.details},null,2));process.exitCode=1;
 }

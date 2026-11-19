@@ -104,10 +104,11 @@ function center(record) { return new T.Box3().setFromPoints(vertices(record)).ge
 function rayHit(records,from,to) {
   const direction = to.clone().sub(from), max = direction.length() + 1e-6;
   if (max <= 1e-6) return null;
+  const segment = new T.Box3().setFromPoints([from,to]).expandByScalar(1e-6);
   const ray = new T.Ray(from,direction.normalize()), point = p();
   let first;
   for (const record of records) {
-    if (!ray.intersectsBox(record.bounds)) continue;
+    if (!segment.intersectsBox(record.bounds) || !ray.intersectsBox(record.bounds)) continue;
     for (const face of triangles(record)) {
       if (!ray.intersectTriangle(face.a,face.b,face.c,false,point)) continue;
       const distance = from.distanceTo(point);
@@ -197,25 +198,75 @@ function measureMic(records,member,reference) {
   return {node:names[0],surface:tuple(hit.point),axis:tuple(axis),distanceMetres:hit.distance,incidenceDegrees:incidence,facingDegrees:facing,joins};
 }
 
+// Locate thin, modelled staff strokes where a vertical column crosses their real triangles.
+// Also test the paper between strokes and flat pages with texture-only printing.
+function scoreRowsAt(x,box,faces) {
+  const height = box.max.y-box.min.y;
+  const spans = [];
+  for (const {a,b,c} of faces) {
+    if (Math.max(a.y,b.y,c.y)-Math.min(a.y,b.y,c.y) > .01*height ||
+        x < Math.min(a.x,b.x,c.x) || x > Math.max(a.x,b.x,c.x)) continue;
+    const ys = [];
+    for (const [start,end] of [[a,b],[b,c],[c,a]]) {
+      if (start.x===end.x || (start.x>x)===(end.x>x)) continue;
+      ys.push(T.MathUtils.lerp(start.y,end.y,(x-start.x)/(end.x-start.x)));
+    }
+    if (ys.length<2) continue;
+    const low = (Math.min(...ys)-box.min.y)/height, high = (Math.max(...ys)-box.min.y)/height;
+    if (low>=.05 && high<=.95) spans.push([low,high]);
+  }
+  const merged = [];
+  for (const [low,high] of spans.sort((a,b)=>a[0]-b[0])) {
+    const previous = merged.at(-1);
+    if (previous && low<=previous[1]+1e-7) previous[1]=Math.max(previous[1],high);
+    else merged.push([low,high]);
+  }
+  return [
+    ...merged.map(([low,high])=>({v:(low+high)/2,feature:'relief'})),
+    ...[.05,.25,.5,.75,.95].map(v=>({v,feature:'page'})),
+  ];
+}
+
 function measureScore(scene,records,worldToRoom,member,reference) {
   const page = memberPart(records,member,member.resource.musicStand?.pageNode);
   const stand = scene.root.getObjectByName(member.id), scoreToRoom = worldToRoom.clone().multiply(stand.matrixWorld);
   const roomToScore = scoreToRoom.clone().invert(), points = vertices(page).map(point=>point.clone().applyMatrix4(roomToScore));
   const box = new T.Box3().setFromPoints(points);
   if (box.max.x-box.min.x<.20 || box.max.y-box.min.y<.10) fail('singing-score-pages',member.id,'The actual score needs two readable page panels.');
-  return [.25,.75].map((fraction,index)=>{
-    const sheetPoint = p(T.MathUtils.lerp(box.min.x,box.max.x,fraction),box.getCenter(p()).y,box.min.z-.16);
+  const localFaces = triangles(page).map(face=>new T.Triangle(...[face.a,face.b,face.c].map(point=>point.clone().applyMatrix4(roomToScore))));
+  function readAt(index,u,v,feature) {
+    const side = index?'right':'left', sample = {u,v:Number(v.toFixed(7)),feature};
+    const sheetPoint = p(T.MathUtils.lerp(box.min.x,box.max.x,(index+u)/2),T.MathUtils.lerp(box.min.y,box.max.y,v),box.min.z-.16);
     const facePoint = sheetPoint.clone(); facePoint.z = box.max.z+.16;
     const target = rayHit([page],facePoint.applyMatrix4(scoreToRoom),sheetPoint.applyMatrix4(scoreToRoom));
-    if (!target) fail('singing-score-pages',member.id,'Each page must have a physical surface near its own center.',{page:index+1});
+    if (!target) fail('singing-score-pages',member.id,'The designated reading area needs a physical page surface.',{page:index+1,side,sample});
     const hit = rayHit(records,reference.eye,target.point);
     if (hit?.record!==page || hit.point.distanceTo(target.point)>.004)
-      fail('singing-score-occluded',hit?.record.id??member.id,'Both pages must be visible from the eye reference.',{page:index+1,blocker:hit&&component(hit.record.object)});
+      fail('singing-score-occluded',hit?.record.id??member.id,'A reading sample is hidden from the performer eye.',{
+        page:index+1,side,sample,target:tuple(target.point),eye:tuple(reference.eye),blocker:hit&&component(hit.record.object),
+        firstHit:hit&&{id:hit.record.id,mesh:component(hit.record.object),point:tuple(hit.point)}});
+    return hit;
+  }
+  return ['left','right'].map((side,index)=>{
+    const hit = readAt(index,.5,.5,'center');
     const incidence = degrees(hit.normal,reference.eye.clone().sub(hit.point));
     const glance = degrees(reference.facing,hit.point.clone().sub(reference.eye).setY(0));
     if (incidence>60 || glance>60 || hit.distance<.35 || hit.distance>1.8)
       fail('singing-score-angle',member.id,'Both real pages must face the reader within the geometric reading window.',{page:index+1,incidence,glance,distance:hit.distance});
-    return {page:index?'right':'left',mesh:component(page.object),point:tuple(hit.point),incidenceDegrees:incidence,glanceDegrees:glance,distanceMetres:hit.distance};
+    let samples=1, reliefSamples=0;
+    // Start at the outside ends of the actual staff to give the author a useful first witness.
+    const columns=index ? [.92,.75,.5,.25,.08,.95,.05] : [.08,.25,.5,.75,.92,.05,.95];
+    for (const u of columns) {
+      const x=T.MathUtils.lerp(box.min.x,box.max.x,(index+u)/2);
+      for (const {v,feature} of scoreRowsAt(x,box,localFaces)) {
+        if (u===.5 && v===.5) continue;
+        readAt(index,u,v,feature);
+        samples++;
+        if (feature==='relief') reliefSamples++;
+      }
+    }
+    return {page:side,mesh:component(page.object),point:tuple(hit.point),incidenceDegrees:incidence,glanceDegrees:glance,distanceMetres:hit.distance,
+      visibility:{method:'physical-page-and-stroke-samples',insetFraction:.05,columns,samples,reliefSamples}};
   });
 }
 
