@@ -1,0 +1,662 @@
+{
+  "status": "passed",
+  "inputSha256": "d38cd555d8b125c606ef28775b08fa96b2834c40c082e7ee06478dc4035f6989",
+  "cases": [
+    {
+      "name": "mismatched-top-sha",
+      "actor": "uniform-lite-female-v1",
+      "selection": {
+        "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+        "role": "pants-top-far",
+        "equipment": [
+          {
+            "id": "source-female-uniform-texture-v1-top-1k",
+            "slot": "top",
+            "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+          },
+          {
+            "id": "source-female-uniform-texture-v1-shoes",
+            "slot": "shoes",
+            "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+          },
+          {
+            "id": "source-female-uniform-texture-v1-pants",
+            "slot": "bottom",
+            "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+          }
+        ]
+      },
+      "result": {
+        "ok": false,
+        "code": "production-input",
+        "field": "outfit.selection",
+        "editIndex": 0,
+        "reason": "No registered outfit matches the role and exact equipment set"
+      },
+      "activeUnchanged": true
+    },
+    {
+      "name": "mismatched-body-sha",
+      "actor": "uniform-lite-male-v1",
+      "selection": {
+        "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+        "role": "pants-top-far",
+        "equipment": [
+          {
+            "id": "cc0-texture-release-uniform-top-1k-v1",
+            "slot": "top",
+            "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+          },
+          {
+            "id": "cc0-texture-release-flat-shoes-v1",
+            "slot": "shoes",
+            "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756"
+          },
+          {
+            "id": "cc0-texture-release-uniform-pants-v1",
+            "slot": "bottom",
+            "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0"
+          }
+        ]
+      },
+      "result": {
+        "ok": false,
+        "code": "production-input",
+        "field": "outfit.selection.bodySha256",
+        "editIndex": 0,
+        "reason": "Outfit selection requires its exact body"
+      },
+      "activeUnchanged": true
+    },
+    {
+      "name": "another-bodys-top",
+      "actor": "uniform-lite-female-v1",
+      "selection": {
+        "bodySha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c",
+        "role": "pants-top-far",
+        "equipment": [
+          {
+            "id": "cc0-texture-release-uniform-top-1k-v1",
+            "slot": "top",
+            "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+          },
+          {
+            "id": "source-female-uniform-texture-v1-shoes",
+            "slot": "shoes",
+            "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+          },
+          {
+            "id": "source-female-uniform-texture-v1-pants",
+            "slot": "bottom",
+            "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+          }
+        ]
+      },
+      "result": {
+        "ok": false,
+        "code": "production-input",
+        "field": "outfit.selection",
+        "editIndex": 0,
+        "reason": "No registered outfit matches the role and exact equipment set"
+      },
+      "activeUnchanged": true
+    },
+    {
+      "name": "missing-top",
+      "actor": "uniform-lite-male-v1",
+      "selection": {
+        "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "role": "pants-top-far",
+        "equipment": [
+          {
+            "id": "cc0-texture-release-flat-shoes-v1",
+            "slot": "shoes",
+            "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756"
+          },
+          {
+            "id": "cc0-texture-release-uniform-pants-v1",
+            "slot": "bottom",
+            "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0"
+          }
+        ]
+      },
+      "result": {
+        "ok": false,
+        "code": "production-input",
+        "field": "outfit.selection",
+        "editIndex": 0,
+        "reason": "No registered outfit matches the role and exact equipment set"
+      },
+      "activeUnchanged": true
+    },
+    {
+      "name": "tampered-complete-record",
+      "actor": "uniform-lite-female-v1",
+      "result": {
+        "ok": false,
+        "code": "recipe-hash-mismatch",
+        "field": "integrity.recipeSha256",
+        "reason": "appearanceRecipe hash does not match"
+      },
+      "activeUnchanged": true
+    },
+    {
+      "name": "resource-503",
+      "actor": "uniform-lite-female-v1",
+      "path": "/assets/garment-basecolor-release-v1/female/m1-female-uniform-top-1k-v1.glb",
+      "result": {
+        "ok": false,
+        "reason": "Garment HTTP 503"
+      },
+      "blockedRequests": 1,
+      "activeUnchanged": true
+    },
+    {
+      "name": "valid-remove-and-retry",
+      "actor": "uniform-lite-female-v1",
+      "sourceRevision": 1,
+      "resultRevision": 3,
+      "restoredRecipeSha256": "c3deb46ad7c1bb0363f3b81b60643db11ba28abdfff76c178839366d03930ff7",
+      "activeUnchanged": true
+    },
+    {
+      "name": "valid-remove-and-retry",
+      "actor": "uniform-lite-male-v1",
+      "sourceRevision": 1,
+      "resultRevision": 3,
+      "restoredRecipeSha256": "2a70bbba2b177a6aa5043d6ce484467731c4412a0d388490058563629ea4a1fb",
+      "activeUnchanged": true
+    }
+  ],
+  "pageErrors": [],
+  "failedResponses": [
+    {
+      "path": "/assets/garment-basecolor-release-v1/female/m1-female-uniform-top-1k-v1.glb",
+      "status": 503
+    }
+  ],
+  "scope": "Actual D02 production and consumer on the fixed build. No recording, clothing contact or performance measurement.",
+  "browser": "157.0.8103.79",
+  "build": {
+    "shortId": "b37d45ef0fe4",
+    "sourceDigest": "b37d45ef0fe4e437a284003e179e37b47b0eef1603aae5b86d48d31045568181"
+  },
+  "before": {
+    "sceneChildren": [
+      "5c3454d1-eb09-45a3-a93c-ca00cc059853",
+      "54fefb85-a0c3-4317-9299-86d7b52766af",
+      "6115678e-8760-4a13-a4ed-0fb67cea20df",
+      "a95ec913-9f35-48af-8c73-c3f0dd3d8391",
+      "4876ef10-cca7-4094-ac39-7f97efbb22ed"
+    ],
+    "active": [
+      {
+        "id": "uniform-lite-female-v1",
+        "root": "a95ec913-9f35-48af-8c73-c3f0dd3d8391",
+        "attached": true,
+        "sameObject": true,
+        "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757",
+        "revision": 1,
+        "recipeSha256": "c3deb46ad7c1bb0363f3b81b60643db11ba28abdfff76c178839366d03930ff7",
+        "liveAccessories": {
+          "schema": "live-accessory-record-v1",
+          "selections": {
+            "mic": {
+              "enabled": false,
+              "identity": null
+            },
+            "glasses": {
+              "enabled": false,
+              "identity": null
+            }
+          },
+          "microphonePresentation": null
+        },
+        "equipmentMaterials": {
+          "schema": "garment-material-record-v1",
+          "selections": [
+            {
+              "equipmentId": "source-female-uniform-texture-v1-pants",
+              "garmentSha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92",
+              "selection": null
+            },
+            {
+              "equipmentId": "source-female-uniform-texture-v1-shoes",
+              "garmentSha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf",
+              "selection": null
+            },
+            {
+              "equipmentId": "source-female-uniform-texture-v1-top-1k",
+              "garmentSha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8",
+              "selection": null
+            }
+          ]
+        },
+        "resourceIdentities": [
+          {
+            "id": "appearance/base/sha256",
+            "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/compatibleAvatarSha256",
+            "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/sha256",
+            "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/sourceLicense/files/0/sha256",
+            "sha256": "bf2717cff70b40a278df56e137dbb699c6499551096fa4c005e9aeca1de68eb3"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/sourceLicense/files/1/sha256",
+            "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/compatibleAvatarSha256",
+            "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/sha256",
+            "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/sourceLicense/files/0/sha256",
+            "sha256": "bf2717cff70b40a278df56e137dbb699c6499551096fa4c005e9aeca1de68eb3"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/sourceLicense/files/1/sha256",
+            "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/compatibleAvatarSha256",
+            "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/sha256",
+            "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/sourceLicense/files/0/sha256",
+            "sha256": "bf2717cff70b40a278df56e137dbb699c6499551096fa4c005e9aeca1de68eb3"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/sourceLicense/files/1/sha256",
+            "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+          },
+          {
+            "id": "materials/selections/0/garmentSha256",
+            "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+          },
+          {
+            "id": "materials/selections/1/garmentSha256",
+            "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+          },
+          {
+            "id": "materials/selections/2/garmentSha256",
+            "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+          }
+        ],
+        "visibleEquipment": [
+          "source-female-uniform-texture-v1-pants",
+          "source-female-uniform-texture-v1-shoes",
+          "source-female-uniform-texture-v1-top-1k"
+        ]
+      },
+      {
+        "id": "uniform-lite-male-v1",
+        "root": "4876ef10-cca7-4094-ac39-7f97efbb22ed",
+        "attached": true,
+        "sameObject": true,
+        "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2",
+        "revision": 1,
+        "recipeSha256": "2a70bbba2b177a6aa5043d6ce484467731c4412a0d388490058563629ea4a1fb",
+        "liveAccessories": {
+          "schema": "live-accessory-record-v1",
+          "selections": {
+            "mic": {
+              "enabled": false,
+              "identity": null
+            },
+            "glasses": {
+              "enabled": false,
+              "identity": null
+            }
+          },
+          "microphonePresentation": null
+        },
+        "equipmentMaterials": {
+          "schema": "garment-material-record-v1",
+          "selections": [
+            {
+              "equipmentId": "cc0-texture-release-flat-shoes-v1",
+              "garmentSha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+              "selection": null
+            },
+            {
+              "equipmentId": "cc0-texture-release-uniform-pants-v1",
+              "garmentSha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0",
+              "selection": null
+            },
+            {
+              "equipmentId": "cc0-texture-release-uniform-top-1k-v1",
+              "garmentSha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d",
+              "selection": null
+            }
+          ]
+        },
+        "resourceIdentities": [
+          {
+            "id": "appearance/base/sha256",
+            "sha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/compatibleAvatarSha256",
+            "sha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/sha256",
+            "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/sourceLicense/vrmSHA256",
+            "sha256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/sourceLicense/zipSHA256",
+            "sha256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/compatibleAvatarSha256",
+            "sha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/sha256",
+            "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/sourceLicense/vrmSHA256",
+            "sha256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/sourceLicense/zipSHA256",
+            "sha256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/compatibleAvatarSha256",
+            "sha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/sha256",
+            "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/sourceLicense/vrmSHA256",
+            "sha256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/sourceLicense/zipSHA256",
+            "sha256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8"
+          },
+          {
+            "id": "materials/selections/0/garmentSha256",
+            "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756"
+          },
+          {
+            "id": "materials/selections/1/garmentSha256",
+            "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0"
+          },
+          {
+            "id": "materials/selections/2/garmentSha256",
+            "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+          }
+        ],
+        "visibleEquipment": [
+          "cc0-texture-release-flat-shoes-v1",
+          "cc0-texture-release-uniform-pants-v1",
+          "cc0-texture-release-uniform-top-1k-v1"
+        ]
+      }
+    ]
+  },
+  "reopened": {
+    "sceneChildren": [
+      "de6172f9-e1f4-4572-b72d-896924900b89",
+      "09177263-be2f-4700-9f94-2e1898119b38",
+      "f146efb2-3e6b-45ed-82c7-1bb381b6d1a6",
+      "9602a70d-9faa-4653-92db-5619781be3f5",
+      "f2602013-4330-42a9-b908-3f0fa33dca47"
+    ],
+    "active": [
+      {
+        "id": "uniform-lite-female-v1",
+        "root": "9602a70d-9faa-4653-92db-5619781be3f5",
+        "attached": true,
+        "sameObject": true,
+        "recordSha256": "893584fb5b34c129636ccc91e8fe2f867930e59ca898d148c0f4f062036fcafa",
+        "revision": 3,
+        "recipeSha256": "c3deb46ad7c1bb0363f3b81b60643db11ba28abdfff76c178839366d03930ff7",
+        "liveAccessories": {
+          "schema": "live-accessory-record-v1",
+          "selections": {
+            "mic": {
+              "enabled": false,
+              "identity": null
+            },
+            "glasses": {
+              "enabled": false,
+              "identity": null
+            }
+          },
+          "microphonePresentation": null
+        },
+        "equipmentMaterials": {
+          "schema": "garment-material-record-v1",
+          "selections": [
+            {
+              "equipmentId": "source-female-uniform-texture-v1-pants",
+              "garmentSha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92",
+              "selection": null
+            },
+            {
+              "equipmentId": "source-female-uniform-texture-v1-shoes",
+              "garmentSha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf",
+              "selection": null
+            },
+            {
+              "equipmentId": "source-female-uniform-texture-v1-top-1k",
+              "garmentSha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8",
+              "selection": null
+            }
+          ]
+        },
+        "resourceIdentities": [
+          {
+            "id": "appearance/base/sha256",
+            "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/compatibleAvatarSha256",
+            "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/sha256",
+            "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/sourceLicense/files/0/sha256",
+            "sha256": "bf2717cff70b40a278df56e137dbb699c6499551096fa4c005e9aeca1de68eb3"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/sourceLicense/files/1/sha256",
+            "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/compatibleAvatarSha256",
+            "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/sha256",
+            "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/sourceLicense/files/0/sha256",
+            "sha256": "bf2717cff70b40a278df56e137dbb699c6499551096fa4c005e9aeca1de68eb3"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/sourceLicense/files/1/sha256",
+            "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/compatibleAvatarSha256",
+            "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/sha256",
+            "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/sourceLicense/files/0/sha256",
+            "sha256": "bf2717cff70b40a278df56e137dbb699c6499551096fa4c005e9aeca1de68eb3"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/sourceLicense/files/1/sha256",
+            "sha256": "1995f174f6c8f2211f3c56c9e5fe4f9daf27ee5e648f129479582a259238149b"
+          },
+          {
+            "id": "materials/selections/0/garmentSha256",
+            "sha256": "9e41d6df66a0917c2a4c09741c9f963fd05a347335854999d720d96ccee7aa92"
+          },
+          {
+            "id": "materials/selections/1/garmentSha256",
+            "sha256": "c4e4178a735f752e3afafa2c7840d462446b7dd2e2bce57de2d0c08108cebcaf"
+          },
+          {
+            "id": "materials/selections/2/garmentSha256",
+            "sha256": "030a58142ce8fe29cd5bfcbe6a133fc0bb9675384e27e6e4ff0b04a5bbe3caa8"
+          }
+        ],
+        "visibleEquipment": [
+          "source-female-uniform-texture-v1-pants",
+          "source-female-uniform-texture-v1-shoes",
+          "source-female-uniform-texture-v1-top-1k"
+        ]
+      },
+      {
+        "id": "uniform-lite-male-v1",
+        "root": "f2602013-4330-42a9-b908-3f0fa33dca47",
+        "attached": true,
+        "sameObject": true,
+        "recordSha256": "1aaa68ee346b1e5c7fc5a2d76e271f5be4979dddab2907e2baf1a58067812535",
+        "revision": 3,
+        "recipeSha256": "2a70bbba2b177a6aa5043d6ce484467731c4412a0d388490058563629ea4a1fb",
+        "liveAccessories": {
+          "schema": "live-accessory-record-v1",
+          "selections": {
+            "mic": {
+              "enabled": false,
+              "identity": null
+            },
+            "glasses": {
+              "enabled": false,
+              "identity": null
+            }
+          },
+          "microphonePresentation": null
+        },
+        "equipmentMaterials": {
+          "schema": "garment-material-record-v1",
+          "selections": [
+            {
+              "equipmentId": "cc0-texture-release-flat-shoes-v1",
+              "garmentSha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+              "selection": null
+            },
+            {
+              "equipmentId": "cc0-texture-release-uniform-pants-v1",
+              "garmentSha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0",
+              "selection": null
+            },
+            {
+              "equipmentId": "cc0-texture-release-uniform-top-1k-v1",
+              "garmentSha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d",
+              "selection": null
+            }
+          ]
+        },
+        "resourceIdentities": [
+          {
+            "id": "appearance/base/sha256",
+            "sha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/compatibleAvatarSha256",
+            "sha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/sha256",
+            "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/sourceLicense/vrmSHA256",
+            "sha256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c"
+          },
+          {
+            "id": "appearance/equipment/resources/pants/sourceLicense/zipSHA256",
+            "sha256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/compatibleAvatarSha256",
+            "sha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/sha256",
+            "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/sourceLicense/vrmSHA256",
+            "sha256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c"
+          },
+          {
+            "id": "appearance/equipment/resources/shoes/sourceLicense/zipSHA256",
+            "sha256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/compatibleAvatarSha256",
+            "sha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/sha256",
+            "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/sourceLicense/vrmSHA256",
+            "sha256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c"
+          },
+          {
+            "id": "appearance/equipment/resources/topFar/sourceLicense/zipSHA256",
+            "sha256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8"
+          },
+          {
+            "id": "materials/selections/0/garmentSha256",
+            "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756"
+          },
+          {
+            "id": "materials/selections/1/garmentSha256",
+            "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0"
+          },
+          {
+            "id": "materials/selections/2/garmentSha256",
+            "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d"
+          }
+        ],
+        "visibleEquipment": [
+          "cc0-texture-release-flat-shoes-v1",
+          "cc0-texture-release-uniform-pants-v1",
+          "cc0-texture-release-uniform-top-1k-v1"
+        ]
+      }
+    ]
+  }
+}

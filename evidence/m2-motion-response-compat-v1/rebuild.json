@@ -1,0 +1,66 @@
+{
+  "schema": "motion-response-fixed-game-rebuild-v1",
+  "status": "technical-build-review-pass",
+  "sourceCommit": "2ad612c289d72356a3097be7e37086e320a79e09",
+  "sourceDigest": "4959572f6d5ed627b74e055ab033b8e00ccf29653282b2c3e593b5d6e78d8b86",
+  "buildId": "4959572f6d5e",
+  "cleanBuilds": [
+    {
+      "worktree": "experiments/worktrees/motion-read-2ad612c2",
+      "sourceCommit": "2ad612c289d72356a3097be7e37086e320a79e09",
+      "buildId": "4959572f6d5e",
+      "sourceDigest": "4959572f6d5ed627b74e055ab033b8e00ccf29653282b2c3e593b5d6e78d8b86",
+      "lockSha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7",
+      "dependenciesFrom": "experiments/worktrees/garment-80fb16b7/prototype",
+      "npmVersion": "11.6.2",
+      "nodeVersion": "v24.13.0",
+      "gitClean": true
+    },
+    {
+      "worktree": "experiments/worktrees/motion-read-2ad612c2-repeat",
+      "sourceCommit": "2ad612c289d72356a3097be7e37086e320a79e09",
+      "buildId": "4959572f6d5e",
+      "sourceDigest": "4959572f6d5ed627b74e055ab033b8e00ccf29653282b2c3e593b5d6e78d8b86",
+      "lockSha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7",
+      "dependenciesFrom": "experiments/worktrees/garment-80fb16b7/prototype",
+      "npmVersion": "11.6.2",
+      "nodeVersion": "v24.13.0",
+      "gitClean": true
+    }
+  ],
+  "comparison": {
+    "distFiles": 526,
+    "distBytes": 742788374,
+    "inventorySha256": "c3f0df5682192ba57f8521c8147b640f89e4213e4efc5c9e935c1dc0a053ac22",
+    "distDifference": [],
+    "sourceInputCount": 640,
+    "sourceDigest": "4959572f6d5ed627b74e055ab033b8e00ccf29653282b2c3e593b5d6e78d8b86",
+    "inventoryPath": "output/m2-motion-response-compat-fixed-build/dist-inventory.json"
+  },
+  "review": {
+    "path": "scripts/runtime-package/game-record-motion-read-compat-reviewed.json",
+    "sha256": "399609f90e5bfbf3d0811a65810ee3ce579ee6cb96a2a3e41fd1bcf6eca3e693",
+    "compiledEntryClosureFiles": 11,
+    "indexSection": "externalRecords",
+    "existingIndexEntriesPreserved": true
+  },
+  "reproduction": {
+    "checkouts": [
+      {
+        "checkout": "python -B scripts/character-worktree.py create motion-read-2ad612c2 2ad612c289d72356a3097be7e37086e320a79e09 --runtime-only",
+        "buildCwd": "experiments/worktrees/motion-read-2ad612c2/prototype",
+        "build": "npm run build"
+      },
+      {
+        "checkout": "python -B scripts/character-worktree.py create motion-read-2ad612c2-repeat 2ad612c289d72356a3097be7e37086e320a79e09 --runtime-only",
+        "buildCwd": "experiments/worktrees/motion-read-2ad612c2-repeat/prototype",
+        "build": "npm run build"
+      }
+    ],
+    "dependencyMethod": "Independent copies of installed project node_modules after exact package-lock equality; offline builds and no install",
+    "tempAndNpmCache": "output/m2-motion-response-compat-fixed-build",
+    "reviewCommand": "node scripts/runtime-package/review-game-runtime.mjs experiments/worktrees/motion-read-2ad612c2/prototype/dist experiments/worktrees/motion-read-2ad612c2-repeat/prototype/dist experiments/worktrees/motion-read-2ad612c2-repeat NEW_REVIEW_FILE",
+    "distInventoryDigest": "SHA-256 of compact, sorted-key JSON mapping each POSIX path to [file byte count, SHA-256]"
+  },
+  "scope": "Independent CPU builds and external-record runtime closure only."
+}

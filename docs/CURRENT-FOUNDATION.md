@@ -2,6 +2,8 @@
 
 ## 固定入口与备份
 
+**游戏制作当前取 [固定交付单](../delivery/character-production-handoff.json)。** 同一条制服款式请求产出男女两条独立签名记录。工具 `f16b3d33`，游戏源码 `2ad612c2`，构建 `4959572f6d5e`。34 文件实包通过固定检出核验。Chrome 145 和 157 各自冷开并重开三种包，12 次均加载正确的上衣和动作。开发机上女、男各录了一段约 17 秒的走、坐、起、离开。正式套装准入仍为 0/2。接续核对轻量女体短发和配色实际依赖，逐项确定可复用的适配。4196 人工预览单独发布。[直接看 1 倍速](../evidence/m2-motion-response-compat-v1/index.html) · [收件复验](../evidence/m2-motion-response-compat-v1/README.md)
+
 制服角色主线现已扩到男女两条独立记录。固定游戏源码 `553906db`、构建 `b37d45ef0fe4`；共用登记入口支持按基模复算并检查实际发布文件。原上衣和轻量上衣各导出 34 个文件的双人包，两包均经首次加载和关闭重开。轻量上衣通过本次静态预算。该增量供内部制作与集成，普通电脑实测及公开发行授权仍待核。4196 的在线版本、下次启动版本及回退指针见下方。可直接打开[女性作品的同期 1 倍速对照](../evidence/m2-female-uniform-texture-game-v1/index.html)。[接收记录与复建流程](../evidence/m2-female-uniform-texture-game-v1/README.md)
 
 盘根巡检已覆盖 HTTP 压缩、浏览器录屏、失败回执和固定重建的 npm 缓存。使用实际压缩和浏览器检查入口指定 F 盘根时会在创建文件前拒绝。工程内的正常流程完成 18 次浏览器访问，原先迁移的 37 个工作树仍在主工程内。房间与 M1 录像抽帧也已覆盖，每个入口均用 5 秒录像生成 10 帧，三项回归含目录联接和失败清理。[根目录复查与回归](../evidence/character-worktree-relocation-v1/production-output-audit-v3.json) · [抽帧路径回归](../scripts/test_filmstrip_paths.py)
@@ -12,7 +14,7 @@
 
 第 13 号已核实原制作和参数回执，仍缺该身体的原生去组导出。VRoid 的正常历史、设置和应用缓存已有用户授权；执行工具拒绝本次启动，复核时无进程及 7811 监听。请求已保存。接续使用分发许可明确的资源验证正式生产准入；正式设施还需在同一场景接通座位及其租约。[启动回执](../evidence/m2-native-top-removal-intake-v1/native-launch.json)
 
-游戏制作 Agent 取 [固定交付单](../delivery/character-production-handoff.json)。当前制作工具为 `54e8a24c`，游戏为 `80fb16b7 / 5859bd00da8b`。两条已签制服记录已在干净工具检出复核。交付单绑定静态预算、签名和 48 个游戏文件。两体均超静态预算，普通机未测。短发女体的发、眉、虹膜、唇共 8 张派生画布，固定游戏的两轮 Chrome 检查确认了切换复用与逐人释放。已登记的配色可以按同一材质规则重复核算。[独立交付回读](../evidence/m2-signed-hair-cache-budget-v1/verified-handoff.json) · [逐部件比对](../evidence/m2-signed-hair-cache-budget-v1/matched.json) · [当前双人 1× 录像](../evidence/m2-uniform-agent-handoff-v1/game/produced-pair-1x.webm)
+上一份[带短发及配色的交付单](../delivery/history/character-production-handoff-54e8a24c.json)固定工具 `54e8a24c`，游戏为 `80fb16b7 / 5859bd00da8b`。两条已签制服记录已在干净工具检出复核。该版本绑定静态预算、签名和 48 个游戏文件。两体均超静态预算，普通机未测。短发女体的发、眉、虹膜、唇共 8 张派生画布，固定游戏的两轮 Chrome 检查确认了切换复用与逐人释放。[独立交付回读](../evidence/m2-signed-hair-cache-budget-v1/verified-handoff.json) · [逐部件比对](../evidence/m2-signed-hair-cache-budget-v1/matched.json) · [该版双人录像](../evidence/m2-uniform-agent-handoff-v1/game/produced-pair-1x.webm)
 
 CC0 男制服与领带的单槽签名记录已完成首次独立加载和关闭恢复，完整构建也完成换回原衣。当前固定交付单仍使用此前双记录。原生多片上衣的下一项是将同体去组回执、索引、材质及皮肤遮罩串入制作，十三人范围按各自证据认定。[本轮正常速度录像与复算入口](../evidence/m2-garment-group-game-v1/README.md) · [原生单片对照与错体拒绝](../evidence/m2-garment-group-input-v1/native-removal-result.json)。保留七人的既有独立冷开结果及十三人未支持边界。上一制作工具 `27ebb18f` 已给九个制作和诊断命令补上工程内写入检查，37 个迁移目录旧路径残留为 0。[多图元源配方](../evidence/m2-raw-male-equipment-v1/outfit.json) · [外部样本范围](../evidence/m2-body-intake-v1/seven-receiver-observations.md) · [输出范围实测](../evidence/character-worktree-relocation-v1/production-output-audit-v2.json) · [上一份交付单](../delivery/history/character-production-handoff-27ebb18f.json)
 
