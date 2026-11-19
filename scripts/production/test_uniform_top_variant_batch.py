@@ -59,23 +59,44 @@ try {
     const recipe = record.appearanceRecipe;
     assert.equal(recipe.base.bodyType, job.bodyType);
     assert.equal(recipe.base.sha256, selection.bodySha256);
+    assert.equal(recipe.paletteVersion, query.appearance.defaultRecipe.paletteVersion);
     assert.deepEqual(record.identity, job.identity);
     assert.deepEqual(Object.values(recipe.equipment.resources).map(resourcePin).sort(byId), selection.equipment.sort(byId));
     const saved = prior ? prior.find(r => r.identity.id === job.identity.id) : record;
+    assert.ok(saved, 'Missing archived record for ' + job.identity.id);
     assert.deepEqual(saved.identity, record.identity);
-    assert.equal(canonicalJson(saved.appearanceRecipe), canonicalJson(recipe));
-    assert.equal(saved.integrity.recipeSha256, record.integrity.recipeSha256);
+    // Newly issued records use the current body's palette. Restoring an original-only
+    // archive must preserve its historical palette version and every signed look field.
+    const {paletteVersion: historicalPalette, ...historicalLook} = saved.appearanceRecipe;
+    const {paletteVersion: currentPalette, ...currentLook} = recipe;
+    // Compare using the record's JSON encoding, including the canonical form of signed zero.
+    assert.equal(canonicalJson(historicalLook), canonicalJson(currentLook));
+    if (historicalPalette === currentPalette) {
+      assert.equal(saved.integrity.recipeSha256, record.integrity.recipeSha256);
+    } else {
+      assert.notEqual(saved.integrity.recipeSha256, record.integrity.recipeSha256);
+    }
+    const originalEnvelope = canonicalJson(saved);
     const avatar = await prepareRecordedCharacter(saved, env);
     try {
       assert.equal(avatar.recordSha256, saved.integrity.recordSha256);
-      assert.equal(avatar.controller.outfit, recipe.equipment.index);
+      assert.equal(avatar.revision, saved.revision);
+      assert.deepEqual(avatar.identity, saved.identity);
+      assert.equal(avatar.controller.outfit, saved.appearanceRecipe.equipment.index);
       const {equipment} = avatar.avatar.getOutfitInfo();
       assert.equal(equipment.items.top.loaded, false);
       assert.equal(equipment.items.topFar.visible, true);
       const activeCoverage = equipment.bodyCoverage?.activeItems ?? [];
       avatar.attach();
       avatar.update(1 / 60, {action:'idle'});
-      assert.equal(canonicalJson((await avatar.capture()).appearanceRecipe.equipment), canonicalJson(recipe.equipment));
+      const captured = await avatar.capture();
+      for (const key of ['identity', 'appearanceRecipe', 'resourceIdentities', 'liveAccessories', 'equipmentMaterials']) {
+        assert.equal(canonicalJson(captured[key]), canonicalJson(saved[key]), 'Restored record differs in ' + key);
+      }
+      assert.equal(captured.integrity.recipeSha256, saved.integrity.recipeSha256);
+      assert.equal(captured.revision, saved.revision + 1);
+      assert.equal(captured.createdAt, saved.createdAt);
+      assert.equal(canonicalJson(saved), originalEnvelope);
       evidence.push({bodyType:job.bodyType, recordSha256:avatar.recordSha256, ...recipe.base,
         identity:record.identity, outfitIndex:recipe.equipment.index, role:recipe.equipment.role,
         equipment:selection.equipment, activeCoverage, bodyAsset:query.body.url,
@@ -114,6 +135,8 @@ class UniformTopVariantBatchTests(unittest.TestCase):
                     job['edits'][0]['selection']['equipment'].sort(key=lambda e: e['id'])
             self.assertEqual(produced, previous)
             signed = reference / 'far-records.json'
+            self.assertEqual(hashlib.sha256(signed.read_bytes()).hexdigest(),
+                             '6c91cc19f0ef40528657e59071acfd1b9d906256e9f04340ee99ea583910dc7a')
             observed = create_and_read_back(ROOT, batch, signed)
             records = read(signed)
             self.assertEqual([a['activeCoverage'] for a in observed], [['source-female-uniform-texture-v1-top-1k'], []])

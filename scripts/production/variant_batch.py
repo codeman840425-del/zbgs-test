@@ -25,6 +25,8 @@ ID = re.compile(r"^[a-z][a-z0-9-]{1,95}$")
 SHA = re.compile(r"^[a-f0-9]{64}$")
 QUERY_SCRIPT = "scripts/production/variant_batch_query.mjs"
 FIXED_MATRIX = "assets-source/variant-matrix-v1/representative-matrix.json"
+LIVE_ACCESSORY_KINDS = {"glasses", "mic"}
+ITEM_FIELDS = {"stableId", "styleId", "bodyType", "variantVersion", "identity", "outfit", "appearance", "liveAccessories"}
 
 
 def check(condition: bool, message: str) -> None:
@@ -56,6 +58,13 @@ def variant_key(item):
     return tuple(item.get(key) for key in ("styleId", "bodyType", "variantVersion"))
 
 
+def validate_live_accessories(values):
+    check(isinstance(values, dict), "Specify a liveAccessories object")
+    for kind, enabled in values.items():
+        check(kind in LIVE_ACCESSORY_KINDS, f"Unknown liveAccessories field: {kind}")
+        check(type(enabled) is bool, f"liveAccessories.{kind} must be boolean")
+
+
 def batch_items(request):
     items = request.get("items")
     check(isinstance(items, list) and items, "Batch request items must be non-empty")
@@ -63,25 +72,44 @@ def batch_items(request):
         return items
     shared = request["sharedLook"]
     required = {"styleId", "variantVersion", "outfitRole"}
-    check(isinstance(shared, dict) and set(shared) in (required, required | {"appearance"}) and
+    check(isinstance(shared, dict) and required <= set(shared) <= required | {"appearance", "liveAccessories"} and
           all(isinstance(shared[k], str) and ID.fullmatch(shared[k]) for k in required), "Invalid sharedLook")
     if "appearance" in shared:
         check(isinstance(shared["appearance"], dict) and shared["appearance"] and
               all(isinstance(value, str) for value in shared["appearance"].values()), "Invalid shared appearance")
+    if "liveAccessories" in shared:
+        validate_live_accessories(shared["liveAccessories"])
     expanded = []
+    required = {"bodyType", "identity"}
     for item in items:
-        if not isinstance(item, dict) or set(item) not in ({"bodyType", "identity"}, {"bodyType", "identity", "appearance"}):
+        uses_live = "liveAccessories" in shared or isinstance(item, dict) and "liveAccessories" in item
+        if not isinstance(item, dict) or not (required <= set(item) <= required | {"appearance", "liveAccessories"}):
             # Keep per-item errors isolated, including attempted overrides of the shared style.
-            expanded.append({"itemError": "Shared looks require bodyType, identity and optional appearance per item"})
+            if uses_live and isinstance(item, dict):
+                identity = item.get("identity")
+                expanded.append({"stableId": identity.get("id") if isinstance(identity, dict) else None,
+                                 "itemError": "Shared looks require bodyType, identity and optional appearance or liveAccessories per item"})
+            else:
+                expanded.append({"itemError": "Shared looks require bodyType, identity and optional appearance per item"})
             continue
         identity = item["identity"]
+        stable_id = identity.get("id") if isinstance(identity, dict) else None
         if "appearance" in shared:
             overrides = item.get("appearance", {})
             if not isinstance(overrides, dict) or ("appearance" in item and not overrides):
-                expanded.append({"itemError": "Specify a nonempty appearance object"})
+                expanded.append({"itemError": "Specify a nonempty appearance object",
+                                 **({"stableId": stable_id} if uses_live else {})})
                 continue
             item = {**item, "appearance": {**shared["appearance"], **overrides}}
-        expanded.append({**item, "stableId": identity.get("id") if isinstance(identity, dict) else None,
+        if uses_live:
+            overrides = item.get("liveAccessories", {})
+            try:
+                validate_live_accessories(overrides)
+            except ValueError as error:
+                expanded.append({"stableId": stable_id, "itemError": str(error)})
+                continue
+            item = {**item, "liveAccessories": {**shared.get("liveAccessories", {}), **overrides}}
+        expanded.append({**item, "stableId": stable_id,
                          "styleId":shared["styleId"], "variantVersion":shared["variantVersion"],
                          "outfit":{"role":shared["outfitRole"]}})
     return expanded
@@ -128,7 +156,25 @@ def personal_appearance(values, query):
     return {field: values[field] for field in sorted(values) if values[field] != defaults[field]}
 
 
+def live_accessory_edits(values, query):
+    validate_live_accessories(values)
+    slots = query.get("liveAccessories", {})
+    edits = []
+    for kind in sorted(values):
+        if not values[kind]:
+            continue
+        slot = slots.get(kind, {})
+        enabled = [choice for choice in slot.get("choices", []) if choice.get("enabled") is True]
+        reason = slot.get("reason", "exact body fit or resource unavailable")
+        check(slot.get("status") == "registered" and len(enabled) == 1,
+              f"liveAccessories.{kind} unavailable for this body: {reason}")
+        edits.append({"domain": "liveAccessory", "kind": kind, "enabled": True})
+    return edits
+
+
 def production_request(item, row, query, member):
+    unknown = sorted(set(item) - ITEM_FIELDS)
+    check(not unknown, "Unknown batch item field: " + ", ".join(unknown))
     identity = item.get("identity")
     check(isinstance(identity, dict) and set(identity) == {"id", "name", "gender"} and
           identity["id"] == item["stableId"], "Specify identity.id, name and gender; identity.id must equal stableId")
@@ -159,6 +205,8 @@ def production_request(item, row, query, member):
         values = personal_appearance(item["appearance"], query)
         if values:
             edits.append({"domain": "appearance", "values": values})
+    if "liveAccessories" in item:
+        edits.extend(live_accessory_edits(item["liveAccessories"], query))
     return {"schema": "character-production-request-v1", "operation": "create", "bodyType": row["bodyType"],
             "identity": dict(identity), "edits": edits}
 
@@ -225,6 +273,8 @@ def plan(matrix: dict, request: dict, *, queries=None, members=None, diagnostic=
             outfit = executable["edits"][0]["selection"]
             approval = None
             if not diagnostic:
+                check(not any(edit["domain"] == "liveAccessory" for edit in executable["edits"]),
+                      "Whole-outfit review requires live accessories disabled")
                 check(len(executable["edits"]) == 1, "Whole-outfit review covers default appearance only")
                 fit_sha = (fit_shas or {}).get(variant_key(item))
                 approval = (admissions or {}).get(binding_key(outfit_binding(row, outfit, fit_sha)))
@@ -248,6 +298,7 @@ def plan(matrix: dict, request: dict, *, queries=None, members=None, diagnostic=
                     "admissionEvidence": row.get("admissionEvidence"),
                     "outfit": outfit,
                     **({"appearance": dict(item["appearance"])} if "appearance" in item else {}),
+                    **({"liveAccessories": dict(item["liveAccessories"])} if "liveAccessories" in item else {}),
                     **({"wholeOutfitAdmission":approval} if approval else {}),
                 },
             })
@@ -272,7 +323,17 @@ def plan(matrix: dict, request: dict, *, queries=None, members=None, diagnostic=
 def resolve_runtime(matrix, request, root, diagnostic, has_admissions):
     rows = matrix_rows(matrix)
     queries, members, fit_shas = {}, {}, {}
-    for item in batch_items(request):
+    items = batch_items(request)
+    live_kinds = {}
+    for item in items:
+        if not isinstance(item, dict) or not isinstance(item.get("bodyType"), str) or set(item) - ITEM_FIELDS:
+            continue
+        values = item.get("liveAccessories", {})
+        if isinstance(values, dict):
+            enabled = {kind for kind in LIVE_ACCESSORY_KINDS if values.get(kind) is True}
+            if enabled:
+                live_kinds.setdefault(item["bodyType"], set()).update(enabled)
+    for item in items:
         if not isinstance(item, dict) or not all(isinstance(value, str) for value in variant_key(item)):
             continue
         key = variant_key(item)
@@ -292,7 +353,8 @@ def resolve_runtime(matrix, request, root, diagnostic, has_admissions):
         if body in queries:
             continue
         projection = Path(__file__).with_name("variant_batch_query.mjs")
-        result = subprocess.run(["node", str(projection), body, str(root.resolve())], cwd=root, text=True, encoding="utf-8",
+        args = ["node", str(projection), body, str(root.resolve()), *sorted(live_kinds.get(body, ()))]
+        result = subprocess.run(args, cwd=root, text=True, encoding="utf-8",
                                 capture_output=True, check=False)
         if result.returncode:
             queries[body] = {"ok":False, "error":result.stderr.strip() or "Runtime query failed"}

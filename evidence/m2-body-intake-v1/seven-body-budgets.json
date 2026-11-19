@@ -1,0 +1,181 @@
+{
+  "scope": "Static cost of the complete body VRM only, no equipment, GPU measurements or runtime admission.",
+  "budgetVersion": "m2-technical-v1",
+  "assetClass": "body",
+  "rules": {
+    "path": "scripts/production/asset-budgets-v1.json",
+    "sha256": "b5f792da80d061aa8dfac1045e2f69e699207dd5d4a05b5ea9959ef532dc9d63"
+  },
+  "implementation": [
+    {
+      "path": "scripts/production/asset_budget.py",
+      "sha256": "4ba613606522009304afe98cde144cf9aacaea16b14394f520304e981355f447"
+    },
+    {
+      "path": "scripts/production/flow.py",
+      "sha256": "d9b7d1b2ceb24622a92abe1af8737da08d93f00a3e51113f5155487af789b1ba"
+    }
+  ],
+  "registration": {
+    "path": "F:/gamemake-test/native-studio-round/registration/evidence/seven-registered-bodies.json",
+    "sha256": "5133f9e74673d28dc0efceb731626ca91faceecb09bec244d8a2dcf17065b2b8"
+  },
+  "receiverAudit": {
+    "path": "output/m2-native-seven-intake/audit.json",
+    "sha256": "627a68cfe40ee2e33ca1101924664740620106e64e91e122ab95563ba27327a6"
+  },
+  "fixedDistributionRoots": {
+    "firstDist": "F:/gamemake-test/native-studio-round/registration/operator/received/run-six-originals-r01/dist",
+    "repeatDist": "F:/gamemake-test/native-studio-round/registration/seven-fixed-89bb64fabca4/checkout/prototype/dist"
+  },
+  "checkedAgainstHistoricalMetrics": 8,
+  "metricCountPerBody": 20,
+  "csv": {
+    "file": "seven-body-budgets.csv",
+    "sha256": "08e55d82e2037f7df1a2f757c3a6a3ca029648366384b8f0ce60810467121db9"
+  },
+  "subjects": [
+    {
+      "role": "source-male-cc0-texture-release-v1",
+      "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+      "status": "admitted",
+      "overLimitMetrics": [],
+      "asset": "prototype/public/assets/cc0-body-release-v1/body.vrm",
+      "previousFullBudget": {
+        "path": "evidence/m2-cc0-body-release-fit-v1/source-body.json",
+        "sha256": "5db2492d4fdd09abf05327c2aa7b6ff59949a4d05825fcc12c7235e6000c10ba"
+      }
+    },
+    {
+      "role": "studio-01-yun-lan",
+      "bodySha256": "bedc5970d9a248aa5870f3bfa6f3413736637db571846622ec4cf154c80a31a1",
+      "status": "rejected",
+      "overLimitMetrics": [
+        "primitiveVertices",
+        "jointSlots",
+        "rgba8MipBytes",
+        "springJoints",
+        "colliders"
+      ],
+      "rawRegistrationSha256": "7aa4242c8575d68b84fd23b32a7b525519ef4c7ec5d569807016dd9b21824154",
+      "modelInBothDistributions": "assets/native-studio-01-yun-lan-v1/body.vrm",
+      "previousFullBudget": {
+        "path": "F:/gamemake-test/native-studio-round/registration/operator/received/yun-registered-complete-body/intake.stdout",
+        "sha256": "8f2fd125b1200c20368c9e8598f87ca85bcafddba76ffeae30eefec9d3078b2d"
+      }
+    },
+    {
+      "role": "studio-02-bo-chen",
+      "bodySha256": "4eba2e4c63d63e402ef5215bfcdf58b8a2f171ced191b58078abf4765e38e052",
+      "status": "rejected",
+      "overLimitMetrics": [
+        "uniquePositionVertices",
+        "primitiveVertices",
+        "triangles",
+        "nodeTriangles",
+        "jointSlots",
+        "rgba8MipBytes",
+        "springJoints",
+        "colliders"
+      ],
+      "rawRegistrationSha256": "5e7d736cdd4191ddaff9c747157dd05bb65796d8cab0c910c97e77b36bbe555c",
+      "modelInBothDistributions": "assets/native-studio-02-bo-chen-v1/body.vrm",
+      "previousFullBudget": {
+        "path": "F:/gamemake-test/native-studio-round/registration/operator/received/registered-studio-02-bo-chen/intake.stdout",
+        "sha256": "f66081f027fc6042b1f0fa9c0a3ef683ce491ccf77f6fac3480e7aff1cb85995"
+      }
+    },
+    {
+      "role": "studio-03-mei-lin",
+      "bodySha256": "c94090edec513f069375fa0a70953c0a72afeb49730722ea0bc1a2a59a5bcb37",
+      "status": "rejected",
+      "overLimitMetrics": [
+        "primitiveVertices",
+        "jointSlots",
+        "rgba8MipBytes",
+        "springJoints",
+        "colliders"
+      ],
+      "rawRegistrationSha256": "7722880759dd240859400096e570f9d57c6309f851acbab40305254b9ad7a586",
+      "modelInBothDistributions": "assets/native-studio-03-mei-lin-v1/body.vrm",
+      "previousFullBudget": {
+        "path": "F:/gamemake-test/native-studio-round/registration/operator/received/registered-studio-03-mei-lin/intake.stdout",
+        "sha256": "fa7ce6ed853e57a8c3fca62e0fd19f0e10437113cf3cbe08acccda08c01ea2d0"
+      }
+    },
+    {
+      "role": "studio-08-min-tao",
+      "bodySha256": "b7662b1f96ea4320cd937ba5661c8b2bdb060e0658fd175cf572f1149fad4aba",
+      "status": "rejected",
+      "overLimitMetrics": [
+        "primitiveVertices",
+        "jointSlots",
+        "rgba8MipBytes",
+        "springJoints",
+        "colliders"
+      ],
+      "rawRegistrationSha256": "679859e9243a7feb39334939d73aac1c04bc26f278d0ca47660b0d7c2fb48320",
+      "modelInBothDistributions": "assets/native-studio-08-min-tao-v1/body.vrm",
+      "previousFullBudget": {
+        "path": "F:/gamemake-test/native-studio-round/registration/operator/received/registered-studio-08-min-tao/intake.stdout",
+        "sha256": "4f2df65d0ce7b697986214baf70b3ccb6b0390137169f18797d92a5ce0c77a92"
+      }
+    },
+    {
+      "role": "studio-11-su-he",
+      "bodySha256": "2f2e2142f8bb37502158efd4a2aac702e1ba47c3881c1964e1ce87c4a431e456",
+      "status": "rejected",
+      "overLimitMetrics": [
+        "primitiveVertices",
+        "jointSlots",
+        "rgba8MipBytes",
+        "springJoints",
+        "colliders"
+      ],
+      "rawRegistrationSha256": "033fee0b1159fb054be0502635a086293ebb6e95936952fa66f0ea00b3a477a9",
+      "modelInBothDistributions": "assets/native-studio-11-su-he-v1/body.vrm",
+      "previousFullBudget": {
+        "path": "F:/gamemake-test/native-studio-round/registration/operator/received/registered-studio-11-su-he/intake.stdout",
+        "sha256": "587bdc819c85f04295850602dec5a41781471e50ab75234e4dcad5c648acca68"
+      }
+    },
+    {
+      "role": "studio-16-ren-yu",
+      "bodySha256": "92e5dfd1713a3b72aa0c02ef1e2f8c6817964c8c1aa942fc5626d489b634b812",
+      "status": "rejected",
+      "overLimitMetrics": [
+        "primitiveVertices",
+        "triangles",
+        "nodeTriangles",
+        "jointSlots",
+        "rgba8MipBytes",
+        "springJoints",
+        "colliders"
+      ],
+      "rawRegistrationSha256": "6497eda578e4f7f0706e79cd717a6e18d5dc1a41e9abcbfd1a8d6cb3aed0cd85",
+      "modelInBothDistributions": "assets/native-studio-16-ren-yu-v1/body.vrm",
+      "previousFullBudget": {
+        "path": "F:/gamemake-test/native-studio-round/registration/operator/received/registered-studio-16-ren-yu/intake.stdout",
+        "sha256": "4a6d0e66826ee645aa68d44e3408017550ea70a8f700bbc60e54daa7c89e2582"
+      }
+    },
+    {
+      "role": "studio-20-hao-qi",
+      "bodySha256": "33bb670caf6dc44e7d89a38d0326e1176e11891193059920648359e538275606",
+      "status": "rejected",
+      "overLimitMetrics": [
+        "primitiveVertices",
+        "jointSlots",
+        "rgba8MipBytes",
+        "springJoints",
+        "colliders"
+      ],
+      "rawRegistrationSha256": "58c3d2a4c93777e5751e25e341907d3af55ebf1b79750ede0641a254c3ca0bf1",
+      "modelInBothDistributions": "assets/native-studio-20-hao-qi-v1/body.vrm",
+      "previousFullBudget": {
+        "path": "F:/gamemake-test/native-studio-round/registration/operator/received/registered-studio-20-hao-qi/intake.stdout",
+        "sha256": "ad57f9d44ffa5285f0653f7e04b8acd025f88aa41cfec823463b90fd1d7d9034"
+      }
+    }
+  ]
+}

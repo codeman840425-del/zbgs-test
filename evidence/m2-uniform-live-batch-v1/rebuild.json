@@ -1,0 +1,93 @@
+{
+  "schema": "uniform-live-pair-fixed-rebuild-v1",
+  "sourceCommit": "1239c0e2a7c2ecaa226fdb8a40bd4e12f710b068",
+  "sourceDigest": "73d6f64eeebc771fe656820578f82249745ca88124df58c0945f1750555b3799",
+  "buildId": "73d6f64eeebc",
+  "cleanBuilds": [
+    {
+      "worktree": "experiments/worktrees/live-pair-1239c0e2",
+      "buildLog": "output/m2-uniform-live-package/first/build.log",
+      "gitCleanBeforeAndAfterBuild": true
+    },
+    {
+      "worktree": "experiments/worktrees/live-pair-1239c0e2-repeat",
+      "buildLog": "output/m2-uniform-live-package/repeat/build.log",
+      "gitCleanBeforeAndAfterBuild": true
+    }
+  ],
+  "runtimeInputs": {
+    "sparseByCheckout": {
+      "live-pair-1239c0e2": [
+        "assets-source/garment-basecolor-release-v1",
+        "assets-source/m1b/shorts",
+        "assets-source/m2-socks-layer-v1/generated",
+        "assets-source/native-crew-template-v1/corrected",
+        "assets-source/variant-matrix-v1",
+        "prototype",
+        "scripts"
+      ],
+      "live-pair-1239c0e2-repeat": [
+        "assets-source/garment-basecolor-release-v1",
+        "assets-source/variant-matrix-v1",
+        "prototype",
+        "scripts"
+      ]
+    },
+    "batchIdentity": {
+      "previousCommit": "df6100929c57dc1de93066c0695d900fff0f8b27",
+      "previousBuild": "9fc39b51d6ff",
+      "files": {
+        "representative-matrix.json": {
+          "path": "assets-source/variant-matrix-v1/representative-matrix.json",
+          "previousFileSha256": "81ef09c1e3f55a82f44263c5825b954852499e5b7a78f782b21da296cb317d1a",
+          "previousBuildInput": true,
+          "currentFileSha256BothCheckouts": "81ef09c1e3f55a82f44263c5825b954852499e5b7a78f782b21da296cb317d1a",
+          "currentBuildInput": true
+        },
+        "representative-batch-request.json": {
+          "path": "assets-source/variant-matrix-v1/representative-batch-request.json",
+          "previousFileSha256": "9e57daf9c8aa38d1ffbeabec33a906a5e12445b44ef83936b0b43a8cc9d4363d",
+          "previousBuildInput": false,
+          "currentFileSha256BothCheckouts": "9e57daf9c8aa38d1ffbeabec33a906a5e12445b44ef83936b0b43a8cc9d4363d",
+          "currentBuildInput": true
+        }
+      },
+      "externalProductionRequest": {
+        "path": "assets-source/variant-matrix-v1/uniform-live-pair-request.json",
+        "sha256": "2414e2d086814b3ae7a30ee39607d08942b196412854f19ebb0cbed7fdcc3e66",
+        "role": "External production request supplied to the operator; absent from the old and current runtime checkouts and build inputs."
+      }
+    }
+  },
+  "comparison": {
+    "distBytes": 742813946,
+    "distDifference": [],
+    "distFiles": 529,
+    "inventorySha256": "2ea0df3eb08c5aaa5d576e874b1279a7117c5b21c2636901d0e69afe5bc84e48",
+    "sourceDifference": [],
+    "sourceDigest": "73d6f64eeebc771fe656820578f82249745ca88124df58c0945f1750555b3799",
+    "sourceInputCount": 654
+  },
+  "sourceInventory": "output/m2-uniform-live-package/source-inventory.json",
+  "distInventory": "output/m2-uniform-live-package/dist-inventory.json",
+  "toolchain": {
+    "node": "v24.13.0",
+    "nodeSha256": "d14ba95cdce1ef7dc9ad3ac74949ca5db38b27378ee30f30a23cf26f9e875a11",
+    "npm": "11.6.2",
+    "lockSha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7",
+    "donor": "experiments\\worktrees\\seat-clear-989deed3-repeat\\prototype",
+    "dependencyFilesVerifiedInEachCopy": 4741,
+    "dependencyInventory": "output/m2-company-seat-clearance-fixed/dependencies-inventory.json",
+    "dependencyInventorySha256": "4ff0983669c286bf5b8271c76f1d1c34424c507cb2b4ff934892371ea42f0bb6",
+    "npmOffline": true,
+    "localTmpAndNpmCache": "output/m2-uniform-live-package/{first,repeat,review}"
+  },
+  "review": {
+    "path": "scripts/runtime-package/game-record-live-pair-reviewed.json",
+    "sha256": "b80062858455840a2e6454c36070b427cc3a518ff89d2a8439c1a1e928487ce5",
+    "closureFiles": 11,
+    "rejectedModifiedEntry": "output/m2-uniform-live-package/review/rejected.log",
+    "retryExactBuilds": "passed"
+  },
+  "worktreeAudit": "output/m2-uniform-live-package/worktree-audit.json"
+}

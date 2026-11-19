@@ -36,7 +36,7 @@ test('production record and game export reject an escaped path before reading in
   }
 });
 
-test('direct room CLI rejects drive-root, relative traversal and junction escapes before reading a record', async () => {
+test('room and signed-equipment QA reject drive-root, traversal and junction escapes before reading records', async () => {
   const root = await productionRoot();
   const scratch = await fs.mkdtemp(path.join(root, 'experiments', 'output-path-test-'));
   const alias = path.join(scratch, 'alias');
@@ -46,14 +46,18 @@ test('direct room CLI rejects drive-root, relative traversal and junction escape
       {code:'outside-project'});
     const driveRoot = path.parse(root).root;
     const driveOutput = path.join(driveRoot, path.basename(scratch) + '-outside');
-    const script = path.join(__dirname, 'qa-production-record-room.cjs');
     const missingRecord = path.join(scratch, 'missing-record.json');
-    for (const destination of [driveRoot, driveOutput, path.relative(scratch, driveOutput),
-      path.join(alias, path.basename(driveOutput))]) {
-      const result = spawnSync(process.execPath, [script, 'http://127.0.0.1/', missingRecord, destination],
-        {cwd:scratch, encoding:'utf8', windowsHide:true, timeout:15000});
-      assert.equal(result.status, 1, result.error?.message ?? result.stderr);
-      assert.match(result.stderr, /Production output must be inside the project/, destination);
+    for (const [script, args] of [
+      ['qa-production-record-room.cjs', ['http://127.0.0.1/', missingRecord]],
+      ['qa-signed-live-equipment.cjs', ['missing-game', 'missing-inventory', missingRecord]]
+    ]) {
+      for (const destination of [driveRoot, driveOutput, path.relative(scratch, driveOutput),
+        path.join(alias, path.basename(driveOutput))]) {
+        const result = spawnSync(process.execPath, [path.join(__dirname, script), ...args, destination],
+          {cwd:scratch, encoding:'utf8', windowsHide:true, timeout:15000});
+        assert.equal(result.status, 1, result.error?.message ?? result.stderr);
+        assert.match(result.stderr, /Production output must be inside the project/, destination);
+      }
     }
   } finally {
     await fs.unlink(alias).catch(error => { if (error.code !== 'ENOENT') throw error; });

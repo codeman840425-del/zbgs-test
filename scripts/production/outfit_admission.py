@@ -16,6 +16,10 @@ SCHEMA = "zbgs-whole-outfit-runtime-admission-v1"
 INDEX_SCHEMA = "zbgs-reviewed-outfit-admissions-v1"
 SHA = re.compile(r"^[a-f0-9]{64}$")
 COMMIT = re.compile(r"^[a-f0-9]{40}$")
+EXTERNAL_BUILD_INPUTS = (
+    "assets-source/variant-matrix-v1/representative-matrix.json",
+    "assets-source/variant-matrix-v1/representative-batch-request.json",
+)
 LANES = ("equipmentFit", "normalSpeedMotion", "recordAndRestore", "selectionGuards",
          "runtimeRecordAndBudget", "humanVisualReview", "provenanceAndRights")
 
@@ -232,8 +236,8 @@ def source_commit(root):
     require(Path(git("rev-parse","--show-toplevel")).resolve() == root.resolve(),
             "Formal outfit planning requires an exact repository checkout")
     require(not git("status","--porcelain=v1","--untracked-files=all","--",
-                    "prototype","assets-source/variant-matrix-v1/representative-matrix.json"),
-            "Fixed outfit runtime source or the compiled style matrix has local changes")
+                    "prototype", *EXTERNAL_BUILD_INPUTS),
+            "Fixed outfit runtime source or its compiled matrix inputs have local changes")
     return git("rev-parse","HEAD")
 
 
@@ -245,7 +249,7 @@ def verify_runtime_source(root, approval):
     digest = hashlib.sha256()
     project = (root / "prototype").resolve()
     for name in inputs:
-        if name == "../assets-source/variant-matrix-v1/representative-matrix.json":
+        if name.startswith("../") and name[3:] in EXTERNAL_BUILD_INPUTS:
             source = (root / name[3:]).resolve()
             require(source.is_relative_to(root.resolve()), "Compiled style matrix escapes the checkout")
         else:

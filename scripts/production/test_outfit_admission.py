@@ -1,4 +1,5 @@
 """Synthetic authority fixtures only. These tests grant no real admission."""
+import hashlib
 import json
 from copy import deepcopy
 from pathlib import Path
@@ -142,6 +143,30 @@ class SyntheticWholeOutfitAdmission(TestCase):
         self.write("selectionGuards.json",{"synthetic":"changed"})
         with self.assertRaisesRegex(ValueError,"Evidence file pin differs"):
             self.load(self.approval)
+
+    def test_fixed_runtime_checks_external_matrix_and_batch_recipe_bytes(self):
+        checkout = self.root / "checkout"
+        (checkout / "prototype").mkdir(parents=True)
+        digest = hashlib.sha256()
+        inputs = []
+        for name in gate.EXTERNAL_BUILD_INPUTS:
+            raw = (gate.ROOT / name).read_bytes()
+            target = checkout / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(raw)
+            key = "../" + name
+            inputs.append(key)
+            digest.update(key.encode() + b"\0" + raw + b"\0")
+        approval = {"runtime":{"sourceDigest":digest.hexdigest()},
+                    "buildInfo":self.write("build-inputs.json", {"inputs":inputs})}
+        gate.verify_runtime_source(checkout, approval)
+        with target.open("ab") as file:
+            file.write(b" ")
+        with self.assertRaisesRegex(ValueError, "source bytes differ"):
+            gate.verify_runtime_source(checkout, approval)
+        approval["buildInfo"] = self.write("unrelated-input.json", {"inputs":["../unrelated.json"]})
+        with self.assertRaisesRegex(ValueError, "Invalid fixed runtime source path"):
+            gate.verify_runtime_source(checkout, approval)
 
     def test_matching_file_hash_cannot_substitute_a_different_motion_build(self):
         lane = self.approval["lanes"]["normalSpeedMotion"]["evidence"]
