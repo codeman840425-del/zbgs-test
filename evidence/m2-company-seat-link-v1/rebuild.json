@@ -1,0 +1,88 @@
+{
+  "schema": "company-seat-fixed-game-rebuild-v1",
+  "status": "technical-build-and-runtime-review-pass",
+  "sourceCommit": "fee5544ef6af39075cd90d0c32c0a8f741217b99",
+  "sourceDigest": "be0e52c243ec7147c785ac36119dd3dc534443822d39305fa1cb8ef5bdf88113",
+  "buildId": "be0e52c243ec",
+  "cleanBuilds": [
+    {
+      "worktree": "experiments/worktrees/company-seat-fee5544e",
+      "checkout": "python -B scripts/character-worktree.py create company-seat-fee5544e fee5544ef6af39075cd90d0c32c0a8f741217b99 --runtime-only",
+      "buildCwd": "experiments/worktrees/company-seat-fee5544e/prototype",
+      "build": "npm.cmd run build",
+      "buildLog": "output/m2-company-seat-fixed/first/build.log",
+      "gitCleanBeforeAndAfterBuild": true,
+      "sparseAdd": "git -C experiments/worktrees/company-seat-fee5544e sparse-checkout add scripts assets-source/garment-basecolor-release-v1"
+    },
+    {
+      "worktree": "experiments/worktrees/company-seat-fee5544e-repeat",
+      "checkout": "python -B scripts/character-worktree.py create company-seat-fee5544e-repeat fee5544ef6af39075cd90d0c32c0a8f741217b99 --runtime-only",
+      "buildCwd": "experiments/worktrees/company-seat-fee5544e-repeat/prototype",
+      "build": "npm.cmd run build",
+      "buildLog": "output/m2-company-seat-fixed/repeat/build.log",
+      "gitCleanBeforeAndAfterBuild": true
+    }
+  ],
+  "toolchain": {
+    "nodeVersion": "v24.13.0",
+    "nodeSha256": "d14ba95cdce1ef7dc9ad3ac74949ca5db38b27378ee30f30a23cf26f9e875a11",
+    "npmVersion": "11.6.2",
+    "viteVersion": "7.3.8",
+    "lockSha256": "190e71ef83a8f1d8c94f21caed96b8080bd2e9dcdbcda6bb7b01c5c8fbe5b3a7",
+    "viteFileSha256": {
+      "vite/bin/vite.js": "fa03478846d229651a3c6aa64833ba2c6cbf580a798b92bd8f47c7480bafb5d8",
+      "vite/package.json": "4e87f89a19661c197033a55e54dc94790b5a3e28bcc9d2c9ee374ee54eec8dc2",
+      "vite/dist/node/cli.js": "6b9001816eb5fb0979cbe380ed2116db93e315ff22ebf7fe55a4fc60458fa067",
+      "vite/dist/node/index.js": "8b142bd1231a46bf2cad4c05b3f76de5b183064ee771b9934fbaffb70b914652"
+    },
+    "dependenciesFrom": "experiments/worktrees/warm-d96411eb-repeat/prototype",
+    "dependenciesFromCommit": "d96411ebef27a0e255bab3eaa49bf9addab48e8a",
+    "dependencyMethod": "Independent node_modules copies using robocopy /E /COPY:DAT /DCOPY:DAT /R:0 /W:0 /XJ after verifying the package lock and four previously pinned Vite files. Every copied dependency file matched the donor and its recorded inventory.",
+    "dependencyFileCount": 4741,
+    "dependencyInventory": "output/m2-company-seat-fixed/dependencies-inventory.json",
+    "npmOffline": true,
+    "tempAndNpmCache": "output/m2-company-seat-fixed",
+    "tempVariables": {
+      "TEMP": "<first or repeat>/tmp",
+      "TMP": "<first or repeat>/tmp",
+      "TMPDIR": "<first or repeat>/tmp",
+      "npm_config_cache": "<first or repeat>/npm-cache"
+    }
+  },
+  "comparison": {
+    "distBytes": 742810127,
+    "distDifference": [],
+    "distFiles": 529,
+    "inventorySha256": "56a800366006444f286c4505555979687a14d785eb0b46ae443ee81ea863850e",
+    "sourceDifference": [],
+    "sourceInputCount": 651,
+    "sourceDigestRecomputed": true,
+    "distInventoryDigest": "SHA-256 of compact, sorted-key JSON mapping each POSIX path to [file byte count, SHA-256]",
+    "distInventory": "output/m2-company-seat-fixed/dist-inventory.json",
+    "sourceInventory": "output/m2-company-seat-fixed/source-inventory.json"
+  },
+  "review": {
+    "path": "scripts/runtime-package/game-record-company-seat-reviewed.json",
+    "sha256": "41c2a607aa146260a5097e9f726c7275df98ea76f2cf2318b493735376341a26",
+    "compiledEntryClosureFiles": 11,
+    "indexSection": "externalRecords",
+    "command": "node scripts/runtime-package/review-game-runtime.mjs experiments/worktrees/company-seat-fee5544e/prototype/dist experiments/worktrees/company-seat-fee5544e-repeat/prototype/dist experiments/worktrees/company-seat-fee5544e-repeat scripts/runtime-package/game-record-company-seat-reviewed.json",
+    "failureAndRetry": {
+      "fixture": "Separate copy of record-consumer.html with an appended HTML comment",
+      "failure": "rebuild-mismatch",
+      "failureLog": "output/m2-company-seat-fixed/review/rejected-review.log",
+      "failedOutputCreated": false,
+      "retryWithExactBuilds": "pass"
+    }
+  },
+  "worktreeAudit": {
+    "command": "python -B scripts/character-worktree.py audit",
+    "status": "pass",
+    "receipt": "output/m2-company-seat-fixed/worktree-audit.json"
+  },
+  "verificationNotes": [
+    "Sparse checkout reported the pre-created .gitattributes during materialization. Both runtime worktrees resolved the requested commit and were clean before and after their builds.",
+    "Vite reported the static and dynamic import overlap for native-hair-center-record.js in both builds."
+  ],
+  "scope": "Independent fixed game rebuild, source input verification, and compiled record consumer entry review for the facility-capable game."
+}

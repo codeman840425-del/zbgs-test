@@ -1,0 +1,101 @@
+{
+  "schema": "company-seat-combined-replay-v1",
+  "status": "exact-cross-checkout-replay-pass",
+  "gameRuntime": {
+    "sourceCommit": "fee5544ef6af39075cd90d0c32c0a8f741217b99",
+    "sourceDigest": "be0e52c243ec7147c785ac36119dd3dc534443822d39305fa1cb8ef5bdf88113",
+    "buildId": "be0e52c243ec",
+    "entry": "record-consumer.html",
+    "entryUrl": "record-consumer.html?records=/records/manifest.json"
+  },
+  "packagerCommit": "8dfed23169ada19c2e1edcdbac42b508494c1874",
+  "packagerInputs": {
+    "scripts/production/package-facility-room.mjs": "0c5f517498cd53d3b7aa7be0dda01c6a003c482af2788ef4799ad153f1ded2ef",
+    "scripts/production/facility-room-host.mjs": "218beed71d3c45a5f6acfccbb1404c88979406569e5ab60ae6fa107b3edf2f04",
+    "scripts/production/facility-room.html": "22af29df66fa5db6930628383733797a10d2041dc6cbc06b69f04135b81ce43c",
+    "scripts/project-output.cjs": "c27ec25e944f628d9dccf32b3363c71c50dbb25e33f5d9488cc7da738fa8a762",
+    "scripts/runtime-package/files.mjs": "9d5456d35f5515070c3d4eb9911f18a8ef47a2e88c856dbc5af6b25013d19c20"
+  },
+  "companyTransfer": {
+    "directory": "F:/gamemake-test/native-studio-round/official-pair/body-texture-f496/received-room",
+    "manifestSha256": "6359150e83c284125dc757ac6680cc326d58bf57df142dfc4af0d6b522c658f2",
+    "sourceDigest": "d57333ea66d2583145e5a0ad230c4e7b878fdf318fe58aba35028facfd203e09"
+  },
+  "gameExport": {
+    "sourceRoot": "experiments/worktrees/company-seat-fee5544e-repeat",
+    "sparseCheckout": [
+      "assets-source/variant-matrix-v1",
+      "prototype"
+    ],
+    "directory": "output/m2-company-seat-fixed/combined-replay/pair",
+    "cli": "scripts/runtime-package/game-record-cli.mjs",
+    "cliSha256": "b95d38abece129e57a8ff3223f0071789c01e1d3449da69fd0d44899b43b8d00",
+    "review": "scripts/runtime-package/game-record-company-seat-reviewed.json",
+    "reviewSha256": "41c2a607aa146260a5097e9f726c7275df98ea76f2cf2318b493735376341a26",
+    "records": "evidence/m2-uniform-lite-operator-v1/records.json",
+    "recordsSha256": "d38cd555d8b125c606ef28775b08fa96b2834c40c082e7ee06478dc4035f6989",
+    "recordIdentities": [
+      {
+        "id": "uniform-lite-female-v1",
+        "recordSha256": "e9a1c33db6c2b119f1b0c2b97b5a1eb1101352efdd356692052c872ce33ec757"
+      },
+      {
+        "id": "uniform-lite-male-v1",
+        "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+      }
+    ],
+    "inventory": "evidence/m2-company-seat-link-v1/inventory.json",
+    "inventorySha256": "3cba17b8df616540b404c8739dcf82c40bb580e49fceb37a6209fb73d2b36d43",
+    "files": 34,
+    "byteDifferencesFromPublishedGameExport": [],
+    "command": "node scripts/runtime-package/game-record-cli.mjs export --dist experiments/worktrees/company-seat-fee5544e-repeat/prototype/dist --source-root experiments/worktrees/company-seat-fee5544e-repeat --reviewed scripts/runtime-package/game-record-company-seat-reviewed.json --records evidence/m2-uniform-lite-operator-v1/records.json --inventory evidence/m2-company-seat-link-v1/inventory.json --out output/m2-company-seat-fixed/combined-replay/pair"
+  },
+  "combined": {
+    "first": "output/m2-company-seat-fixed/rooms-stable",
+    "repeat": "output/m2-company-seat-fixed/rooms-stable-repeat",
+    "independentToolCheckout": "experiments/worktrees/company-seat-tools-8dfed231",
+    "toolCheckoutCommand": "python -B scripts/character-worktree.py create company-seat-tools-8dfed231 8dfed231 --runtime-only",
+    "toolSparseCommand": "git -C experiments/worktrees/company-seat-tools-8dfed231 sparse-checkout add scripts",
+    "commands": [
+      "node scripts/production/package-facility-room.mjs --game output/m2-company-seat-fixed/combined-replay/pair --game-sha256 3cba17b8df616540b404c8739dcf82c40bb580e49fceb37a6209fb73d2b36d43 --room F:/gamemake-test/native-studio-round/official-pair/body-texture-f496/received-room --out output/m2-company-seat-fixed/rooms-stable",
+      "node experiments/worktrees/company-seat-tools-8dfed231/scripts/production/package-facility-room.mjs --game output/m2-company-seat-fixed/combined-replay/pair --game-sha256 3cba17b8df616540b404c8739dcf82c40bb580e49fceb37a6209fb73d2b36d43 --room F:/gamemake-test/native-studio-round/official-pair/body-texture-f496/received-room --out output/m2-company-seat-fixed/rooms-stable-repeat"
+    ],
+    "manifest": "evidence/m2-company-seat-link-v1/combined-manifest.json",
+    "manifestSha256": "fa0e74293570ebbf6ae9fef9d3a1dad0a0560e1699862f404bb89049a747587e",
+    "files": 597,
+    "bytes": 71831544,
+    "manifestDeclaredFilesVerifiedInBoth": 596,
+    "crossCheckoutByteDifferences": [],
+    "packagerDependencyResolution": "Both scripts resolve package dependencies from the production main checkout.",
+    "mainAndFixedGameDependencyCopiesIdentical": {
+      "three": 1277,
+      "esbuild": 7,
+      "@esbuild/win32-x64": 3
+    }
+  },
+  "recordedPackageComparison": {
+    "directory": "output/m2-company-seat-fixed/rooms",
+    "manifestSha256": "7ad452bd96e90fa3175bdc4bedb66049388920abf15c26b445d4559ce0ec1c20",
+    "identicalNonManifestFiles": 596,
+    "byteDifferences": [
+      "facility-package.json"
+    ],
+    "changedManifestField": "host.packagerSha256",
+    "referencePackagerSha256": "4cd223a1f1764b1f8aedaa958dc525324a4311f8de0b4973266d7fcf9554fb02",
+    "rebuiltPackagerSha256": "0c5f517498cd53d3b7aa7be0dda01c6a003c482af2788ef4799ad153f1ded2ef",
+    "identicalCombinedHostSha256": "d3a1b134a1c34c11dff5cc0efa65eb48c7599afcbfd0ae4902e3401f35bc3de8"
+  },
+  "failureAndRetry": {
+    "invalidGameManifestPin": "Transfer manifest SHA-256 mismatch: runtime-package.json",
+    "failedOutputCreated": false,
+    "invalidGamePinLog": "output/m2-company-seat-fixed/combined-replay/rejected-room.log",
+    "originalCrossCheckoutComparison": "evidence/m2-company-seat-link-v1/combined-cross-checkout-failure.json",
+    "fixedCrossCheckoutRetry": "pass"
+  },
+  "cleanCheckouts": {
+    "experiments/worktrees/company-seat-fee5544e-repeat": "fee5544ef6af39075cd90d0c32c0a8f741217b99",
+    "experiments/worktrees/company-seat-fee5544e": "fee5544ef6af39075cd90d0c32c0a8f741217b99",
+    "experiments/worktrees/company-seat-tools-8dfed231": "8dfed23169ada19c2e1edcdbac42b508494c1874"
+  },
+  "scope": "Compare exported game inputs, combined manifests and every combined package file as raw bytes."
+}

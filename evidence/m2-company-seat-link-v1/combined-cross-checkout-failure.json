@@ -1,0 +1,31 @@
+{
+  "schema": "company-seat-facility-cross-checkout-difference-v1",
+  "status": "original-tool-cross-checkout-byte-mismatch",
+  "packagerCommit": "fee5544ef6af39075cd90d0c32c0a8f741217b99",
+  "packagerSha256": "4cd223a1f1764b1f8aedaa958dc525324a4311f8de0b4973266d7fcf9554fb02",
+  "reference": {
+    "directory": "output/m2-company-seat-fixed/rooms",
+    "manifestSha256": "7ad452bd96e90fa3175bdc4bedb66049388920abf15c26b445d4559ce0ec1c20",
+    "hostSha256": "d3a1b134a1c34c11dff5cc0efa65eb48c7599afcbfd0ae4902e3401f35bc3de8"
+  },
+  "separateCheckoutReplay": {
+    "directory": "output/m2-company-seat-fixed/combined-replay/rooms",
+    "manifestSha256": "6fae15de66f3f0b8d3beccd6b8999de4c0172e1d4d59db0534b1380c7dca91e3",
+    "hostSha256": "cd3735d8fc6813f98eb5719a3edaeb9e1058a983bd3a8022633a338b23cdba09"
+  },
+  "packageFiles": 597,
+  "differentFiles": [
+    "facility-package.json",
+    "facility/company-host.js"
+  ],
+  "hostDifference": {
+    "referenceLine": "// scripts/production/facility-room-host.mjs",
+    "separateCheckoutLine": "// experiments/worktrees/company-seat-fee5544e/scripts/production/facility-room-host.mjs",
+    "replacingOnlyThisCommentYieldsExactReferenceBytes": true
+  },
+  "sameScriptAtOriginalPathRecovery": {
+    "directory": "output/m2-company-seat-fixed/combined-replay/rooms-exact",
+    "manifestSha256": "7ad452bd96e90fa3175bdc4bedb66049388920abf15c26b445d4559ce0ec1c20",
+    "differentFiles": []
+  }
+}
