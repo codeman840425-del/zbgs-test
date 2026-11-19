@@ -5,7 +5,7 @@ import { foundationProfile } from "./foundation-profiles.js";
 import { createBodyCoverageSet } from "./body-coverage.js";
 import { createGarmentCoverage } from "./garment-coverage.js";
 import { createBodyTextureCoverage } from "./body-texture-coverage.js";
-import { outfitSelection } from "./outfit-selection.js";
+import { outfitSelection, verifyBottomEquipmentSlot } from "./outfit-selection.js";
 
 export const M1_AVATAR_SHA256 =
   "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95";
@@ -68,6 +68,8 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   let revision=0,intentRevision=0;
   const pendingUpdates=new Set();
   const footwearIds = new Map();
+  const lowerEquipmentRoles = new Map();
+  const pantsRoles = new Set(['pants', 'shorts', 'onePiece'].filter(role => Object.hasOwn(IDS, role)));
   const footwearPreparers = new Set();
   const getFootwear = () => adapter.get(footwearIds.get(outfit));
   function buildPreparedOutfit(nextOutfit,nextDebugBody,expectedIntent=intentRevision){
@@ -219,10 +221,14 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   }
   try {
     for (const look of config.outfits) {
-      const selected = outfitSelection(config, look.index).ids;
-      const shoes = selected.filter(id => adapter.describe(id).slot === 'shoes');
+      const selected = outfitSelection(config, look.index);
+      const entries = selected.ids.map(id => adapter.describe(id));
+      verifyBottomEquipmentSlot(selected, entries);
+      lowerEquipmentRoles.set(look.index, selected.bottomEquipmentRole);
+      if (selected.bottomRole !== 'skirt') pantsRoles.add(selected.bottomEquipmentRole);
+      const shoes = entries.filter(entry => entry.slot === 'shoes');
       if (shoes.length !== 1) throw Error('Outfit must select exactly one footwear item: ' + look.role);
-      footwearIds.set(look.index, shoes[0]);
+      footwearIds.set(look.index, shoes[0].id);
     }
     const coverageBindings = [
       ...(config.bodyCoverage ? [{entry:adapter.describe(IDS.top), descriptor:config.bodyCoverage}] : []),
@@ -301,8 +307,8 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         get top() { return item(selectedTopRole())?.meshes || []; },
         get outer() { return IDS.outer ? item("outer")?.meshes || [] : []; },
         get shoes() { return getFootwear().meshes; },
-        get pants() { return item(['shorts','onePiece'].includes(lowerBodyRole) ? lowerBodyRole : 'pants')?.meshes || []; },
-        get allPants() { return [...(item("pants")?.meshes || []), ...(IDS.shorts ? item("shorts")?.meshes || [] : []), ...(IDS.onePiece ? item('onePiece')?.meshes || [] : [])]; },
+        get pants() { return item(lowerBodyRole === 'skirt' ? 'pants' : lowerEquipmentRoles.get(outfit))?.meshes || []; },
+        get allPants() { return [...pantsRoles].flatMap(role => item(role)?.meshes || []); },
         get onePiece() { return IDS.onePiece ? item('onePiece')?.meshes || [] : []; },
         get shorts() { return IDS.shorts ? item("shorts")?.meshes || [] : []; },
         get skirt() { return skirtCorrective ? [skirtCorrective.mesh] : []; },

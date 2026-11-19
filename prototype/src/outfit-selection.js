@@ -13,11 +13,23 @@ export function outfitSelection(config, value) {
   });
   if (new Set(ids).size !== ids.length) throw Error('Duplicate configured outfit equipment');
   const bottomRole = selection.bottomRole ?? selection.role;
-  // The lower-body contact role names an actual selected garment. A one-piece
-  // is one skinned resource occupying both top and bottom in the set resolver.
-  if (!['pants', 'shorts', 'skirt', 'onePiece'].includes(bottomRole) || !roles.includes(bottomRole))
+  const bottomEquipmentRole = selection.bottomEquipmentRole ?? bottomRole;
+  if (!['pants', 'shorts', 'skirt', 'onePiece'].includes(bottomRole) || !roles.includes(bottomEquipmentRole))
     throw Error('Configured outfit must identify its actual lower-body garment');
-  return { selection, roles: [...roles], ids, bottomRole };
+  if (bottomEquipmentRole !== bottomRole &&
+      (!['pants', 'shorts'].includes(bottomRole) || roles.includes(bottomRole)))
+    throw Error('Only one fitted pants or shorts resource may replace the selected lower garment');
+  return { selection, roles: [...roles], ids, bottomRole, bottomEquipmentRole };
+}
+
+// Check the declared resource against the catalog before any garment loads.
+// Overlay slots remain independent of the garment used for contact.
+export function verifyBottomEquipmentSlot(look, entries) {
+  const lower = entries.filter(entry => entry.slot === 'bottom' || entry.slot === 'onePiece');
+  const id = look.ids[look.roles.indexOf(look.bottomEquipmentRole)];
+  const slot = look.bottomRole === 'onePiece' ? 'onePiece' : 'bottom';
+  if (lower.length !== 1 || lower[0].id !== id || lower[0].slot !== slot)
+    throw Error('Configured lower-body garment does not match the selected equipment slot');
 }
 
 // The game packager reads this from the fixed runtime's source, which is
