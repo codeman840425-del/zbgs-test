@@ -3,6 +3,7 @@ import sourceOutfits from './source-outfit-profiles.json' with {type:'json'};
 import {nativePaletteContract} from './native-palette-catalog.js';
 import {nativeSkinToneContract} from './native-skin-tone-contract.js';
 import {nativeLipColorContract} from './native-lip-color-contract.js';
+import {fittedHeadAppearance} from './fitted-head-appearance.js';
 // Native sources expose only their separately registered baked colors. Existing
 // source families retain their prior color presets and resource preparation.
 const originalOnly = Object.freeze({hairColor:false,skinTone:false,eyeColor:false,lipColor:false});
@@ -16,13 +17,16 @@ const sourcePolicies = Object.freeze({
 const labels = {hairColor:'发色',skinTone:'肤色',eyeColor:'瞳色',lipColor:'唇色',eyebrowColor:'眉色'};
 
 function registeredColors(avatarSha256) {
+  const fitted=fittedHeadAppearance(avatarSha256);
+  if(fitted)return fitted.colors;
   const skin = nativeSkinToneContract(avatarSha256), lip = nativeLipColorContract(avatarSha256);
   return {...nativePaletteContract(avatarSha256)?.colors,
     ...(skin ? {skinTone:skin.colors} : {}), ...(lip ? {lipColor:lip.colors} : {})};
 }
 
 export function appearanceColorSupport(avatarSha256) {
-  const support={hairColor:true,skinTone:true,eyeColor:true,lipColor:true,...(sourcePolicies[avatarSha256] ?? (isNativeProductionBody(avatarSha256) ? originalOnly : {}))};
+  const policy=fittedHeadAppearance(avatarSha256)?originalOnly:sourcePolicies[avatarSha256];
+  const support={hairColor:true,skinTone:true,eyeColor:true,lipColor:true,...(policy ?? (isNativeProductionBody(avatarSha256) ? originalOnly : {}))};
   for(const [field,values] of Object.entries(registeredColors(avatarSha256)))
     support[field]=Object.keys(values).some(value=>value!=='original');
   return support;
@@ -41,7 +45,7 @@ export function assertAppearanceColorSelection(avatarSha256, selection) {
     if (selection[field] == null || selection[field] === 'original') continue;
     const registered=nativeColors[field];
     if(registered?Object.hasOwn(registered,selection[field]):support[field])continue;
-    const reason=registered?'仅支持已登记的原生配色':'仅支持原色';
+    const reason=registered?'仅支持已登记的配色':'仅支持原色';
     const error = new Error(`当前基模的${labels[field]}尚未适配，${reason}；当前外观未改变`);
     error.field = `appearance.${field}`;
     error.code = 'unsupported-resource';

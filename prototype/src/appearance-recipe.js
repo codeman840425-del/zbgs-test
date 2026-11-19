@@ -3,7 +3,7 @@ import {ACCESSORY_SCHEMA,ACCESSORY_RULES,captureAccessories,validateAccessories,
 import {validateHairSelection} from './hair-fit-contract.js';
 import {HAIR_COLORS,SKIN_TONES} from './character-appearance.js';
 import {EYE_COLORS,LIP_COLORS} from './facial-palette.js';
-import {facialPaletteContract,compatiblePaletteVersions,assertPaletteRecipeVersion,LEGACY_FACIAL_PALETTE_VERSION as LEGACY_PALETTE} from './facial-palette-contract.js';
+import {facialPaletteContract,compatiblePaletteVersions,assertPaletteRecipeVersion,keepRestoredPaletteVersion,LEGACY_FACIAL_PALETTE_VERSION as LEGACY_PALETTE} from './facial-palette-contract.js';
 import {resolveFacialGeometrySelection,appearanceAdmissionError} from './facial-geometry-selection.js';
 import {SURFACE_LAYER_PACKAGE} from './surface-layer-catalog.js';
 import {validateSurfaceSelection} from './surface-layer-compositor.js';
@@ -21,9 +21,7 @@ export const SURFACE_RULES='workbench-appearance-rules-v7';
 export const NATIVE_SCHEMA='workbench-appearance-recipe-v9';
 export const NATIVE_RULES='workbench-appearance-rules-v9';
 const fields=['hairStyle','hairColor','skinTone','eyeColor','lipColor','eyebrowColor'];
-// Iris-only bodies had complete original-color records before a palette was
-// registered. Preserve the loaded version until the look needs a colored iris.
-const restoredOriginalIrisVersions=new WeakMap();
+const restoredOriginalPaletteVersions=new WeakMap();
 export const appearanceDraftKey=bodyType=>'zbgs:appearance-draft:v1:'+bodyType;
 export function captureAppearanceRecipe(controller){
  const a=controller.actor,s=a.appearance.getState(),face=a.facialGeometry.getState();
@@ -34,7 +32,7 @@ export function captureAppearanceRecipe(controller){
  const nativeVersion=Boolean(nativePaletteContract(a.profile.sha256)?.eyebrow);
  const skin=s.skinTone!=='original'?nativeSkinToneContract(a.profile.sha256):null;
  const lip=nativeLipColorContract(a.profile.sha256)?.variants[s.lipColor];
- const paletteVersion=(s.eyeColor==='original'?restoredOriginalIrisVersions.get(a):undefined)??facialPaletteContract(a.profile.sha256).version;
+ const paletteVersion=(keepRestoredPaletteVersion(a.profile.sha256,s)?restoredOriginalPaletteVersions.get(a):undefined)??facialPaletteContract(a.profile.sha256).version;
  return{schema:lip?NATIVE_LIP_COLOR_SCHEMA:skin?NATIVE_SKIN_TONE_SCHEMA:nativeVersion?NATIVE_SCHEMA:accessories?ACCESSORY_SCHEMA:hasSurface?SURFACE_SCHEMA:SCHEMA,
   rulesVersion:lip?NATIVE_LIP_COLOR_RULES:skin?NATIVE_SKIN_TONE_RULES:nativeVersion?NATIVE_RULES:accessories?ACCESSORY_RULES:hasSurface?SURFACE_RULES:RULES,paletteVersion,
   ...(skin?{skinToneManifestSha256:skin.sha256}:{}),
@@ -238,11 +236,8 @@ export async function applyAppearanceRecipe(controller,record,{liveAccessories,e
   for(const update of updates)try{update.dispose();}catch(error){cleanupErrors.push(error.message);}
   if(cleanupErrors.length&&!commitStarted)throw Error(`先前外观已保留，准备资源清理失败：${cleanupErrors.join('；')}`);
  }
- const nativePalette=nativePaletteContract(actor.profile.sha256);
- if(nativePalette&&!nativePalette.eyebrow){
-  if(record.appearance.eyeColor==='original')restoredOriginalIrisVersions.set(actor,record.paletteVersion);
-  else restoredOriginalIrisVersions.delete(actor);
- }
+ if(keepRestoredPaletteVersion(actor.profile.sha256,record.appearance))restoredOriginalPaletteVersions.set(actor,record.paletteVersion);
+ else restoredOriginalPaletteVersions.delete(actor);
  const notices=record.paletteVersion===LEGACY_PALETTE?['旧配方已使用新版瞳色渲染，颜色选择保持不变']:[];
  if(cleanupErrors.length)notices.push(`造型已应用，旧资源清理失败：${cleanupErrors.join('；')}`);
  try{controller.refreshOutfitSelection?.();}catch(error){notices.push(`造型已应用，服装按钮更新失败：${error.message}`);}

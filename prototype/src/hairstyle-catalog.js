@@ -2,6 +2,7 @@ import revisedShortHair from '../public/assets/m2-preset-short-hair-fits-v2/cata
 import revisedPonytail from '../public/assets/m2-preset-ponytail-fits-v2/catalog.json' with {type:'json'};
 import presetPonytail from '../public/assets/m2-preset-ponytail-fits-v1/catalog.json' with {type:'json'};
 import presetShortHair from '../public/assets/m2-preset-short-hair-fits-v1/catalog.json' with {type:'json'};
+import {fittedHeadHairstyles} from './fitted-head-appearance.js';
 // Exact body + resource + fit admissions; no motion-controller branches.
 export const HAIRSTYLES = [
   {
@@ -93,5 +94,6 @@ export const HAIRSTYLES = [
       "sha256": "004f7b3bdb0b72d85849b13a05c9b4448a060a7a0d2660ebdeb25bd9f5311ad4"
     },
     "sourceBodySha256": "62b44b0372570a821695d236cd412ddf902b6f683023e13fef7293de9c0b35ff"
-  }
+  },
+  ...fittedHeadHairstyles,
 ];
