@@ -2,6 +2,8 @@
 
 已有 VRoid 来源的角色包可用 `scripts/production/lip_anchor.py` 从精确身体 SHA、网格、图元和材质导出口部定位。制作回执记录 32 个唇边顶点及其摘要、原始口型绑定和中性／张嘴的头部局部坐标。下游核对实际身体字节、加载后的网格和绑定；原料文件改名仍可复用。同一组点可以服务多项道具检查，各道具的握姿、拾音目标及使用距离各自验收。[四个实际输入及回读](../evidence/m2-lip-anchor-intake-v1/runtime-readback.json)
 
+用 `python -B scripts/production/register_performer_lip_anchors.py --batch 配方路径` 复算并登记定位，加 `--check` 可核验已登记的内容。游戏随选定的身体包携带相应定位，首次站唱时读取；精确文件缺失或变更会返回原因。合包方从自身的固定构建审核记录核对房间需要的设施动作、游戏入口及实际模块，检查完成后才生成组合产物。[四体批次](../assets-source/performer-lip-anchors-v1/inputs.json) · [独立游戏复建与运行回执](../evidence/m2-performer-anchor-game-v1/README.md)
+
 导入单款多身体候选可用 `register_equipment_style.py --fragment`。既有款式可显式使用标准显示名，资源差异保留在版型版本。完全相同的条目可重复登记，同一身体、款式、版本指向不同资源会拒绝。正式批准另行核验。[美术交付命令及真实男女样例](../evidence/m2-default-style-intake-v1/README.md)
 
 受限头部适配可以进入原签名。固定例中，一个布尔选项为两具身体选出不同镜腿。短发与原发专用镜腿冲突时，按最终外观在生成记录前拒绝该项；其余项继续。按原签导出的独立包在加载时只取已选资源。[共享配方、负例及回读](../evidence/m2-uniform-lite-glasses-game-v1/README.md)

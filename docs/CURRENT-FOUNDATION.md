@@ -1,6 +1,6 @@
 # 当前角色基础工程恢复点
 
-当前制作增量为 `character-lip-anchor-v1`。已从 1K 男女及两具原生改脸候选的确切身体批次导出四份唇边标记，并以游戏加载器核对口型及转头；原手麦配方保留。下一步将已验证的描述按选中身体纳入制作交付与游戏依赖，检查缺失或错版时的单项拒绝和旧记录恢复。[四体回读](../evidence/m2-lip-anchor-intake-v1/runtime-readback.json)
+角色固定源码 `545dc941`、构建 `ddcf40a56d0e`，合包工具 `f75e681a`。四具身体已登记唇缝，原签 1K 男女两房完成按需取件、女体退出、男体接替、缺件重试和冷开；旧座椅版误入声房已在实际页面复现并补上合包拒绝。独立融合方仍以先前 `6c3c7b43ae35` 为已验基线。M2 下一项回到跨体型选装，检查同款鞋已有的男性制作参数和女性独立版型，保留当前女体缺版的单项拒绝。[新版录像与接收命令](../evidence/m2-performer-anchor-game-v1/README.md)
 
 当前可回读的制作增量为默认目录的上衣与鞋联合选款。固定源码 `eddeb995`，构建 `32d1c2865f09`。只给款式与版本即可从已配置的完整套装中选出唯一匹配项。1K 男体签发、房间动作和独立包两次冷开已跑通，缺少鞋版或多解时有单项回执。普通机和正式整套准入待验。4196 的预览版本以 delivery/appearance-workbench.json 为准。[正常速度录像与复现](../evidence/m2-default-shoe-intake-v1/README.md)
 
@@ -8,7 +8,7 @@
 
 唱播双房角色端已冻结为 `95adfb27 / 6c3c7b43ae35`。原签男女、公司 v1.1 和现有椅子保持可回读。旧版过早采样收步姿势的失败保存在 `5c132423 / 07a8411e1fe9`。两套独立检出均重新生成了同一份 656 文件的修正合包。两个房间完成实际双人接替、口部近景、持有状态冷开和离场。普通电脑尚未实测；固定版麦架的高度限制和观感保留在能力清单。4196 当前监听版本与下次启动指针仍有差异。下一项回到角色生产输入，核对批量身体包的可重用唇缝标记与逐身体接触适配。[可打开的同镜头录像](../evidence/m2-company-vocal-active-v1/index.html) · [出包参数与固定身份](../evidence/m2-company-vocal-active-v2/rebuild/package-comparison.json)
 
-角色工程的工作树、发布和验收暂存均使用主工程内的目录。根目录审计已检查工程内的目录联接，当前无意外工作树、同名散落目录或路径重定向。副总工的公司工程和融合测试工程各自独立。[根目录归属与复查命令](../evidence/character-worktree-relocation-v1/root-review.json) · [工作树路径回归](../evidence/character-worktree-relocation-v1/worktree-junction-regression.json)
+角色工程的工作树、发布和验收暂存使用主工程内的目录。24 个新旧工作台验收入口现已限制写入位置，默认目录也能从盘根正确解析。真实 Chrome 从盘根启动，遇到错误构建后留下了工程内回执并清除了暂存。迁移的 37 个 Git 工作树均在工程内，原地址残留为零。副总工的公司工程和融合测试工程各自独立。[本轮实际复查与命令](../evidence/character-worktree-relocation-v1/workbench-4196-output-audit.json) · [盘根其他项目的归属](../evidence/character-worktree-relocation-v1/root-review.json)
 
 默认款式目录接入已验证。源码 `51857788`、构建 `3b64a5dad472` 的真实浏览器将两份新签名重新加载，最终装备与旧的专用目录完全相同。独立包冷开和重试对应前一构建 `60c87f62e8b0`。下一项核对已有鞋底参数的可编辑源、准确体型、脚底和动作接触，用真实来源决定独立鞋履变体能否生产。[美术导入与实际画面](../evidence/m2-default-style-intake-v1/README.md)
 

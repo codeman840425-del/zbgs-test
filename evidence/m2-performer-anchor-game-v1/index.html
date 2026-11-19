@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>唱播双房 · 角色接替与重新进入</title>
+<style>
+:root{color-scheme:light}body{margin:24px auto;padding:0 16px;max-width:1280px;color:#233731;background:#f6f5f0;font:16px/1.55 system-ui,sans-serif}
+h1{font-size:1.5rem}select{max-width:100%;font:inherit;padding:.35em}video{display:block;background:#172423;width:100%;margin:12px 0}a{color:#175a4e}small{color:#465c53}
+</style>
+<main><h1>唱播双房 · 接替、保存与重新进入</h1>
+<p>工作室侧面能同时看到角色和麦架。女角色接近后因麦架过高退出，男角色接手。选择“重新进入”可看保存状态的恢复、口部近景和离场。</p>
+<label>观看片段
+<select id="clip">
+<option value="side-01/singing-studio-first-1x.webm">工作室 · 侧面双人接替</option>
+<option value="browser-01/singing-studio-first-1x.webm">工作室 · 房间全景</option>
+<option value="browser-01/singing-studio-cold-1x.webm">工作室 · 重新进入</option>
+<option value="browser-01/singing-rental-first-1x.webm">出租屋 · 房间全景</option>
+<option value="browser-01/singing-rental-cold-1x.webm">出租屋 · 重新进入</option>
+</select></label>
+<video id="film" controls preload="metadata" src="side-01/singing-studio-first-1x.webm"></video>
+<small>角色构建 ddcf40a56d0e · 固定麦架 v1.1 · Chrome 157 实录 · 默认 1 倍速</small>
+<p><a href="../m2-company-vocal-active-v1/index.html">上一版同镜头对照</a> · <a href="retry-01/report.json">定位文件缺失、取消、销毁与重试</a> · <a href="browser-01/report.json">两房接触与帧耗时</a> · <a href="rebuild/package-comparison.json">固定构建与复建</a></p>
+</main><script>
+const clip=document.getElementById('clip'),film=document.getElementById('film');
+clip.onchange=()=>{film.pause();film.src=clip.value;film.load();};
+</script></html>
