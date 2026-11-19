@@ -1,11 +1,13 @@
-const {chromium}=require('../prototype/node_modules/playwright');
 const fs=require('node:fs/promises'),path=require('node:path'),assert=require('node:assert/strict');
-const [base,outArg]=process.argv.slice(2),out=path.resolve(outArg);
+const {productionRoot,projectOutput}=require('./project-output.cjs');
+const {launchQABrowser}=require('./qa-browser-workspace.cjs');
+const [base,outArg]=process.argv.slice(2);
 (async()=>{
+ const out=await projectOutput(outArg,await productionRoot());
  await fs.mkdir(out,{recursive:false});await fs.copyFile(__filename,path.join(out,'executed-script.cjs'));
- const browser=await chromium.launch({channel:'chrome',headless:true}),context=await browser.newContext({viewport:{width:1440,height:1000}});
- const report={status:'incomplete',browser:browser.version(),viewport:{width:1440,height:1000},errors:[],checks:[],scope:'Actual shared loaders/motions with no workbench DOM or drafts. Development-machine functional/visual candidate; no target-PC performance or general compatibility claim.'};
- let page;const open=async()=>{page=await context.newPage();page.on('pageerror',e=>report.errors.push(e.message));await page.goto(base+'record-consumer.html');await page.waitForFunction(()=>window.__recordConsumer?.ready,null,{timeout:120000});};
+ const report={status:'incomplete',viewport:{width:1440,height:1000},errors:[],checks:[],scope:'Actual shared loaders/motions with no workbench DOM or drafts. Development-machine functional/visual candidate; no target-PC performance or general compatibility claim.'};
+ let session,context,page;
+ const open=async()=>{page=await context.newPage();page.on('pageerror',e=>report.errors.push(e.message));await page.goto(base+'record-consumer.html');await page.waitForFunction(()=>window.__recordConsumer?.ready,null,{timeout:120000});};
  const verify=async()=>page.evaluate(async()=>{const d=__recordConsumer,rows=[];for(const actor of d.actors.values()){
    const expected=d.records.find(r=>r.identity.id===actor.identity.id),actual=await actor.capture();
    rows.push({id:actor.identity.id,sha:actor.recordSha256,expectedSha:expected.integrity.recordSha256,
@@ -21,6 +23,9 @@ const [base,outArg]=process.argv.slice(2),out=path.resolve(outArg);
   await fs.writeFile(path.join(out,name+'-1x.webm'),Buffer.from(data.split(',')[1],'base64'));await page.screenshot({path:path.join(out,name+'.png')});
  }
  try{
+  session=await launchQABrowser(out,{channel:'chrome'});
+  const {browser}=session;
+  context=await browser.newContext({viewport:report.viewport});report.browser=browser.version();
   await open();report.build=await page.evaluate(()=>__recordConsumer.buildInfo);report.first=await verify();checkRows(report.first);
   assert.equal(await page.locator('#appearance-fields').count(),0);assert.equal(await page.evaluate(()=>localStorage.length),0);
   await film('native-pair');report.checks.push('native pair complete records without workbench/drafts');
@@ -44,5 +49,8 @@ const [base,outArg]=process.argv.slice(2),out=path.resolve(outArg);
   await page.close();await open();report.reopened=await verify();checkRows(report.reopened);assert.deepEqual(report.reopened.map(r=>r.sha),report.first.map(r=>r.sha));report.checks.push('fresh page reconstructs final records exactly');
   assert.equal(report.errors.length,0,JSON.stringify(report.errors));report.status='technical-pass-visual-candidate';
  }catch(error){report.failure=String(error.stack||error);process.exitCode=1;await page?.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});}
- finally{await browser.close();await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:report.status,failure:report.failure,checks:report.checks}));}
-})();
+ finally{
+  try{await session?.close();}
+  finally{await fs.writeFile(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({status:report.status,failure:report.failure,checks:report.checks}));}
+ }
+})().catch(error=>{console.error(error);process.exitCode=1;});

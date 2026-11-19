@@ -6,7 +6,8 @@ const test = require('node:test');
 const {productionRoot, projectOutput} = require('./project-output.cjs');
 
 const scripts = ['qa-character-production.cjs', 'qa-production-media.cjs',
-  'qa-character-cross-body.cjs', 'qa-character-record-ui.cjs'];
+  'qa-character-cross-body.cjs', 'qa-character-record-ui.cjs',
+  'qa-record-consumer.cjs', 'qa-record-consumer-release.cjs', 'qa-character-record-package.cjs'];
 
 test('character QA validates the output before writes or browser startup and can retry in the project', async t => {
   const root = await productionRoot();
@@ -35,7 +36,12 @@ if (phase==='reject') {
     throw Error('Unexpected filesystem effect: '+name);
   };
 }
-globalThis.fetch = async () => ({json:async()=>({shortId:'fixture'})});
+globalThis.fetch = async url => {
+  if (phase==='reject') { mark('fetch'); throw Error('Unexpected runtime request'); }
+  return {json:async()=>String(url).endsWith('runtime-package.json')
+    ? {runtime:{entryUrl:'index.html',buildId:'fixture'},selected:{},files:[]}
+    : {shortId:'fixture'}};
+};
 const load = Module._load;
 Module._load = function(name,...args) {
   if (name!=='../prototype/node_modules/playwright') return load.call(this,name,...args);
@@ -54,8 +60,8 @@ Module._load = function(name,...args) {
       mark('navigation');
       throw Error('simulated navigation failure');
     }};
-    const context={async newPage(){return page;},async close(){}};
-    return {newPage:context.newPage,async newContext(){return context;},async close(){mark('close');}};
+    const context={async newPage(){return page;},async route(){},async close(){}};
+    return {version:()=>'fixture',newPage:context.newPage,async newContext(){return context;},async close(){mark('close');}};
   }}};
 };
 `);

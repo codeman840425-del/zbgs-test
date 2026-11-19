@@ -1,0 +1,42 @@
+{
+  "rootAudit": {
+    "project": "F:\\gamemake",
+    "unexpectedSiblings": [],
+    "unexpectedWorktrees": [],
+    "companyOwnedSiblings": [
+      "gamemake-company-platform-c1"
+    ],
+    "independentFusionTests": [
+      "gamemake-test"
+    ]
+  },
+  "directCLI": [
+    {
+      "entry": "qa-record-consumer.cjs",
+      "exit": 1,
+      "reason": "Error: Production output must be inside the project: F:\\"
+    },
+    {
+      "entry": "qa-record-consumer-release.cjs",
+      "exit": 1,
+      "reason": "Error: Production output must be inside the project: F:\\"
+    },
+    {
+      "entry": "qa-character-record-package.cjs",
+      "exit": 1,
+      "reason": "Error: Production output must be inside the project: F:\\"
+    }
+  ],
+  "driveRootNameChanges": [],
+  "regression": "node --test scripts/qa-character-output.test.cjs",
+  "casesPerEntry": [
+    "absolute drive root",
+    "relative drive root",
+    "junction to drive root",
+    "launch failure",
+    "retry to navigation"
+  ],
+  "coveredEntries": 7,
+  "subprocessCalls": 35,
+  "browser": "mocked in regression; direct CLI invalid paths fail before browser startup"
+}
