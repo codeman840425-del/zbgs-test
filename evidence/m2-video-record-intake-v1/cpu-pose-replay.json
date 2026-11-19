@@ -1,0 +1,93 @@
+{
+  "script": "scripts/pose-reference/extract.py",
+  "scriptSha256": "0e2ed6ce6419546abb4431949544fb715eb8d26bde735228cac5fd390aba21c9",
+  "cwd": "F:/",
+  "input": "evidence/real-video-pose-v1/dvids-squat-original.mp4",
+  "sourceSha256": "05b5870da6ebc66abcfd5715a2864e21299d176dc2c87524d3f5904c37450f66",
+  "sourceIntervalSeconds": [
+    15,
+    23
+  ],
+  "output": "output/m2-video-record-v1/pose-replay",
+  "originalSequenceSha256": "b8f1e070ee5b0eb3da8033174322d484590095923907fe084e4b1d20708268cc",
+  "newSequenceSha256": "b0cb7685a7310f7ad08d00945cd0b134d196a39b1f7eef16ab6d9d8293273dba",
+  "repeatedFinalScriptSequenceBytesIdentical": true,
+  "models": {
+    "hand_landmarker.task": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1",
+    "pose_landmarker_full.task": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"
+  },
+  "delegate": "CPU",
+  "mediapipe": "1.2.3",
+  "python": "3.13.11",
+  "frames": 240,
+  "sourceFrameRange": [
+    450,
+    689
+  ],
+  "ptsRange": [
+    450450,
+    689689
+  ],
+  "timeBase": "1/30000",
+  "wholeFrameObjectsIdentical": 240,
+  "results": {
+    "poses": {
+      "detectionsPerFrameHistogram": {
+        "1": 240
+      },
+      "pointsPerDetection": 33,
+      "comparisons": {
+        "normalized": {
+          "points": 7920,
+          "xyzValues": 23760,
+          "maxAbsAxisDelta": 0.0,
+          "maxEuclideanDelta": 0.0,
+          "rmsAxisDelta": 0.0
+        },
+        "world_meters_predicted": {
+          "points": 7920,
+          "xyzValues": 23760,
+          "maxAbsAxisDelta": 0.0,
+          "maxEuclideanDelta": 0.0,
+          "rmsAxisDelta": 0.0
+        }
+      }
+    },
+    "hands": {
+      "detectionsPerFrameHistogram": {
+        "2": 169,
+        "1": 71
+      },
+      "pointsPerDetection": 21,
+      "comparisons": {
+        "normalized": {
+          "points": 8589,
+          "xyzValues": 25767,
+          "maxAbsAxisDelta": 0.0,
+          "maxEuclideanDelta": 0.0,
+          "rmsAxisDelta": 0.0
+        },
+        "world_meters_predicted": {
+          "points": 8589,
+          "xyzValues": 25767,
+          "maxAbsAxisDelta": 0.0,
+          "maxEuclideanDelta": 0.0,
+          "rmsAxisDelta": 0.0
+        }
+      }
+    }
+  },
+  "command": [
+    "analysis/mediapipe-reference/.venv/Scripts/python.exe",
+    "-B",
+    "scripts/pose-reference/extract.py",
+    "evidence/real-video-pose-v1/dvids-squat-original.mp4",
+    "--video",
+    "--start",
+    "15",
+    "--end",
+    "23",
+    "--out",
+    "<new project-local output>"
+  ]
+}
