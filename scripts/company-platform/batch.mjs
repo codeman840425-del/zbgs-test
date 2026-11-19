@@ -130,6 +130,8 @@ async function prepare(item,sourceHashes){
   const constraint=bindTrainingDocument(document,binding,item.key,context);
   let trainingClearance;
   if(constraint){
+    if (Object.hasOwn(constraint,'shot'))
+      Object.assign(sourceHashes,await sources(['scripts/company-platform/check-dance-shot.mjs','scripts/company-platform/public-door-access.mjs','prototype/src/company/camera-view.js']));
     const {checkTrainingClearance}=await import('./check-training-clearance.mjs');
     trainingClearance=await checkTrainingClearance(document,constraint,{catalog,templates});
   }

@@ -112,7 +112,9 @@ function cameraForRoom(doc,derived,view) {
   const interview=Array.isArray(doc.interviewRooms) && doc.interviewRooms.find(r=>r?.regionId===view.roomId);
   const singing=Array.isArray(doc.singingRooms) && doc.singingRooms.find(r=>r?.regionId===view.roomId);
   const showcase=Array.isArray(doc.productShowcases) && doc.productShowcases.find(r=>r?.roomId===view.roomId);
-  const cameraId=interview?.roles?.camera || singing?.roles?.camera || showcase?.members?.camera;
+  const training=doc.trainingBinding?.trainingClearance;
+  const danceCamera=training?.roomId===view.roomId && training.shot?.cameraId;
+  const cameraId=interview?.roles?.camera || singing?.roles?.camera || showcase?.members?.camera || danceCamera;
   return cameraId ? cameras.find(f=>f.id===cameraId) : cameras.length===1 ? cameras[0] : undefined;
 }
 function aimFromInstalledCamera(facility) {
@@ -131,12 +133,13 @@ orbit.addEventListener('start',()=>{
 });
 function setView(name){
   facilityEditor?.cancel();
+  if(name!=='camera')element('camera-view').setAttribute('aria-pressed','false');
   activeView=name;orbit.maxPolarAngle=name==='ceiling'?Math.PI*.96:Math.PI*.48;
   const doc=session.document,derived=deriveCompany(doc,catalog,templates),view=session.scene.view;
   orbit.enableRotate=view.mode==='room';orbit.enablePan=view.mode==='room';orbit.enableZoom=view.mode==='room';
   if(name==='camera'){
     if(aimFromInstalledCamera(cameraForRoom(doc,derived,view)))return;
-    activeView='room';name='room';status('当前房间未找到可取景的实体镜头。',true);
+    activeView='room';name='room';element('camera-view').setAttribute('aria-pressed','false');status('当前房间未找到可取景的实体镜头。',true);
   }
   camera.fov=38;camera.updateProjectionMatrix();
   if(view.mode==='building')return;

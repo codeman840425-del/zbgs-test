@@ -679,6 +679,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(!name.endsWith('.json'))fail('unsupported-production-input',name,'Production input folders must contain JSON only');supplemental.add(name);
   }
   const assetDependencies=[],provenance=[];
+  if (supplemental.has('scripts/company-platform/batch-inputs/dance-broadcast-rooms.json')) {
+    for (const name of ['check-dance-shot.mjs','public-door-access.mjs','qa-dance-broadcast.cjs','test-dance-shot.mjs','test-dance-broadcast-rooms.mjs','test-live-kit-handoff.mjs'])
+      supplemental.add('scripts/company-platform/'+name);
+    supplemental.add('docs/research/COMPANY-DANCE-BROADCAST-PRODUCTION.md');
+  }
   if (supplemental.has('scripts/company-platform/batch-inputs/singing-rooms.json')) {
     for (const name of ['check-singing-room.mjs','public-door-access.mjs','test-singing-room.mjs','qa-singing-rooms.cjs'])
       supplemental.add('scripts/company-platform/'+name);

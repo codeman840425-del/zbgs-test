@@ -1,0 +1,324 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "rental-dance-broadcast",
+      "trainingClearance": {
+        "roomId": "dance-broadcast-rental/ground/dance-training",
+        "activity": {
+          "minX": -1.25,
+          "maxX": 1,
+          "minZ": -0.87,
+          "maxZ": 1.63,
+          "clearHeight": 2.2
+        },
+        "entry": {
+          "portalId": "dance-broadcast-rental/ground/portal-work-living",
+          "minX": -2.25,
+          "maxX": -1.15,
+          "minZ": -0.5,
+          "maxZ": 0.5,
+          "clearHeight": 2.2
+        },
+        "shot": {
+          "cameraId": "dance-broadcast-rental/ground/dance-training/camera",
+          "backdropId": "dance-broadcast-rental/ground/dance-training/background",
+          "frame": {
+            "start": [-1.1,1.48],
+            "end": [0.87,1.48],
+            "bottom": 0,
+            "top": 2
+          }
+        }
+      },
+      "input": {
+        "id": "dance-broadcast-rental",
+        "name": "整套出租屋 · 舞播训练室",
+        "scale": "rental-home",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              },
+              {
+                "id": "dance-training",
+                "name": "舞播训练室",
+                "purpose": "training",
+                "entry": [0,0,0]
+              },
+              {
+                "id": "rest",
+                "name": "休息间",
+                "purpose": "rest",
+                "sofaVersion": 1
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set-surface-finish",
+          "id": "dance-broadcast-rental/ground/dance-training",
+          "surface": "floor",
+          "finish": {
+            "resource": {
+              "id": "floor-offset-plank",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "dance-broadcast-rental/ground/dance-training/mirror",
+          "parentId": "dance-broadcast-rental/ground/dance-training",
+          "resource": {
+            "id": "mirror-full",
+            "version": 1
+          },
+          "transform": {
+            "position": [-0.5,1.4,-1.9],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "dance-broadcast-rental/ground/dance-training/background",
+          "parentId": "dance-broadcast-rental/ground/dance-training",
+          "resource": {
+            "id": "background-soft-panel",
+            "version": 1
+          },
+          "transform": {
+            "position": [-0.115,0,1.82],
+            "yaw": 3.141592653589793
+          },
+          "state": {
+            "visible": true
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "dance-broadcast-rental/ground/dance-training/rug",
+          "parentId": "dance-broadcast-rental/ground/dance-training",
+          "resource": {
+            "id": "rug-border",
+            "version": 1
+          },
+          "transform": {
+            "position": [1.59,0,0.25],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "dance-broadcast-rental/ground/dance-training/camera-desk",
+          "parentId": "dance-broadcast-rental/ground/dance-training",
+          "resource": {
+            "id": "desk-frame",
+            "version": 1
+          },
+          "transform": {
+            "position": [-0.115,0,-1.4],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "dance-broadcast-rental/ground/dance-training/camera",
+          "parentId": "dance-broadcast-rental/ground/dance-training/camera-desk",
+          "resource": {
+            "id": "camera-orbit-eye",
+            "version": 1
+          },
+          "transform": {
+            "position": [0,0.84,0.43],
+            "yaw": 0
+          }
+        }
+      ]
+    },
+    {
+      "key": "upper-floor-dance-broadcast",
+      "trainingClearance": {
+        "roomId": "dance-broadcast-company/floor-beta/beta-training",
+        "activity": {
+          "minX": -1.5,
+          "maxX": 1.5,
+          "minZ": -1.5,
+          "maxZ": 1.5,
+          "clearHeight": 2.2
+        },
+        "entry": {
+          "portalId": "dance-broadcast-company/floor-beta/portal-beta-training",
+          "minX": -0.5,
+          "maxX": 0.5,
+          "minZ": 1.4,
+          "maxZ": 3,
+          "clearHeight": 2.2
+        },
+        "shot": {
+          "cameraId": "dance-broadcast-company/floor-beta/beta-training/camera",
+          "backdropId": "dance-broadcast-company/floor-beta/beta-training/background",
+          "frame": {
+            "start": [-1.13,-0.55],
+            "end": [1.35,-0.55],
+            "bottom": 0,
+            "top": 2.02
+          }
+        }
+      },
+      "input": {
+        "id": "dance-broadcast-company",
+        "name": "两层公司 · 舞播训练室",
+        "scale": "building",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "floors": [
+          {
+            "id": "floor-alpha",
+            "name": "直播层",
+            "rooms": [
+              {
+                "id": "alpha-stream",
+                "name": "双工位直播间",
+                "purpose": "streaming",
+                "stations": 2
+              },
+              {
+                "id": "alpha-work",
+                "name": "工作间",
+                "purpose": "work",
+                "furniture": "desk-chair"
+              },
+              {
+                "id": "alpha-rest",
+                "name": "休息间",
+                "purpose": "rest",
+                "sofaVersion": 1
+              }
+            ]
+          },
+          {
+            "id": "floor-beta",
+            "name": "训练层",
+            "rooms": [
+              {
+                "id": "beta-stream",
+                "name": "直播间",
+                "purpose": "streaming",
+                "stations": 1
+              },
+              {
+                "id": "beta-training",
+                "name": "舞播训练室",
+                "purpose": "training",
+                "entry": [0,0,0]
+              },
+              {
+                "id": "beta-rest",
+                "name": "休息间",
+                "purpose": "rest",
+                "sofaVersion": 2
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "set-surface-finish",
+          "id": "dance-broadcast-company/floor-beta/beta-training",
+          "surface": "floor",
+          "finish": {
+            "resource": {
+              "id": "floor-herringbone",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "dance-broadcast-company/floor-beta/beta-training/mirror",
+          "parentId": "dance-broadcast-company/floor-beta/beta-training",
+          "resource": {
+            "id": "mirror-full",
+            "version": 1
+          },
+          "transform": {
+            "position": [-2.9,1.4,-0.3],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "dance-broadcast-company/floor-beta/beta-training/background",
+          "parentId": "dance-broadcast-company/floor-beta/beta-training",
+          "resource": {
+            "id": "background-slat-panel",
+            "version": 1
+          },
+          "transform": {
+            "position": [0,0,-2.65],
+            "yaw": 0
+          },
+          "state": {
+            "visible": true
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "dance-broadcast-company/floor-beta/beta-training/rug",
+          "parentId": "dance-broadcast-company/floor-beta/beta-training",
+          "resource": {
+            "id": "rug-inset",
+            "version": 1
+          },
+          "transform": {
+            "position": [2.18,0,0.1],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "dance-broadcast-company/floor-beta/beta-training/camera-desk",
+          "parentId": "dance-broadcast-company/floor-beta/beta-training",
+          "resource": {
+            "id": "desk-trestle",
+            "version": 1
+          },
+          "transform": {
+            "position": [1.55,0,2.42],
+            "yaw": 3.141592653589793
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "dance-broadcast-company/floor-beta/beta-training/camera",
+          "parentId": "dance-broadcast-company/floor-beta/beta-training/camera-desk",
+          "resource": {
+            "id": "camera-cube-slate",
+            "version": 1
+          },
+          "transform": {
+            "position": [0.83,0.84,0.37],
+            "yaw": 0
+          }
+        }
+      ]
+    }
+  ]
+}

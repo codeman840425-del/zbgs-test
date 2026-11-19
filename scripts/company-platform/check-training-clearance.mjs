@@ -146,7 +146,8 @@ export function scanRoomMeshes(scene, room, facilities, regions, failures, onMes
 }
 
 export async function checkTrainingClearance(document, constraint, {catalog = defaultCatalog, templates = defaultTemplates} = {}) {
-  exactFields(constraint,['roomId','activity','entry'],'trainingClearance');
+  const hasShot = constraint != null && Object.hasOwn(constraint,'shot');
+  exactFields(constraint,hasShot ? ['roomId','activity','entry','shot'] : ['roomId','activity','entry'],'trainingClearance');
   const derived = deriveCompany(document,catalog,templates);
   const room = derived.nodes.get(constraint.roomId);
   if (room?.kind !== 'room') fail('training-clearance-room-missing', 'trainingClearance.roomId', 'Choose a room in this layout');
@@ -184,7 +185,20 @@ export async function checkTrainingClearance(document, constraint, {catalog = de
       const first = failures[0];
       fail('training-clearance-obstructed', first.componentId, `Clearance intrusion in ${first.region} of ${room.id}`, {roomId:room.id,portalId:portal.id,failures});
     }
+    let shot, access;
+    if (hasShot) {
+      const {checkDanceShot} = await import('./check-dance-shot.mjs');
+      const {checkRoomDoorAccess} = await import('./public-door-access.mjs');
+      shot = await checkDanceShot({scene,room,facilities,derived,worldToRoom,rule:constraint.shot,activity:constraint.activity});
+      const {start,end} = constraint.shot.frame;
+      const center = start.map((value,axis) => (value + end[axis]) / 2);
+      access = checkRoomDoorAccess({scene,derived,facilities,floor,placement,room,portalId:portal.id,
+        targets:{dancer:center},radius:.25,height:1.90}).dancer;
+      if (access.portalId !== portal.id)
+        fail('dance-shot-entry-unreachable',portal.id,'The declared dance entrance must reach the filming position.',{found:access.portalId});
+    }
     return {ok:true, roomId:room.id, floorId, portal, activity:{...constraint.activity}, entry:{...constraint.entry},
+      ...(hasShot && {shot,access}),
       checkedFacilities:facilities.length, checkedMeshes, contactToleranceMetres:contactTolerance,
       scope:'Static room-local clearance against structure, blocking footprints, and actual mesh surfaces at the installed facility states.',
       limitations:['Enclosed volumes of non-blocking meshes are sampled at their triangle surfaces only.',
