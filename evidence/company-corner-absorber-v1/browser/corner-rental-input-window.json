@@ -1,0 +1,561 @@
+{
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "id": "corner-rental",
+  "name": "出租屋好物直播间 · 墙角吸声件",
+  "nodes": [
+    {
+      "connections": [
+        {
+          "from": {
+            "edge": "east",
+            "offset": 0,
+            "regionId": "corner-rental/ground/live",
+            "width": 1.4
+          },
+          "id": "corner-rental/ground/portal-stream-living",
+          "to": {
+            "edge": "west",
+            "offset": 0,
+            "regionId": "corner-rental/ground/living",
+            "width": 1.4
+          }
+        },
+        {
+          "from": {
+            "edge": "west",
+            "offset": 0,
+            "regionId": "corner-rental/ground/office",
+            "width": 1.4
+          },
+          "id": "corner-rental/ground/portal-work-living",
+          "to": {
+            "edge": "east",
+            "offset": 0,
+            "regionId": "corner-rental/ground/living",
+            "width": 1.4
+          }
+        },
+        {
+          "from": {
+            "edge": "north",
+            "offset": 0,
+            "regionId": "corner-rental/ground/lounge",
+            "width": 1.4
+          },
+          "id": "corner-rental/ground/portal-rest-living",
+          "to": {
+            "edge": "south",
+            "offset": 0,
+            "regionId": "corner-rental/ground/living",
+            "width": 1.4
+          }
+        }
+      ],
+      "id": "corner-rental/ground",
+      "kind": "floor",
+      "name": "一层",
+      "parentId": "corner-rental",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "bounds": {
+        "depth": 4,
+        "width": 4.5
+      },
+      "entry": {
+        "position": [
+          1.66,
+          0,
+          0
+        ]
+      },
+      "finishes": {
+        "floor": {
+          "resource": {
+            "id": "floor-offset-plank",
+            "version": 1
+          }
+        }
+      },
+      "id": "corner-rental/ground/live",
+      "kind": "room",
+      "name": "食品陈列直播间",
+      "parentId": "corner-rental/ground",
+      "purpose": "streaming",
+      "transform": {
+        "position": [
+          -4.5,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "bounds": {
+        "depth": 4,
+        "width": 4.5
+      },
+      "entry": {
+        "position": [
+          1.8,
+          0,
+          1.5
+        ]
+      },
+      "id": "corner-rental/ground/office",
+      "kind": "room",
+      "name": "选品工作间",
+      "parentId": "corner-rental/ground",
+      "purpose": "work",
+      "transform": {
+        "position": [
+          4.5,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "bounds": {
+        "depth": 4,
+        "width": 4.5
+      },
+      "entry": {
+        "position": [
+          1.7,
+          0,
+          1.4
+        ]
+      },
+      "id": "corner-rental/ground/lounge",
+      "kind": "room",
+      "name": "休息间",
+      "parentId": "corner-rental/ground",
+      "purpose": "rest",
+      "transform": {
+        "position": [
+          0,
+          0,
+          4
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "bounds": {
+        "depth": 4,
+        "width": 4.5
+      },
+      "entry": {
+        "position": [
+          -1.6,
+          0,
+          1.5
+        ]
+      },
+      "id": "corner-rental/ground/living",
+      "kind": "area",
+      "name": "公共客厅",
+      "parentId": "corner-rental/ground",
+      "publicRole": "living",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-rental/ground/office/desk",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/office",
+      "resource": {
+        "id": "desk",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.8
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-rental/ground/office/chair",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/office",
+      "resource": {
+        "id": "chair-ladder",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.65
+        ],
+        "yaw": 3.141592653589793
+      }
+    },
+    {
+      "id": "corner-rental/ground/lounge/sofa",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/lounge",
+      "resource": {
+        "id": "lounge-sofa",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          0,
+          0,
+          0.55
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-rental/ground/living/sofa",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/living",
+      "resource": {
+        "id": "lounge-sofa",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          0,
+          0,
+          -0.45
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-rental/ground/living/plant",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/living",
+      "resource": {
+        "id": "plant",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          1.55,
+          0,
+          -1
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-rental/ground/live/backdrop",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/live",
+      "resource": {
+        "id": "background-grid-panel",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          0.12,
+          0,
+          -1.8
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-rental/ground/live/counter",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/live",
+      "resource": {
+        "id": "hinged-cabinet-flat-panel",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          -0.15,
+          0,
+          -0.55
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-rental/ground/live/stock-shelf",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/live",
+      "resource": {
+        "id": "support-shelf-frame-posts",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          -1.5,
+          0,
+          -1.18
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-rental/ground/live/camera-desk",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/live",
+      "resource": {
+        "id": "desk-trestle",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          -0.15,
+          0,
+          1.43
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-rental/ground/live/camera",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/live/camera-desk",
+      "resource": {
+        "id": "camera-orbit-eye",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          0,
+          0.84,
+          -0.38
+        ],
+        "yaw": 3.141592653589793
+      }
+    },
+    {
+      "id": "corner-rental/ground/live/key-light",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/live",
+      "resource": {
+        "id": "fill-light-panel",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          -1.7,
+          0,
+          0.48
+        ],
+        "yaw": 1.5707963267948966
+      }
+    },
+    {
+      "attachment": {
+        "surfaceId": "top"
+      },
+      "id": "corner-rental/ground/live/featured",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/live/counter",
+      "resource": {
+        "id": "showcase-product-honey",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          0,
+          1.2,
+          0.08
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "attachment": {
+        "surfaceId": "lower"
+      },
+      "id": "corner-rental/ground/live/sample-low",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/live/stock-shelf",
+      "resource": {
+        "id": "showcase-product-bag",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          0,
+          0.45,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "attachment": {
+        "surfaceId": "middle"
+      },
+      "id": "corner-rental/ground/live/sample-mid",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/live/stock-shelf",
+      "resource": {
+        "id": "showcase-product-can",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          0,
+          1.05,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "attachment": {
+        "surfaceId": "top"
+      },
+      "id": "corner-rental/ground/live/sample-high",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/live/stock-shelf",
+      "resource": {
+        "id": "showcase-product-carton",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          0,
+          1.8,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-rental/ground/live/south-window",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/live",
+      "resource": {
+        "id": "window-opening-square-basic",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          1.35,
+          1.65,
+          1.9
+        ],
+        "yaw": 3.141592653589793
+      }
+    },
+    {
+      "attachment": {
+        "corner": "north-west"
+      },
+      "id": "corner-rental/ground/live/corner-absorber",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/live",
+      "resource": {
+        "id": "corner-absorber-column",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          -2.15,
+          0.2,
+          -1.9
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "attachment": {
+        "corner": "south-east"
+      },
+      "id": "corner-rental/ground/live/qa-bad-window",
+      "kind": "facility",
+      "parentId": "corner-rental/ground/live",
+      "resource": {
+        "id": "corner-absorber-column",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          2.15,
+          0.2,
+          1.9
+        ],
+        "yaw": 3.141592653589793
+      }
+    }
+  ],
+  "productShowcases": [
+    {
+      "aisleWidth": 0.75,
+      "approach": [],
+      "maxOffAxisDegrees": 30,
+      "members": {
+        "backdrop": "corner-rental/ground/live/backdrop",
+        "camera": "corner-rental/ground/live/camera",
+        "counter": "corner-rental/ground/live/counter",
+        "featured": "corner-rental/ground/live/featured",
+        "sampleHigh": "corner-rental/ground/live/sample-high",
+        "sampleLow": "corner-rental/ground/live/sample-low",
+        "sampleMid": "corner-rental/ground/live/sample-mid",
+        "stockShelf": "corner-rental/ground/live/stock-shelf"
+      },
+      "portalId": "corner-rental/ground/portal-stream-living",
+      "presenter": {
+        "depth": 0.8,
+        "height": 1.9,
+        "offset": [
+          1,
+          0.55
+        ],
+        "width": 0.75
+      },
+      "roomId": "corner-rental/ground/live"
+    }
+  ],
+  "revision": 9,
+  "scale": "rental-home",
+  "schema": "company-layout",
+  "spaceProfile": {
+    "id": "company-space-v2",
+    "version": 1
+  },
+  "version": 1
+}

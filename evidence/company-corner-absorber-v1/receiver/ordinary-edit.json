@@ -1,0 +1,56 @@
+{
+  "completed": true,
+  "originalSaveSha256": "5ce5c0ce8b4e9bdbf401e7e1e4a63fd8ed3d35af3e14776703058b994cee02d8",
+  "after": "5ce5c0ce8b4e9bdbf401e7e1e4a63fd8ed3d35af3e14776703058b994cee02d8",
+  "failedOutputExists": false,
+  "commands": [
+    {
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\corner-absorber-v1\\receiver\\run-01\\received\\edit.mjs",
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\corner-absorber-v1\\receiver\\run-01\\received\\data\\rooms\\corner-studio\\save.json",
+        "--room",
+        "corner-studio"
+      ],
+      "exit": 0,
+      "message": {
+        "ok": true,
+        "id": "corner-studio",
+        "revision": 1,
+        "floors": [
+          "corner-studio/ground"
+        ]
+      }
+    },
+    {
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\corner-absorber-v1\\receiver\\run-01\\received\\edit.mjs",
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\corner-absorber-v1\\receiver\\run-01\\received\\data\\rooms\\corner-studio\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\corner-absorber-v1\\receiver\\run-01\\ordinary-edit\\backdrop-into-absorber.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\corner-absorber-v1\\receiver\\run-01\\ordinary-edit\\would-be-invalid-room",
+        "--room",
+        "corner-studio"
+      ],
+      "exit": 1,
+      "message": {
+        "ok": false,
+        "code": "corner-absorber-room-occupied",
+        "path": "corner-studio/ground/live/corner-absorber",
+        "message": "corner-absorber-room-occupied at corner-studio/ground/live/corner-absorber: Installed triangles intrude into the corner screen.",
+        "details": {
+          "corner": "south-west",
+          "component": "z-rail",
+          "other": "corner-studio/ground/live/background",
+          "mesh": "background-surface",
+          "kind": "overlapping-solids",
+          "point": [
+            -2.8796,
+            1.2,
+            2.748125
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,328 @@
+{
+  "catalog": {
+    "id": "company-facilities",
+    "version": 1
+  },
+  "id": "corner-studio",
+  "name": "独立唱播工作室 · 墙角吸声件",
+  "nodes": [
+    {
+      "connections": [],
+      "exteriorEntrances": [
+        {
+          "edge": "south",
+          "height": 2.2,
+          "id": "corner-studio/ground/entry",
+          "offset": 0,
+          "regionId": "corner-studio/ground/live",
+          "width": 1.4
+        },
+        {
+          "edge": "west",
+          "height": 2.2,
+          "id": "corner-studio/ground/west-service-exit",
+          "offset": -2.1,
+          "regionId": "corner-studio/ground/live",
+          "width": 1.4
+        }
+      ],
+      "id": "corner-studio/ground",
+      "kind": "floor",
+      "name": "一层",
+      "parentId": "corner-studio",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "bounds": {
+        "depth": 6,
+        "width": 6
+      },
+      "entry": {
+        "position": [
+          0,
+          0,
+          2.35
+        ]
+      },
+      "finishes": {
+        "floor": {
+          "resource": {
+            "id": "floor-offset-plank",
+            "version": 1
+          }
+        }
+      },
+      "id": "corner-studio/ground/live",
+      "kind": "room",
+      "name": "唱播间",
+      "parentId": "corner-studio/ground",
+      "purpose": "streaming",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-studio/ground/live/vocal",
+      "kind": "facility",
+      "parentId": "corner-studio/ground/live",
+      "resource": {
+        "id": "floor-vocal-mic-disc-fit-lower",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-studio/ground/live/score",
+      "kind": "facility",
+      "parentId": "corner-studio/ground/live",
+      "resource": {
+        "id": "floor-score-stand-tripod-readable",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          0.69,
+          0,
+          -0.38
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-studio/ground/live/camera-desk",
+      "kind": "facility",
+      "parentId": "corner-studio/ground/live",
+      "resource": {
+        "id": "desk-frame",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          -0.51,
+          0,
+          -2.34
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-studio/ground/live/camera",
+      "kind": "facility",
+      "parentId": "corner-studio/ground/live/camera-desk",
+      "resource": {
+        "id": "camera-orbit-eye",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          -0.91,
+          0.84,
+          0.4
+        ],
+        "yaw": 0
+      }
+    },
+    {
+      "id": "corner-studio/ground/live/background",
+      "kind": "facility",
+      "parentId": "corner-studio/ground/live",
+      "resource": {
+        "id": "background-brand-panel",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          1.4,
+          0,
+          2.18
+        ],
+        "yaw": 3.141592653589793
+      }
+    },
+    {
+      "id": "corner-studio/ground/live/fill",
+      "kind": "facility",
+      "parentId": "corner-studio/ground/live",
+      "resource": {
+        "id": "fill-light-panel",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          -1.45,
+          0,
+          -0.6
+        ],
+        "yaw": 1.5707963267948966
+      }
+    },
+    {
+      "id": "corner-studio/ground/live/east-window",
+      "kind": "facility",
+      "parentId": "corner-studio/ground/live",
+      "resource": {
+        "id": "window-opening-square-basic",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          2.9,
+          1.45,
+          0
+        ],
+        "yaw": 4.71238898038469
+      }
+    },
+    {
+      "attachment": {
+        "corner": "south-east"
+      },
+      "id": "corner-studio/ground/live/corner-absorber",
+      "kind": "facility",
+      "parentId": "corner-studio/ground/live",
+      "resource": {
+        "id": "corner-absorber-upholstered",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          2.9,
+          0.2,
+          2.9
+        ],
+        "yaw": 3.141592653589793
+      }
+    },
+    {
+      "attachment": {
+        "corner": "north-west"
+      },
+      "id": "corner-studio/ground/live/qa-bad-portal",
+      "kind": "facility",
+      "parentId": "corner-studio/ground/live",
+      "resource": {
+        "id": "corner-absorber-upholstered",
+        "version": 1
+      },
+      "state": {},
+      "transform": {
+        "position": [
+          -2.9,
+          0.2,
+          -2.9
+        ],
+        "yaw": 0
+      }
+    }
+  ],
+  "revision": 8,
+  "scale": "single-room",
+  "schema": "company-layout",
+  "singingRooms": [
+    {
+      "heightProfiles": {
+        "low": {
+          "eye": [
+            -0.0092342425,
+            1.4424544796,
+            0.0672084413
+          ],
+          "mouth": [
+            -0.0077806128,
+            1.3653426463,
+            0.115260715
+          ],
+          "resource": {
+            "id": "floor-vocal-mic-disc-height-low",
+            "version": 1
+          }
+        },
+        "standard": {
+          "eye": [
+            -0.0161797469,
+            1.5848122486,
+            0.093537181
+          ],
+          "mouth": [
+            -0.0137221147,
+            1.4998611454,
+            0.1334972148
+          ],
+          "resource": {
+            "id": "floor-vocal-mic-disc-fit-lower",
+            "version": 1
+          }
+        }
+      },
+      "performer": {
+        "approach": [
+          0,
+          0,
+          1.12
+        ],
+        "coordinateSpace": "facility",
+        "exit": [
+          0,
+          0,
+          1.12
+        ],
+        "eye": [
+          -0.0161797469,
+          1.5848122486,
+          0.093537181
+        ],
+        "mouth": [
+          -0.0137221147,
+          1.4998611454,
+          0.1334972148
+        ],
+        "position": [
+          0,
+          0,
+          0.77
+        ],
+        "slotId": "vocal",
+        "yaw": 3.141592653589793
+      },
+      "portalId": "corner-studio/ground/entry",
+      "regionId": "corner-studio/ground/live",
+      "roles": {
+        "camera": "corner-studio/ground/live/camera",
+        "mic": "corner-studio/ground/live/vocal",
+        "score": "corner-studio/ground/live/score"
+      }
+    }
+  ],
+  "spaceProfile": {
+    "id": "company-space-v2",
+    "version": 1
+  },
+  "version": 1
+}
