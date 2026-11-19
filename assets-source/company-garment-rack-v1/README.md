@@ -25,6 +25,8 @@
 
 其余架体、衣型、钩和缝线由项目制作。若衣型使用外部作者的布纹，在 `sources` 记录 `kind: "png"`、本地 `path`、`sha256`、`author`、`license`、`licensePath` 和 `licenseSha256`。用设计的 `source` 指向该条目。许可可为 `CC0-1.0` 或 `Project-authorized-original`，后者保留作者实际书面授权。PNG 限 2048 × 2048 像素、2 MiB，实际颜色字节嵌入 GLB 的 `garment-cloth` 材质并绑定 sRGB UV0。纹理按 Z/Y 走向覆盖布面。
 
+如另有可编辑的布纹原稿，在同一个 `sources` 条目加入 `editable`，对象只含 `path` 和 `sha256`。路径使用项目内 `assets-source/company-*/` 下的真实文件，哈希使用小写 SHA-256。发布将原稿记入 `provenance.dependencies.editableSource` 并随包移交。直接导出、发布、离线索引检查和打包均读取原稿并核对哈希。修改已登记原稿时使用新的文件路径和资源版本。
+
 ## 复产和新款
 
 从项目根运行。每次报告及预览导出使用新目录。

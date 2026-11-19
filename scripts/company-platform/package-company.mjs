@@ -533,7 +533,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   add('data/templates.json',templateBytes,'complete-templates');
   const supplemental=new Set(extraFiles);
   const plantValidator='scripts/company-platform/plant-editable-source.mjs';
-  const plantSourcePins=new Map();
+  const productionSourcePins=new Map();
   let plantTools;
   try {
     await noLinks(path.join(source,plantValidator));
@@ -574,17 +574,25 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     supplemental.add('scripts/company-platform/test-phone-rooms.mjs');
     supplemental.add('scripts/company-platform/qa-phone-rooms.cjs');
   }
-  if (catalog.resources.some(resource => resource.productionBranch === 'garment-rack-wardrobe')) {
+  const garmentBranches = ['garment-rack-wardrobe','hanging-garment'];
+  let verifyGarmentEditableProvenance;
+  if (catalog.resources.some(resource => garmentBranches.includes(resource.productionBranch))) {
     supplemental.add('docs/research/COMPANY-GARMENT-RACK-PRODUCTION.md');
     supplemental.add('scripts/company-platform/test-garment-rack-assets.mjs');
     supplemental.add('scripts/company-platform/test-garment-rack-rooms.mjs');
     supplemental.add('scripts/company-platform/qa-garment-rack-rooms.cjs');
+    const verifier = 'scripts/company-platform/validate-resource-provenance.mjs';
+    await noLinks(path.join(source,verifier));
+    ({verifyGarmentEditableProvenance} = await import(pathToFileURL(path.join(source,verifier)).href));
+    if (!verifyGarmentEditableProvenance && catalog.resources.some(resource => garmentBranches.includes(resource.productionBranch) &&
+      resource.provenance?.dependencies?.editableSourceValidator))
+      fail('missing-production-tool',verifier,'Garment original inputs require the editable-source verifier');
   }
   if (catalog.resources.some(resource => resource.productionBranch === 'plant-desktop-installation')) {
     supplemental.add('docs/research/COMPANY-DESKTOP-PLANTS-PRODUCTION.md');
     if (plantTools) {
       const toolchain=await plantTools.plantToolchain(source);
-      for(const tool of Object.values(toolchain))plantSourcePins.set(tool.path,tool.sha256);
+      for(const tool of Object.values(toolchain))productionSourcePins.set(tool.path,tool.sha256);
       supplemental.add(plantTools.plantProducer);
       supplemental.add(plantTools.plantToolLock);
       supplemental.add('scripts/company-platform/test-plant-editable-source.mjs');
@@ -637,12 +645,14 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     assetDependencies.push({id:resource.id,version:resource.version,path:name,bytes:bytes.length,sha256:hash(bytes)});
     const entry=resource.provenance;
     const plant = resource.productionBranch === 'plant-desktop-installation';
-    if (plant && plantTools) {
+    const garment = garmentBranches.includes(resource.productionBranch);
+    const verifyEditable = plant ? plantTools?.verifyPlantEditableProvenance : garment ? verifyGarmentEditableProvenance : undefined;
+    if (verifyEditable) {
       const recipe = decode(await read(source,entry.sourceParameters),entry.sourceParameters);
-      const pins = await plantTools.verifyPlantEditableProvenance(source,resource,recipe);
+      const pins = await verifyEditable(source,resource,recipe);
       for (const pin of pins.values()) {
         supplemental.add(pin.path);
-        plantSourcePins.set(pin.path,pin.sha256);
+        productionSourcePins.set(pin.path,pin.sha256);
       }
     }
     if (geometryChecks.has(resource.productionBranch)) {
@@ -651,12 +661,14 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
         relative(target);
         const geometryTest = 'scripts/company-platform/'+geometryChecks.get(resource.productionBranch);
         if (!(target.startsWith('assets-source/company-') || target === geometryTest ||
+          (garment && field === 'editableSourceValidator' && target === plantValidator) ||
           (plant && plantTools && ({geometryCompiler:plantTools.plantCompiler,editableSourceValidator:plantValidator,producerLock:plantTools.plantToolLock})[field]===target)))
           fail('unsafe-production-source', target, 'Expected an artwork source, license or geometry check');
         const bytes = await read(source,target);
         if (hash(bytes) !== dependency.sha256)
           fail('production-source-hash-mismatch',target,'The referenced production dependency has changed');
         supplemental.add(target);
+        if (garment && field === 'editableSourceValidator') productionSourcePins.set(target,dependency.sha256);
         provenance.push({resourceId:resource.id,version:resource.version,field,path:target,sha256:dependency.sha256});
       }
     }
@@ -685,7 +697,7 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
   for(const name of await list(toolRoot,'package-template'))add(`source/scripts/company-platform/${name}`,await read(toolRoot,name),'packaging-template');
   for(const name of [...supplemental].sort())if(!files.has(`source/${name}`)){
     const bytes=await read(source,name);
-    if(plantSourcePins.has(name)&&hash(bytes)!==plantSourcePins.get(name))fail('production-source-hash-mismatch',name,'Plant input changed while preparing the package');
+    if(productionSourcePins.has(name)&&hash(bytes)!==productionSourcePins.get(name))fail('production-source-hash-mismatch',name,'Production input changed while preparing the package');
     add(`source/${name}`,bytes,'editable-production-source');
   }
   const readme=(await read(toolRoot,'package-template/README.template.md')).toString('utf8').replaceAll('{{BUILD_ID}}',buildId).replaceAll('{{SOURCE_DIGEST}}',info.sourceDigest);

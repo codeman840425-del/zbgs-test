@@ -140,7 +140,8 @@ async function publish(recipePath,check) {
     if (hash(await regularFile(tool.path)) !== tool.sha256) fail('appearance-tool-pin-mismatch',tool.path);
   }
   const plant = family === 'desktop-plants';
-  const plantPins = plant ? await editableSources(root,input) : null;
+  const garment = family === 'garment-rack';
+  const editablePins = plant || garment ? await editableSources(root,input) : null;
   const plantTools = plant ? await plantToolchain(root) : null;
   const perDesignSource = family === 'wall-ambient' || family === 'desktop-plants';
   const artwork = new Map();
@@ -167,7 +168,7 @@ async function publish(recipePath,check) {
         const license = await regularFile(source.licensePath);
         if (hash(bytes) !== source.sha256 || hash(license) !== source.licenseSha256)
           fail('appearance-source-pin-mismatch',source.path);
-        if (!plant && source.editable) {
+        if (family === 'wall-ambient' && source.editable) {
           productionSource(source.editable.path);
           if (hash(await regularFile(source.editable.path)) !== source.editable.sha256)
             fail('appearance-source-pin-mismatch',source.editable.path);
@@ -227,10 +228,11 @@ async function publish(recipePath,check) {
         assert.equal(resource.provenance.sourceLicense,source.license);
         expectedDependencies = {...expectedDependencies,license:{path:source.licensePath,sha256:source.licenseSha256}};
         delete expectedDependencies.editableContour;
-        if (!plant && source.editable) expectedDependencies.editableContour = source.editable;
+        if (family === 'wall-ambient' && source.editable) expectedDependencies.editableContour = source.editable;
+        const design = input.designs.find(d => d.id === entry.id && d.version === entry.version);
+        const editable = editablePins?.get(design.source);
+        if (garment && editable) expectedDependencies.editableSource = editable;
         if (plant) {
-          const design=input.designs.find(d=>d.id===entry.id && d.version===entry.version);
-          const editable=plantPins.get(design.source);
           if (editable) Object.assign(expectedDependencies,{editableSource:editable,geometryCompiler:plantTools.compiler,
             editableSourceValidator:plantTools.validator,producerLock:plantTools.lock});
           const producer=editable ? plantTools.producer : plantTools.compiler;

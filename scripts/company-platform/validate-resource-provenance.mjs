@@ -1,10 +1,29 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
+import {isDeepStrictEqual} from 'node:util';
 
-import {verifyPlantEditableProvenance} from './plant-editable-source.mjs';
+import {editableSources,editableValidator,verifyPlantEditableProvenance} from './plant-editable-source.mjs';
 
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+
+export async function verifyGarmentEditableProvenance(root, resource, recipe) {
+  const pins = await editableSources(root, recipe);
+  const design = recipe.designs?.find(d => d.id === resource.id && d.version === resource.version);
+  const expected = pins.get(design?.source), dependencies = resource.provenance.dependencies;
+  const validator = dependencies?.editableSourceValidator;
+  function mismatch() {
+    const code = 'garment-editable-provenance-mismatch';
+    throw Object.assign(Error(code + ': ' + resource.id + '@' + resource.version), {code});
+  }
+  if (!design || !isDeepStrictEqual(dependencies?.editableSource, expected)) mismatch();
+  // Older fixed resources without any editable input predate the validator pin.
+  if (expected || validator) {
+    const bytes = await fs.readFile(path.resolve(root, editableValidator));
+    if (!isDeepStrictEqual(validator, {path:editableValidator, sha256:digest(bytes)})) mismatch();
+  }
+  return pins;
+}
 
 export async function validateResourceProvenance({root, resource, label = resource?.id || '?'}) {
   if (!resource?.asset) return;
@@ -25,5 +44,7 @@ export async function validateResourceProvenance({root, resource, label = resour
     if (provenance[hashField] !== digest(bytes)) throw new Error(`provenance-hash-mismatch: ${label}.${hashField}`);
     if(field==='sourceParameters' && resource.productionBranch==='plant-desktop-installation')
       await verifyPlantEditableProvenance(root,resource,JSON.parse(bytes));
+    if(field==='sourceParameters' && ['garment-rack-wardrobe','hanging-garment'].includes(resource.productionBranch))
+      await verifyGarmentEditableProvenance(root,resource,JSON.parse(bytes));
   }
 }

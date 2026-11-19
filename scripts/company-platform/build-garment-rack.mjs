@@ -10,6 +10,7 @@ import { RoundedBoxGeometry } from '../../prototype/node_modules/three/examples/
 import { GLTFExporter } from '../../prototype/node_modules/three/examples/jsm/exporters/GLTFExporter.js';
 import { mergeGeometries } from '../../prototype/node_modules/three/examples/jsm/utils/BufferGeometryUtils.js';
 import { garmentGlbChunks, inspectGarmentAsset, loadGarmentGlb, resolveStockFoot } from './test-garment-rack-assets.mjs';
+import { editableSources, editableValidator } from './plant-editable-source.mjs';
 
 const { PNG } = createRequire(new URL('../../prototype/package.json', import.meta.url))('pngjs');
 const root = fileURLToPath(new URL('../../', import.meta.url));
@@ -370,8 +371,8 @@ if (args.help) {
 assert.equal([args.check, args.write, Boolean(args.output)].filter(Boolean).length, 1, 'Use a single production mode');
 assert(!args.parameters || args.output, 'Alternate parameters require a new --output directory');
 const input = args.parameters ?? defaultInput;
-const [inputBytes, contractBytes, generatorBytes, geometryBytes, branchBytes] = await Promise.all(
-  [input, contractPath, generatorPath, geometryPath, branchPath].map(read)
+const [inputBytes, contractBytes, generatorBytes, geometryBytes, branchBytes, validatorBytes] = await Promise.all(
+  [input, contractPath, generatorPath, geometryPath, branchPath, editableValidator].map(read)
 );
 const recipe = JSON.parse(inputBytes), contracts = JSON.parse(contractBytes);
 assert.equal(contracts.schema, 'company-garment-rack-contracts'); assert.equal(contracts.version, 1);
@@ -380,6 +381,15 @@ assert.equal(branch?.fixedFunctionAndInstall.mount, 'floor-surface');
 assert.equal(recipe.schema, 'company-garment-rack-collection');
 assert(recipe.version === 1 && Array.isArray(recipe.designs) && recipe.designs.length);
 if (!args.parameters) assert.deepEqual(['rack', 'garment'].map(type => recipe.designs.filter(d => d.type === type).length), [4, 4]);
+async function validateEditableSources() {
+  try { return await editableSources(root, recipe); }
+  catch (error) {
+    console.error(JSON.stringify({ code: error.code ?? 'garment-generation-failed', message: error.message }));
+    process.exit(1);
+  }
+}
+const editablePins = await validateEditableSources();
+const validatorPin = { path: editableValidator, sha256: hash(validatorBytes) };
 const collection = { schemaVersion: 1, id: 'company-garment-rack-v1', sourceParameters: input, sourceParametersSha256: hash(inputBytes),
   contract: contractPath, contractSha256: hash(contractBytes), generator: generatorPath, generatorSha256: hash(generatorBytes), resources: [] };
 const files = new Map(), checks = [], seen = new Set();
@@ -390,6 +400,7 @@ for (const design of recipe.designs) {
   const key = design.id + '@' + design.version;
   assert(!seen.has(key), 'Duplicate garment-rack identity ' + key); seen.add(key);
   const source = design.source && await sourceData(recipe.sources[design.source], design);
+  const editable = editablePins.get(design.source);
   const contract = contracts[design.type];
   const { bytes, slots } = await generate(design, source, contract);
   assert(bytes.equals((await generate(design, source, contract)).bytes), 'Changed repeated export for ' + key);
@@ -404,7 +415,9 @@ for (const design of recipe.designs) {
       ...(source ? { sourceArtifactPath: source.path, sourceArtifactSha256: source.sha256, sourceAuthor: source.author, sourceLicense: source.license,
         sourceArchiveSha256: source.archiveSha256, sourceEntry: source.entry, sourceUrl: source.url } : {}),
       dependencies: { geometryValidation: { path: geometryPath, sha256: hash(geometryBytes) },
-        ...(source ? { license: { path: source.licensePath, sha256: source.licenseSha256 } } : {}) },
+        editableSourceValidator: validatorPin,
+        ...(source ? { license: { path: source.licensePath, sha256: source.licenseSha256 } } : {}),
+        ...(editable ? { editableSource: editable } : {}) },
       tools: [`Three.js ${THREE.REVISION}`, 'GLTFExporter', 'GLTFLoader readback'],
     },
   };
@@ -419,6 +432,7 @@ for (const type of ['rack', 'garment']) {
   const shapes = checks.filter(item => item.type === type).map(item => item.geometry.geometrySha256);
   assert(new Set(shapes).size === shapes.length, 'Variations need genuinely different mesh geometry');
 }
+await validateEditableSources();
 files.set(family + '/collection.json', json(collection));
 const output = args.output && path.resolve(args.output);
 if (output) {
