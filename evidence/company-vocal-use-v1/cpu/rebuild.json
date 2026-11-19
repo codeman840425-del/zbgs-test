@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "build": "c2263e74556c",
+  "runtimeFiles": 607,
+  "missing": [],
+  "extra": [],
+  "different": [],
+  "inventorySha256": "24feed32cd569db852633f4315297122a116579a621a2c633c7fe363868f26c2",
+  "steps": [
+    "npm ci --no-audit --no-fund",
+    "node scripts/build-company-id.mjs",
+    "vite build --config vite.company.config.js"
+  ]
+}

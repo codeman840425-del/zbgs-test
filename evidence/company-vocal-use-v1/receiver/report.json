@@ -1,0 +1,1363 @@
+{
+  "status": "passed",
+  "sealed": "F:\\gamemake-company-platform-c1\\output\\vocal-use\\candidate-v1",
+  "work": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work",
+  "commands": [
+    {
+      "label": "verify original package",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\vocal-use\\candidate-v1",
+        "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "c2263e74556c",
+        "manifestSha256": "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+        "declaredFiles": 2160,
+        "checkedFiles": 2160,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "cold validate original studio",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\data\\rooms\\singing-studio\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "singing-studio",
+        "revision": 1,
+        "floors": [
+          "singing-studio/ground"
+        ]
+      }
+    },
+    {
+      "label": "cold validate original rental",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\data\\rooms\\singing-rental\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "singing-rental",
+        "revision": 2,
+        "floors": [
+          "singing-rental/ground"
+        ]
+      }
+    },
+    {
+      "label": "public studio move and quarter turn",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\data\\rooms\\singing-studio\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\turn-and-move.ops.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\studio-edited"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "singing-studio",
+        "revision": 2,
+        "floors": [
+          "singing-studio/ground"
+        ],
+        "output": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\studio-edited"
+      }
+    },
+    {
+      "label": "cold validate the edited studio",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\studio-edited\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "singing-studio",
+        "revision": 2,
+        "floors": [
+          "singing-studio/ground"
+        ]
+      }
+    },
+    {
+      "label": "package moved studio and original rental",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\viewer",
+        "c2263e74556c",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\studio-edited\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\source",
+        "--room",
+        "singing-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\studio-edited\\save.json",
+        "--room",
+        "singing-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\data\\rooms\\singing-rental\\batch-result"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "buildId": "c2263e74556c",
+        "companyId": "singing-studio",
+        "rooms": [
+          "singing-studio",
+          "singing-rental"
+        ],
+        "files": 2154,
+        "output": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package"
+      }
+    },
+    {
+      "label": "verify derived clean package",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package",
+        "21b4a370b62ee6580a4d8b017f0acbe98293cdb331c60c3cc098120cfe7fca93"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "c2263e74556c",
+        "manifestSha256": "21b4a370b62ee6580a4d8b017f0acbe98293cdb331c60c3cc098120cfe7fca93",
+        "declaredFiles": 2154,
+        "checkedFiles": 2154,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "cold validate packed studio",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package\\data\\rooms\\singing-studio\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "singing-studio",
+        "revision": 2,
+        "floors": [
+          "singing-studio/ground"
+        ]
+      }
+    },
+    {
+      "label": "cold validate packed unchanged rental",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package\\data\\rooms\\singing-rental\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "singing-rental",
+        "revision": 2,
+        "floors": [
+          "singing-rental/ground"
+        ]
+      }
+    },
+    {
+      "label": "cold validate packed default room",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package\\data\\save.json"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "id": "singing-studio",
+        "revision": 2,
+        "floors": [
+          "singing-studio/ground"
+        ]
+      }
+    },
+    {
+      "label": "remove-vocal-declaration through public edit",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\remove-vocal-declaration.save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\turn-and-move.ops.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\remove-vocal-declaration-reject",
+        "--room",
+        "singing-studio"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "vocal-slot-binding-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\remove-vocal-declaration.save.json",
+        "message": "The saved microphone, slot or performer targets differ from the selected package room."
+      }
+    },
+    {
+      "label": "remove-vocal-declaration through public validate",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\remove-vocal-declaration.save.json",
+        "--room",
+        "singing-studio"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "vocal-slot-binding-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\remove-vocal-declaration.save.json",
+        "message": "The saved microphone, slot or performer targets differ from the selected package room."
+      }
+    },
+    {
+      "label": "remove-vocal-declaration through public package",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\viewer",
+        "c2263e74556c",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\data\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\remove-vocal-declaration-failed-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\source",
+        "--room",
+        "singing-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\remove-vocal-declaration-with-original-batch-declaration",
+        "--room",
+        "singing-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\data\\rooms\\singing-rental\\batch-result"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "singing-batch-binding-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\remove-vocal-declaration-with-original-batch-declaration",
+        "message": "Saved singing equipment, stage or entrance differs from the batch declaration"
+      }
+    },
+    {
+      "label": "change-authoritative-eye-reference through public edit",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\change-authoritative-eye-reference.save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\turn-and-move.ops.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\change-authoritative-eye-reference-reject",
+        "--room",
+        "singing-studio"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "vocal-slot-binding-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\change-authoritative-eye-reference.save.json",
+        "message": "The saved microphone, slot or performer targets differ from the selected package room."
+      }
+    },
+    {
+      "label": "change-authoritative-eye-reference through public validate",
+      "entry": "edit.mjs",
+      "args": [
+        "validate",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\change-authoritative-eye-reference.save.json",
+        "--room",
+        "singing-studio"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "vocal-slot-binding-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\change-authoritative-eye-reference.save.json",
+        "message": "The saved microphone, slot or performer targets differ from the selected package room."
+      }
+    },
+    {
+      "label": "change-authoritative-eye-reference through public package",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\viewer",
+        "c2263e74556c",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\data\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\change-authoritative-eye-reference-failed-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\source",
+        "--room",
+        "singing-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\change-authoritative-eye-reference-with-original-batch-declaration",
+        "--room",
+        "singing-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\data\\rooms\\singing-rental\\batch-result"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "singing-batch-binding-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\change-authoritative-eye-reference-with-original-batch-declaration",
+        "message": "Saved singing equipment, stage or entrance differs from the batch declaration"
+      }
+    },
+    {
+      "label": "reject real obstacle at both approach and exit",
+      "entry": "edit.mjs",
+      "args": [
+        "apply",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\data\\rooms\\singing-studio\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\block-approach-exit.ops.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\blocked-edit"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "vocal-use-path-blocked",
+        "path": "singing-studio/ground/live/vocal#vocal",
+        "message": "vocal-use-path-blocked at singing-studio/ground/live/vocal#vocal: The final route to the microphone is obstructed.",
+        "details": {
+          "segment": "approach",
+          "blockedBy": "singing-studio/ground/live/handoff-path-blocker"
+        }
+      }
+    },
+    {
+      "label": "refuse physical obstruction in a named packaged room",
+      "entry": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\source\\scripts\\company-platform\\package-company.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\viewer",
+        "c2263e74556c",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\data\\save.json",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\blocked-package",
+        "--source",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\source",
+        "--room",
+        "singing-studio",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\blocked.save.json",
+        "--room",
+        "singing-rental",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\work\\data\\rooms\\singing-rental\\batch-result"
+      ],
+      "exit": 1,
+      "response": {
+        "ok": false,
+        "code": "vocal-use-path-blocked",
+        "path": "singing-studio/ground/live/vocal#vocal",
+        "message": "vocal-use-path-blocked at singing-studio/ground/live/vocal#vocal: The final route to the microphone is obstructed.",
+        "details": {
+          "segment": "approach",
+          "blockedBy": "singing-studio/ground/live/handoff-path-blocker"
+        }
+      }
+    },
+    {
+      "label": "reverify unchanged original",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\vocal-use\\candidate-v1",
+        "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "c2263e74556c",
+        "manifestSha256": "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+        "declaredFiles": 2160,
+        "checkedFiles": 2160,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    },
+    {
+      "label": "reverify derived package after rejected publication",
+      "entry": "verify.mjs",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\derived-package",
+        "21b4a370b62ee6580a4d8b017f0acbe98293cdb331c60c3cc098120cfe7fca93"
+      ],
+      "exit": 0,
+      "response": {
+        "ok": true,
+        "build": "c2263e74556c",
+        "manifestSha256": "21b4a370b62ee6580a4d8b017f0acbe98293cdb331c60c3cc098120cfe7fca93",
+        "declaredFiles": 2154,
+        "checkedFiles": 2154,
+        "extraFiles": 0,
+        "changedFiles": 0,
+        "missingFiles": 0
+      }
+    }
+  ],
+  "original": {
+    "ok": true,
+    "build": "c2263e74556c",
+    "manifestSha256": "2f36e3dc92939fdb93f4c99902196ed6b5e7ec4312cceecb7f48c1237d073c57",
+    "declaredFiles": 2160,
+    "checkedFiles": 2160,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "workingFilesVerified": 2160,
+  "before": {
+    "studio": {
+      "saveSha256": "4438ffec90df2f56ac3020a748d711d49d3eb715330f47a020914f64d78be6ed",
+      "point": {
+        "approachPosition": [
+          0,
+          0,
+          1.12
+        ],
+        "capacity": 1,
+        "clearance": {
+          "depth": 0.5,
+          "height": 1.9,
+          "width": 0.5
+        },
+        "companyId": "singing-studio",
+        "contact": {
+          "pickupNodeId": "singing-mic-pickup"
+        },
+        "exitPosition": [
+          0,
+          0,
+          1.12
+        ],
+        "facilityId": "singing-studio/ground/live/vocal",
+        "facilityTransform": {
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "yaw": 0
+        },
+        "floorId": "singing-studio/ground",
+        "footprint": {
+          "blocking": true,
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.33,
+            0.48
+          ]
+        },
+        "id": "singing-studio/ground/live/vocal#vocal",
+        "kind": "standing-vocal",
+        "limitations": [],
+        "local": {
+          "approach": [
+            0,
+            0,
+            1.12
+          ],
+          "coordinateSpace": "facility",
+          "exit": [
+            0,
+            0,
+            1.12
+          ],
+          "position": [
+            0,
+            0,
+            0.77
+          ],
+          "yaw": 3.141592653589793
+        },
+        "missingFields": [],
+        "performerReferences": {
+          "coordinateSpace": "use-point",
+          "eye": [
+            0,
+            1.64,
+            0.215
+          ],
+          "mouth": [
+            0,
+            1.555,
+            0.23
+          ]
+        },
+        "resource": {
+          "id": "floor-vocal-mic-boom",
+          "version": 1
+        },
+        "revision": 1,
+        "roomId": "singing-studio/ground/live",
+        "slotId": "vocal",
+        "transform": {
+          "position": [
+            0,
+            0,
+            0.77
+          ],
+          "yaw": 3.141592653589793
+        },
+        "transformChain": [
+          {
+            "id": "singing-studio/ground",
+            "parentId": "singing-studio",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "singing-studio/ground/live",
+            "parentId": "singing-studio/ground",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "singing-studio/ground/live/vocal",
+            "parentId": "singing-studio/ground/live",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          }
+        ]
+      },
+      "actual": {
+        "mesh": "singing-mic-pickup",
+        "worldHit": [
+          -6.641337870217749e-24,
+          1.5845978069787288,
+          0.4132046701035209
+        ],
+        "mouthDistance": 0.13020401630328868,
+        "approach": {
+          "portalId": "singing-studio/ground/entry",
+          "fromRegion": null,
+          "threshold": [
+            0,
+            3
+          ],
+          "approach": [],
+          "inside": [
+            [
+              0,
+              2.75
+            ],
+            [
+              0,
+              2.65
+            ],
+            [
+              -0.05,
+              2.65
+            ],
+            [
+              -0.05,
+              1.12
+            ],
+            [
+              0,
+              1.12
+            ]
+          ]
+        },
+        "exit": {
+          "portalId": "singing-studio/ground/entry",
+          "fromRegion": null,
+          "threshold": [
+            0,
+            3
+          ],
+          "approach": [],
+          "inside": [
+            [
+              0,
+              2.75
+            ],
+            [
+              0,
+              2.65
+            ],
+            [
+              -0.05,
+              2.65
+            ],
+            [
+              -0.05,
+              1.12
+            ],
+            [
+              0,
+              1.12
+            ]
+          ]
+        }
+      }
+    },
+    "rental": {
+      "saveSha256": "0c50382d1535571f9071bf3dd7be4f585deacdb98b17765d238b29985e5d770e",
+      "point": {
+        "approachPosition": [
+          -3.38,
+          0,
+          6.858022075225179e-17
+        ],
+        "capacity": 1,
+        "clearance": {
+          "depth": 0.5,
+          "height": 1.9,
+          "width": 0.5
+        },
+        "companyId": "singing-rental",
+        "contact": {
+          "pickupNodeId": "singing-mic-pickup"
+        },
+        "exitPosition": [
+          -3.38,
+          0,
+          6.858022075225179e-17
+        ],
+        "facilityId": "singing-rental/ground/live/vocal",
+        "facilityTransform": {
+          "position": [
+            -4.5,
+            0,
+            0
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "floorId": "singing-rental/ground",
+        "footprint": {
+          "blocking": true,
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.33,
+            0.48
+          ]
+        },
+        "id": "singing-rental/ground/live/vocal#vocal",
+        "kind": "standing-vocal",
+        "limitations": [],
+        "local": {
+          "approach": [
+            0,
+            0,
+            1.12
+          ],
+          "coordinateSpace": "facility",
+          "exit": [
+            0,
+            0,
+            1.12
+          ],
+          "position": [
+            0,
+            0,
+            0.77
+          ],
+          "yaw": 3.141592653589793
+        },
+        "missingFields": [],
+        "performerReferences": {
+          "coordinateSpace": "use-point",
+          "eye": [
+            0,
+            1.64,
+            0.215
+          ],
+          "mouth": [
+            0,
+            1.555,
+            0.23
+          ]
+        },
+        "resource": {
+          "id": "floor-vocal-mic-boom",
+          "version": 1
+        },
+        "revision": 2,
+        "roomId": "singing-rental/ground/live",
+        "slotId": "vocal",
+        "transform": {
+          "position": [
+            -3.73,
+            0,
+            4.71489017671731e-17
+          ],
+          "yaw": 4.71238898038469
+        },
+        "transformChain": [
+          {
+            "id": "singing-rental/ground",
+            "parentId": "singing-rental",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "singing-rental/ground/live",
+            "parentId": "singing-rental/ground",
+            "transform": {
+              "position": [
+                -4.5,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "singing-rental/ground/live/vocal",
+            "parentId": "singing-rental/ground/live",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 1.5707963267948966
+            }
+          }
+        ]
+      },
+      "actual": {
+        "mesh": "singing-mic-pickup",
+        "worldHit": [
+          -4.0867953298964785,
+          1.5845978069787288,
+          -1.155015107070033e-24
+        ],
+        "mouthDistance": 0.13020401630328812,
+        "approach": {
+          "portalId": "singing-rental/ground/portal-stream-living",
+          "fromRegion": "singing-rental/ground/living",
+          "threshold": [
+            2.25,
+            0
+          ],
+          "approach": [
+            [
+              -1.6,
+              1.5
+            ],
+            [
+              -1.8,
+              1.5
+            ],
+            [
+              -1.8,
+              0.45
+            ],
+            [
+              -2,
+              0.45
+            ],
+            [
+              -2,
+              0
+            ]
+          ],
+          "inside": [
+            [
+              2,
+              0
+            ],
+            [
+              1.12,
+              0
+            ]
+          ]
+        },
+        "exit": {
+          "portalId": "singing-rental/ground/portal-stream-living",
+          "fromRegion": "singing-rental/ground/living",
+          "threshold": [
+            2.25,
+            0
+          ],
+          "approach": [
+            [
+              -1.6,
+              1.5
+            ],
+            [
+              -1.8,
+              1.5
+            ],
+            [
+              -1.8,
+              0.45
+            ],
+            [
+              -2,
+              0.45
+            ],
+            [
+              -2,
+              0
+            ]
+          ],
+          "inside": [
+            [
+              2,
+              0
+            ],
+            [
+              1.12,
+              0
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "derived": {
+    "ok": true,
+    "build": "c2263e74556c",
+    "manifestSha256": "21b4a370b62ee6580a4d8b017f0acbe98293cdb331c60c3cc098120cfe7fca93",
+    "declaredFiles": 2154,
+    "checkedFiles": 2154,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "viewerFilesPreserved": 607,
+  "after": {
+    "studio": {
+      "saveSha256": "bf1e0372d6a0dbb7d9658423b3722562e14156d5c63099fc09f8309f61d6adbc",
+      "point": {
+        "approachPosition": [
+          1.1700000000000002,
+          0,
+          0.05000000000000007
+        ],
+        "capacity": 1,
+        "clearance": {
+          "depth": 0.5,
+          "height": 1.9,
+          "width": 0.5
+        },
+        "companyId": "singing-studio",
+        "contact": {
+          "pickupNodeId": "singing-mic-pickup"
+        },
+        "exitPosition": [
+          1.1700000000000002,
+          0,
+          0.05000000000000007
+        ],
+        "facilityId": "singing-studio/ground/live/vocal",
+        "facilityTransform": {
+          "position": [
+            0.05,
+            0,
+            0.05
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "floorId": "singing-studio/ground",
+        "footprint": {
+          "blocking": true,
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.33,
+            0.48
+          ]
+        },
+        "id": "singing-studio/ground/live/vocal#vocal",
+        "kind": "standing-vocal",
+        "limitations": [],
+        "local": {
+          "approach": [
+            0,
+            0,
+            1.12
+          ],
+          "coordinateSpace": "facility",
+          "exit": [
+            0,
+            0,
+            1.12
+          ],
+          "position": [
+            0,
+            0,
+            0.77
+          ],
+          "yaw": 3.141592653589793
+        },
+        "missingFields": [],
+        "performerReferences": {
+          "coordinateSpace": "use-point",
+          "eye": [
+            0,
+            1.64,
+            0.215
+          ],
+          "mouth": [
+            0,
+            1.555,
+            0.23
+          ]
+        },
+        "resource": {
+          "id": "floor-vocal-mic-boom",
+          "version": 1
+        },
+        "revision": 2,
+        "roomId": "singing-studio/ground/live",
+        "slotId": "vocal",
+        "transform": {
+          "position": [
+            0.8200000000000001,
+            0,
+            0.05000000000000005
+          ],
+          "yaw": 4.71238898038469
+        },
+        "transformChain": [
+          {
+            "id": "singing-studio/ground",
+            "parentId": "singing-studio",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "singing-studio/ground/live",
+            "parentId": "singing-studio/ground",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "singing-studio/ground/live/vocal",
+            "parentId": "singing-studio/ground/live",
+            "transform": {
+              "position": [
+                0.05,
+                0,
+                0.05
+              ],
+              "yaw": 1.5707963267948966
+            }
+          }
+        ]
+      },
+      "actual": {
+        "mesh": "singing-mic-pickup",
+        "worldHit": [
+          0.4632046701035209,
+          1.5845978069787288,
+          0.05000000000000001
+        ],
+        "mouthDistance": 0.13020401630328873,
+        "approach": {
+          "portalId": "singing-studio/ground/entry",
+          "fromRegion": null,
+          "threshold": [
+            0,
+            3
+          ],
+          "approach": [],
+          "inside": [
+            [
+              0,
+              2.75
+            ],
+            [
+              0,
+              0.65
+            ],
+            [
+              0.85,
+              0.65
+            ],
+            [
+              0.85,
+              0.05
+            ],
+            [
+              1.17,
+              0.05
+            ]
+          ]
+        },
+        "exit": {
+          "portalId": "singing-studio/ground/entry",
+          "fromRegion": null,
+          "threshold": [
+            0,
+            3
+          ],
+          "approach": [],
+          "inside": [
+            [
+              0,
+              2.75
+            ],
+            [
+              0,
+              0.65
+            ],
+            [
+              0.85,
+              0.65
+            ],
+            [
+              0.85,
+              0.05
+            ],
+            [
+              1.17,
+              0.05
+            ]
+          ]
+        }
+      }
+    },
+    "rental": {
+      "saveSha256": "0c50382d1535571f9071bf3dd7be4f585deacdb98b17765d238b29985e5d770e",
+      "point": {
+        "approachPosition": [
+          -3.38,
+          0,
+          6.858022075225179e-17
+        ],
+        "capacity": 1,
+        "clearance": {
+          "depth": 0.5,
+          "height": 1.9,
+          "width": 0.5
+        },
+        "companyId": "singing-rental",
+        "contact": {
+          "pickupNodeId": "singing-mic-pickup"
+        },
+        "exitPosition": [
+          -3.38,
+          0,
+          6.858022075225179e-17
+        ],
+        "facilityId": "singing-rental/ground/live/vocal",
+        "facilityTransform": {
+          "position": [
+            -4.5,
+            0,
+            0
+          ],
+          "yaw": 1.5707963267948966
+        },
+        "floorId": "singing-rental/ground",
+        "footprint": {
+          "blocking": true,
+          "center": [
+            0,
+            0
+          ],
+          "halfSize": [
+            0.33,
+            0.48
+          ]
+        },
+        "id": "singing-rental/ground/live/vocal#vocal",
+        "kind": "standing-vocal",
+        "limitations": [],
+        "local": {
+          "approach": [
+            0,
+            0,
+            1.12
+          ],
+          "coordinateSpace": "facility",
+          "exit": [
+            0,
+            0,
+            1.12
+          ],
+          "position": [
+            0,
+            0,
+            0.77
+          ],
+          "yaw": 3.141592653589793
+        },
+        "missingFields": [],
+        "performerReferences": {
+          "coordinateSpace": "use-point",
+          "eye": [
+            0,
+            1.64,
+            0.215
+          ],
+          "mouth": [
+            0,
+            1.555,
+            0.23
+          ]
+        },
+        "resource": {
+          "id": "floor-vocal-mic-boom",
+          "version": 1
+        },
+        "revision": 2,
+        "roomId": "singing-rental/ground/live",
+        "slotId": "vocal",
+        "transform": {
+          "position": [
+            -3.73,
+            0,
+            4.71489017671731e-17
+          ],
+          "yaw": 4.71238898038469
+        },
+        "transformChain": [
+          {
+            "id": "singing-rental/ground",
+            "parentId": "singing-rental",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "singing-rental/ground/live",
+            "parentId": "singing-rental/ground",
+            "transform": {
+              "position": [
+                -4.5,
+                0,
+                0
+              ],
+              "yaw": 0
+            }
+          },
+          {
+            "id": "singing-rental/ground/live/vocal",
+            "parentId": "singing-rental/ground/live",
+            "transform": {
+              "position": [
+                0,
+                0,
+                0
+              ],
+              "yaw": 1.5707963267948966
+            }
+          }
+        ]
+      },
+      "actual": {
+        "mesh": "singing-mic-pickup",
+        "worldHit": [
+          -4.0867953298964785,
+          1.5845978069787288,
+          -1.155015107070033e-24
+        ],
+        "mouthDistance": 0.13020401630328812,
+        "approach": {
+          "portalId": "singing-rental/ground/portal-stream-living",
+          "fromRegion": "singing-rental/ground/living",
+          "threshold": [
+            2.25,
+            0
+          ],
+          "approach": [
+            [
+              -1.6,
+              1.5
+            ],
+            [
+              -1.8,
+              1.5
+            ],
+            [
+              -1.8,
+              0.45
+            ],
+            [
+              -2,
+              0.45
+            ],
+            [
+              -2,
+              0
+            ]
+          ],
+          "inside": [
+            [
+              2,
+              0
+            ],
+            [
+              1.12,
+              0
+            ]
+          ]
+        },
+        "exit": {
+          "portalId": "singing-rental/ground/portal-stream-living",
+          "fromRegion": "singing-rental/ground/living",
+          "threshold": [
+            2.25,
+            0
+          ],
+          "approach": [
+            [
+              -1.6,
+              1.5
+            ],
+            [
+              -1.8,
+              1.5
+            ],
+            [
+              -1.8,
+              0.45
+            ],
+            [
+              -2,
+              0.45
+            ],
+            [
+              -2,
+              0
+            ]
+          ],
+          "inside": [
+            [
+              2,
+              0
+            ],
+            [
+              1.12,
+              0
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "negative": [
+    {
+      "label": "remove-vocal-declaration",
+      "edit": {
+        "ok": false,
+        "code": "vocal-slot-binding-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\remove-vocal-declaration.save.json",
+        "message": "The saved microphone, slot or performer targets differ from the selected package room."
+      },
+      "validate": {
+        "ok": false,
+        "code": "vocal-slot-binding-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\remove-vocal-declaration.save.json",
+        "message": "The saved microphone, slot or performer targets differ from the selected package room."
+      },
+      "package": {
+        "ok": false,
+        "code": "singing-batch-binding-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\remove-vocal-declaration-with-original-batch-declaration",
+        "message": "Saved singing equipment, stage or entrance differs from the batch declaration"
+      }
+    },
+    {
+      "label": "change-authoritative-eye-reference",
+      "edit": {
+        "ok": false,
+        "code": "vocal-slot-binding-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\change-authoritative-eye-reference.save.json",
+        "message": "The saved microphone, slot or performer targets differ from the selected package room."
+      },
+      "validate": {
+        "ok": false,
+        "code": "vocal-slot-binding-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\change-authoritative-eye-reference.save.json",
+        "message": "The saved microphone, slot or performer targets differ from the selected package room."
+      },
+      "package": {
+        "ok": false,
+        "code": "singing-batch-binding-mismatch",
+        "path": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-use-receiver-v1\\run-01\\change-authoritative-eye-reference-with-original-batch-declaration",
+        "message": "Saved singing equipment, stage or entrance differs from the batch declaration"
+      }
+    },
+    {
+      "label": "physical approach and exit blocked",
+      "id": "singing-studio/ground/live/vocal#vocal",
+      "edit": {
+        "ok": false,
+        "code": "vocal-use-path-blocked",
+        "path": "singing-studio/ground/live/vocal#vocal",
+        "message": "vocal-use-path-blocked at singing-studio/ground/live/vocal#vocal: The final route to the microphone is obstructed.",
+        "details": {
+          "segment": "approach",
+          "blockedBy": "singing-studio/ground/live/handoff-path-blocker"
+        }
+      },
+      "package": {
+        "ok": false,
+        "code": "vocal-use-path-blocked",
+        "path": "singing-studio/ground/live/vocal#vocal",
+        "message": "vocal-use-path-blocked at singing-studio/ground/live/vocal#vocal: The final route to the microphone is obstructed.",
+        "details": {
+          "segment": "approach",
+          "blockedBy": "singing-studio/ground/live/handoff-path-blocker"
+        }
+      }
+    }
+  ],
+  "unchangedRentalFiles": 7,
+  "workingFilesPreserved": 2160
+}
