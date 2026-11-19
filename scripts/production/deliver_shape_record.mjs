@@ -152,16 +152,19 @@ export async function produceItems(inputs,batch,scratch,out) {
 export async function deliver(options) {
   const inputs=await readInputs(options), batch=inputs.batchFileSha256!==undefined;
   if (options['companion-pack'] && !options.companion) fail('invalid-companion', '--companion-pack requires --companion');
+  if (options['facility-room'] && inputs.items.length + Number(Boolean(options.companion)) !== 2)
+    fail('invalid-facility-roster', 'The facility room requires exactly two character records');
   const browser = await productionBrowserConfig(options['browser-config']);
   const [dist, source] = await Promise.all([options.dist, options['source-root']].map(p => realpath(p)));
   const companionPack = options['companion-pack'] && await realpath(options['companion-pack']);
+  const facilityRoom = options['facility-room'] && await realpath(options['facility-room']);
   const companion = options.companion && await readJson(options.companion);
   if (options.companion) {
     await validateCharacterRecord(companion, {validationCallback:() => ({status:'pending'})});
     if (companion.identity.id === inputs.items[0].identity.id) fail('duplicate-identity', 'Companion and new actor require different IDs');
   }
   const sourceBoundary = path.relative(await productionRoot(), source) ? source : path.join(source, 'prototype');
-  return withFreshDelivery(options.out, [dist, sourceBoundary, ...(companionPack ? [companionPack] : [])],
+  return withFreshDelivery(options.out, [dist, sourceBoundary, companionPack, facilityRoom].filter(Boolean),
     async (scratch, out) => {
       const {sourceDigest, shortId} = await readJson(path.join(dist, 'build-info.json'));
       const {reviewed} = await readGameRuntimeReview(sourceDigest, true);
@@ -207,6 +210,15 @@ export async function deliver(options) {
         '--inventory',inventory,'--out',path.join(out,'game')],scratch);
       assert.equal(listed.inventorySha256, exported.manifestSha256);
       assert.equal(exported.runtime.sourceCommit, reviewed.sourceCommit);
+      let facility;
+      if (facilityRoom) {
+        const folder='facility-game';
+        const combined=await invoke(process.execPath, [path.join(scripts,'production/package-facility-room.mjs'),
+          '--game',path.join(out,'game'),'--game-sha256',exported.manifestSha256,
+          '--room',facilityRoom,'--out',path.join(out,folder)],scratch);
+        facility={entry:folder+'/facility-room.html',manifest:folder+'/facility-package.json',
+          manifestSha256:combined.manifestSha256,files:combined.files};
+      }
       const detail=batch?{schema:'shape-record-batch-technical-delivery-v1',batchFileSha256:inputs.batchFileSha256,
         issuance:{operation:issued.operation,build:issued.build,recordsPath:'records.json',
           recordsFileSha256:digest(await readFile(records)),items:issued.items},
@@ -219,7 +231,8 @@ export async function deliver(options) {
         wholeOutfitAdmission:'not-evaluated', ordinaryPCPerformance:'unmeasured',
         runtime:exported.runtime,
         ...(browser ? {browserConfig:issued.browserConfig} : {}),
-        packageManifestSha256:exported.manifestSha256, gameFileCount:exported.files};
+        packageManifestSha256:exported.manifestSha256, gameFileCount:exported.files,
+        ...(facility ? {facility} : {})};
       await writeFile(path.join(out,'receipt.json'), jsonBytes(receipt), {flag:'wx'});
       return receipt;
     });
@@ -230,8 +243,14 @@ if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.ar
     const required = ['dist','source-root','out'];
     const options = Object.fromEntries([...required,...singleFlags,'companion','companion-pack'].map(key => [key,{type:'string'}]));
     options.batch={type:'string',multiple:true};
+    options['facility-room']={type:'string',multiple:true};
     options['browser-config'] = {type:'string',multiple:true};
     const {values} = parseArgs({options});
+    if(values['facility-room']){
+      const rooms=values['facility-room'];
+      if(rooms.length!==1 || !rooms[0].trim())throw Error('Expected one --facility-room DIR');
+      values['facility-room']=rooms[0];
+    }
     if(values.batch){
       if(values.batch.length!==1||!values.batch[0])throw Error('Expected one --batch FILE');
       values.batch=values.batch[0];

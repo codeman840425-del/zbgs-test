@@ -98,6 +98,46 @@ function item(id,recipe) {
   return {recipe,identity:{id,name:'Displayed / '+id,gender:'male'}};
 }
 
+test('the facility-room CLI requires two records, while ordinary deliveries retain their original roster sizes', async t => {
+  const base = await workspace(t);
+  const dist = path.join(base,'dist'), room = path.join(base,'room'), batch = path.join(base,'batch.json');
+  await mkdir(dist);
+  await mkdir(room);
+  // Stop even accepted rosters at the build gate, before character production.
+  await writeFile(path.join(dist,'build-info.json'),JSON.stringify({shortId:'0'.repeat(12),sourceDigest:'0'.repeat(64)}));
+  const common = ['--dist',dist,'--source-root',root,'--out',path.join(base,'delivery')];
+  const single = ['--recipe',baseRecipe,'--id','seat-first','--name','Seat first','--gender','male'];
+  const facility = ['--facility-room',room];
+  const companion = path.join(root,'evidence/m2-rule-formal-room-v1/public-batch-b/input-record.json');
+  const entries = ['seat-first','seat-second','seat-third','seat-fourth'].map(id => item(id,baseRecipe));
+  async function setBatch(count) {
+    await writeFile(batch,JSON.stringify({schema:batchSchema,items:entries.slice(0,count)}));
+  }
+  async function check(args,code) {
+    await assert.rejects(run(process.execPath,[script,...common,...args],{
+      cwd:path.parse(root).root,windowsHide:true,
+      env:{...process.env,TMP:base,TEMP:base,TMPDIR:base,NODE_DISABLE_COMPILE_CACHE:'1'},
+    }), error => JSON.parse(error.stderr).code === code);
+    assert.deepEqual((await readdir(base)).sort(),['batch.json','dist','room']);
+  }
+  await setBatch(2);
+  for (const bad of [['--facility-room',' '],[...facility,...facility]]) {
+    await assert.rejects(run(process.execPath,[script,...common,'--batch',batch,...bad],{
+      cwd:path.parse(root).root,windowsHide:true,
+    }),error => JSON.parse(error.stderr).reason === 'Expected one --facility-room DIR');
+    assert.deepEqual((await readdir(base)).sort(),['batch.json','dist','room']);
+  }
+  await check([...single,...facility],'invalid-facility-roster');
+  await check([...single,'--companion',companion,...facility],'unsupported-build');
+  await check(['--batch',batch,...facility],'unsupported-build');
+  for (const count of [3,4]) {
+    await setBatch(count);
+    await check(['--batch',batch,...facility],'invalid-facility-roster');
+  }
+  await check(single,'unsupported-build');
+  await check(['--batch',batch],'unsupported-build');
+});
+
 test('batch inputs require 2–4 distinct identities, support relative and absolute recipe paths, and reject mixed modes', async t=>{
   const base=await workspace(t), batch=path.join(base,'request.json');
   const first=item('record-first','recipe.json'), second=item('record-second',baseRecipe);

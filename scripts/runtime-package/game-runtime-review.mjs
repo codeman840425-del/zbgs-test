@@ -13,5 +13,12 @@ export async function readGameRuntimeReview(sourceDigest, external) {
   if(digest(bytes)!==row.sha256)fail('unsupported-build','Selected review differs from the production registry');
   const reviewed=JSON.parse(bytes);
   if(reviewed.sourceDigest!==sourceDigest)fail('unsupported-build','Selected review differs from the production registry');
-  return {bytes,reviewed};
+  // A facility can be reviewed after the game was handed off. Keep the original
+  // reviewed bytes available to inventory/export callers that pin their copy.
+  const facilityContract = row.facilityContract ?? reviewed.facilityContract;
+  if (row.facilityContract !== undefined &&
+      (!external || row.facilityContract !== 'seat-v1' ||
+       (reviewed.facilityContract !== undefined && reviewed.facilityContract !== row.facilityContract)))
+    fail('unsupported-build','Invalid supplemental seat contract on the fixed game review');
+  return {bytes,reviewed,facilityContract};
 }

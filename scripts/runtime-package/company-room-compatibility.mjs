@@ -32,11 +32,11 @@ const historicalContracts=new Map([
 export async function requireCompanyRoomRuntime(roomDigest,{manifest,files}) {
   const required=roomContracts.get(roomDigest);
   if(!required)fail('unsupported-room-contract','Unreviewed company room transfer');
-  const runtime=manifest.runtime,{reviewed}=await readGameRuntimeReview(runtime.sourceDigest,true);
+  const runtime=manifest.runtime,{reviewed,facilityContract}=await readGameRuntimeReview(runtime.sourceDigest,true);
   if(reviewed.schema!=='reviewed-game-character-runtime-v1' || reviewed.sourceCommit!==runtime.sourceCommit ||
       reviewed.sourceDigest.slice(0,12)!==runtime.buildId || runtime.entry!=='record-consumer.html')
     fail('unsupported-build','Character package identity differs from the registered runtime review');
-  const available=historicalContracts.get(reviewed.sourceDigest)??reviewed.facilityContract;
+  const available=historicalContracts.get(reviewed.sourceDigest)??facilityContract;
   if(available!==required && !(required==='seat-v1' && available==='seat-standing-vocal-v1'))
     fail('incompatible-facility-runtime',`Room requires ${required}; reviewed character runtime ${runtime.buildId} provides ${available??'no facility contract'}`);
   if(roomDigest===lowerVocal.transfer && (reviewed.sourceDigest!==lowerVocal.runtime ||

@@ -7,6 +7,7 @@ import test from 'node:test';
 import {promisify} from 'node:util';
 import outputs from '../project-output.cjs';
 import {lowerVocal,requireCompanyRoomRuntime} from './company-room-compatibility.mjs';
+import {readGameRuntimeReview} from './game-runtime-review.mjs';
 import {digest} from './files.mjs';
 
 const exec=promisify(execFile);
@@ -35,6 +36,17 @@ test('source commit, build ID, entry and compiled closure must match the fixed r
     await assert.rejects(check(vocal,{...runtime,...changed}),{code:'unsupported-build'});
   // Even the exact valid reviewed identity is unusable without its physical files.
   await assert.rejects(check(vocal,runtime),{code:'modified-dependency'});
+});
+
+test('the supplemental seat review leaves the original game pin valid and does not admit a vocal room',async()=>{
+  const base=await readReview('bitmap-owner');
+  const runtime=runtimeOf(base);
+  const {bytes,reviewed,facilityContract}=await readGameRuntimeReview(base.sourceDigest,true);
+  assert.deepEqual(reviewed,base);
+  assert.equal(digest(bytes),'67b231000a460304e74b0b962b4e610f98318fbbec96b47ce57648783543be42');
+  assert.equal(facilityContract,'seat-v1');
+  await assert.rejects(check(vocal,{...runtime,facilityContract:'seat-standing-vocal-v1'}),{code:'incompatible-facility-runtime'});
+  await assert.rejects(check(plant,runtime),{code:'modified-dependency'});
 });
 
 test('lower microphone requires the exact archived performer pair in addition to vocal behavior support',async()=>{

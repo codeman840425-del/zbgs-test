@@ -60,6 +60,48 @@ function verifyRelease(trace, phases) {
   return {decoded:decoded.length,closedExactlyOnce:closes.length,phases:phases.length};
 }
 
+function assessRun(row, requireRelease) {
+  row.releaseStatus = row.pixelStatus = requireRelease ? 'unobserved' : 'not-evaluated';
+  if (!requireRelease) return;
+  const expected = ['remove-first','remove-second-first'];
+  if (row.uploadChecks.some(check => check.status === 'failed')) row.pixelStatus = 'failed';
+  else if (row.uploadChecks.length === expected.length && row.uploadChecks.every((check,i) =>
+    check.phase === expected[i] && check.status === 'verified')) row.pixelStatus = 'verified';
+  if (!row.trace || row.phases.at(-1)?.phase !== 'final-empty') return;
+  try {
+    assert.deepEqual(row.phases.slice(1).map(({phase}) => phase),
+      ['remove-first','empty','restore-both','remove-second-first','final-empty']);
+    row.release = verifyRelease(row.trace,row.phases);
+    row.releaseStatus = 'verified';
+  } catch (error) {
+    row.releaseFailure = error.message;
+    row.releaseStatus = 'failed';
+  }
+}
+
+async function collectRuns(report, collectOne, requireRelease) {
+  const failures = [];
+  for (let i=0;i<2;i++) {
+    const row = {phases:[],uploadChecks:[]};
+    report.runs.push(row);
+    try { await collectOne(row); }
+    catch (error) { row.collectionFailure = error.stack??String(error); }
+    assessRun(row,requireRelease);
+    const problems = row.uploadChecks.filter(check=>check.status!=='verified')
+      .map(check=>`${check.phase}: ${check.failure??check.status}`);
+    if (requireRelease && row.pixelStatus!=='verified' && !problems.length) problems.push('incomplete pixel checks');
+    if (requireRelease && row.releaseStatus!=='verified') problems.push(row.releaseFailure??'incomplete image ownership trace');
+    if (row.collectionFailure) problems.push(row.collectionFailure);
+    if (problems.length) failures.push(`Browser process ${i+1}: ${problems.join('\n')}`);
+  }
+  for (const key of ['releaseStatus','pixelStatus']) {
+    const statuses=report.runs.map(row=>row[key]);
+    report[key] = !requireRelease ? 'not-evaluated' : statuses.includes('failed') ? 'failed' :
+      statuses.every(status=>status==='verified') ? 'verified' : 'unobserved';
+  }
+  if (failures.length) throw Error(failures.join('\n'));
+}
+
 // Runs in the page. Keep identifiers and dimensions, never a reference to an image.
 function readScene(phase) {
   const consumer = window.__recordConsumer, probe = window.__imageDecodeProbe, actors = [];
@@ -120,12 +162,11 @@ async function collect(out, options, ordinary, records, requireRelease, row) {
         return __recordConsumer.removeActor(id);
       },{id,phase}));
     }
-    async function verifyUpload() {
+    async function verifyUpload(phase) {
       if (!requireRelease) return;
       const {verifySurvivorUpload} = require('./qa-surviving-actor-upload.cjs');
-      const result = await page.evaluate(verifySurvivorUpload);
-      row.uploadChecks.push(result);
-      assert.equal(result.status,'verified',result.failure);
+      const result = await page.evaluate(verifySurvivorUpload).catch(error=>({status:'unobserved',failure:error.message}));
+      row.uploadChecks.push({...result,phase});
     }
     const coldPhase = await page.evaluate(() => __imageDecodeProbe.snapshot().events.find(e => e.type === 'bitmap-start')?.label);
     assert(typeof coldPhase === 'string','No cold decode events');
@@ -134,7 +175,7 @@ async function collect(out, options, ordinary, records, requireRelease, row) {
     await capture('remove-first',[ids[1]]);
     const peer = phases[0].actors.find(a => a.id === ids[1]);
     assert.deepEqual(phases[1].actors[0],peer,'Removing one actor changed the survivor');
-    await verifyUpload();
+    await verifyUpload('remove-first');
     await remove(ids[1],'empty');
     await capture('empty',[]);
     const states = await page.evaluate(async() => {
@@ -148,12 +189,11 @@ async function collect(out, options, ordinary, records, requireRelease, row) {
     await remove(ids[1],'remove-second-first');
     await capture('remove-second-first',[ids[0]]);
     assert.deepEqual(phases.at(-1).actors[0],phases[3].actors.find(a => a.id === ids[0]));
-    await verifyUpload();
+    await verifyUpload('remove-second-first');
     await remove(ids[0],'final-empty');
     await capture('final-empty',[]);
     row.trace = await page.evaluate(() => __imageDecodeProbe.snapshot());
     row.summary = summarize(row.trace,phases);
-    if (requireRelease) row.release = verifyRelease(row.trace,phases);
     assert.deepEqual(errors,[]);
     await context.close();
   } finally {
@@ -181,11 +221,7 @@ async function main(args) {
     runtime:ordinary.runtime, inputs:ordinary.actors, requireRelease, runs:[],
     scope:'Main window, two fresh browser processes. Decoder promises include queueing. Explicit close and logical RGBA8 equivalents do not measure GC or physical memory.'};
   try {
-    for (let i=0;i<2;i++) {
-      const row = {phases:[],uploadChecks:[]};
-      report.runs.push(row);
-      await collect(out,launchOptions,ordinary,records,requireRelease,row);
-    }
+    await collectRuns(report,row=>collect(out,launchOptions,ordinary,records,requireRelease,row),requireRelease);
     assert.deepEqual(report.runs[0].summary.observed.map(r => [r.visibleBitmaps,r.completedThroughSample,r.explicitlyClosedThroughSample]),
       report.runs[1].summary.observed.map(r => [r.visibleBitmaps,r.completedThroughSample,r.explicitlyClosedThroughSample]));
     report.status='measured-development-only';
@@ -197,4 +233,4 @@ async function main(args) {
 }
 
 if (require.main === module) main(process.argv.slice(2)).catch(error => { console.error(error);process.exitCode=1; });
-module.exports={summarize,verifyRelease};
+module.exports={summarize,verifyRelease,collectRuns};
