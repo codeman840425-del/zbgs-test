@@ -13,12 +13,6 @@ const boneNames = bone => [...new Set([bone.name, bone.userData?.name]
 const sha256 = async buffer => [...new Uint8Array(await crypto.subtle.digest('SHA-256', buffer))]
   .map(n => n.toString(16).padStart(2, '0')).join('');
 
-async function pinnedCatalog(response, expected, label = 'manifest') {
-  const bytes = await response.arrayBuffer();
-  if (await sha256(bytes) !== expected) throw Error(`Equipment ${label} integrity mismatch`);
-  return JSON.parse(new TextDecoder().decode(bytes));
-}
-
 /** Load independent garment GLBs onto a compatible existing raw skeleton.
  * No motion/controller dependency, no mutation of the avatar's meshes/materials.
  * The manifest owns bone mapping, slot and rest-bind compatibility constraints.
@@ -50,9 +44,9 @@ export async function createEquipment({
   if(!Array.isArray(additionalManifests))throw Error('Invalid additional equipment manifests');
   for(const descriptor of additionalManifests){
     if(typeof descriptor?.url!=='string'||!descriptor.url.startsWith('/assets/')||!/^[a-f0-9]{64}$/.test(descriptor.sha256))throw Error('Invalid additional equipment manifest identity');
-    const extraResponse=await fetch(descriptor.url,{cache:'no-store'});
-    if(!extraResponse.ok)throw Error(`Equipment extension HTTP ${extraResponse.status}`);
-    const extra=await pinnedCatalog(extraResponse,descriptor.sha256,'extension');
+    const bytes=await loadPinnedBytes(descriptor.url,descriptor.sha256,initialAssets,{options:{cache:'no-store'},
+      httpError:'Equipment extension',integrityError:'Equipment extension integrity mismatch'});
+    const extra=JSON.parse(new TextDecoder().decode(bytes));
     if(extra.schema!=='zbgs-equipment-v1'||!Array.isArray(extra.items)||extra.items.some(item=>item.compatibleAvatarSha256!==avatarSha256||!item.url?.startsWith('/assets/')))throw Error('Invalid equipment extension body or absolute resource URL');
     manifest.items.push(...extra.items);
   }

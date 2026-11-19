@@ -112,8 +112,8 @@ if(!productionMode){
  if(!manifestResponse.ok)throw Error('Manifest HTTP '+manifestResponse.status);
  const manifest=await manifestResponse.json();
  const entries=externalPath?validateCharacterRecordInput(manifest,externalPath):manifest.entries;
- if(externalPath && Object.hasOwn(manifest,'ruleBodyDataPacks'))
-   groupLoads=createRuleBodyGroupLoads(manifest.ruleBodyDataPacks,initializeRuleBodyData,location.href);
+ if(externalPath)
+   groupLoads=createRuleBodyGroupLoads(manifest.ruleBodyDataPacks ?? [],initializeRuleBodyData,location.href);
  records=await Promise.all(entries.map(async entry=>{
    const response=await fetch(entry.url,{redirect:'error'});if(!response.ok)throw Error('Record HTTP '+response.status);
    const bytes=await response.text();if(new TextEncoder().encode(bytes).length>512*1024)throw Error('Record exceeds 512 KiB');
