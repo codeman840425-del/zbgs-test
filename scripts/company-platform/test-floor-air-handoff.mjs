@@ -289,11 +289,15 @@ async function main() {
   report.retainedHomeFiles=retained.length;
   const packedRental=named(derivative,rental,'save.json');
   const offSavePin=await pin(packedRental);
-  assert.equal(offSavePin,await pin(editedSave));
+  // Packaging serializes saves canonically. Compare the entire edited envelope,
+  // including the dependency pins, and preserve original home bytes separately.
+  assert.deepEqual(await json(packedRental),await json(editedSave));
+  report.editedSave={beforePackagingSha256:await pin(editedSave),packagedSha256:offSavePin};
   await validate('cold-validate-off-rental',packedRental,expected);
   await validate('cold-validate-original-home',named(derivative,home,'save.json'),originalHome);
   const packedDefault=path.join(derivative,'data','save.json');
-  assert.equal(await pin(packedDefault),await pin(changedDefault?editedSave:sourceDefault));
+  if(changedDefault) assert.deepEqual(await json(packedDefault),await json(editedSave));
+  else assert.equal(await pin(packedDefault),await pin(sourceDefault));
   assert.equal(await pin(path.join(derivative,'viewer',variant.asset.url.slice(1))),registered.sha256);
   report.powerOff=await inspectModel(derivative,derived,(await json(packedRental)).document);
 
