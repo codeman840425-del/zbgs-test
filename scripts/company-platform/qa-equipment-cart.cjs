@@ -29,11 +29,12 @@ async function details(selector) {
 }
 async function choose(id) {await click('tool-selection');await select('edit-instance',id);}
 async function tools(id) {await choose(id);await details('#placement-tools');}
-async function precise(id,x,z) {
+async function precise(id,x,z,yawDegrees) {
   await tools(id);
   await details('#placement-tools > details');
   await page.locator('#edit-x').fill(String(x));
   await page.locator('#edit-z').fill(String(z));
+  if(yawDegrees!==undefined)await page.locator('#edit-yaw').selectOption(String(yawDegrees));
   await click('edit-position');
 }
 async function shot(file) {
@@ -226,19 +227,24 @@ async function exercise(key,index) {
     assert(twin&&twin.id!==child.id);
     assert.deepEqual([twin.attachment,twin.transform,twin.state],[child.attachment,child.transform,child.state]);
   }
+  stage=key+' saving';
   await click('save');await page.waitForFunction(()=>document.querySelector('#save-state').dataset.dirty==='false');
-  const saved=await doc(),text=await page.evaluate(key=>company.session.readSavedText(key),key);
+  const liveBefore=await doc(),saved=JSON.parse(JSON.stringify(liveBefore));
+  const text=await page.evaluate(key=>company.session.readSavedText(key),key);
   assert.deepEqual(JSON.parse(text).document,saved);room.savedSha256=sha(text);
   if(index===0) {
-    stage=key+' doorway rejection';
-    await precise(cart,0,2.6);
-    assert.equal(await page.locator('#edit-message').getAttribute('data-error'),'true');
-    const reason=await page.locator('#edit-message').textContent();
-    assert(reason.includes('堵住门口'),reason);
-    assert.deepEqual(await doc(),saved);
-    assert.equal(await page.evaluate(key=>company.session.readSavedText(key),key),text);
-    room.doorway={cart,height:0,target:[0,0,2.6],reason};
-    await shot('studio-doorway-rejection.png');
+    room.rejections=[];
+    for(const [yaw,label,fragment] of [[90,'floor-boundary','墙内'],[0,'doorway','堵住门口']]) {
+      stage=key+' '+label+' rejection';
+      await precise(cart,0,2.6,yaw);
+      assert.equal(await page.locator('#edit-message').getAttribute('data-error'),'true');
+      const reason=await page.locator('#edit-message').textContent();
+      assert(reason.includes(fragment),reason);
+      assert.deepEqual(await doc(),liveBefore);
+      assert.equal(await page.evaluate(key=>company.session.readSavedText(key),key),text);
+      room.rejections.push({cart,target:[0,0,2.6],yawDegrees:yaw,reason,savedSha256:sha(text)});
+      await shot('studio-'+label+'-rejection.png');
+    }
   }
   stage=key+' cold restart';
   await close();await open('profile-'+index);await visit(key,false);

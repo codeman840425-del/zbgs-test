@@ -11,7 +11,9 @@
 | 房间开启、操作与恢复 | 两个独立浏览器进程按正式保存重开，记录同一 GLB、使用点及拾音规格。原圆盘房的普通换款菜单保留原四款，以换皮方式改变拾音规格会被拒绝。[房间与近景对照](browser/two-rooms.png) · [固定查看器](browser/fixed.json) · [交付包浏览器](browser/independent.json) |
 | 接收方改规格 | 包内第二份配方将前移量改为 43 mm。普通外观发布被拒，显式发布生成另一个 ID。两间派生房间的存档回读正常，历史 57 个姿势复算全部通过，原包再验仍为 2,267 项。[接收操作与命令](receiver/checks.json) · [派生设备的逐点实测](receiver/shorter-contacts.json) |
 
-房间演示使用软件渲染，录像为 1×、16.88 秒、25 fps；切镜时有短暂空画面，出租屋机位下缘可见桌面。角色接触数据取自既有游戏帧，女角色持续演唱、取消释放和冷开仍需总工在新配对中实际运行。[正常速度录像](browser/video/vocal-fit-rooms-normal.webm) · [解码及画面核对](browser/decoded-video.json)
+场景侧录像使用软件渲染，时长 16.88 秒，1×、25 fps。切镜时有短暂空画面，出租屋机位下缘可见桌面。[正常速度录像](browser/video/vocal-fit-rooms-normal.webm) · [解码及画面核对](browser/decoded-video.json)
+
+总工随后将此包与原角色构建 `ddcf40a56d0e` 正式配为 `c1ae6690963ad6291fb60b5d6380f47b06c5373f788c63a2c29330772b462f26`。两房四次真实 Chrome 会话完成女角色接近、争用拒绝、讲话、保存、完全关闭重开、释放和男角色接手。每体每房另有 900 帧 CPU 持有检查。近景仍有明显缺陷：女角色 20 个讲话与恢复采样中，网面高于嘴 15.83–17.32 cm、高于眼中心 8.67–9.25 cm。男角色的网面位于眼下约 4.0–4.55 cm。女角色在出租屋 CPU 连续运行时距上限最小只剩约 1.60 mm。后续高度适配以这组实测姿势为输入。[角色侧四段原速录像](F:/gamemake/evidence/m2-station-lower-game-v1/index.html) · [女角色近景](F:/gamemake/evidence/m2-station-lower-game-v1/room-01/singing-rental-cold-close.png) · [同帧测量](F:/gamemake/evidence/m2-station-lower-game-v1/axis-summary.json)
 
 融合组补交了同一原签名配对的八个判定帧。逐帧核对嘴、眼和朝向后，工作室女角第 542 帧与原 57 个观察重合，其余七帧是新输入。旧判定八次均复现；正式新网头八次均通过，16 条拍摄嘴、眼的视线均畅通。两批数据合计 64 个不同姿势，最紧的是出租屋女角第 609 帧，距网面 25.411 cm，距 26 cm 上限剩 5.893 mm。这个余量需要在新游戏运行中实测。原相机、谱架、接近和离开的验收条件均沿用。该组另测了旧网头整体下移 16 cm 的数值对照，仍缺实际支撑和整房测量。[八帧逐点记录](fusion/report.json) · [独立复算入口](fusion/replay.mjs) · [融合组原始资料](F:/gamemake-test/native-studio-round/independent/performer-anchor-ddcf/mic-axes/REPORT.md)
 
