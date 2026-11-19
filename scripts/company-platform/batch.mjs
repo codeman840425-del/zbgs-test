@@ -54,7 +54,7 @@ function validateBatch(batch,only){
   const keys=new Set(),ids=new Set();
   for(const [index,item]of batch.items.entries()){
     const location=`items[${index}]`;
-    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance','productShowcases'].includes(key))||
+    if(!item||Object.keys(item).some(key=>!['key','input','document','styleRecipe','operations','stationLooks','trainingClearance','productShowcases','interviewRooms'].includes(key))||
         typeof item.key!=='string'||!/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(item.key)||
         /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(item.key))
       fail('invalid-batch-key',location,'Use a portable nonempty directory key with letters, digits, underscore or hyphen');
@@ -137,9 +137,16 @@ async function prepare(item,sourceHashes){
   let productShowcases;
   if (Object.hasOwn(document,'productShowcases')) {
     const checker = 'scripts/company-platform/check-showcase-room.mjs';
+    Object.assign(sourceHashes,await sources([checker]));
     const {checkProductShowcases} = await import('./check-showcase-room.mjs');
     productShowcases = await checkProductShowcases(document,{catalog,templates});
-    sourceHashes = {...sourceHashes,...await sources([checker])};
+  }
+  if (Object.hasOwn(item,'interviewRooms')) document.interviewRooms = structuredClone(item.interviewRooms);
+  let interviewRooms;
+  if (Object.hasOwn(document,'interviewRooms')) {
+    Object.assign(sourceHashes,await sources(['scripts/company-platform/check-interview-room.mjs']));
+    const {checkInterviewRooms} = await import('./check-interview-room.mjs');
+    interviewRooms = await checkInterviewRooms(document,{catalog,templates});
   }
   const assetDependencies=[];
   const derived=deriveCompany(document,catalog,templates);
@@ -166,7 +173,8 @@ async function prepare(item,sourceHashes){
     documentRevision:document.revision,dependencies:saved.dependencies,assetDependencies,sourceHashes,
     ...(styleRecipe ? {styleRecipe} : {}),
     files:Object.fromEntries(Object.entries(files).map(([name,bytes])=>[name,{bytes:bytes.length,sha256:hash(bytes)}])),
-    checks:{connections,placement,...(trainingClearance ? {trainingClearance} : {}),...(productShowcases ? {productShowcases} : {})},
+    checks:{connections,placement,...(trainingClearance ? {trainingClearance} : {}),...(productShowcases ? {productShowcases} : {}),
+      ...(interviewRooms ? {interviewRooms} : {})},
     scope:'Complete deterministic authoring result. Static geometry and placement admission only; rendering and character usage require their own evidence.'};
   files['report.json']=jsonBytes(report);
   return {files,report};
@@ -209,7 +217,7 @@ export async function runCompanyBatch(batch,{outputDirectory,only}={}){
   const root=await fs.realpath(path.resolve(outputDirectory)),results=[];
   for(const item of items){
     try{
-      const sourceHashes=hasStyleRecipe(item)?{...baseHashes,...styleHashes}:baseHashes;
+      const sourceHashes={...baseHashes,...(hasStyleRecipe(item)?styleHashes:{})};
       const {files,report}=await prepare(item,sourceHashes);
       if(JSON.stringify(canonical(await sources(Object.keys(sourceHashes))))!==JSON.stringify(canonical(sourceHashes)))
         fail('source-changed',item.key,'Production sources changed during this batch; retry against one fixed source candidate');

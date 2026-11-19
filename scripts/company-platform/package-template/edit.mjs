@@ -45,6 +45,10 @@ try{
     const {checkProductShowcases} = await import('./source/scripts/company-platform/check-showcase-room.mjs');
     await checkProductShowcases(document,{catalog,templates});
   }
+  if (Object.hasOwn(document,'interviewRooms')) {
+    const {checkInterviewRooms} = await import('./source/scripts/company-platform/check-interview-room.mjs');
+    await checkInterviewRooms(document,{catalog,templates});
+  }
   if(constraint){
     const {checkTrainingClearance}=await import('./source/scripts/company-platform/check-training-clearance.mjs');
     await checkTrainingClearance(document,constraint,{catalog,templates});

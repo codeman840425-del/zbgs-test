@@ -499,12 +499,21 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
       const declared = Object.hasOwn(declaration,'productShowcases') ? declaration.productShowcases : declaration.document?.productShowcases;
       if (JSON.stringify(canonical(declared)) !== JSON.stringify(canonical(document.productShowcases)))
         fail('showcase-batch-binding-mismatch',input,'Saved showcase roles and clearances differ from the batch declaration');
+      const interviews = Object.hasOwn(declaration,'interviewRooms') ? declaration.interviewRooms : declaration.document?.interviewRooms;
+      if (JSON.stringify(canonical(interviews)) !== JSON.stringify(canonical(document.interviewRooms)))
+        fail('interview-batch-binding-mismatch',input,'Saved interview seats, equipment or routes differ from the batch declaration');
     }
     if (Object.hasOwn(document,'productShowcases')) {
       const checker = path.join(source,'scripts/company-platform/check-showcase-room.mjs');
       await noLinks(checker);
       const {checkProductShowcases} = await import(pathToFileURL(checker).href);
       await checkProductShowcases(document,{catalog,templates});
+    }
+    if (Object.hasOwn(document,'interviewRooms')) {
+      const checker = path.join(source,'scripts/company-platform/check-interview-room.mjs');
+      await noLinks(checker);
+      const {checkInterviewRooms} = await import(pathToFileURL(checker).href);
+      await checkInterviewRooms(document,{catalog,templates});
     }
     saved.document=document;
     if(trainingClearance!==undefined){
@@ -652,6 +661,11 @@ export async function packageCompany({distDirectory,buildId,inputPath,outputDire
     if(!name.endsWith('.json'))fail('unsupported-production-input',name,'Production input folders must contain JSON only');supplemental.add(name);
   }
   const assetDependencies=[],provenance=[];
+  if (supplemental.has('scripts/company-platform/batch-inputs/interview-rooms.json')) {
+    for (const name of ['check-interview-room.mjs','test-interview-room.mjs','qa-interview-rooms.cjs'])
+      supplemental.add('scripts/company-platform/'+name);
+    supplemental.add('docs/research/COMPANY-INTERVIEW-ROOM-PRODUCTION.md');
+  }
   if (catalog.resources.some(resource => resource.productionBranch === 'enclosed-wardrobe')) {
     for (const file of ['test-enclosed-wardrobe-assets.mjs','test-enclosed-wardrobe-geometry.mjs','test-enclosed-wardrobe-rooms.mjs','qa-enclosed-wardrobe-rooms.cjs'])
       supplemental.add('scripts/company-platform/'+file);

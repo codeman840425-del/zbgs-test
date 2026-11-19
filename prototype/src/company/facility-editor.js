@@ -211,7 +211,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
     el('floor-view').hidden=building||view.mode==='floor'||doc.nodes.filter(x=>['room','area'].includes(x.kind)).length===1;
     el('building-view').hidden=building||doc.scale!=='building';
     el('wall-view').hidden=building;
-    document.querySelectorAll('.view-toolbar [data-view]').forEach(b=>b.hidden=view.mode!=='room'||(b.dataset.view==='ceiling'&&b.disabled));
+    document.querySelectorAll('.view-toolbar [data-view]:not([data-view="camera"])').forEach(b=>b.hidden=view.mode!=='room'||(b.dataset.view==='ceiling'&&b.disabled));
     document.querySelector('.view-toolbar').hidden=building;
     el('floor').disabled=isBusy()||doc.nodes.filter(x=>x.kind==='floor').length<2;
     el('room').disabled=isBusy()||building;

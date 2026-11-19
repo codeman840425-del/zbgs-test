@@ -1,0 +1,620 @@
+{
+  "schema": "company-batch",
+  "version": 1,
+  "items": [
+    {
+      "key": "interview-studio",
+      "input": {
+        "id": "interview-studio",
+        "name": "双人访谈工作室",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "furnishingVersion": 2,
+        "scale": "single-room",
+        "floors": [
+          {
+            "id": "ground",
+            "name": "一层",
+            "rooms": [
+              {
+                "id": "live",
+                "name": "双人访谈间",
+                "purpose": "streaming",
+                "stations": 0,
+                "entry": [
+                  0,
+                  0,
+                  -2.35
+                ]
+              }
+            ],
+            "exteriorEntrances": [
+              {
+                "id": "entry",
+                "regionId": "live",
+                "edge": "north",
+                "offset": 0,
+                "width": 1.4,
+                "height": 2.2
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "add-facility",
+          "id": "interview-studio/ground/live/host-chair",
+          "parentId": "interview-studio/ground/live",
+          "resource": {
+            "id": "chair-ladder",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -1.22,
+              0,
+              -0.3
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-studio/ground/live/guest-chair",
+          "parentId": "interview-studio/ground/live",
+          "resource": {
+            "id": "chair-cantilever",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              1.22,
+              0,
+              -0.3
+            ],
+            "yaw": -1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-studio/ground/live/tea-table",
+          "parentId": "interview-studio/ground/live",
+          "resource": {
+            "id": "side-table-round",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0,
+              0.99
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-studio/ground/live/cup",
+          "parentId": "interview-studio/ground/live/tea-table",
+          "resource": {
+            "id": "side-table-life-cup",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0.5,
+              0
+            ],
+            "yaw": 0
+          },
+          "attachment": {
+            "surfaceId": "top"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-studio/ground/live/audio-desk",
+          "parentId": "interview-studio/ground/live",
+          "resource": {
+            "id": "desk-trestle",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0,
+              -1.28
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-studio/ground/live/host-mic",
+          "parentId": "interview-studio/ground/live/audio-desk",
+          "resource": {
+            "id": "desk-microphone-ribbon",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -0.88,
+              0.84,
+              0.38
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-studio/ground/live/guest-mic",
+          "parentId": "interview-studio/ground/live/audio-desk",
+          "resource": {
+            "id": "desk-microphone-capsule",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.88,
+              0.84,
+              0.38
+            ],
+            "yaw": -1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-studio/ground/live/camera-desk",
+          "parentId": "interview-studio/ground/live",
+          "resource": {
+            "id": "desk-frame",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0,
+              2.34
+            ],
+            "yaw": 0
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-studio/ground/live/wide-camera",
+          "parentId": "interview-studio/ground/live/camera-desk",
+          "resource": {
+            "id": "camera-orbit-eye",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0.84,
+              -0.42
+            ],
+            "yaw": 3.141592653589793
+          }
+        },
+        {
+          "type": "set-surface-finish",
+          "id": "interview-studio/ground/live",
+          "surface": "floor",
+          "finish": {
+            "resource": {
+              "id": "floor-offset-plank",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "set-surface-finish",
+          "id": "interview-studio/ground/live",
+          "surface": "north",
+          "finish": {
+            "resource": {
+              "id": "wall-fine-stripes",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-studio/ground/live/wall-art",
+          "parentId": "interview-studio/ground/live",
+          "resource": {
+            "id": "wall-art-woven",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              1.72,
+              1.63,
+              -2.9
+            ],
+            "yaw": 0
+          }
+        }
+      ],
+      "interviewRooms": [
+        {
+          "regionId": "interview-studio/ground/live",
+          "roles": {
+            "hostChair": "interview-studio/ground/live/host-chair",
+            "guestChair": "interview-studio/ground/live/guest-chair",
+            "hostMic": "interview-studio/ground/live/host-mic",
+            "guestMic": "interview-studio/ground/live/guest-mic",
+            "camera": "interview-studio/ground/live/wide-camera"
+          },
+          "portalId": "interview-studio/ground/entry",
+          "routes": {
+            "host": [
+              [
+                -0.34,
+                -3
+              ],
+              [
+                -0.34,
+                -2.3
+              ],
+              [
+                -1.94,
+                -2.3
+              ],
+              [
+                -1.94,
+                0.34
+              ],
+              [
+                -0.57,
+                0.34
+              ],
+              [
+                -0.57,
+                -0.3
+              ]
+            ],
+            "guest": [
+              [
+                0.34,
+                -3
+              ],
+              [
+                0.34,
+                -2.3
+              ],
+              [
+                1.94,
+                -2.3
+              ],
+              [
+                1.94,
+                0.34
+              ],
+              [
+                0.57,
+                0.34
+              ],
+              [
+                0.57,
+                -0.3
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "interview-hotel",
+      "input": {
+        "id": "interview-hotel",
+        "name": "酒店层 · 双人对谈套间",
+        "spaceProfile": {
+          "id": "company-space-v2",
+          "version": 1
+        },
+        "furnishingVersion": 2,
+        "scale": "leased-floor",
+        "floors": [
+          {
+            "id": "guest-floor",
+            "name": "访谈与制作层",
+            "rooms": [
+              {
+                "id": "suite-01",
+                "name": "公共通道西侧一号间"
+              },
+              {
+                "id": "suite-02",
+                "name": "公共通道西侧二号间"
+              },
+              {
+                "id": "suite-03",
+                "name": "公共通道中段一号间"
+              },
+              {
+                "id": "interview-suite",
+                "name": "双人对谈套间",
+                "purpose": "streaming",
+                "stations": 0,
+                "entry": [
+                  0,
+                  0,
+                  2.55
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "operations": [
+        {
+          "type": "add-facility",
+          "id": "interview-hotel/guest-floor/interview-suite/host-chair",
+          "parentId": "interview-hotel/guest-floor/interview-suite",
+          "resource": {
+            "id": "chair-pedestal",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              1.08,
+              0,
+              0.28
+            ],
+            "yaw": -1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-hotel/guest-floor/interview-suite/guest-chair",
+          "parentId": "interview-hotel/guest-floor/interview-suite",
+          "resource": {
+            "id": "chair-crossbeam",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -1.16,
+              0,
+              0.28
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-hotel/guest-floor/interview-suite/tea-table",
+          "parentId": "interview-hotel/guest-floor/interview-suite",
+          "resource": {
+            "id": "side-table-square",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.09,
+              0,
+              -1.12
+            ],
+            "yaw": 3.141592653589793
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-hotel/guest-floor/interview-suite/cup",
+          "parentId": "interview-hotel/guest-floor/interview-suite/tea-table",
+          "resource": {
+            "id": "side-table-life-cup",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0.5,
+              0
+            ],
+            "yaw": 0
+          },
+          "attachment": {
+            "surfaceId": "top"
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-hotel/guest-floor/interview-suite/audio-desk",
+          "parentId": "interview-hotel/guest-floor/interview-suite",
+          "resource": {
+            "id": "desk-cabinet",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0,
+              0,
+              1.32
+            ],
+            "yaw": 3.141592653589793
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-hotel/guest-floor/interview-suite/host-mic",
+          "parentId": "interview-hotel/guest-floor/interview-suite/audio-desk",
+          "resource": {
+            "id": "desk-microphone-ball",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -0.86,
+              0.84,
+              0.39
+            ],
+            "yaw": 1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-hotel/guest-floor/interview-suite/guest-mic",
+          "parentId": "interview-hotel/guest-floor/interview-suite/audio-desk",
+          "resource": {
+            "id": "desk-microphone-broadcast",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.86,
+              0.84,
+              0.39
+            ],
+            "yaw": -1.5707963267948966
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-hotel/guest-floor/interview-suite/camera-desk",
+          "parentId": "interview-hotel/guest-floor/interview-suite",
+          "resource": {
+            "id": "desk-pedestal",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.12,
+              0,
+              -2.27
+            ],
+            "yaw": 3.141592653589793
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-hotel/guest-floor/interview-suite/wide-camera",
+          "parentId": "interview-hotel/guest-floor/interview-suite/camera-desk",
+          "resource": {
+            "id": "camera-cube-slate",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              0.12,
+              0.84,
+              -0.42
+            ],
+            "yaw": 3.141592653589793
+          }
+        },
+        {
+          "type": "set-surface-finish",
+          "id": "interview-hotel/guest-floor/interview-suite",
+          "surface": "floor",
+          "finish": {
+            "resource": {
+              "id": "floor-herringbone",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "set-surface-finish",
+          "id": "interview-hotel/guest-floor/interview-suite",
+          "surface": "south",
+          "finish": {
+            "resource": {
+              "id": "wall-arc-fan",
+              "version": 1
+            }
+          }
+        },
+        {
+          "type": "add-facility",
+          "id": "interview-hotel/guest-floor/interview-suite/wall-art",
+          "parentId": "interview-hotel/guest-floor/interview-suite",
+          "resource": {
+            "id": "wall-art-sunburst",
+            "version": 1
+          },
+          "transform": {
+            "position": [
+              -1.72,
+              1.63,
+              2.9
+            ],
+            "yaw": 3.141592653589793
+          }
+        }
+      ],
+      "interviewRooms": [
+        {
+          "regionId": "interview-hotel/guest-floor/interview-suite",
+          "roles": {
+            "hostChair": "interview-hotel/guest-floor/interview-suite/host-chair",
+            "guestChair": "interview-hotel/guest-floor/interview-suite/guest-chair",
+            "hostMic": "interview-hotel/guest-floor/interview-suite/host-mic",
+            "guestMic": "interview-hotel/guest-floor/interview-suite/guest-mic",
+            "camera": "interview-hotel/guest-floor/interview-suite/wide-camera"
+          },
+          "portalId": "interview-hotel/guest-floor/portal-interview-suite",
+          "routes": {
+            "host": [
+              [
+                0.34,
+                3
+              ],
+              [
+                0.34,
+                2.25
+              ],
+              [
+                1.98,
+                2.25
+              ],
+              [
+                1.98,
+                -0.46
+              ],
+              [
+                0.43,
+                -0.46
+              ],
+              [
+                0.43,
+                0.28
+              ]
+            ],
+            "guest": [
+              [
+                -0.34,
+                3
+              ],
+              [
+                -0.34,
+                2.25
+              ],
+              [
+                -1.96,
+                2.25
+              ],
+              [
+                -1.96,
+                -0.46
+              ],
+              [
+                -0.51,
+                -0.46
+              ],
+              [
+                -0.51,
+                0.28
+              ]
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

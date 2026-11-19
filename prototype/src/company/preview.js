@@ -3,6 +3,7 @@ import {createFacilityEditor} from './facility-editor.js';
 import * as THREE from 'three';
 import Phaser from 'phaser';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {framingFov, installedCameraPose} from './camera-view.js';
 import catalog from './library-catalog.json' with {type:'json'};
 import templates from './templates-extended.json' with {type:'json'};
 import ceilingCompany from './examples/c2-ceiling-company.json' with {type:'json'};
@@ -105,11 +106,38 @@ const buildingView=createBuildingView(element('building-stage'),{
   onPresentationChange:presentation=>{buildingPresentation=presentation;if(session?.scene.view.mode==='building')element('view-label').textContent=presentation==='section'?'大楼侧剖面':'大楼外观';},
 });
 function status(text,error=false){element('status').textContent=text;element('status').dataset.error=String(error);}
+function cameraForRoom(doc,derived,view) {
+  if(view.mode!=='room')return;
+  const cameras=derived.facilities.filter(f=>f.roomId===view.roomId && f.resource.camera?.lensNode && f.resource.camera.forward==='+Z');
+  const interview=Array.isArray(doc.interviewRooms) && doc.interviewRooms.find(r=>r?.regionId===view.roomId);
+  const showcase=Array.isArray(doc.productShowcases) && doc.productShowcases.find(r=>r?.roomId===view.roomId);
+  const cameraId=interview?.roles?.camera || showcase?.members?.camera;
+  return cameraId ? cameras.find(f=>f.id===cameraId) : cameras.length===1 ? cameras[0] : undefined;
+}
+function aimFromInstalledCamera(facility) {
+  const group=facility && session.scene.root.getObjectByName(facility.id);
+  const pose=installedCameraPose(group,facility?.resource.camera);
+  if(!pose)return false;
+  camera.fov=framingFov(camera.aspect);camera.updateProjectionMatrix();
+  orbit.maxPolarAngle=Math.PI*.98;orbit.minDistance=.25;
+  camera.position.copy(pose.position);orbit.target.copy(pose.position).addScaledVector(pose.forward,3);
+  orbit.update();updateWallView();
+  document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view==='camera')));
+  return true;
+}
+orbit.addEventListener('start',()=>{
+  if(activeView==='camera'){activeView='detail';element('camera-view').setAttribute('aria-pressed','false');}
+});
 function setView(name){
   facilityEditor?.cancel();
   activeView=name;orbit.maxPolarAngle=name==='ceiling'?Math.PI*.96:Math.PI*.48;
   const doc=session.document,derived=deriveCompany(doc,catalog,templates),view=session.scene.view;
   orbit.enableRotate=view.mode==='room';orbit.enablePan=view.mode==='room';orbit.enableZoom=view.mode==='room';
+  if(name==='camera'){
+    if(aimFromInstalledCamera(cameraForRoom(doc,derived,view)))return;
+    activeView='room';name='room';status('当前房间未找到可取景的实体镜头。',true);
+  }
+  camera.fov=38;camera.updateProjectionMatrix();
   if(view.mode==='building')return;
   let box=new THREE.Box3().setFromObject(session.scene.root),target=box.getCenter(new THREE.Vector3());
   if(view.mode!=='building') {
@@ -318,6 +346,11 @@ function sync(){
   element('information-visible').textContent=content?.state?.visible===false?'显示图文':'隐藏图文';
   syncFinishes();
   if(building)buildingView.render(doc,{presentation:buildingPresentation});
+  const installedCamera=cameraForRoom(doc,derived,view);
+  element('camera-view').hidden=!installedCamera;
+  if(activeView==='camera' && view.mode==='room'){
+    if(!aimFromInstalledCamera(installedCamera))setView('room');
+  }
   element('camera-hint').textContent=building?'先进入侧剖面，再选择楼层。':view.mode==='room'?'单间可拖动旋转，滚轮缩放。':'当前为固定角度总览，点击房间进入三维查看。';
   document.querySelectorAll('[data-view]').forEach(button=>{button.disabled=busy||view.mode!=='room'||(button.dataset.view==='ceiling'&&!currentFinishRoom()?.finishes?.ceiling&&!session.document.nodes.some(n=>n.parentId===currentFinishRoom()?.id&&catalog.resources.find(r=>r.id===n.resource?.id&&r.version===n.resource?.version)?.mount==='ceiling'));});
   regionLabels=[];element('region-labels').replaceChildren();
@@ -349,7 +382,7 @@ async function perform(label,action){
   }
   finally{busy=false;document.querySelectorAll('button,select,input').forEach(e=>e.disabled=false);sync();}
 }
-function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();if(session?.scene.view.mode==='floor')setView(activeView);updateRegionLabels();}
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();if(session?.scene.view.mode==='floor'||activeView==='camera')setView(activeView);updateRegionLabels();}
 class CompanyPreview extends Phaser.Scene {update(time){if(session)session.scene.setPresentationInputs({clockSeconds:previewClockOverride??(32400+time/1000)});drawHostFrame(performance.now());}}
 async function start(){
   session=await createCompanyAuthoring(world,layouts.smallHome,{catalog,templates,storage:localStorage,assetLibrary,mirrorPreflight,mirrorRenderProfile});
@@ -391,6 +424,7 @@ async function start(){
   window.company.editor=facilityEditor;
   element('edit-focus').onclick=()=>{
     const object=facilityEditor.focus();if(!object)return;
+    if(activeView==='camera')setView('room');
     const box=new THREE.Box3().setFromObject(object),center=box.getCenter(new THREE.Vector3());
     const node=session.document.nodes.find(n=>n.id===object.name),resource=catalog.resources.find(r=>r.id===node?.resource?.id&&r.version===node.resource.version);
     let direction=new THREE.Vector3(.6,.7,1),distance=Math.max(.5,box.getSize(new THREE.Vector3()).length()*1.6);
