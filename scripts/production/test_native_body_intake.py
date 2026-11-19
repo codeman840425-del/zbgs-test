@@ -21,11 +21,14 @@ def fixture(name):
 class SourceIntakeTests(unittest.TestCase):
     def test_real_sources_and_runtime_registry(self):
         profiles = intake.runtime_profiles()
-        for name, kind, count in [('published-cc0', 'different-vrm-format', 2),
-                                  ('native-template', 'native-template-comparable', 9)]:
-            result = intake.inspect(fixture(name), profiles)
-            self.assertEqual(result, json.loads((DIR / (name + '-report.json')).read_bytes()))
-            self.assertEqual(result['registration']['exactBodyProfiles'], [])
+        for name, kind, count, registered in [
+                ('published-cc0', 'different-vrm-format', 2, ['source-male-ab9a-v1']),
+                ('native-template', 'native-template-comparable', 9, [])]:
+            request = fixture(name)
+            original = intake.inspect(request, {})
+            self.assertEqual(original, json.loads((DIR / (name + '-report.json')).read_bytes()))
+            result = intake.inspect(request, profiles)
+            self.assertEqual(result, {**original, 'registration': {'exactBodyProfiles': registered}})
             self.assertEqual(result['referenceComparison']['classification'], kind)
             self.assertEqual(set(result['body']['directlyWeightedCoreBones']), intake.CORE)
             self.assertEqual(len(result['staticBodyBudget']['violations']), count)

@@ -1,5 +1,7 @@
 # 参数驱动角色生产契约
 
+原生上衣的 v2 配方由 `schema` 和 `lineage` 组成。制作方交同一人物的两次导出和原生去组、保存、重开凭据，`native_top_removal_fit.py --discover-top` 自动定位该组，登记时重算保留下来的网格和骨骼绑定。旧显式图元配方继续按原身份读取。拿不到完整来源或无法确定被去掉的部件时，返回具体错误。[实际制作输入、复建和错配对照](../evidence/m2-native-auto-top-v1/README.md)
+
 同款鞋可共用款式和版本，由各身体配方绑定自己的源鞋、鞋底边界、六骨权重和装备身份。`sole_variant.py --recipe` 可分别生成男女版；制作端的一份 `sharedLook.styles` 同时选择上衣与鞋，匹配已登记的完整装备组合，保留原平底的角色记录。女体与男体的原鞋边界索引实测不同。正式制作命令继续核对该固定构建的整套准入回执。[配方与游戏回读](../evidence/m2-cross-body-shoes-v1/README.md)
 
 已有 VRoid 来源的角色包可用 `scripts/production/lip_anchor.py` 从精确身体 SHA、网格、图元和材质导出口部定位。制作回执记录 32 个唇边顶点及其摘要、原始口型绑定和中性／张嘴的头部局部坐标。下游核对实际身体字节、加载后的网格和绑定；原料文件改名仍可复用。同一组点可以服务多项道具检查，各道具的握姿、拾音目标及使用距离各自验收。[四个实际输入及回读](../evidence/m2-lip-anchor-intake-v1/runtime-readback.json)

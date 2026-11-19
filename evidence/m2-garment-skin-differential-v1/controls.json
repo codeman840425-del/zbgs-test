@@ -1,0 +1,63 @@
+{
+  "referenceSha256": "188d6e2b423d5baeae11e5dffbed88b8508edaed08eda6d8177cf07ee330bcec",
+  "scope": "In-memory test derivatives of the pinned removal VRM; no mutated VRM was published.",
+  "cases": [
+    {
+      "case": "swapped-positive-weights",
+      "change": {
+        "vertex": 2,
+        "material": "N00_000_00_Body_00_SKIN (Instance)",
+        "jointNames": [
+          "J_Bip_C_Hips",
+          "J_Bip_L_UpperLeg",
+          "Root",
+          "Root"
+        ],
+        "before": [
+          0.7978904247283936,
+          0.20210963487625122,
+          0.0,
+          0.0
+        ],
+        "after": [
+          0.20210963487625122,
+          0.7978904247283936,
+          0.0,
+          0.0
+        ]
+      },
+      "inMemoryReferenceSha256": "27e15766693843458f93f019219cc24aab65b2801aec7078654b447e1a356259",
+      "rejected": "Body/N00_000_00_Body_00_SKIN (Instance): changed weightedCorners"
+    },
+    {
+      "case": "translated-inverse-bind",
+      "change": {
+        "weightedSlot": 1,
+        "joint": "J_Bip_C_Hips",
+        "columnMajorIndex": 12,
+        "before": 0.0,
+        "after": 0.019999999552965164
+      },
+      "inMemoryReferenceSha256": "3cab379fcbf09cf851fa53cc8d96735b002e6ed4165724ca4d100b2fa725dc4b",
+      "rejected": "Body/N00_000_00_Body_00_SKIN (Instance): changed inverseBinds: J_Bip_C_Hips"
+    },
+    {
+      "case": "moved-Body-node",
+      "change": {
+        "node": "Body",
+        "before": [
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0.01,
+          0
+        ]
+      },
+      "inMemoryReferenceSha256": "00d2051e8a87aa40ed55c215381bd66dbf1d66e31084eee16f80186226426564",
+      "rejected": "Body/N00_000_00_Body_00_SKIN (Instance): changed frames: Body"
+    }
+  ]
+}
