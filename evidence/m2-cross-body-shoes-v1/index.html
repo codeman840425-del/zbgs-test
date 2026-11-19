@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>制服鞋对照 · 平底与 20 毫米厚底</title>
+<style>
+  :root{color-scheme:light;--paper:#f5f3ed;--ink:#232c28;--muted:#505d55;--line:#c8cfc4;--accent:#215944}
+  *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 "Source Sans 3","Microsoft YaHei",system-ui,sans-serif}
+  main,header>div{max-width:1376px;margin:auto;padding-inline:clamp(16px,4vw,64px)}
+  header{border-bottom:1px solid var(--line)}header>div{padding-block:30px 22px}h1,h2,p,figure{margin:0}
+  h1{font:650 clamp(26px,4vw,48px)/1.25 "Source Sans 3","Microsoft YaHei",sans-serif;letter-spacing:-.035em}
+  h2{font-size:clamp(20px,2vw,26px);line-height:1.35}header p,.note,.build{color:var(--muted)}
+  header p{margin-top:8px}.bar,.tools,.meta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .bar{margin-block:22px 16px}.tools{justify-content:flex-start;gap:8px}
+  fieldset{display:inline-flex;border:1px solid var(--line);border-radius:6px;margin:0;padding:3px;gap:3px}
+  legend,.sr{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  fieldset label{position:relative;cursor:pointer}fieldset input{position:absolute;opacity:0}
+  fieldset span,button{display:inline-grid;place-items:center;min-height:44px;padding:7px 17px;border-radius:4px;font:inherit}
+  fieldset input:checked+span{background:var(--accent);color:white}button{border:1px solid #9aa99d;background:transparent;color:var(--ink);cursor:pointer}
+  button:hover{background:#e5e9df}button:focus-visible,a:focus-visible,fieldset input:focus-visible+span{outline:3px solid #1a7154;outline-offset:3px}
+  .build,small{font:14px/1.5 "IBM Plex Mono",Consolas,monospace}.meta{margin-bottom:10px}
+  .pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,2vw,24px)}
+  figure video{display:block;width:100%;height:auto;aspect-ratio:1200/814;background:#202924;object-fit:contain;border-radius:5px}
+  figcaption{display:flex;justify-content:space-between;gap:10px;align-items:baseline;padding:8px 0;font-weight:600}
+  a{color:var(--accent);text-underline-offset:.2em}figcaption a{font-size:14px;font-weight:400}
+  .foot{border-top:1px solid var(--line);margin-top:24px;padding:24px 0;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(240px,.7fr);gap:clamp(18px,4vw,60px)}
+  .foot article{align-self:start}.foot p{margin-top:10px}.foot nav{display:grid;gap:8px;margin-top:14px}
+  .foot nav a{width:fit-content;padding:4px 0}.feedback{min-height:1.4em;color:#843816;font-size:14px}.feedback:empty{display:none}
+  @media(max-width:720px){.pair,.foot{grid-template-columns:1fr}.build{font-size:12px}header>div{padding-top:20px}.meta{align-items:flex-start}.note{font-size:14px}}
+</style>
+</head>
+<body>
+<header><div><h1>制服鞋对照</h1><p>同一角色、同一房间镜头。比较原平底鞋与增加 20 毫米外底的同款鞋。</p></div></header>
+<main>
+  <div class="bar"><fieldset><legend>选择角色</legend>
+    <label><input type="radio" name="actor" value="female" checked><span>女制服</span></label>
+    <label><input type="radio" name="actor" value="male"><span>男制服</span></label>
+  </fieldset><span class="build">固定构建 8877eb962794</span></div>
+  <section aria-labelledby="room-heading">
+    <div class="meta"><h2 id="room-heading">房间全景</h2><div class="tools">
+      <button id="together" type="button">从头并排播放 · 1×</button><button id="pause" type="button">同时暂停</button>
+    </div></div>
+    <div class="pair">
+      <figure><video id="flat" controls playsinline muted preload="metadata" aria-label="平底鞋房间全景" src="female-room-02/room-flat-1x.webm"></video>
+        <figcaption>原平底鞋 <a id="flat-file" href="female-room-02/room-flat-1x.webm">打开原片</a></figcaption></figure>
+      <figure><video id="platform" controls playsinline muted preload="metadata" aria-label="20 毫米厚底鞋房间全景" src="female-room-02/room-platform-1x.webm"></video>
+        <figcaption>20 毫米平行厚底 <a id="platform-file" href="female-room-02/room-platform-1x.webm">打开原片</a></figcaption></figure>
+    </div>
+    <p class="note">原速录制，包含走停、入座、起身和短舞。两段动作分别执行，可用播放器单独定位。</p>
+    <p class="feedback" id="feedback" role="status"></p>
+  </section>
+  <section class="foot" aria-labelledby="detail-heading">
+    <figure><video id="detail" controls playsinline muted preload="metadata" aria-label="脚部近景与坐姿换鞋" src="female-room-02/feet-swap-1x.webm"></video>
+      <figcaption>足部近景 · 1× <a id="detail-file" href="female-room-02/feet-swap-1x.webm">打开原片</a></figcaption></figure>
+    <article><h2 id="detail-heading">坐姿换鞋</h2><p>穿厚底鞋入座，坐稳后换回平底鞋，再起身。可暂停观察前掌、鞋跟和地面的相对位置。</p>
+      <p class="note">观感待确认。房间技术结果与采样边界见对应角色回执。</p>
+      <nav aria-label="复核资料"><a id="receipt" href="female-room-02/report.json">女制服房间回执</a>
+        <a href="../../assets-source/sole-variant-female-v1/uniform-pair-request.json">男女共用造型配方</a>
+        <a href="budget/report.json">双人静态预算</a><a href="README.md">版本、失败记录与复现命令</a></nav>
+    </article>
+  </section>
+</main>
+<script>
+  const byId = id => document.getElementById(id);
+  const roomVideos = [byId('flat'), byId('platform')];
+  const files = {flat:'room-flat-1x.webm', platform:'room-platform-1x.webm', detail:'feet-swap-1x.webm'};
+  const feedback = byId('feedback');
+  let revision = 0;
+  function choose(actor) {
+    revision++;
+    const directory = actor + '-room-02/';
+    feedback.textContent = '';
+    for (const [id, file] of Object.entries(files)) {
+      const video = byId(id);
+      video.pause();
+      video.src = directory + file;
+      video.load();
+      byId(id + '-file').href = directory + file;
+    }
+    byId('receipt').href = directory + 'report.json';
+    byId('receipt').textContent = (actor === 'female' ? '女' : '男') + '制服房间回执';
+  }
+  document.querySelectorAll('input[name="actor"]').forEach(input =>
+    input.addEventListener('change', () => choose(input.value)));
+  byId('together').addEventListener('click', async () => {
+    const current = ++revision;
+    feedback.textContent = '';
+    byId('detail').pause();
+    try {
+      await Promise.all(roomVideos.map(video => {
+        video.currentTime = 0;
+        video.playbackRate = 1;
+        return video.play();
+      }));
+    } catch {
+      if (current !== revision) return;
+      roomVideos.forEach(video => video.pause());
+      feedback.textContent = '未能同时播放，可分别打开两份 WebM 原片。';
+    }
+  });
+  byId('pause').addEventListener('click', () => { revision++;roomVideos.forEach(video => video.pause()); });
+</script>
+</body>
+</html>

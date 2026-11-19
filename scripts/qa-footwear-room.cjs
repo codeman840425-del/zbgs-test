@@ -480,9 +480,9 @@ async function run(base, sourceDigest, input, output, caseFile) {
     assert.notEqual(fresh.actor,original.actor,'Expected a fresh room actor before restoring signed outfits');
     assert.equal(restored.actor,fresh.actor,'Old signed record replaced the fresh same-body actor');
     assert.deepEqual(report.errors,[]);
-    const flat=report.films['room-flat'].checks,other=report.films['room-'+label].checks;
-    assert(flat.fixedCamera&&other.fixedCamera,'Room camera changed during comparison');
-    assert(sameCamera(flat.openingCamera,other.openingCamera),'Room comparison camera differs between registered looks');
+    const referenceChecks=report.films['room-flat'].checks,other=report.films['room-'+label].checks;
+    assert(referenceChecks.fixedCamera&&other.fixedCamera,'Room camera changed during comparison');
+    assert(sameCamera(referenceChecks.openingCamera,other.openingCamera),'Room comparison camera differs between registered looks');
     const faults=[...Object.values(report.films).flatMap(entry=>entry.checks.faults),...report.events.flatMap(event=>event.faults??[])];
     assert(faults.length===0,'Footwear runtime checks failed. Inspect recorded film checks, samples and poses.');
     report.status='technical-pass-visual-pending';

@@ -1,0 +1,4871 @@
+{
+  "schema": "footwear-room-qa-v1",
+  "expectedSourceDigest": "8877eb96279480e9f7c6001598338cb6f2f85e7dafa030b88967f4c4cac7846b",
+  "body": {
+    "type": "source-male-cc0-texture-release-v1",
+    "sha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617"
+  },
+  "settings": {
+    "sampleIntervalMs": 80,
+    "closeCamera": {
+      "offset": [
+        1.42,
+        0.65,
+        1.15
+      ],
+      "targetHeight": 0.44,
+      "fov": 33
+    },
+    "floorY": 0,
+    "severeDepthM": 0.025,
+    "severeDurationS": 0.3,
+    "maxSampleGapS": 0.25,
+    "shoes": {
+      "1": {
+        "role": "pants-top-far",
+        "equipmentRole": "shoes",
+        "id": "cc0-texture-release-flat-shoes-v1",
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "fitId": "cc0-texture-release-flat-shoes-v1-fit"
+      },
+      "2": {
+        "role": "pants-top-far-platform",
+        "equipmentRole": "platformShoes",
+        "id": "cc0-texture-release-platform-shoes-v1",
+        "sha256": "8b23ba4f3add78322c1b3246b3ac80387d8eb2f2dd8e300b6443a33b0ed619c7",
+        "fitId": "cc0-texture-release-platform-shoes-v1-fit"
+      }
+    }
+  },
+  "comparison": {
+    "schema": "footwear-room-case-v1",
+    "bodySha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+    "label": "platform",
+    "outfitIndex": 2,
+    "role": "pants-top-far-platform",
+    "equipmentRole": "platformShoes",
+    "id": "cc0-texture-release-platform-shoes-v1",
+    "sha256": "8b23ba4f3add78322c1b3246b3ac80387d8eb2f2dd8e300b6443a33b0ed619c7"
+  },
+  "status": "technical-pass-visual-pending",
+  "comparisonSource": "historical-male-platform",
+  "sourceRecord": {
+    "path": "F:\\gamemake\\evidence\\m2-uniform-lite-operator-v1\\records.json",
+    "fileSHA256": "d38cd555d8b125c606ef28775b08fa96b2834c40c082e7ee06478dc4035f6989",
+    "id": "uniform-lite-male-v1",
+    "revision": 1,
+    "recordSHA256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2",
+    "outfitIndex": 1,
+    "shoeId": "cc0-texture-release-flat-shoes-v1",
+    "shoeSha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756"
+  },
+  "conditions": [
+    "Indexed posed skin vertices in the visible registered shoe, independently separated by foot weights.",
+    "Room structural floor y=0 m. Rug covering is not the measurement plane. Sampled minima are not swept surface contact.",
+    "A continuous sample span of at least 0.30 s below -25 mm on one side triggers review. Gaps over 0.25 s break the span.",
+    "Original clock, authored technical once-dance, shared room camera, and a separate camera-only tracking clip for the seated swap."
+  ],
+  "errors": [],
+  "tasks": [
+    {
+      "requestId": "room-flat-walk",
+      "ownerId": "room-primary",
+      "kind": "walk",
+      "payload": {
+        "x": -0.5,
+        "z": 1.8
+      },
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 1.5396999999955308,
+      "startedAt": 1.5396999999955308,
+      "endedAt": 3.1844999999999755,
+      "deadline": 61.539699999995534,
+      "reason": null,
+      "result": {
+        "mode": "idle",
+        "position": [
+          -0.5,
+          0,
+          1.7830845374407358
+        ],
+        "seatToken": null
+      }
+    },
+    {
+      "requestId": "room-flat-sit",
+      "ownerId": "room-primary",
+      "kind": "sit",
+      "payload": {
+        "usePointId": "room-chair-1"
+      },
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 3.89329999999698,
+      "startedAt": 3.89329999999698,
+      "endedAt": 10.81550000000018,
+      "deadline": 63.893299999996984,
+      "reason": null,
+      "result": {
+        "mode": "sit",
+        "position": [
+          2.6496674106220066,
+          0,
+          1.3119861624930906
+        ],
+        "seatToken": "seat-lease:1"
+      }
+    },
+    {
+      "requestId": "room-flat-stand",
+      "ownerId": "room-primary",
+      "kind": "stand",
+      "payload": {},
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 11.671199999995746,
+      "startedAt": 11.671199999995746,
+      "endedAt": 12.665799999997287,
+      "deadline": 71.67119999999575,
+      "reason": null,
+      "result": {
+        "mode": "idle",
+        "position": [
+          2.6496674106220066,
+          0,
+          1.3119861624930906
+        ],
+        "seatToken": "seat-lease:1"
+      }
+    },
+    {
+      "requestId": "room-flat-leave-walk",
+      "ownerId": "room-primary",
+      "kind": "walk",
+      "payload": {
+        "x": -0.5,
+        "z": 1.8
+      },
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 13.272399999998807,
+      "startedAt": 13.272399999998807,
+      "endedAt": 18.586899999998767,
+      "deadline": 73.27239999999881,
+      "reason": null,
+      "result": {
+        "mode": "idle",
+        "position": [
+          -0.4833309934417979,
+          0,
+          1.797417281002285
+        ],
+        "seatToken": null
+      }
+    },
+    {
+      "requestId": "room-flat-dance",
+      "ownerId": "room-primary",
+      "kind": "dance",
+      "payload": {
+        "danceId": "dance-technical-once-v1"
+      },
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 18.586899999998767,
+      "startedAt": 18.586899999998767,
+      "endedAt": 26.65569999999504,
+      "deadline": 78.58689999999876,
+      "reason": null,
+      "result": {
+        "mode": "idle",
+        "position": [
+          -0.4833309934417979,
+          0,
+          1.797417281002285
+        ],
+        "seatToken": null
+      }
+    },
+    {
+      "requestId": "room-platform-walk",
+      "ownerId": "room-primary",
+      "kind": "walk",
+      "payload": {
+        "x": -0.5,
+        "z": 1.8
+      },
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 29.353399999990376,
+      "startedAt": 29.353399999990376,
+      "endedAt": 30.99749999999176,
+      "deadline": 89.35339999999037,
+      "reason": null,
+      "result": {
+        "mode": "idle",
+        "position": [
+          -0.5,
+          0,
+          1.7831266823371705
+        ],
+        "seatToken": null
+      }
+    },
+    {
+      "requestId": "room-platform-sit",
+      "ownerId": "room-primary",
+      "kind": "sit",
+      "payload": {
+        "usePointId": "room-chair-1"
+      },
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 31.70129999998873,
+      "startedAt": 31.70129999998873,
+      "endedAt": 38.623299999988305,
+      "deadline": 91.70129999998873,
+      "reason": null,
+      "result": {
+        "mode": "sit",
+        "position": [
+          2.6496703872785066,
+          0,
+          1.3119857216820998
+        ],
+        "seatToken": "seat-lease:2"
+      }
+    },
+    {
+      "requestId": "room-platform-stand",
+      "ownerId": "room-primary",
+      "kind": "stand",
+      "payload": {},
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 39.478699999986766,
+      "startedAt": 39.478699999986766,
+      "endedAt": 40.47359999999266,
+      "deadline": 99.47869999998676,
+      "reason": null,
+      "result": {
+        "mode": "idle",
+        "position": [
+          2.6496703872785066,
+          0,
+          1.3119857216820998
+        ],
+        "seatToken": "seat-lease:2"
+      }
+    },
+    {
+      "requestId": "room-platform-leave-walk",
+      "ownerId": "room-primary",
+      "kind": "walk",
+      "payload": {
+        "x": -0.5,
+        "z": 1.8
+      },
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 41.08029999998813,
+      "startedAt": 41.08029999998813,
+      "endedAt": 46.394799999987825,
+      "deadline": 101.08029999998813,
+      "reason": null,
+      "result": {
+        "mode": "idle",
+        "position": [
+          -0.48328799008874757,
+          0,
+          1.7974106181113354
+        ],
+        "seatToken": null
+      }
+    },
+    {
+      "requestId": "room-platform-dance",
+      "ownerId": "room-primary",
+      "kind": "dance",
+      "payload": {
+        "danceId": "dance-technical-once-v1"
+      },
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 46.394799999987825,
+      "startedAt": 46.394799999987825,
+      "endedAt": 54.463399999988795,
+      "deadline": 106.39479999998782,
+      "reason": null,
+      "result": {
+        "mode": "idle",
+        "position": [
+          -0.48328799008874757,
+          0,
+          1.7974106181113354
+        ],
+        "seatToken": null
+      }
+    },
+    {
+      "requestId": "feet-sit",
+      "ownerId": "room-primary",
+      "kind": "sit",
+      "payload": {
+        "usePointId": "room-chair-1"
+      },
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 56.665699999985705,
+      "startedAt": 56.665699999985705,
+      "endedAt": 63.527399999988354,
+      "deadline": 116.6656999999857,
+      "reason": null,
+      "result": {
+        "mode": "sit",
+        "position": [
+          2.6496725546195026,
+          0,
+          1.3119195833845185
+        ],
+        "seatToken": "seat-lease:3"
+      }
+    },
+    {
+      "requestId": "feet-stand",
+      "ownerId": "room-primary",
+      "kind": "stand",
+      "payload": {},
+      "admission": "accepted",
+      "state": "completed",
+      "requestedAt": 65.70539999998833,
+      "startedAt": 65.70539999998833,
+      "endedAt": 66.69999999998977,
+      "deadline": 125.70539999998833,
+      "reason": null,
+      "result": {
+        "mode": "idle",
+        "position": [
+          2.6496725546195026,
+          0,
+          1.3119195833845185
+        ],
+        "seatToken": "seat-lease:3"
+      }
+    }
+  ],
+  "films": {
+    "room-flat": {
+      "framing": "room",
+      "mime": "video/webm;codecs=vp9",
+      "width": 1200,
+      "height": 814,
+      "file": "room-flat-1x.webm",
+      "sha256": "d84e9e7c286183136a71c5458be962e441fdb70fc27ab465a9dffa6ec4616bb3",
+      "bytes": 5182747,
+      "sampleFile": "room-flat-samples.json",
+      "samples": 311,
+      "captureFaults": [],
+      "checks": {
+        "wallSeconds": 26.3295,
+        "simulationPerWallSecond": 0.99999999999998,
+        "phases": {
+          "standing/left": {
+            "minM": -1.3210852985558533e-8,
+            "maxM": -2.903422672531804e-9,
+            "severeSpanS": 0
+          },
+          "standing/right": {
+            "minM": -0.00005556577458322638,
+            "maxM": -0.00004584732475755289,
+            "severeSpanS": 0
+          },
+          "walk/left": {
+            "minM": -0.0006279943080713278,
+            "maxM": 0.153045052742305,
+            "severeSpanS": 0
+          },
+          "walk/right": {
+            "minM": -0.0012205062567321903,
+            "maxM": 0.07027851467486076,
+            "severeSpanS": 0
+          },
+          "walk-stop/left": {
+            "minM": -3.2149124002062504e-9,
+            "maxM": -2.8051380247503047e-9,
+            "severeSpanS": 0
+          },
+          "walk-stop/right": {
+            "minM": -0.00005464636098050123,
+            "maxM": -0.000045728105459614437,
+            "severeSpanS": 0
+          },
+          "seat-approach/left": {
+            "minM": -0.0011988536391761492,
+            "maxM": 0.15338186919557784,
+            "severeSpanS": 0
+          },
+          "seat-approach/right": {
+            "minM": -0.0012227836561920773,
+            "maxM": 0.15095775243133852,
+            "severeSpanS": 0
+          },
+          "seated/left": {
+            "minM": -0.0006058763599938385,
+            "maxM": -0.0006054419882589823,
+            "severeSpanS": 0
+          },
+          "seated/right": {
+            "minM": -0.0010807682804012514,
+            "maxM": -0.0010803926864429861,
+            "severeSpanS": 0
+          },
+          "rise/left": {
+            "minM": -0.0006053247020215264,
+            "maxM": -1.5768268777282754e-9,
+            "severeSpanS": 0
+          },
+          "rise/right": {
+            "minM": -0.0010801580694087885,
+            "maxM": 0.00008289729242096273,
+            "severeSpanS": 0
+          },
+          "risen/left": {
+            "minM": -3.1426563653919742e-9,
+            "maxM": 8.040972407233685e-10,
+            "severeSpanS": 0
+          },
+          "risen/right": {
+            "minM": -0.00006184223252947072,
+            "maxM": -0.00004812202792102129,
+            "severeSpanS": 0
+          },
+          "leave/left": {
+            "minM": -0.0012603305978412674,
+            "maxM": 0.1567164427233249,
+            "severeSpanS": 0
+          },
+          "leave/right": {
+            "minM": -0.0014154285416974628,
+            "maxM": 0.15665026691147893,
+            "severeSpanS": 0
+          },
+          "dance/left": {
+            "minM": -0.005879061651480237,
+            "maxM": 0.09471822072074249,
+            "severeSpanS": 0
+          },
+          "dance/right": {
+            "minM": -0.009667069816127492,
+            "maxM": 0.13304092982916127,
+            "severeSpanS": 0
+          },
+          "dance-stop/left": {
+            "minM": -4.2707477831971374e-9,
+            "maxM": 2.567079092699598e-10,
+            "severeSpanS": 0
+          },
+          "dance-stop/right": {
+            "minM": -0.00005122357023728944,
+            "maxM": -0.00004610503189280931,
+            "severeSpanS": 0
+          }
+        },
+        "faults": [],
+        "openingCamera": {
+          "position": [
+            5.8,
+            4.5,
+            7.8
+          ],
+          "rotation": [
+            -0.17795122480980952,
+            0.30870435780970934,
+            0.05891051685589113,
+            0.932504440773209
+          ],
+          "fov": 36
+        },
+        "fixedCamera": true
+      }
+    },
+    "room-platform": {
+      "framing": "room",
+      "mime": "video/webm;codecs=vp9",
+      "width": 1200,
+      "height": 814,
+      "file": "room-platform-1x.webm",
+      "sha256": "7a64237f5c7643cbac897ac8d617dd816acf9cc86c20c338e80ffba75f988a98",
+      "bytes": 5212802,
+      "sampleFile": "room-platform-samples.json",
+      "samples": 311,
+      "captureFaults": [],
+      "checks": {
+        "wallSeconds": 26.3112,
+        "simulationPerWallSecond": 1.0000000000000926,
+        "phases": {
+          "standing/left": {
+            "minM": -3.1620651722019666e-9,
+            "maxM": -3.305307902379262e-10,
+            "severeSpanS": 0
+          },
+          "standing/right": {
+            "minM": -0.00004041921587535089,
+            "maxM": -0.00003185758140911588,
+            "severeSpanS": 0
+          },
+          "walk/left": {
+            "minM": -0.0005686847820813575,
+            "maxM": 0.17118000497588415,
+            "severeSpanS": 0
+          },
+          "walk/right": {
+            "minM": -0.0012768672739091054,
+            "maxM": 0.06947151891208879,
+            "severeSpanS": 0
+          },
+          "walk-stop/left": {
+            "minM": -3.0797802572091193e-9,
+            "maxM": -2.7396492852105325e-9,
+            "severeSpanS": 0
+          },
+          "walk-stop/right": {
+            "minM": -0.000040268954495591386,
+            "maxM": -0.00003357816916531921,
+            "severeSpanS": 0
+          },
+          "seat-approach/left": {
+            "minM": -0.001289730104228551,
+            "maxM": 0.16817135455179494,
+            "severeSpanS": 0
+          },
+          "seat-approach/right": {
+            "minM": -0.001285446864310755,
+            "maxM": 0.16477832342839221,
+            "severeSpanS": 0
+          },
+          "seated/left": {
+            "minM": -0.0005433828132250895,
+            "maxM": -0.0005429890519080669,
+            "severeSpanS": 0
+          },
+          "seated/right": {
+            "minM": -0.0010470122833072535,
+            "maxM": -0.0010466886951825897,
+            "severeSpanS": 0
+          },
+          "rise/left": {
+            "minM": -0.0005272593378558561,
+            "maxM": -2.178789190732111e-9,
+            "severeSpanS": 0
+          },
+          "rise/right": {
+            "minM": -0.0009934817299240223,
+            "maxM": 0.00008634337883770557,
+            "severeSpanS": 0
+          },
+          "risen/left": {
+            "minM": -8.954987123360736e-9,
+            "maxM": -2.865048885636323e-9,
+            "severeSpanS": 0
+          },
+          "risen/right": {
+            "minM": -0.00003534563691071324,
+            "maxM": -0.000030491422687599552,
+            "severeSpanS": 0
+          },
+          "leave/left": {
+            "minM": -0.001427447799690158,
+            "maxM": 0.17540933315950397,
+            "severeSpanS": 0
+          },
+          "leave/right": {
+            "minM": -0.0015305243361703087,
+            "maxM": 0.17156260234207277,
+            "severeSpanS": 0
+          },
+          "dance/left": {
+            "minM": -0.010739630247178346,
+            "maxM": 0.09506090120258968,
+            "severeSpanS": 0
+          },
+          "dance/right": {
+            "minM": -0.014550614128490354,
+            "maxM": 0.13446809292876366,
+            "severeSpanS": 0
+          },
+          "dance-stop/left": {
+            "minM": -1.3574153551296382e-8,
+            "maxM": -2.8068833404478258e-9,
+            "severeSpanS": 0
+          },
+          "dance-stop/right": {
+            "minM": -0.00004760742898313674,
+            "maxM": -0.00003260535384778322,
+            "severeSpanS": 0
+          }
+        },
+        "faults": [],
+        "openingCamera": {
+          "position": [
+            5.8,
+            4.5,
+            7.8
+          ],
+          "rotation": [
+            -0.17795122480980952,
+            0.30870435780970934,
+            0.05891051685589113,
+            0.932504440773209
+          ],
+          "fov": 36
+        },
+        "fixedCamera": true
+      }
+    },
+    "feet-swap": {
+      "framing": "feet",
+      "mime": "video/webm;codecs=vp9",
+      "width": 1200,
+      "height": 814,
+      "file": "feet-swap-1x.webm",
+      "sha256": "82e954fcc4ff11731c272a3a074d948e4d8eb71c0e77e85dfa32abe1a7bc4e4d",
+      "bytes": 3670721,
+      "sampleFile": "feet-swap-samples.json",
+      "samples": 135,
+      "captureFaults": [],
+      "checks": {
+        "wallSeconds": 11.381699999999997,
+        "simulationPerWallSecond": 1.0000000000002767,
+        "phases": {
+          "platform-standing/left": {
+            "minM": -1.4002013395963964e-8,
+            "maxM": -2.935163424810927e-9,
+            "severeSpanS": 0
+          },
+          "platform-standing/right": {
+            "minM": -0.00004036206121742642,
+            "maxM": -0.00003138234838970938,
+            "severeSpanS": 0
+          },
+          "seat-approach/left": {
+            "minM": -0.0012471582897522525,
+            "maxM": 0.16611144312871245,
+            "severeSpanS": 0
+          },
+          "seat-approach/right": {
+            "minM": -0.001356177337444573,
+            "maxM": 0.16498541321176985,
+            "severeSpanS": 0
+          },
+          "platform-seated/left": {
+            "minM": -0.0005433828138692244,
+            "maxM": -0.0005433828115972423,
+            "severeSpanS": 0
+          },
+          "platform-seated/right": {
+            "minM": -0.0010470122837810012,
+            "maxM": -0.0010470122823736361,
+            "severeSpanS": 0
+          },
+          "seated-swap/left": {
+            "minM": -0.0006058763583522541,
+            "maxM": -0.0006058763583518369,
+            "severeSpanS": 0
+          },
+          "seated-swap/right": {
+            "minM": -0.0010807682793634106,
+            "maxM": -0.0010807682793629672,
+            "severeSpanS": 0
+          },
+          "flat-seated/left": {
+            "minM": -0.0006058763583522541,
+            "maxM": -0.0006058763583522541,
+            "severeSpanS": 0
+          },
+          "flat-seated/right": {
+            "minM": -0.0010807682793629672,
+            "maxM": -0.0010807682793629672,
+            "severeSpanS": 0
+          },
+          "rise/left": {
+            "minM": -0.0006012960310962986,
+            "maxM": -9.131181162753965e-11,
+            "severeSpanS": 0
+          },
+          "rise/right": {
+            "minM": -0.001075639904150141,
+            "maxM": 0.00006584120232655598,
+            "severeSpanS": 0
+          },
+          "flat-standing/left": {
+            "minM": -5.960204342765098e-9,
+            "maxM": -1.0407128395823959e-9,
+            "severeSpanS": 0
+          },
+          "flat-standing/right": {
+            "minM": -0.0000526169332840488,
+            "maxM": -0.0000461247112372872,
+            "severeSpanS": 0
+          }
+        },
+        "faults": [],
+        "openingCamera": {
+          "position": [
+            0.9199999999999999,
+            0.65,
+            2.3
+          ],
+          "rotation": [
+            -0.05161101527542753,
+            0.4297862729817874,
+            0.024615754407195017,
+            0.9011182648762751
+          ],
+          "fov": 33
+        },
+        "fixedCamera": false
+      }
+    }
+  },
+  "events": [
+    {
+      "label": "input-flat-restore",
+      "result": {
+        "applied": true,
+        "identity": {
+          "id": "uniform-lite-male-v1",
+          "name": "男性制服",
+          "gender": "male"
+        },
+        "revision": 1,
+        "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+      },
+      "state": {
+        "label": "input-flat-restore",
+        "wallMs": null,
+        "simulationTime": 0.1753999999985099,
+        "playbackRate": 1,
+        "paused": false,
+        "suspended": false,
+        "actor": "1522f514-c53d-4d0c-a366-e9e321dc9f3c",
+        "bodyType": "source-male-cc0-texture-release-v1",
+        "bodySHA256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "outfit": 1,
+        "avatarOutfit": 1,
+        "footwear": {
+          "id": "cc0-texture-release-flat-shoes-v1",
+          "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+          "fitId": "cc0-texture-release-flat-shoes-v1-fit",
+          "meshes": [
+            "242f0b64-1156-4884-b53a-978dcf6a92e4"
+          ]
+        },
+        "root": [
+          -0.5,
+          0,
+          1.15
+        ],
+        "hip": [
+          -0.49970940465736535,
+          1.0037613493803843,
+          1.1542023222321955
+        ],
+        "speed": 0,
+        "mode": "idle",
+        "pending": null,
+        "target": null,
+        "seat": {
+          "topY": 0.47000000014901155,
+          "root": [
+            2.65,
+            0,
+            0.8556600778409045
+          ],
+          "yaw": 0,
+          "approach": [
+            2.65,
+            0,
+            1.3119364168231291
+          ],
+          "pelvisClearance": 0.13039176204182662,
+          "progress": 0
+        },
+        "motion": {
+          "gait": 0,
+          "stopTime": 1.1753999999985099,
+          "action": "idle",
+          "walkGroundLift": 0.01863729054380351,
+          "jogGroundLift": 0.020996283902419647,
+          "danceId": "ual1-dance-reference",
+          "danceTime": 0,
+          "danceMix": 0
+        },
+        "camera": {
+          "position": [
+            -0.5055624514353738,
+            1.5763014545469325,
+            1.9579572642144916
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "fov": 36
+        },
+        "visible": [
+          {
+            "id": "cc0-texture-release-flat-shoes-v1",
+            "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+            "geometry": "e4323416-4fac-4ecd-9b60-3342b21089cc",
+            "name": "raw-male-ab9a-flat-shoes-v1",
+            "unclassified": 0
+          }
+        ],
+        "feet": {
+          "left": {
+            "sole": {
+              "id": "cc0-texture-release-flat-shoes-v1",
+              "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+              "vertex": 160,
+              "world": [
+                -0.4711180617454852,
+                -3.169833893848853e-9,
+                1.320422777524149
+              ],
+              "groundDeltaM": -3.169833893848853e-9
+            },
+            "vertexCount": 268,
+            "patches": {
+              "heel": {
+                "count": 11,
+                "correctSide": 11,
+                "minWorldY": 0.0005751684820469601,
+                "maxWorldY": 0.001256943308838596,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 24,
+                "correctSide": 24,
+                "minWorldY": -3.169833893848853e-9,
+                "maxWorldY": 0.00017168364294614246,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 268,
+            "ankle": [
+              -0.45093961190000004,
+              0.12082677098038413,
+              1.1179145114199998
+            ],
+            "support": [
+              -0.45093961190000004,
+              0.12082677098038413,
+              1.1179145114199998
+            ],
+            "anchor": [
+              -0.45093961190000004,
+              0.1208267709803843,
+              1.1179145114199998
+            ],
+            "contact": true,
+            "slip": 1.6653345369377348e-16,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          },
+          "right": {
+            "sole": {
+              "id": "cc0-texture-release-flat-shoes-v1",
+              "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+              "vertex": 400,
+              "world": [
+                -0.5134254550358669,
+                -0.00006039915379110793,
+                1.094865558160039
+              ],
+              "groundDeltaM": -0.00006039915379110793
+            },
+            "vertexCount": 268,
+            "patches": {
+              "heel": {
+                "count": 11,
+                "correctSide": 11,
+                "minWorldY": -0.00006039915379110793,
+                "maxWorldY": 0.0008321591660778009,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 24,
+                "correctSide": 24,
+                "minWorldY": 2.7897382267444946e-8,
+                "maxWorldY": 0.00041541811397680995,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 268,
+            "ankle": [
+              -0.5500763295000001,
+              0.12082688998038432,
+              1.1179144667299998
+            ],
+            "support": [
+              -0.5500763295000001,
+              0.12082688998038432,
+              1.1179144667299998
+            ],
+            "anchor": [
+              -0.5500763295000001,
+              0.12082688998038432,
+              1.1179144667299998
+            ],
+            "contact": true,
+            "slip": 0,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          }
+        }
+      },
+      "faults": []
+    },
+    {
+      "label": "standing-flat-to-platform",
+      "result": {
+        "applied": true
+      },
+      "previous": {
+        "label": "standing-flat-to-platform-before",
+        "wallMs": null,
+        "simulationTime": 0.7035000000000007,
+        "playbackRate": 1,
+        "paused": false,
+        "suspended": false,
+        "actor": "1522f514-c53d-4d0c-a366-e9e321dc9f3c",
+        "bodyType": "source-male-cc0-texture-release-v1",
+        "bodySHA256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "outfit": 1,
+        "avatarOutfit": 1,
+        "footwear": {
+          "id": "cc0-texture-release-flat-shoes-v1",
+          "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+          "fitId": "cc0-texture-release-flat-shoes-v1-fit",
+          "meshes": [
+            "242f0b64-1156-4884-b53a-978dcf6a92e4"
+          ]
+        },
+        "root": [
+          -0.5,
+          0,
+          1.15
+        ],
+        "hip": [
+          -0.5003117511095644,
+          1.0037613493803843,
+          1.1538752137195998
+        ],
+        "speed": 0,
+        "mode": "idle",
+        "pending": null,
+        "target": null,
+        "seat": {
+          "topY": 0.47000000014901155,
+          "root": [
+            2.65,
+            0,
+            0.8556600778409045
+          ],
+          "yaw": 0,
+          "approach": [
+            2.65,
+            0,
+            1.3119364168231291
+          ],
+          "pelvisClearance": 0.13039176204182662,
+          "progress": 0
+        },
+        "motion": {
+          "gait": 0,
+          "stopTime": 1.7034999999999993,
+          "action": "idle",
+          "walkGroundLift": 0.01863729054380351,
+          "jogGroundLift": 0.020996283902419647,
+          "danceId": "dance-technical-once-v1",
+          "danceTime": 0,
+          "danceMix": 0
+        },
+        "camera": {
+          "position": [
+            5.8,
+            4.5,
+            7.8
+          ],
+          "rotation": [
+            -0.17795122480980952,
+            0.30870435780970934,
+            0.05891051685589113,
+            0.932504440773209
+          ],
+          "fov": 36
+        },
+        "visible": [
+          {
+            "id": "cc0-texture-release-flat-shoes-v1",
+            "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+            "geometry": "e4323416-4fac-4ecd-9b60-3342b21089cc",
+            "name": "raw-male-ab9a-flat-shoes-v1",
+            "unclassified": 0
+          }
+        ],
+        "feet": {
+          "left": {
+            "sole": {
+              "id": "cc0-texture-release-flat-shoes-v1",
+              "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+              "vertex": 160,
+              "world": [
+                -0.47111806209380025,
+                -3.0429310359436287e-9,
+                1.3204227774949289
+              ],
+              "groundDeltaM": -3.0429310359436287e-9
+            },
+            "vertexCount": 268,
+            "patches": {
+              "heel": {
+                "count": 11,
+                "correctSide": 11,
+                "minWorldY": 0.0005734620172638955,
+                "maxWorldY": 0.0012480647629135237,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 24,
+                "correctSide": 24,
+                "minWorldY": -3.0429310359436287e-9,
+                "maxWorldY": 0.00017168362896935615,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 268,
+            "ankle": [
+              -0.45093961190000004,
+              0.12082677098038408,
+              1.1179145114199998
+            ],
+            "support": [
+              -0.45093961190000004,
+              0.12082677098038408,
+              1.1179145114199998
+            ],
+            "anchor": [
+              -0.45093961190000004,
+              0.1208267709803843,
+              1.1179145114199998
+            ],
+            "contact": true,
+            "slip": 2.220446049250313e-16,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          },
+          "right": {
+            "sole": {
+              "id": "cc0-texture-release-flat-shoes-v1",
+              "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+              "vertex": 400,
+              "world": [
+                -0.5133769834266102,
+                -0.00004583671933193381,
+                1.0948036833613068
+              ],
+              "groundDeltaM": -0.00004583671933193381
+            },
+            "vertexCount": 268,
+            "patches": {
+              "heel": {
+                "count": 11,
+                "correctSide": 11,
+                "minWorldY": -0.00004583671933193381,
+                "maxWorldY": 0.0008203073966560064,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 24,
+                "correctSide": 24,
+                "minWorldY": 2.6929404750293366e-8,
+                "maxWorldY": 0.00040612169656884423,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 268,
+            "ankle": [
+              -0.5500763295000001,
+              0.12082688998038427,
+              1.1179144667299998
+            ],
+            "support": [
+              -0.5500763295000001,
+              0.12082688998038427,
+              1.1179144667299998
+            ],
+            "anchor": [
+              -0.5500763295000001,
+              0.12082688998038432,
+              1.1179144667299998
+            ],
+            "contact": true,
+            "slip": 5.551115123125783e-17,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          }
+        }
+      },
+      "immediate": {
+        "label": "standing-flat-to-platform-committed",
+        "wallMs": null,
+        "simulationTime": 0.7246000000014907,
+        "playbackRate": 1,
+        "paused": false,
+        "suspended": false,
+        "actor": "1522f514-c53d-4d0c-a366-e9e321dc9f3c",
+        "bodyType": "source-male-cc0-texture-release-v1",
+        "bodySHA256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "outfit": 2,
+        "avatarOutfit": 2,
+        "footwear": {
+          "id": "cc0-texture-release-platform-shoes-v1",
+          "sha256": "8b23ba4f3add78322c1b3246b3ac80387d8eb2f2dd8e300b6443a33b0ed619c7",
+          "fitId": "cc0-texture-release-platform-shoes-v1-fit",
+          "meshes": [
+            "96dd7735-06a0-42ab-a2f2-122cf4f4787d"
+          ]
+        },
+        "root": [
+          -0.5,
+          0,
+          1.15
+        ],
+        "hip": [
+          -0.5003435203348564,
+          1.023761333701461,
+          1.1538764570314055
+        ],
+        "speed": 0,
+        "mode": "idle",
+        "pending": null,
+        "target": null,
+        "seat": {
+          "topY": 0.47000000014901155,
+          "root": [
+            2.65,
+            0,
+            0.8556600778409045
+          ],
+          "yaw": 0,
+          "approach": [
+            2.65,
+            0,
+            1.3119364168231291
+          ],
+          "pelvisClearance": 0.13039176204182662,
+          "progress": 0
+        },
+        "motion": {
+          "gait": 0,
+          "stopTime": 1.7246000000014894,
+          "action": "idle",
+          "walkGroundLift": 0.03703446003424314,
+          "jogGroundLift": 0.04082752747854923,
+          "danceId": "dance-technical-once-v1",
+          "danceTime": 0,
+          "danceMix": 0
+        },
+        "camera": {
+          "position": [
+            5.8,
+            4.5,
+            7.8
+          ],
+          "rotation": [
+            -0.17795122480980952,
+            0.30870435780970934,
+            0.05891051685589113,
+            0.932504440773209
+          ],
+          "fov": 36
+        },
+        "visible": [
+          {
+            "id": "cc0-texture-release-platform-shoes-v1",
+            "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+            "geometry": "0fa64562-359b-4fba-87a3-f25f467ff1ca",
+            "name": "cc0-texture-release-platform-shoes-v1",
+            "unclassified": 0
+          }
+        ],
+        "feet": {
+          "left": {
+            "sole": {
+              "id": "cc0-texture-release-platform-shoes-v1",
+              "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+              "vertex": 232,
+              "world": [
+                -0.47111806382993454,
+                -3.009817031024431e-9,
+                1.320422776041658
+              ],
+              "groundDeltaM": -3.009817031024431e-9
+            },
+            "vertexCount": 340,
+            "patches": {
+              "heel": {
+                "count": 15,
+                "correctSide": 15,
+                "minWorldY": 0.0005816069697592986,
+                "maxWorldY": 0.0012613068496136223,
+                "owners": [
+                  {
+                    "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 35,
+                "correctSide": 35,
+                "minWorldY": -3.009817031024431e-9,
+                "maxWorldY": 0.00017168374176761646,
+                "owners": [
+                  {
+                    "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 340,
+            "ankle": [
+              -0.45093961190000004,
+              0.14082677099901042,
+              1.1179145114199998
+            ],
+            "support": [
+              -0.45093961190000004,
+              0.14082677099901042,
+              1.1179145114199998
+            ],
+            "anchor": [
+              -0.45093961190000004,
+              0.14082677099901064,
+              1.1179145114199998
+            ],
+            "contact": true,
+            "slip": 2.220446049250313e-16,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          },
+          "right": {
+            "sole": {
+              "id": "cc0-texture-release-platform-shoes-v1",
+              "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+              "vertex": 497,
+              "world": [
+                -0.5134583379906793,
+                -0.00003141691983506872,
+                1.0945547881651172
+              ],
+              "groundDeltaM": -0.00003141691983506872
+            },
+            "vertexCount": 340,
+            "patches": {
+              "heel": {
+                "count": 15,
+                "correctSide": 15,
+                "minWorldY": -0.00003141691983506872,
+                "maxWorldY": 0.0008360381959629918,
+                "owners": [
+                  {
+                    "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 35,
+                "correctSide": 35,
+                "minWorldY": -5.094693122237315e-9,
+                "maxWorldY": 0.0004121681171106923,
+                "owners": [
+                  {
+                    "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 340,
+            "ankle": [
+              -0.5500763295000001,
+              0.14082685860391125,
+              1.1179144667299998
+            ],
+            "support": [
+              -0.5500763295000001,
+              0.14082685860391125,
+              1.1179144667299998
+            ],
+            "anchor": [
+              -0.5500763295000001,
+              0.14082685860391142,
+              1.1179144667299998
+            ],
+            "contact": true,
+            "slip": 1.6653345369377348e-16,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          }
+        }
+      },
+      "after": {
+        "label": "standing-flat-to-platform-settled",
+        "wallMs": null,
+        "simulationTime": 1.152399999998511,
+        "playbackRate": 1,
+        "paused": false,
+        "suspended": false,
+        "actor": "1522f514-c53d-4d0c-a366-e9e321dc9f3c",
+        "bodyType": "source-male-cc0-texture-release-v1",
+        "bodySHA256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "outfit": 2,
+        "avatarOutfit": 2,
+        "footwear": {
+          "id": "cc0-texture-release-platform-shoes-v1",
+          "sha256": "8b23ba4f3add78322c1b3246b3ac80387d8eb2f2dd8e300b6443a33b0ed619c7",
+          "fitId": "cc0-texture-release-platform-shoes-v1-fit",
+          "meshes": [
+            "96dd7735-06a0-42ab-a2f2-122cf4f4787d"
+          ]
+        },
+        "root": [
+          -0.5,
+          0,
+          1.15
+        ],
+        "hip": [
+          -0.5008689376546421,
+          1.023761333701461,
+          1.1540953720438998
+        ],
+        "speed": 0,
+        "mode": "idle",
+        "pending": null,
+        "target": null,
+        "seat": {
+          "topY": 0.47000000014901155,
+          "root": [
+            2.65,
+            0,
+            0.8556600778409045
+          ],
+          "yaw": 0,
+          "approach": [
+            2.65,
+            0,
+            1.3119364168231291
+          ],
+          "pelvisClearance": 0.13039176204182662,
+          "progress": 0
+        },
+        "motion": {
+          "gait": 0,
+          "stopTime": 2.152399999998504,
+          "action": "idle",
+          "walkGroundLift": 0.03703446003424314,
+          "jogGroundLift": 0.04082752747854923,
+          "danceId": "dance-technical-once-v1",
+          "danceTime": 0,
+          "danceMix": 0
+        },
+        "camera": {
+          "position": [
+            5.8,
+            4.5,
+            7.8
+          ],
+          "rotation": [
+            -0.17795122480980952,
+            0.30870435780970934,
+            0.05891051685589113,
+            0.932504440773209
+          ],
+          "fov": 36
+        },
+        "visible": [
+          {
+            "id": "cc0-texture-release-platform-shoes-v1",
+            "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+            "geometry": "0fa64562-359b-4fba-87a3-f25f467ff1ca",
+            "name": "cc0-texture-release-platform-shoes-v1",
+            "unclassified": 0
+          }
+        ],
+        "feet": {
+          "left": {
+            "sole": {
+              "id": "cc0-texture-release-platform-shoes-v1",
+              "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+              "vertex": 232,
+              "world": [
+                -0.471118063736568,
+                -2.910812139933494e-9,
+                1.3204227761677803
+              ],
+              "groundDeltaM": -2.910812139933494e-9
+            },
+            "vertexCount": 340,
+            "patches": {
+              "heel": {
+                "count": 15,
+                "correctSide": 15,
+                "minWorldY": 0.0005797640606767327,
+                "maxWorldY": 0.001271383776799356,
+                "owners": [
+                  {
+                    "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 35,
+                "correctSide": 35,
+                "minWorldY": -2.910812139933494e-9,
+                "maxWorldY": 0.000171683730848762,
+                "owners": [
+                  {
+                    "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 340,
+            "ankle": [
+              -0.4509396119,
+              0.1408267709990107,
+              1.1179145114199998
+            ],
+            "support": [
+              -0.4509396119,
+              0.1408267709990107,
+              1.1179145114199998
+            ],
+            "anchor": [
+              -0.45093961190000004,
+              0.14082677099901064,
+              1.1179145114199998
+            ],
+            "contact": true,
+            "slip": 7.850462293418876e-17,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          },
+          "right": {
+            "sole": {
+              "id": "cc0-texture-release-platform-shoes-v1",
+              "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+              "vertex": 497,
+              "world": [
+                -0.5134857569438054,
+                -0.00003907331232054425,
+                1.0946206127354308
+              ],
+              "groundDeltaM": -0.00003907331232054425
+            },
+            "vertexCount": 340,
+            "patches": {
+              "heel": {
+                "count": 15,
+                "correctSide": 15,
+                "minWorldY": -0.00003907331232054425,
+                "maxWorldY": 0.0008446832020054694,
+                "owners": [
+                  {
+                    "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 35,
+                "correctSide": 35,
+                "minWorldY": -5.210483228906826e-9,
+                "maxWorldY": 0.00041789237269705356,
+                "owners": [
+                  {
+                    "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 340,
+            "ankle": [
+              -0.5500763295000001,
+              0.14082685860391148,
+              1.1179144667299998
+            ],
+            "support": [
+              -0.5500763295000001,
+              0.14082685860391148,
+              1.1179144667299998
+            ],
+            "anchor": [
+              -0.5500763295000001,
+              0.14082685860391142,
+              1.1179144667299998
+            ],
+            "contact": true,
+            "slip": 5.551115123125783e-17,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          }
+        }
+      },
+      "faults": []
+    },
+    {
+      "label": "seated-platform-to-flat",
+      "result": {
+        "applied": true
+      },
+      "previous": {
+        "label": "seated-platform-to-flat-before",
+        "wallMs": null,
+        "simulationTime": 8.992100000001535,
+        "playbackRate": 1,
+        "paused": false,
+        "suspended": false,
+        "actor": "1522f514-c53d-4d0c-a366-e9e321dc9f3c",
+        "bodyType": "source-male-cc0-texture-release-v1",
+        "bodySHA256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "outfit": 2,
+        "avatarOutfit": 2,
+        "footwear": {
+          "id": "cc0-texture-release-platform-shoes-v1",
+          "sha256": "8b23ba4f3add78322c1b3246b3ac80387d8eb2f2dd8e300b6443a33b0ed619c7",
+          "fitId": "cc0-texture-release-platform-shoes-v1-fit",
+          "meshes": [
+            "96dd7735-06a0-42ab-a2f2-122cf4f4787d"
+          ]
+        },
+        "root": [
+          2.6496725546195026,
+          0,
+          1.3119195833845185
+        ],
+        "hip": [
+          2.6522352258208004,
+          0.6003917620418266,
+          0.8556432444022894
+        ],
+        "speed": 0,
+        "mode": "sit",
+        "pending": null,
+        "target": null,
+        "seat": {
+          "topY": 0.47000000014901155,
+          "root": [
+            2.65,
+            0,
+            0.8556600778409045
+          ],
+          "yaw": 0,
+          "approach": [
+            2.65,
+            0,
+            1.3119364168231291
+          ],
+          "pelvisClearance": 0.13039176204182662,
+          "progress": 1
+        },
+        "motion": {
+          "gait": 2.375389651519363e-16,
+          "stopTime": 2.76740000000596,
+          "action": "sit",
+          "walkGroundLift": 0.03703446003424314,
+          "jogGroundLift": 0.04082752747854923,
+          "danceId": "dance-technical-once-v1",
+          "danceTime": 0,
+          "danceMix": 0
+        },
+        "camera": {
+          "position": [
+            4.069672554619503,
+            0.65,
+            2.4619195833845184
+          ],
+          "rotation": [
+            -0.05161101527542752,
+            0.4297862729817875,
+            0.024615754407195017,
+            0.9011182648762751
+          ],
+          "fov": 33
+        },
+        "visible": [
+          {
+            "id": "cc0-texture-release-platform-shoes-v1",
+            "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+            "geometry": "0fa64562-359b-4fba-87a3-f25f467ff1ca",
+            "name": "cc0-texture-release-platform-shoes-v1",
+            "unclassified": 0
+          }
+        ],
+        "feet": {
+          "left": {
+            "sole": {
+              "id": "cc0-texture-release-platform-shoes-v1",
+              "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+              "vertex": 244,
+              "world": [
+                2.6861170869569095,
+                -0.0005433828115971545,
+                1.23065529687729
+              ],
+              "groundDeltaM": -0.0005433828115971545
+            },
+            "vertexCount": 340,
+            "patches": {
+              "heel": {
+                "count": 15,
+                "correctSide": 15,
+                "minWorldY": -0.0005433828115971545,
+                "maxWorldY": 0.0005226861510062037,
+                "owners": [
+                  {
+                    "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 35,
+                "correctSide": 35,
+                "minWorldY": -1.3264539744373138e-9,
+                "maxWorldY": 0.0004885147550637322,
+                "owners": [
+                  {
+                    "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 340,
+            "ankle": [
+              2.698732940522978,
+              0.1408267728861914,
+              1.2798340950650267
+            ],
+            "support": [
+              2.698732940522978,
+              0.1408267728861914,
+              1.2798340950650267
+            ],
+            "anchor": [
+              2.6987329427195026,
+              0.14082677099901064,
+              1.2798340948045184
+            ],
+            "contact": true,
+            "slip": 2.9075826148178633e-9,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          },
+          "right": {
+            "sole": {
+              "id": "cc0-texture-release-platform-shoes-v1",
+              "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+              "vertex": 493,
+              "world": [
+                2.6069641576402143,
+                -0.0010470122823735978,
+                1.2306098850937892
+              ],
+              "groundDeltaM": -0.0010470122823735978
+            },
+            "vertexCount": 340,
+            "patches": {
+              "heel": {
+                "count": 15,
+                "correctSide": 15,
+                "minWorldY": -0.0010470122823735978,
+                "maxWorldY": 0.0000661075790334008,
+                "owners": [
+                  {
+                    "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 35,
+                "correctSide": 35,
+                "minWorldY": -4.601986902663668e-9,
+                "maxWorldY": 0.0006100305297334955,
+                "owners": [
+                  {
+                    "mesh": "96dd7735-06a0-42ab-a2f2-122cf4f4787d",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 340,
+            "ankle": [
+              2.599596224932515,
+              0.14082685869976697,
+              1.2798340500900112
+            ],
+            "support": [
+              2.599596224932515,
+              0.14082685869976697,
+              1.2798340500900112
+            ],
+            "anchor": [
+              2.5995962251195026,
+              0.14082685860391142,
+              1.2798340501145185
+            ],
+            "contact": true,
+            "slip": 2.1154979210213095e-10,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          }
+        }
+      },
+      "immediate": {
+        "label": "seated-platform-to-flat-committed",
+        "wallMs": null,
+        "simulationTime": 8.997799999997065,
+        "playbackRate": 1,
+        "paused": false,
+        "suspended": false,
+        "actor": "1522f514-c53d-4d0c-a366-e9e321dc9f3c",
+        "bodyType": "source-male-cc0-texture-release-v1",
+        "bodySHA256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "outfit": 1,
+        "avatarOutfit": 1,
+        "footwear": {
+          "id": "cc0-texture-release-flat-shoes-v1",
+          "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+          "fitId": "cc0-texture-release-flat-shoes-v1-fit",
+          "meshes": [
+            "242f0b64-1156-4884-b53a-978dcf6a92e4"
+          ]
+        },
+        "root": [
+          2.6496725546195026,
+          0,
+          1.3119195833845185
+        ],
+        "hip": [
+          2.652235225820801,
+          0.6003917620418266,
+          0.8556432444022898
+        ],
+        "speed": 0,
+        "mode": "sit",
+        "pending": null,
+        "target": null,
+        "seat": {
+          "topY": 0.47000000014901155,
+          "root": [
+            2.65,
+            0,
+            0.8556600778409045
+          ],
+          "yaw": 0,
+          "approach": [
+            2.65,
+            0,
+            1.3119364168231291
+          ],
+          "pelvisClearance": 0.13039176204182662,
+          "progress": 1
+        },
+        "motion": {
+          "gait": 2.205736546654034e-16,
+          "stopTime": 2.77310000000149,
+          "action": "sit",
+          "walkGroundLift": 0.01863729054380351,
+          "jogGroundLift": 0.020996283902419647,
+          "danceId": "dance-technical-once-v1",
+          "danceTime": 0,
+          "danceMix": 0
+        },
+        "camera": {
+          "position": [
+            4.069672554619503,
+            0.65,
+            2.4619195833845184
+          ],
+          "rotation": [
+            -0.05161101527542752,
+            0.4297862729817875,
+            0.024615754407195017,
+            0.9011182648762751
+          ],
+          "fov": 33
+        },
+        "visible": [
+          {
+            "id": "cc0-texture-release-flat-shoes-v1",
+            "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+            "geometry": "e4323416-4fac-4ecd-9b60-3342b21089cc",
+            "name": "raw-male-ab9a-flat-shoes-v1",
+            "unclassified": 0
+          }
+        ],
+        "feet": {
+          "left": {
+            "sole": {
+              "id": "cc0-texture-release-flat-shoes-v1",
+              "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+              "vertex": 145,
+              "world": [
+                2.6865598739871235,
+                -0.0006058763583518417,
+                1.2299839149008223
+              ],
+              "groundDeltaM": -0.0006058763583518417
+            },
+            "vertexCount": 268,
+            "patches": {
+              "heel": {
+                "count": 11,
+                "correctSide": 11,
+                "minWorldY": -0.0006058763583518417,
+                "maxWorldY": 0.000462193626795939,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 24,
+                "correctSide": 24,
+                "minWorldY": -1.2929343866157836e-9,
+                "maxWorldY": 0.0004688405458954647,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 268,
+            "ankle": [
+              2.698732940463071,
+              0.12082677285447563,
+              1.279834095078374
+            ],
+            "support": [
+              2.698732940463071,
+              0.12082677285447563,
+              1.279834095078374
+            ],
+            "anchor": [
+              2.6987329427195026,
+              0.1208267709803843,
+              1.2798340948045184
+            ],
+            "contact": true,
+            "slip": 2.9459630418787326e-9,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          },
+          "right": {
+            "sole": {
+              "id": "cc0-texture-release-flat-shoes-v1",
+              "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+              "vertex": 396,
+              "world": [
+                2.607091343293511,
+                -0.0010807682793628687,
+                1.229897533692458
+              ],
+              "groundDeltaM": -0.0010807682793628687
+            },
+            "vertexCount": 268,
+            "patches": {
+              "heel": {
+                "count": 11,
+                "correctSide": 11,
+                "minWorldY": -0.0010807682793628687,
+                "maxWorldY": 0.00003234528788197198,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 24,
+                "correctSide": 24,
+                "minWorldY": 2.7144267636348626e-8,
+                "maxWorldY": 0.0005881031007289898,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 268,
+            "ankle": [
+              2.599596224920291,
+              0.12082689007511888,
+              1.2798340500891796
+            ],
+            "support": [
+              2.599596224920291,
+              0.12082689007511888,
+              1.2798340500891796
+            ],
+            "anchor": [
+              2.5995962251195026,
+              0.12082688998038432,
+              1.2798340501145185
+            ],
+            "contact": true,
+            "slip": 2.220405754803574e-10,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          }
+        }
+      },
+      "after": {
+        "label": "seated-platform-to-flat-settled",
+        "wallMs": null,
+        "simulationTime": 9.433799999997081,
+        "playbackRate": 1,
+        "paused": false,
+        "suspended": false,
+        "actor": "1522f514-c53d-4d0c-a366-e9e321dc9f3c",
+        "bodyType": "source-male-cc0-texture-release-v1",
+        "bodySHA256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "outfit": 1,
+        "avatarOutfit": 1,
+        "footwear": {
+          "id": "cc0-texture-release-flat-shoes-v1",
+          "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+          "fitId": "cc0-texture-release-flat-shoes-v1-fit",
+          "meshes": [
+            "242f0b64-1156-4884-b53a-978dcf6a92e4"
+          ]
+        },
+        "root": [
+          2.6496725546195026,
+          0,
+          1.3119195833845185
+        ],
+        "hip": [
+          2.652235225820806,
+          0.6003917620418266,
+          0.8556432444022939
+        ],
+        "speed": 0,
+        "mode": "sit",
+        "pending": null,
+        "target": null,
+        "seat": {
+          "topY": 0.47000000014901155,
+          "root": [
+            2.65,
+            0,
+            0.8556600778409045
+          ],
+          "yaw": 0,
+          "approach": [
+            2.65,
+            0,
+            1.3119364168231291
+          ],
+          "pelvisClearance": 0.13039176204182662,
+          "progress": 1
+        },
+        "motion": {
+          "gait": 7.620307832645018e-19,
+          "stopTime": 3.2091000000014875,
+          "action": "sit",
+          "walkGroundLift": 0.01863729054380351,
+          "jogGroundLift": 0.020996283902419647,
+          "danceId": "dance-technical-once-v1",
+          "danceTime": 0,
+          "danceMix": 0
+        },
+        "camera": {
+          "position": [
+            4.069672554619503,
+            0.65,
+            2.4619195833845184
+          ],
+          "rotation": [
+            -0.05161101527542752,
+            0.4297862729817875,
+            0.024615754407195017,
+            0.9011182648762751
+          ],
+          "fov": 33
+        },
+        "visible": [
+          {
+            "id": "cc0-texture-release-flat-shoes-v1",
+            "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+            "geometry": "e4323416-4fac-4ecd-9b60-3342b21089cc",
+            "name": "raw-male-ab9a-flat-shoes-v1",
+            "unclassified": 0
+          }
+        ],
+        "feet": {
+          "left": {
+            "sole": {
+              "id": "cc0-texture-release-flat-shoes-v1",
+              "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+              "vertex": 145,
+              "world": [
+                2.686559873987124,
+                -0.0006058763583522541,
+                1.2299839149008216
+              ],
+              "groundDeltaM": -0.0006058763583522541
+            },
+            "vertexCount": 268,
+            "patches": {
+              "heel": {
+                "count": 11,
+                "correctSide": 11,
+                "minWorldY": -0.0006058763583522541,
+                "maxWorldY": 0.00046219362679547507,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 24,
+                "correctSide": 24,
+                "minWorldY": -1.2929349085507094e-9,
+                "maxWorldY": 0.00046884054589495065,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 268,
+            "ankle": [
+              2.6987329404630716,
+              0.12082677285447518,
+              1.2798340950783735
+            ],
+            "support": [
+              2.6987329404630716,
+              0.12082677285447518,
+              1.2798340950783735
+            ],
+            "anchor": [
+              2.6987329427195026,
+              0.1208267709803843,
+              1.2798340948045184
+            ],
+            "contact": true,
+            "slip": 2.945962377940717e-9,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          },
+          "right": {
+            "sole": {
+              "id": "cc0-texture-release-flat-shoes-v1",
+              "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+              "vertex": 396,
+              "world": [
+                2.607091343293511,
+                -0.0010807682793629672,
+                1.229897533692458
+              ],
+              "groundDeltaM": -0.0010807682793629672
+            },
+            "vertexCount": 268,
+            "patches": {
+              "heel": {
+                "count": 11,
+                "correctSide": 11,
+                "minWorldY": -0.0010807682793629672,
+                "maxWorldY": 0.00003234528788184838,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 24,
+                "correctSide": 24,
+                "minWorldY": 2.7144267469923593e-8,
+                "maxWorldY": 0.0005881031007288189,
+                "owners": [
+                  {
+                    "mesh": "242f0b64-1156-4884-b53a-978dcf6a92e4",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 268,
+            "ankle": [
+              2.599596224920291,
+              0.12082689007511871,
+              1.2798340500891796
+            ],
+            "support": [
+              2.599596224920291,
+              0.12082689007511871,
+              1.2798340500891796
+            ],
+            "anchor": [
+              2.5995962251195026,
+              0.12082688998038432,
+              1.2798340501145185
+            ],
+            "contact": true,
+            "slip": 2.2204050442820395e-10,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          }
+        }
+      },
+      "faults": []
+    },
+    {
+      "label": "fresh-platform-restore",
+      "result": {
+        "applied": true,
+        "identity": {
+          "id": "uniform-lite-male-v1",
+          "name": "男性制服",
+          "gender": "male"
+        },
+        "revision": 2,
+        "recordSha256": "dea85d1354a6132ee1ee1a066382c6fbe26327f3b1ce499e35cdf2da675f2019"
+      },
+      "state": {
+        "label": "fresh-platform-restore",
+        "wallMs": null,
+        "simulationTime": 0.15320000000298029,
+        "playbackRate": 1,
+        "paused": false,
+        "suspended": false,
+        "actor": "b077fb0e-9c84-4b6d-b97b-62376df08b18",
+        "bodyType": "source-male-cc0-texture-release-v1",
+        "bodySHA256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "outfit": 2,
+        "avatarOutfit": 2,
+        "footwear": {
+          "id": "cc0-texture-release-platform-shoes-v1",
+          "sha256": "8b23ba4f3add78322c1b3246b3ac80387d8eb2f2dd8e300b6443a33b0ed619c7",
+          "fitId": "cc0-texture-release-platform-shoes-v1-fit",
+          "meshes": [
+            "77da66a2-163d-4b1b-b534-5835f747f1a4"
+          ]
+        },
+        "root": [
+          -0.5,
+          0,
+          1.15
+        ],
+        "hip": [
+          -0.49969434889783737,
+          1.023761333701461,
+          1.1542024913580489
+        ],
+        "speed": 0,
+        "mode": "idle",
+        "pending": null,
+        "target": null,
+        "seat": {
+          "topY": 0.47000000014901155,
+          "root": [
+            2.65,
+            0,
+            0.8556600778409045
+          ],
+          "yaw": 0,
+          "approach": [
+            2.65,
+            0,
+            1.3119364168231291
+          ],
+          "pelvisClearance": 0.13039176204182662,
+          "progress": 0
+        },
+        "motion": {
+          "gait": 0,
+          "stopTime": 1.1532000000029796,
+          "action": "idle",
+          "walkGroundLift": 0.03703446003424314,
+          "jogGroundLift": 0.04082752747854923,
+          "danceId": "ual1-dance-reference",
+          "danceTime": 0,
+          "danceMix": 0
+        },
+        "camera": {
+          "position": [
+            -0.5056913399600739,
+            1.5961970039499893,
+            1.9585678105136695
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "fov": 36
+        },
+        "visible": [
+          {
+            "id": "cc0-texture-release-platform-shoes-v1",
+            "mesh": "77da66a2-163d-4b1b-b534-5835f747f1a4",
+            "geometry": "b0f29b33-6396-4c6e-9514-f1a214f94c02",
+            "name": "cc0-texture-release-platform-shoes-v1",
+            "unclassified": 0
+          }
+        ],
+        "feet": {
+          "left": {
+            "sole": {
+              "id": "cc0-texture-release-platform-shoes-v1",
+              "mesh": "77da66a2-163d-4b1b-b534-5835f747f1a4",
+              "vertex": 232,
+              "world": [
+                -0.4711180625215755,
+                -3.151047443805677e-9,
+                1.3204227763316103
+              ],
+              "groundDeltaM": -3.151047443805677e-9
+            },
+            "vertexCount": 340,
+            "patches": {
+              "heel": {
+                "count": 15,
+                "correctSide": 15,
+                "minWorldY": 0.0005835758556915365,
+                "maxWorldY": 0.0012702185005971022,
+                "owners": [
+                  {
+                    "mesh": "77da66a2-163d-4b1b-b534-5835f747f1a4",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 35,
+                "correctSide": 35,
+                "minWorldY": -3.151047443805677e-9,
+                "maxWorldY": 0.00017168375729599615,
+                "owners": [
+                  {
+                    "mesh": "77da66a2-163d-4b1b-b534-5835f747f1a4",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 340,
+            "ankle": [
+              -0.45093961190000004,
+              0.14082677099901048,
+              1.1179145114199998
+            ],
+            "support": [
+              -0.45093961190000004,
+              0.14082677099901048,
+              1.1179145114199998
+            ],
+            "anchor": [
+              -0.45093961190000004,
+              0.14082677099901064,
+              1.1179145114199998
+            ],
+            "contact": true,
+            "slip": 1.6653345369377348e-16,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          },
+          "right": {
+            "sole": {
+              "id": "cc0-texture-release-platform-shoes-v1",
+              "mesh": "77da66a2-163d-4b1b-b534-5835f747f1a4",
+              "vertex": 497,
+              "world": [
+                -0.513510826085761,
+                -0.000045653778886668695,
+                1.0946106879878523
+              ],
+              "groundDeltaM": -0.000045653778886668695
+            },
+            "vertexCount": 340,
+            "patches": {
+              "heel": {
+                "count": 15,
+                "correctSide": 15,
+                "minWorldY": -0.000045653778886668695,
+                "maxWorldY": 0.0008489441414889481,
+                "owners": [
+                  {
+                    "mesh": "77da66a2-163d-4b1b-b534-5835f747f1a4",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 35,
+                "correctSide": 35,
+                "minWorldY": -3.4541881403782337e-9,
+                "maxWorldY": 0.00042216672648982194,
+                "owners": [
+                  {
+                    "mesh": "77da66a2-163d-4b1b-b534-5835f747f1a4",
+                    "id": "cc0-texture-release-platform-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 340,
+            "ankle": [
+              -0.5500763295000001,
+              0.14082685860391114,
+              1.1179144667299998
+            ],
+            "support": [
+              -0.5500763295000001,
+              0.14082685860391114,
+              1.1179144667299998
+            ],
+            "anchor": [
+              -0.5500763295000001,
+              0.14082685860391142,
+              1.1179144667299998
+            ],
+            "contact": true,
+            "slip": 2.7755575615628914e-16,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          }
+        }
+      },
+      "faults": []
+    },
+    {
+      "label": "fresh-flat-restore",
+      "result": {
+        "applied": true,
+        "identity": {
+          "id": "uniform-lite-male-v1",
+          "name": "男性制服",
+          "gender": "male"
+        },
+        "revision": 1,
+        "recordSha256": "54ade1c32e23e7cb509626c175923e59b10c1c2d331aba08dce09002f9b048e2"
+      },
+      "state": {
+        "label": "fresh-flat-restore",
+        "wallMs": null,
+        "simulationTime": 0.18100000000000008,
+        "playbackRate": 1,
+        "paused": false,
+        "suspended": false,
+        "actor": "b077fb0e-9c84-4b6d-b97b-62376df08b18",
+        "bodyType": "source-male-cc0-texture-release-v1",
+        "bodySHA256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "outfit": 1,
+        "avatarOutfit": 1,
+        "footwear": {
+          "id": "cc0-texture-release-flat-shoes-v1",
+          "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+          "fitId": "cc0-texture-release-flat-shoes-v1-fit",
+          "meshes": [
+            "3472fd67-1b13-4a90-8fd1-b90c0ab6d313"
+          ]
+        },
+        "root": [
+          -0.5,
+          0,
+          1.15
+        ],
+        "hip": [
+          -0.49971346561425795,
+          1.0037613493803843,
+          1.1542017007643297
+        ],
+        "speed": 0,
+        "mode": "idle",
+        "pending": null,
+        "target": null,
+        "seat": {
+          "topY": 0.47000000014901155,
+          "root": [
+            2.65,
+            0,
+            0.8556600778409045
+          ],
+          "yaw": 0,
+          "approach": [
+            2.65,
+            0,
+            1.3119364168231291
+          ],
+          "pelvisClearance": 0.13039176204182662,
+          "progress": 0
+        },
+        "motion": {
+          "gait": 0,
+          "stopTime": 1.1809999999999996,
+          "action": "idle",
+          "walkGroundLift": 0.01863729054380351,
+          "jogGroundLift": 0.020996283902419647,
+          "danceId": "ual1-dance-reference",
+          "danceTime": 0,
+          "danceMix": 0
+        },
+        "camera": {
+          "position": [
+            -0.5055406058999998,
+            1.5763234888662758,
+            1.9578467170431104
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "fov": 36
+        },
+        "visible": [
+          {
+            "id": "cc0-texture-release-flat-shoes-v1",
+            "mesh": "3472fd67-1b13-4a90-8fd1-b90c0ab6d313",
+            "geometry": "f4806559-3de7-49f6-a852-3d3429a00216",
+            "name": "raw-male-ab9a-flat-shoes-v1",
+            "unclassified": 0
+          }
+        ],
+        "feet": {
+          "left": {
+            "sole": {
+              "id": "cc0-texture-release-flat-shoes-v1",
+              "mesh": "3472fd67-1b13-4a90-8fd1-b90c0ab6d313",
+              "vertex": 160,
+              "world": [
+                -0.4711180618252534,
+                -3.150809274729202e-9,
+                1.3204227775107884
+              ],
+              "groundDeltaM": -3.150809274729202e-9
+            },
+            "vertexCount": 268,
+            "patches": {
+              "heel": {
+                "count": 11,
+                "correctSide": 11,
+                "minWorldY": 0.0005751682572948085,
+                "maxWorldY": 0.0012569388574149526,
+                "owners": [
+                  {
+                    "mesh": "3472fd67-1b13-4a90-8fd1-b90c0ab6d313",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 24,
+                "correctSide": 24,
+                "minWorldY": -3.150809274729202e-9,
+                "maxWorldY": 0.00017168364085207372,
+                "owners": [
+                  {
+                    "mesh": "3472fd67-1b13-4a90-8fd1-b90c0ab6d313",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 268,
+            "ankle": [
+              -0.45093961190000004,
+              0.12082677098038441,
+              1.1179145114199998
+            ],
+            "support": [
+              -0.45093961190000004,
+              0.12082677098038441,
+              1.1179145114199998
+            ],
+            "anchor": [
+              -0.45093961190000004,
+              0.1208267709803843,
+              1.1179145114199998
+            ],
+            "contact": true,
+            "slip": 1.1102230246251565e-16,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          },
+          "right": {
+            "sole": {
+              "id": "cc0-texture-release-flat-shoes-v1",
+              "mesh": "3472fd67-1b13-4a90-8fd1-b90c0ab6d313",
+              "vertex": 400,
+              "world": [
+                -0.5134248222845063,
+                -0.00006021515381837055,
+                1.0948644802084995
+              ],
+              "groundDeltaM": -0.00006021515381837055
+            },
+            "vertexCount": 268,
+            "patches": {
+              "heel": {
+                "count": 11,
+                "correctSide": 11,
+                "minWorldY": -0.00006021515381837055,
+                "maxWorldY": 0.0008321213087719888,
+                "owners": [
+                  {
+                    "mesh": "3472fd67-1b13-4a90-8fd1-b90c0ab6d313",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              },
+              "toe": {
+                "count": 24,
+                "correctSide": 24,
+                "minWorldY": 2.8627281699789182e-8,
+                "maxWorldY": 0.00041532101439493833,
+                "owners": [
+                  {
+                    "mesh": "3472fd67-1b13-4a90-8fd1-b90c0ab6d313",
+                    "id": "cc0-texture-release-flat-shoes-v1",
+                    "visible": true
+                  }
+                ]
+              }
+            },
+            "calibrationVertices": 268,
+            "ankle": [
+              -0.5500763295000001,
+              0.12082688998038438,
+              1.1179144667299998
+            ],
+            "support": [
+              -0.5500763295000001,
+              0.12082688998038438,
+              1.1179144667299998
+            ],
+            "anchor": [
+              -0.5500763295000001,
+              0.12082688998038432,
+              1.1179144667299998
+            ],
+            "contact": true,
+            "slip": 5.551115123125783e-17,
+            "landmark": "weighted Shoes patch XZ + outsole soft-min Y (1 mm)"
+          }
+        }
+      },
+      "faults": []
+    }
+  ],
+  "browser": "157.0.8103.79",
+  "build": {
+    "shortId": "8877eb962794",
+    "sourceDigest": "8877eb96279480e9f7c6001598338cb6f2f85e7dafa030b88967f4c4cac7846b",
+    "inputs": [
+      "../assets-source/variant-matrix-v1/representative-batch-request.json",
+      "../assets-source/variant-matrix-v1/representative-matrix.json",
+      "foundation.html",
+      "index.html",
+      "package-lock.json",
+      "package.json",
+      "public/assets/appearance-color-v1/female-iris-mask.png",
+      "public/assets/appearance-color-v1/female-outer-lip-mask.png",
+      "public/assets/appearance-color-v1/male-iris-mask.png",
+      "public/assets/appearance-color-v1/male-outer-lip-mask.png",
+      "public/assets/appearance-color-v1/runtime-manifest.json",
+      "public/assets/appearance-color-v2/female-iris-mask.png",
+      "public/assets/appearance-color-v2/female-outer-lip-mask.png",
+      "public/assets/appearance-color-v2/male-iris-mask.png",
+      "public/assets/appearance-color-v2/male-outer-lip-mask.png",
+      "public/assets/appearance-color-v2/runtime-manifest.json",
+      "public/assets/appearance-color-v3/female-iris-mask.png",
+      "public/assets/appearance-color-v3/female-iris-neutral.png",
+      "public/assets/appearance-color-v3/female-outer-lip-mask.png",
+      "public/assets/appearance-color-v3/male-iris-mask.png",
+      "public/assets/appearance-color-v3/male-iris-neutral.png",
+      "public/assets/appearance-color-v3/male-outer-lip-mask.png",
+      "public/assets/appearance-color-v3/runtime-manifest.json",
+      "public/assets/avatar.vrm",
+      "public/assets/body-coverage-risk-v1/female-top.json",
+      "public/assets/cc0-body-release-v1/body.vrm",
+      "public/assets/cc0-body-release-v1/equipment.json",
+      "public/assets/face-brow-parameters-v1/female-brow.runtime.json",
+      "public/assets/face-brow-parameters-v1/male-brow.runtime.json",
+      "public/assets/face-brow-parameters-v1/recipe-manifest.json",
+      "public/assets/face-brow-visible-v2/female-brow.recipe.json",
+      "public/assets/face-brow-visible-v2/male-brow.recipe.json",
+      "public/assets/face-brow-visible-v2/recipe-manifest.json",
+      "public/assets/face-eye-sample-v1/female-eye.recipe.json",
+      "public/assets/face-eye-sample-v1/male-eye.recipe.json",
+      "public/assets/face-eye-sample-v1/recipe-manifest.json",
+      "public/assets/face-eye-visible-v2/female-eye.recipe.json",
+      "public/assets/face-eye-visible-v2/male-eye.recipe.json",
+      "public/assets/face-eye-visible-v2/recipe-manifest.json",
+      "public/assets/face-nose-parameters-v1/female-nose.recipe.json",
+      "public/assets/face-nose-parameters-v1/male-nose.recipe.json",
+      "public/assets/face-nose-parameters-v1/recipe-manifest.json",
+      "public/assets/face-nose-visible-v2/female-nose.recipe.json",
+      "public/assets/face-nose-visible-v2/male-nose.recipe.json",
+      "public/assets/face-nose-visible-v2/recipe-manifest.json",
+      "public/assets/face-parameters-v1/female-mouth-width.recipe.json",
+      "public/assets/face-parameters-v1/male-mouth-width.recipe.json",
+      "public/assets/face-parameters-v1/recipe-manifest.json",
+      "public/assets/female-uniform-head-v1/fit.json",
+      "public/assets/female-uniform-head-v1/hair-manifest.json",
+      "public/assets/female-uniform-head-v1/palette-manifest.json",
+      "public/assets/female-uniform-texture-release-v1/body.vrm",
+      "public/assets/female-uniform-texture-release-v1/coverage-top-1k.json",
+      "public/assets/female-uniform-texture-release-v1/coverage-top.json",
+      "public/assets/female-uniform-texture-release-v1/equipment.json",
+      "public/assets/forearm-collision-v2/female.json",
+      "public/assets/forearm-collision-v2/male.json",
+      "public/assets/foundation/base-female-roundtrip.vrm",
+      "public/assets/foundation/base-female.vrm",
+      "public/assets/foundation/base-male-roundtrip.vrm",
+      "public/assets/garment-basecolor-release-v1/female/body-coverage.json",
+      "public/assets/garment-basecolor-release-v1/female/equipment.json",
+      "public/assets/garment-basecolor-release-v1/female/m1-female-uniform-top-1k-v1.glb",
+      "public/assets/garment-basecolor-release-v1/male/equipment.json",
+      "public/assets/garment-basecolor-release-v1/male/raw-male-uniform-top-1k-v1.glb",
+      "public/assets/garments/athletic-bermuda-v1.glb",
+      "public/assets/garments/equipment.json",
+      "public/assets/hand-joint-contact-v1/female.json",
+      "public/assets/hand-joint-contact-v1/jaw.json",
+      "public/assets/hand-joint-contact-v1/waisthip.json",
+      "public/assets/m1-variants/catalog.json",
+      "public/assets/m1-variants/forearm-collision-v2/m1a-jaw-v1.json",
+      "public/assets/m1-variants/forearm-collision-v2/m1a-waisthip-v1.json",
+      "public/assets/m1-variants/m1a-jaw-v1/avatar.vrm",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/equipment.json",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-training-pants.glb",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-shoes.glb",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-skirt.glb",
+      "public/assets/m1-variants/m1a-jaw-v1/equipment/m1a-jaw-v1-uniform-top.glb",
+      "public/assets/m1-variants/m1a-waisthip-v1/avatar.vrm",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/equipment.json",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-training-pants.glb",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-shoes.glb",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-skirt.glb",
+      "public/assets/m1-variants/m1a-waisthip-v1/equipment/m1a-waisthip-v1-uniform-top.glb",
+      "public/assets/m1/equipment.json",
+      "public/assets/m1/m1-training-pants.glb",
+      "public/assets/m1/m1-uniform-shoes.glb",
+      "public/assets/m1/m1-uniform-skirt-open-waist-v1.glb",
+      "public/assets/m1/m1-uniform-skirt.glb",
+      "public/assets/m1/m1-uniform-top.glb",
+      "public/assets/m1b/equipment.json",
+      "public/assets/m1b/m1b-uniform-pants.glb",
+      "public/assets/m1b/m1b-uniform-shoes.glb",
+      "public/assets/m1b/m1b-uniform-shorts-v1.glb",
+      "public/assets/m1b/m1b-uniform-top.glb",
+      "public/assets/m1b/m2-male-jaw-v1-equipment.json",
+      "public/assets/m1c/accessories.json",
+      "public/assets/m1c/glasses-fit/female.json",
+      "public/assets/m1c/glasses-fit/male.json",
+      "public/assets/m1c/grips/female-source-grip-v1.json",
+      "public/assets/m1c/grips/male-source-grip-v1.json",
+      "public/assets/m1c/grips/manifest.json",
+      "public/assets/m1c/runtime-fit-observations.json",
+      "public/assets/m1c/studio-glasses-v1.glb",
+      "public/assets/m1c/studio-microphone-v1.glb",
+      "public/assets/m2-axial-head-equipment-v1/equipment.json",
+      "public/assets/m2-axial-head-equipment-v1/fit.json",
+      "public/assets/m2-axial-head-equipment-v1/forearm/bind-v1/male-long-lean-axial-head-v1.json",
+      "public/assets/m2-axial-head-equipment-v1/forearm/generation.json",
+      "public/assets/m2-axial-head-equipment-v1/forearm/profile.json",
+      "public/assets/m2-axial-head-equipment-v1/male-long-lean-axial-head-v1-pants.glb",
+      "public/assets/m2-axial-head-equipment-v1/male-long-lean-axial-head-v1-shoes.glb",
+      "public/assets/m2-axial-head-equipment-v1/male-long-lean-axial-head-v1-shorts.glb",
+      "public/assets/m2-axial-head-equipment-v1/male-long-lean-axial-head-v1-top.glb",
+      "public/assets/m2-axial-head-runtime-v1/avatar.vrm",
+      "public/assets/m2-axial-head-runtime-v1/eye-blink-profiles.json",
+      "public/assets/m2-axial-head-runtime-v1/palette-manifest.json",
+      "public/assets/m2-axial-head-runtime-v1/runtime-index.json",
+      "public/assets/m2-garment-coverage-v1/coverage-mask.json",
+      "public/assets/m2-hairstyle-v1/female-bob.glb",
+      "public/assets/m2-hairstyle-v1/manifest.json",
+      "public/assets/m2-hat-hair-v1/baseball-cap.glb",
+      "public/assets/m2-hat-hair-v1/fit.json",
+      "public/assets/m2-hat-hair-v1/manifest.json",
+      "public/assets/m2-long-hair-raw-head-reference-v3/fit.json",
+      "public/assets/m2-long-hair-raw-head-reference-v3/manifest.json",
+      "public/assets/m2-long-hair-rootjoin-v2/female-ponytail.glb",
+      "public/assets/m2-long-hair-rootjoin-v2/fit.json",
+      "public/assets/m2-long-hair-rootjoin-v2/manifest.json",
+      "public/assets/m2-long-hair-v1/female-ponytail.glb",
+      "public/assets/m2-long-hair-v1/fit.json",
+      "public/assets/m2-long-hair-v1/manifest.json",
+      "public/assets/m2-lower-leg-proportion-v1/avatar.vrm",
+      "public/assets/m2-lower-leg-proportion-v1/equipment.json",
+      "public/assets/m2-lower-leg-proportion-v1/fit.json",
+      "public/assets/m2-lower-leg-proportion-v1/forearm-profile.json",
+      "public/assets/m2-lower-leg-proportion-v1/male-lower-leg-plus20-v1-bottom.glb",
+      "public/assets/m2-lower-leg-proportion-v1/male-lower-leg-plus20-v1-shoes.glb",
+      "public/assets/m2-lower-leg-proportion-v1/male-lower-leg-plus20-v1-top.glb",
+      "public/assets/m2-male-face-v1/avatar.vrm",
+      "public/assets/m2-male-face-v1/forearm-profile.json",
+      "public/assets/m2-male-hairstyle-v1/male-sidepart.glb",
+      "public/assets/m2-male-hairstyle-v1/manifest.json",
+      "public/assets/m2-male-jaw-hair-fit-v1/.gitattributes",
+      "public/assets/m2-male-jaw-hair-fit-v1/fit.json",
+      "public/assets/m2-male-jaw-hair-fit-v1/male-sidepart.glb",
+      "public/assets/m2-male-jaw-hair-fit-v1/manifest.json",
+      "public/assets/m2-male-jaw-mouth-v1/male-jaw-mouth-width.recipe.json",
+      "public/assets/m2-male-jaw-mouth-v1/recipe-manifest.json",
+      "public/assets/m2-onepiece-v1/author-export.glb",
+      "public/assets/m2-onepiece-v1/fit.json",
+      "public/assets/m2-onepiece-v1/shape-fit.json",
+      "public/assets/m2-outer-panels-v2/author-export.glb",
+      "public/assets/m2-paired-ear-accessory-v1/female-fit.json",
+      "public/assets/m2-paired-ear-accessory-v1/male-fit.json",
+      "public/assets/m2-paired-ear-accessory-v1/manifest.json",
+      "public/assets/m2-paired-ear-accessory-v1/stud.glb",
+      "public/assets/m2-preset-ponytail-fits-v1/catalog.json",
+      "public/assets/m2-preset-ponytail-fits-v1/female-long-slender/fit.json",
+      "public/assets/m2-preset-ponytail-fits-v1/female-long-slender/manifest.json",
+      "public/assets/m2-preset-ponytail-fits-v1/female-round-full/fit.json",
+      "public/assets/m2-preset-ponytail-fits-v1/female-round-full/manifest.json",
+      "public/assets/m2-preset-ponytail-fits-v1/female-soft-wide/fit.json",
+      "public/assets/m2-preset-ponytail-fits-v1/female-soft-wide/manifest.json",
+      "public/assets/m2-preset-ponytail-fits-v1/female-square-athletic/fit.json",
+      "public/assets/m2-preset-ponytail-fits-v1/female-square-athletic/manifest.json",
+      "public/assets/m2-preset-ponytail-fits-v2/catalog.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-round-full-v2/contact-report.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-round-full-v2/evidence.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-round-full-v2/fit.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-round-full-v2/geometry-report.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-round-full-v2/manifest.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-round-full-v2/proxy-report.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-soft-wide-v2/contact-report.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-soft-wide-v2/evidence.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-soft-wide-v2/fit.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-soft-wide-v2/geometry-report.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-soft-wide-v2/manifest.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-soft-wide-v2/proxy-report.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-square-athletic-v2/contact-report.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-square-athletic-v2/evidence.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-square-athletic-v2/fit.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-square-athletic-v2/geometry-report.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-square-athletic-v2/manifest.json",
+      "public/assets/m2-preset-ponytail-fits-v2/female-square-athletic-v2/proxy-report.json",
+      "public/assets/m2-preset-short-hair-fits-v1/catalog.json",
+      "public/assets/m2-preset-short-hair-fits-v1/conditional/male-round-stocky/contact-report.json",
+      "public/assets/m2-preset-short-hair-fits-v1/conditional/male-round-stocky/fit.json",
+      "public/assets/m2-preset-short-hair-fits-v1/conditional/male-round-stocky/manifest.json",
+      "public/assets/m2-preset-short-hair-fits-v1/conditional/male-wide-muscular/contact-report.json",
+      "public/assets/m2-preset-short-hair-fits-v1/conditional/male-wide-muscular/fit.json",
+      "public/assets/m2-preset-short-hair-fits-v1/conditional/male-wide-muscular/manifest.json",
+      "public/assets/m2-preset-short-hair-fits-v1/female-long-slender/fit.json",
+      "public/assets/m2-preset-short-hair-fits-v1/female-long-slender/manifest.json",
+      "public/assets/m2-preset-short-hair-fits-v1/female-round-full/fit.json",
+      "public/assets/m2-preset-short-hair-fits-v1/female-round-full/manifest.json",
+      "public/assets/m2-preset-short-hair-fits-v1/female-soft-wide/fit.json",
+      "public/assets/m2-preset-short-hair-fits-v1/female-soft-wide/manifest.json",
+      "public/assets/m2-preset-short-hair-fits-v1/female-square-athletic/fit.json",
+      "public/assets/m2-preset-short-hair-fits-v1/female-square-athletic/manifest.json",
+      "public/assets/m2-preset-short-hair-fits-v1/male-angular-athletic/fit.json",
+      "public/assets/m2-preset-short-hair-fits-v1/male-angular-athletic/manifest.json",
+      "public/assets/m2-preset-short-hair-fits-v1/male-long-lean/fit.json",
+      "public/assets/m2-preset-short-hair-fits-v1/male-long-lean/manifest.json",
+      "public/assets/m2-preset-short-hair-fits-v2/catalog.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-round-full-v2/contact-report.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-round-full-v2/evidence.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-round-full-v2/fit.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-round-full-v2/geometry-report.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-round-full-v2/manifest.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-soft-wide-v2/contact-report.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-soft-wide-v2/evidence.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-soft-wide-v2/fit.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-soft-wide-v2/geometry-report.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-soft-wide-v2/manifest.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-square-athletic-v2/contact-report.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-square-athletic-v2/evidence.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-square-athletic-v2/fit.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-square-athletic-v2/geometry-report.json",
+      "public/assets/m2-preset-short-hair-fits-v2/female-square-athletic-v2/manifest.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-angular-athletic-v2/contact-report.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-angular-athletic-v2/evidence.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-angular-athletic-v2/fit.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-angular-athletic-v2/geometry-report.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-angular-athletic-v2/manifest.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-round-stocky-v2/contact-report.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-round-stocky-v2/evidence.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-round-stocky-v2/fit.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-round-stocky-v2/geometry-report.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-round-stocky-v2/manifest.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-wide-muscular-v2/contact-report.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-wide-muscular-v2/evidence.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-wide-muscular-v2/fit.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-wide-muscular-v2/geometry-report.json",
+      "public/assets/m2-preset-short-hair-fits-v2/male-wide-muscular-v2/manifest.json",
+      "public/assets/m2-representative-batch-v1/eye-blink-profiles.json",
+      "public/assets/m2-representative-batch-v1/female-long-slender/avatar.vrm",
+      "public/assets/m2-representative-batch-v1/female-long-slender/equipment.json",
+      "public/assets/m2-representative-batch-v1/female-long-slender/female-long-slender-bottom.glb",
+      "public/assets/m2-representative-batch-v1/female-long-slender/female-long-slender-shoes.glb",
+      "public/assets/m2-representative-batch-v1/female-long-slender/female-long-slender-top.glb",
+      "public/assets/m2-representative-batch-v1/female-long-slender/fit.json",
+      "public/assets/m2-representative-batch-v1/female-long-slender/forearm-profile.json",
+      "public/assets/m2-representative-batch-v1/female-long-slender/hand-profile.json",
+      "public/assets/m2-representative-batch-v1/female-round-full/avatar.vrm",
+      "public/assets/m2-representative-batch-v1/female-round-full/equipment.json",
+      "public/assets/m2-representative-batch-v1/female-round-full/female-round-full-bottom.glb",
+      "public/assets/m2-representative-batch-v1/female-round-full/female-round-full-shoes.glb",
+      "public/assets/m2-representative-batch-v1/female-round-full/female-round-full-top.glb",
+      "public/assets/m2-representative-batch-v1/female-round-full/fit.json",
+      "public/assets/m2-representative-batch-v1/female-round-full/forearm-profile.json",
+      "public/assets/m2-representative-batch-v1/female-round-full/hand-profile.json",
+      "public/assets/m2-representative-batch-v1/female-soft-wide/avatar.vrm",
+      "public/assets/m2-representative-batch-v1/female-soft-wide/equipment.json",
+      "public/assets/m2-representative-batch-v1/female-soft-wide/female-soft-wide-bottom.glb",
+      "public/assets/m2-representative-batch-v1/female-soft-wide/female-soft-wide-shoes.glb",
+      "public/assets/m2-representative-batch-v1/female-soft-wide/female-soft-wide-top.glb",
+      "public/assets/m2-representative-batch-v1/female-soft-wide/fit.json",
+      "public/assets/m2-representative-batch-v1/female-soft-wide/forearm-profile.json",
+      "public/assets/m2-representative-batch-v1/female-soft-wide/hand-profile.json",
+      "public/assets/m2-representative-batch-v1/female-square-athletic/avatar.vrm",
+      "public/assets/m2-representative-batch-v1/female-square-athletic/equipment.json",
+      "public/assets/m2-representative-batch-v1/female-square-athletic/female-square-athletic-bottom.glb",
+      "public/assets/m2-representative-batch-v1/female-square-athletic/female-square-athletic-shoes.glb",
+      "public/assets/m2-representative-batch-v1/female-square-athletic/female-square-athletic-top.glb",
+      "public/assets/m2-representative-batch-v1/female-square-athletic/fit.json",
+      "public/assets/m2-representative-batch-v1/female-square-athletic/forearm-profile.json",
+      "public/assets/m2-representative-batch-v1/female-square-athletic/hand-profile.json",
+      "public/assets/m2-representative-batch-v1/male-angular-athletic/avatar.vrm",
+      "public/assets/m2-representative-batch-v1/male-angular-athletic/equipment.json",
+      "public/assets/m2-representative-batch-v1/male-angular-athletic/fit.json",
+      "public/assets/m2-representative-batch-v1/male-angular-athletic/forearm-profile.json",
+      "public/assets/m2-representative-batch-v1/male-angular-athletic/hand-profile.json",
+      "public/assets/m2-representative-batch-v1/male-angular-athletic/male-angular-athletic-bottom.glb",
+      "public/assets/m2-representative-batch-v1/male-angular-athletic/male-angular-athletic-shoes.glb",
+      "public/assets/m2-representative-batch-v1/male-angular-athletic/male-angular-athletic-top.glb",
+      "public/assets/m2-representative-batch-v1/male-long-lean/avatar.vrm",
+      "public/assets/m2-representative-batch-v1/male-long-lean/equipment.json",
+      "public/assets/m2-representative-batch-v1/male-long-lean/fit.json",
+      "public/assets/m2-representative-batch-v1/male-long-lean/forearm-profile.json",
+      "public/assets/m2-representative-batch-v1/male-long-lean/hand-profile.json",
+      "public/assets/m2-representative-batch-v1/male-long-lean/male-long-lean-bottom.glb",
+      "public/assets/m2-representative-batch-v1/male-long-lean/male-long-lean-shoes.glb",
+      "public/assets/m2-representative-batch-v1/male-long-lean/male-long-lean-top.glb",
+      "public/assets/m2-representative-batch-v1/male-round-stocky/avatar.vrm",
+      "public/assets/m2-representative-batch-v1/male-round-stocky/equipment.json",
+      "public/assets/m2-representative-batch-v1/male-round-stocky/fit.json",
+      "public/assets/m2-representative-batch-v1/male-round-stocky/forearm-profile.json",
+      "public/assets/m2-representative-batch-v1/male-round-stocky/hand-profile.json",
+      "public/assets/m2-representative-batch-v1/male-round-stocky/male-round-stocky-bottom.glb",
+      "public/assets/m2-representative-batch-v1/male-round-stocky/male-round-stocky-shoes.glb",
+      "public/assets/m2-representative-batch-v1/male-round-stocky/male-round-stocky-top.glb",
+      "public/assets/m2-representative-batch-v1/male-wide-muscular/avatar.vrm",
+      "public/assets/m2-representative-batch-v1/male-wide-muscular/equipment.json",
+      "public/assets/m2-representative-batch-v1/male-wide-muscular/fit.json",
+      "public/assets/m2-representative-batch-v1/male-wide-muscular/forearm-profile.json",
+      "public/assets/m2-representative-batch-v1/male-wide-muscular/hand-profile.json",
+      "public/assets/m2-representative-batch-v1/male-wide-muscular/male-wide-muscular-bottom.glb",
+      "public/assets/m2-representative-batch-v1/male-wide-muscular/male-wide-muscular-shoes.glb",
+      "public/assets/m2-representative-batch-v1/male-wide-muscular/male-wide-muscular-top.glb",
+      "public/assets/m2-representative-batch-v1/palette-manifest.json",
+      "public/assets/m2-representative-batch-v1/runtime-index.json",
+      "public/assets/m2-representative-batch-v2/eye-blink-profiles.json",
+      "public/assets/m2-representative-batch-v2/female-round-full-v2/avatar.vrm",
+      "public/assets/m2-representative-batch-v2/female-round-full-v2/equipment.json",
+      "public/assets/m2-representative-batch-v2/female-round-full-v2/female-round-full-v2-bottom.glb",
+      "public/assets/m2-representative-batch-v2/female-round-full-v2/female-round-full-v2-shoes.glb",
+      "public/assets/m2-representative-batch-v2/female-round-full-v2/female-round-full-v2-top.glb",
+      "public/assets/m2-representative-batch-v2/female-round-full-v2/fit.json",
+      "public/assets/m2-representative-batch-v2/female-round-full-v2/forearm-profile.json",
+      "public/assets/m2-representative-batch-v2/female-round-full-v2/hand-profile.json",
+      "public/assets/m2-representative-batch-v2/female-soft-wide-v2/avatar.vrm",
+      "public/assets/m2-representative-batch-v2/female-soft-wide-v2/equipment.json",
+      "public/assets/m2-representative-batch-v2/female-soft-wide-v2/female-soft-wide-v2-bottom.glb",
+      "public/assets/m2-representative-batch-v2/female-soft-wide-v2/female-soft-wide-v2-shoes.glb",
+      "public/assets/m2-representative-batch-v2/female-soft-wide-v2/female-soft-wide-v2-top.glb",
+      "public/assets/m2-representative-batch-v2/female-soft-wide-v2/fit.json",
+      "public/assets/m2-representative-batch-v2/female-soft-wide-v2/forearm-profile.json",
+      "public/assets/m2-representative-batch-v2/female-soft-wide-v2/hand-profile.json",
+      "public/assets/m2-representative-batch-v2/female-square-athletic-v2/avatar.vrm",
+      "public/assets/m2-representative-batch-v2/female-square-athletic-v2/equipment.json",
+      "public/assets/m2-representative-batch-v2/female-square-athletic-v2/female-square-athletic-v2-bottom.glb",
+      "public/assets/m2-representative-batch-v2/female-square-athletic-v2/female-square-athletic-v2-shoes.glb",
+      "public/assets/m2-representative-batch-v2/female-square-athletic-v2/female-square-athletic-v2-top.glb",
+      "public/assets/m2-representative-batch-v2/female-square-athletic-v2/fit.json",
+      "public/assets/m2-representative-batch-v2/female-square-athletic-v2/forearm-profile.json",
+      "public/assets/m2-representative-batch-v2/female-square-athletic-v2/hand-profile.json",
+      "public/assets/m2-representative-batch-v2/male-angular-athletic-v2/avatar.vrm",
+      "public/assets/m2-representative-batch-v2/male-angular-athletic-v2/equipment.json",
+      "public/assets/m2-representative-batch-v2/male-angular-athletic-v2/fit.json",
+      "public/assets/m2-representative-batch-v2/male-angular-athletic-v2/forearm-profile.json",
+      "public/assets/m2-representative-batch-v2/male-angular-athletic-v2/hand-profile.json",
+      "public/assets/m2-representative-batch-v2/male-angular-athletic-v2/male-angular-athletic-v2-bottom.glb",
+      "public/assets/m2-representative-batch-v2/male-angular-athletic-v2/male-angular-athletic-v2-shoes.glb",
+      "public/assets/m2-representative-batch-v2/male-angular-athletic-v2/male-angular-athletic-v2-top.glb",
+      "public/assets/m2-representative-batch-v2/male-round-stocky-v2/avatar.vrm",
+      "public/assets/m2-representative-batch-v2/male-round-stocky-v2/equipment.json",
+      "public/assets/m2-representative-batch-v2/male-round-stocky-v2/fit.json",
+      "public/assets/m2-representative-batch-v2/male-round-stocky-v2/forearm-profile.json",
+      "public/assets/m2-representative-batch-v2/male-round-stocky-v2/hand-profile.json",
+      "public/assets/m2-representative-batch-v2/male-round-stocky-v2/male-round-stocky-v2-bottom.glb",
+      "public/assets/m2-representative-batch-v2/male-round-stocky-v2/male-round-stocky-v2-shoes.glb",
+      "public/assets/m2-representative-batch-v2/male-round-stocky-v2/male-round-stocky-v2-top.glb",
+      "public/assets/m2-representative-batch-v2/male-wide-muscular-v2/avatar.vrm",
+      "public/assets/m2-representative-batch-v2/male-wide-muscular-v2/equipment.json",
+      "public/assets/m2-representative-batch-v2/male-wide-muscular-v2/fit.json",
+      "public/assets/m2-representative-batch-v2/male-wide-muscular-v2/forearm-profile.json",
+      "public/assets/m2-representative-batch-v2/male-wide-muscular-v2/hand-profile.json",
+      "public/assets/m2-representative-batch-v2/male-wide-muscular-v2/male-wide-muscular-v2-bottom.glb",
+      "public/assets/m2-representative-batch-v2/male-wide-muscular-v2/male-wide-muscular-v2-shoes.glb",
+      "public/assets/m2-representative-batch-v2/male-wide-muscular-v2/male-wide-muscular-v2-top.glb",
+      "public/assets/m2-representative-batch-v2/palette-manifest.json",
+      "public/assets/m2-representative-batch-v2/runtime-index.json",
+      "public/assets/m2-socks-layer-v1/female-plain-crew-socks-v1.glb",
+      "public/assets/m2-socks-layer-v1/male-plain-crew-socks-v1.glb",
+      "public/assets/m2-socks-layer-v1/manifest.json",
+      "public/assets/m2-surface-layer-v1/female-blush-region.png",
+      "public/assets/m2-surface-layer-v1/female-blush.png",
+      "public/assets/m2-surface-layer-v1/female-freckles-region.png",
+      "public/assets/m2-surface-layer-v1/female-freckles.png",
+      "public/assets/m2-surface-layer-v1/female-protected.png",
+      "public/assets/m2-surface-layer-v1/male-blush-region.png",
+      "public/assets/m2-surface-layer-v1/male-blush.png",
+      "public/assets/m2-surface-layer-v1/male-freckles-region.png",
+      "public/assets/m2-surface-layer-v1/male-freckles.png",
+      "public/assets/m2-surface-layer-v1/male-protected.png",
+      "public/assets/m2-surface-layer-v1/manifest.json",
+      "public/assets/m2-vest-body-coverage-v1/female-round-full-v2/coverage-fit.json",
+      "public/assets/m2-vest-body-coverage-v1/female-soft-wide-v2/coverage-fit.json",
+      "public/assets/m2-vest-body-coverage-v1/female/coverage-fit.json",
+      "public/assets/m2-vest-layer-fit-v1/female-round-full-v2/equipment.json",
+      "public/assets/m2-vest-layer-fit-v1/female-round-full-v2/fit.json",
+      "public/assets/m2-vest-layer-fit-v1/female-round-full-v2/top.glb",
+      "public/assets/m2-vest-layer-fit-v1/female-soft-wide-v2/equipment.json",
+      "public/assets/m2-vest-layer-fit-v1/female-soft-wide-v2/fit.json",
+      "public/assets/m2-vest-layer-fit-v1/female-soft-wide-v2/top.glb",
+      "public/assets/m2-vest-layer-fit-v1/female/equipment.json",
+      "public/assets/m2-vest-layer-fit-v1/female/fit.json",
+      "public/assets/m2-vest-layer-fit-v1/female/top.glb",
+      "public/assets/m2-vest-layer-fit-v1/profiles.json",
+      "public/assets/material-recipes/m1b-shorts-cloth-v4-review1.json",
+      "public/assets/motion/UAL1_Standard.glb",
+      "public/assets/motion/m1c/dance-imports.json",
+      "public/assets/motion/m1c/dance-source-reference.glb",
+      "public/assets/motion/m1c/dance-technical-v1.config.json",
+      "public/assets/motion/m1c/dance-technical-v1.glb",
+      "public/assets/motion/m1c/frozen-rokoko-30s-v1/README.md",
+      "public/assets/motion/m1c/frozen-rokoko-30s-v1/install-receipt.json",
+      "public/assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-female-arm-local-v1.motion.json",
+      "public/assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-female-v1.motion.json",
+      "public/assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-male-arm-local-v1.motion.json",
+      "public/assets/motion/m1c/frozen-rokoko-30s-v1/rokoko-5359146-male-v1.motion.json",
+      "public/assets/motion/m1c/greeting/gesture-import.json",
+      "public/assets/motion/m1c/greeting/greeting-wave-left-v1.glb",
+      "public/assets/motion/m1c/jog-ordinary-derived-v1.config.json",
+      "public/assets/motion/m1c/jog-ordinary-derived-v1.glb",
+      "public/assets/motion/m1c/jog-ordinary-derived-v1.profile.json",
+      "public/assets/motion/m1c/native-rokoko-target-v2/native-female-843ac-v1.motion.json",
+      "public/assets/motion/m1c/native-rokoko-target-v2/native-female-face-v1.motion.json",
+      "public/assets/motion/m1c/native-rokoko-target-v2/native-female-waist-v1.motion.json",
+      "public/assets/motion/m1c/native-rokoko-target-v2/native-male-7586-v1.motion.json",
+      "public/assets/mouth-visible-v2/female-mouth-width.recipe.json",
+      "public/assets/mouth-visible-v2/male-mouth-width.recipe.json",
+      "public/assets/mouth-visible-v2/recipe-manifest.json",
+      "public/assets/native-accessory-batch-v1/native-contour-cheek-b-v1/glasses.json",
+      "public/assets/native-accessory-batch-v1/native-contour-cheek-b-v1/grip.json",
+      "public/assets/native-accessory-batch-v1/native-contour-roundness-a-v1/glasses.json",
+      "public/assets/native-accessory-batch-v1/native-contour-roundness-a-v1/grip.json",
+      "public/assets/native-contour-cheek-b-v1/body.vrm",
+      "public/assets/native-contour-cheek-b-v1/equipment.json",
+      "public/assets/native-contour-cheek-b-v1/manifest.json",
+      "public/assets/native-contour-cheek-b-v1/native-contour-cheek-b-shoes-v1.glb",
+      "public/assets/native-contour-cheek-b-v1/native-contour-cheek-b-shorts-v1.glb",
+      "public/assets/native-contour-cheek-b-v1/native-contour-cheek-b-top-v1.glb",
+      "public/assets/native-contour-cheek-b-v1/native-tops-body.png",
+      "public/assets/native-contour-cheek-b-v1/staging-manifest.json",
+      "public/assets/native-contour-roundness-a-v1/body.vrm",
+      "public/assets/native-contour-roundness-a-v1/equipment.json",
+      "public/assets/native-contour-roundness-a-v1/manifest.json",
+      "public/assets/native-contour-roundness-a-v1/native-contour-roundness-a-shoes-v1.glb",
+      "public/assets/native-contour-roundness-a-v1/native-contour-roundness-a-shorts-v1.glb",
+      "public/assets/native-contour-roundness-a-v1/native-contour-roundness-a-top-v1.glb",
+      "public/assets/native-contour-roundness-a-v1/native-tops-body.png",
+      "public/assets/native-contour-roundness-a-v1/staging-manifest.json",
+      "public/assets/native-crew-template-v1/equipment.json",
+      "public/assets/native-crew-template-v1/native-7586-template-plain-crew-socks-v1.glb",
+      "public/assets/native-eye-blink-admission-v1/profiles.json",
+      "public/assets/native-eyebrow-palette-v1/brow-brown.png",
+      "public/assets/native-eyebrow-palette-v1/manifest.json",
+      "public/assets/native-eyebrow-palette-v1/source-brow.png",
+      "public/assets/native-face-factory-v2/equipment.json",
+      "public/assets/native-face-factory-v2/generated/female-geometry-face-unmasked.vrm",
+      "public/assets/native-face-factory-v2/manifest.json",
+      "public/assets/native-face-factory-v2/native-tops-body.png",
+      "public/assets/native-face-factory-v2/native-vroid-face-geometry-shoes-v1.glb",
+      "public/assets/native-face-factory-v2/native-vroid-face-geometry-shorts-v1.glb",
+      "public/assets/native-face-factory-v2/native-vroid-face-geometry-top-v1.glb",
+      "public/assets/native-face-factory-v2/staging-manifest.json",
+      "public/assets/native-facecontour-iris-palette-v1/native-contour-cheek-b-v1/manifest.json",
+      "public/assets/native-facecontour-iris-palette-v1/native-contour-roundness-a-v1/manifest.json",
+      "public/assets/native-facecontour-iris-palette-v1/registry.json",
+      "public/assets/native-facecontour-lip-package-v1/images/3d06dc48bf86fa8b18b7fdb8c49d811775fd616d6e578d8991acd07e08b6e55d.png",
+      "public/assets/native-facecontour-lip-package-v1/images/6f1cbcc733657bda25c1a68d78062fa3f1948214257602b8955497b39dd015fc.png",
+      "public/assets/native-facecontour-lip-package-v1/native-contour-cheek-b-v1/manifest.json",
+      "public/assets/native-facecontour-lip-package-v1/native-contour-roundness-a-v1/manifest.json",
+      "public/assets/native-facecontour-lip-package-v1/registry.json",
+      "public/assets/native-factory-v1/native-vroid-body-texture-fit-v1/manifest.json",
+      "public/assets/native-factory-v1/native-vroid-body-texture-fit-v1/native-tops-body.png",
+      "public/assets/native-factory-v1/native-vroid-custom-top-unmasked-fit-v1/equipment.json",
+      "public/assets/native-factory-v1/native-vroid-custom-top-v1/native-vroid-78912-sleeve56-top-v1.glb",
+      "public/assets/native-factory-v1/native-vroid-equipment-v1/native-vroid-78912-shoes-v1.glb",
+      "public/assets/native-factory-v1/native-vroid-equipment-v1/native-vroid-78912-shorts-v1.glb",
+      "public/assets/native-factory-v1/native-vroid-equipment-v1/native-vroid-78912-top-v1.glb",
+      "public/assets/native-factory-v1/native-vroid-factory-fit-v1/equipment.json",
+      "public/assets/native-factory-v1/native-vroid-unmasked-base-v1/generated/female-native-unmasked-130-v1.vrm",
+      "public/assets/native-factory-v1/sleeve56-runtime-equipment.json",
+      "public/assets/native-glasses-candidate-v2/manifest.json",
+      "public/assets/native-glasses-candidate-v2/native-contour-cheek-b-v1/glasses.json",
+      "public/assets/native-glasses-candidate-v2/native-contour-roundness-a-v1/glasses.json",
+      "public/assets/native-glasses-candidate-v2/source-female-uniform-texture-v1/glasses.json",
+      "public/assets/native-glasses-candidate-v2/source-male-cc0-texture-release-v1/glasses.json",
+      "public/assets/native-glasses-fit-v1/native-female-843ac-v1.json",
+      "public/assets/native-glasses-fit-v1/native-female-face-v1.json",
+      "public/assets/native-glasses-fit-v1/native-female-waist-v1.json",
+      "public/assets/native-glasses-fit-v1/native-male-7586-v1.json",
+      "public/assets/native-hairset001-v1/fit.json",
+      "public/assets/native-hairset001-v1/hair.glb",
+      "public/assets/native-hairset001-v1/manifest.json",
+      "public/assets/native-iris-palette-v1/iris-green.png",
+      "public/assets/native-iris-palette-v1/manifest.json",
+      "public/assets/native-iris-palette-v1/source-iris.png",
+      "public/assets/native-live-accessory-fit-v1/female-843ac.json",
+      "public/assets/native-live-accessory-fit-v1/female-face-cc0843.json",
+      "public/assets/native-live-accessory-fit-v1/female-waist-cf1574.json",
+      "public/assets/native-live-accessory-fit-v1/male-7586.json",
+      "public/assets/native-live-accessory-fit-v3/male-7586.json",
+      "public/assets/native-male-factory-v1/native-vroid-male-body-texture-fit-v1/generated/manifest.json",
+      "public/assets/native-male-factory-v1/native-vroid-male-body-texture-fit-v1/generated/native-tops-body.png",
+      "public/assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/equipment.json",
+      "public/assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/floor-measurement.json",
+      "public/assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/native-unmasked-7586-shoes-v1.glb",
+      "public/assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/native-unmasked-7586-shorts-v1.glb",
+      "public/assets/native-male-factory-v1/native-vroid-male-equipment-v1/generated/native-unmasked-7586-top-v1.glb",
+      "public/assets/native-male-factory-v1/native-vroid-male-unmasked-base-v1/generated/male-native-unmasked-79-v1.vrm",
+      "public/assets/native-male-factory-v1/native-vroid-male-unmasked-base-v1/generated/manifest.json",
+      "public/assets/native-male-factory-v1/staging-manifest.json",
+      "public/assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/body-covered.png",
+      "public/assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/body.png",
+      "public/assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/eyeline.png",
+      "public/assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/face.png",
+      "public/assets/native-skin-tone-package-v1/native-contour-cheek-b-v1/manifest.json",
+      "public/assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/body-covered.png",
+      "public/assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/body.png",
+      "public/assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/eyeline.png",
+      "public/assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/face.png",
+      "public/assets/native-skin-tone-package-v1/native-contour-roundness-a-v1/manifest.json",
+      "public/assets/native-skin-tone-package-v1/registry.json",
+      "public/assets/native-waist-factory-v1/equipment.json",
+      "public/assets/native-waist-factory-v1/generated/female-geometry-waist-unmasked.vrm",
+      "public/assets/native-waist-factory-v1/manifest.json",
+      "public/assets/native-waist-factory-v1/native-tops-body.png",
+      "public/assets/native-waist-factory-v1/native-vroid-waist-geometry-shoes-v1.glb",
+      "public/assets/native-waist-factory-v1/native-vroid-waist-geometry-shorts-v1.glb",
+      "public/assets/native-waist-factory-v1/native-vroid-waist-geometry-top-v1.glb",
+      "public/assets/native-waist-factory-v1/staging-manifest.json",
+      "public/assets/performer-lip-anchors-v1/1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c.json",
+      "public/assets/performer-lip-anchors-v1/2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617.json",
+      "public/assets/performer-lip-anchors-v1/825a82c944636971304ce50b7526b1410ea6f1c6b58bd36f166515295696a547.json",
+      "public/assets/performer-lip-anchors-v1/9592933507b3290100d82ac315e5ddac7b6e284f372a1368de9f424643846ddb.json",
+      "public/assets/raw-male-equipment-v1/Base_Male.vrm",
+      "public/assets/raw-male-equipment-v1/equipment.json",
+      "public/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+      "public/assets/raw-male-equipment-v1/raw-male-ab9a-uniform-pants-v1.glb",
+      "public/assets/raw-male-equipment-v1/raw-male-ab9a-uniform-top-v1.glb",
+      "public/assets/record-consumer-v1/male-material.json",
+      "public/assets/record-consumer-v1/manifest.json",
+      "public/assets/record-consumer-v1/native-female-peer.json",
+      "public/assets/record-consumer-v1/native-female.json",
+      "public/assets/record-consumer-v1/native-male.json",
+      "public/assets/sole-variant-female-v1/equipment.json",
+      "public/assets/sole-variant-female-v1/female-uniform-platform-shoes-v1.glb",
+      "public/assets/sole-variant-female-v1/fit.json",
+      "public/assets/sole-variant-v1/cc0-texture-release-platform-shoes-v1.glb",
+      "public/assets/sole-variant-v1/equipment.json",
+      "public/assets/sole-variant-v1/fit.json",
+      "public/assets/source-outfit-release-v1/body.vrm",
+      "public/assets/source-outfit-release-v1/equipment.json",
+      "public/favicon.svg",
+      "public/native-production.html",
+      "record-consumer.html",
+      "scripts/build-id.mjs",
+      "scripts/qa-face-compact-attachment.mjs",
+      "scripts/qa-face-render-compaction.mjs",
+      "scripts/qa-native-release-sidecar.mjs",
+      "src/accessory-recipe.js",
+      "src/accessory-transaction-context.js",
+      "src/appearance-candidates.js",
+      "src/appearance-color-policy.js",
+      "src/appearance-recipe.js",
+      "src/appearance-workbench.js",
+      "src/assets.js",
+      "src/behavior-tasks.js",
+      "src/body-coverage.js",
+      "src/body-texture-coverage-admissions.js",
+      "src/body-texture-coverage.js",
+      "src/character-appearance.js",
+      "src/character-production-query.js",
+      "src/character-production-query.test.mjs",
+      "src/character-production.js",
+      "src/character-production.test.mjs",
+      "src/character-record-batch.js",
+      "src/character-record-batch.test.mjs",
+      "src/character-record-consumer.js",
+      "src/character-record-consumer.test.mjs",
+      "src/character-record-input.js",
+      "src/character-record-input.test.mjs",
+      "src/character-record.js",
+      "src/character-record.test.mjs",
+      "src/character-runtime-record.js",
+      "src/cloth-material.js",
+      "src/cloth.js",
+      "src/equipment-material-loader.js",
+      "src/equipment-set.js",
+      "src/equipment.js",
+      "src/equipment.transaction.test.mjs",
+      "src/eye-blink-compatibility.js",
+      "src/face-render-compaction.js",
+      "src/face-shadow-preparation.js",
+      "src/facial-geometry-contract.js",
+      "src/facial-geometry-profiles.js",
+      "src/facial-geometry-selection.js",
+      "src/facial-geometry.js",
+      "src/facial-palette-contract.js",
+      "src/facial-palette.js",
+      "src/facility-behavior.js",
+      "src/facility-behavior.test.mjs",
+      "src/facility-contact.js",
+      "src/facility-navigation.js",
+      "src/facility-vocal.js",
+      "src/fitted-head-appearance.js",
+      "src/fitted-head-appearances.json",
+      "src/footwear-contact.js",
+      "src/forearm-contact-workspace.js",
+      "src/forearm-contour-rails.js",
+      "src/forearm-envelope-projection.js",
+      "src/foundation-avatar.js",
+      "src/foundation-preview.js",
+      "src/foundation-profiles.js",
+      "src/garment-collider.js",
+      "src/garment-coverage.js",
+      "src/garment-layer-fit.js",
+      "src/garment-material-record.js",
+      "src/glasses-head-dependency.js",
+      "src/glasses-head-dependency.test.mjs",
+      "src/glasses-temple-fit-manifest.json",
+      "src/glasses-temple-fit.js",
+      "src/greeting-layer.js",
+      "src/hair-fit-contract.js",
+      "src/hair-spring.js",
+      "src/hairstyle-catalog.js",
+      "src/hat-accessory-contract.js",
+      "src/joint-hand-workspace.mjs",
+      "src/lip-anchor.js",
+      "src/lip-anchor.test.mjs",
+      "src/live-accessory-record.js",
+      "src/live-presentation.js",
+      "src/live-presentation.test-loader.mjs",
+      "src/live-presentation.transaction.test.mjs",
+      "src/m1-equipment.js",
+      "src/m1-skirt.js",
+      "src/main.js",
+      "src/material-recipes.js",
+      "src/material-recipes.transaction.test.mjs",
+      "src/microphone-pose.js",
+      "src/microphone-presentation-fits.js",
+      "src/motion-source.js",
+      "src/motion.js",
+      "src/native-body-normal-source-pins.json",
+      "src/native-body-texture-coverage-admissions.json",
+      "src/native-eyebrow-palette.js",
+      "src/native-facecontour-iris-record.test.mjs",
+      "src/native-facial-palette.js",
+      "src/native-hair-attachment.js",
+      "src/native-hair-center-fit.js",
+      "src/native-hair-center-fit.json",
+      "src/native-hair-center-fit.test.mjs",
+      "src/native-hair-center-record.js",
+      "src/native-hair-center-record.test.mjs",
+      "src/native-lip-color-contract.js",
+      "src/native-microphone-presentation-fits.json",
+      "src/native-palette-catalog.js",
+      "src/native-palette-part.js",
+      "src/native-production-catalog.js",
+      "src/native-production-catalog.json",
+      "src/native-production-catalog.test.mjs",
+      "src/native-release-sidecar-diagnostic.js",
+      "src/native-release-sidecar-diagnostic.test.mjs",
+      "src/native-release-sidecar.js",
+      "src/native-release-sidecar.test.mjs",
+      "src/native-skin-tone-contract.js",
+      "src/native-skin-tone.js",
+      "src/native-skin-tone.test.mjs",
+      "src/native-uniform-normal-pins.json",
+      "src/neutral-hair-textures.js",
+      "src/neutral-hair-textures.test.mjs",
+      "src/no-hair-bodies.js",
+      "src/normalized-motion.js",
+      "src/outfit-selection.js",
+      "src/outfit-selection.test.mjs",
+      "src/performer-lip-anchors.json",
+      "src/record-consumer-demo.js",
+      "src/record-facility-room.js",
+      "src/render-context-guard.js",
+      "src/representative-batch.js",
+      "src/rigid-accessory-layer.js",
+      "src/seat-lease.js",
+      "src/segment-triangle-projection.js",
+      "src/shape-fit-registry.js",
+      "src/shared-body-normal-source.js",
+      "src/shared-body-normal-source.test.mjs",
+      "src/skirt-fit-profiles.json",
+      "src/skirt-fit.js",
+      "src/skirt-support.js",
+      "src/source-outfit-profiles.json",
+      "src/source-shoe-outfits.json",
+      "src/standard-motion-source.test.mjs",
+      "src/style.css",
+      "src/surface-layer-catalog.js",
+      "src/surface-layer-compositor.js",
+      "src/surface-layers.js",
+      "src/turn-policy.js",
+      "src/uniform-head-appearance.test.mjs",
+      "src/uniform-normal-source.js",
+      "vite.config.js"
+    ],
+    "development": false
+  },
+  "looks": {
+    "1": {
+      "topFar": {
+        "id": "cc0-texture-release-uniform-top-1k-v1",
+        "name": "CC0 原始男体 · 制服上衣与领带 · 1K",
+        "slot": "top",
+        "url": "/assets/garment-basecolor-release-v1/male/raw-male-uniform-top-1k-v1.glb",
+        "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d",
+        "bytes": 743232,
+        "compatibleAvatarSha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "preserveOriginalBody": true,
+        "requiresRawSkeleton": true,
+        "bindings": [
+          {
+            "sourceBone": "J_Bip_C_Hips",
+            "targetRawBone": "J_Bip_C_Hips",
+            "humanoidSemantic": "hips",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088425241410732,
+              -1.0082560777664185,
+              0.01016148179769516,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_C_Spine",
+            "targetRawBone": "J_Bip_C_Spine",
+            "humanoidSemantic": "spine",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088216857984662,
+              -1.1487854719161987,
+              0.010900397785007954,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_C_Chest",
+            "targetRawBone": "J_Bip_C_Chest",
+            "humanoidSemantic": "chest",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088099278509617,
+              -1.2277687788009644,
+              0.00648073386400938,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_C_UpperChest",
+            "targetRawBone": "J_Bip_C_UpperChest",
+            "humanoidSemantic": "upperChest",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088215693831444,
+              -1.3051297664642334,
+              0.002485901117324829,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_C_Neck",
+            "targetRawBone": "J_Bip_C_Neck",
+            "humanoidSemantic": "neck",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088441539555788,
+              -1.456336498260498,
+              -0.008182603865861893,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_C_Head",
+            "targetRawBone": "J_Bip_C_Head",
+            "humanoidSemantic": "head",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088174948468804,
+              -1.5454000234603882,
+              0.006267928518354893,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_L_Shoulder",
+            "targetRawBone": "J_Bip_L_Shoulder",
+            "humanoidSemantic": "leftShoulder",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.02411535754799843,
+              -1.4260399341583252,
+              -0.002688479609787464,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_L_UpperArm",
+            "targetRawBone": "J_Bip_L_UpperArm",
+            "humanoidSemantic": "leftUpperArm",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.14726632833480835,
+              -1.4045659303665161,
+              0.004220891743898392,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_Shoulder",
+            "targetRawBone": "J_Bip_R_Shoulder",
+            "humanoidSemantic": "rightShoulder",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.02513303980231285,
+              -1.4260399341583252,
+              -0.002688482403755188,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_UpperArm",
+            "targetRawBone": "J_Bip_R_UpperArm",
+            "humanoidSemantic": "rightUpperArm",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.14828401803970337,
+              -1.4045659303665161,
+              0.004220875445753336,
+              1
+            ]
+          }
+        ],
+        "limits": [
+          "CPU fit checked for this exact 1K skin body and original raw skeleton.",
+          "Single opaque base color published at 1024x1024; exact body fit.",
+          "Standalone unlit export carries the original base-color PNG, sampler and alpha settings; original MToon shading, normal and emissive channels are not reproduced.",
+          "Source and CPU fit readback only; game motion, contacts and coverage require separate evidence."
+        ],
+        "sourceLicense": {
+          "url": "https://opengameart.org/sites/default/files/base_male.zip",
+          "zipBytes": 14825707,
+          "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+          "vrmBytes": 17914788,
+          "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+          "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+          "publisher": "hecko",
+          "attributedAuthor": "VRoid Project",
+          "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+          "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+          "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+        },
+        "method": "opaque-srgb-basecolor-2x2-linear-mean-png-v1",
+        "stats": {
+          "vertices": 1476,
+          "triangles": 2096,
+          "multiBoneVertices": 1316,
+          "joints": 10
+        },
+        "fitId": "cc0-texture-release-uniform-top-1k-v1-fit",
+        "styleId": "raw-male-uniform-top-v1",
+        "version": 1,
+        "restMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "shoes": {
+        "id": "cc0-texture-release-flat-shoes-v1",
+        "name": "CC0 原始男体 · 平底鞋",
+        "slot": "shoes",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+        "sha256": "9c69190ffd2efc29f8e9b4d04cccef631b78c1fa744689fa57af1f416e70e756",
+        "bytes": 155976,
+        "compatibleAvatarSha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "preserveOriginalBody": true,
+        "requiresRawSkeleton": true,
+        "bindings": [
+          {
+            "sourceBone": "J_Bip_L_LowerLeg",
+            "targetRawBone": "J_Bip_L_LowerLeg",
+            "humanoidSemantic": "leftLowerLeg",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.06203300878405571,
+              -0.5768978595733643,
+              -0.000647958368062973,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_L_Foot",
+            "targetRawBone": "J_Bip_L_Foot",
+            "humanoidSemantic": "leftFoot",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.0490603893995285,
+              -0.12132149934768677,
+              -0.032085489481687546,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_L_ToeBase",
+            "targetRawBone": "J_Bip_L_ToeBase",
+            "humanoidSemantic": "leftToes",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.05045774579048157,
+              -0.04447287321090698,
+              0.10422827303409576,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_LowerLeg",
+            "targetRawBone": "J_Bip_R_LowerLeg",
+            "humanoidSemantic": "rightLowerLeg",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.06305015087127686,
+              -0.5768978595733643,
+              -0.0006477832794189453,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_Foot",
+            "targetRawBone": "J_Bip_R_Foot",
+            "humanoidSemantic": "rightFoot",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.050076328217983246,
+              -0.12132161855697632,
+              -0.03208553418517113,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_ToeBase",
+            "targetRawBone": "J_Bip_R_ToeBase",
+            "humanoidSemantic": "rightToes",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.05147293955087662,
+              -0.04447329044342041,
+              0.10422825813293457,
+              1
+            ]
+          }
+        ],
+        "limits": [
+          "CPU fit checked for this exact 1K skin body and original raw skeleton.",
+          "Standalone unlit export carries the original base-color PNG, sampler and alpha settings; original MToon shading, normal and emissive channels are not reproduced.",
+          "Source and CPU fit readback only; game motion, contacts and coverage require separate evidence."
+        ],
+        "sourceLicense": {
+          "url": "https://opengameart.org/sites/default/files/base_male.zip",
+          "zipBytes": 14825707,
+          "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+          "vrmBytes": 17914788,
+          "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+          "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+          "publisher": "hecko",
+          "attributedAuthor": "VRoid Project",
+          "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+          "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+          "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+        },
+        "method": "Mapped original VRM0 shoes, compacted referenced rows with original ordered triangle corners, UV0, normals, normalized weights, raw bone transforms and inverse binds.",
+        "stats": {
+          "vertices": 536,
+          "triangles": 540,
+          "multiBoneVertices": 388,
+          "joints": 6
+        },
+        "fitId": "cc0-texture-release-flat-shoes-v1-fit",
+        "styleId": "raw-male-flat-shoes-v1",
+        "version": 1,
+        "restMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "pants": {
+        "id": "cc0-texture-release-uniform-pants-v1",
+        "name": "CC0 原始男体 · 制服长裤",
+        "slot": "bottom",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-uniform-pants-v1.glb",
+        "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0",
+        "bytes": 819968,
+        "compatibleAvatarSha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "preserveOriginalBody": true,
+        "requiresRawSkeleton": true,
+        "bindings": [
+          {
+            "sourceBone": "J_Bip_C_Hips",
+            "targetRawBone": "J_Bip_C_Hips",
+            "humanoidSemantic": "hips",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088425241410732,
+              -1.0082560777664185,
+              0.01016148179769516,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_C_Spine",
+            "targetRawBone": "J_Bip_C_Spine",
+            "humanoidSemantic": "spine",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088216857984662,
+              -1.1487854719161987,
+              0.010900397785007954,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_C_Chest",
+            "targetRawBone": "J_Bip_C_Chest",
+            "humanoidSemantic": "chest",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088099278509617,
+              -1.2277687788009644,
+              0.00648073386400938,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_L_UpperLeg",
+            "targetRawBone": "J_Bip_L_UpperLeg",
+            "humanoidSemantic": "leftUpperLeg",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.08432579040527344,
+              -0.9643068313598633,
+              0.006310063414275646,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_L_LowerLeg",
+            "targetRawBone": "J_Bip_L_LowerLeg",
+            "humanoidSemantic": "leftLowerLeg",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.06203300878405571,
+              -0.5768978595733643,
+              -0.000647958368062973,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_L_Foot",
+            "targetRawBone": "J_Bip_L_Foot",
+            "humanoidSemantic": "leftFoot",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.0490603893995285,
+              -0.12132149934768677,
+              -0.032085489481687546,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_UpperLeg",
+            "targetRawBone": "J_Bip_R_UpperLeg",
+            "humanoidSemantic": "rightUpperLeg",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.08534349501132965,
+              -0.9643068313598633,
+              0.006310063414275646,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_LowerLeg",
+            "targetRawBone": "J_Bip_R_LowerLeg",
+            "humanoidSemantic": "rightLowerLeg",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.06305015087127686,
+              -0.5768978595733643,
+              -0.0006477832794189453,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_Foot",
+            "targetRawBone": "J_Bip_R_Foot",
+            "humanoidSemantic": "rightFoot",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.050076328217983246,
+              -0.12132161855697632,
+              -0.03208553418517113,
+              1
+            ]
+          }
+        ],
+        "limits": [
+          "CPU fit checked for this exact 1K skin body and original raw skeleton.",
+          "Standalone unlit export carries the original base-color PNG, sampler and alpha settings; original MToon shading, normal and emissive channels are not reproduced.",
+          "Source and CPU fit readback only; game motion, contacts and coverage require separate evidence."
+        ],
+        "sourceLicense": {
+          "url": "https://opengameart.org/sites/default/files/base_male.zip",
+          "zipBytes": 14825707,
+          "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+          "vrmBytes": 17914788,
+          "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+          "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+          "publisher": "hecko",
+          "attributedAuthor": "VRoid Project",
+          "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+          "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+          "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+        },
+        "method": "Mapped original VRM0 pants, compacted referenced rows with original ordered triangle corners, UV0, normals, normalized weights, raw bone transforms and inverse binds.",
+        "stats": {
+          "vertices": 1095,
+          "triangles": 1624,
+          "multiBoneVertices": 923,
+          "joints": 9
+        },
+        "fitId": "cc0-texture-release-uniform-pants-v1-fit",
+        "styleId": "raw-male-uniform-pants-v1",
+        "version": 1,
+        "restMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    "2": {
+      "topFar": {
+        "id": "cc0-texture-release-uniform-top-1k-v1",
+        "name": "CC0 原始男体 · 制服上衣与领带 · 1K",
+        "slot": "top",
+        "url": "/assets/garment-basecolor-release-v1/male/raw-male-uniform-top-1k-v1.glb",
+        "sha256": "eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d",
+        "bytes": 743232,
+        "compatibleAvatarSha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "preserveOriginalBody": true,
+        "requiresRawSkeleton": true,
+        "bindings": [
+          {
+            "sourceBone": "J_Bip_C_Hips",
+            "targetRawBone": "J_Bip_C_Hips",
+            "humanoidSemantic": "hips",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088425241410732,
+              -1.0082560777664185,
+              0.01016148179769516,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_C_Spine",
+            "targetRawBone": "J_Bip_C_Spine",
+            "humanoidSemantic": "spine",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088216857984662,
+              -1.1487854719161987,
+              0.010900397785007954,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_C_Chest",
+            "targetRawBone": "J_Bip_C_Chest",
+            "humanoidSemantic": "chest",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088099278509617,
+              -1.2277687788009644,
+              0.00648073386400938,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_C_UpperChest",
+            "targetRawBone": "J_Bip_C_UpperChest",
+            "humanoidSemantic": "upperChest",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088215693831444,
+              -1.3051297664642334,
+              0.002485901117324829,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_C_Neck",
+            "targetRawBone": "J_Bip_C_Neck",
+            "humanoidSemantic": "neck",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088441539555788,
+              -1.456336498260498,
+              -0.008182603865861893,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_C_Head",
+            "targetRawBone": "J_Bip_C_Head",
+            "humanoidSemantic": "head",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088174948468804,
+              -1.5454000234603882,
+              0.006267928518354893,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_L_Shoulder",
+            "targetRawBone": "J_Bip_L_Shoulder",
+            "humanoidSemantic": "leftShoulder",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.02411535754799843,
+              -1.4260399341583252,
+              -0.002688479609787464,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_L_UpperArm",
+            "targetRawBone": "J_Bip_L_UpperArm",
+            "humanoidSemantic": "leftUpperArm",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.14726632833480835,
+              -1.4045659303665161,
+              0.004220891743898392,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_Shoulder",
+            "targetRawBone": "J_Bip_R_Shoulder",
+            "humanoidSemantic": "rightShoulder",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.02513303980231285,
+              -1.4260399341583252,
+              -0.002688482403755188,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_UpperArm",
+            "targetRawBone": "J_Bip_R_UpperArm",
+            "humanoidSemantic": "rightUpperArm",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.14828401803970337,
+              -1.4045659303665161,
+              0.004220875445753336,
+              1
+            ]
+          }
+        ],
+        "limits": [
+          "CPU fit checked for this exact 1K skin body and original raw skeleton.",
+          "Single opaque base color published at 1024x1024; exact body fit.",
+          "Standalone unlit export carries the original base-color PNG, sampler and alpha settings; original MToon shading, normal and emissive channels are not reproduced.",
+          "Source and CPU fit readback only; game motion, contacts and coverage require separate evidence."
+        ],
+        "sourceLicense": {
+          "url": "https://opengameart.org/sites/default/files/base_male.zip",
+          "zipBytes": 14825707,
+          "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+          "vrmBytes": 17914788,
+          "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+          "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+          "publisher": "hecko",
+          "attributedAuthor": "VRoid Project",
+          "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+          "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+          "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+        },
+        "method": "opaque-srgb-basecolor-2x2-linear-mean-png-v1",
+        "stats": {
+          "vertices": 1476,
+          "triangles": 2096,
+          "multiBoneVertices": 1316,
+          "joints": 10
+        },
+        "fitId": "cc0-texture-release-uniform-top-1k-v1-fit",
+        "styleId": "raw-male-uniform-top-v1",
+        "version": 1,
+        "restMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "platformShoes": {
+        "id": "cc0-texture-release-platform-shoes-v1",
+        "name": "CC0 制服鞋 · 平行厚底",
+        "slot": "shoes",
+        "url": "/assets/sole-variant-v1/cc0-texture-release-platform-shoes-v1.glb",
+        "sha256": "8b23ba4f3add78322c1b3246b3ac80387d8eb2f2dd8e300b6443a33b0ed619c7",
+        "bytes": 165108,
+        "compatibleAvatarSha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "preserveOriginalBody": true,
+        "requiresRawSkeleton": true,
+        "bindings": [
+          {
+            "sourceBone": "J_Bip_L_LowerLeg",
+            "targetRawBone": "J_Bip_L_LowerLeg",
+            "humanoidSemantic": "leftLowerLeg",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.06203300878405571,
+              -0.5768978595733643,
+              -0.000647958368062973,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_L_Foot",
+            "targetRawBone": "J_Bip_L_Foot",
+            "humanoidSemantic": "leftFoot",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.0490603893995285,
+              -0.12132149934768677,
+              -0.032085489481687546,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_L_ToeBase",
+            "targetRawBone": "J_Bip_L_ToeBase",
+            "humanoidSemantic": "leftToes",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.05045774579048157,
+              -0.04447287321090698,
+              0.10422827303409576,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_LowerLeg",
+            "targetRawBone": "J_Bip_R_LowerLeg",
+            "humanoidSemantic": "rightLowerLeg",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.06305015087127686,
+              -0.5768978595733643,
+              -0.0006477832794189453,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_Foot",
+            "targetRawBone": "J_Bip_R_Foot",
+            "humanoidSemantic": "rightFoot",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.050076328217983246,
+              -0.12132161855697632,
+              -0.03208553418517113,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_ToeBase",
+            "targetRawBone": "J_Bip_R_ToeBase",
+            "humanoidSemantic": "rightToes",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.05147293955087662,
+              -0.04447329044342041,
+              0.10422825813293457,
+              1
+            ]
+          }
+        ],
+        "limits": [
+          "Exact authored 1K male body; standing, walking and seated support require independent runtime verification."
+        ],
+        "sourceLicense": {
+          "url": "https://opengameart.org/sites/default/files/base_male.zip",
+          "zipBytes": 14825707,
+          "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+          "vrmBytes": 17914788,
+          "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+          "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+          "publisher": "hecko",
+          "attributedAuthor": "VRoid Project",
+          "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+          "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+          "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+        },
+        "method": "Original upper; orthogonal extrusion of both authored outsole UV islands.",
+        "stats": {
+          "vertices": 680,
+          "triangles": 612,
+          "multiBoneVertices": 500,
+          "joints": 6
+        },
+        "fitId": "cc0-texture-release-platform-shoes-v1-fit",
+        "styleId": "uniform-platform-shoes-v1",
+        "version": 1,
+        "restMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "pants": {
+        "id": "cc0-texture-release-uniform-pants-v1",
+        "name": "CC0 原始男体 · 制服长裤",
+        "slot": "bottom",
+        "url": "/assets/raw-male-equipment-v1/raw-male-ab9a-uniform-pants-v1.glb",
+        "sha256": "849d1b87cbe08dbec1b8d76cda4dd329cd76151df2e0320de803a6e982fd7de0",
+        "bytes": 819968,
+        "compatibleAvatarSha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617",
+        "preserveOriginalBody": true,
+        "requiresRawSkeleton": true,
+        "bindings": [
+          {
+            "sourceBone": "J_Bip_C_Hips",
+            "targetRawBone": "J_Bip_C_Hips",
+            "humanoidSemantic": "hips",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088425241410732,
+              -1.0082560777664185,
+              0.01016148179769516,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_C_Spine",
+            "targetRawBone": "J_Bip_C_Spine",
+            "humanoidSemantic": "spine",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088216857984662,
+              -1.1487854719161987,
+              0.010900397785007954,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_C_Chest",
+            "targetRawBone": "J_Bip_C_Chest",
+            "humanoidSemantic": "chest",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.0005088099278509617,
+              -1.2277687788009644,
+              0.00648073386400938,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_L_UpperLeg",
+            "targetRawBone": "J_Bip_L_UpperLeg",
+            "humanoidSemantic": "leftUpperLeg",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.08432579040527344,
+              -0.9643068313598633,
+              0.006310063414275646,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_L_LowerLeg",
+            "targetRawBone": "J_Bip_L_LowerLeg",
+            "humanoidSemantic": "leftLowerLeg",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.06203300878405571,
+              -0.5768978595733643,
+              -0.000647958368062973,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_L_Foot",
+            "targetRawBone": "J_Bip_L_Foot",
+            "humanoidSemantic": "leftFoot",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0.0490603893995285,
+              -0.12132149934768677,
+              -0.032085489481687546,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_UpperLeg",
+            "targetRawBone": "J_Bip_R_UpperLeg",
+            "humanoidSemantic": "rightUpperLeg",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.08534349501132965,
+              -0.9643068313598633,
+              0.006310063414275646,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_LowerLeg",
+            "targetRawBone": "J_Bip_R_LowerLeg",
+            "humanoidSemantic": "rightLowerLeg",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.06305015087127686,
+              -0.5768978595733643,
+              -0.0006477832794189453,
+              1
+            ]
+          },
+          {
+            "sourceBone": "J_Bip_R_Foot",
+            "targetRawBone": "J_Bip_R_Foot",
+            "humanoidSemantic": "rightFoot",
+            "inverseBindMatrix": [
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              0,
+              0,
+              0,
+              1,
+              0,
+              -0.050076328217983246,
+              -0.12132161855697632,
+              -0.03208553418517113,
+              1
+            ]
+          }
+        ],
+        "limits": [
+          "CPU fit checked for this exact 1K skin body and original raw skeleton.",
+          "Standalone unlit export carries the original base-color PNG, sampler and alpha settings; original MToon shading, normal and emissive channels are not reproduced.",
+          "Source and CPU fit readback only; game motion, contacts and coverage require separate evidence."
+        ],
+        "sourceLicense": {
+          "url": "https://opengameart.org/sites/default/files/base_male.zip",
+          "zipBytes": 14825707,
+          "zipSHA256": "8a6049236aae93a31392c56cf2606bd2d3a74711c156e34225616f1ab3cc91b8",
+          "vrmBytes": 17914788,
+          "vrmSHA256": "ab9af434a229283c192546486f9e6eb9cd855bf7d8d45b5037ac211938cb903c",
+          "publisherPage": "https://opengameart.org/content/vroid-studio-cc0-models",
+          "publisher": "hecko",
+          "attributedAuthor": "VRoid Project",
+          "publisherClaim": "Bases exported from VRoid Studio 0.14.0 without optimization",
+          "officialLegacyCC0": "https://vroid.pixiv.help/hc/en-us/articles/900000088126-New-model",
+          "limits": "Third-party export; original .vroid not present; not compared byte-for-byte with original official beta export; current Studio presets not covered by an assumption of CC0."
+        },
+        "method": "Mapped original VRM0 pants, compacted referenced rows with original ordered triangle corners, UV0, normals, normalized weights, raw bone transforms and inverse binds.",
+        "stats": {
+          "vertices": 1095,
+          "triangles": 1624,
+          "multiBoneVertices": 923,
+          "joints": 9
+        },
+        "fitId": "cc0-texture-release-uniform-pants-v1-fit",
+        "styleId": "raw-male-uniform-pants-v1",
+        "version": 1,
+        "restMatrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      }
+    }
+  },
+  "platformDiagnosticRecord": "dea85d1354a6132ee1ee1a066382c6fbe26327f3b1ce499e35cdf2da675f2019",
+  "platformStanding": {
+    "file": "platform-standing.png",
+    "sha256": "fa771e5b338bdd170c9287f701700ef2f1d670c49dac4bbb9aa01a707c7cbd2b"
+  },
+  "platformSeated": {
+    "file": "platform-seated.png",
+    "sha256": "198b1ba0980a87395db3c012c8748bd6fc860b4c0fbd85dd41407e9e55da2e23"
+  },
+  "flatSeated": {
+    "file": "flat-seated.png",
+    "sha256": "4eb1177208c47ebd15fb36731410099bae8409c579e1a7a346a0baf2ef81725e"
+  },
+  "flatStanding": {
+    "file": "flat-standing.png",
+    "sha256": "0f01fb24efb41e961ae21e4b3560c6cba4573ff83b7fb71b21f4c178b4f4df69"
+  }
+}

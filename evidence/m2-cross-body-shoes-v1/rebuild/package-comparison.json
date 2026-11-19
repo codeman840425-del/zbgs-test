@@ -1,0 +1,105 @@
+{
+  "schema": "cross-body-shoes-package-rebuild-v1",
+  "sourceCommit": "da2edab6108433326c900c5f649103d8fd3ab5ee",
+  "buildId": "8877eb962794",
+  "sourceDigest": "8877eb96279480e9f7c6001598338cb6f2f85e7dafa030b88967f4c4cac7846b",
+  "sourceComparison": "build-comparison.json",
+  "distInventory": "dist-files.json",
+  "review": {
+    "path": "scripts/runtime-package/game-record-cross-body-shoes-reviewed.json",
+    "sha256": "7d3141b1a92150548f7a0d4462d4167ad8237cfbfd654f3a898c698d47add25d",
+    "registeredUnder": "externalRecords",
+    "reviewedRuntimeFiles": 11,
+    "selfReviewRefusedBeforeOutput": true
+  },
+  "signing": {
+    "signedFile": "evidence/m2-cross-body-shoes-v1/signed.json",
+    "recordsFile": "evidence/m2-cross-body-shoes-v1/records.json",
+    "unchangedFileSha256": "aec802bc3d5f5753e0d2418906a39de135cc8e3d90a5476fca2366ab676587c1",
+    "compactPairRecomposedFromExportedSidecarsEqualsSignedFile": true,
+    "items": [
+      {
+        "id": "uniform-platform-host-female",
+        "revision": 1,
+        "recordSha256": "e50ccf48215e4de9349ca11bc18094965ff731eef19524820093945292dda574",
+        "body": {
+          "bodyType": "source-female-uniform-texture-v1",
+          "sha256": "1049f87a865e523e02b53d9985a37aa5229dd2221b7a9645f2261f16d35c172c"
+        },
+        "shoe": {
+          "id": "female-uniform-platform-shoes-v1",
+          "sha256": "fadbf92559ae8e90256c2e7f8cacb450e52c066dcef86b104c9b3826bd17e7de",
+          "bytes": 200128,
+          "url": "/assets/sole-variant-female-v1/female-uniform-platform-shoes-v1.glb",
+          "fitId": "female-uniform-platform-shoes-v1-fit",
+          "styleId": "uniform-platform-shoes-v1",
+          "version": 1
+        },
+        "flatModelExcluded": "/assets/m1/m1-uniform-shoes.glb",
+        "outfitIndex": 6,
+        "outfitRole": "pants-top-far-platform",
+        "sidecar": "records/uniform-platform-host-female.json",
+        "sidecarSha256": "bf38a7a2897df7f7c004ccc5bd1bae4629fdf96dee9fca9e3f25bf4ba6556e46"
+      },
+      {
+        "id": "uniform-platform-host-male",
+        "revision": 1,
+        "recordSha256": "1e563c98dc04884d4efa2dfe7ca9faa32892f776c3e7a98f67281e5fcabd9428",
+        "body": {
+          "bodyType": "source-male-cc0-texture-release-v1",
+          "sha256": "2e66ee6c88524bca3f61b834672e89d3146f9f41859811d2159a01c0edf10617"
+        },
+        "shoe": {
+          "id": "cc0-texture-release-platform-shoes-v1",
+          "sha256": "8b23ba4f3add78322c1b3246b3ac80387d8eb2f2dd8e300b6443a33b0ed619c7",
+          "bytes": 165108,
+          "url": "/assets/sole-variant-v1/cc0-texture-release-platform-shoes-v1.glb",
+          "fitId": "cc0-texture-release-platform-shoes-v1-fit",
+          "styleId": "uniform-platform-shoes-v1",
+          "version": 1
+        },
+        "flatModelExcluded": "/assets/raw-male-equipment-v1/raw-male-ab9a-flat-shoes-v1.glb",
+        "outfitIndex": 2,
+        "outfitRole": "pants-top-far-platform",
+        "sidecar": "records/uniform-platform-host-male.json",
+        "sidecarSha256": "87c1c41eb4a5af08e934869b6331d168b0ca860918913332395ab9d9d7d0828e"
+      }
+    ]
+  },
+  "package": {
+    "entry": "record-consumer.html?records=/records/manifest.json",
+    "primary": "output/m2-cross-body-shoes-v1/game-package",
+    "repeat": "output/m2-cross-body-shoes-v1/repeat-build/game-package",
+    "files": 38,
+    "bytes": 43939306,
+    "manifestSha256": "641d0327ab4613218c31f63da2a6ea8cc5e7d13be36ebec3f3e9ceba6d11e248",
+    "allPathsSizesAndDigestsEqual": true,
+    "manifestEntriesCheckedFromDisk": true
+  },
+  "negativeExport": "export-retry.json",
+  "planningInputRecovery": {
+    "logs": {
+      "output/m2-cross-body-shoes-v1/build-a/plan.log": "9d2d2b66f5bf00c45fed4a219bf4f9e5d5292ff9bafcfdde4d2604f1be33e95d",
+      "output/m2-cross-body-shoes-v1/build-a/plan-retry.log": "ec7dbb2b4e9a84832a6459355604b0f5d10e91ecec5d07d8d33565be41486406",
+      "output/m2-cross-body-shoes-v1/build-a/plan-full-inputs.log": "8450107fb08e70d8b3fe1d304ef08bd5ffb09f090e4c7f0ae6892896345d5812"
+    },
+    "initial": "Sparse fixed planning checkout lacked the referenced style source files.",
+    "retry": "Planning still lacked the fixed checkout headless Node query helper.",
+    "complete": "Both fixed technical plan items emitted after selecting the required checkout inputs."
+  },
+  "scope": "CPU build and ordinary standalone recorded-character package identity. The two signers use the same shoe style and distinct exact-fit meshes. Browser QA is reported separately.",
+  "commands": [
+    "Run from F:/gamemake using fresh output names for a new replay.",
+    "$commit='da2edab6108433326c900c5f649103d8fd3ab5ee'; $a='experiments/worktrees/cross-body-shoes-da2edab6'; $b='experiments/worktrees/cross-body-shoes-repeat-da2edab6'",
+    "python -B scripts/character-worktree.py create cross-body-shoes-da2edab6 $commit --runtime-only",
+    "python -B scripts/character-worktree.py create cross-body-shoes-repeat-da2edab6 $commit --runtime-only",
+    "Verify both lockfile bytes against build-comparison.json and the dependency reference experiments/worktrees/style-pair-eddeb995-repeat/prototype/package-lock.json. Copy that checkout's locked prototype/node_modules into each prototype (exclude .vite, .vite-temp, .cache). For each checkout run npm.cmd run build in its prototype with npm_config_offline=true and TEMP/TMP/TMPDIR and npm_config_cache under project output.",
+    "python -B scripts/character-worktree.py audit",
+    "$dir='output/m2-cross-body-shoes-v1'; $records='evidence/m2-cross-body-shoes-v1/records.json'",
+    "node scripts/runtime-package/review-game-runtime.mjs \"$a/prototype/dist\" \"$b/prototype/dist\" $b \"$dir/new-review.json\"",
+    "Check the new review bytes against scripts/runtime-package/game-record-cross-body-shoes-reviewed.json and its SHA under externalRecords in game-runtime-reviews.json.",
+    "node scripts/runtime-package/game-record-cli.mjs inventory --dist \"$a/prototype/dist\" --source-root $a --records $records --out \"$dir/inventory.json\"",
+    "node scripts/runtime-package/game-record-cli.mjs export --dist \"$a/prototype/dist\" --source-root $a --records $records --inventory \"$dir/inventory.json\" --out \"$dir/game-package\"",
+    "Repeat inventory and export using the B checkout and a second output; compare the whole package."
+  ]
+}
