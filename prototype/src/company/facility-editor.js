@@ -161,7 +161,9 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
         stationNumber++;
         return {value:n.id,label:n.name && n.name!==n.id ? n.name : `直播工位 ${stationNumber}`};
       }
-      return {value:n.id,label:`${i+1} · ${nice(resource(n))||n.name||n.id}`};
+      const adjustableMic=doc.singingRooms?.some(rule=>rule.heightProfiles&&rule.roles.mic===n.id);
+      const label=adjustableMic?(n.name||'可调高度唱麦'):(nice(resource(n))||n.name||n.id);
+      return {value:n.id,label:`${i+1} · ${label}`};
     });
     options(el('edit-instance'),[{value:'',label:'选择场景里的物品'},...items],selected);
     const n=node(),r=resource(n),constraints=n?getFacilityEditConstraints(n,r):null;
@@ -187,6 +189,7 @@ export function createFacilityEditor({session,catalog,templates,world,camera,orb
     }else upgradePanel.hidden=true;
     if(n){
       const heightProfiles=doc.singingRooms?.find(rule=>rule.roles?.mic===n.id)?.heightProfiles;
+      for(const field of [el('edit-look'),el('edit-look').labels[0],el('edit-compatibility')]) field.hidden=Boolean(heightProfiles);
       const candidates=r&&heightProfiles?[r]:r?latestAppearanceVersions(catalog.resources.filter(c=>c.asset&&compareFacilityFunction(r,c).compatible)):[];
       if(r&&!candidates.some(c=>ref(c)===ref(r)))candidates.unshift(r);
       options(el('edit-look'),candidates.map(c=>({value:ref(c),label:nice(c)+(candidates.some(other=>other.id===c.id&&other.version>c.version)?` (\u65e7\u7248 v${c.version})`:'')})),r?ref(r):'');

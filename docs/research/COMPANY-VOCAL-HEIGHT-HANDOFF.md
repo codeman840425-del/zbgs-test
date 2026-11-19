@@ -37,3 +37,14 @@ node scripts/company-platform/package-company.mjs prototype/dist-company $build 
 ```
 
 关闭和重开后，使用同一固定包的公开游戏接缝重新验证角色接近、站唱、交接、释放以及相机实际画面。历史角色采样的重放可发现几何缺陷。新组合的实际活动、人物自身遮挡与人眼观感仍分别记录。
+
+## 接收方制作新的低位
+
+在可写制作副本的 `source` 目录，从实测帧 f06 生成唇缘上方 18 毫米的新款。
+
+```text
+node scripts/company-platform/publish-room-appearance.mjs --publish-fit assets-source/company-vocal-height-v1/examples/eighteen-mm.json
+node scripts/company-platform/publish-room-appearance.mjs --check-fit assets-source/company-vocal-height-v1/examples/eighteen-mm.json
+```
+
+复制双房配方，将每间房 `singingRooms[0].heightProfiles.low.resource.id` 设为 `floor-vocal-mic-disc-height-near`。沿前文的批量命令生成标准位，再运行相同的两房改档与恢复检查。两份配方沿用相同的 f06 口眼参考。针对另一位演唱者制作时应同时提供该演唱者的实际采样与参考点。在本机固定检出运行时，命令中的输出改用公司主目录 `output/` 内的绝对路径。

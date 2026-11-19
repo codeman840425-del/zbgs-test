@@ -135,6 +135,8 @@ async function choose(fixture) {
   await ready();
   const height = page.getByLabel('麦架高度',{exact:true});
   assert.equal(await height.count(),1,'One visible height control must belong to the selected microphone');
+  assert((await page.locator('#edit-instance option:checked').textContent()).includes('可调高度唱麦'));
+  assert.equal(await page.locator('#edit-look').isVisible(),false);
   return height;
 }
 

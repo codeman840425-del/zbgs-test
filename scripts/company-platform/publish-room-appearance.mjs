@@ -269,6 +269,7 @@ async function publish(recipePath,check,explicitFit) {
       assert.equal(resource.provenance.sourceParameters,pinned); assert.equal(resource.provenance.sourceParametersSha256,digest);
       const branch = designBranches.get(key);
       const role = designRoles.get(key);
+      const design = input.designs.find(d => d.id === entry.id && d.version === entry.version);
       const functionalReference = role ? defaultRefs.find(r => r?.mountRole === role) :
         branch ? defaultRefs.find(r => r?.productionBranch === branch) : reference;
       assert(functionalReference && (!branch || resource.productionBranch === branch),'Missing matching branch for '+key);
@@ -284,7 +285,6 @@ async function publish(recipePath,check,explicitFit) {
         expectedDependencies = {...expectedDependencies,license:{path:source.licensePath,sha256:source.licenseSha256}};
         delete expectedDependencies.editableContour;
         if (family === 'wall-ambient' && source.editable) expectedDependencies.editableContour = source.editable;
-        const design = input.designs.find(d => d.id === entry.id && d.version === entry.version);
         const editable = editablePins?.get(design.source);
         if (product) {
           for (const key of Object.keys(expectedDependencies)) if (key.startsWith('sourceTexture-')) delete expectedDependencies[key];
