@@ -385,6 +385,18 @@ test('shared 1K uniform style resolves the exact wearer and version through the 
   }
 });
 
+test('published platform shoe resolves only its measured body and remains a technical candidate', async () => {
+  const exact = 'source-male-cc0-texture-release-v1';
+  const fragment = await readFile(new URL('../../assets-source/sole-variant-v1/style-fragment.json', import.meta.url),'utf8');
+  const [style] = JSON.parse(fragment).styles;
+  for (const body of [exact, 'source-female-uniform-texture-v1', 'source-male-ab9a-release-v1']) {
+    const query = queryCharacterProduction((await fixture(body)).controller);
+    const rows = query.styleVariants.find(entry => entry.styleId === style.styleId)?.variants ?? [];
+    assert.deepEqual(rows, body === exact ? style.variants : []);
+    assert.equal(query.runtimeVariants.some(row => row.styleId === style.styleId), false);
+  }
+});
+
 test('exposes native parameter packages as exact candidate variants without inheriting admission', async () => {
   for (const entry of productionCatalog.entries) {
     const config = foundationProfile(entry.bodyType);
