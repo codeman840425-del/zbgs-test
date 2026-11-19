@@ -6,6 +6,17 @@ const EPS=1e-8, clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 const smooth=x=>x*x*(3-2*x);
 export const turnAngleDelta=(to,from)=>Math.atan2(Math.sin(to-from),Math.cos(to-from));
 export const TURN_FULL_ROTATION=Math.PI*2;
+// Shared moving-turn envelope. Limit lateral acceleration and yaw rate while
+// allowing curvature to increase near a waypoint so the actor cannot orbit it.
+export function movingSteering(angle, distance, speed, maxSpeed) {
+  const curvature = 2*Math.sin(Math.min(Math.abs(angle),Math.PI/2))/Math.min(.8,Math.max(distance,.001));
+  if(curvature<1e-9) return {desiredSpeed:maxSpeed,yawRate:0,curvature};
+  return {
+    desiredSpeed:Math.min(maxSpeed,Math.sqrt(4.5/curvature),3.2/curvature),
+    yawRate:Math.min(3.2,4.5/Math.max(speed,.001),speed*curvature),
+    curvature,
+  };
+}
 export function createTurnPolicy({smallAngle=.27, maxVelocity=3.6, acceleration=14, minimumTransferSeconds=.6}={}) {
  let yaw=0,goal=0,velocity=0,elapsed=0,serial=0,phrase=null,mode="idle",stopped=false;
  let headingRequest=null, preferredSwing=-1, footYaws=[0,0];

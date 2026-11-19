@@ -6,7 +6,7 @@ import { loadFoundationAvatar } from "./foundation-avatar.js";
 import { createRenderContextGuard } from "./render-context-guard.js";
 import { createMotion } from "./motion.js";
 import { loadRetargetedMotions } from "./motion-source.js";
-import { createTurnPolicy } from "./turn-policy.js";
+import { createTurnPolicy, movingSteering } from "./turn-policy.js";
 import { createBehaviorTasks } from "./behavior-tasks.js";
 import { createSeatLeases } from "./seat-lease.js";
 import { bindAppearanceWorkbench } from "./appearance-workbench.js";
@@ -565,17 +565,6 @@ function setHelpers(value) {
   updateDebugHelpers();
 }
 
-// Geometric pursuit radius contracts with the actual remaining target distance.
-// Limiting both centripetal acceleration and yaw rate avoids a near-goal orbit.
-function movingSteering(angle, distance, speed, maxSpeed) {
-  const curvature = 2*Math.sin(Math.min(Math.abs(angle),Math.PI/2))/Math.min(.8,Math.max(distance,.001));
-  if(curvature<1e-9) return {desiredSpeed:maxSpeed,yawRate:0,curvature};
-  return {
-    desiredSpeed:Math.min(maxSpeed,Math.sqrt(4.5/curvature),3.2/curvature),
-    yawRate:Math.min(3.2,4.5/Math.max(speed,.001),speed*curvature),
-    curvature,
-  };
-}
 // Compare only the two reversal arcs against the existing exact navigation
 // obstacles. This is a bounded look-ahead, not an alternative path planner.
 function reversalArcClearance(position, yaw, speed, maxSpeed, target, side, intent) {

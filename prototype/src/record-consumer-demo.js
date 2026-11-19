@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import Phaser from 'phaser';
-import {prepareRecordedCharacter} from './character-record-consumer.js';
+import {prepareRecordedCharacter,createRecordAppearanceController} from './character-record-consumer.js';
+import {attachFacilityBehavior} from './facility-behavior.js';
+import {createSeatLeases} from './seat-lease.js';
+import {resolveActorRoom,captureFacilityState,restoreFacilityState} from './record-facility-room.js';
 import {createCharacterRecordBatch} from './character-record-batch.js';
 import {performCharacterProduction} from './character-production.js';
 import {validateCharacterRecordInput} from './character-record-input.js';
@@ -19,6 +22,8 @@ const observer=new ResizeObserver(resize);observer.observe(stage);resize();
 let batch=null,generation=0,records=[],selected=0,ready=false;
 let closed=false,game;
 const actors=new Map(), attempts=[], errors=[];
+const actorRecords=new WeakMap(), seatLeases=createSeatLeases();
+let room=null,restoreGeneration=0;
 window.addEventListener('pagehide',event=>{
   if(event.persisted||closed)return;
   closed=true;generation++;batch?.cancel('page closing');observer.disconnect();
@@ -28,17 +33,27 @@ window.addEventListener('pagehide',event=>{
 const buildInfo=await fetch('/build-info.json').then(r=>r.json());
 const status=document.querySelector('#status'),resultElement=document.querySelector('#results');
 function show(){const snapshot=batch?.snapshot();resultElement.textContent=snapshot?JSON.stringify(snapshot.items.map(({identityId,status,attempt,reason})=>({id:identityId,status,attempt,reason})),null,2):'';}
+async function prepareRoomActor(record,options) {
+  const instance=await prepareRecordedCharacter(record,{scene,renderer,...options,
+    createController(context) {
+      return attachFacilityBehavior(createRecordAppearanceController(context.avatar),
+        {...context,seatLeases,getRoom:()=>room});
+    }});
+  actorRecords.set(instance,record);
+  instance.avatar.livePresentation.setSpeaking(true);
+  instance.avatar.livePresentation.setGaze(camera.position.toArray());
+  return instance;
+}
 async function consume(record,context){
   const owner=generation;attempts.push({identityId:record.identity.id,requestId:context.requestId});
   const current=()=>owner===generation&&context.isCurrent();
-  const instance=await prepareRecordedCharacter(record,{scene,renderer,isCurrent:current,signal:context.signal,
-    position:[context.index===0?-.55:.55,0,0]});
+  const position=room?room.spawns[context.index]:[context.index===0?-.55:.55,0,0];
+  if(!position)throw Error('missing-facility-spawn');
+  const instance=await prepareRoomActor(record,{isCurrent:current,signal:context.signal,position});
   const release=()=>{if(actors.get(record.identity.id)===instance)actors.delete(record.identity.id);instance.dispose();};
   try{
     if(!current()){release();return{applied:false,cancelled:true};}
     instance.attach();actors.set(record.identity.id,instance);
-    instance.avatar.livePresentation.setSpeaking(true);
-    instance.avatar.livePresentation.setGaze(camera.position.toArray());
     return{applied:true,release};
   }catch(error){release();throw error;}
 }
@@ -91,14 +106,37 @@ class RecordScene extends Phaser.Scene{update(time){
   if(document.hidden||closed){previousFrame=null;return;}
   const dt=previousFrame===null?0:Math.min(Math.max(time-previousFrame,0)/1000,.05);
   previousFrame=time;
-  for(const actor of actors.values())actor.update(dt,{action:'idle',speaking:true});
+  for(const actor of actors.values())actor.controller.simulate(dt,actor.update);
   renderer.render(scene,camera);
 }}
 if(!closed)game=new Phaser.Game({type:Phaser.HEADLESS,width:1,height:1,audio:{noAudio:true},banner:false,scene:RecordScene});
 document.querySelector('#first').onclick=()=>selectGroup(0).catch(e=>{status.textContent=e.message;errors.push(e.message);});
 document.querySelector('#second').onclick=()=>selectGroup(1).catch(e=>{status.textContent=e.message;errors.push(e.message);});
 document.querySelector('#retry').onclick=async()=>{try{await batch.retryFailed();show();}catch(e){status.textContent=e.message;}};
-window.__recordConsumer={buildInfo,scene,renderer,actors,attempts,errors,records,
+window.__recordConsumer={buildInfo,scene,renderer,camera,three:THREE,actors,attempts,errors,records,seatLeases,
+  bindFacilityRoom(options) {
+    if (closed || !ready || batch?.snapshot().phase==='running') throw Error('record-consumer-busy');
+    if ([...actors.values()].some(actor=>actor.controller.captureFacilityPose().phase!=='idle')) throw Error('facility-room-in-use');
+    const next=resolveActorRoom(scene,options);
+    if(next.spawns.length<actors.size)throw Error('missing-facility-spawn');
+    room=next;restoreGeneration++;ground.visible=false;
+    [...actors.values()].forEach((actor,index)=>{
+      actor.avatar.root.position.fromArray(room.spawns[index]);actor.motion.reset();
+      actor.update(0,{action:'idle'});actor.avatar.resetSecondary();
+    });
+    return {floorId:room.floorId,roomId:room.roomId,spawns:structuredClone(room.spawns)};
+  },
+  captureFacilityState:()=>captureFacilityState(room,actors),
+  async restoreFacilityState(saved) {
+    const token=++restoreGeneration,group=generation;
+    const isCurrent=()=>!closed && token===restoreGeneration && group===generation;
+    return restoreFacilityState(room,actors,structuredClone(saved),{isCurrent,
+      prepare:(previous,position)=>prepareRoomActor(actorRecords.get(previous),{position,isCurrent})});
+  },
+  removeActor(id) {
+    const actor=actors.get(id);if(!actor)return false;
+    actors.delete(id);actor.dispose();return true;
+  },
   get inputFailure(){return inputFailure;},
   get ready(){return ready;},get selected(){return selected;},selectGroup,
   snapshot:()=>batch?.snapshot(),retry:async()=>{const result=await batch.retryFailed();show();return result;},

@@ -14,9 +14,9 @@ export function createSeatLeases() {
     record('released', lease); return true;
   }
   return {
-    reserve({ seatId, ownerId, requestId } = {}) {
+    reserve({ seatId, ownerId, requestId, ownerGeneration = null } = {}) {
       if ([seatId, ownerId, requestId].some(x => typeof x !== 'string' || !x)) throw new TypeError('seatId, ownerId and requestId must be nonempty strings');
-      const key = JSON.stringify([ownerId, requestId]), old = byRequest.get(key);
+      const key = JSON.stringify([ownerId, ownerGeneration, requestId]), old = byRequest.get(key);
       if (old) {
         const lease = byToken.get(old.token);
         return { accepted: old.accepted && old.seatId === seatId && lease?.state !== 'released', duplicate: true,
@@ -42,6 +42,7 @@ export function createSeatLeases() {
     },
     beginExit(token) { const lease = active(token); if (!lease || !['occupied', 'exiting'].includes(lease.state)) return false; if (lease.state === 'occupied') { lease.state = 'exiting'; record('exiting', lease); } return true; },
     releaseAfterExit(token) { const lease = active(token); return lease?.state === 'exiting' ? release(lease, lease.releaseReason ?? 'physically-exited') : false; },
+    releaseRemovedInstance(token) { return release(active(token), 'owner-destroyed'); },
     // Invoke only after removing the owner's entity/collider from the scene.
     disposeOwner(ownerId) { let count = 0; for (const lease of byToken.values()) if (lease.ownerId === ownerId && release(lease, 'owner-destroyed')) count++; return count; },
     get: token => { const lease = byToken.get(token); return lease ? copy(lease) : null; },

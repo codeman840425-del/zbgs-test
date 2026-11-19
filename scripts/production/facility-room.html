@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>公司房间 · 角色互动</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#f1f3ef;color:#243830;font:15px system-ui,sans-serif}
+  header{padding:12px 20px;background:#fff;border-bottom:1px solid #c9d3cc}h1{font-size:20px;margin:0 0 8px}
+  nav,fieldset{display:flex;flex-wrap:wrap;align-items:center;gap:8px}a{color:#205d4e}
+  fieldset{border:0;padding:0;margin:10px 0}button,select{font:inherit;border:1px solid #92a59a;background:white;border-radius:4px;padding:5px 8px}
+  #room-status{margin:4px 0}#room-status[data-state=error]{color:#90281c}#stage{height:72vh;min-height:300px}canvas{display:block}
+</style>
+<header><h1>公司房间 · 角色互动</h1>
+<nav aria-label="选择公司"><a href="?records=/records/manifest.json&amp;room=plant-home">单工位民房</a>
+<a href="?records=/records/manifest.json&amp;room=plant-rental">出租屋</a></nav>
+<fieldset id="facility-controls" disabled>
+<label>角色 <select id="facility-actor"></select></label>
+<label>座位 <select id="facility-seat"></select></label>
+<button id="facility-sit">走到座位并坐下</button><button id="facility-stand">起身</button>
+<button id="facility-frame">房间全景</button><button id="facility-save">保存角色状态</button>
+<button id="facility-restore">恢复角色状态</button></fieldset>
+<p id="room-status" role="status">正在载入房间和人物</p></header><div id="stage"></div>
+<div hidden><button id="first"></button><button id="second"></button><button id="retry"></button><p id="status"></p><pre id="results"></pre></div>
+<script type="module">
+try {
+  const url=new URL(location.href);
+  if (!url.searchParams.has('records')) {
+    url.searchParams.set('records','/records/manifest.json');
+    history.replaceState(null,'',url);
+  }
+  await import('__RECORD_CONSUMER_ENTRY__');
+  const consumer=window.__recordConsumer;
+  if (!consumer?.ready || consumer.inputFailure || consumer.actors.size!==2) throw Error(consumer?.inputFailure || '两份角色记录未就绪');
+  if (!consumer.three || !consumer.camera || !consumer.bindFacilityRoom) throw Error('此角色版本未提供公司房间接口');
+  const {openFacilityRoom}=await import('./facility/company-host.js');
+  await openFacilityRoom(consumer,url.searchParams.get('room')??'plant-home');
+} catch(error) {
+  const status=document.getElementById('room-status');
+  status.textContent='房间打开失败 · '+error.message;status.dataset.state='error';
+}
+</script></html>

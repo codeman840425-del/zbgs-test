@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import * as THREE from '../prototype/node_modules/three/build/three.module.js';
 import {createBehaviorTasks} from '../prototype/src/behavior-tasks.js';
 import {createSeatLeases} from '../prototype/src/seat-lease.js';
-import {createTurnPolicy} from '../prototype/src/turn-policy.js';
+import {createTurnPolicy,movingSteering} from '../prototype/src/turn-policy.js';
 const root=process.cwd(),out='evidence/native-seat-curve-recovery-v2';
 const original=JSON.parse(await fs.readFile('evidence/native-factory-room-58f0-v1/report.json','utf8'));
 const stopped=original.states.find(x=>x.name==='stopped').snapshot;
@@ -24,7 +24,9 @@ function environment(text, transform = fixture.chair) {
   const broad = box.clone().applyMatrix4(chair.matrixWorld);
   Object.assign(obstacles.find(o => o.name === 'chair'), {x: chair.position.x, z: chair.position.z,
     hw: (broad.max.x-broad.min.x)/2+.1, hd: (broad.max.z-broad.min.z)/2+.1});
-  const nav = text.slice(text.indexOf('function movingSteering('), text.indexOf('const names ='));
+  const localSteering = text.indexOf('function movingSteering(');
+  const nav = localSteering >= 0 ? text.slice(localSteering, text.indexOf('const names =')) :
+    movingSteering.toString()+'\n'+text.slice(text.indexOf('function reversalArcClearance('), text.indexOf('const names ='));
   const targets = text.slice(text.indexOf('function seatTargets('), text.indexOf('function setChairTransform('));
   const controller = text.slice(text.indexOf('class CharacterScene extends'), text.indexOf('function average('));
   const factory = new Function('THREE', 'chair', 'chairBounds', 'obstacles', 'clamp', 'Phaser', 'createBehaviorTasks',
