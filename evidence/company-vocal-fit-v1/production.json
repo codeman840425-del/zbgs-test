@@ -1,0 +1,182 @@
+{
+  "cwd": "F:/",
+  "rejectedDestinationCleanBeforeRetry": true,
+  "junctionTargetClean": true,
+  "lockReleased": true,
+  "runs": [
+    {
+      "arguments": [
+        "--check"
+      ],
+      "success": true,
+      "result": {
+        "id": "floor-vocal-mic-disc-fit-lower",
+        "version": 1,
+        "sha256": "c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a",
+        "grilleCenter": [
+          0,
+          1.5504148,
+          0.4485847
+        ],
+        "meshGrilleHit": [
+          0,
+          1.5504148,
+          0.474526
+        ],
+        "groundContacts": 3,
+        "mastInsertionMetres": 0.0575438,
+        "boomInsertionMetres": 0.0940836
+      }
+    },
+    {
+      "arguments": [
+        "--output",
+        "output/vocal-fit-v1/producer/reject-then-retry",
+        "--parameters",
+        "output/vocal-fit-v1/producer/reject-source.json"
+      ],
+      "success": false,
+      "result": "AssertionError [ERR_ASSERTION]: Forward travel outside [0, .047] metres"
+    },
+    {
+      "arguments": [
+        "--output",
+        "output/vocal-fit-v1/producer/reject-then-retry",
+        "--parameters",
+        "output/vocal-fit-v1/producer/editable-source.json"
+      ],
+      "success": true,
+      "result": {
+        "id": "floor-vocal-mic-disc-fit-trial",
+        "version": 1,
+        "sha256": "6a8f7dac154e8c705b6fb554948a2f59674b0a32e35115d2cc0a74705d745359",
+        "grilleCenter": [
+          0,
+          1.5504148,
+          0.4345847
+        ],
+        "meshGrilleHit": [
+          0,
+          1.5504148,
+          0.460526
+        ],
+        "groundContacts": 3,
+        "mastInsertionMetres": 0.0575438,
+        "boomInsertionMetres": 0.1071547
+      }
+    },
+    {
+      "arguments": [
+        "--output",
+        "output/vocal-fit-v1/producer/reject-then-retry",
+        "--parameters",
+        "output/vocal-fit-v1/producer/editable-source.json"
+      ],
+      "success": false,
+      "result": "AssertionError [ERR_ASSERTION]: Trial output already exists: F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\producer\\reject-then-retry"
+    },
+    {
+      "arguments": [
+        "--output",
+        "output/vocal-fit-v1/producer/unchanged-binary"
+      ],
+      "success": true,
+      "result": {
+        "id": "floor-vocal-mic-disc-fit-lower",
+        "version": 1,
+        "sha256": "c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a",
+        "grilleCenter": [
+          0,
+          1.5504148,
+          0.4485847
+        ],
+        "meshGrilleHit": [
+          0,
+          1.5504148,
+          0.474526
+        ],
+        "groundContacts": 3,
+        "mastInsertionMetres": 0.0575438,
+        "boomInsertionMetres": 0.0940836
+      }
+    },
+    {
+      "arguments": [
+        "--output",
+        "output/vocal-fit-v1/producer/endpoint-zero",
+        "--parameters",
+        "output/vocal-fit-v1/producer/endpoint-zero.json"
+      ],
+      "success": true,
+      "result": {
+        "id": "floor-vocal-mic-disc-fit-endpoint-zero",
+        "version": 1,
+        "sha256": "45a5ad0226248aaecf95274d8ce2ab0bbb990f2471a97dcf2266058bb44127d9",
+        "grilleCenter": [
+          0,
+          1.5903437,
+          0.3885893
+        ],
+        "meshGrilleHit": [
+          0,
+          1.5903437,
+          0.4137416
+        ],
+        "groundContacts": 3,
+        "mastInsertionMetres": 0.0235001,
+        "boomInsertionMetres": 0.148
+      }
+    },
+    {
+      "arguments": [
+        "--output",
+        "output/vocal-fit-v1/producer/endpoint-extended",
+        "--parameters",
+        "output/vocal-fit-v1/producer/endpoint-extended.json"
+      ],
+      "success": true,
+      "result": {
+        "id": "floor-vocal-mic-disc-fit-endpoint-extended",
+        "version": 1,
+        "sha256": "e0a1f13f1f4176d2d4455248e9065ef64ef79a34012042eca0d2a2190253b2c7",
+        "grilleCenter": [
+          0,
+          1.5504148,
+          0.4515847
+        ],
+        "meshGrilleHit": [
+          0,
+          1.5504148,
+          0.477526
+        ],
+        "groundContacts": 3,
+        "mastInsertionMetres": 0.0575438,
+        "boomInsertionMetres": 0.0912738
+      }
+    },
+    {
+      "arguments": [
+        "--output",
+        "F:/unexpected-vocal-fit-output"
+      ],
+      "success": false,
+      "result": "AssertionError [ERR_ASSERTION]: Trial must stay inside project outputs"
+    },
+    {
+      "arguments": [
+        "--output",
+        "output/vocal-fit-v1/producer/parent/../bypass"
+      ],
+      "success": false,
+      "result": "AssertionError [ERR_ASSERTION]: Path traversal in trial destination"
+    },
+    {
+      "arguments": [
+        "--output",
+        "output/vocal-fit-v1/producer/junction-probe/redirected"
+      ],
+      "success": false,
+      "result": "AssertionError [ERR_ASSERTION]: Linked project path: F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\producer\\junction-probe"
+    }
+  ]
+}

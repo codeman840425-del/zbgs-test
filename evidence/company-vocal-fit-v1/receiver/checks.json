@@ -1,0 +1,498 @@
+{
+  "status": "passed",
+  "sealed": "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\fixed-handoff\\candidate-package",
+  "pin": "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+  "baseline": "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1.1",
+  "source": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source",
+  "scope": "Clean receiver rebuild, 43 mm production, historical room contact replay.",
+  "commands": [
+    {
+      "label": "01-verify-sealed",
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\fixed-handoff\\candidate-package\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\fixed-handoff\\candidate-package",
+        "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\fixed-handoff\\candidate-package",
+      "exit": 0
+    },
+    {
+      "label": "02-npm-ci",
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+        "ci",
+        "--cache",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\npm-cache",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source\\prototype",
+      "exit": 0
+    },
+    {
+      "label": "03-build-id",
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source\\prototype\\scripts\\build-company-id.mjs"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source\\prototype",
+      "exit": 0
+    },
+    {
+      "label": "04-vite",
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source\\prototype\\node_modules\\vite\\bin\\vite.js",
+        "build",
+        "--config",
+        "vite.company.config.js"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source\\prototype",
+      "exit": 0
+    },
+    {
+      "label": "05-verify-viewer",
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\fixed-handoff\\candidate-package\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\fixed-handoff\\candidate-package",
+        "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+        "--viewer",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source\\prototype\\dist-company"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver",
+      "exit": 0
+    },
+    {
+      "label": "06-ordinary-rejected",
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--publish",
+        "assets-source/company-vocal-fit-v1/examples/shorter.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source",
+      "exit": 1
+    },
+    {
+      "label": "07-publish-fit",
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--publish-fit",
+        "assets-source/company-vocal-fit-v1/examples/shorter.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source",
+      "exit": 0
+    },
+    {
+      "label": "08-check-fit",
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--check-fit",
+        "assets-source/company-vocal-fit-v1/examples/shorter.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source",
+      "exit": 0
+    },
+    {
+      "label": "09-publish-repeat",
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source\\scripts\\company-platform\\publish-room-appearance.mjs",
+        "--publish-fit",
+        "assets-source/company-vocal-fit-v1/examples/shorter.json"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source",
+      "exit": 0
+    },
+    {
+      "label": "10-two-room-batch",
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source\\scripts\\company-platform\\batch.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\receiver\\shorter-batch.json",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\receiver\\shorter-rooms"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source",
+      "exit": 0
+    },
+    {
+      "label": "11-contact-replay",
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source\\scripts\\company-platform\\check-vocal-fit-contacts.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\receiver\\shorter-rooms",
+        "F:\\gamemake-company-platform-c1\\company-workspace\\deliveries\\vocal-use-v1.1",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\receiver\\shorter-contacts"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\company-workspace\\production-trials\\vocal-fit-v1\\receiver\\source",
+      "exit": 0
+    },
+    {
+      "label": "12-verify-sealed-again",
+      "executable": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\fixed-handoff\\candidate-package\\verify.mjs",
+        "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\fixed-handoff\\candidate-package",
+        "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc"
+      ],
+      "cwd": "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\fixed-handoff\\candidate-package",
+      "exit": 0
+    }
+  ],
+  "sealedBefore": {
+    "ok": true,
+    "build": "156ab204dddf",
+    "manifestSha256": "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+    "declaredFiles": 2267,
+    "checkedFiles": 2267,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  },
+  "sourceFilesVerified": 1605,
+  "npmCi": {
+    "node": "v24.13.0",
+    "lockSha256": "36d6c687709e0e614c8e286770b7efb2f8f49134d45b87cb290a998da455335b",
+    "versions": {
+      "vite": "7.3.8",
+      "three": "0.187.0",
+      "pngjs": "7.0.0",
+      "jpeg-js": "0.4.4",
+      "playwright": "1.58.2"
+    }
+  },
+  "rebuiltBuild": "156ab204dddf",
+  "rebuiltViewer": {
+    "ok": true,
+    "build": "156ab204dddf",
+    "manifestSha256": "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+    "declaredFiles": 631,
+    "checkedFiles": 631,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0,
+    "scope": "rebuilt-viewer"
+  },
+  "ordinaryRejection": {
+    "reason": "pickup-fit-requires-explicit-publication",
+    "preserved": {
+      "plan": "e1895eef578bfc4c91c2fee7f6c989dad7e13169730531f665064fbb397fcdba",
+      "catalog": "44290b6afed773c76881b82fd3ee6f7b77bea7d44d81412c2bbf8edc29ae10bf",
+      "publicAssets": "8e20e831dafa2f31976bf00d09ffb3ceca8f1186c5f401154d5ae02d67f32dbd",
+      "productionSources": "24456f4d7be5f97acd6287dce951df7e532fa8314bef1077206611b5fa25a298"
+    }
+  },
+  "published": {
+    "status": "published",
+    "family": "vocal-fit",
+    "sourceParameters": "assets-source/company-vocal-fit-v1/examples/recipe-9fb68f4dc046255813db8ee15690f9681323e4cf2b3a2a9111f21d44d8847d8a.json",
+    "sourceParametersSha256": "9fb68f4dc046255813db8ee15690f9681323e4cf2b3a2a9111f21d44d8847d8a",
+    "items": [
+      {
+        "id": "floor-vocal-mic-disc-fit-shorter",
+        "version": 1,
+        "resourcePath": "prototype/public/company-assets/vocal-fit-v1/floor-vocal-mic-disc-fit-shorter/v1/resource.json",
+        "sha256": "380e7c571568efebab7494d87668e4e49a5447eed17aaff6be609b14d531eb60"
+      }
+    ]
+  },
+  "rechecked": {
+    "status": "unchanged",
+    "family": "vocal-fit",
+    "sourceParameters": "assets-source/company-vocal-fit-v1/examples/recipe-9fb68f4dc046255813db8ee15690f9681323e4cf2b3a2a9111f21d44d8847d8a.json",
+    "sourceParametersSha256": "9fb68f4dc046255813db8ee15690f9681323e4cf2b3a2a9111f21d44d8847d8a",
+    "items": [
+      {
+        "id": "floor-vocal-mic-disc-fit-shorter",
+        "version": 1,
+        "resourcePath": "prototype/public/company-assets/vocal-fit-v1/floor-vocal-mic-disc-fit-shorter/v1/resource.json",
+        "sha256": "380e7c571568efebab7494d87668e4e49a5447eed17aaff6be609b14d531eb60"
+      }
+    ]
+  },
+  "repeat": {
+    "status": "unchanged",
+    "family": "vocal-fit",
+    "sourceParameters": "assets-source/company-vocal-fit-v1/examples/recipe-9fb68f4dc046255813db8ee15690f9681323e4cf2b3a2a9111f21d44d8847d8a.json",
+    "sourceParametersSha256": "9fb68f4dc046255813db8ee15690f9681323e4cf2b3a2a9111f21d44d8847d8a",
+    "items": [
+      {
+        "id": "floor-vocal-mic-disc-fit-shorter",
+        "version": 1,
+        "resourcePath": "prototype/public/company-assets/vocal-fit-v1/floor-vocal-mic-disc-fit-shorter/v1/resource.json",
+        "sha256": "380e7c571568efebab7494d87668e4e49a5447eed17aaff6be609b14d531eb60"
+      }
+    ]
+  },
+  "produced": {
+    "id": "floor-vocal-mic-disc-fit-shorter",
+    "version": 1,
+    "fit": {
+      "boomPitchDegrees": -4,
+      "forwardMetres": 0.043
+    },
+    "sha256": "380e7c571568efebab7494d87668e4e49a5447eed17aaff6be609b14d531eb60",
+    "preserved": {
+      "id": "floor-vocal-mic-disc-fit-lower",
+      "sha256": "c31e1b2eb9f6f2407974da44d3652ea817ce285fa1de4ebee7e3c55b4af3652a",
+      "fit": {
+        "boomPitchDegrees": -4,
+        "forwardMetres": 0.044
+      }
+    }
+  },
+  "batch": {
+    "schema": "company-batch-run",
+    "version": 1,
+    "ok": true,
+    "results": [
+      {
+        "key": "singing-studio",
+        "companyId": "singing-studio",
+        "status": "created",
+        "directory": "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\receiver\\shorter-rooms\\singing-studio",
+        "files": {
+          "input.json": {
+            "bytes": 4059,
+            "sha256": "1a0198493b47eb6daae2301910ba812a7fff0d57dfab80e199ff6ae15a34140d"
+          },
+          "layout.json": {
+            "bytes": 4517,
+            "sha256": "027f90aeb2226bcf1f23ab5763b480bfdc6bc030dfe6caff2261b0a1b7a30b14"
+          },
+          "save.json": {
+            "bytes": 6231,
+            "sha256": "10eb1157525b177c5eac08e6c9e2283994a61fa7917972dc7730fdadd1ac0cfc"
+          }
+        }
+      },
+      {
+        "key": "singing-rental",
+        "companyId": "singing-rental",
+        "status": "created",
+        "directory": "F:\\gamemake-company-platform-c1\\output\\vocal-fit-v1\\receiver\\shorter-rooms\\singing-rental",
+        "files": {
+          "input.json": {
+            "bytes": 4202,
+            "sha256": "4ddef23fea9b81ec0dfa5253e44125f75604ec7f962f1f7d3df9180942a66b41"
+          },
+          "layout.json": {
+            "bytes": 8368,
+            "sha256": "5128b5f2c36ecad9c7b9179558d3901f8f4e3aa6d9a9a7302b50075752d1d11f"
+          },
+          "save.json": {
+            "bytes": 11052,
+            "sha256": "cb5d549535fa0fef7e7be8ca1479294bced9e2916474a797312a074a58a1d16b"
+          }
+        }
+      }
+    ]
+  },
+  "rooms": [
+    {
+      "room": "singing-studio",
+      "saveSha256": "10eb1157525b177c5eac08e6c9e2283994a61fa7917972dc7730fdadd1ac0cfc",
+      "resource": {
+        "id": "floor-vocal-mic-disc-fit-shorter",
+        "version": 1
+      }
+    },
+    {
+      "room": "singing-rental",
+      "saveSha256": "cb5d549535fa0fef7e7be8ca1479294bced9e2916474a797312a074a58a1d16b",
+      "resource": {
+        "id": "floor-vocal-mic-disc-fit-shorter",
+        "version": 1
+      }
+    }
+  ],
+  "contacts": {
+    "sha256": "3fae09052bd26c3b3c3e57316da176ab200f43f3a982069670e6e71627416d02",
+    "baseline": {
+      "female": {
+        "samples": 7,
+        "passed": 0
+      },
+      "male": {
+        "samples": 50,
+        "passed": 50
+      }
+    },
+    "derived": {
+      "female": {
+        "samples": 7,
+        "passed": 7
+      },
+      "male": {
+        "samples": 50,
+        "passed": 50
+      }
+    },
+    "rooms": [
+      {
+        "room": "singing-studio",
+        "mic": {
+          "id": "floor-vocal-mic-disc-fit-shorter",
+          "version": 1,
+          "sha256": "380e7c571568efebab7494d87668e4e49a5447eed17aaff6be609b14d531eb60"
+        },
+        "byBody": {
+          "female": {
+            "samples": 4,
+            "passed": 4,
+            "worst": {
+              "aboveMinimumM": {
+                "value": 0.18688430132765177,
+                "sample": "p25"
+              },
+              "belowMaximumM": {
+                "value": 0.005730424867898376,
+                "sample": "p56"
+              },
+              "incidenceDeg": {
+                "value": 11.828122738515845,
+                "sample": "p25"
+              },
+              "facingDeg": {
+                "value": 42.47670985812858,
+                "sample": "p25"
+              }
+            },
+            "externalCameraSight": {
+              "mouth": {
+                "observed": 4,
+                "clear": 4
+              },
+              "eye": {
+                "observed": 4,
+                "clear": 4
+              }
+            }
+          },
+          "male": {
+            "samples": 28,
+            "passed": 28,
+            "worst": {
+              "aboveMinimumM": {
+                "value": 0.10353910239257108,
+                "sample": "p42"
+              },
+              "belowMaximumM": {
+                "value": 0.08138582623912408,
+                "sample": "p39"
+              },
+              "incidenceDeg": {
+                "value": 26.699286003200797,
+                "sample": "p36"
+              },
+              "facingDeg": {
+                "value": 39.895043733114875,
+                "sample": "p42"
+              }
+            },
+            "externalCameraSight": {
+              "mouth": {
+                "observed": 28,
+                "clear": 28
+              },
+              "eye": {
+                "observed": 28,
+                "clear": 28
+              }
+            }
+          }
+        }
+      },
+      {
+        "room": "singing-rental",
+        "mic": {
+          "id": "floor-vocal-mic-disc-fit-shorter",
+          "version": 1,
+          "sha256": "380e7c571568efebab7494d87668e4e49a5447eed17aaff6be609b14d531eb60"
+        },
+        "byBody": {
+          "female": {
+            "samples": 3,
+            "passed": 3,
+            "worst": {
+              "aboveMinimumM": {
+                "value": 0.19101782645719406,
+                "sample": "p13"
+              },
+              "belowMaximumM": {
+                "value": 0.005481970124714963,
+                "sample": "p57"
+              },
+              "incidenceDeg": {
+                "value": 12.343217877997635,
+                "sample": "p57"
+              },
+              "facingDeg": {
+                "value": 43.05584021844524,
+                "sample": "p13"
+              }
+            },
+            "externalCameraSight": {
+              "mouth": {
+                "observed": 3,
+                "clear": 3
+              },
+              "eye": {
+                "observed": 3,
+                "clear": 3
+              }
+            }
+          },
+          "male": {
+            "samples": 22,
+            "passed": 22,
+            "worst": {
+              "aboveMinimumM": {
+                "value": 0.10237760356566578,
+                "sample": "p53"
+              },
+              "belowMaximumM": {
+                "value": 0.08560153656585612,
+                "sample": "p20"
+              },
+              "incidenceDeg": {
+                "value": 28.807976298506897,
+                "sample": "p18"
+              },
+              "facingDeg": {
+                "value": 39.87277996298545,
+                "sample": "p23"
+              }
+            },
+            "externalCameraSight": {
+              "mouth": {
+                "observed": 22,
+                "clear": 22
+              },
+              "eye": {
+                "observed": 22,
+                "clear": 22
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "originalSourceFilesStillMatch": 1603,
+  "sealedAfter": {
+    "ok": true,
+    "build": "156ab204dddf",
+    "manifestSha256": "64802112dd64938d88ef6e8115c90096a90f591833467db55bd837e4ca11eebc",
+    "declaredFiles": 2267,
+    "checkedFiles": 2267,
+    "extraFiles": 0,
+    "changedFiles": 0,
+    "missingFiles": 0
+  }
+}
