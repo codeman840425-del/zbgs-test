@@ -1,15 +1,15 @@
 {
   "schema": "zbgs-appearance-workbench-v1",
-  "build": "9ce414f65f55",
-  "sourceDigest": "9ce414f65f5564aaba4476c1b11df11b70e3d8c3bd0fc0b3d39c807a004f7029",
-  "sourceCommit": "cb3aca0dabdfb616eaff13a880fc437835e27964",
-  "directory": "experiments/worktrees/rule-male-a-cb3aca0d/prototype/dist",
+  "build": "34c5b4925a8c",
+  "sourceDigest": "34c5b4925a8c79b8d87cd47c403b9b5b7baa3f8f6d8ee611daa5ccfd33883612",
+  "sourceCommit": "15201b4916790163329bc3bfd5d2f251c22f1df4",
+  "directory": "experiments/worktrees/female-reference-outfit-v1-15201b49/prototype/dist",
   "port": 4196,
-  "entry": "/?body=female&workbench=appearance&view=inspect-face-side",
-  "status": "technical-candidate-native-variant-matrix-pending-runtime-admission-and-human-visual-review",
-  "previousWorkbench": "3c15a020d62a",
-  "rollbackPointer": "delivery/history/appearance-workbench-3c15a020d62a.json",
-  "evidence": "evidence/m2-first-rule-delivery-v1",
+  "entry": "/?body=female&workbench=appearance&view=inspect-face-front",
+  "status": "technical-candidate-female-reference-outfit-v1-pending-visual-and-motion-review",
+  "previousWorkbench": "9ce414f65f55",
+  "rollbackPointer": "delivery/history/appearance-workbench-9ce414f65f55-before-female-reference-outfit-v1.json",
+  "evidence": "evidence/female-reference-outfit-v1/runtime-check/report.json",
   "retainedM1": {
     "port": 4195,
     "build": "77e46efb5441"
@@ -35,7 +35,10 @@
     "原生7586的袜面在鞋侧近景可见。该组合仍为诊断候选。",
     "同体双实例的法线贴图已测得实际分配下降。运输文件与完整身体静态预算仍超限。",
     "该身体仅验证从同源提取的三件制服，独立服装基础色贴图与原材质着色有差异，普通电脑预算仍待验。",
-    "精简男体与原版三件制服仍超单身体和上衣静态纹理预算，当前验证仅覆盖这套制服。"
+    "精简男体与原版三件制服仍超单身体和上衣静态纹理预算，当前验证仅覆盖这套制服。",
+    "Female reference outfit is a candidate preview only. Outer layer reuses a vest-layer source and exceeds the current 2K texture budget.",
+    "Reference trousers are represented by the existing knee-length pants source and shoes by the existing flat-shoe source. No ankle-length trousers or low-heel geometry was authored.",
+    "Normal-speed action, seated contact and ordinary-PC performance for this outfit remain unverified."
   ],
   "newControls": [
     "freckles and blush",
@@ -77,7 +80,8 @@
     "男性外观分组新增原始 VRM0 制服候选，可在同一房间执行走、坐、起。",
     "男性外观分组可选同套制服的精简版。检查区有同镜头加载与正常速度动作对照。",
     "检查区可同步播放男女制服的原版与轻量上衣。女性原版与男性精简制服候选可独立选择轻量上衣。",
-    "女性和男性原版制服的外观耳饰下拉可切换 2.6 mm 和 3 mm 耳钉，并选择单侧、双侧或卸下。"
+    "女性和男性原版制服的外观耳饰下拉可切换 2.6 mm 和 3 mm 耳钉，并选择单侧、双侧或卸下。",
+    "Female reference outfit candidate: four independent slots, pinned material recipes, restore smoke evidence; exact shape and motion limits shown in CAPABILITIES"
   ],
   "rebuildEvidence": "evidence/m2-first-rule-delivery-v1/build/dist-comparison.json",
   "readySelector": "body.appearance-workbench",
