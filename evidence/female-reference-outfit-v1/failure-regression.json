@@ -1,0 +1,67 @@
+{
+  "schema": "female-reference-outfit-failure-regression-v1",
+  "checks": [
+    {
+      "command": "python scripts/production/test_variant_matrix.py",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ".............\n----------------------------------------------------------------------\nRan 13 tests in 0.361s\n\nOK\n",
+      "status": "passed"
+    },
+    {
+      "command": "python scripts/production/test_outfit_admission.py",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.488s\n\nOK\n",
+      "status": "passed"
+    },
+    {
+      "command": "python scripts/production/test_garment_source_mapping.py",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "..\n----------------------------------------------------------------------\nRan 2 tests in 1.137s\n\nOK\n",
+      "status": "passed"
+    },
+    {
+      "command": "python scripts/production/test_garment_group_contract.py",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "test_duplicate_group_primitive_fails_emitter_before_export (__main__.GarmentGroupContractTests.test_duplicate_group_primitive_fails_emitter_before_export) ... ok\ntest_exact_group_keeps_one_matrix_member_and_one_top_pin (__main__.GarmentGroupContractTests.test_exact_group_keeps_one_matrix_member_and_one_top_pin) ... ok\ntest_omitted_group_primitive_fails_published_readback (__main__.GarmentGroupContractTests.test_omitted_group_primitive_fails_published_readback) ... ok\ntest_outfit_must_retain_the_exact_group_member_once (__main__.GarmentGroupContractTests.test_outfit_must_retain_the_exact_group_member_once) ... ok\ntest_wrong_publisher_body_fails_matrix_fit (__main__.GarmentGroupContractTests.test_wrong_publisher_body_fails_matrix_fit) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.656s\n\nOK\n",
+      "status": "passed"
+    },
+    {
+      "command": "python scripts/production/test_real_outfit_evidence.py",
+      "returncode": 0,
+      "stdout": "{\n  \"schema\": \"real-outfit-evidence-rejection-v1\",\n  \"runtime\": {\n    \"sourceCommit\": \"cb3aca0dabdfb616eaff13a880fc437835e27964\",\n    \"sourceDigest\": \"9ce414f65f5564aaba4476c1b11df11b70e3d8c3bd0fc0b3d39c807a004f7029\",\n    \"buildId\": \"9ce414f65f55\"\n  },\n  \"originalRecordSha256\": \"2e71d28e8d8f54473806d4096146fbbaf26c19718bd0a25647b7591e55920ddf\",\n  \"realBaselineVerified\": [\n    \"normalSpeedMotion\",\n    \"recordAndRestore\",\n    \"selectionGuards\"\n  ],\n  \"missingRequiredEvidence\": {\n    \"status\": \"rejected\",\n    \"reason\": \"Evidence must be a repository file\",\n    \"report\": \"recordAndRestore\",\n    \"reportSha256\": \"9d99e092bcce3f59dbe13a0a7b455ff1503b982987c589d5b16f3f2a84058d2b\",\n    \"removedIsolatedCopy\": true\n  },\n  \"changedOneEquipment\": {\n    \"status\": \"rejected\",\n    \"reason\": \"Game package does not pin the complete reviewed outfit\",\n    \"change\": {\n      \"previous\": {\n        \"id\": \"rule-body-0beabf44f27c0618b0ff-top\",\n        \"slot\": \"top\",\n        \"sha256\": \"eef03164931297e1ae0b4bddfadde40e4458a317a6490e889867cf6ea3759a1d\"\n      },\n      \"replacement\": {\n        \"id\": \"cc0-texture-release-uniform-top-v1\",\n        \"slot\": \"top\",\n        \"sha256\": \"10a51cbdac6bfea074ad5cfa30e7c0a46cd2fc099fbc2048a291deb470e10d02\"\n      }\n    },\n    \"originalReportReused\": true,\n    \"guard\": {\n      \"status\": \"rejected\",\n      \"reason\": \"Guard proof belongs to a different outfit or dependency set\"\n    }\n  },\n  \"unreviewedFormalPlanner\": {\n    \"mode\": \"readiness-gated\",\n    \"items\": [\n      {\n        \"status\": \"rejected\",\n        \"reason\": \"Whole-outfit runtime admission evidence is required from the reviewed index\",\n        \"stableId\": \"rule-male-0beabf44f27c0618b0ff\"\n      },\n      {\n        \"status\": \"rejected\",\n        \"reason\": \"Whole-outfit runtime admission evidence is required from the reviewed index\",\n        \"stableId\": \"rule-male-c6ce7efc3da17fe50ea1\"\n      }\n    ],\n    \"createdRequests\": 0,\n    \"files\": [\n      \"plan.json\"\n    ]\n  },\n  \"independentExportEnvelopeGuard\": null,\n  \"originalRecordInventoryEvidenceAndAuthorityIndexUnchanged\": true,\n  \"releaseArtifactsCreated\": 0,\n  \"scope\": \"Real evidence-level negative controls and actual unreviewed formal planner; no authority fixture.\"\n}\n",
+      "stderr": "",
+      "status": "passed"
+    },
+    {
+      "command": "python scripts/production/test_female_uniform_texture_fit.py",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.835s\n\nOK\n",
+      "status": "passed"
+    },
+    {
+      "command": "python scripts/production/test_garment_basecolor_runtime.py",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "...\n----------------------------------------------------------------------\nRan 3 tests in 2.213s\n\nOK\n",
+      "status": "passed"
+    },
+    {
+      "command": "python scripts/production/test_garment_basecolor_release.py",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.548s\n\nOK\n",
+      "status": "passed"
+    }
+  ],
+  "negativeControlsIncluded": [
+    "real-outfit-evidence missing repository file",
+    "real-outfit-evidence changed equipment",
+    "variant matrix no runtime-admitted candidate"
+  ],
+  "allPassed": true
+}

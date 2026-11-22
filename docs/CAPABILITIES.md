@@ -743,3 +743,10 @@ SURFACE / 原生暖肤色与记录移交。固定构建 436562eeac4a，两份 Fa
 原生男性 7586 独立短筒袜首次制版未通过。未遮罩人体足踝蒙皮存在，实际鞋裤静止正背投影可见约 11.23 厘米小腿。沿既有方法生成袜壳后，双踝各有八条多余开边，未导出、登记或进入游戏。此结果只适用于该派生方式。可重现脚本、源版本和材质分区图见 assets-source/native-male-crew-socks-fit-v1/。
 
 整套正式生产现从制作工具自带的审核索引读取精确身体、款式版本、完整装备和已核固定构建。裤袜三项输入在正式模式均未放行；诊断模式得到两份真实游戏记录和一项缺适配拒绝。静态估算超限集中在男女身体及上衣，普通电脑实测缺失。逐项证据与重算入口见 evidence/m2-shared-look-batch-v2/admission/。矩阵文件检查仍只对部分字段验证哈希，单用该检查不能批准上线。
+### M2 reference outfit intake · female four-slot candidate (2026-11-22)
+
+- **Status** `implemented but not admitted`. The fixed workbench candidate uses four independent equipment IDs on the exact female base body: cream inner top, lavender outer layer, taupe pants and beige shoes. A transactional outfit request applies all four pinned material recipes and restores the original outfit. Runtime smoke evidence is in `evidence/female-reference-outfit-v1/runtime-check/report.json` and the fixed preview build is `03caf14655ee`.
+- **What is actually reused** The inner, outer, pants and shoes are existing source GLBs with exact body/fit identities. The generated turnaround image is a visual reference only. No new cardigan, ankle-length trouser or low-heel geometry was authored.
+- **Limits** The outer source is a vest-layer technical candidate and is over the current 2K texture budget. Pants end at the knee. Shoes are flat. Normal-speed walk, run, turn, sit/rise and ordinary-PC measurements remain pending. This candidate does not upgrade the production gate or visual acceptance.
+- **Rebuild** `python experiments/female-reference-outfit-v1/build_runtime_extension.py`, then `npm run build` in `prototype`. The source package and generated runtime manifest are identity-pinned. The 4196 preview is human-facing only.
+

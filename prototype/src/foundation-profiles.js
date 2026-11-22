@@ -18,17 +18,25 @@ export const FOUNDATION_PROFILES = {
     url: "/assets/foundation/base-female-roundtrip.vrm",
     sha256: "027bed60dd7ae1b77d3dbaeabe682d69b09ea39dc36151d862a5e0c58bcd5b95",
     manifestUrl: "/assets/m1/equipment.json",
-    additionalEquipmentManifests: [{url:'/assets/garment-basecolor-release-v1/female/equipment.json',sha256:'8a9c814ec42f968982940952423d62d29ae411c1ac9db39eafe6610ddb5f6dc7'}],
-    additionalBodyCoverage: [{role:'topFar',descriptor:{url:'/assets/garment-basecolor-release-v1/female/body-coverage.json',sha256:'fab2830ae2a47d79f19a265bdec60431b6fbc5f67916004215651e355a147c36'}}],
+    additionalEquipmentManifests: [
+      {url:'/assets/garment-basecolor-release-v1/female/equipment.json',sha256:'8a9c814ec42f968982940952423d62d29ae411c1ac9db39eafe6610ddb5f6dc7'},
+      {url:'/assets/female-reference-outfit-v1/equipment.json',sha256:'0f41bb579235225206e13e8c9ff311f254856ac1a495da01c0d76dc6ea1f510b'},
+    ],
+    additionalBodyCoverage: [
+      {role:'topFar',descriptor:{url:'/assets/garment-basecolor-release-v1/female/body-coverage.json',sha256:'fab2830ae2a47d79f19a265bdec60431b6fbc5f67916004215651e355a147c36'}},
+      {role:'referenceOuter',descriptor:{url:'/assets/female-reference-outfit-v1/outer-body-coverage.json',sha256:'8bf14b97fa3ad541911523377912e31b3deb99c857ecb5c77eb2f6db00024035'}},
+    ],
     forearmCollision: { url: "/assets/forearm-collision-v2/female.json", sha256: "b2ef32aa1566b6ef4b2b3796649cd732602da9788898264fff15dcb7afd4103e" },
     source: "Base_Female / reconstructed Blender source",
     label: "M1A 女性候选",
     pantsLabel: "独立及膝裤",
-    ids: { top: "m1-uniform-top", topFar: "m1-female-uniform-top-1k-v1", shoes: "m1-uniform-shoes", skirt: "m1-uniform-skirt-open-waist-v1", pants: "m1-training-pants", socks: "female-plain-crew-socks-v1" },
+    ids: { top: "m1-uniform-top", topFar: "m1-female-uniform-top-1k-v1", shoes: "m1-uniform-shoes", skirt: "m1-uniform-skirt-open-waist-v1", pants: "m1-training-pants", socks: "female-plain-crew-socks-v1", referenceInner: "female-reference-cream-inner-top-v1", referenceOuter: "female-reference-lavender-outer-v1", referencePants: "female-reference-taupe-straight-pants-v1", referenceShoes: "female-reference-beige-low-heel-shoes-v1" },
     extraOutfits: [
       { index: 3, role: 'pants-socks', bottomRole: 'pants', equipmentRoles: ['top','shoes','pants','socks'], label: '及膝裤＋独立薄袜', description: '技术候选：原身体长袜贴图仍保留，检查独立袜层与鞋口' },
       { index: 5, role: 'pants-top-far', bottomRole:'pants', equipmentRoles:['topFar','shoes','pants'], label:'1K 上衣、及膝裤和平底鞋' },
+      { index: 8, role: 'reference-outfit', bottomRole:'pants', bottomEquipmentRole:'referencePants', equipmentRoles:['referenceInner','referenceOuter','referencePants','referenceShoes'], label:'参考图：奶油内搭／淡紫外衣／灰褐裤／米色鞋', description:'技术候选：四个独立装备槽，颜色配方已接入；版型和动作准入仍待验', materialRecipes:{referenceInner:'female-reference-cream-inner-top-v1-cloth-v1', referenceOuter:'female-reference-lavender-outer-v1-cloth-v1', referencePants:'female-reference-taupe-straight-pants-v1-cloth-v1', referenceShoes:'female-reference-beige-low-heel-shoes-v1-cloth-v1'} },
     ],
+    materialRecipeRoles:['referenceInner','referenceOuter','referencePants','referenceShoes'],
     // Measured only for the female generated 6 mm training-pants shell.
     seatLayerThickness: 0.006 / 0.61,
   },

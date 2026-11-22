@@ -299,3 +299,9 @@ CC0 男制服与领带的单槽签名记录已完成首次独立加载和关闭�
 2026-11-18 概念角色参考图核对：本轮收到的五组男女角色预览均属于二维美术参考组合，不能直接作为 VRM 或运行时随机角色资源。已将其拆解为身体基础、脸型/表情、发型与发色、服装层、鞋、附件/手持物六类生产域。现有代表候选批次实际包含六个独立身体候选，全部仍为 `candidate`，`acceptedForRuntime=[]`；矩阵校验15项与角色查询7项回归通过。随机组合不在当前M2准入范围，后续只能从已准入且带 `bodyType + styleId + variantVersion + recipe/fit/coverage` 的资源行确定性组合，并保存最终外观和版本身份。概念图中的眼镜、耳机、猫耳、手机、包、工作牌、护膝等附件尚未因此获得运行时兼容结论。
 2026-11-18 美术 Agent 输入闸门：新增 `scripts/production/look_spec.py` 与 6 项测试。`zbgs-avatar-look-spec-v1` 只规范概念参考或结构化资源的身体变体、脸型、发型、颜色、装备角色和附件挂点，并按精确矩阵键生成候选/拒绝计划。它不推断网格、不授予运行时准入、不启动随机抽取；结构化资源仍需源配方与清单哈希，概念参考必须明确标识为待制作输入。
 该闸门随后收紧为结构化资源必须同时携带 `bodySha256`、`recipeSha256` 和 `manifestSha256`，并在每件装备的矩阵行上核对身体身份。`evidence/m2-look-intake-v2/plan.json` 使用真实 native FaceContour 资源回读成功，结果仍为 `candidate`，四项既有运行阻塞被完整保留。
+## 2026-11-22 · female reference outfit runtime preview
+
+The reference turnaround was converted into a candidate four-slot intake. The workbench now has an outfit index 8 labelled `参考图：奶油内搭／淡紫外衣／灰褐裤／米色鞋`. The runtime uses the existing exact-fit female source GLBs, applies four pinned material recipes in one outfit transaction, and restores the original look on exit. Fixed candidate build `03caf14655ee` passed the browser smoke check for load, all four recipe selections and restore. Evidence and screenshots are under `evidence/female-reference-outfit-v1/runtime-check/`.
+
+This is a preview candidate. The generated image is a visual reference only. The outer layer is the existing vest-layer technical source, trousers remain knee-length, footwear remains flat, the outer source exceeds the current 2K texture budget, and normal-speed action, seated contact and ordinary-PC performance are not admitted. The production gate remains unchanged.
+

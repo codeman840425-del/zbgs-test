@@ -48,3 +48,26 @@ export function createClothMaterial(original, settings = {}) {
   material.needsUpdate = true;
   return material;
 }
+
+// A bounded fallback for source garments whose GLB uses a lit material rather
+// than the reviewed unlit cloth shader. It changes only the material color and
+// keeps the source map, alpha, geometry and skinning untouched.
+export function createColorOnlyMaterial(original, settings = {}) {
+  if (!original?.isMaterial || Object.hasOwn(original, 'onBeforeCompile')) {
+    throw Error('Color material requires an unpatched material');
+  }
+  const values = settings.linearColor;
+  if (!Array.isArray(values) || values.length !== 3 ||
+      !values.every(value => Number.isFinite(value) && value >= 0 && value <= 1)) {
+    throw Error('Invalid color linearColor');
+  }
+  if (!original.color?.isColor) throw Error('Color material requires a color channel');
+  const material = original.clone();
+  material.color.setRGB(...values);
+  material.userData.colorCandidate = Object.freeze({
+    linearColor: Object.freeze([...values]),
+    shaderScope: 'Three 0.187 material color clone',
+  });
+  material.needsUpdate = true;
+  return material;
+}

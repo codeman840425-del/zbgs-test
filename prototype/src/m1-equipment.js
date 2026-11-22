@@ -73,14 +73,14 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
   const pantsRoles = new Set(['pants', 'shorts', 'onePiece'].filter(role => Object.hasOwn(IDS, role)));
   const footwearPreparers = new Set();
   const getFootwear = () => adapter.get(footwearIds.get(outfit));
-  function buildPreparedOutfit(nextOutfit,nextDebugBody,expectedIntent=intentRevision){
+  function buildPreparedOutfit(nextOutfit,nextDebugBody,expectedIntent=intentRevision,materialUpdates=[]){
     if(disposed)throw Error('Equipment is disposed');
     const look=outfitSelection(config,nextOutfit),selected=nextDebugBody?[footwearIds.get(nextOutfit)]:look.ids;
     const shoeUpdates = [];
     let update,textureUpdate,garmentUpdate,equipmentUpdate;
     function releasePreparations() {
       const failures = [];
-      for (const piece of [...shoeUpdates, equipmentUpdate, update, textureUpdate, garmentUpdate]) {
+      for (const piece of [...materialUpdates, ...shoeUpdates, equipmentUpdate, update, textureUpdate, garmentUpdate]) {
         try { piece?.dispose(); } catch (error) { failures.push(error); }
       }
       if (failures.length) throw new AggregateError(failures, 'Outfit preparation cleanup failed');
@@ -100,12 +100,12 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     const ticket=++revision;let live=true,cleaned=false,committed=false,rolledBack=false;
     const previousState={outfit,lowerBodyRole,debugBody};
     const prepared={
-      isCurrent:()=>live&&!disposed&&ticket===revision&&expectedIntent===intentRevision&&equipmentUpdate.isCurrent()&&(!update||update.isCurrent())&&(!textureUpdate||textureUpdate.isCurrent())&&(!garmentUpdate||garmentUpdate.isCurrent()),
+      isCurrent:()=>live&&!disposed&&ticket===revision&&expectedIntent===intentRevision&&equipmentUpdate.isCurrent()&&(!update||update.isCurrent())&&(!textureUpdate||textureUpdate.isCurrent())&&(!garmentUpdate||garmentUpdate.isCurrent())&&materialUpdates.every(candidate=>candidate.isCurrent()),
       commit(){
         if(!prepared.isCurrent())throw Error('Outfit preparation is no longer current');
         const committedUpdates=[];
         try{
-          for(const candidate of [textureUpdate,equipmentUpdate,update,garmentUpdate,...shoeUpdates]){if(candidate)committedUpdates.push(candidate);candidate?.commit();}
+          for(const candidate of [textureUpdate,equipmentUpdate,update,garmentUpdate,...shoeUpdates,...materialUpdates]){if(candidate)committedUpdates.push(candidate);candidate?.commit();}
         }
         catch(error){
           const rollbackErrors=[];
@@ -122,7 +122,7 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
         if(!committed||rolledBack)return;
         if(cleaned)throw Error('Outfit update already finalized');
         const errors=[];
-        for(const candidate of [...shoeUpdates.slice().reverse(),garmentUpdate,update,equipmentUpdate,textureUpdate])try{candidate?.rollback?.();}catch(error){errors.push(error);}
+        for(const candidate of [...materialUpdates.slice().reverse(),...shoeUpdates.slice().reverse(),garmentUpdate,update,equipmentUpdate,textureUpdate])try{candidate?.rollback?.();}catch(error){errors.push(error);}
         outfit=previousState.outfit;lowerBodyRole=previousState.lowerBodyRole;debugBody=previousState.debugBody;rolledBack=true;
         if(errors.length)throw Error('Outfit rollback failed: '+errors.map(error=>error.message).join('; '));
       },
@@ -205,7 +205,20 @@ export async function createM1Equipment({ vrm, avatarSha256, bodyType = "female"
     if(request!==intentRevision)throw Error('Outfit preparation cancelled by a newer selection');
     if(IDS.skirt&&look.bottomRole==='skirt'&&!skirtCorrective)
       skirtCorrective=createSkirtAtRest({vrm,source:item('skirt').meshes[0],body,fit:selectSkirtFit(item('skirt').entry,avatarSha256)});
-    return buildPreparedOutfit(nextOutfit,nextDebugBody,request);
+    const materialUpdates=[];
+    try {
+      const requestedRecipes=look.selection.materialRecipes ?? {};
+      for (const role of config.materialRecipeRoles ?? []) {
+        const id=IDS[role];
+        if (!id) throw Error(`Unknown material recipe role: ${role}`);
+        materialUpdates.push(await adapter.prepareMaterialRecipe(id, requestedRecipes[role] ?? 'original'));
+      }
+    } catch (error) {
+      materialUpdates.forEach(update=>update.dispose());
+      throw error;
+    }
+    if(request!==intentRevision){materialUpdates.forEach(update=>update.dispose());throw Error('Outfit preparation cancelled by a newer selection');}
+    return buildPreparedOutfit(nextOutfit,nextDebugBody,request,materialUpdates);
   }
   function prepareOutfitSync(nextOutfit=outfit,nextDebugBody=debugBody){
     intentRevision++;

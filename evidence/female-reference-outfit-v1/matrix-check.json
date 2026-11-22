@@ -1,0 +1,20 @@
+{
+  "schema": "female-reference-outfit-matrix-check-v1",
+  "checks": [
+    {
+      "command": "python scripts/production/variant_matrix.py assets-source/female-reference-outfit-v1/outfit-matrix.json --root .",
+      "returncode": 0,
+      "stdout": "{\"status\": \"validated\", \"styles\": 4, \"matrixPath\": \"F:/gamemake/assets-source/female-reference-outfit-v1/outfit-matrix.json\", \"matrixSha256\": \"bc5f9cf9c14e325194f1cb1854ff52d82189d5e314f51e308b215c506164104f\", \"root\": \"F:/gamemake\"}\n",
+      "stderr": "",
+      "status": "passed"
+    },
+    {
+      "command": "python scripts/production/variant_matrix.py assets-source/female-reference-outfit-v1/outfit-matrix.json --root . --body-type female",
+      "returncode": 0,
+      "stdout": "{\"status\": \"validated\", \"styles\": 4, \"matrixPath\": \"F:/gamemake/assets-source/female-reference-outfit-v1/outfit-matrix.json\", \"matrixSha256\": \"bc5f9cf9c14e325194f1cb1854ff52d82189d5e314f51e308b215c506164104f\", \"root\": \"F:/gamemake\", \"runtimeVariants\": []}\n",
+      "stderr": "",
+      "status": "passed"
+    }
+  ],
+  "matrixSha256": "bc5f9cf9c14e325194f1cb1854ff52d82189d5e314f51e308b215c506164104f"
+}

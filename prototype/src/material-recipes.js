@@ -1,8 +1,10 @@
-import { createClothMaterial } from './cloth-material.js';
+import { createClothMaterial, createColorOnlyMaterial } from './cloth-material.js';
 
 // One allowlisted implementation. Recipes are data, never downloaded code.
 const IMPLEMENTATION = 'cloth-normal-v4-review1';
 const IMPLEMENTATION_SHA = '4539ac3f83bc5fb1fa9aa91dbfb7323a8f2e7084a5f762d9713d0ae36bcfb565';
+const COLOR_IMPLEMENTATION = 'garment-color-v1';
+const COLOR_IMPLEMENTATION_SHA = '5de06e910432f1bb9284aa321d40949da2eb3e94629ea95202912b9adfb9999c';
 const SHA = /^[a-f0-9]{64}$/;
 const ORIGINAL = 'original';
 
@@ -43,7 +45,12 @@ export function createGarmentMaterialRecipes({entry,meshes,avatarSha256,manifest
     return id;
   }
   function validate(recipe,id){
-    if(recipe.schema!=='zbgs-garment-material-recipe-v1'||recipe.id!==id||recipe.version!==1||recipe.implementation?.id!==IMPLEMENTATION||recipe.implementation?.sha256!==IMPLEMENTATION_SHA||String(recipe.implementation?.threeRevision)!=='187')throw Error('Unsupported material recipe version/implementation');
+    const implementationOk = recipe.implementation?.id === IMPLEMENTATION
+      ? recipe.implementation?.sha256 === IMPLEMENTATION_SHA
+      : recipe.implementation?.id === COLOR_IMPLEMENTATION
+        ? recipe.implementation?.sha256 === COLOR_IMPLEMENTATION_SHA
+        : false;
+    if(recipe.schema!=='zbgs-garment-material-recipe-v1'||recipe.id!==id||recipe.version!==1||!implementationOk||String(recipe.implementation?.threeRevision)!=='187')throw Error('Unsupported material recipe version/implementation');
     const fit=recipe.fit;
     if(fit?.equipmentId!==identityBase.id||fit?.garmentSha256!==identityBase.sha256||fit?.avatarSha256!==identityBase.body||fit?.fitId!==identityBase.fitId||fit?.styleId!==identityBase.styleId)throw Error('Material recipe incompatible with garment/body fit');
     const names=sourceMaterials().map(material=>material.name).sort();
@@ -178,7 +185,12 @@ export function createGarmentMaterialRecipes({entry,meshes,avatarSha256,manifest
         const replacements=[];
         try{
           for(const item of originals){
-            const values=materialList(item.material).map(material=>{const clone=createClothMaterial(material,recipe.settings);staged.push(clone);return clone;});
+            const values=materialList(item.material).map(material=>{
+              const clone=recipe.implementation.id===COLOR_IMPLEMENTATION
+                ? createColorOnlyMaterial(material,recipe.settings)
+                : createClothMaterial(material,recipe.settings);
+              staged.push(clone);return clone;
+            });
             replacements.push(Array.isArray(item.material)?values:values[0]);
           }
         }catch(error){disposeMaterials(staged);throw error;}

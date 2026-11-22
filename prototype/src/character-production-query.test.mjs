@@ -159,8 +159,8 @@ test('lists exact body registrations and all outfits and material references fro
   const sourceCount = sourceProfiles.reduce((sum, row) => sum + 1 + (row.extraOutfits?.length ?? 0), 0);
   const imported = styleMatrix.styles.flatMap(style => style.variants)
     .filter(row => row.outfitRegistration && row.status !== 'rejected' && row.budgetStatus !== 'reject-static-over-budget');
-  assert.equal(outfitCount, 43 + sourceCount + shoeOutfits.length + productionCatalog.entries.length + imported.length);
-  assert.equal(checkedRecipes.size, 1);
+  assert.equal(outfitCount, 44 + sourceCount + shoeOutfits.length + productionCatalog.entries.length + imported.length);
+  assert.equal(checkedRecipes.size, 5);
 });
 
 test('texture-derived body resolves both separately fitted tops with unchanged garment payloads', async () => {
